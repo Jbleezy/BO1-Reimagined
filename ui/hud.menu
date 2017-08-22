@@ -1,0 +1,769 @@
+// CONSOLE HUD - SP
+
+#include "ui/menudef.h"
+
+#define HUD_ALPHA 0.65
+#define HUD_FOREGROUND_ALPHA 0.75
+#define DPAD_ICON_ALPHA 0.65
+
+{
+	assetGlobalDef
+	{
+		fadeClamp		1					// sets the fadeup alpha
+		fadeCycle		1					// how often fade happens in milliseconds
+		fadeAmount		0.1					// amount to adjust alpha per cycle
+	}
+
+
+	// Friendly indicators
+	menuDef
+	{
+		name			"Friendly_Names"
+		rect			0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+ 	   	fullScreen		0
+ 	   	hiddenDuringScope
+		hiddenDuringFlashbang
+		visible when  ( dvarBool( #"cl_paused" ) == 0 && dvarBool( #"zombietron" ) == 0 );
+
+		itemDef
+		{
+			name			"friendlynameicons"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 640 480
+			forecolor		1 1 1 1
+			ownerdraw		CG_FRIENDLYNAMES
+			visible			1
+			decoration
+		}
+	}
+	
+	//objective indicators
+	menuDef
+	{
+		name			"Objective_Indicators"
+		rect			0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+ 	   	fullScreen		0
+ 	   	hiddenDuringScope
+		hiddenDuringFlashbang
+ 	   	visible when  ( dvarBool( #"cl_paused" ) == 0 && dvarBool( #"hud_missionFailed" ) == 0 );
+
+		itemDef
+		{
+			name			"objectiveindicatoricons"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 640 480
+			forecolor		1 1 1 1
+			ownerdraw		CG_HUD_3DOBJECTIVEINDICATORS
+			visible			1
+			decoration
+		}
+	}
+	
+	menuDef
+	{
+		name			"Objective_Indicators_ui3d1"
+		rect			0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+ 	   	fullScreen		0
+ 	   	hiddenDuringScope
+		hiddenDuringFlashbang
+		ui3dWindowId	1
+ 	   	visible when  ( dvarBool( #"cl_paused" ) == 0 && dvarBool( #"hud_missionFailed" ) == 0 );
+
+		itemDef
+		{
+			name			"objectiveindicatoricons_ui3d1"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 640 480
+			forecolor		1 1 1 1
+			ownerdraw		CG_HUD_3DOBJECTIVEINDICATORS
+			visible			1
+			decoration
+		}
+	}
+
+	// Mantle hint
+	menuDef
+	{
+    	name			"MantleHint"
+    	rect			0 126 40 40 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER // 0 115 40 40
+		fullScreen		0
+		visible			1
+
+		itemDef
+		{
+			name			"chRect"
+			type			ITEM_TYPE_OWNERDRAW_TEXT
+			rect			0 0 40 40
+			textscale		TEXTSIZE_SMALL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw		CG_MANTLE_HINT
+			visible			1
+			decoration
+		}
+	}
+
+	// Cursor hints
+	menuDef
+	{
+		name			"Cursorhints"
+    	rect			0 70 40 40 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+		fullScreen		0
+		visible		    1
+
+		itemDef
+		{
+			name			"chRect"
+			type			ITEM_TYPE_OWNERDRAW_TEXT
+			rect			0 0 40 40 // 64x64
+			textscale		TEXTSIZE_SMALL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw		CG_CURSORHINT
+			visible			1
+			decoration
+		}
+	}
+
+	// Stance indicator
+//	menuDef
+//	{
+//    	name			"stance"
+//#ifdef PC
+//		rect			110 -70 48 48 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+//#else
+//		rect			560 -90 48 48 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+//#endif						
+//    	fullScreen		0
+//		exp visible when ( !flashbanged() && dvarBool( #"hud_missionFailed" ) == 0 && !ui_active() && dvarint( #"ui_hud_hardcore" ) == 0);
+//
+//		itemDef
+//		{
+//			name			"chRect"
+//			type			ITEM_TYPE_OWNERDRAW_TEXT
+//			rect			20 20 48 48 // 64x64
+//			ownerdraw		CG_PLAYER_STANCE
+//			textfont		UI_FONT_NORMAL
+//			textScale		TEXTSIZE_SMALL
+//			visible			1
+//			forecolor		1 1 1 HUD_ALPHA
+//			decoration
+//		}
+//	
+//	}
+
+#define COMPASSOFFSET  ( -150 )
+
+	menuDef
+	{
+		name			"heatinfo"
+		rect			0 0 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_BOTTOM
+		fullScreen		0
+		visible			1
+		
+		itemDef
+		{
+			name			"heaticon"
+			type			ITEM_TYPE_OWNERDRAW
+#ifdef CONSOLE
+			rect			-140 -82 54 27
+#else
+			rect			(-133 + COMPASSOFFSET) -72 50 50			
+#endif 
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_HEAT_VALUE
+			visible			when  ( dvarInt(#"cg_hideWeaponHeat") == 0 && dvarBool( #"cg_drawWeaponHeatVertical" ) == 0 )
+			decoration
+		}
+
+		itemDef
+		{
+			name			"verticalheaticon"
+			type			ITEM_TYPE_OWNERDRAW
+#ifdef CONSOLE
+			rect			-76 -72 64 64
+#else
+			rect			( -83 + COMPASSOFFSET ) -72 50 50
+#endif 
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_HEAT_VALUE_VERTICAL
+			visible			when  ( dvarInt(#"cg_hideWeaponHeat") == 0 && dvarBool( #"cg_drawWeaponHeatVertical" ) == 1 )
+			decoration
+		}
+	}
+
+	// Center obituary (you killed/were killed by)
+	menuDef
+	{
+		name			"CenterObituary"
+		rect			0 170 0 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+		fullScreen		0
+		visible			1
+
+		itemDef 
+		{
+			name			"chRect"
+			type			ITEM_TYPE_OWNERDRAW_TEXT
+			rect			0 0 0 0
+			exp				rect Y( 0 - (ONLINEGAME * ONLINEGAME_OFFSET) );
+			textscale		TEXTSIZE_DEFAULT
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw		CG_CENTER_MESSAGE
+			forecolor 		1 1 1 HUD_ALPHA
+			visible			1
+			decoration
+		}
+	}
+
+
+	menuDef 
+	{
+		name			"deadscreen"
+		fullScreen		0				
+		rect			0 0 640 480
+		focusColor		COLOR_FOCUSED
+		soundloop		""
+		visible			1
+		
+		// Death quote
+		itemDef 
+		{
+			name			quote
+			type			ITEM_TYPE_OWNERDRAW_TEXT
+			dvar			"ui_deadquote"
+			textscale		TEXTSIZE_LARGE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			rect			80 190 480 20
+			textalign		ITEM_ALIGN_CENTER
+			textaligny		0 // point to center around
+			textalignx		0 // point to center around
+			ownerdraw		CG_DEADQUOTE
+			forecolor		1 1 1 1
+			visible			1
+			decoration 
+		}
+		
+		itemDef
+		{
+			name			hud_grenadeicon
+			type			ITEM_TYPE_BUTTON
+			rect			315 300 60 60
+			origin			0 0
+			style			WINDOW_STYLE_SHADER
+			background		"hud_grenadeicon"
+			dvartest		"ui_grenade_death"
+			showdvar		{ "1" }
+			visible			1
+			decoration
+		}
+
+		itemDef
+		{
+			name			hud_grenadepointer
+			type			ITEM_TYPE_BUTTON
+			rect			320 270 50 25
+			origin			0 0
+			style			WINDOW_STYLE_SHADER
+			background		"hud_grenadepointer"
+			dvartest		"ui_grenade_death"
+			showdvar		{ "1" }
+			visible			1
+			decoration
+		}
+	}
+	
+	// Hold breath zoom hint
+	menuDef 
+	{
+		name			"HoldBreathZoomHint"
+		rect			0 -170 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_CENTER
+		fullScreen		0
+		visible when ( !adsjavelin() && !inkillcam() && NOT_SPECTATING );
+
+		itemDef 
+		{
+			name			"chRect"
+			type			ITEM_TYPE_OWNERDRAW_TEXT
+			rect			0 0 0 0
+			textfont		UI_FONT_NORMAL
+			textscale		TEXTSIZE_DEFAULT
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw		CG_HOLD_BREATH_ZOOM_HINT
+			visible			0
+			decoration
+		}
+	}
+
+	// Hold breath hint
+	menuDef 
+	{
+		name			"HoldBreathHint"
+		rect			0 -150 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_CENTER
+		fullScreen		0
+		visible when ( !adsjavelin() && !inkillcam() && NOT_SPECTATING );
+
+		itemDef 
+		{
+			name			"chRect"
+			type			ITEM_TYPE_OWNERDRAW_TEXT
+			rect			0 0 0 0
+			textfont		UI_FONT_NORMAL
+			textscale		TEXTSIZE_DEFAULT
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw		CG_HOLD_BREATH_HINT
+			visible			0
+			decoration
+		}
+	}
+	
+	// Invalid cmd hint
+	menuDef 
+	{
+		name			"InvalidCmdHint"
+		rect			0 -130 0 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+		fullScreen		0
+		visible			1
+
+		itemDef 
+		{
+			name			"chRect"
+			type			ITEM_TYPE_OWNERDRAW_TEXT
+			rect			0 0 0 0
+			textscale		TEXTSIZE_SMALL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw		CG_INVALID_CMD_HINT
+			textfont		UI_FONT_NORMAL
+			visible			1
+			decoration
+		}
+	}
+	
+	// Successful cmd hint
+	menuDef 
+	{
+		name			"SuccessfulCmdHint"
+		rect			0 160 0 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+		fullScreen		0
+		visible			1
+
+		itemDef 
+		{
+			name			"chRect"
+			type			ITEM_TYPE_OWNERDRAW_TEXT
+			rect			0 0 0 0
+			textscale		0.5
+			textstyle		ITEM_TEXTSTYLE_NORMAL
+			ownerdraw		CG_SUCCESSFUL_CMD_HINT
+			visible			1
+			decoration
+		}
+
+	}
+	
+	
+	// Vehicle hud
+	menuDef
+	{
+		name			"VehicleHud"
+ 	   	rect			0 0 640 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+ 	   	fullScreen		0
+ 	   	visible			1
+		
+		itemDef
+		{
+			name			"VehicleHudTargets"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			-320 -240 640 480
+			forecolor		1 1 1 1
+			background		"javelin_hud_target"
+			ownerdraw		CG_HUD_TARGETS_VEHICLE
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			name			"VehicleWeaponReticle"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			-320 -240 640 480
+			forecolor		1 1 1 1
+			ownerdraw		CG_VEHICLE_RETICLE
+			visible			1
+			decoration
+		}
+	}
+
+	menuDef
+	{
+		name			"gamemessages"
+		rect			6 10 0 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+		fullScreen		0
+		visible			1
+		
+		itemDef
+		{
+			origin				0 0
+			type				ITEM_TYPE_GAME_MESSAGE_WINDOW
+			gamemsgwindowindex	0
+			gamemsgwindowmode	MODE_BOTTOMUP_ALIGN_TOP
+			textfont			UI_FONT_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWEDMORE
+			textalign			ITEM_ALIGN_TOP_LEFT
+			textscale			0.36
+			forecolor			1 1 1 1
+			visible				1
+		}
+	}
+
+	menuDef
+	{
+		name			"boldgamemessages"
+		rect			0 180 0 0 HORIZONTAL_ALIGN_CENTER_SAFEAREA VERTICAL_ALIGN_TOP
+		fullScreen		0
+		visible			1
+		
+		itemDef
+		{
+			origin				0 0
+			type				ITEM_TYPE_GAME_MESSAGE_WINDOW
+			gamemsgwindowindex	1
+			gamemsgwindowmode	MODE_BOTTOMUP_ALIGN_BOTTOM
+			textfont			UI_FONT_BOLD
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textalign			ITEM_ALIGN_TOP_CENTER
+			textscale			0.417
+			visible				1
+		}
+	}
+
+	menuDef
+	{
+		name			"subtitles"
+		rect			0 375 0 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+		fullScreen		0
+		visible			1
+		
+		itemDef
+		{
+			origin				0 0
+			type				ITEM_TYPE_GAME_MESSAGE_WINDOW
+			gamemsgwindowindex	2
+			gamemsgwindowmode	MODE_BOTTOMUP_ALIGN_BOTTOM
+			textfont			UI_FONT_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textalign			ITEM_ALIGN_TOP_CENTER
+			forecolor			1 1 1 1
+			textscale			0.38
+			visible				1
+		}
+	}
+
+	menuDef
+	{
+		name "WristWatch"
+		fullScreen MENU_FALSE
+		ui3dWindowId	0
+		rect 0 0 640 480
+		visible		0
+		itemDef
+		{
+			name	"WristWatchFace"
+			type ITEM_TYPE_OWNERDRAW
+			rect	0 0 640 480
+			forecolor	1.0 1.0 1.0 1.0
+			ownerdraw CG_PLAYER_WRISTWATCH
+			decoration
+			visible				1
+		}
+	}
+
+#ifdef DEADSTUFF
+	
+	//	SPRINT
+	menuDef 
+	{
+		name "sprintMeter"
+		fullScreen MENU_FALSE
+		visible MENU_TRUE
+		rect 62 -15 40 10 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+
+
+		itemDef 
+		{
+			name "sprintRect"
+			type			ITEM_TYPE_OWNERDRAW
+			visible MENU_TRUE
+			rect 0 0 62 10
+			background "white"
+			forecolor 0.0 0.0 0.0 0.8
+			backcolor 0.0 0.0 0.0 0.8
+			ownerdraw CG_PLAYER_SPRINT_BACK
+			decoration
+		}
+
+		itemDef 
+		{
+			name "sprintRect"
+			type			ITEM_TYPE_OWNERDRAW
+			visible MENU_TRUE
+			rect 1 1 60 8
+			background		"white"
+			forecolor 0.6 0.6 0.6 0.8
+			ownerdraw CG_PLAYER_SPRINT_METER
+			decoration
+		}
+	}
+	
+	#define MINIMAP_ORIGIN 2 2
+	#define RECT_COMPASS	0 0 COMPASS_SIZE_MP COMPASS_SIZE_MP HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+	#define FSM_VISIBILITY ( NOT_SPECTATING && ( dvarBool( #"cl_paused" ) == 0 ) && (dvarInt( #"g_gameskill" ) == 0) && dvarBool( #"cg_showZombieMap" ) && dvarBool( #"zombiemode" ) && !dvarBool( #"zombietron" ) )
+	
+	// Compass
+	menuDef
+	{
+		name			"Compass_old"
+ 	   	rect			RECT_COMPASS
+ 	   	fullScreen		0
+		//visible when( !selecting_location() && !inkillcam() && !flashbanged() && !ui_active() && !scoped() && NOT_SPECTATING );
+		visible			when ( FSM_VISIBILITY );
+ 
+		itemDef
+		{
+			name			"minimapBG"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			(MINIMAP_X_MP - 14) (MINIMAP_Y_MP - 6) COMPASS_SIZE_MP COMPASS_SIZE_MP
+	 	   	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			background		"minimap_background"
+			ownerdraw		CG_PLAYER_COMPASS_BACK
+			visible			1
+			decoration
+		}
+		/*itemDef
+        {
+            name			"minimapTickerBorder"
+			type			ITEM_TYPE_OWNERDRAW
+            rect			MINIMAP_X_MP (MINIMAP_Y_MP - 15) MINIMAP_W_MP 14
+	 	   	origin 			MINIMAP_ORIGIN
+            forecolor		1 1 1 1
+            background		"minimap_tickertape_background"
+            ownerdraw		CG_PLAYER_COMPASS_BACK
+			visible			1
+			decoration
+        }*/
+		/*itemDef
+        {
+            name			"minimapTicker"
+			type			ITEM_TYPE_OWNERDRAW_TEXT
+            rect			MINIMAP_X_MP (MINIMAP_Y_MP - 12) MINIMAP_W_MP 9
+	 	   	origin 			MINIMAP_ORIGIN
+            forecolor		1 1 1 1
+            background		"minimap_tickertape_mp"
+            ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE_NO_OBJ
+			visible			1
+			decoration
+        }*/
+		itemDef
+ 	   	{
+			name			"mini_map"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+	 	   	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			background		"compass_map_default"
+			ownerdraw		CG_PLAYER_COMPASS_MAP
+			visible			1
+			decoration
+ 	   	}
+		// tank pointers
+		itemDef
+		{
+			name			"compasstanks"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+			origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_COMPASS_TANKS
+			visible			1
+		}
+		// dog pointers
+		itemDef
+		{
+			name			"compassdogs"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+			origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_COMPASS_DOGS
+			visible			1
+		}
+		// Objective pointers
+		itemDef
+		{
+			name			"compasspointers"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+	 	   	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			background		"objective_line"
+			ownerdraw		CG_PLAYER_COMPASS_POINTERS
+			visible			1//when ( dvarint( #"ui_hud_showobjicons" ) > 0 );
+			decoration
+		}
+ 	   	// Friendlies pointers
+		itemDef
+		{
+			name			"compassfriendlies"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+	 	   	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_COMPASS_FRIENDS
+			visible			1
+		}
+ 	   	// Enemy pings
+		itemDef
+		{
+			name			"compassenemies"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+	 	   	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_COMPASS_ENEMIES
+			visible			1//(dvarInt( #"g_gameskill" ) == 0)
+		}
+ 	   	// Helicopter pointers
+		itemDef
+		{
+			name			"compasshelicopters"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+	 	   	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_COMPASS_HELICOPTERS
+			visible			1
+		}
+ 	   	// Plane pointers
+		itemDef
+		{
+			name			"compassplanes"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+	 	   	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_COMPASS_PLANES
+			visible			1
+		}
+		// Player direction indicator
+		itemDef
+		{
+			name			"compassplayer"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+	 	   	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1//HUD_FOREGROUND_ALPHA
+			background		"compassping_player"
+			ownerdraw		CG_PLAYER_COMPASS_PLAYER
+			visible			1
+		}
+   	// Artillery Icon
+		itemDef
+		{
+			name			"compassartilleryicon"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+	 	   	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_COMPASS_ARTILLERY_ICON
+			visible			1
+		}
+	}
+
+	menuDef
+	{
+		name "SpikeAcousticDisplay"
+		fullScreen MENU_FALSE
+		ui3dWindowId	2
+		rect 0 0 640 480
+		itemDef
+		{
+			name	"AcousticDisplayFace"
+			type ITEM_TYPE_OWNERDRAW
+			rect	0 0 640 480
+			forecolor	1.0 1.0 1.0 1.0
+			background	"hud_compass_face"
+			ownerdraw CG_PLAYER_SPIKEACOUSTIC
+			visible		0
+			decoration
+		}
+	}
+
+//	//	Tank status
+//	menuDef 
+//	{
+//		name			"tankstatus_cooperative"
+//#ifdef PC
+//		rect			120 -66 60 60 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM 
+//#else
+//		rect			100 -66 60 60 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM 
+//#endif
+//		fullScreen		0
+//		visible			when( !ui_active() && dvarBool( #"vehInfoHide" ) == 0 )
+//		itemDef 
+//		{
+//			name			"tankbody"
+//			type			ITEM_TYPE_OWNERDRAW
+//			rect			0 0 60 60 // 64x64
+//			forecolor		1 1 1 1
+//			background		"hud_tankbody"
+//			ownerdraw		CG_TANK_BODY_DIR
+//			visible			1
+//			decoration
+//		}
+//		
+//		itemDef 
+//		{
+//			name			"tankbarrel"
+//			type			ITEM_TYPE_OWNERDRAW
+//			rect			30 30 60 60 // 64x64
+//			forecolor		1 1 1 1
+//			background		"hud_tankbarrel"
+//			ownerdraw		CG_TANK_BARREL_DIR
+//			visible			1
+//			decoration
+//		}
+//	}
+//
+//
+//	menuDef 
+//	{
+//		name			"tankstatus_normal"
+//#ifdef PC
+//		rect			-120 -66 80 80 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM 
+//#else
+//		rect			-100 -66 80 80 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM 
+//#endif
+//		fullScreen		0
+//		visible			when( !ui_active() && !dvarbool( #"arcademode" ) )
+//		itemDef 
+//		{
+//			name			"tankbody"
+//			rect			0 0 60 60 // 64x64
+//			forecolor		1 1 1 1
+//			background		"hud_tankbody"
+//			ownerdraw		CG_TANK_BODY_DIR
+//			visible			1
+//			decoration
+//		}
+//		
+//		itemDef 
+//		{
+//			name			"tankbarrel"
+//			rect			30 30 60 60 // 64x64
+//			forecolor		1 1 1 1
+//			background		"hud_tankbarrel"
+//			ownerdraw		CG_TANK_BARREL_DIR
+//			visible			1
+//			decoration
+//		}
+//	}
+//#endif
+
+}

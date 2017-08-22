@@ -1,0 +1,25 @@
+// Note to translators:
+// If a sentence is the same in your language then please change it to "#same"
+//
+// eg:
+// LANG_ENGLISH  "HALT"
+// LANG_GERMAN   "#same"
+//
+// (This is so we can tell which strings have been signed-off as ok to be the same words for QA
+//  and because we do not store duplicate strings, which will then get exported again next time
+//  as being untranslated.)
+//
+//VERSION             "1"
+//CONFIG              "C:\projects\cod\t5\bin\StringEd.cfg"
+//FILENOTES           ""
+
+REFERENCE           WEAPONCOSTAMMO
+LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy Weapon [Cost: &&1], Ammo [Cost: &&2]"
+
+REFERENCE           WEAPONCOSTAMMO_UPGRADE
+LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy Weapon [Cost: &&1], Ammo [Cost: &&2],\n                     Upgraded Ammo [Cost: 2500]"
+
+REFERENCE           WEAPONCOSTAMMO_UPGRADE_HACKED
+LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy Upgraded Weapon [Cost: &&1], Ammo [Cost: &&2],\n                         Upgraded Ammo [Cost: &&3]"
+
+ENDMARKER
