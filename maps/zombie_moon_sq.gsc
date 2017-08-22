@@ -145,10 +145,10 @@ start_moon_sidequest()
 {
 	flag_wait( "all_players_spawned" );
 
-	while(level._num_overriden_models < (GetNumExpectedPlayers()))
+	/*while(level._num_overriden_models < (GetNumExpectedPlayers()))
 	{
 		wait(0.1);
-	}	
+	}*/
 	
 	sidequest_start("sq");
 }
