@@ -20,6 +20,7 @@ Fixed a bug where downed players were able to occasionally damage alive players\
 Pack-a-Punch camo now displays on Mustang & Sally when downed in solo\par
 Fixed a bug where two or more players could trigger a door that has multiple triggers at the same time and both pay to open the door\par
 Chracters no longer make hurt sounds if you have Flopper and an explosion happens that would have hurt you\par
+Having too many weapons penalty has been changed to only take the weapon that the player shouldnt have (previously took all weapons and points)\par
 \par
 HUD\par
 HUD items now have some distance away from the edge of the screen\par
@@ -567,31 +568,26 @@ Figure out bug that causes cosmonaut to delete himself occasionally\par
 Make zombies go after monkeys instantly\par
 Make it so betties can only be triggered by zombies with line of sight from bettys position\par
 Set sv_cheats to 0 on release\par
-Change too many weapons penalty to be only taking the additional wep\par
 Fix mule kick weapon being changed from paping\par
 Look for way to remove collision from zombies/dogs (NotSolid() doesnt work right)\par
 Deadshot: add faster ADS move speed\par
 Add line of sight check for windows breaking on Moon\par
 Fix bug where thief round voice line round start and visual fx starts but its a normal round\par
 Make it so after reviving someone your weapon doesnt switch if you don't have syrette out anymore\par
-Fix moon easter egg not working\par
 Fix mule kick weapon highlight text not working if player got perk from shang easter egg\par
+Make insta kill powerups work in high rounds (might be fixed)\par
+Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge (might be fixed)\par
+Fix Ascension monkey pathing (might be fixed)\par
+Fix kino round skip bug (might be fixed)\par
 \par
 TESTING:\par
 Moon sidequest dialog in coop without Richtofen\par
 Ceiling spawn cancels on Moon\par
-Test if player names on working correctly with 3+ players on maps besides Moon, then see what Moon does\par
 \par
 MAYBE:\par
-Ascension: double tap obtainable from free perk powerup\par
-Shangri-La: mud pit sidequest step does not need the radio to be activated to work\par
-Make insta kill powerups work in high rounds (might be fixed)\par
-Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge (might be fixed)\par
-Fix Ascension monkey pathing (might be fixed)\par
-Winter's Howl (Upgraded): lowers the zombies sprint by 2 levels, kills walkers and runners in one hit\par
-Should points be capped at 1 million?\par
+Ascension: double tap obtainable from free perk powerup?\par
+Shangri-La: should mud pit sidequest step need the radio to be activated to work?\par
 Moon: should teleporter gate start going down before power is on?\par
-Fix kino round skip bug (might be fixed)\par
 \par
 'BUGS' THAT ARE NOT BEING FIXED:\par
 Insta kill rounds\par
@@ -602,7 +598,7 @@ Trapping the cosmonaut via excavator\par
 Shi No Numa Flogger double trap activation\par
 \par
 GAME MOD:\par
-Fix molotovs giving more ammo than they should\par
+Fix grenades giving more ammo than they should\par
 Fix being able to buy grenades when you already have max amount\par
 Make friends list alphabetical order\par
 8 player zombies\par
