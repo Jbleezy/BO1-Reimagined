@@ -1510,9 +1510,9 @@ give_perk( perk, bought )
 	{
 		//AUDIO: Ayers - Sending Perk Name over to audio common script to play VOX
 		self thread maps\_zombiemode_audio::perk_vox( perk );
-		self setblur( 4, 0.1 );
-		wait(0.1);
-		self setblur(0, 0.1);
+		//self setblur( 4, 0.1 );
+		//wait(0.1);
+		//self setblur(0, 0.1);
 		//earthquake (0.4, 0.2, self.origin, 100);
 
 		self notify( "perk_bought", perk );

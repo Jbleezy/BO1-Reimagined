@@ -338,11 +338,14 @@
 			decoration
 		}
 
+		#define FPS_ENABLED dvarInt( cg_drawFPS ) == 1
+
 		itemDef
 		{
 			name				"hud_time"
 			type				ITEM_TYPE_TEXT
 			rect 				-4 2 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_TOP
+			exp					rect Y(2 + ((FPS_ENABLED) * 18))
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_SMALL
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -363,6 +366,7 @@
 			name				"hud_round_time"
 			type				ITEM_TYPE_TEXT
 			rect 				-4 14 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_TOP
+			exp					rect Y(14 + ((FPS_ENABLED) * 18))
 			forecolor			1 1 1 0
 			textscale			TEXTSIZE_SMALL
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -389,6 +393,7 @@
 			name				"hud_round_total_time"
 			type				ITEM_TYPE_TEXT
 			rect 				-4 26 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_TOP
+			exp					rect Y(26 + ((FPS_ENABLED) * 18))
 			forecolor			1 1 1 0
 			textscale			TEXTSIZE_SMALL
 			textstyle			ITEM_TEXTSTYLE_SHADOWED

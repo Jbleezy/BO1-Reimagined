@@ -3560,19 +3560,39 @@ ammo_give( weapon )
 		// Ammo belongs to secondary weapon
 		if( self has_weapon_or_upgrade( weapon ) )
 		{
-			// Check if the player has less than max stock, if no give ammo
-			if( self getammocount( weapon ) < WeaponMaxAmmo( weapon ) )
+			//silly game_mod giving more nades then it should
+			if(GetDvar("gm_version") == "1.1.0")
 			{
-				// give the ammo to the player
-				give_ammo = true; 					
+				// Check if the player has less than max stock, if no give ammo
+				if( self getammocount( weapon ) < 4 )
+				{
+					// give the ammo to the player
+					give_ammo = true; 					
+				}
+			}
+			else
+			{
+				// Check if the player has less than max stock, if no give ammo
+				if( self getammocount( weapon ) < WeaponMaxAmmo( weapon ) )
+				{
+					// give the ammo to the player
+					give_ammo = true; 					
+				}
 			}
 		}		
 	}	
 
 	if( give_ammo )
 	{
-		self play_sound_on_ent( "purchase" ); 
-		self GiveStartAmmo( weapon );
+		self play_sound_on_ent( "purchase" );
+		if(GetDvar("gm_version") == "1.1.0" && is_offhand_weapon( weapon ))
+		{
+			self SetWeaponAmmoClip( weapon, 4 );
+		}
+		else
+		{
+			self GiveStartAmmo( weapon );
+		}
 // 		if( also_has_upgrade )
 // 		{
 // 			self GiveMaxAmmo( weapon+"_upgraded" );

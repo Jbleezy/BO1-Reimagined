@@ -1300,7 +1300,7 @@ player_elec_damage()
 	{
 		self.is_burning = 1;		
 		self setelectrified(1.25);	
-		shocktime = 2.5;			
+		shocktime = 1.5;			
 		//Changed Shellshock to Electrocution so we can have different bus volumes.
 		self shellshock("electrocution", shocktime);
 		

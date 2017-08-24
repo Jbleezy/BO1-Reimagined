@@ -1605,6 +1605,10 @@ onPlayerConnect_clientDvars()
 	self setClientDvar( "aim_lockon_pitch_strength", 0 );
 	self setClientDvar( "aim_automelee_enabled", 0 );
 
+	self SetClientDvar("r_zombieNameAllowDevList", 0); //disable dev names on cosmonaut
+
+	self SetClientDvar("cg_drawFPSLabels", 0); //makes FPS area in corner smaller
+
 	//self SetClientDvar("perk_weapSwitchMultiplier", ".5");
 
 	if(level.gamemode == "survival")
@@ -8265,7 +8269,7 @@ disable_character_dialog()
 	flag_wait("all_players_connected");
 	while(1)
 	{
-		if(GetDvarInt("disable_character_dialog") == 1 || level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.gamemode != "survival")
+		if(GetDvarInt("character_dialog") == 0 || level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.gamemode != "survival")
 		{
 			level.player_is_speaking = 1;
 			wait .1;
@@ -8273,7 +8277,7 @@ disable_character_dialog()
 		else
 		{
 			level.player_is_speaking = 0;
-			while(GetDvarInt("disable_character_dialog") == 0)
+			while(GetDvarInt("character_dialog") == 1)
 			{
 				wait .1;
 			}

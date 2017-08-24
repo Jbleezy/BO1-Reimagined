@@ -14,7 +14,7 @@ init()
 zombie_set_fake_playername()
 {
 	self SetHUDWarningType( "zombie_friend" );
-	self setzombiename( "SpaceZom" );
+	self setzombiename( "Cosmonaut" );
 }
 
 

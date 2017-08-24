@@ -7,6 +7,7 @@ Zombies now spawn in faster after killing full hordes\par
 1 second of immunity to zombies after getting revived (solo and coop)\par
 Insta kill rounds (Rounds where zombies have round 1 health) start at round 163 and happen every odd round thereafter\par
 All players are attracted equally\par
+Fixed a bug where zombies would not attack players if one player crouched in front of another player in a corner\par
 Dead players can chat with alive players\par
 Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%\par
 Removed friendly fire (not being able to shoot when looking at another player)\par
@@ -48,6 +49,9 @@ Option to choose which room you start in on Verruckt (host only)\par
 Option to choose which perk you start with on No Man's Land (host only)\par
 Options to set which barriers in Five first room you want disabled (host only)\par
 Option to choose the initial box location on maps that have a random initial box location (host only)\par
+Max FPS option\par
+Fog option\par
+Weapon cycle delay option\par
 \par
 New Weapons\par
 \par
@@ -291,6 +295,7 @@ Perks\par
 \par
 Multiple people can now buy the same perk at the same time\par
 Perk order will no longer be changed when losing a perk\par
+Removed blur effect that previously happened after buying a perk\par
 \par
 Quick Revive\par
 Hintstring now says "Quick Revive" in solo and coop\par
@@ -345,6 +350,9 @@ Traps\par
 \par
 All traps now count kills for the player who activated the trap\par
 Fixed trap handles being moved to the wrong spot and trap lights staying green when the trap was activated as soon as it become available again\par
+\par
+Electric Traps (All Maps)\par
+Stun duration reduced from 2.5 seconds to 1.5 seconds (now matches the duration of the electricity being on screen)\par
 \par
 Electric Traps (Classic Maps)\par
 Now display inactive and cooldown hintstrings\par
@@ -575,10 +583,16 @@ Add line of sight check for windows breaking on Moon\par
 Fix bug where thief round voice line round start and visual fx starts but its a normal round\par
 Make it so after reviving someone your weapon doesnt switch if you don't have syrette out anymore\par
 Fix mule kick weapon highlight text not working if player got perk from shang easter egg\par
+Add collision boxes near curbs on Der Riese\par
 Make insta kill powerups work in high rounds (might be fixed)\par
 Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge (might be fixed)\par
 Fix Ascension monkey pathing (might be fixed)\par
 Fix kino round skip bug (might be fixed)\par
+Add collision boxes near invincibilty spots on maps\par
+Make it so melee kills can't count as headshots\par
+While a weapon is in pack a punch on Shang, don't push the players out\par
+Disable bowie/sickle hintstrings whenever not usable\par
+Five: fix Pack-a-Punch hintstring not always being disabled when machine is not usable by player\par
 \par
 TESTING:\par
 Moon sidequest dialog in coop without Richtofen\par
@@ -588,6 +602,8 @@ MAYBE:\par
 Ascension: double tap obtainable from free perk powerup?\par
 Shangri-La: should mud pit sidequest step need the radio to be activated to work?\par
 Moon: should teleporter gate start going down before power is on?\par
+Should Skullcrusher grenade launcher be names "Grenade Launcher"?\par
+Should shotgun attachment on upgraded AUG have its name changed?\par
 \par
 'BUGS' THAT ARE NOT BEING FIXED:\par
 Insta kill rounds\par
