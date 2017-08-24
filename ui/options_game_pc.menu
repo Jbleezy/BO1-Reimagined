@@ -106,10 +106,10 @@
    		FRAME_CHOICE_DVARFLOATLIST_VIS( 23, "@MENU_MATURE_CAPS", cg_blood, { "@MENU_MATURE_UNRESTRICTED_CAPS" 1 "@MENU_MATURE_REDUCED_CAPS" 0 }, ;, ( dvarBool(cg_allow_mature) && !dvarBool(ui_multiplayer) && SHOW_MATURE ) )
 
    		FRAME_CHOICE_DVARFLOATLIST_VIS( 24, "MAX FPS", com_maxfps, { "60" 60 "90" 90 "120" 120 "180" 180 "240" 240 "360" 360 "500" 500 "750" 750 "1000" 1000 }, ;, 1 )
-   		FRAME_CHOICE_DVARYESNO_VIS( 25, "FOG", r_fog, ;, 1)
+   		FRAME_CHOICE_DVARYESNO_VIS( 25, "FOG", r_fog_settings, ;, 1) //setdvar r_fog dvarbool("r_fog_settings")
 		FRAME_CHOICE_DVARFLOATLIST_VIS( 26, "WEAPON CYCLE DELAY", cg_weaponCycleDelay, { "YES" 100 "NO" 0 }, ;, 1)
 
-   		FRAME_CHOICE_DVARFLOATLIST_VIS( 27, "@PLATFORM_FOV_CAPS", cg_fov_real, { "65" 65 "70" 70 "75" 75 "80" 80 "85" 85 "90" 90 "95" 95 "100" 100 "105" 105 "110" 110 "115" 115 "120" 120 }, ;, 1 )
+   		FRAME_CHOICE_DVARFLOATLIST_VIS( 27, "@PLATFORM_FOV_CAPS", cg_fov_settings, { "65" 65 "70" 70 "75" 75 "80" 80 "85" 85 "90" 90 "95" 95 "100" 100 "105" 105 "110" 110 "115" 115 "120" 120 }, ;, 1 )
 		FRAME_CHOICE_DVARSTRINGLIST_VIS( 28, "SHOW FPS", cg_drawFPS, { "YES"; "Simple"; "NO"; "Off" }, ;, 1)
 
 		FRAME_CHOICE_SECTION_TITLE( 29, "HOST ONLY" )

@@ -2898,6 +2898,10 @@ head_should_gib( attacker, type, point )
 		{
 			return false; 
 		}
+		else if( type == "MOD_MELEE" )
+		{
+			return false;
+		}
 	}
 
 	// check location now that we've checked for grenade damage (which reports "none" as a location)

@@ -55,11 +55,6 @@ Weapon cycle delay option\par
 \par
 New Weapons\par
 \par
-AK47\par
-Upgraded name: The Red Mist\par
-Upgraded version has flamethrower attachment\par
-30 rounds per clip unupgraded and upgraded\par
-\par
 Combat Knife\par
 Wield your current knife by pressing the new melee weapon keybind (found in combat settings)\par
 If you have no other weapon, you will hold your knife by default\par
@@ -67,6 +62,11 @@ If you have no other weapon, you will hold your knife by default\par
 Molotovs\par
 Added in classic maps\par
 Deal infinite damage on impact\par
+\par
+AK47\par
+Upgraded name: The Red Mist\par
+Upgraded version has flamethrower attachment\par
+30 rounds per clip unupgraded and upgraded\par
 \par
 PPSH\par
 Upgraded name: The Reaper\par
@@ -88,6 +88,7 @@ All body shots now deal the same amount of damage\par
 Neck, head, and helmet shots now all deal the same amount of damage\par
 All body shots will now give 50 points for a kill\par
 Neck shots now give 100 points for a kill\par
+Melee kills can no longer count as headshots\par
 \par
 Explosive weapons\par
 Removed shellshock effect from explosive damage (except for lethal grenades)\par
@@ -566,7 +567,6 @@ Add dtp anims for all weapons\par
 Fix zombies sounds on classic maps to sound like they are coming from the correct direction\par
 Fix dtp loop anims on PSG1, M72 LAW, and RPK\par
 Fix weapon bobbing on PSG1\par
-When releasing the mod, make a blank config folder with only the clientdvar names and their values\par
 Turn off Der Riese easter egg song noises after they have been activated\par
 Fix barrel textures on Der Riese? (Haven't had it happen again)\par
 Find a way to be able to shoot through more than 3 zombies\par
@@ -575,7 +575,6 @@ Add all other gamemodes\par
 Figure out bug that causes cosmonaut to delete himself occasionally\par
 Make zombies go after monkeys instantly\par
 Make it so betties can only be triggered by zombies with line of sight from bettys position\par
-Set sv_cheats to 0 on release\par
 Fix mule kick weapon being changed from paping\par
 Look for way to remove collision from zombies/dogs (NotSolid() doesnt work right)\par
 Deadshot: add faster ADS move speed\par
@@ -589,7 +588,6 @@ Ascension: Fix high round invisible and invincible zombies after being damaged f
 Fix Ascension monkey pathing (might be fixed)\par
 Fix kino round skip bug (might be fixed)\par
 Add collision boxes near invincibilty spots on maps\par
-Make it so melee kills can't count as headshots\par
 While a weapon is in pack a punch on Shang, don't push the players out\par
 Disable bowie/sickle hintstrings whenever not usable\par
 Five: fix Pack-a-Punch hintstring not always being disabled when machine is not usable by player\par
@@ -602,7 +600,7 @@ MAYBE:\par
 Ascension: double tap obtainable from free perk powerup?\par
 Shangri-La: should mud pit sidequest step need the radio to be activated to work?\par
 Moon: should teleporter gate start going down before power is on?\par
-Should Skullcrusher grenade launcher be names "Grenade Launcher"?\par
+Should Skullcrusher grenade launcher be named "Grenade Launcher"?\par
 Should shotgun attachment on upgraded AUG have its name changed?\par
 \par
 'BUGS' THAT ARE NOT BEING FIXED:\par
@@ -623,6 +621,8 @@ Add the rest of the mp perks\par
 Fix Connecting... issue\par
 Fix weapon swap on player leave\par
 Fix COTD outro showing on all maps after loading COTD in a session\par
+Get actionslot 2 highlighting to work\par
+Remove blur when paused ingame\par
 \par
 SPECIAL THANKS:\par
 lilrifa - menu scripting help\par

@@ -2380,16 +2380,24 @@ additional_weapon_indicator(perk, perk_str)
 
 		self thread wait_for_weapon_switch(perk_str);
 
-		notify_string = self waittill_any_return("weapon_switch", "weapon_change");
+		notify_string = self waittill_any_return("weapon_change", "weapon_switch");
 
-		self SetClientDvar("ui_show_mule_wep_color", "0");
+		//iprintln(notify_string);
 
 		if(notify_string == "weapon_switch")
 		{
+			self SetClientDvar("ui_show_mule_wep_color", "0");
 			self thread wait_for_weapon_switch_stop(perk_str);
 			//iprintln("switching");
-			self waittill_any( "weapon_switch_stop", "weapon_change" );
+			self waittill_any( "weapon_switch_stop", "weapon_change", "weapon_change_complete" );
 			//self waittill( "weapon_change", current_wep, prev_wep );
+		}
+		else if(notify_string == "weapon_change")
+		{
+			//need to wait 2 frames here for things to work right
+			wait_network_frame();
+			wait_network_frame();
+			self SetClientDvar("ui_show_mule_wep_color", "0");
 		}
 
 		//iprintln("actually switched");

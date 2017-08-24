@@ -1,5 +1,8 @@
 //GENERAL
 rawfile,maps/_ballistic_knife.gsc
+rawfile,maps/_callbackglobal.gsc
+rawfile,maps/_gameskill.gsc
+rawfile,maps/_mgturret.gsc
 rawfile,maps/_zombiemode.gsc
 rawfile,maps/_zombiemode_auto_turret.gsc
 rawfile,maps/_zombiemode_blockers.gsc
@@ -16,9 +19,7 @@ rawfile,maps/_zombiemode_weap_freezegun.gsc
 rawfile,maps/_zombiemode_weap_tesla.gsc
 rawfile,maps/_zombiemode_weap_thundergun.gsc
 rawfile,maps/_zombiemode_score.gsc
-rawfile,maps/_callbackglobal.gsc
 rawfile,maps/_zombiemode_weap_black_hole_bomb.gsc
-rawfile,maps/_mgturret.gsc
 rawfile,maps/_zombiemode_claymore.gsc
 rawfile,maps/_zombiemode_betty.gsc
 rawfile,maps/_zombiemode_ai_dogs.gsc

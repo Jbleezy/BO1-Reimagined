@@ -8,6 +8,7 @@ main_start()
 	{
 		players[i] thread set_fov();
 		players[i] thread remove_pause_screen_darkness();
+		players[i] thread fog_setting();
 	}
 
 	registerSystem("hud", ::hud);
@@ -29,7 +30,7 @@ set_fov()
 			wait .05;
 			continue;
 		}
-		if(GetDvarInt("cg_fov_real") == GetDvarInt("cg_fov"))
+		if(GetDvarInt("cg_fov_settings") == GetDvarInt("cg_fov"))
 		{
 			wait .05;
 			continue;
@@ -39,7 +40,7 @@ set_fov()
 			wait .05;
 			continue;
 		}
-		fov = GetDvarInt("cg_fov_real");
+		fov = GetDvarInt("cg_fov_settings");
 		SetClientDvar("cg_fov", fov);
 		wait .05;
 	}
@@ -58,9 +59,27 @@ remove_pause_screen_darkness()
 			while(GetDvarInt("cl_paused") == 1)
 				wait .05;
 
-			SetClientDvar("cg_drawpaused", 1); //have to set it back because it makes hintstrings not work...
+			SetClientDvar("cg_drawpaused", 1); //have to set it back because it makes certain hud elements not work...
 		}
 
+		wait .05;
+	}
+}
+
+fog_setting()
+{
+	self endon("disconnect");
+
+	while(1)
+	{
+		if(GetDvarInt("r_fog_settings") == 1 && GetDvarInt("r_fog") != 1)
+		{
+			SetClientDvar("r_fog", 1);
+		}
+		else if(GetDvarInt("r_fog_settings") == 0 && GetDvarInt("r_fog") != 0)
+		{
+			SetClientDvar("r_fog", 0);
+		}
 		wait .05;
 	}
 }
