@@ -7236,10 +7236,6 @@ round_time_loop()
 {
 	level endon( "intermission" );
 
-	//level thread move_round_timer_thread();
-
-	level waittill("all_players_spawned");
-
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
@@ -7247,15 +7243,16 @@ round_time_loop()
 		setClientSysState("hud", "hud_round_total_time_out", players[i]);
 	}
 
+	flag_wait( "begin_spawning" );
+
+	if(level.script == "zombie_moon")
+	{
+		level waittill( "end_of_round" );
+		level waittill( "start_of_round" );
+	}
+
 	while(1)
 	{
-		level waittill( "start_of_round" );
-
-		if(flag("enter_nml"))
-		{
-			continue;
-		}
-
 		players = get_players();
 		for(i=0;i<players.size;i++)
 		{
@@ -7264,7 +7261,19 @@ round_time_loop()
 
 		level thread round_time();
 
-		level waittill( "end_of_round" );
+		//end round timer when last enemy of round is killed
+		if(flag( "dog_round" ))
+		{
+			level waittill( "last_dog_down" );
+		}
+		else if(flag( "monkey_round" ))
+		{
+			flag_wait( "last_monkey_down" );
+		}
+		else
+		{
+			level waittill( "end_of_round" );
+		}
 
 		if(flag("enter_nml"))
 		{
@@ -7290,6 +7299,13 @@ round_time_loop()
 		{
 			setClientSysState("hud", "hud_round_time_out", players[i]);
 			setClientSysState("hud", "hud_round_total_time_out", players[i]);
+		}
+
+		level waittill( "start_of_round" );
+
+		if(flag("enter_nml"))
+		{
+			level waittill( "start_of_round" );
 		}
 	}
 }
