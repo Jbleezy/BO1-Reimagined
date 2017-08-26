@@ -62,6 +62,9 @@ main()
 	precacheModel("lights_berlin_subway_hat_50" );
 	precacheModel("lights_berlin_subway_hat_100" );
 
+	PreCacheModel("collision_geo_512x512x512");
+	PreCacheModel("collision_geo_128x128x128");
+
 	// DCS: not mature settings models without blood or gore.
 	PreCacheModel( "zombie_power_lever_handle" );
 
@@ -178,8 +181,9 @@ main()
 	maps\createart\zombie_cod5_factory_art::main();
 	
 	//DCS: get betties working.
-	maps\_zombiemode_betty::init();	
-	
+	maps\_zombiemode_betty::init();
+
+	level thread curbs_fix();
 }
 
 precache_player_model_override()
@@ -1981,4 +1985,40 @@ factory_german_safe()
 		dead_guy = GetEnt("hanging_dead_guy","targetname");
 		dead_guy Hide();
 	}	
-}	
+}
+
+curbs_fix()
+{
+	collision = spawn("script_model", (-65.359, -1215.74, -192.5766));
+	collision setmodel("collision_geo_512x512x512");
+	collision.angles = (0, 0, 0);
+	collision Hide();
+
+	collision2 = spawn("script_model", (361.273 + 64, -1828.36 - 271, 55.9853 - 248));
+	collision2 setmodel("collision_geo_512x512x512");
+	collision2.angles = (0, 0, 0);
+	collision2 Hide();
+
+	collision3 = spawn("script_model", (-120, -858.359 - 271, 60 - 253));
+	collision3 setmodel("collision_geo_512x512x512");
+	collision3.angles = (0, 0, 0);
+	collision3 Hide();
+
+	collision4 = spawn("script_model", (172.104 - 55, -1643.19 + 55, 54.6046 - 56));
+	collision4 setmodel("collision_geo_128x128x128");
+	collision4.angles = (0, 47, 0);
+	collision4 Hide();
+}
+
+get_position(collision)
+{
+	flag_wait("all_players_spawned");
+	player = get_players()[0];
+	while(1)
+	{
+		iprintln(player.origin);
+		//iprintln(player.angles);
+		//collision.angles = player.angles;
+		wait .05;
+	}
+}
