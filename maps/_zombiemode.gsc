@@ -1769,7 +1769,7 @@ onPlayerSpawned()
 
 				//self thread player_health_watcher();
 				//self thread points_cap();
-				self thread give_weapons_test();
+				//self thread give_weapons_test();
 				//self thread button_pressed_test();
 				//self thread velocity_test();
 
@@ -4060,7 +4060,7 @@ round_think()
 {
 	for( ;; )
 	{
-		/*level.round_number = 163;
+		/*level.round_number = 100;
 		level.zombie_vars["zombie_spawn_delay"] = 0.08;
 		level.zombie_move_speed = 100;*/
 
@@ -7520,6 +7520,11 @@ choose_zone_name(zone, current_name)
 		return " ";
 	}
 
+	if(!IsDefined(zone) && level.script == "zombie_cod5_asylum")
+	{
+		return current_name;
+	}
+
 	if(!IsDefined(zone) && level.script != "zombie_cod5_prototype")
 	{
 		return " ";
@@ -7553,6 +7558,10 @@ choose_zone_name(zone, current_name)
 	}
 	else if(level.script == "zombie_cod5_asylum")
 	{
+		if(!IsDefined(zone))
+		{
+			name = "Double Tap";
+		}
 		if(zone == "west_downstairs_zone")
 		{
 			name = "Dentist Office";
@@ -7594,7 +7603,7 @@ choose_zone_name(zone, current_name)
 	{
 		if(zone == "center_building_upstairs")
 		{
-			name = "Center Hut Upstairs";
+			name = "Upstairs Center Hut";
 		}
 		else if(zone == "center_building_upstairs_buy")
 		{
@@ -7602,11 +7611,11 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "center_building_combined")
 		{
-			name = "Center Hut Downstairs";
+			name = "Downstairs Center Hut";
 		}
 		else if(zone == "northwest_outside")
 		{
-			name = "Fishing Hut Outside";
+			name = "Outside Fishing Hut";
 		}
 		else if(zone == "northwest_building")
 		{
@@ -7614,7 +7623,7 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "southwest_outside")
 		{
-			name = "Comm Room Outside";
+			name = "Outside Comm Room";
 		}
 		else if(zone == "southwest_building")
 		{
@@ -7622,7 +7631,7 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "northeast_outside")
 		{
-			name = "Doctor's Quarters Outside";
+			name = "Outside Doctor's Quarters";
 		}
 		else if(zone == "northeast_building")
 		{
@@ -7630,7 +7639,7 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "southeast_outside")
 		{
-			name = "Storage Outside";
+			name = "Outside Storage";
 		}
 		else if(zone == "southeast_building")
 		{
@@ -7681,11 +7690,11 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "warehouse_top_zone")
 		{
-			name = "Warehouse Top";
+			name = "Upper Warehouse";
 		}
 		else if(zone == "warehouse_bottom_zone")
 		{
-			name = "Warehouse Bottom";
+			name = "Lower Warehouse";
 		}
 	}
 	else if(level.script == "zombie_theater")
@@ -7921,23 +7930,23 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "lighthouse1_zone")
 		{
-			name = "Lighthouse Bottom";
+			name = "Lower Lighthouse";
 		}
 		else if(zone == "lighthouse2_zone")
 		{
-			name = "Lighthouse Middle";
+			name = "Middle Lighthouse";
 		}
 		else if(zone == "catwalk_zone")
 		{
-			name = "Lighthouse Top";
+			name = "Upper Lighthouse";
 		}
 		else if(zone == "start_cave_zone")
 		{
-			name = "Ice Slide Top";
+			name = "Upper Ice Slide";
 		}
 		else if(zone == "start_beach_zone")
 		{
-			name = "Ice Slide Bottom";
+			name = "Lower Ice Slide";
 		}
 		else if(zone == "rear_lagoon_zone")
 		{
@@ -7980,19 +7989,19 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "waterfall_lower_zone")
 		{
-			name = "Waterfall Lower";
+			name = "Lower Waterfall";
 		}
 		else if(zone == "waterfall_tunnel_zone")
 		{
-			name = "Waterfall Tunnel Lower";
+			name = "Lower Waterfall Tunnel";
 		}
 		else if(zone == "waterfall_tunnel_a_zone")
 		{
-			name = "Waterfall Tunnel Upper";
+			name = "Upper Waterfall Tunnel";
 		}
 		else if(zone == "waterfall_upper_zone")
 		{
-			name = "Waterfall Upper";
+			name = "Upper Waterfall";
 		}
 		else if(zone == "waterfall_upper1_zone")
 		{
@@ -8016,15 +8025,15 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "water_zone")
 		{
-			name = "Rockets";
+			name = "Launch Area";
 		}
 		else if(zone == "cata_left_start_zone")
 		{
-			name = "Tunnel 6 Upper";
+			name = "Upper Tunnel 6";
 		}
 		else if(zone == "cata_left_middle_zone")
 		{
-			name = "Tunnel 6 Lower";
+			name = "Lower Tunnel 6";
 		}
 		else if(zone == "generator_zone")
 		{
@@ -8032,27 +8041,27 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "cata_right_start_zone")
 		{
-			name = "Tunnel 11 Upper";
+			name = "Upper Tunnel 11";
 		}
 		else if(zone == "cata_right_middle_zone")
 		{
-			name = "Tunnel 11 Middle";
+			name = "Middle Tunnel 11";
 		}
 		else if(zone == "cata_right_end_zone")
 		{
-			name = "Tunnel 11 Lower";
+			name = "Lower Tunnel 11";
 		}
 		else if(zone == "generator_exit_east_zone")
 		{
-			name = "Labs Lower";
+			name = "Lower Labs";
 		}
 		else if(zone == "enter_forest_east_zone")
 		{
-			name = "Labs Upper";
+			name = "Upper Labs";
 		}
 		else if(zone == "tower_zone_east")
 		{
-			name = "Outside Labs";
+			name = "Teleporter";
 		}
 		else if(zone == "tower_zone_east2")
 		{
@@ -8182,7 +8191,7 @@ increase_revive_radius()
 
 give_weapons_test()
 {
-	wep = "thundergun_zm";
+	wep = "freezegun_zm";
 	self GiveWeapon(wep);
 	self GiveMaxAmmo(wep);
 	wait_network_frame();

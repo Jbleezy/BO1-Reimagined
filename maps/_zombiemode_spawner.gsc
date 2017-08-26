@@ -2898,10 +2898,6 @@ head_should_gib( attacker, type, point )
 		{
 			return false; 
 		}
-		else if( type == "MOD_MELEE" )
-		{
-			return false;
-		}
 	}
 
 	// check location now that we've checked for grenade damage (which reports "none" as a location)
@@ -3223,15 +3219,14 @@ zombie_should_gib( amount, attacker, type )
 		case "MOD_BURNED":	
 			return false; 
 		case "MOD_MELEE":	
-//Z2	HasPerk( "specialty_altmelee" ) is returning undefined
-// 			if( isPlayer( attacker ) && randomFloat( 1 ) > 0.25 && attacker HasPerk( "specialty_altmelee" ) )
-// 			{
-// 				return true;
-// 			}
-// 			else 
-			{
-				return false;
-			}
+		if((IsDefined(attacker._bowie_zm_equipped) && attacker._bowie_zm_equipped) || (IsDefined( attacker._sickle_zm_equipped ) && attacker._sickle_zm_equipped))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	if( type == "MOD_PISTOL_BULLET" || type == "MOD_RIFLE_BULLET" )

@@ -452,7 +452,7 @@ init_sounds()
 //-------------------------------------------------------------------------------
 include_weapons()
 {
-
+	include_weapon("m1911_zm", false);
 	include_weapon("python_zm");
 	include_weapon("cz75_zm");
 	include_weapon("g11_lps_zm");
