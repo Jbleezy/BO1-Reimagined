@@ -520,7 +520,7 @@ zombie_moon_update_player_gravity()
 {
 	flag_wait( "all_players_connected" );
 
-	LOW_G = 136; //try changing this
+	LOW_G = 136;
 
 	player_zones = getentarray( "player_volume", "script_noteworthy" );
 

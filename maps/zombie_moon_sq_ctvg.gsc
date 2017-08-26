@@ -460,7 +460,7 @@ bucket_qualifier()
 	{
 		return true;
 	}
-	else if(ent_num == level.random_entnum)
+	else if(!level.richtofen_in_game && ent_num == level.random_entnum)
 	{
 		return true;
 	}
@@ -481,7 +481,7 @@ wrong_press_qualifier()
 	{
 		return true;
 	}
-	else if(ent_num != level.random_entnum)
+	else if(!level.richtofen_in_game && ent_num != level.random_entnum)
 	{
 		return true;
 	}

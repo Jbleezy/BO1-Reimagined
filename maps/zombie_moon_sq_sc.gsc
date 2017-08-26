@@ -235,11 +235,20 @@ place_qualifier()
 	{
 		ent_num = self.zm_random_char;
 	}
-	
-	if(ent_num == 3)
-	{	
+
+	if(level.richtofen_in_game && ent_num == 3)
+	{
 		return true;
 	}
+	else if(!level.richtofen_in_game && ent_num == level.random_entnum)
+	{
+		return true;
+	}
+	
+	/*if(ent_num == 3)
+	{	
+		return true;
+	}*/
 	
 	return false;
 }

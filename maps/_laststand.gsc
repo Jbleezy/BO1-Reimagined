@@ -528,6 +528,12 @@ revive_trigger_think()
 
 revive_give_back_weapons( gun )
 {
+	syrette_in_hand = false;
+	if(self GetCurrentWeapon() == "syrette_sp")
+	{
+		syrette_in_hand = true;
+	}
+
 	// take the syrette
 	self TakeWeapon( "syrette_sp" );
 
@@ -537,17 +543,20 @@ revive_give_back_weapons( gun )
 		return;
 	}
 
-	if ( gun != "none" && gun != "mine_bouncing_betty" && gun != "claymore_zm" && gun != "spikemore_zm" && gun != "equip_gasmask_zm" && gun != "lower_equip_gasmask_zm" && self HasWeapon( gun ) )
+	if(syrette_in_hand)
 	{
-		self SwitchToWeapon( gun );
-	}
-	else 
-	{
-		// try to switch to first primary weapon
-		primaryWeapons = self GetWeaponsListPrimaries();
-		if( IsDefined( primaryWeapons ) && primaryWeapons.size > 0 )
+		if ( gun != "none" && gun != "equip_gasmask_zm" && gun != "lower_equip_gasmask_zm" && self HasWeapon( gun ) ) // gun != "mine_bouncing_betty" && gun != "claymore_zm" && gun != "spikemore_zm" &&
 		{
-			self SwitchToWeapon( primaryWeapons[0] );
+			self SwitchToWeapon( gun );
+		}
+		else 
+		{
+			// try to switch to first primary weapon
+			primaryWeapons = self GetWeaponsListPrimaries();
+			if( IsDefined( primaryWeapons ) && primaryWeapons.size > 0 )
+			{
+				self SwitchToWeapon( primaryWeapons[0] );
+			}
 		}
 	}
 }
