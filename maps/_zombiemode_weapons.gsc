@@ -1247,7 +1247,14 @@ treasure_chest_think()
 		// Let the player grab the weapon and re-enable the box //
 		self.grab_weapon_hint = true;
 		self.chest_user = user;
-		self sethintstring( &"ZOMBIE_TRADE_WEAPONS" ); 
+		if(is_tactical_grenade(self.chest_origin.weapon_string))
+		{
+			self sethintstring( "Hold ^3&&1^7 to trade Equipment" ); //change to localized string
+		}
+		else
+		{
+			self sethintstring( &"ZOMBIE_TRADE_WEAPONS" );
+		}
 		self setCursorHint( "HINT_NOICON" ); 
 		
 		self	thread decide_hide_show_hint( "weapon_grabbed");
@@ -2854,6 +2861,10 @@ treasure_chest_give_weapon( weapon_string )
 			self TakeWeapon( self get_player_tactical_grenade() );
 		}
 		self maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
+		if(GetDvar("gm_version") == "1.1.0")
+		{
+			self SetWeaponAmmoClip(weapon_string, 3);
+		}
 		self play_weapon_vo(weapon_string);
 		return;
 	}
@@ -2866,6 +2877,10 @@ treasure_chest_give_weapon( weapon_string )
 		}
 		self giveweapon( "molotov_zm" );
 		self set_player_tactical_grenade( "molotov_zm" );
+		if(GetDvar("gm_version") == "1.1.0")
+		{
+			self SetWeaponAmmoClip(weapon_string, 3);
+		}
 		self play_weapon_vo(weapon_string);
 		return;
 	}
@@ -2883,7 +2898,7 @@ treasure_chest_give_weapon( weapon_string )
 	}
 
 	self GiveWeapon( weapon_string, 0 );
-	self GiveStartAmmo( weapon_string );
+	self GiveMaxAmmo( weapon_string );
 	self SwitchToWeapon( weapon_string );
 
 	self play_weapon_vo(weapon_string);

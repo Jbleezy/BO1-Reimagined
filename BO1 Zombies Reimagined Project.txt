@@ -291,6 +291,7 @@ Players will now get every weapon they can from the box before getting duplicate
 All weapons have the same probability to be obtained in the box
 Box weapons will not appear again in a row while floating up (unless it is the final weapon)
 Box will now cycle through all locations before going to a previous location again
+Box has a different hintstring for picking up a weapon if the weapon is a tactical grenade
 
 Perks
 

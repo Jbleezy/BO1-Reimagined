@@ -2068,6 +2068,23 @@ full_ammo_powerup( drop_item )
 			// Fill the clip
 			//players[i] SetWeaponAmmoClip( primary_weapons[x], WeaponClipSize( primary_weapons[x] ) );
 
+			if(GetDvar("gm_version") == "1.1.0")
+			{
+				if(is_lethal_grenade(primary_weapons[x]))
+				{
+					players[i] SetWeaponAmmoClip(primary_weapons[x], 4);
+				}
+				else if(is_tactical_grenade(primary_weapons[x]))
+				{
+					players[i] SetWeaponAmmoClip(primary_weapons[x], 3);
+				}
+				else
+				{
+					players[i] GiveMaxAmmo( primary_weapons[x] );
+				}
+				continue;
+			}
+
 			players[i] GiveMaxAmmo( primary_weapons[x] );
 		}
 	}
