@@ -547,7 +547,7 @@ do_bucket_fill(target)
 			richtofen = players[i];
 			break;
 		}
-		else if(ent_num == level.random_entnum)
+		else if(!level.richtofen_in_game && ent_num == level.random_entnum)
 		{
 			richtofen = players[i];
 			break;

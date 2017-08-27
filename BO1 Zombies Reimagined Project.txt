@@ -20,6 +20,7 @@ Pack-a-Punch camo now displays on Mustang & Sally when downed in solo
 Fixed a bug where two or more players could trigger a door that has multiple triggers at the same time and both pay to open the door
 Chracters no longer make hurt sounds if you have Flopper and an explosion happens that would have hurt you
 Having too many weapons penalty has been changed to only take the weapon that the player shouldnt have (previously took all weapons and points)
+If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
 
 HUD
 HUD items now have some distance away from the edge of the screen
@@ -436,6 +437,7 @@ Special rounds work on the powerup system (1st time after initial special round 
 Max health: 1 million
 Fixed a bug that caused ceiling spawns to be able to be disabled
 Fixed a bug that caused spawning risers to collide with players at their initial spawn locations
+Zombies now gib when damaged from the Bowie Knife or Sickle
 
 Dogs
 No longer gain additional points for kills from dogs when killing dogs with wonder weapons
@@ -491,6 +493,7 @@ Last perk is buyable while it is spawning
 Der Riese
 Removed intro text
 Fixed mystery box use trigger in Trench Gun room
+Players will no longer get stuck on curbs
 
 Kino Der Toten
 Teleporting no longer takes you to special rooms unless both radios on the map have been activated
@@ -498,6 +501,7 @@ Teleporting no longer takes you to special rooms unless both radios on the map h
 Five
 Trap pieces are already in place
 Barriers in the spawn room no longer reset
+Pack-a-punch machine will stay available for as long as the defcon room is active
 
 Ascension
 Sidequest completable without 4 players
@@ -578,9 +582,7 @@ Look for way to remove collision from zombies/dogs (NotSolid() doesnt work right
 Deadshot: add faster ADS move speed
 Add line of sight check for windows breaking on Moon
 Fix bug where thief round voice line round start and visual fx starts but its a normal round
-Make it so after reviving someone your weapon doesnt switch if you don't have syrette out anymore
 Fix mule kick weapon highlight text not working if player got perk from shang easter egg
-Add collision boxes near curbs on Der Riese
 Make insta kill powerups work in high rounds (might be fixed)
 Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge (might be fixed)
 Fix Ascension monkey pathing (might be fixed)
@@ -588,8 +590,10 @@ Fix kino round skip bug (might be fixed)
 Add collision boxes near invincibilty spots on maps
 Shang: while a weapon is in pack a punch, don't push the players out
 Disable bowie/sickle hintstrings whenever not usable
-Five: fix Pack-a-Punch hintstring not always being disabled when machine is not usable by player
-Make first round time be the same as total time (except for Moon because of NML)
+Fix low grav with increased FPS
+Fix semtex beeps being linked to client FPS
+Fix excavator breached beeps being linked to client FPS
+Remove faster hack speed from Speed Cola
 
 TESTING:
 Moon sidequest dialog in coop without Richtofen

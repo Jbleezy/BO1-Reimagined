@@ -657,7 +657,8 @@ zombie_goto_entrance( node, endon_bad_path )
 
 	//start_origin = (self.first_node.origin - (0,0,24)) + (AnglesToForward(self.first_node.angles) * 0);
 
-	start_origin = self.first_node.origin - (0,0,32);
+	//start_origin = self.first_node.origin - (0,0,32);
+	start_origin = (self.first_node.origin[0], self.first_node.origin[1], self.origin[2]);
 
 	if(self.attacking_spot_index != 0)
 	{

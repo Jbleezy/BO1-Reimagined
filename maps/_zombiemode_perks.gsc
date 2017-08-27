@@ -524,6 +524,7 @@ vending_weapon_upgrade()
 			angles = perk_machine.angles+(0,90,0);
 		}
 		
+		self SetHintString("");
 		self disable_trigger();
 		
 		player thread do_knuckle_crack();

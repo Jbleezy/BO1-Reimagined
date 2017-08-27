@@ -7580,7 +7580,7 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "south2_upstairs_zone")
 		{
-			name = "Bathroom";
+			name = "Showers";
 		}
 		else if(zone == "power_upstairs_zone")
 		{
@@ -7662,7 +7662,7 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "outside_south_zone")
 		{
-			name = "Outside Teleporter C";
+			name = "Power";
 		}
 		else if(zone == "wnuen_zone")
 		{
@@ -7670,11 +7670,11 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "wnuen_bridge_zone")
 		{
-			name = "Laboratory Bridge";
+			name = "Bridge Laboratory Side";
 		}
 		else if(zone == "bridge_zone")
 		{
-			name = "Warehouse Bridge";
+			name = "Bridge Warehouse Side";
 		}
 		else if(zone == "tp_east_zone")
 		{
@@ -7694,7 +7694,7 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "warehouse_bottom_zone")
 		{
-			name = "Lower Warehouse";
+			name = "Lower Warehouse"; //"Boiler Room"
 		}
 	}
 	else if(level.script == "zombie_theater")

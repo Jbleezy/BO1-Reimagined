@@ -81,11 +81,13 @@ pack_hideaway_init()
 	{	
 		flag_wait("open_pack_hideaway");
 	
+		level.pap_moving = true;
 		hideaway NotSolid();
 		hideaway RotateYaw(180, 2.5);
 		hideaway PlaySound( "evt_packapunch_revolve_start" );
 		hideaway PlayLoopSound( "evt_packapunch_revolve_loop" );
 		hideaway waittill("rotatedone");
+		level.pap_moving = false;
 		level.punch_trigger SetVisibleToAll();
 		level.punch_trigger trigger_on();
 		
@@ -97,6 +99,11 @@ pack_hideaway_init()
 		// time given for everyone to pack if they want.
 		//level waittill("defcon_reset");
 		wait(40); // additional time after countdown
+
+		while(!is_packroom_clear())
+		{
+			wait_network_frame();
+		}
 	
 		if(flag("pack_machine_in_use"))
 		{
@@ -114,12 +121,14 @@ pack_hideaway_init()
 			level.punch_trigger SetInvisibleToPlayer(players[i]);
 		}
 		
+		level.pap_moving = true;
 		hideaway RotateYaw(180, 2.5);
 		hideaway PlaySound( "evt_packapunch_revolve_start" );
 		hideaway PlayLoopSound( "evt_packapunch_revolve_loop" );
 		flag_clear("open_pack_hideaway");
 		wait_network_frame();
 		hideaway waittill("rotatedone");
+		level.pap_moving = false;
 		hideaway StopLoopSound( 1 );
 	    hideaway PlaySound( "evt_packapunch_revolve_end" );
 	}	

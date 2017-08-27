@@ -199,7 +199,7 @@ init_sidequest()
 			entnum = players[i].zm_random_char;
 		}		
 				
-		if((level.richtofen_in_game && entnum == 3) || entnum == level.random_entnum)
+		if((level.richtofen_in_game && entnum == 3) || (!level.richtofen_in_game && entnum == level.random_entnum))
 		{
 			players[i] thread wait_add_sidequest_icon("sq", "generator");
 			break;
