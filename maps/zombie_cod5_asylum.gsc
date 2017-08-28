@@ -732,6 +732,7 @@ electric_trap_think()
 				{
 					self.in_use = 1;
 					play_sound_at_pos( "purchase", who.origin );
+					self sethintstring( &"ZOMBIE_TRAP_ACTIVE" );
 					self thread electric_trap_move_switch(self);
 					//need to play a 'woosh' sound here, like a gas furnace starting up
 					self waittill("switch_activated");
@@ -741,7 +742,6 @@ electric_trap_think()
 					//turn off the valve triggers associated with this valve until the gas is available again
 					//array_thread (valve_trigs,::trigger_off);
 					//array_thread(triggers, ::hint_string, &"ZOMBIE_TRAP_ACTIVE" );
-					self sethintstring( &"ZOMBIE_TRAP_ACTIVE" );
 
 
 					//this trigger detects zombies walking thru the flames

@@ -54,10 +54,10 @@ zipline_rumble_and_quake(localClientNum, set,newEnt)
 	{
 		self notify("stop_zipline_fx");
 
-		wait(2);
+		realwait(1.5);
 		if (getlocalplayers().size == 1)
 		{
-			fov = GetDvarInt("cg_fov_real");
+			fov = GetDvarInt("cg_fov_settings");
 			self thread lerp_fov(.75,level.zipline_fov,fov,false);
 		}
 	}
@@ -71,7 +71,7 @@ do_zipline_fx(localClientNum)
 	
 	if (getlocalplayers().size == 1)
 	{
-		fov = GetDvarInt("cg_fov_real");
+		fov = GetDvarInt("cg_fov_settings");
 		self thread lerp_fov(.75,fov,level.zipline_fov,true);
 	}
 	
@@ -86,7 +86,7 @@ do_zipline_fx(localClientNum)
 		
 		self Earthquake( RandomFloatRange( 0.15, 0.22 ), RandomFloatRange(0.15, 0.22), self.origin, 100 );
 		self PlayRumbleOnEntity(localClientNum, "slide_rumble");
-		wait(randomfloatrange(.1,.15));
+		realwait(randomfloatrange(.1,.15));
 	}
 }
 
@@ -252,7 +252,7 @@ lerp_fov( time, basefov, destfov, ziplining )
 	level endon("stop_lerping_thread");
 	self endon("entityshutdown");
 
-	incs = int( time/.05 );
+	incs = int( time/.01 );
 	incfov = (  destfov  -  basefov  ) / incs ;
 	currentfov = basefov;
 	
@@ -269,7 +269,7 @@ lerp_fov( time, basefov, destfov, ziplining )
 	{
 		currentfov += incfov;
 		SetClientDvar( "cg_fov", currentfov );
-		wait .05;
+		realwait(.01);
 	}
 	//fix up the little bit of rounding error. not that it matters much .002, heh
 	SetClientDvar( "cg_fov", destfov );

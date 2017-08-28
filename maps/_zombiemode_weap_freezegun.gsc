@@ -316,16 +316,24 @@ freezegun_debug_print( msg, color )
 
 freezegun_do_damage( upgraded, player, dist_ratio )
 {
+	self endon("death");
+
 	//damage = Int( LerpFloat( freezegun_get_outer_damage( upgraded ), freezegun_get_inner_damage( upgraded ), dist_ratio ) );
 	if(!IsDefined(self.original_move_speed))
 		self.original_move_speed = self.zombie_move_speed;
 
 	if(self.original_move_speed == "sprint")
+	{
 		damage = int(level.zombie_health/3) + 1;
+	}
 	else if(self.original_move_speed == "run")
+	{
 		damage = int(level.zombie_health/2) + 1;
+	}
 	else
-		damage = int(level.zombie_health + 1000);
+	{
+		damage = level.zombie_health + 1000;
+	}
 
 	//freezegun should kill in one shot on insta kill rounds
 	if(damage < 150)
@@ -333,11 +341,30 @@ freezegun_do_damage( upgraded, player, dist_ratio )
 		damage = 150;
 	}
 
-	self DoDamage( damage, player.origin, player, undefined, "projectile" );
-	
 	self freezegun_debug_print( damage, (0, 1, 0) );
+
+	self DoDamage( damage, player.origin, player, undefined, "projectile" );
+
+	//self thread freezegun_damage_over_time(upgraded, player, dist_ratio, damage);
 }
 
+freezegun_damage_over_time(upgraded, player, dist_ratio, damage)
+{
+	self endon("death");
+	self notify("freezegun_damage_over_time");
+	self endon("freezegun_damage_over_time");
+
+	time = 10;
+	if(upgraded)
+	{
+		time *= .5;
+	}
+
+	wait time;
+
+	self freezegun_damage_response( player, damage );
+	self freezegun_do_damage( upgraded, player, dist_ratio );
+}
 
 freezegun_set_extremity_damage_fx()
 {

@@ -111,6 +111,7 @@ rawfile,clientscripts/zombie_cod5_factory_teleporter.csc
 rawfile,clientscripts/zombie_theater_teleporter.csc
 rawfile,clientscripts/zombie_coast_player_zipline.csc
 rawfile,clientscripts/zombie_moon.csc
+rawfile,clientscripts/_sticky_grenade.csc
 
 //ANIMSCRIPTS
 rawfile,animscripts/zombie_melee.gsc

@@ -594,8 +594,6 @@ lander_buy_think()
 				 	level clientnotify("LLSS");
 				 	break;
 			}
-
-			wait .25;
 			        
 			self lander_take_off(call_box.destination);
 		}
@@ -728,11 +726,13 @@ lander_take_off(dest)
 	
 	//turn off lights on lander bases
 	lander_lights_red();	
-	
-	lander thread lock_players(dest);	
 
 	//cooldown
-	level notify("LU",lander.riders,self);	
+	level notify("LU",lander.riders,self);
+
+	wait .25;
+	
+	lander thread lock_players(dest);		
 	
 	// depart station for checking path
 	lander.depart_station = lander.station;

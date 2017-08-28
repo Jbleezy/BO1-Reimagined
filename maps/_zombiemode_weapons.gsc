@@ -2898,7 +2898,7 @@ treasure_chest_give_weapon( weapon_string )
 	}
 
 	self GiveWeapon( weapon_string, 0 );
-	self GiveMaxAmmo( weapon_string );
+	self GiveStartAmmo( weapon_string );
 	self SwitchToWeapon( weapon_string );
 
 	self play_weapon_vo(weapon_string);

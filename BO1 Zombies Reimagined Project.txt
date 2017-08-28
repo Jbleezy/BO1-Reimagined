@@ -21,6 +21,9 @@ Fixed a bug where two or more players could trigger a door that has multiple tri
 Chracters no longer make hurt sounds if you have Flopper and an explosion happens that would have hurt you
 Having too many weapons penalty has been changed to only take the weapon that the player shouldnt have (previously took all weapons and points)
 If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
+Players can now dolphin dive again right away after just dolphin diving
+Players can now move after dolphin diving quicker
+Dolphin dive startup time decreased
 
 HUD
 HUD items now have some distance away from the edge of the screen
@@ -238,6 +241,7 @@ Claymore
 Added placing sound
 
 Hacker
+Speed Cola no longer speeds up hack time
 Removed points reward given between rounds
 Hacking a Max Ammo gives a Perk Bottle
 Hacking a powerup will reset its timer
@@ -269,6 +273,7 @@ If a player has the P.E.S. suit on while taking a different piece of equipment, 
 
 Semtex
 Now cost 250 points to buy (previously 130 after first buy)
+Semtex beeping rate no longer changes depending on your FPS
 
 Stielhandgranate
 Now deals damage on impact
@@ -277,7 +282,7 @@ Wallbuys
 
 Multiple people can now buy Bowie Knife/Sickle at the same time
 Upgraded ammo cost reduced from 4500 points to 2500 points
-Claymores, Bouncing Betties, and Spikemores all require the player to be looking at the wallbuy to be able to buy them now
+Claymores, Bouncing Betties, and Spikemores now all require the player to be looking at the wallbuy to be able to buy them
 
 Mystery Box
 
@@ -592,9 +597,12 @@ Add collision boxes near invincibilty spots on maps
 Shang: while a weapon is in pack a punch, don't push the players out
 Disable bowie/sickle hintstrings whenever not usable
 Fix low grav with increased FPS
-Fix semtex beeps being linked to client FPS
 Fix excavator breached beeps being linked to client FPS
-Remove faster hack speed from Speed Cola
+Fix bug where first damage taken after being downed doesnt deal damage to player
+Make it easier to tell how many grenades you have on HUD
+Fix crossbow beeps being linked to FPS
+Make zombies hit by freezegun get damaged over time
+Change something about how Shang spikes kill zombies
 
 TESTING:
 Moon sidequest dialog in coop without Richtofen

@@ -103,25 +103,28 @@ initZipline ()
 	
 	//wait until powered up
 	zipPowerTrigger waittill("trigger", who);
+
+	iprintln("triggered");
 	
 	zipHintDeactivated = getent("zipline_deactivated_hint_trigger", "targetname");
 	zipHintDeactivated delete();
+
+	iprintln("change string");
+	array_thread (zipBuyTrigger,::zipThink);
 	
 	//wait for activation
 	zipPowerTrigger thread recallZipSwitch(180);
-	zipPowerTrigger waittill("recallLeverDone");
+	zipPowerTrigger delete ();
+	//zipPowerTrigger waittill("recallLeverDone");
+	wait .5;
 
 	// don't have german VO, so don't play it if german
 	if ( !is_german_build() )
 	{
 		who thread maps\_zombiemode_audio::create_and_play_dialog("level", "zipline");
 	}
-	
-	zipPowerTrigger delete ();
 
 	statictrig thread activateZip(undefined, who);
-
-	array_thread (zipBuyTrigger,::zipThink);
 
 	statictrig playsound ("platform_bang");
 	

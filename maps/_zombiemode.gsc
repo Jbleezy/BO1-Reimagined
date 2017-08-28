@@ -1609,6 +1609,10 @@ onPlayerConnect_clientDvars()
 
 	self SetClientDvar("cg_drawFPSLabels", 0); //makes FPS area in corner smaller
 
+	self SetClientDvars("dtp_post_move_pause", 0,
+		"dtp_exhaustion_window", 100,
+		"dtp_startup_delay", 100);
+
 	//self SetClientDvar("perk_weapSwitchMultiplier", ".5");
 
 	if(level.gamemode == "survival")
@@ -1769,7 +1773,7 @@ onPlayerSpawned()
 
 				//self thread player_health_watcher();
 				//self thread points_cap();
-				//self thread give_weapons_test();
+				self thread give_weapons_test();
 				//self thread button_pressed_test();
 				//self thread velocity_test();
 
@@ -4060,9 +4064,9 @@ round_think()
 {
 	for( ;; )
 	{
-		/*level.round_number = 100;
+		level.round_number = 100;
 		level.zombie_vars["zombie_spawn_delay"] = 0.08;
-		level.zombie_move_speed = 100;*/
+		level.zombie_move_speed = 100;
 
 		//////////////////////////////////////////
 		//designed by prod DT#36173
@@ -5111,7 +5115,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	//kino and ascension turrets
 	if(weapon == "zombie_bullet_crouch" && meansofdeath == "MOD_RIFLE_BULLET")
 	{
-		damage = int(self.maxhealth/3);
+		damage = int(self.maxhealth/3) + 1;
 		if(damage < 500)
 			damage = 500;
 	}
@@ -5433,7 +5437,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 				final_damage *= 3;
 			break;
 		case "stoner63_upgraded_zm":
-			final_damage = 225;
+			final_damage = 230;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 3;
 			break;
@@ -7835,11 +7839,11 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "base_entry_zone2")
 		{
-			name = "Power Building Lower";
+			name = "Lower Power Building";
 		}
 		else if(zone == "power_building")
 		{
-			name = "Power Building Upper";
+			name = "Upper Power Building";
 		}
 		else if(zone == "power_building_roof")
 		{

@@ -677,10 +677,10 @@ hacker_do_hack( hackable )
 	
 	hack_duration = hackable.script_float;
 
-	if(self hasperk( "specialty_fastreload"))
+	/*if(self hasperk( "specialty_fastreload"))
 	{
 		hack_duration *= 0.66;
-	}
+	}*/
 	
 	hack_duration = max(1.5, hack_duration);
 	
