@@ -224,6 +224,7 @@ Each shot slows down the enemy's move speed
 Kills enemies when they are at their slowest move speed (3 shots to kill sprinting enemies)
 Enemies will only be able to do slow hits after taking damage from the Winter's Howl
 Enemies crumple immediately after dying
+Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
 
 Wunderwaffe
 Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
@@ -601,12 +602,12 @@ Fix excavator breached beeps being linked to client FPS
 Fix bug where first damage taken after being downed doesnt deal damage to player
 Make it easier to tell how many grenades you have on HUD
 Fix crossbow beeps being linked to FPS
-Make zombies hit by freezegun get damaged over time
-Change something about how Shang spikes kill zombies
+Change something about how Shang spikes kill zombies (player has to be touching spikes for zombies to be killed?)
 
 TESTING:
 Moon sidequest dialog in coop without Richtofen
 Ceiling spawn cancels on Moon
+Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 
 MAYBE:
 Ascension: double tap obtainable from free perk powerup?

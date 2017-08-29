@@ -1,4 +1,4 @@
-{\rtf1\ansi\ansicpg1252\deff0\deflang1033\deflangfe1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}}
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033\deflangfe1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}{\f1\fnil\fcharset0 MS Mincho;}}
 {\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\sa200\sl276\slmult1\lang9\f0\fs22 BO1 Zombies Reimagined Project\par
 \par
 General\par
@@ -225,6 +225,7 @@ Each shot slows down the enemy's move speed\par
 Kills enemies when they are at their slowest move speed (3 shots to kill sprinting enemies)\par
 Enemies will only be able to do slow hits after taking damage from the Winter's Howl\par
 Enemies crumple immediately after dying\par
+Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill\lang1033\f1 )\lang9\f0\par
 \par
 Wunderwaffe\par
 Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)\par
@@ -602,12 +603,12 @@ Fix excavator breached beeps being linked to client FPS\par
 Fix bug where first damage taken after being downed doesnt deal damage to player\par
 Make it easier to tell how many grenades you have on HUD\par
 Fix crossbow beeps being linked to FPS\par
-Make zombies hit by freezegun get damaged over time\par
-Change something about how Shang spikes kill zombies\par
+Change something about how Shang spikes kill zombies (player has to be touching spikes for zombies to be killed?)\par
 \par
 TESTING:\par
 Moon sidequest dialog in coop without Richtofen\par
 Ceiling spawn cancels on Moon\par
+Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)\par
 \par
 MAYBE:\par
 Ascension: double tap obtainable from free perk powerup?\par

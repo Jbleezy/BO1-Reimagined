@@ -1600,8 +1600,9 @@ onPlayerConnect_clientDvars()
 	//self setclientdvar( "cg_drawfps", "1" );
 	self setClientDvar("cg_drawFriendlyFireCrosshair", "1");
 
-	self setClientDvar("cg_weaponCycleDelay", "100");
+	//self setClientDvar("cg_weaponCycleDelay", "100"); //added in menu options
 	
+	//TODO: check if I need both of these
 	self setClientDvar( "aim_lockon_pitch_strength", 0 );
 	self setClientDvar( "aim_automelee_enabled", 0 );
 
@@ -1609,20 +1610,22 @@ onPlayerConnect_clientDvars()
 
 	self SetClientDvar("cg_drawFPSLabels", 0); //makes FPS area in corner smaller
 
+	//self SetClientDvar("sv_cheats", 0); //uncomment on release
+
 	self SetClientDvars("dtp_post_move_pause", 0,
 		"dtp_exhaustion_window", 100,
 		"dtp_startup_delay", 100);
 
 	//self SetClientDvar("perk_weapSwitchMultiplier", ".5");
 
-	if(level.gamemode == "survival")
+	/*if(level.gamemode == "survival")
 	{
 		self SetClientDvar("hud_time_center_offset", 0);
 	}
 	else
 	{
 		self SetClientDvar("hud_time_center_offset", 12);
-	}
+	}*/
 
 	//self SetClientDvar("cg_drawpaused", 0);
 	
@@ -4297,10 +4300,11 @@ round_spawn_failsafe()
 			break;
 		}
 
-		if ( DistanceSquared( self.origin, prevorigin ) > 48*48 ) 
+		if ( DistanceSquared( self.origin, prevorigin ) > 48*48 && self.freezegun_damage == 0) 
 		{
 			prevorigin = self.origin;
 			time = GetTime();
+			continue;
 		}
 
 		if((GetTime() - time) < 30000)
@@ -4317,6 +4321,8 @@ round_spawn_failsafe()
 				level.zombie_total++;	
 			}
 		}
+
+		//iprintln("Zombie died due to failsafe.");
 		
 		//add this to the stats even tho he really didn't 'die' 
 		level.zombies_timeout_playspace++;
