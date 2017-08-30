@@ -72,14 +72,13 @@ fog_setting()
 
 	while(1)
 	{
-		if(GetDvarInt("r_fog_settings") == 1 && GetDvarInt("r_fog") != 1)
+		if(GetDvarInt("r_fog_settings") == GetDvarInt("r_fog"))
 		{
-			SetClientDvar("r_fog", 1);
+			wait .05;
+			continue;
 		}
-		else if(GetDvarInt("r_fog_settings") == 0 && GetDvarInt("r_fog") != 0)
-		{
-			SetClientDvar("r_fog", 0);
-		}
+		fog = GetDvarInt("r_fog_settings");
+		SetClientDvar("r_fog", fog);
 		wait .05;
 	}
 }

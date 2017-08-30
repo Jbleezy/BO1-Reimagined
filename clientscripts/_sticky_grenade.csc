@@ -58,24 +58,12 @@ loop_local_sound( localClientNum, alias, interval, fx ) // self == the grenade
 		self PlaySound( localClientNum, alias );
 		PlayFXOnTag( localClientNum, fx, self, self.fxTagName );
 
-		//wait(interval);
-		//real_wait_time(interval);
 		realwait(interval);
 		interval = (interval / 1.2);
 
-		if (interval < .1)
+		if (interval < .05)
 		{
-			interval = .1;
+			interval = .05;
 		}	
-	}
-}
-
-real_wait_time(time_ms)
-{
-	start_time = GetRealTime();
-
-	while(GetRealTime() - start_time <= time_ms)
-	{
-		realwait(.1);
 	}
 }

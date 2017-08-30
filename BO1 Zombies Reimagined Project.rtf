@@ -117,6 +117,9 @@ China Lake\par
 Time between shots reduced by 50%\par
 Time to start reload after last shot reduced by 50%\par
 \par
+Crossbow\par
+Crossbow bolt beeping rate no longer changes depending on your FPS\par
+\par
 CZ75 Dual Wield\par
 Upgraded: reduced recoil\par
 \par
@@ -426,6 +429,7 @@ Zombies flung now count as kills\par
 Spikes (Shangri-La)\par
 Deal 50 damage to players\par
 Kills zombies\par
+Spikes will not activate if the player is jumping over them\par
 \par
 Blockers\par
 \par
@@ -436,6 +440,8 @@ Barriers\par
 No longer have to hold use button in order to rebuild barriers, only press\par
 Speed Cola no longer increases speed of board repairs\par
 Fixed a bug where zombies would get stuck in a barrier if a board was repaired as the zombie was beginning to go over the barrier\par
+All zombies behind a barrer will now taunt correctly\par
+Zombies will no longer get stuck behind a barrier when there are many zombies behind one barrier\par
 \par
 Zombies\par
 \par
@@ -558,6 +564,8 @@ Fixed a bug that caused the amount of zombies on round 1 to be the amount of zom
 Teleporter gate doesn't start going down until power is on\par
 No Man's Land now displays a more accurate time of how long you survived\par
 When Tunnel 6 or Tunnel 11 are breached from an excavator, the areas with doors closed to the excavator will not get breached until the doors are opened\par
+Excavator sounds no longer linked to FPS\par
+Teleporter sounds no longer linked to FPS\par
  \par
 TODO:\par
 Fix alive players movement being stopped when other players spawn in (caused from .sessionstate)\par
@@ -599,11 +607,10 @@ Add collision boxes near invincibilty spots on maps\par
 Shang: while a weapon is in pack a punch, don't push the players out\par
 Disable bowie/sickle hintstrings whenever not usable\par
 Fix low grav with increased FPS\par
-Fix excavator breached beeps being linked to client FPS\par
 Fix bug where first damage taken after being downed doesnt deal damage to player\par
 Make it easier to tell how many grenades you have on HUD\par
-Fix crossbow beeps being linked to FPS\par
-Change something about how Shang spikes kill zombies (player has to be touching spikes for zombies to be killed?)\par
+Fix AK47 Flamethrower killing in high rounds\par
+Make napalm zombie kills from fire left behind count as kills for player who blew up the napalm\par
 \par
 TESTING:\par
 Moon sidequest dialog in coop without Richtofen\par
@@ -616,6 +623,8 @@ Shangri-La: should mud pit sidequest step need the radio to be activated to work
 Moon: should teleporter gate start going down before power is on?\par
 Should Skullcrusher grenade launcher be named "Grenade Launcher"?\par
 Should shotgun attachment on upgraded AUG have its name changed?\par
+Should zombies not double swipe if player doesnt have jug?\par
+Should there be a zombie spawn delay?\par
 \par
 'BUGS' THAT ARE NOT BEING FIXED:\par
 Insta kill rounds\par

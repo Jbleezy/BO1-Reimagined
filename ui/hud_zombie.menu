@@ -225,67 +225,6 @@
 			decoration
 		}
 
-		itemDef
-		{
-			name			"playername_white"
-			type            ITEM_TYPE_TEXT
-			rect			-163 0 60 40
-			exp				rect Y -93 - dvarInt( "hud_player_zm_name_offset_white" )
-			textscale		TEXTSIZE_DEFAULT
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textfont		UI_FONT_NORMAL
-			textalign		ITEM_ALIGN_RIGHT
-			forecolor		1 1 1 .8
-			exp text		( dvarString( "hud_player_zm_name_white" ) )
-			visible			when( dvarBool( "hud_player_zm_name_on_white" ) == 1 && dvarBool( "cl_paused" ) == 0 );
-			decoration
-		}
-		itemDef
-		{
-			name			"playername_blue"
-			type            ITEM_TYPE_TEXT
-			rect			-163 0 60 40
-			exp				rect Y -93 - dvarInt( "hud_player_zm_name_offset_blue" )
-			textscale		TEXTSIZE_DEFAULT
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textfont		UI_FONT_NORMAL
-			textalign		ITEM_ALIGN_RIGHT
-			forecolor		0.486275 0.811765 0.933333 .8
-			exp text		( dvarString( "hud_player_zm_name_blue" ) )
-			visible			when( dvarBool( "hud_player_zm_name_on_blue" ) == 1 && dvarBool( "cl_paused" ) == 0 );
-			decoration
-		}
-		itemDef
-		{
-			name			"playername_yellow"
-			type            ITEM_TYPE_TEXT
-			rect			-163 0 60 40
-			exp				rect Y -93 - dvarInt( "hud_player_zm_name_offset_yellow" )
-			textscale		TEXTSIZE_DEFAULT
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textfont		UI_FONT_NORMAL
-			textalign		ITEM_ALIGN_RIGHT
-			forecolor		0.964706 0.792157 0.313726 .8
-			exp text		( dvarString( "hud_player_zm_name_yellow" ) )
-			visible			when( dvarBool( "hud_player_zm_name_on_yellow" ) == 1 && dvarBool( "cl_paused" ) == 0 );
-			decoration
-		}
-		itemDef
-		{
-			name			"playername_green"
-			type            ITEM_TYPE_TEXT
-			rect			-163 0 60 40
-			exp				rect Y -93 - dvarInt( "hud_player_zm_name_offset_green" )
-			textscale		TEXTSIZE_DEFAULT
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textfont		UI_FONT_NORMAL
-			textalign		ITEM_ALIGN_RIGHT
-			forecolor		0.513726 0.92549 0.5333331 .8
-			exp text		( dvarString( "hud_player_zm_name_green" ) )
-			visible			when( dvarBool( "hud_player_zm_name_on_green" ) == 1 && dvarBool( "cl_paused" ) == 0 );
-			decoration
-		}
-
 		
 		#define FADE_IN_COLOR_WHITE 1 1 1 1 // color to fade in to (RGBA)
 		#define FADE_OUT_COLOR_WHITE 1 1 1 0 // color to fade out to (RGBA)
@@ -797,7 +736,70 @@
 			rect			0 0 100 0
 			ownerdraw		CG_COMPETITIVE_MODE_SCORES
 			visible			1
-		}		
+		}
+
+		itemDef
+		{
+			name			"playername_white"
+			type            ITEM_TYPE_TEXT
+			rect			-60 0 60 40
+			//rect			-163 0 60 40
+			exp				rect Y 9 - dvarInt( "hud_player_zm_name_offset_white" )
+			//exp				rect Y -93 - dvarInt( "hud_player_zm_name_offset_white" )
+			textscale		TEXTSIZE_DEFAULT
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			textalign		ITEM_ALIGN_RIGHT
+			forecolor		1 1 1 .8
+			exp text		( dvarString( "hud_player_zm_name_white" ) )
+			visible			when( dvarBool( "hud_player_zm_name_on_white" ) == 1 && dvarBool( "cl_paused" ) == 0 );
+			decoration
+		}
+		itemDef
+		{
+			name			"playername_blue"
+			type            ITEM_TYPE_TEXT
+			rect			-60 0 60 40
+			exp				rect Y 9 - dvarInt( "hud_player_zm_name_offset_blue" )
+			textscale		TEXTSIZE_DEFAULT
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			textalign		ITEM_ALIGN_RIGHT
+			forecolor		0.486275 0.811765 0.933333 .8
+			exp text		( dvarString( "hud_player_zm_name_blue" ) )
+			visible			when( dvarBool( "hud_player_zm_name_on_blue" ) == 1 && dvarBool( "cl_paused" ) == 0 );
+			decoration
+		}
+		itemDef
+		{
+			name			"playername_yellow"
+			type            ITEM_TYPE_TEXT
+			rect			-60 0 60 40
+			exp				rect Y 9 - dvarInt( "hud_player_zm_name_offset_yellow" )
+			textscale		TEXTSIZE_DEFAULT
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			textalign		ITEM_ALIGN_RIGHT
+			forecolor		0.964706 0.792157 0.313726 .8
+			exp text		( dvarString( "hud_player_zm_name_yellow" ) )
+			visible			when( dvarBool( "hud_player_zm_name_on_yellow" ) == 1 && dvarBool( "cl_paused" ) == 0 );
+			decoration
+		}
+		itemDef
+		{
+			name			"playername_green"
+			type            ITEM_TYPE_TEXT
+			rect			-60 0 60 40
+			exp				rect Y 9 - dvarInt( "hud_player_zm_name_offset_green" )
+			textscale		TEXTSIZE_DEFAULT
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			textalign		ITEM_ALIGN_RIGHT
+			forecolor		0.513726 0.92549 0.5333331 .8
+			exp text		( dvarString( "hud_player_zm_name_green" ) )
+			visible			when( dvarBool( "hud_player_zm_name_on_green" ) == 1 && dvarBool( "cl_paused" ) == 0 );
+			decoration
+		}
     }
 
 	menuDef

@@ -73,12 +73,20 @@ spear_trap_think()
 		{
 			continue;
 		}
+
+		wait .1;
+
+		if(!who IsTouching(self))
+		{
+			continue;
+		}
+
+		wait .3;
 		
 		for(i=0;i<3;i++)
 		{
-			wait .4;//Delay allows players to sprint across
 			self thread spear_trap_activate_spears( i, who );	//Collin A. - Added i as a value so I could tell whether or not it was the first raise
-			wait 2.0; //Allow time for spears to reset
+			wait 2.4; //Allow time for spears to reset
 		}
 	}
 }
@@ -127,11 +135,11 @@ delayed_spikes_close_vox()
 
 spear_damage_character(char, activator)
 {
-	char thread spear_trap_slow(activator);
+	char thread spear_trap_slow(activator, self);
 }
 
 #using_animtree( "generic_human" );
-spear_trap_slow(activator)
+spear_trap_slow(activator, trap)
 {
 	self endon("death");
 	

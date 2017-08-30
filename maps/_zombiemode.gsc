@@ -4322,7 +4322,7 @@ round_spawn_failsafe()
 			}
 		}
 
-		//iprintln("Zombie died due to failsafe.");
+		//iprintln("Zombie died due to failsafe at: " + self.origin);
 		
 		//add this to the stats even tho he really didn't 'die' 
 		level.zombies_timeout_playspace++;
@@ -8201,7 +8201,8 @@ increase_revive_radius()
 
 give_weapons_test()
 {
-	wep = "freezegun_zm";
+	//wep = "freezegun_zm";
+	wep = "thundergun_zm";
 	self GiveWeapon(wep);
 	self GiveMaxAmmo(wep);
 	wait_network_frame();

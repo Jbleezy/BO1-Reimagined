@@ -344,26 +344,6 @@ freezegun_do_damage( upgraded, player, dist_ratio )
 	self freezegun_debug_print( damage, (0, 1, 0) );
 
 	self DoDamage( damage, player.origin, player, undefined, "projectile" );
-
-	//self thread freezegun_damage_over_time(upgraded, player, dist_ratio, damage);
-}
-
-freezegun_damage_over_time(upgraded, player, dist_ratio, damage)
-{
-	self endon("death");
-	self notify("freezegun_damage_over_time");
-	self endon("freezegun_damage_over_time");
-
-	time = 10;
-	if(upgraded)
-	{
-		time *= .5;
-	}
-
-	wait time;
-
-	self freezegun_damage_response( player, damage );
-	self freezegun_do_damage( upgraded, player, dist_ratio );
 }
 
 freezegun_set_extremity_damage_fx()

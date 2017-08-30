@@ -617,29 +617,7 @@ zombie_goto_entrance( node, endon_bad_path )
 
 	self.got_to_entrance = false;
 
-	zombs = GetAiSpeciesArray( "axis", "all" );
-	zombs_behind_window = [];
-	for(i=0;i<zombs.size;i++)
-	{
-		if(zombs[i] != self && IsDefined(zombs[i].first_node) && zombs[i].first_node == self.first_node)
-		{
-			zombs_behind_window[zombs_behind_window.size] = zombs[i];
-		}
-	}
-	
-	// This is the goal radius while the zombies search for a window to attack
-	if(zombs_behind_window.size < 3)
-	{
-		self.goalradius = 128;
-	}
-	if(zombs_behind_window.size < 10)
-	{
-		self.goalradius = 192;
-	}
-	else
-	{
-		self.goalradius = 256;
-	}
+	self.goalradius = 32 + RandomInt(97);
 
 	self SetGoalPos( node.origin );
 	self waittill( "goal" ); 
@@ -924,8 +902,8 @@ tear_into_building()
 			//Print3d(self.origin+(0,0,70), "Hey I am waiting to attack, play random " );
 			//Print3d(self.origin+(0,0,70), "Hey I am waiting to attack", ( 1, 0.8, 0.5), 1, 1, 5);
 			//IPrintLnBold( "Hey I am waiting to attack " );
-			self thread  do_a_taunt();
-			wait( 0.5 );
+			self do_a_taunt();
+			//wait( 1 );
 			continue;
 		}
 		
@@ -1069,7 +1047,8 @@ do a taunt when tearing thru the boards
 ------------------------------------*/
 do_a_taunt()
 {
-	self endon ("death"); // Jluyties 02/16/10 added death check, cause of crash 
+	self endon ("death"); // Jluyties 02/16/10 added death check, cause of crash
+
 	if( !self.has_legs)
 	{
 		return false;
