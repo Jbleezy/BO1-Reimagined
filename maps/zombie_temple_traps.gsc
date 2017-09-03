@@ -155,7 +155,7 @@ spear_trap_slow(activator, trap)
 		if(is_player_valid(self))
 		{
 			self thread maps\_zombiemode_audio::create_and_play_dialog( "general", "spikes_damage" );
-			self thread _fake_red();
+			//self thread _fake_red();
 			self DoDamage(155, self.origin);
 			//iprintln(self.health);
 		}

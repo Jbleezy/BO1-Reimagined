@@ -139,6 +139,8 @@ MeleeCombat()
 		}
 
 		self SetFlaggedAnimKnobAllRestart("meleeanim", zombie_attack, %body, 1, .2, 1);
+
+		attack_times = 0;
 		
 		while ( 1 )
 		{
@@ -149,6 +151,21 @@ MeleeCombat()
 			}
 			else if ( note == "fire" )
 			{
+				//fix for stupid melee anim
+				if(zombie_attack == level._zombie_melee["zombie"][2])
+				{
+					if(attack_times >= 1)
+					{
+						break;
+					}
+					wait .5;
+					attack_times++;
+				}
+				else if(zombie_attack == level._zombie_run_melee["zombie"][2])
+				{
+					wait .5;
+				}
+
 				if ( !IsDefined( self.enemy ) )
 				{
 					break;
@@ -156,6 +173,12 @@ MeleeCombat()
 					
 				oldhealth = self.enemy.health;
 				self melee();
+
+				//fix for stupid melee anim
+				if(zombie_attack == level._zombie_melee["zombie"][2])
+				{
+					self thread melee_after_delay();
+				}
 
 				if ( self.enemy.health < oldhealth )
 				{
@@ -224,6 +247,12 @@ MeleeCombat()
 	/#
 	self animscripts\debug::debugPopState();
 	#/
+}
+
+melee_after_delay()
+{
+	wait .5;
+	self Melee();
 }
 
 resetGiveUpTime()
@@ -723,7 +752,7 @@ pick_zombie_melee_anim( zombie_guy )
 			case "sprint":
 				anims = array_combine(level._zombie_melee[zombie_guy.animname],level._zombie_run_melee[zombie_guy.animname]);
 				melee_anim = random(anims);
-				break;			
+				break;
 		}
 	}
 	else if(zombie_guy.a.gib_ref == "no_legs")

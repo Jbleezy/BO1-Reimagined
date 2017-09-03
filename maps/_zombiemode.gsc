@@ -1154,7 +1154,7 @@ init_standard_zombie_anims()
 
 	level._zombie_melee["zombie"][0] 				= %ai_zombie_attack_v2;				// slow swipes
 	level._zombie_melee["zombie"][1]				= %ai_zombie_attack_v4;				// single left swipe
-	level._zombie_melee["zombie"][2]				= %ai_zombie_attack_v6;				// wierd single
+	level._zombie_melee["zombie"][2]				= %ai_zombie_attack_v6;				// wierd double swipe
 	level._zombie_melee["zombie"][3] 				= %ai_zombie_attack_v1;				// DOUBLE SWIPE
 	level._zombie_melee["zombie"][4] 				= %ai_zombie_attack_forward_v1;		// DOUBLE SWIPE
 	level._zombie_melee["zombie"][5] 				= %ai_zombie_attack_forward_v2;		// slow DOUBLE SWIPE
@@ -3351,10 +3351,21 @@ round_spawning()
 //	while( level.zombie_total > 0 )
 	while( 1 )
 	{
-		while( get_enemy_count() >= level.zombie_ai_limit || level.zombie_total <= 0 )
+		while( level.zombie_total <= 0 )
 		{
 			wait( 0.1 );
 		}
+
+		if(get_enemy_count() >= level.zombie_ai_limit)
+		{
+			while(get_enemy_count() >= level.zombie_ai_limit)
+			{
+				wait .1;
+			}
+			//wait 1;
+		}
+
+		//iprintln("spawn");
 
 		// added ability to pause zombie spawning
 		if ( !flag("spawn_zombies" ) )
@@ -4067,8 +4078,8 @@ round_think()
 {
 	for( ;; )
 	{
-		level.round_number = 100;
-		level.zombie_vars["zombie_spawn_delay"] = 0.08;
+		//level.round_number = 100;
+		level.zombie_vars["zombie_spawn_delay"] = .08;
 		level.zombie_move_speed = 100;
 
 		//////////////////////////////////////////
@@ -4322,7 +4333,10 @@ round_spawn_failsafe()
 			}
 		}
 
-		//iprintln("Zombie died due to failsafe at: " + self.origin);
+		if(self.freezegun_damage == 0)
+		{
+			iprintln("Zombie died due to failsafe at: " + self.origin);
+		}
 		
 		//add this to the stats even tho he really didn't 'die' 
 		level.zombies_timeout_playspace++;
@@ -5601,6 +5615,12 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		{
 			self.attacker = attacker;
 		}
+
+		//monkeys no longer count as kills
+		if(level.script == "zombie_temple" && self.animname == "monkey_zombie")
+		{
+			attacker.kills--;
+		}
 	}
 
 	if(sWeapon == "zombie_bullet_crouch" && sMeansofdeath == "MOD_RIFLE_BULLET")
@@ -5618,6 +5638,11 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 			turret = level.auto_turret_array[0];
 		if(IsDefined(turret.owner))
 			turret.owner.kills++;
+	}
+
+	if(sMeansOfDeath == "MOD_IMPACT" && (sWeapon == "sniper_explosive_zm" || sWeapon == "sniper_explosive_upgraded_zm"))
+	{
+		self.no_powerups = true;
 	}
 
 	if(is_true(self.is_ziplining))
@@ -7813,7 +7838,7 @@ choose_zone_name(zone, current_name)
 		}
 		else if(zone == "centrifuge_zone2")
 		{
-			name = "Centrifuge Top";
+			name = "Upper Centrifuge";
 		}
 		else if(zone == "access_tunnel_zone")
 		{
@@ -8202,11 +8227,16 @@ increase_revive_radius()
 give_weapons_test()
 {
 	//wep = "freezegun_zm";
-	wep = "thundergun_zm";
+	//wep = "thundergun_zm";
+	wep = "sniper_explosive_zm";
 	self GiveWeapon(wep);
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
 	self SwitchToWeapon(wep);
+
+	wait 5;
+
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", self.origin, true );
 }
 
 remove_idle_sway() //removes idle sway on sniper scopes

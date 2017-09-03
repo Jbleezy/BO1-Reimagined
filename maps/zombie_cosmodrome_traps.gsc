@@ -708,7 +708,8 @@ centrifuge_random()
 			level waittill( "between_round_over" ); // this will wait for the next time a round starts
 		}*/
 		
-		wait( RandomIntRange( 24, 90 ) );
+		//wait( RandomIntRange( 24, 90 ) );
+		wait( RandomIntRange( 48, 180 ) );
 		
 		// figure out the roatation amount
 		rotation_amount = RandomIntRange( 3, 7 ) * 360;

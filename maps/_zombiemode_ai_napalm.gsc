@@ -573,9 +573,12 @@ _zombie_ExplodeNearPlayers()
 			wait time/animScale;
 	
 			napalm_clear_radius_fx_all_players();
-			
-			//Kill self if close to player
+
 			self.killed_self = true;
+
+			self.player_who_exploded_napalm = player;
+			player.kills++;
+
 			self dodamage(self.health + 666, self.origin);
 			return;
 		}
@@ -605,9 +608,19 @@ napalm_zombie_death()
 
 	self thread napalm_delay_delete();
 
+	attacker = undefined;
+	if(IsDefined(self.player_who_exploded_napalm))
+	{
+		attacker = self.player_who_exploded_napalm;
+	}
+	else if(isDefined(self.attacker) && isPlayer(self.attacker) && !is_true(self.killed_self))
+	{
+		attacker = self.attacker;
+	}
+
 	if(!self napalm_standing_in_water(true))
 	{
-		level thread napalm_fire_trigger( self, 80, 20, false );
+		level thread napalm_fire_trigger( self, 80, 20, false, attacker );
 	}
 
 	self thread _napalm_damage_zombies(zombies);
@@ -618,6 +631,7 @@ napalm_zombie_death()
 	//(No reward if the napalm explodes himself or if he is shrunk)
 	if( isDefined(self.attacker) && isPlayer(self.attacker) && !is_true(self.killed_self) && !is_true(self.shrinked) )
 	{
+		self.trigger.attacker = self.attacker;
 		players = get_players();
 		for(i=0;i<players.size;i++)
 		{
@@ -697,6 +711,18 @@ _napalm_damage_zombies(zombies)
 		if( refs.size )
 		{
 			zombies[i].a.gib_ref = random( refs ); 
+		}
+
+		if(self.animname != "monkey_zombie")
+		{
+			if(IsDefined(self.player_who_exploded_napalm))
+			{
+				self.player_who_exploded_napalm.kills++;
+			}
+			else if( isDefined(self.attacker) && isPlayer(self.attacker) && !is_true(self.killed_self) )
+			{
+				self.attacker.kills++;
+			}
 		}
 
 		zombies[i] DoDamage( zombies[i].health + 666, damageOrigin);
@@ -807,7 +833,7 @@ _napalm_damage_players()
 	}
 }
 
-napalm_fire_trigger( ai, radius, time, spawnFire )
+napalm_fire_trigger( ai, radius, time, spawnFire, attacker )
 {
 	aiIsNapalm = ai.animname == "napalm_zombie";
 	if(!aiIsNapalm)
@@ -853,7 +879,7 @@ napalm_fire_trigger( ai, radius, time, spawnFire )
 		}
 	}
 	
-	trigger thread triggerDamage();
+	trigger thread triggerDamage(attacker);
 	
 	wait(time);
 	trigger notify("end_fire_effect");
@@ -867,7 +893,7 @@ napalm_fire_trigger( ai, radius, time, spawnFire )
 	}
 }
 
-triggerDamage()
+triggerDamage(attacker)
 {
 	self endon("end_fire_effect");
 	
@@ -891,13 +917,13 @@ triggerDamage()
 			}
 		}
 		else if(guy.animname != "napalm_zombie")
-		{	
-			guy thread kill_with_fire(self.napalm_fire_damage_type);
+		{
+			guy thread kill_with_fire(self.napalm_fire_damage_type, attacker);
 		}
 	}
 }
 
-kill_with_fire(damageType)
+kill_with_fire(damageType, attacker)
 {
 	self endon("death");
 	
@@ -921,6 +947,31 @@ kill_with_fire(damageType)
 			self playsound("evt_zombie_ignite");
 			self thread animscripts\zombie_death::flame_death_fx();
 			wait( randomfloat(1.25) );
+		}
+	}	
+
+	if(self.animname != "monkey_zombie")
+	{
+		if(IsDefined(attacker))
+		{
+			attacker.kills++;
+		}
+		else
+		{
+			players = get_players();
+			closest = players[0];
+			distance = DistanceSquared(self.origin, players[0].origin);
+			for(j=1;j<players.size;j++)
+			{
+				new_dist = DistanceSquared(self.origin, players[j].origin);
+				if(new_dist < distance)
+				{
+					distance = new_dist;
+					closest = players[j];
+				}
+			}
+
+			closest.kills++;
 		}
 	}
 

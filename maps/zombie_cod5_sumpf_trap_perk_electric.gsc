@@ -403,7 +403,7 @@ zombie_elec_death(flame_chance, who)
 		self thread zombie_flame_watch();
 		self playsound("ignite");
 		self thread animscripts\zombie_death::flame_death_fx();
-		wait(randomfloat(1.25));		
+		//wait(randomfloat(1.25));		
 	}
 	else
 	{
@@ -428,7 +428,7 @@ zombie_elec_death(flame_chance, who)
 			
 			self thread play_elec_vocals();
 		}
-		wait(randomfloat(1.25));
+		//wait(randomfloat(1.25));
 		self playsound("zmb_zombie_arc");
 	}
 

@@ -247,7 +247,7 @@
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_BOTTOM_LEFT
 			exp text 			(dvarString("zone_name"))
-			visible				1
+			visible				when( dvarBool( "hud_zone_name_on" ) )
 			decoration
 
 			state
@@ -273,7 +273,7 @@
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_LEFT
 			exp text 			("Zombies Remaining: " + dvarString("zombs_remaining"))
-			visible				1
+			visible				when( dvarBool( "hud_zombs_remaining_on" ) )
 			decoration
 		}
 
@@ -291,7 +291,7 @@
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_RIGHT
 			exp text 			("Time: " + dvarString("total_time"))
-			visible				1
+			visible				when( dvarBool( "hud_time_on" ) )
 			decoration
 		}
 
@@ -312,7 +312,7 @@
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_RIGHT
 			exp text 			("Round Time: " + dvarString("round_time"))
-			visible				1
+			visible				when( dvarBool( "hud_time_on" ) )
 			decoration
 
 			state
@@ -339,7 +339,7 @@
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_RIGHT
 			exp text 			("Total Time: " + dvarString("round_total_time"))
-			visible				1
+			visible				when( dvarBool( "hud_time_on" ) )
 			decoration
 
 			state
@@ -752,7 +752,7 @@
 			textalign		ITEM_ALIGN_RIGHT
 			forecolor		1 1 1 .8
 			exp text		( dvarString( "hud_player_zm_name_white" ) )
-			visible			when( dvarBool( "hud_player_zm_name_on_white" ) == 1 && dvarBool( "cl_paused" ) == 0 );
+			visible			when( dvarBool( "hud_player_zm_name_on_white" ) == 1 && dvarBool( "cl_paused" ) == 0 && dvarBool("hud_playernames_on") );
 			decoration
 		}
 		itemDef
@@ -767,7 +767,7 @@
 			textalign		ITEM_ALIGN_RIGHT
 			forecolor		0.486275 0.811765 0.933333 .8
 			exp text		( dvarString( "hud_player_zm_name_blue" ) )
-			visible			when( dvarBool( "hud_player_zm_name_on_blue" ) == 1 && dvarBool( "cl_paused" ) == 0 );
+			visible			when( dvarBool( "hud_player_zm_name_on_blue" ) == 1 && dvarBool( "cl_paused" ) == 0 && dvarBool("hud_playernames_on") );
 			decoration
 		}
 		itemDef
@@ -782,7 +782,7 @@
 			textalign		ITEM_ALIGN_RIGHT
 			forecolor		0.964706 0.792157 0.313726 .8
 			exp text		( dvarString( "hud_player_zm_name_yellow" ) )
-			visible			when( dvarBool( "hud_player_zm_name_on_yellow" ) == 1 && dvarBool( "cl_paused" ) == 0 );
+			visible			when( dvarBool( "hud_player_zm_name_on_yellow" ) == 1 && dvarBool( "cl_paused" ) == 0 && dvarBool("hud_playernames_on") );
 			decoration
 		}
 		itemDef
@@ -797,7 +797,7 @@
 			textalign		ITEM_ALIGN_RIGHT
 			forecolor		0.513726 0.92549 0.5333331 .8
 			exp text		( dvarString( "hud_player_zm_name_green" ) )
-			visible			when( dvarBool( "hud_player_zm_name_on_green" ) == 1 && dvarBool( "cl_paused" ) == 0 );
+			visible			when( dvarBool( "hud_player_zm_name_on_green" ) == 1 && dvarBool( "cl_paused" ) == 0 && dvarBool("hud_playernames_on") );
 			decoration
 		}
     }

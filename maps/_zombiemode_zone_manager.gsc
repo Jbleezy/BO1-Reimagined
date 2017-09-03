@@ -88,10 +88,10 @@ get_players_in_zone( zone_name )
 player_in_zone( zone_name )
 {
 	// If the zone hasn't been enabled, don't even bother checking
-	if ( !zone_is_enabled( zone_name ) )
+	/*if ( !zone_is_enabled( zone_name ) )
 	{
 		return false;
-	}
+	}*/
 	zone = level.zones[ zone_name ];
 
 	// Okay check to see if a player is in one of the zone volumes
@@ -616,10 +616,10 @@ manage_zones( initial_zone )
 		for( z=0; z<zkeys.size; z++ )
 		{
 			zone = level.zones[ zkeys[z] ];
-			if ( !zone.is_enabled )
+			/*if ( !zone.is_enabled )
 			{
 				continue;
-			}
+			}*/
 
 			zone.is_occupied = player_in_zone( zkeys[z] );
 			if ( zone.is_occupied )
@@ -676,7 +676,7 @@ create_spawner_list( zkeys )
 	{
 		zone = level.zones[ zkeys[z] ];
 
-		if ( zone.is_enabled && zone.is_active )
+		if ( (zone.is_enabled && zone.is_active) || zone.is_occupied )
 		{
 			//DCS: check to see if zone is setup for random spawning.
 			if(IsDefined(level.random_spawners) && level.random_spawners == true)

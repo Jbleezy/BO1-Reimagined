@@ -2972,10 +2972,12 @@ zombie_gib_on_damage()
 		if( !self.gibbed )
 		{
 			// The head_should_gib() above checks for this, so we should not randomly gib if shot in the head
-			if( self animscripts\utility::damageLocationIsAny( "head", "helmet", "neck" ) )
+			if( self animscripts\utility::damageLocationIsAny( "head", "helmet", "neck" ) && type != "MOD_MELEE" )
 			{
 				continue;
 			}
+
+
 
 			refs = []; 
 			switch( self.damageLocation )
@@ -3049,12 +3051,21 @@ zombie_gib_on_damage()
 				}
 				else
 				{
-					refs[refs.size] = "guts";
-					refs[refs.size] = "right_arm"; 
-					refs[refs.size] = "left_arm"; 
-					refs[refs.size] = "right_leg"; 
-					refs[refs.size] = "left_leg"; 
-					refs[refs.size] = "no_legs"; 
+					if(type == "MOD_MELEE")
+					{
+						refs[refs.size] = "guts";
+						refs[refs.size] = "right_arm"; 
+						refs[refs.size] = "left_arm"; 
+					}
+					else
+					{
+						refs[refs.size] = "guts";
+						refs[refs.size] = "right_arm"; 
+						refs[refs.size] = "left_arm"; 
+						refs[refs.size] = "right_leg"; 
+						refs[refs.size] = "left_leg"; 
+						refs[refs.size] = "no_legs"; 
+					}
 					break; 
 				}
 			}
@@ -3199,11 +3210,7 @@ zombie_should_gib( amount, attacker, type )
 		case "MOD_BURNED":	
 			return false; 
 		case "MOD_MELEE":	
-		if((IsDefined(attacker._bowie_zm_equipped) && attacker._bowie_zm_equipped) || (IsDefined( attacker._sickle_zm_equipped ) && attacker._sickle_zm_equipped))
-		{
-			return true;
-		}
-		else
+		if(!((IsDefined(attacker._bowie_zm_equipped) && attacker._bowie_zm_equipped) || (IsDefined( attacker._sickle_zm_equipped ) && attacker._sickle_zm_equipped)))
 		{
 			return false;
 		}
@@ -3592,7 +3599,7 @@ damage_on_fire( player )
 	
 	while( isdefined( self.is_on_fire) && self.is_on_fire )
 	{
-		if( level.round_number < 6 )
+		/*if( level.round_number < 6 )
 		{
 			dmg = level.zombie_health * RandomFloatRange( 0.2, 0.3 ); // 20% - 30%
 		}
@@ -3607,7 +3614,9 @@ damage_on_fire( player )
 		else
 		{
 			dmg = level.zombie_health * RandomFloatRange( 0.1, 0.15 );
-		}
+		}*/
+
+		dmg = 500;
 
 		if ( Isdefined( player ) && Isalive( player ) )
 		{

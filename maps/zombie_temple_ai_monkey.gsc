@@ -1344,7 +1344,7 @@ _monkey_gib()
 _monkey_TempleFling( player )
 {
 	self.do_gib_death = true;
-	self DoDamage( self.health + 666, self.origin, player); 
+	self DoDamage( self.health + 666, self.origin); 
 }
 
 _monkey_TempleSliding( slide_node )

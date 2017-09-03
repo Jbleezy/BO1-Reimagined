@@ -105,19 +105,25 @@
 		//FRAME_CHOICE_DVARFLOATLIST_VIS( 23, "@MENU_MATURE_CAPS", cg_mature, { "@MENU_MATURE_UNRESTRICTED_CAPS" 0 "@MENU_MATURE_UNRESTRICTED_CAPS" 1 }, setdvar cg_blood "0", ( dvarString( "cg_mature" ) == "1" && dvarBool(cg_allow_mature) && !dvarBool(ui_multiplayer) && SHOW_MATURE ) )
    		FRAME_CHOICE_DVARFLOATLIST_VIS( 23, "@MENU_MATURE_CAPS", cg_blood, { "@MENU_MATURE_UNRESTRICTED_CAPS" 1 "@MENU_MATURE_REDUCED_CAPS" 0 }, ;, ( dvarBool(cg_allow_mature) && !dvarBool(ui_multiplayer) && SHOW_MATURE ) )
 
-   		FRAME_CHOICE_DVARFLOATLIST_VIS( 24, "MAX FPS", com_maxfps, { "60" 60 "90" 90 "120" 120 "180" 180 "240" 240 "360" 360 "500" 500 "750" 750 "1000" 1000 "UNLIMITED" 0 }, ;, 1 )
-   		FRAME_CHOICE_DVARYESNO_VIS( 25, "FOG", r_fog_settings, ;, 1) //setdvar r_fog dvarbool("r_fog_settings")
-		FRAME_CHOICE_DVARFLOATLIST_VIS( 26, "WEAPON CYCLE DELAY", cg_weaponCycleDelay, { "YES" 100 "NO" 0 }, ;, 1)
+   		FRAME_CHOICE_DVARFLOATLIST_VIS( 24, "@PLATFORM_FOV_CAPS", cg_fov_settings, { "65" 65 "70" 70 "75" 75 "80" 80 "85" 85 "90" 90 "95" 95 "100" 100 "105" 105 "110" 110 "115" 115 "120" 120 }, ;, 1 )
+   		FRAME_CHOICE_DVARSTRINGLIST_VIS( 25, "SHOW FPS", cg_drawFPS, { "@MENU_YES_CAPS"; "Simple"; "@MENU_NO_CAPS"; "Off" }, ;, 1)
+   		FRAME_CHOICE_DVARFLOATLIST_VIS( 26, "MAX FPS", com_maxfps, { "60" 60 "90" 90 "120" 120 "180" 180 "240" 240 "360" 360 "500" 500 "750" 750 "1000" 1000 "UNLIMITED" 0 }, ;, 1 )
+   		FRAME_CHOICE_DVARYESNO_VIS( 27, "FOG", r_fog_settings, ;, 1) //setdvar r_fog dvarbool("r_fog_settings")
+		FRAME_CHOICE_DVARFLOATLIST_VIS( 28, "WEAPON CYCLE DELAY", cg_weaponCycleDelay, { "@MENU_YES_CAPS" 100 "@MENU_NO_CAPS" 0 }, ;, 1)
 
-   		FRAME_CHOICE_DVARFLOATLIST_VIS( 27, "@PLATFORM_FOV_CAPS", cg_fov_settings, { "65" 65 "70" 70 "75" 75 "80" 80 "85" 85 "90" 90 "95" 95 "100" 100 "105" 105 "110" 110 "115" 115 "120" 120 }, ;, 1 )
-		FRAME_CHOICE_DVARSTRINGLIST_VIS( 28, "SHOW FPS", cg_drawFPS, { "YES"; "Simple"; "NO"; "Off" }, ;, 1)
+		#undef	CHOICE_TEXT_COLOR_HL
+		#define	CHOICE_TEXT_COLOR_HL			0 0 0 1
+		FRAME_CHOICE_BUTTON_VIS( 29, "HUD OPTIONS", setdvar ui_options_game_pupup "hud_options"; open mature_content_pc_disable_warning, 1 )
+		#undef	CHOICE_TEXT_COLOR_HL
+		#define	CHOICE_TEXT_COLOR_HL			1 1 1 1
 
-		FRAME_CHOICE_SECTION_TITLE( 29, "HOST ONLY" )
+		FRAME_CHOICE_SECTION_TITLE( 30, "HOST ONLY" )
 
-		FRAME_CHOICE_DVARSTRINGLIST_VIS( 30, "GAMEMODE", zm_gamemode, { "SURVIVAL"; "survival"; "RANDOM"; "random"; "GRIEF"; "grief"; "FFA GRIEF"; "ffa"; "SEARCH & REZURRECT"; "snr"; "CAPTURE"; "ctf"; "KING OF THE HILL"; "koth"; "GUN GAME"; "gg"; "RACE"; "race"; "TURNED"; "turned" }, ;, 1)
-		FRAME_CHOICE_DVARYESNO_VIS( 31, "CHARACTER DIALOG", character_dialog, ;, 1)
-		FRAME_CHOICE_DVARYESNO_VIS( 32, "MULE KICK", mule_kick_enabled, ;, 1)
-		FRAME_CHOICE_DVARSTRINGLIST_VIS( 33, "VERRUCKT: START ROOM", asylum_start_room, { "QUICK REVIVE SIDE"; "revive"; "JUGGERNOG SIDE"; "jug" }, ;, 1)
+		FRAME_CHOICE_DVARSTRINGLIST_VIS( 31, "GAMEMODE", zm_gamemode, { "SURVIVAL"; "survival"; "RANDOM"; "random"; "GRIEF"; "grief"; "FFA GRIEF"; "ffa"; "SEARCH & REZURRECT"; "snr"; "CAPTURE"; "ctf"; "KING OF THE HILL"; "koth"; "GUN GAME"; "gg"; "RACE"; "race"; "TURNED"; "turned" }, ;, 1)
+		FRAME_CHOICE_DVARYESNO_VIS( 32, "CHARACTER DIALOG", character_dialog, ;, 1)
+		FRAME_CHOICE_DVARYESNO_VIS( 33, "MULE KICK", mule_kick_enabled, ;, 1)
+
+		/*FRAME_CHOICE_DVARSTRINGLIST_VIS( 33, "VERRUCKT: START ROOM", asylum_start_room, { "QUICK REVIVE SIDE"; "revive"; "JUGGERNOG SIDE"; "jug" }, ;, 1)
 
 		FRAME_CHOICE_DVARSTRINGLIST_VIS( 34, "FIVE: DISABLED WINDOW 1", zombie_pentagon_disabled_window1, { "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, ;, (dvarString("zombie_pentagon_disabled_window2") == "random"))
 		FRAME_CHOICE_DVARSTRINGLIST_VIS( 34, "FIVE: DISABLED WINDOW 1", zombie_pentagon_disabled_window1, { "RANDOM"; "random"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, ;, (dvarString("zombie_pentagon_disabled_window2") == "conference_ne"))
@@ -134,14 +140,15 @@
 		FRAME_CHOICE_DVARSTRINGLIST_VIS( 35, "FIVE: DISABLED WINDOW 2", zombie_pentagon_disabled_window2, { "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, ;, (dvarString("zombie_pentagon_disabled_window1") == "conference_sw"))
 		FRAME_CHOICE_DVARSTRINGLIST_VIS( 35, "FIVE: DISABLED WINDOW 2", zombie_pentagon_disabled_window2, { "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY WEST"; "hallway_w" }, ;, (dvarString("zombie_pentagon_disabled_window1") == "hallway_e"))
 		FRAME_CHOICE_DVARSTRINGLIST_VIS( 35, "FIVE: DISABLED WINDOW 2", zombie_pentagon_disabled_window2, { "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e" }, ;, (dvarString("zombie_pentagon_disabled_window1") == "hallway_w"))
-		//FRAME_CHOICE_DVARYESNO_VIS( 30, "MOON: START AS RICHTOFEN", moon_start_richtofen, ;, 1)
 
-		FRAME_CHOICE_DVARSTRINGLIST_VIS( 36, "NO MAN'S LAND: START PERK", nml_start_perk, { "JUGGERNOG"; "jug"; "SPEED COLA"; "speed" }, ;, 1)
+		FRAME_CHOICE_DVARSTRINGLIST_VIS( 36, "NO MAN'S LAND: START PERK", nml_start_perk, { "JUGGERNOG"; "jug"; "SPEED COLA"; "speed" }, ;, 1)*/
 
 		#undef	CHOICE_TEXT_COLOR_HL
 		#define	CHOICE_TEXT_COLOR_HL			0 0 0 1
 
-		FRAME_CHOICE_BUTTON_VIS( 37, "INITIAL BOX LOCATIONS", open mature_content_pc_disable_warning, 1 )
+		FRAME_CHOICE_BUTTON_VIS( 34, "MAP SPECIFIC OPTIONS", setdvar ui_options_game_pupup "map_options"; open mature_content_pc_disable_warning, 1 )
+
+		FRAME_CHOICE_BUTTON_VIS( 35, "INITIAL BOX LOCATIONS", setdvar ui_options_game_pupup "initial_box_locations"; open mature_content_pc_disable_warning, 1 )
 
 		//FRAME_CHOICE_SECTION_TITLE( 31, "INITIAL BOX LOCATIONS" )
 		//FRAME_CHOICE_DVARSTRINGLIST_VIS( 32, "KINO DER TOTEN", zombie_theater_initial_box_location, { "RANDOM"; "random"; "CREMATORIUM"; "crematorium"; "VIP ROOM"; "start"; "ALLEYWAY"; "alleyway"; "DINING ROOM"; "dining"; "CONTROL ROOM"; "control"; "DRESSING ROOM"; "dressing"; "STAGE"; "stage"; "THEATER"; "theater" }, ;, 1)
@@ -184,13 +191,94 @@
 		//SMALL_CENTER_POPUP_TITLE_VIS( "INITIAL BOX LOCATIONS", 1 )
 
 		POPUP_SETUP_VIS( -180, -120, 300, 240, mature_content_pc_disable_warning, ;, ;, 0 0 0 .7, ;, 1 )
-		POPUP_TITLE_VIS( 90 10 120 80, "INITIAL BOX LOCATIONS", 1 )
+
+		//HUD OPTIONS
+
+		POPUP_TITLE_VIS( 90 10 120 80, "HUD OPTIONS", when(dvarString("ui_options_game_pupup") == "hud_options") )
+
+		CHOICE_DVARFLOATLIST_VIS( 2, "ZOMBIE COUNTER", hud_zombs_remaining_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
+
+		CHOICE_DVARFLOATLIST_VIS( 3, "TIMER", hud_time_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
+
+		CHOICE_DVARFLOATLIST_VIS( 4, "ZONE NAMES", hud_zone_name_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
+
+		CHOICE_DVARFLOATLIST_VIS( 5, "CHARACTER NAMES", hud_playernames_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
+
+		//MAP SPECIFIC OPTIONS
+
+		POPUP_TITLE_VIS( 90 10 120 80, "MAP SPECIFIC OPTIONS", when(dvarString("ui_options_game_pupup") == "map_options") )
+
+		CHOICE_DVARSTRINGLIST_VIS( 2, "VERRUCKT: START ROOM", asylum_start_room, { "QUICK REVIVE SIDE"; "revive"; "JUGGERNOG SIDE"; "jug" }, ;, when(dvarString("ui_options_game_pupup") == "map_options"))
+
+		CHOICE_DVARSTRINGLIST_VIS( 3, "FIVE: DISABLED WINDOW 1", zombie_pentagon_disabled_window1, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window2") == "random" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 3, "FIVE: DISABLED WINDOW 1", zombie_pentagon_disabled_window1, 
+			{ "RANDOM"; "random"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window2") == "conference_ne" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 3, "FIVE: DISABLED WINDOW 1", zombie_pentagon_disabled_window1, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window2") == "conference_nw" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 3, "FIVE: DISABLED WINDOW 1", zombie_pentagon_disabled_window1, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window2") == "conference_se" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 3, "FIVE: DISABLED WINDOW 1", zombie_pentagon_disabled_window1, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window2") == "conference_sw" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 3, "FIVE: DISABLED WINDOW 1", zombie_pentagon_disabled_window1, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window2") == "hallway_e" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 3, "FIVE: DISABLED WINDOW 1", zombie_pentagon_disabled_window1, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window2") == "hallway_w" && dvarString("ui_options_game_pupup") == "map_options"))
+
+		CHOICE_DVARSTRINGLIST_VIS( 4, "FIVE: DISABLED WINDOW 2", zombie_pentagon_disabled_window2, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window1") == "random" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 4, "FIVE: DISABLED WINDOW 2", zombie_pentagon_disabled_window2, 
+			{ "RANDOM"; "random"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window1") == "conference_ne" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 4, "FIVE: DISABLED WINDOW 2", zombie_pentagon_disabled_window2, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window1") == "conference_nw" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 4, "FIVE: DISABLED WINDOW 2", zombie_pentagon_disabled_window2, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window1") == "conference_se" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 4, "FIVE: DISABLED WINDOW 2", zombie_pentagon_disabled_window2, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "HALLWAY EAST"; "hallway_e"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window1") == "conference_sw" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 4, "FIVE: DISABLED WINDOW 2", zombie_pentagon_disabled_window2, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY WEST"; "hallway_w" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window1") == "hallway_e" && dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 4, "FIVE: DISABLED WINDOW 2", zombie_pentagon_disabled_window2, 
+			{ "RANDOM"; "random"; "CONFERENCE NE"; "conference_ne"; "CONFERENCE NW"; "conference_nw"; "CONFERENCE SE"; "conference_se"; "CONFERENCE SW"; "conference_sw"; "HALLWAY EAST"; "hallway_e" }, 
+			;, when(dvarString("zombie_pentagon_disabled_window1") == "hallway_w" && dvarString("ui_options_game_pupup") == "map_options"))
+
+		CHOICE_DVARSTRINGLIST_VIS( 5, "NO MAN'S LAND: START PERK", nml_start_perk, { "JUGGERNOG"; "jug"; "SPEED COLA"; "speed" }, ;, when(dvarString("ui_options_game_pupup") == "map_options"))
+
+		//INITIAL BOX LOCATIONS
+
+		POPUP_TITLE_VIS( 90 10 120 80, "INITIAL BOX LOCATIONS", when(dvarString("ui_options_game_pupup") == "initial_box_locations") )
 		
-		CHOICE_DVARSTRINGLIST_VIS( 1, "KINO DER TOTEN", zombie_theater_initial_box_location, { "RANDOM"; "random"; "CREMATORIUM"; "crematorium"; "VIP ROOM"; "start"; "ALLEYWAY"; "alleyway"; "DINING ROOM"; "dining"; "CONTROL ROOM"; "control"; "DRESSING ROOM"; "dressing"; "STAGE"; "stage"; "THEATER"; "theater" }, ;, 1)
-		CHOICE_DVARSTRINGLIST_VIS( 2, "FIVE", zombie_pentagon_initial_box_location, { "RANDOM"; "random"; "BOWIE ROOM"; "start_chest3"; "CLAYMORE ROOM"; "start_chest2"; "GRENADE ROOM"; "start_chest" }, ;, 1)
-		CHOICE_DVARSTRINGLIST_VIS( 3, "CALL OF THE DEAD", zombie_coast_initial_box_location, { "RANDOM"; "random"; "RESIDENCE"; "residence"; "SHIPHOUSE"; "shiphouse"; "SHIP"; "start"; "LAGOON"; "lagoon"; "LIGHTHOUSE"; "lighthouse" }, ;, 1)
-		CHOICE_DVARSTRINGLIST_VIS( 4, "SHANGRI-LA", zombie_temple_initial_box_location, { "RANDOM"; "random"; "CAVES"; "caves1"; "WATERFALL"; "bridge" }, ;, 1)
-		CHOICE_DVARSTRINGLIST_VIS( 5, "MOON", zombie_moon_initial_box_location, { "RANDOM"; "random"; "POWER AREA"; "start"; "BIODOME"; "forest"; "AK74U AREA"; "tower" }, ;, 1)
+		CHOICE_DVARSTRINGLIST_VIS( 1, "KINO DER TOTEN", zombie_theater_initial_box_location, 
+			{ "RANDOM"; "random"; "CREMATORIUM"; "crematorium"; "VIP ROOM"; "start"; "ALLEYWAY"; "alleyway"; "DINING ROOM"; "dining"; "CONTROL ROOM"; "control"; "DRESSING ROOM"; "dressing"; "STAGE"; "stage"; "THEATER"; "theater" }, 
+			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
+
+		CHOICE_DVARSTRINGLIST_VIS( 2, "FIVE", zombie_pentagon_initial_box_location, 
+			{ "RANDOM"; "random"; "BOWIE ROOM"; "start_chest3"; "CLAYMORE ROOM"; "start_chest2"; "GRENADE ROOM"; "start_chest" }, 
+			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
+
+		CHOICE_DVARSTRINGLIST_VIS( 3, "CALL OF THE DEAD", zombie_coast_initial_box_location, 
+			{ "RANDOM"; "random"; "RESIDENCE"; "residence"; "SHIPHOUSE"; "shiphouse"; "SHIP"; "start"; "LAGOON"; "lagoon"; "LIGHTHOUSE"; "lighthouse" }, 
+			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
+
+		CHOICE_DVARSTRINGLIST_VIS( 4, "SHANGRI-LA", zombie_temple_initial_box_location, 
+			{ "RANDOM"; "random"; "CAVES"; "caves1"; "WATERFALL"; "bridge" }, 
+			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
+
+		CHOICE_DVARSTRINGLIST_VIS( 5, "MOON", zombie_moon_initial_box_location, 
+			{ "RANDOM"; "random"; "POWER AREA"; "start"; "BIODOME"; "forest"; "AK74U AREA"; "tower" }, 
+			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
 		#undef CHOICE_TEXT_OFFSET_X
 		#define CHOICE_TEXT_OFFSET_X		-58

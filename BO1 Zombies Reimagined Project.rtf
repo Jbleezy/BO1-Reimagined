@@ -56,6 +56,7 @@ Option to choose the initial box location on maps that have a random initial box
 Max FPS option\par
 Fog option\par
 Weapon cycle delay option\par
+Options to enable/disable timer, zombie counter, zone names, and character names\par
 \par
 New Weapons\par
 \par
@@ -362,6 +363,7 @@ Traps\par
 \par
 All traps now count kills for the player who activated the trap\par
 Fixed trap handles being moved to the wrong spot and trap lights staying green when the trap was activated as soon as it become available again\par
+All traps kill instantly\par
 \par
 Electric Traps (All Maps)\par
 Stun duration reduced from 2.5 seconds to 1.5 seconds (now matches the duration of the electricity being on screen)\par
@@ -418,6 +420,7 @@ Added a short delay for the lander to activate after triggering it (so you can a
 Lander station no longer kills players if it moves down while they are standing on it\par
 \par
 Centrifuge (Ascension)\par
+Cooldown time has been doubled\par
 No longer stops spinning for entire rounds\par
 Deals 50 damage to players in solo and coop\par
 Fixed a bug where zombies that were killed from the Centrifuge in higher round became invisible and invincible\par
@@ -451,7 +454,8 @@ Special rounds work on the powerup system (1st time after initial special round 
 Max health: 1 million\par
 Fixed a bug that caused ceiling spawns to be able to be disabled\par
 Fixed a bug that caused spawning risers to collide with players at their initial spawn locations\par
-Zombies now gib when damaged from the Bowie Knife or Sickle\par
+Zombies can now gib when damaged from the Bowie Knife or Sickle\par
+Fixed certain zombie swipes that damaged players at incorrect times\par
 \par
 Dogs\par
 No longer gain additional points for kills from dogs when killing dogs with wonder weapons\par
@@ -475,6 +479,7 @@ Upgraded assault rifles no longer deal extra non-headshot damage to the Director
 Max health is now 250,000 no matter how many players are in the match\par
 \par
 Monkeys (Shangri-La)\par
+No longer count as kills\par
 Keep attempting to spawn until they successfully spawn during the whole duration while a powerup is active on the ground\par
 Now always cycle through Nukes and Fire Sales\par
 The powerup that a Monkey picks up no longer has to initially be a Max Ammo for Perk Bottle to be cycled through (still has to be picked up as a Max Ammo)\par
@@ -483,11 +488,15 @@ Monkey ambient sounds go away once all the powerups currently on the map have be
 Fixed a bug where Monkeys would not go after a powerup that spawned at the same time or almost the same time as another powerup\par
 Monkeys now wait .5 seconds to spawn instead of a random amount between 0 and 1 second\par
 \par
+Napalm\par
+Kills from napalm explosion or flames count for the player who killed the napalm or the player who triggered the napalm\par
+\par
 Cosmonaut\par
 Fixed a bug where the Cosmonaut would get stuck in place when spawning in while a player was on jump pads\par
 Cosmonaut no longer teleports players that activate a jump pad between the time of being grabbed and when they would have been teleported\par
 Fixed a bug where the Cosmonaut would move faster than intended after throwing a Gersch device once the Pack-a-Punch gates had been hacked\par
 Now kills any zombies near him when he explodes\par
+Cosmonaut's name above its head is now always "Cosmonaut"\par
 \par
 Maps\par
 \par
@@ -588,7 +597,6 @@ Fix weapon bobbing on PSG1\par
 Turn off Der Riese easter egg song noises after they have been activated\par
 Fix barrel textures on Der Riese? (Haven't had it happen again)\par
 Find a way to be able to shoot through more than 3 zombies\par
-Add HUD options\par
 Add all other gamemodes\par
 Figure out bug that causes cosmonaut to delete himself occasionally\par
 Make zombies go after monkeys instantly\par
@@ -607,10 +615,15 @@ Add collision boxes near invincibilty spots on maps\par
 Shang: while a weapon is in pack a punch, don't push the players out\par
 Disable bowie/sickle hintstrings whenever not usable\par
 Fix low grav with increased FPS\par
-Fix bug where first damage taken after being downed doesnt deal damage to player\par
+Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player\par
 Make it easier to tell how many grenades you have on HUD\par
-Fix AK47 Flamethrower killing in high rounds\par
-Make napalm zombie kills from fire left behind count as kills for player who blew up the napalm\par
+Fix not having to hold X on barrier with controller\par
+ai SetPlayerCollision(0);\par
+Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off\par
+Fix Nuke always dropping first on Kino\par
+Test all zombie hit anims\par
+See if pausing in coop is possible\par
+Remove blur when paused ingame\par
 \par
 TESTING:\par
 Moon sidequest dialog in coop without Richtofen\par
@@ -645,7 +658,7 @@ Fix Connecting... issue\par
 Fix weapon swap on player leave\par
 Fix COTD outro showing on all maps after loading COTD in a session\par
 Get actionslot 2 highlighting to work\par
-Remove blur when paused ingame\par
+Fix demigod\par
 \par
 SPECIAL THANKS:\par
 lilrifa - menu scripting help\par
