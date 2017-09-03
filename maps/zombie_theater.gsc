@@ -107,7 +107,7 @@ main()
 	clientnotify("camera_stop");
 
 	init_sounds();
-	level thread add_powerups_after_round_1();
+	//level thread add_powerups_after_round_1();
 	level thread zombie_dog_pathing_hack();
 	level thread barricade_glitch_fix();
 

@@ -1443,7 +1443,7 @@ blocker_trigger_think()
 	}
 
 	trigger_pos = groundpos( trigger_location.origin ) + ( 0, 0, 4 ); // this is from trigger_location and is reset to trigger_pos
-	trigger = Spawn( "trigger_radius", trigger_pos, 0, radius, height ); // spawn in a trigger at the location of the exterior_goal
+	trigger = Spawn( "trigger_radius_use", trigger_pos, 0, radius, height ); // spawn in a trigger at the location of the exterior_goal
 	trigger thread trigger_delete_on_repair(); // This function waits till the boards/bars are repaired 
 	if(IsDefined(level._zombiemode_blocker_trigger_extra_thread))
 	{

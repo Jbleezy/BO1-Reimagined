@@ -8226,20 +8226,21 @@ increase_revive_radius()
 
 give_weapons_test()
 {
-	//wep = "freezegun_zm";
+	wep = "freezegun_zm";
 	//wep = "thundergun_zm";
-	wep = "sniper_explosive_zm";
+	//wep = "sniper_explosive_zm";
 	self GiveWeapon(wep);
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
 	self SwitchToWeapon(wep);
 
-	wait 5;
+	/*wait 5;
 
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", self.origin, true );
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", self.origin, true );*/
 }
 
-remove_idle_sway() //removes idle sway on sniper scopes
+//removes idle sway on sniper scopes
+remove_idle_sway()
 {
 	self endon("death");
 	self endon("disconnect");

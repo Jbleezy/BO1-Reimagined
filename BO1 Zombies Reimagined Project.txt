@@ -305,6 +305,7 @@ Box has a different hintstring for picking up a weapon if the weapon is a tactic
 
 Perks
 
+Added gloss to all perk bottles
 Multiple people can now buy the same perk at the same time
 Perk order will no longer be changed when losing a perk
 Removed blur effect that previously happened after buying a perk
@@ -314,7 +315,7 @@ Hintstring now says "Quick Revive" in solo and coop
 Losing Quick Revive in solo from ways other than downing no longer counts as a use of Quick Revive
 
 Speed Cola
-Switch weapons and do animations 2x faster
+Switch weapons twice as fast
 
 Double Tap
 1.5x bullet damage (stacks with Deadshot)
@@ -348,7 +349,7 @@ Fire Sale
 Powerup can now drop while one is already active
 
 Nuke
-Available on round 1
+Now obtainable on round 1 on Kino Der Toten and Shangri-La
 Kills all zombies instantly
 Enemies killed by a Nuke no longer drop powerups
 Zombies killed from Nuke count as kills for the person who grabbed the Nuke
@@ -399,7 +400,7 @@ Removed delay between kills
 
 Turrets (Kino Der Toten and Ascension)
 No longer deal damage to players
-Deals 500 damage or 1/3 of zombie's health, whichever one is more
+Deal 500 damage or 1/3 of zombie's health, whichever one is more
 Turrets now lockon to a new target quicker
 Turrets now target the zombie that is closest to the turret
 
@@ -526,7 +527,7 @@ Barriers in the spawn room no longer reset
 Pack-a-punch machine will stay available for as long as the defcon room is active
 
 Ascension
-Sidequest completable without 4 players
+Sidequest completable with 1-4 players
 Monkey round sidequest step: buttons no longer have to be pressed at the same time, only on the same monkey round
 Lunar lander sidequest step: First use centrifuge lander, then use Stamin-Up lander, then use PHD Flopper lander, and last use Speed Cola lander
 Lunar lander sideuqest step - HITSAM easter egg now only requiers the letters SAM (was not enough room to fit HITSAM)
@@ -541,8 +542,8 @@ Sidequest: bottle no longer breaks when it hits the ground
 
 Shangri-La
 Pack-a-Punch stones do not have to be stepped on at the same time
-Eclipse mode activatable without 4 players
-Sidequest completable without 4 players
+Eclipse mode activatable with 1-4 players
+Sidequest completable with 1-4 players
 Sidequest stepping stone step: stones stay down until a new stone on the same side has been stepped on
 Only 1 person now required for waterslide sidequest step
 Sidequest reward: all players get permament perks
@@ -616,13 +617,12 @@ Disable bowie/sickle hintstrings whenever not usable
 Fix low grav with increased FPS
 Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 Make it easier to tell how many grenades you have on HUD
-Fix not having to hold X on barrier with controller
 ai SetPlayerCollision(0);
 Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
-Fix Nuke always dropping first on Kino
-Test all zombie hit anims
 See if pausing in coop is possible
 Remove blur when paused ingame
+Check Freeze gun dmg on thief
+Fix Five teleporter in clientscript showing its ready before it is
 
 TESTING:
 Moon sidequest dialog in coop without Richtofen
@@ -660,8 +660,8 @@ Get actionslot 2 highlighting to work
 Fix demigod
 
 SPECIAL THANKS:
+WARDOG - co-developer
 lilrifa - menu scripting help
-WARDOG - menu scripting help
 MasadaDRM - weapons and sound help
 xSanchez78 - client scripting help, localized string help
 Kody -  tester

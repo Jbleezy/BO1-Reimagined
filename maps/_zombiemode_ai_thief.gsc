@@ -1881,8 +1881,22 @@ player_knuckle_crack_begin()
 
 player_do_knuckle_crack()
 {
+	has_fastswitch = self HasPerk("specialty_fastswitch");
+
+	if(has_fastswitch)
+	{
+		self UnSetPerk("specialty_fastswitch");
+	}
+
 	self player_knuckle_crack_begin();
+
 	self waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
+
+	if(has_fastswitch && !self maps\_laststand::player_is_in_laststand() && !is_true(self.intermission) && self.sessionstate != "spectator")
+	{
+		self SetPerk("specialty_fastswitch");
+	}
+
 	self player_knuckle_crack_end();
 }
 

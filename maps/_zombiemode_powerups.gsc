@@ -66,11 +66,11 @@ init()
 	level.last_powerup = false;
 
 	level thread remove_carpenter();
-	level thread add_nuke();
-	if(level.script != "zombie_cod5_prototype" && level.script != "zombie_cod5_asylum" && level.script != "zombie_cod5_sumpf" && level.script != "zombie_cod5_factory")
-		level thread add_fire_sale_later();
-	if(level.script != "zombie_cod5_prototype" && level.script != "zombie_cod5_asylum" && level.script != "zombie_cod5_sumpf" && level.script != "zombie_cod5_factory" && level.script != "zombie_theater" && level.script != "zombie_temple")
-		level thread add_death_machine_later();
+	//level thread add_nuke();
+	//if(level.script != "zombie_cod5_prototype" && level.script != "zombie_cod5_asylum" && level.script != "zombie_cod5_sumpf" && level.script != "zombie_cod5_factory")
+	//	level thread add_fire_sale_later();
+	//if(level.script != "zombie_cod5_prototype" && level.script != "zombie_cod5_asylum" && level.script != "zombie_cod5_sumpf" && level.script != "zombie_cod5_factory" && level.script != "zombie_theater" && level.script != "zombie_temple")
+	//	level thread add_death_machine_later();
 }
 
 

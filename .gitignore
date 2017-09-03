@@ -1,7 +1,6 @@
 *.ff
 *.iwd
 *.files
-*.iwi
 *.tmp
 console.log
 missingasset.csv

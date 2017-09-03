@@ -652,9 +652,21 @@ wait_for_timeout( weapon, packa_timer )
 //
 do_knuckle_crack()
 {
+	has_fastswitch = self HasPerk("specialty_fastswitch");
+
+	if(has_fastswitch)
+	{
+		self UnSetPerk("specialty_fastswitch");
+	}
+
 	gun = self upgrade_knuckle_crack_begin();
 	
 	self waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
+
+	if(has_fastswitch && !self maps\_laststand::player_is_in_laststand() && !is_true(self.intermission) && self.sessionstate != "spectator")
+	{
+		self SetPerk("specialty_fastswitch");
+	}
 	
 	self upgrade_knuckle_crack_end( gun );
 }
@@ -1334,6 +1346,7 @@ vending_trigger_think()
 				cheat = true;
 			}
 			#/
+			cheat = true;
 
 			if ( cheat != true )
 			{
@@ -1428,21 +1441,30 @@ vending_trigger_think()
 
 		
 		// do the drink animation
+		has_fastswitch = player HasPerk("specialty_fastswitch");
+		if(has_fastswitch)
+		{
+			player UnSetPerk("specialty_fastswitch");
+		}
 		gun = player perk_give_bottle_begin( perk );
-		self thread give_perk_think(player, gun, perk, cost);
+		self thread give_perk_think(player, gun, perk, cost, has_fastswitch);
 	}
 }
 
-give_perk_think(player, gun, perk, cost)
+give_perk_think(player, gun, perk, cost, has_fastswitch)
 {
 	player waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
 
 	// restore player controls and movement
-	player perk_give_bottle_end( gun, perk );
+	player perk_give_bottle_end( gun, perk, has_fastswitch );
 	
 	// TODO: race condition?
 	if ( player maps\_laststand::player_is_in_laststand() || is_true( player.intermission ) )
 	{
+		if(perk == "specialty_fastreload")
+		{
+			player UnSetPerk("specialty_fastswitch");
+		}
 		return;
 	}
 
@@ -1530,10 +1552,9 @@ give_perk( perk, bought )
 		self SetMaxHealth( level.zombie_vars["zombie_perk_juggernaut_health_upgrade"] );
 	}
 
-	if(perk == "specialty_fastreload")
+	if(perk == "specialty_fastreload" && !self HasPerk("specialty_fastswitch"))
 	{
 		self SetPerk("specialty_fastswitch");
-		//self thread disable_fastswitch_during_anims(perk_str);
 	}
 	
 	// WW (02-03-11): Deadshot csc call
@@ -1698,6 +1719,10 @@ check_player_has_perk(perk)
 		return;
 	}
 #/
+	if(true == true)
+	{
+		return;
+	}
 
 	dist = 128 * 128;
 	while(true)
@@ -1766,6 +1791,11 @@ perk_think( perk )
 		}
 	}
 #/
+	if(true == true)
+	{
+		self.num_perks = 0;
+		return;
+	}
 
 	perk_str = perk + "_stop";
 	result = self waittill_any_return( "fake_death", "death", "player_downed", perk_str );
@@ -1847,6 +1877,10 @@ perk_hud_create( perk )
 		}
 	}
 #/
+	if(true == true)
+	{
+		return;
+	}
 
 
 	shader = "";
@@ -2096,7 +2130,7 @@ perk_give_bottle_begin( perk )
 }
 
 
-perk_give_bottle_end( gun, perk )
+perk_give_bottle_end( gun, perk, has_fastswitch )
 {
 	assert( gun != "zombie_perk_bottle_doubletap" );
 	assert( gun != "zombie_perk_bottle_jugg" );
@@ -2165,6 +2199,11 @@ perk_give_bottle_end( gun, perk )
 	{
 		self TakeWeapon(weapon);
 		return;
+	}
+
+	if(has_fastswitch || perk == "specialty_fastreload")
+	{
+		self SetPerk("specialty_fastswitch");
 	}
 
 	self TakeWeapon(weapon);
@@ -2438,33 +2477,6 @@ wait_for_weapon_switch_stop(perk_str)
 	}
 
 	self notify("weapon_switch_stop");
-}
-
-disable_fastswitch_during_anims(perk_str)
-{
-	self endon("fake_death");
-	self endon("death");
-	self endon("player_downed");
-	self endon(perk_str);
-
-	while(1)
-	{
-		current_wep = self GetCurrentWeapon();
-		if(IsSubStr(current_wep, "zombie_perk_bottle") || IsSubStr(current_wep, "_flourish") || current_wep == "zombie_knuckle_crack" || current_wep == "syrette_sp")
-		{
-			self SetClientDvar("perk_weapSwitchMultiplier", "1");
-		}
-
-		while(IsSubStr(current_wep, "zombie_perk_bottle") || IsSubStr(current_wep, "_flourish") || current_wep == "zombie_knuckle_crack" || current_wep == "syrette_sp")
-		{
-			wait_network_frame();
-			current_wep = self GetCurrentWeapon();
-		}
-
-		self SetClientDvar("perk_weapSwitchMultiplier", ".5");
-
-		wait_network_frame();
-	}
 }
 
 move_faster_while_ads(perk_str)

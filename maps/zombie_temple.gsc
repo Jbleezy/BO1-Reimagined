@@ -127,7 +127,7 @@ main()
 	
 	level thread maps\zombie_temple_achievement::init();
 	
- 	level thread add_powerups_after_round_1();
+ 	//level thread add_powerups_after_round_1();
 	level thread maps\zombie_temple_elevators::init_elevator();
 	level thread maps\zombie_temple_minecart::minecart_main();
 	level thread maps\zombie_temple_waterslide::waterslide_main();
