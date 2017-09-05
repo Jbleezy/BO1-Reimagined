@@ -275,7 +275,7 @@
 #### Stielhandgranate
 * Now deals damage on impact
 
-### QED
+#### QED
 * Free perk effect now only gives the perk to the player who threw the QED
 * 100% chance of giving perk when thrown near a perk machine
 * 100% chance of opening door when thrown near a door
@@ -440,7 +440,7 @@
 
 ## Blockers
 ### Doors
-* Push any players out that are touching them after they have fully opened
+* Doors now push any players out that are touching them after they have fully opened
 
 ## Barriers
 * No longer have to hold use button in order to rebuild barriers, only press
@@ -495,7 +495,7 @@
 ### Napalm
 * Kills from napalm explosion or flames count for the player who killed the napalm or the player who triggered the napalm
 
-###Shrieker
+### Shrieker
 * Damaging a shrieker will now always award a player points
 
 ### Cosmonaut
