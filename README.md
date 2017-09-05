@@ -291,10 +291,10 @@
 * Starburst weapon effect no longer has any explosive weapons
 
 ## Wallbuys
-* Multiple people can now buy Bowie Knife/Sickle at the same time
+* Can now purchase ammo if stock ammo is full but clip ammo is not full
 * Upgraded ammo cost reduced from 4500 points to 2500 points
+* Multiple people can now buy Bowie Knife/Sickle at the same time
 * Claymores, Bouncing Betties, and Spikemores now all require the player to be looking at the wallbuy to be able to buy them
-* Can now buy ammo if stock ammo is full but clip ammo is not full
 
 ## Mystery Box
 * Re-hitting the box is now faster (only 1 second delay between box hits)
@@ -310,11 +310,11 @@
 * Box has a different hintstring for picking up a weapon if the weapon is a tactical grenade
 
 ## Perks
+* Perks now become active as soon as the player starts to put away the perk bottle
 * Added gloss to all perk bottles
 * Multiple people can now buy the same perk at the same time
 * Perk order will no longer be changed when losing a perk
 * Removed blur effect that previously happened after buying a perk
-* Players are now given a perk once they start putting the perk bottle away
 
 ### Quick Revive
 * Hintstring now says "Quick Revive" in solo and coop
@@ -418,6 +418,7 @@
 ### Teleporters (Five)
 * Teleporting no longer takes players' weapons away temporarily
 * Teleporting no longer freezes players' controls
+* Fixed teleporters showing they were ready to use again too early after teleporting through them
 
 ### Lunar Lander (Ascension)
 * Added a short delay for the lander to activate after triggering it (so you can activate a lander without having to ride it without having to lean)
@@ -496,7 +497,7 @@
 * Kills from napalm explosion or flames count for the player who killed the napalm or the player who triggered the napalm
 
 ### Shrieker
-* Damaging a shrieker will now always award a player points
+* Damaging a shrieker will now always give points
 
 ### Cosmonaut
 * Fixed a bug where the Cosmonaut would get stuck in place when spawning in while a player was on jump pads
@@ -531,7 +532,6 @@
 * Trap pieces are already in place
 * Barriers in the spawn room no longer reset
 * Pack-a-punch machine will stay available for as long as the defcon room is active
-* Teleporters will not show that they are ready to use again until they really are
 
 ### Ascension
 * Sidequest completable with 1-4 players
@@ -637,7 +637,7 @@
 * Remove marks on background of Deadshot perk emblem
 * Fix weapon order being changed
 * Verruckt: fix zombie pathing at speed slightly more
-# Change all strings to localized strings
+* Change all strings to localized strings
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -661,7 +661,7 @@
 * Trapping the cosmonaut via excavator
 * Shi No Numa Flogger double trap activation
 
-## GAME MOD:
+## GAME_MOD TODO:
 * Fix grenades giving more ammo than they should
 * Fix being able to buy grenades when you already have max amount
 * Make friends list alphabetical order
