@@ -98,18 +98,15 @@ initZipline ()
 	//set up power up zip trigger
 	zipPowerTrigger = getent("zip_lever_trigger", "targetname");
 	zipPowerTrigger.lever = getent(zipPowerTrigger.target, "targetname");
-	zipPowerTrigger sethintstring(&"WAW_ZOMBIE_ZIPLINE_ACTIVATE");
+	zipPowerTrigger sethintstring(&"REIMAGINED_ZIPLINE_ACTIVATE");
 	zipPowerTrigger SetCursorHint("HINT_NOICON");
 	
 	//wait until powered up
 	zipPowerTrigger waittill("trigger", who);
-
-	iprintln("triggered");
 	
 	zipHintDeactivated = getent("zipline_deactivated_hint_trigger", "targetname");
 	zipHintDeactivated delete();
 
-	iprintln("change string");
 	array_thread (zipBuyTrigger,::zipThink);
 	
 	//wait for activation
@@ -268,9 +265,9 @@ zipThink()
 		self waittill ("recallLeverDone");
 	}
 
-	self sethintstring("Press & hold ^3&&1^7 to activate the Zipline [Cost: 750]");
-	self SetCursorHint("HINT_NOICON");
 	self.zombie_cost = 750;
+	self sethintstring(&"REIMAGINED_ZIPLINE_USE", self.zombie_cost);
+	self SetCursorHint("HINT_NOICON");
 	//self.in_use = 0;
 	//self UseTriggerRequireLookAt();
 	
@@ -321,6 +318,8 @@ zipThink()
 							{
 								zipBuyTrigger[i] trigger_on();
 								zipBuyTrigger[i] sethintstring(&"ZOMBIE_TRAP_ACTIVE");
+
+								zipBuyTrigger[i] thread recallZipSwitch (180);
 								//zipBuyTrigger[i] trigger_off();
 							}
 						}	
@@ -330,11 +329,11 @@ zipThink()
 						play_sound_at_pos( "purchase", who.origin );
 						
 						//if we used the trigger on the electric switch, we need to move the handle
-						if (IsDefined(self.script_noteworthy) && self.script_noteworthy == "static")
+						/*if (IsDefined(self.script_noteworthy) && self.script_noteworthy == "static")
 						{
 							self thread recallZipSwitch (180);
-							self waittill ("recallLeverDone");
-						}
+							//self waittill ("recallLeverDone");
+						}*/
 						
 						//set the score
 						who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
@@ -387,18 +386,18 @@ zipThink()
 						wait (waittime);	
 						
 						//if we used the electric switch, flip it back up after the cool down
-						if (IsDefined(self.script_noteworthy) && self.script_noteworthy == "static")
+						/*if (IsDefined(self.script_noteworthy) && self.script_noteworthy == "static")
 						{
 							self thread recallZipSwitch (-180);
-							self waittill ("recallLeverDone");
-						}
+							//self waittill ("recallLeverDone");
+						}*/
 						
 						for (i=0; i<zipBuyTrigger.size; i++)
 						{
 							//always reenable the trigger on the zipline
 							if (IsDefined(zipBuyTrigger[i].script_noteworthy) && zipBuyTrigger[i].script_noteworthy == "nonstatic")
 							{
-								zipBuyTrigger[i] sethintstring("Press & hold ^3&&1^7 to activate the Zipline [Cost: 750]");
+								zipBuyTrigger[i] sethintstring(&"REIMAGINED_ZIPLINE_USE", self.zombie_cost);
 								zipBuyTrigger[i] setcursorhint( "HINT_NOICON" );
 
 								//zipBuyTrigger[i] triggerOn();
@@ -408,9 +407,11 @@ zipThink()
 							if (IsDefined(zipBuyTrigger[i].script_noteworthy) && zipBuyTrigger[i].script_noteworthy == "static")
 							{
 								zipBuyTrigger[i] trigger_on();
-								zipBuyTrigger[i] sethintstring("Press & hold ^3&&1^7 to activate the Zipline [Cost: 750]");
+								zipBuyTrigger[i] sethintstring(&"REIMAGINED_ZIPLINE_USE", self.zombie_cost);
+
+								zipBuyTrigger[i] thread recallZipSwitch (-180);
 							}
-								//zipBuyTrigger[i] trigger_on();
+							//zipBuyTrigger[i] trigger_on();
 						}
 						
 						level.zipinuse = false;

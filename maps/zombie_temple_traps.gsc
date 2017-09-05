@@ -74,9 +74,18 @@ spear_trap_think()
 			continue;
 		}
 
-		wait .1;
+		touching = true;
+		for(i=1;i<=2;i++)
+		{
+			if(!who IsTouching(self))
+			{
+				touching = false;
+				break;
+			}
+			wait .05;
+		}
 
-		if(!who IsTouching(self))
+		if(!touching)
 		{
 			continue;
 		}

@@ -68,10 +68,17 @@ moveLeverUp()
 }	
 
 
-hint_string( string )
+hint_string( string, cost )
 {
-	self SetHintString( string );
-	self setcursorhint( "HINT_NOICON" );
+	if(ISDefined(cost))
+	{
+		self SetHintString( string, cost );
+	}
+	else
+	{
+		self SetHintString( string );
+	}
+	//self setcursorhint( "HINT_NOICON" );
 }
 
 
@@ -82,14 +89,14 @@ penThink()
 	pa_system = getent("speaker_by_log", "targetname");
 	wait(0.5);
 
-	self sethintstring( &"WAW_ZOMBIE_ACTIVATE_TRAP" );
-	self setcursorhint( "HINT_NOICON" );
 	self.zombie_cost = 750;
 	self.in_use = 0;
 	level.pen_in_use = 0;
+	self sethintstring( &"WAW_ZOMBIE_ACTIVATE_TRAP" );
+	self setcursorhint( "HINT_NOICON" );
 	
 	triggers = getentarray("pendulum_buy_trigger","targetname");
-	array_thread(triggers, ::hint_string, &"WAW_ZOMBIE_ACTIVATE_TRAP" );
+	array_thread(triggers, ::hint_string, &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 	j = undefined;
 
 	zapper_lights = getentarray("pendulum_light", "targetname");
@@ -100,7 +107,7 @@ penThink()
 	{
 		//array_thread(triggers, ::hint_string, &"WAW_ZOMBIE_ACTIVATE_TRAP" );
 		if(IsDefined(j) && !level.pen_in_use)
-			triggers[j] thread hint_string(&"WAW_ZOMBIE_ACTIVATE_TRAP");
+			triggers[j] thread hint_string( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 
 		self waittill( "trigger", who );
 		self.used_by = who;
@@ -183,7 +190,7 @@ change_hint_string_on_cooldown()
 	}
 	else
 	{
-		self thread hint_string(&"WAW_ZOMBIE_ACTIVATE_TRAP");
+		self thread hint_string( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 	}
 }
 

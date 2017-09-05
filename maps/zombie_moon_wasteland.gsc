@@ -78,6 +78,8 @@ init_no_mans_land()
 	level.NML_REACTION_INTERVAL		  = 2000;	  // time interval between reactions		
 	level.NML_MIN_REACTION_DIST_SQ    = 32*32;	  // minimum distance from the player to be able to react
 	level.NML_MAX_REACTION_DIST_SQ	  = 2400*2400;// maximum distance from the player to be able to react
+
+	level.nml_start_perk = GetDvar("nml_start_perk");
 }
 
 //******************************************************************************
@@ -944,7 +946,7 @@ perk_machine_arrival_update()
 		{
 			//host can choose which perk initally spawns from game settings
 			level.first_perk = false;
-			if(GetDvar("nml_start_perk") == "speed")
+			if(level.nml_start_perk == "speed")
 			{
 				perk_index = 0;
 			}

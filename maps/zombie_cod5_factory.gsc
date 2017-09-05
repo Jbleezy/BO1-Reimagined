@@ -43,7 +43,7 @@ main()
 	SetDvar( "perk_altMeleeDamage", 1000 ); // adjusts how much melee damage a player with the perk will do, needs only be set once
 
 	precachestring(&"WAW_ZOMBIE_FLAMES_UNAVAILABLE");
-	precachestring(&"WAW_ZOMBIE_ELECTRIC_SWITCH");
+	precachestring(&"ZOMBIE_ELECTRIC_SWITCH");
 
 	precachestring(&"WAW_ZOMBIE_POWER_UP_TPAD");
 	precachestring(&"WAW_ZOMBIE_TELEPORT_TO_CORE");
@@ -70,6 +70,12 @@ main()
 
 	precachestring(&"WAW_ZOMBIE_BETTY_ALREADY_PURCHASED");
 	precachestring(&"WAW_ZOMBIE_BETTY_HOWTO");
+
+	PrecacheString(&"REIMAGINED_TRAP_BRIDGE_EE");
+	PrecacheString(&"REIMAGINED_DOOR_CLOSED");
+	PrecacheString(&"ZOMBIE_BUTTON_BUY_TRAP");
+	PrecacheString(&"ZOMBIE_TRAP_ACTIVE");
+	PrecacheString(&"ZOMBIE_TRAP_COOLDOWN");
 
 	include_weapons();
 	include_powerups();
@@ -860,7 +866,7 @@ power_electric_switch()
 	master_switch = getent("power_switch","targetname");	
 	master_switch notsolid();
 	//master_switch rotatepitch(90,1);
-	trig sethintstring(&"WAW_ZOMBIE_ELECTRIC_SWITCH");
+	trig sethintstring(&"ZOMBIE_ELECTRIC_SWITCH");
 	trig SetCursorHint( "HINT_NOICON" ); 
 		
 	//turn off the buyable door triggers for electric doors
@@ -894,6 +900,8 @@ power_electric_switch()
 // 		wuen_trig notify( "trigger", undefined );
 // 	}
 
+	trig delete();
+
 	master_switch rotateroll(-90,.3);
 
 	//TO DO (TUEY) - kick off a 'switch' on client script here that operates similiarly to Berlin2 subway.
@@ -923,8 +931,6 @@ power_electric_switch()
 	clientnotify("ZPO");	// Zombie Power On!
 	wait_network_frame();
 	exploder(600);
-
-	trig delete();	
 	
 	playfx(level._effect["switch_sparks"] ,getstruct("power_switch_fx","targetname").origin);
 
@@ -1007,7 +1013,7 @@ hint_string( string )
 ------------------------------------*/
 electric_trap_think( enable_flag )
 {	
-	self sethintstring(&"WAW_ZOMBIE_FLAMES_UNAVAILABLE");
+	self sethintstring(&"ZOMBIE_NEED_POWER");
 	self SetCursorHint( "HINT_NOICON" ); 
 	
 	self.zombie_cost = 1000;
@@ -1023,7 +1029,7 @@ electric_trap_think( enable_flag )
 	self.zombie_dmg_trig.in_use = 0;
 
 	// Set buy string
-	self sethintstring(&"WAW_ZOMBIE_BUTTON_NORTH_FLAMES");
+	self sethintstring( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 	self SetCursorHint( "HINT_NOICON" ); 
 
 	// Getting the light that's related is a little esoteric, but there isn't
@@ -1054,18 +1060,18 @@ electric_trap_think( enable_flag )
 	{
 		if(enable_flag == "bridge_down")
 		{
-			self sethintstring( "Why are you trying to activate the trap before the bridge is down?" );
+			self sethintstring( &"REIMAGINED_TRAP_BRIDGE_EE" );
 		}
 		else
 		{
-			self sethintstring( "Door must be opened first" );
+			self sethintstring( &"REIMAGINED_DOOR_CLOSED" );
 		}
 
 		zapper_light_red( light_name );
 		flag_wait( enable_flag );
 	}
 
-	self sethintstring(&"WAW_ZOMBIE_BUTTON_NORTH_FLAMES");
+	self sethintstring(&"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 
 	// Open for business!  
 	zapper_light_green( light_name );
@@ -1134,7 +1140,7 @@ electric_trap_think( enable_flag )
 					wait(25);
 
 					// Set buy string
-					array_thread(triggers, ::hint_string, &"WAW_ZOMBIE_BUTTON_NORTH_FLAMES");
+					array_thread(triggers, ::hint_string, &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 
 					//array_thread (triggers, ::trigger_on);
 

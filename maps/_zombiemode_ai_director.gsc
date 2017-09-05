@@ -91,7 +91,7 @@ init()
 	}
 	if( !isDefined( level.director_zombie_scream_a_radius ) )
 	{
-		level.director_zombie_scream_a_radius_sq = 1024*1024;
+		level.director_zombie_scream_a_radius_sq = 512*512;
 	}
 	if( !isDefined( level.director_zombie_scream_b_chance ) )
 	{
@@ -899,13 +899,25 @@ director_blur()
 {
 	self endon( "death" );
 
-	players = getplayers();
+	players = get_players();
+	affected_players = [];
+	for( i = 0; i < players.size; i++ )
+	{
+		if( distanceSquared( players[i].origin, self.origin ) < level.director_zombie_scream_a_radius_sq )
+		{
+			affected_players = array_add( affected_players, players[i] );
+		}
+	}
+	for( i = 0; i < affected_players.size; i++ )
+	{
+		affected_players[i] ShellShock( "electrocution", 1.5, true );
+	}
 
-	for ( i = 0; i < players.size; i++ )
+	/*for ( i = 0; i < players.size; i++ )
 	{
 		player = players[i];
 		player ShellShock( "electrocution", 1.7, true );
-	}
+	}*/
 }
 
 //-----------------------------------------------------------------------------------------------

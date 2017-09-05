@@ -1,5 +1,9 @@
-# Call of Duty: Black Ops - Reimagined
-## Created by: JBleezy
+# Call of Duty: Black Ops Zombies - Reimagined
+## Created by: Jbleezy / Jbird
+[YouTube](https://youtube.com/ItsJbirdJustin)
+[Twitch](https://twitch.tv/jbird_justin)
+[Twitter](https://twitter.com/jbird_justin)
+[Donate](https://www.paypal.me/Jbleezy/10)
 
 ## General
 * Zombies now spawn in faster after killing full hordes
@@ -24,8 +28,11 @@
 * Players can now dolphin dive again right away after just dolphin diving
 * Players can now move after dolphin diving quicker
 * Dolphin dive startup time decreased
+* Any hintstring that previously showed "Press & hold" or "Press" at the beginning has been changed to show "Hold"
+* Power hintstrings on classic maps have been changed to show the same hintstring on non classic maps
+* Hintstrings now don't show if the current action isn't available for the player
 
-### HUD
+## HUD
 * HUD items now have some distance away from the edge of the screen
 * Damage marker time set to 3 seconds
 * Game time displayed on the top right of the HUD in white text
@@ -42,7 +49,7 @@
 * Negative highlight score HUD color is now slightly brighter
 * Yellow insta kill shows on HUD during insta kill rounds
 
-### Settings
+## Settings
 * Removed popup menu when changing graphic content to unrestricted
 * Option to change FOV (65-90 in intervals of 5)
 * Option to show FPS on HUD
@@ -56,6 +63,14 @@
 * Fog option
 * Weapon cycle delay option
 * Options to enable/disable timer, zombie counter, zone names, and character names
+
+## Weapons
+* All bullet damage (except for shotguns) will now deal full damage through multiple enemies and thin walls
+* All body shots now deal the same amount of damage
+* Neck, head, and helmet shots now all deal the same amount of damage
+* All body shots will now give 50 points for a kill
+* Neck shots now give 100 points for a kill
+* Melee kills can no longer count as headshots
 
 ### New Weapons
 #### Combat Knife
@@ -84,114 +99,93 @@
 * 90% movement speed (Assault rifle movement speed in 95% and LMG movement speed is 87.5%)
 * 60 rounds per clip unupgraded, 90 rounds per clip upgraded
 
-### Weapons
-* All bullet damage (except for shotguns) will now deal full damage through multiple enemies and thin walls
-* All body shots now deal the same amount of damage
-* Neck, head, and helmet shots now all deal the same amount of damage
-* All body shots will now give 50 points for a kill
-* Neck shots now give 100 points for a kill
-* Melee kills can no longer count as headshots
 
 ### Explosive weapons
 * Removed shellshock effect from explosive damage (except for lethal grenades)
-* Removed damage scaling over rounds (except for grenades and mines)
+* Removed damage scaling over rounds (except for lethal grenades and mines)
 
 ### Snipers
 * Removed idle sway
 * Increased ADS FOV to 30
 * Variable zoom scopes now only have one scope option
 
-#### Ak74u
+### Ak74u
 * Upgraded: fixed fire sound
 
-#### Ballistic Knife
+### Ballistic Knife
 * Knives pick up automatically when close to them
 
-#### BAR
-* Replaced BAR + Bipod with BAR (all BAR wallbuys cost 1800 now)
+### BAR
+* Replaced BAR + Bipod with BAR
+* All BAR wallbuys cost 1800 now
 * Increased headshot damage multiplier to 2x
 
-#### China Lake
+### China Lake
 * Time between shots reduced by 50%
 * Time to start reload after last shot reduced by 50%
 
-#### Crossbow
+### Crossbow
 * Crossbow bolt beeping rate no longer changes depending on your FPS
 
-#### CZ75 Dual Wield
+### CZ75 Dual Wield
 * Upgraded: reduced recoil
 
-#### Dragunov
+### Dragunov
 * Removed (replaced by PSG1)
 
-#### Famas
+### Famas
 * Unupgraded: increased stock ammo from 150 to 300
 * Upgraded: increased stock ammo from 225 to 450
 
-#### G11
+### G11
 * Unupgraded: increased stock ammo from 144 to 192
 * Upgraded: increased stock ammo from 288 to 384
 
-#### Gewehr43
+### Gewehr43
 * Unupgraded: increased damage from 120 to 130
 
-#### HS10
+### HS10
 * Upgraded: fixed right weapon fire sound
 * Upgraded: reduced hipfire spread, reduced recoil
 
-#### Kar98k
+### Kar98k
 * Unupgraded: increased damage to 500, increased headshot damage to 1000
 * Upgraded: increased damage 3000, increased headshot damage to 6000
 
-#### Kar98k Scoped
+### Kar98k Scoped
 * Increased damage to 1000, increased headshot damage to 4000
 
-#### L96A1
+### L96A1
 * Unupgraded: now has variable zoom scope
 
-#### M16
+### M16
 * Unupgraded: Increased stock ammo from 120 to 150
 
-#### M1911
+### M1911
 * Upgraded: impact damage - 2500, max explosion damage - 2500, min explosion damage - 1000
 
-#### M72 Law
+### M72 Law
 * Time to start automatically reloading after firing the last shot reduced by 50%
 * Unupgraded: impact damage - 2000, max explosion damage - 1500, min explosion damage - 1000
 * Upgraded: impact damage - 3000, max explosion damage - 2500, min explosion damage - 1000
 
-#### Olympia
+### Olympia
 * Unupgraded: deals 1.5x more damage
 * Upgraded: bullets now get added to the clip at the same time that they do in the reload animation
 
-#### PM63
+### PM63
 * Unupgraded: increased stock ammo from 100 to 120
 * Upgraded: increased stock ammo from 225 to 250
 * Upgraded: reduced hipfire spread, reduced recoil
 
-#### QED
-* Free perk effect now only gives the perk to the player who threw the QED
-* 100% chance of giving perk when thrown near a perk machine
-* 100% chance of opening door when thrown near a door
-* 100% chance of upgrading current weapon when thrown near Pack-a-Punch machine
-* Revive player effect now only revives players near where the QED was thrown
-* 100% chance of reviving player when thrown near downed player
-* 100% of fling effect when thrown near Cosmonaut
-* 100% chance of hacking an exacavtor when thrown near the panel
-* Removed player teleport effect
-* Removed red powerup spawn effect
-* Removed unupgrade current weapon effect
-* All other effects have a 25% chance of being put on the selected list
-* Starburst weapon effect no longer has any explosive weapons
-
-#### Ray Gun
+### Ray Gun
 * Unupgraded: impact damage - 2500, max explosion damage - 2500, min explosion damage - 1250
 * Upgraded: impact damage - 3000, max explosion damage - 3000, min explosion damage - 1250
 
-#### RPK
+### RPK
 * Fixed animation bug when switching weapons with the clip being empty
 
-#### Spectre
+### Spectre
 * Unupgraded: increased stock ammo from 120  to 240
 * Upgraded: increased stock ammo
 
@@ -226,6 +220,8 @@
 * Enemies will only be able to do slow hits after taking damage from the Winter's Howl
 * Enemies crumple immediately after dying
 * Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
+* Minimum damage: 1000 unupgraded, 2000 upgraded
+* Damage to thief: 1000 unupgraded, 2000 upgraded
 
 #### Wunderwaffe
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
@@ -270,21 +266,37 @@
 * Removed on Nacht, Verruckt, and Shi No Numa
 
 #### P.E.S.
-* If a player has the P.E.S. suit on while taking a different piece of equipment, the player only loses their space helmet when taking the equipment (keep the rest of the suit)
+* If a player has the P.E.S. suit on while taking a different piece of equipment, the player only loses their helmet when taking the equipment (keep the rest of the suit)
 
 #### Semtex
-* Now cost 250 points to buy (previously 130 after first buy)
+* Now cost 250 points to buy (previously costed 130 points after first buy)
 * Semtex beeping rate no longer changes depending on your FPS
 
 #### Stielhandgranate
 * Now deals damage on impact
 
-### Wallbuys
+### QED
+* Free perk effect now only gives the perk to the player who threw the QED
+* 100% chance of giving perk when thrown near a perk machine
+* 100% chance of opening door when thrown near a door
+* 100% chance of upgrading current weapon when thrown near Pack-a-Punch machine
+* Revive player effect now only revives players near where the QED was thrown
+* 100% chance of reviving player when thrown near downed player
+* 100% of fling effect when thrown near Cosmonaut
+* 100% chance of hacking an exacavtor when thrown near the panel
+* Removed player teleport effect
+* Removed red powerup spawn effect
+* Removed unupgrade current weapon effect
+* All other effects have a 25% chance of being put on the selected list
+* Starburst weapon effect no longer has any explosive weapons
+
+## Wallbuys
 * Multiple people can now buy Bowie Knife/Sickle at the same time
 * Upgraded ammo cost reduced from 4500 points to 2500 points
 * Claymores, Bouncing Betties, and Spikemores now all require the player to be looking at the wallbuy to be able to buy them
+* Can now buy ammo if stock ammo is full but clip ammo is not full
 
-### Mystery Box
+## Mystery Box
 * Re-hitting the box is now faster (only 1 second delay between box hits)
 * When box moves, it will instantly appear at its new location instead of waiting 8 seconds
 * Wall weapons are in the box on classic maps
@@ -297,61 +309,62 @@
 * Box will now cycle through all locations before going to a previous location again
 * Box has a different hintstring for picking up a weapon if the weapon is a tactical grenade
 
-### Perks
+## Perks
 * Added gloss to all perk bottles
 * Multiple people can now buy the same perk at the same time
 * Perk order will no longer be changed when losing a perk
 * Removed blur effect that previously happened after buying a perk
+* Players are now given a perk once they start putting the perk bottle away
 
-#### Quick Revive
+### Quick Revive
 * Hintstring now says "Quick Revive" in solo and coop
 * Losing Quick Revive in solo from ways other than downing no longer counts as a use of Quick Revive
 
-#### Speed Cola
+### Speed Cola
 * Switch weapons twice as fast
 
-#### Double Tap
+### Double Tap
 * 1.5x bullet damage (stacks with Deadshot)
 
-#### Deadshot
+### Deadshot
 * 2x headshot damage (stacks with Double Tap)
 * Increased cost from 1000 to 1500
 
-#### Mule Kick
+### Mule Kick
 * Removed from Nacht Der Untoten
 * Name of weapon that will be lost when downed is shown in yellow text
 * Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, or if the player already has the weapon, or if the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon)
 
-### Powerups
+## Powerups
 * Powerups allign on the center of the HUD
 * Powerups on HUD now fade in and out when they are about to end instead of blinking
 * Powerups on the ground now last for 30 seconds (previously 26.5 seconds)
 * An effect now plays when a powerup spawns if it is the last powerup of a powerup cycle
 * Grabbing a powerup that is already active will add 30 seconds to its time instead of resetting its time to 30 seconds
 
-#### Carpenter
+### Carpenter
 * Removed
 
-#### Death Machine
+### Death Machine
 * Switch weapons to end duration
 * Deals at least 1/3 of zombie's health per shot
 * Powerup can now drop while one is already active
 
-#### Fire Sale
+### Fire Sale
 * Powerup can now drop while one is already active
 
-#### Nuke
+### Nuke
 * Now obtainable on round 1 on Kino Der Toten and Shangri-La
 * Kills all zombies instantly
 * Enemies killed by a Nuke no longer drop powerups
 * Zombies killed from Nuke count as kills for the person who grabbed the Nuke
 
-#### Wunderwaffe
+### Wunderwaffe
 * Floating powerup icon now shows Wunderwaffe weapon model
 * Switch weapons to end powerup duration
 * Powerup can now drop while one is already active
 
-#### Traps
+## Traps
 * All traps now count kills for the player who activated the trap
 * Fixed trap handles being moved to the wrong spot and trap lights staying green when the trap was activated as soon as it become available again
 * All traps kill instantly
@@ -360,7 +373,7 @@
 * Stun duration reduced from 2.5 seconds to 1.5 seconds (now matches the duration of the electricity being on screen)
 
 ### Electric Traps (Classic Maps)
-* Now display inactive and cooldown hintstrings
+* Now display active and cooldown hintstrings
 
 ### Electric Traps (Shi No Numa)
 * Cooldown time reduced from 90 seconds to 25 seconds (same as Verruckt and Der Riese)
@@ -425,18 +438,18 @@
 * Kills zombies
 * Spikes will not activate if the player is jumping over them
 
-#### Blockers
+## Blockers
 ### Doors
-* Doors push any players out that are touching them after they have fully opened
+* Push any players out that are touching them after they have fully opened
 
-#### Barriers
+## Barriers
 * No longer have to hold use button in order to rebuild barriers, only press
 * Speed Cola no longer increases speed of board repairs
 * Fixed a bug where zombies would get stuck in a barrier if a board was repaired as the zombie was beginning to go over the barrier
 * All zombies behind a barrer will now taunt correctly
 * Zombies will no longer get stuck behind a barrier when there are many zombies behind one barrier
 
-### Zombies
+## Zombies
 * Fixed a bug that caused zombies to bleedout unintentionally when zombies stay near the same spot for over 30 seconds
 * Zombies can no longer be alive and headless
 * Special rounds work on the powerup system (1st time after initial special round is random, then next special round is on the round that the previous one wasn't, then repeat)
@@ -453,8 +466,9 @@
 * The player who kills a Nova Crawler gets the kills for any zombies killed from the explosion of the Nova Crawler
 
 ### Thief
-* Max health is now 30,000 no matter how many players are in the match
+* Max health: 30,000
 * Health does not change depending on how many payers are in the match
+* No longer effected by insta kills or nukes
 
 ### Monkeys (Ascension)
 * Max health decreased to 1600
@@ -466,8 +480,9 @@
 * Always drops Wunderwaffe regardless of whether or not you have completed the sidequest
 * Upgraded assault rifles no longer deal extra non-headshot damage to the Director
 * Max health is now 250,000 no matter how many players are in the match
+* Only slows down players close to him when shot at while calm
 
-#### Monkeys (Shangri-La)
+### Monkeys (Shangri-La)
 * No longer count as kills
 * Keep attempting to spawn until they successfully spawn during the whole duration while a powerup is active on the ground
 * Now always cycle through Nukes and Fire Sales
@@ -480,6 +495,9 @@
 ### Napalm
 * Kills from napalm explosion or flames count for the player who killed the napalm or the player who triggered the napalm
 
+###Shrieker
+* Damaging a shrieker will now always award a player points
+
 ### Cosmonaut
 * Fixed a bug where the Cosmonaut would get stuck in place when spawning in while a player was on jump pads
 * Cosmonaut no longer teleports players that activate a jump pad between the time of being grabbed and when they would have been teleported
@@ -487,40 +505,41 @@
 * Now kills any zombies near him when he explodes
 * Cosmonaut's name above its head is now always "Cosmonaut"
 
-### Maps
-#### Nacht Der Untoten
+## Maps
+### Nacht Der Untoten
 * Character dialog removed
 
-#### Verruckt
-* Removed intro text
+### Verruckt
 * Character dialog removed
+* Removed intro text
 * Fixed zombie pathing near Speed Cola
 
-#### Shi No Numa
+### Shi No Numa
 * Removed the need power hintstring for perks while they are spawning
 * Removed the ability to buy Quick Revive on solo while it was still in the process of spawning
 * Last perk is buyable while it is spawning
 
-#### Der Riese
+### Der Riese
 * Removed intro text
 * Fixed mystery box use trigger in Trench Gun room
 * Players will no longer get stuck on curbs
 
-#### Kino Der Toten
+### Kino Der Toten
 * Teleporting no longer takes you to special rooms unless both radios on the map have been activated
 
-#### Five
+### Five
 * Trap pieces are already in place
 * Barriers in the spawn room no longer reset
 * Pack-a-punch machine will stay available for as long as the defcon room is active
+* Teleporters will not show that they are ready to use again until they really are
 
-#### Ascension
+### Ascension
 * Sidequest completable with 1-4 players
 * Monkey round sidequest step: buttons no longer have to be pressed at the same time, only on the same monkey round
 * Lunar lander sidequest step: First use centrifuge lander, then use Stamin-Up lander, then use PHD Flopper lander, and last use Speed Cola lander
 * Lunar lander sideuqest step - HITSAM easter egg now only requiers the letters SAM (was not enough room to fit HITSAM)
 
-#### Call of the Dead
+### Call of the Dead
 * Removed zombie spawn delay at the beginning of a match
 * Wunderwaffe powerup from sidequest stays on the until picked up
 * Sidequest: human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health times the amount of players)
@@ -528,7 +547,7 @@
 * Sidequest: steps in solo are the same as in coop
 * Sidequest: bottle no longer breaks when it hits the ground
 
-#### Shangri-La
+### Shangri-La
 * Pack-a-Punch stones do not have to be stepped on at the same time
 * Eclipse mode activatable with 1-4 players
 * Sidequest completable with 1-4 players
@@ -540,8 +559,9 @@
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
 * Fixed a bug where players could clip through the wall behind Pack-a-Punch during the sidequest
 
-#### Moon
+### Moon
 * No Man's Land now spawns 24 zombies instead of 20 zombies
+* No Man's Land now displays a more accurate time of how long you survived
 * Added Fire Sale, Max Ammo, and Perk Bottle to jump pad powerup cycle
 * Removed the forced jumping in low gravity
 * Full sidequest completable in solo
@@ -559,12 +579,11 @@
 * Fixed a bug where if players teleported to No Man's Land while the round was changing and the Cosmonaut was spawned in, the next round would only have one zombie
 * Fixed a bug that caused the amount of zombies on round 1 to be the amount of zombies that should be on round 2
 * Teleporter gate doesn't start going down until power is on
-* No Man's Land now displays a more accurate time of how long you survived
 * When Tunnel 6 or Tunnel 11 are breached from an excavator, the areas with doors closed to the excavator will not get breached until the doors are opened
 * Excavator sounds no longer linked to FPS
 * Teleporter sounds no longer linked to FPS
  
-#### TODO:
+## TODO:
 * Fix alive players movement being stopped when other players spawn in (caused from .sessionstate)
 * Fix projectiles disappearing
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?)
@@ -576,7 +595,7 @@
 * Make cosmonaut not attracted to Gersch device after hacking Pack-a-Punch
 * Give players the same basic model on Nacht and Verruckt
 * Fix trench gun 3rd person sounds being too loud
-* Make crawlers give kill points immediately if on wall
+* Make crawlers give kill points immediately if killed on wall
 * Add stielhandgranate icon on HUD
 * Add dtp anims for all weapons
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -590,8 +609,7 @@
 * Make zombies go after monkeys instantly
 * Make it so betties can only be triggered by zombies with line of sight from bettys position
 * Fix mule kick weapon being changed from paping
-* Look for way to remove collision from zombies/dogs (NotSolid() doesnt work right)
-* Deadshot: add faster ADS move speed
+* Deadshot: add faster ADS move speed (using WeaponClass(current_weapon))
 * Add line of sight check for windows breaking on Moon
 * Fix bug where thief round voice line round start and visual fx starts but its a normal round
 * Fix mule kick weapon highlight text not working if player got perk from shang easter egg
@@ -605,19 +623,28 @@
 * Fix low grav with increased FPS
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Make it easier to tell how many grenades you have on HUD
-* ai SetPlayerCollision(0);
+* Remove collision from ai while theyre spawning(ai SetPlayerCollision(0);)
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
 * See if pausing in coop is possible
 * Remove blur when paused ingame
-* Check Freeze gun dmg on thief
-* Fix Five teleporter in clientscript showing its ready before it is
+* Remove perk machine bang sound when hitting the perk on Quick Revive after Quick Revive is gone on solo
+* Make Shang power switches do things when only one is turned on
+* Add meat powerup to grief
+* Add EMP grenades to grief
+* Make placeable mines not buyable when drinking
+* Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
+* Make trap hintstrings show time remaining for active and cooldown (use add_zombie_hint())
+* Remove marks on background of Deadshot perk emblem
+* Fix weapon order being changed
+* Verruckt: fix zombie pathing at speed slightly more
+# Change all strings to localized strings
 
-#### TESTING:
+## TESTING:
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 
-#### MAYBE:
+## MAYBE:
 * Ascension: double tap obtainable from free perk powerup?
 * Shangri-La: should mud pit sidequest step need the radio to be activated to work?
 * Moon: should teleporter gate start going down before power is on?
@@ -626,7 +653,7 @@
 * Should zombies not double swipe if player doesnt have jug?
 * Should there be a zombie spawn delay?
 
-#### 'BUGS' THAT ARE **_NOT_** BEING FIXED:
+## 'BUGS' THAT ARE NOT BEING FIXED:
 * Insta kill rounds
 * Powerup limit per round reset by teleporting on Moon
 * Damaging a zombie resets its hit animation
@@ -634,7 +661,7 @@
 * Trapping the cosmonaut via excavator
 * Shi No Numa Flogger double trap activation
 
-### GAME MOD:
+## GAME MOD:
 * Fix grenades giving more ammo than they should
 * Fix being able to buy grenades when you already have max amount
 * Make friends list alphabetical order
@@ -647,7 +674,7 @@
 * Get actionslot 2 highlighting to work
 * Fix demigod
 
-### SPECIAL THANKS:
+## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
 * **_lilrifa_** - menu scripting help
 * **_MasadaDRM_** - weapons and sound help

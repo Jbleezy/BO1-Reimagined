@@ -1116,11 +1116,11 @@ treasure_chest_think()
 	self endon("kill_chest_think");
 	if( IsDefined(level.zombie_vars["zombie_powerup_fire_sale_on"]) && level.zombie_vars["zombie_powerup_fire_sale_on"] && self [[level._zombiemode_check_firesale_loc_valid_func]]())
 	{
-		self set_hint_string( self, "powerup_fire_sale_cost" );
+		self set_hint_string( self, "reimagined_random_weapon_fire_sale_cost" );
 	}
 	else
 	{
-		self set_hint_string( self, "default_treasure_chest_" + self.zombie_cost );
+		self set_hint_string( self, "reimagined_treasure_chest_" + self.zombie_cost );
 	}
 	self setCursorHint( "HINT_NOICON" );
 
@@ -1249,7 +1249,7 @@ treasure_chest_think()
 		self.chest_user = user;
 		if(is_tactical_grenade(self.chest_origin.weapon_string))
 		{
-			self sethintstring( "Hold ^3&&1^7 to trade Equipment" ); //change to localized string
+			self sethintstring( &"REIMAGINED_TRADE_EQUIPMENT" );
 		}
 		else
 		{
@@ -1601,8 +1601,43 @@ decide_hide_show_hint( endon_notify )
 			{
 				current_weapon = players[i] GetCurrentWeapon();
 				primaryWeapons = players[i] GetWeaponsListPrimaries();
+				weapon_type = WeaponType( self.zombie_weapon_upgrade );
+				has_weapon = players[i] HasWeapon(self.zombie_weapon_upgrade);
+				if(weapon_type != "grenade")
+				{
+					has_weapon_upgrade = has_upgrade(self.zombie_weapon_upgrade);
+				}
+				else
+				{
+					has_weapon_upgrade = false;
+				}
+				player_ammo = undefined;
+				max_ammo = undefined;
+				if(has_weapon)
+				{
+					player_ammo = players[i] GetAmmoCount(self.zombie_weapon_upgrade);
+					max_ammo = WeaponMaxAmmo(self.zombie_weapon_upgrade);
+					if(weapon_type != "grenade")
+					{
+						max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
+					}
+				}
+				else if(has_weapon_upgrade)
+				{
+					player_ammo = players[i] GetAmmoCount(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
+					max_ammo = WeaponMaxAmmo(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name) + WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
+				}
 
-				if(is_melee_weapon(current_weapon))
+
+				if(has_weapon && player_ammo == max_ammo)
+				{
+					self SetInvisibleToPlayer( players[i], true );
+				}
+				else if(weapon_type != "grenade" && has_weapon_upgrade && player_ammo == max_ammo)
+				{
+					self SetInvisibleToPlayer( players[i], true );
+				}
+				else if(is_melee_weapon(current_weapon))
 				{
 					if(primaryWeapons.size == 0 || players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade))
 					{
@@ -1936,7 +1971,7 @@ fire_sale_fix()
 		self thread show_chest();
 		self thread hide_rubble();
 		self.zombie_cost = 10;
-		self set_hint_string( self , "powerup_fire_sale_cost" );
+		self set_hint_string( self , "reimagined_random_weapon_fire_sale_cost" );
 
 		wait_network_frame();
 
@@ -1954,7 +1989,7 @@ fire_sale_fix()
 		self thread show_rubble();
 	
 		self.zombie_cost = self.old_cost;
-		self set_hint_string( self , "default_treasure_chest_" + self.zombie_cost );
+		self set_hint_string( self , "reimagined_treasure_chest_" + self.zombie_cost );
 	}
 }
 
@@ -3543,30 +3578,54 @@ ammo_give( weapon )
 	// We assume before calling this function we already checked to see if the player has this weapon...
 
 	// Should we give ammo to the player
-	give_ammo = false; 
+	give_ammo = false;
+
+	max_ammo = WeaponMaxAmmo(weapon);
+	if(!is_offhand_weapon(weapon))
+	{
+		max_ammo += WeaponClipSize(weapon);
+	}
+
+	if(GetDvar("gm_version") == "1.1.0" && is_offhand_weapon(weapon))
+	{
+		max_ammo = 4;
+	}
+
+	// compare it with the ammo player actually has, if more or equal just dont give the ammo, else do
+	if( self getammocount( weapon ) < max_ammo )	
+	{
+		give_ammo = true; 
+	} 
 
 	// Check to see if ammo belongs to a primary weapon
-	if( !is_offhand_weapon( weapon ) )
+	/*if( !is_offhand_weapon( weapon ) )
 	{
 		if( isdefined( weapon ) )  
 		{
 			// get the max allowed ammo on the current weapon
-			stockMax = 0;	// scope declaration
-			stockMax = WeaponStartAmmo( weapon ); 
+			//stockMax = 0;	// scope declaration
+			//stockMax = WeaponStartAmmo( weapon ); 
 
 			// Get the current weapon clip count
-			clipCount = self GetWeaponAmmoClip( weapon ); 
+			//clipCount = self GetWeaponAmmoClip( weapon ); 
 
-			currStock = self GetAmmoCount( weapon );
+			//currStock = self GetAmmoCount( weapon );
+
+			max_ammo = WeaponMaxAmmo(weapon);
+			if(!is_offhand_weapon(weapon))
+			{
+				max_ammo += WeaponClipSize(weapon);
+			}
+
+			if(GetDvar("gm_version") == "1.1.0" && is_offhand_weapon(weapon))
+			{
+				max_ammo = 4;
+			}
 
 			// compare it with the ammo player actually has, if more or equal just dont give the ammo, else do
-			if( ( currStock - clipcount ) >= stockMax )	
+			if( self getammocount( weapon ) < max_ammo )	
 			{
-				give_ammo = false; 
-			}
-			else
-			{
-				give_ammo = true; // give the ammo to the player
+				give_ammo = true; 
 			}
 		}
 	}
@@ -3595,7 +3654,7 @@ ammo_give( weapon )
 				}
 			}
 		}		
-	}	
+	}*/
 
 	if( give_ammo )
 	{
@@ -3608,17 +3667,9 @@ ammo_give( weapon )
 		{
 			self GiveStartAmmo( weapon );
 		}
-// 		if( also_has_upgrade )
-// 		{
-// 			self GiveMaxAmmo( weapon+"_upgraded" );
-// 		}
 		return true;
 	}
-
-	if( !give_ammo )
-	{
-		return false;
-	}
+	return false;
 }
 
 init_includes()

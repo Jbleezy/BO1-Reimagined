@@ -2331,11 +2331,13 @@ thief_nuke_damage()
 {
 	self endon( "death" );
 
-	self.bonfire = false;
+	return;
+
+	/*self.bonfire = false;
 
 	self thread animscripts\zombie_death::flame_death_fx();
 	self playsound ("evt_nuked");
-	self dodamage( self.health + 666, self.origin );
+	self dodamage( self.health + 666, self.origin );*/
 }
 
 

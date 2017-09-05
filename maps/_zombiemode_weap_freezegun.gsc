@@ -335,10 +335,14 @@ freezegun_do_damage( upgraded, player, dist_ratio )
 		damage = level.zombie_health + 1000;
 	}
 
-	//freezegun should kill in one shot on insta kill rounds
-	if(damage < 150)
+	//minimum damage
+	if(!upgraded && (damage < 1000 || self.animname == "thief_zombie"))
 	{
-		damage = 150;
+		damage = 1000;
+	}
+	else if(upgraded && (damage < 2000 || self.animname == "thief_zombie"))
+	{
+		damage = 2000;
 	}
 
 	self freezegun_debug_print( damage, (0, 1, 0) );

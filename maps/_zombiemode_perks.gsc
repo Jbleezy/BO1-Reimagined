@@ -374,6 +374,10 @@ vending_machine_trigger_think()
 		for(i = 0; i < players.size; i ++)
 		{
 			current_weapon = players[i] getCurrentWeapon();
+			if(current_weapon == "microwavegun_zm")
+			{
+				current_weapon = "microwavegundw_zm";
+			}
 			primaryWeapons = players[i] GetWeaponsListPrimaries();
 			if ( players[i] hacker_active() )
 			{
@@ -1346,7 +1350,6 @@ vending_trigger_think()
 				cheat = true;
 			}
 			#/
-			cheat = true;
 
 			if ( cheat != true )
 			{
@@ -1461,10 +1464,6 @@ give_perk_think(player, gun, perk, cost, has_fastswitch)
 	// TODO: race condition?
 	if ( player maps\_laststand::player_is_in_laststand() || is_true( player.intermission ) )
 	{
-		if(perk == "specialty_fastreload")
-		{
-			player UnSetPerk("specialty_fastswitch");
-		}
 		return;
 	}
 
@@ -1475,7 +1474,7 @@ give_perk_think(player, gun, perk, cost, has_fastswitch)
 
 	player.perk_purchased = undefined;
 
-	player give_perk( perk, true );
+	//player give_perk( perk, true );
 
 	//player iprintln( "Bought Perk: " + perk );
 	bbPrint( "zombie_uses: playername %s playerscore %d teamscore %d round %d cost %d name %s x %f y %f z %f type perk",
@@ -1552,7 +1551,7 @@ give_perk( perk, bought )
 		self SetMaxHealth( level.zombie_vars["zombie_perk_juggernaut_health_upgrade"] );
 	}
 
-	if(perk == "specialty_fastreload" && !self HasPerk("specialty_fastswitch"))
+	if(perk == "specialty_fastreload")
 	{
 		self SetPerk("specialty_fastswitch");
 	}
@@ -1719,10 +1718,6 @@ check_player_has_perk(perk)
 		return;
 	}
 #/
-	if(true == true)
-	{
-		return;
-	}
 
 	dist = 128 * 128;
 	while(true)
@@ -1791,11 +1786,6 @@ perk_think( perk )
 		}
 	}
 #/
-	if(true == true)
-	{
-		self.num_perks = 0;
-		return;
-	}
 
 	perk_str = perk + "_stop";
 	result = self waittill_any_return( "fake_death", "death", "player_downed", perk_str );
@@ -1877,10 +1867,6 @@ perk_hud_create( perk )
 		}
 	}
 #/
-	if(true == true)
-	{
-		return;
-	}
 
 
 	shader = "";
@@ -2201,7 +2187,9 @@ perk_give_bottle_end( gun, perk, has_fastswitch )
 		return;
 	}
 
-	if(has_fastswitch || perk == "specialty_fastreload")
+	self give_perk(perk, true);
+
+	if(has_fastswitch)
 	{
 		self SetPerk("specialty_fastswitch");
 	}

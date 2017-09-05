@@ -571,6 +571,7 @@ init_strings()
 
 	// Random Treasure Chest
 	add_zombie_hint( "default_treasure_chest_950", &"ZOMBIE_RANDOM_WEAPON_950" );
+	add_zombie_hint( "reimagined_treasure_chest_950", &"REIMAGINED_RANDOM_WEAPON_950" );
 
 	// Barrier Pieces
 	add_zombie_hint( "default_buy_barrier_piece_10", &"ZOMBIE_BUTTON_BUY_BACK_BARRIER_10" );
@@ -624,7 +625,7 @@ init_strings()
 
 	// POWER UPS
 	add_zombie_hint( "powerup_fire_sale_cost", &"ZOMBIE_FIRE_SALE_COST" );
-
+	add_zombie_hint( "reimagined_random_weapon_fire_sale_cost", &"REIMAGINED_RANDOM_WEAPON_FIRE_SALE_COST" );
 }
 
 init_sounds()
@@ -4905,6 +4906,8 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 
 	players = get_players();
 
+	//iprintln("health: " + self.health);
+
 	if( sMeansOfDeath == "MOD_PROJECTILE" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH" || sMeansOfDeath == "MOD_GRENADE" || sMeansOfDeath == "MOD_GRENADE_SPLASH" )
 	{
 		// check for reduced damage from flak jacket perk
@@ -4921,6 +4924,9 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		iDamage = 75;
 		finalDamage = 75;
 	}
+
+	//iprintln("i: " + iDamage);
+	//iprintln("final: " + finalDamage);
 
 	if( iDamage < self.health )
 	{
@@ -5216,7 +5222,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		}
 	}
 
-	if((level.zombie_vars["zombie_insta_kill"] || is_true( attacker.personal_instakill)) && (self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie"))
+	if((level.zombie_vars["zombie_insta_kill"] || is_true( attacker.personal_instakill)) && (self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie"))
 	{
 		//insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
 		no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
@@ -5539,6 +5545,8 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	//iprintln(weapon);
 	//iprintln(final_damage);
 	//iprintln(meansofdeath);
+
+	//iprintln(WeaponClass(weapon));
 	
 	// return unchanged damage
 	//iPrintln( final_damage );
@@ -8226,17 +8234,22 @@ increase_revive_radius()
 
 give_weapons_test()
 {
-	wep = "freezegun_zm";
+	//wep = "freezegun_zm";
 	//wep = "thundergun_zm";
-	//wep = "sniper_explosive_zm";
+	wep = "sniper_explosive_zm";
 	self GiveWeapon(wep);
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
 	self SwitchToWeapon(wep);
 
-	/*wait 5;
+	wait 5;
 
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", self.origin, true );*/
+	while(1)
+	{
+		level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", self.origin, true );
+
+		wait 30;
+	}
 }
 
 //removes idle sway on sniper scopes

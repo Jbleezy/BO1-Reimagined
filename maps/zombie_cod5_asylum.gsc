@@ -54,10 +54,14 @@ main()
 	precachestring(&"WAW_ZOMBIE_BETTY_HOWTO");
 	precachestring(&"WAW_ZOMBIE_FLAMES_UNAVAILABLE");
 	precachestring(&"WAW_ZOMBIE_USE_AUTO_TURRET");
-	precachestring(&"WAW_ZOMBIE_ELECTRIC_SWITCH");
+	precachestring(&"ZOMBIE_ELECTRIC_SWITCH");
 	precachestring(&"WAW_ZOMBIE_INTRO_ASYLUM_LEVEL_BERLIN");
 	precachestring(&"WAW_ZOMBIE_INTRO_ASYLUM_LEVEL_HIMMLER");
 	precachestring(&"WAW_ZOMBIE_INTRO_ASYLUM_LEVEL_SEPTEMBER");
+
+	PrecacheString(&"ZOMBIE_BUTTON_BUY_TRAP");
+	PrecacheString(&"ZOMBIE_TRAP_ACTIVE");
+	PrecacheString(&"ZOMBIE_TRAP_COOLDOWN");
 	
 	include_weapons();
 	include_powerups();		
@@ -542,7 +546,7 @@ include_weapons()
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_bar", "zombie_bar_upgraded", 						&"WAW_ZOMBIE_WEAPON_BAR_1800", 					1800,	"mg" );
 
 	// Bipods                               				
-	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_bar_bipod", 	"",					"Hold ^3[{+activate}]^7 to buy BAR [Cost: &&1]", 			1800,	"mg" ); 
+	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_bar_bipod", 	"",					&"WAW_ZOMBIE_WEAPON_BAR_1800", 			1800,	"mg" ); 
 }
 
 //-------------------------------------------------------------------------------
@@ -1124,7 +1128,7 @@ master_electric_switch()
 	master_switch = getent("master_switch","targetname");	
 	master_switch notsolid();
 	//master_switch rotatepitch(90,1);
-	trig sethintstring(&"WAW_ZOMBIE_ELECTRIC_SWITCH");
+	trig sethintstring(&"ZOMBIE_ELECTRIC_SWITCH");
 	trig SetCursorHint( "HINT_NOICON" );
 
 	//turn off the buyable door triggers downstairs
@@ -1149,6 +1153,8 @@ master_electric_switch()
 	{
 		trig waittill("trigger",user);
 	}
+
+	trig delete();
 	
 	master_switch rotateroll(-90,.3);
 
@@ -1200,15 +1206,14 @@ master_electric_switch()
 	SetClientSysState("levelNotify","start_lights");
 	level thread play_pa_system();	
 
-	flag_set("electric_switch_used");
-	trig delete();	
+	flag_set("electric_switch_used");	
 	
 	//enable the electric traps
 	traps = getentarray("gas_access","targetname");
 	for(i=0;i<traps.size;i++)
 	{
-		traps[i] sethintstring(&"WAW_ZOMBIE_BUTTON_NORTH_FLAMES");
-		traps[i] SetCursorHint( "HINT_NOICON" );
+		//traps[i] sethintstring(&"WAW_ZOMBIE_BUTTON_NORTH_FLAMES");
+		//traps[i] SetCursorHint( "HINT_NOICON" );
 		
 		traps[i].is_available = true;
 	}

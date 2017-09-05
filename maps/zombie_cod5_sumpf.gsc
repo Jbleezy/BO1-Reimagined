@@ -54,6 +54,12 @@ main()
 	precachestring(&"WAW_ZOMBIE_BETTY_ALREADY_PURCHASED");
 	precachestring(&"WAW_ZOMBIE_BETTY_HOWTO");
 
+	precachestring(&"REIMAGINED_ZIPLINE_ACTIVATE");
+	precachestring(&"REIMAGINED_ZIPLINE_USE");
+	precachestring(&"ZOMBIE_BUTTON_BUY_TRAP");
+	PrecacheString(&"ZOMBIE_TRAP_ACTIVE");
+	PrecacheString(&"ZOMBIE_TRAP_COOLDOWN");
+
 	// DCS: switching over to use structs.
 	level.dog_spawn_func = maps\_zombiemode_ai_dogs::dog_spawn_factory_logic;
 

@@ -1127,10 +1127,9 @@ _sonic_damage_callback( mod, hit_location, hit_origin, player, amount )
 	{
 		return false;
 	}
-	//Don't give points as often as normal zombies
 	if ( self.classname == "actor_zombie_sonic" )
 	{
-		if(!isDefined(self.damageCount))
+		/*if(!isDefined(self.damageCount))
 		{
 			self.damageCount = 0;
 		}
@@ -1140,9 +1139,11 @@ _sonic_damage_callback( mod, hit_location, hit_origin, player, amount )
 			player maps\_zombiemode_score::player_add_points( "thundergun_fling", 10, hit_location, self.isdog );
 		}
 		
-		self.damageCount++;
+		self.damageCount++;*/
+
+		player maps\_zombiemode_score::player_add_points( "thundergun_fling", 10, hit_location, self.isdog );
 		
-		self thread maps\_zombiemode_powerups::check_for_instakill( player, mod, hit_location );
+		//self thread maps\_zombiemode_powerups::check_for_instakill( player, mod, hit_location );
 		
 		return true;
 	}

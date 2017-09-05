@@ -446,7 +446,6 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 	self Callback("on_player_damage");
 	if (is_true(self.magic_bullet_shield))
 	{
-		
 		maxHealth = self.maxHealth;
 		
 		self.health += iDamage;

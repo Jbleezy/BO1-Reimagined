@@ -62,16 +62,15 @@ self = use trigger associated with the gas valve
 ------------------------------------*/
 electric_trap_think()
 {	
-	self sethintstring(&"WAW_ZOMBIE_BUTTON_NORTH_FLAMES");
-	self setCursorHint( "HINT_NOICON" );
 	self.is_available = true;
 	self.zombie_cost = 1000;
 	self.in_use = 0;
+	self setCursorHint( "HINT_NOICON" );
 	level thread maps\zombie_cod5_sumpf::turnLightGreen(self.script_string);
 	
 	while(1)
 	{
-		self sethintstring(&"WAW_ZOMBIE_BUTTON_NORTH_FLAMES");
+		self sethintstring( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 		//valve_trigs = getentarray(self.script_noteworthy ,"script_noteworthy");		
 	
 		//wait until someone uses the valve
@@ -521,6 +520,5 @@ electrocute_timeout()
 	{
 		self.is_electrocuted = false;
 		self notify ("stop_flame_damage");
-	}
-	
+	}	
 }
