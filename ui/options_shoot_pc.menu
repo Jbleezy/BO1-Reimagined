@@ -125,6 +125,6 @@
 		FRAME_CHOICE_BIND_VIS( 35, "@MENU_GROUND_SUPPORT_CAPS", "+actionslot 4", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) )//sp
 		//CHOICE_BACK( "@MENU_BACK", close self )
 
-		FRAME_CHOICE_BIND_VIS( 36, "MELEE WEAPON", "+actionslot 2", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) )//sp
+		FRAME_CHOICE_BIND_VIS( 36, "@REIMAGINED_MELEE_WEAPON", "+actionslot 2", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) )//sp
 	}
 }

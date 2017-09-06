@@ -40,6 +40,9 @@ LANG_ENGLISH       	"Why are you trying to activate the trap before the bridge i
 REFERENCE          	DOOR_CLOSED
 LANG_ENGLISH       	"The door must be opened"
 
+REFERENCE			MELEE_WEAPON
+LANG_ENGLISH		"MELEE WEAPON"
+
 REFERENCE          	AK47_UPGRADED
 LANG_ENGLISH       	"The Red Mist"
 
