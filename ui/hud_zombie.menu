@@ -286,7 +286,10 @@
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_BOTTOM_LEFT
-			exp text 			(dvarString("zone_name")) // Does not need to be localized as GSC / CSC does it for use
+			// Wardog: Start - Change to use localized strings
+			// exp text 			(dvarString("zone_name"))
+			exp					text(LocString(ToUpper(DvarString("zone_name"))))
+			// Wardog: End
 			visible				when( dvarBool( "hud_zone_name_on" ) )
 			decoration
 
