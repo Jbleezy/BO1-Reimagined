@@ -7905,7 +7905,7 @@ give_weapons_test()
 
 	wait 5;
 
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "fire_sale", self.origin, true );
+	// level thread maps\_zombiemode_powerups::specific_powerup_drop( "fire_sale", self.origin, true );
 
 	/*while(1)
 	{
