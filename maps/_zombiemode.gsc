@@ -8300,10 +8300,11 @@ set_gamemode()
 		gamemodes = array("grief", "ffa", "snr", "ctf", "koth", "gg", "race", "turned");
 		gamemodes = array_randomize(gamemodes);
 		level.gamemode = gamemodes[RandomInt(gamemodes.size)];
-		SetDvar("zm_gamemode", level.gamemode); // Update the menu to display correct gamemode
 	}
 	else
 	{
 		level.gamemode = GetDvar("zm_gamemode");
 	}
+
+	SetDvar("zm_gamemode_name", level.gamemode);
 }

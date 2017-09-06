@@ -465,7 +465,7 @@
 			textalign			ITEM_ALIGN_TOP_CENTER
 			// Wardog: Start - Change to use localized string
 			// exp text 			(dvarString("zm_gamemode_name"))
-			exp					text(LocString(ToUpper("REIMAGINED_GAMEMODE_" + DvarString("zm_gamemode"))))
+			exp					text(LocString(ToUpper("REIMAGINED_GAMEMODE_" + DvarString("zm_gamemode_name"))))
 			// Wardog: End
 			visible				1
 			decoration
