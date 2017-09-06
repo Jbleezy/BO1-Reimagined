@@ -9,10 +9,10 @@ init_funcs()
 {
 	// ww: centrifuge is going to be random
 	// level._zombiemode_trap_activate_funcs[ "centrifuge" ]	= ::centrifuge_activate;
-	
+
 	//level._zombiemode_trap_activate_funcs[ "rocket" ]		= ::trap_activate_rocket;
 	//level._zombiemode_trap_use_funcs[ "rocket" ]			= ::trap_use_rocket;
-	
+
 }
 
 //*****************************************************************************
@@ -65,10 +65,10 @@ claw_detach( arm, claw_name )
 //*****************************************************************************
 rocket_init()
 {
-	
+
 	flag_wait("all_players_spawned");
 	wait(1);
-	
+
 	// DCS: rocket bracing claws init
 	retract_l	= GetStruct("claw_l_retract",	"targetname");
 	retract_r	= GetStruct("claw_r_retract",	"targetname");
@@ -79,7 +79,7 @@ rocket_init()
 	level.claw_retract_r_pos	= retract_r.origin;
 	level.claw_extend_l_pos		= extend_l.origin;
 	level.claw_extend_r_pos		= extend_r.origin;
-	
+
 	level.gantry_l = getent("claw_arm_l","targetname");
 	level.gantry_r = getent("claw_arm_r","targetname");
 
@@ -118,9 +118,9 @@ rocket_init()
 	level.rocket_lifter_arm linkto ( level.rocket_lifter );
 
 	level thread rocket_move_ready( );
-	
-	level thread rocket_spotlight_init();	
-	
+
+	level thread rocket_spotlight_init();
+
 }
 
 
@@ -139,23 +139,23 @@ rocket_move_ready( )
 	level.rocket_lifter MoveTo( start_spot.origin, 0.05 );
 	level.rocket_lifter waittill("movedone");
 
-	// Need to unlink the arm from the lifter when you want to rotate it.  
+	// Need to unlink the arm from the lifter when you want to rotate it.
 	//	Otherwise it won't rotate
 	level.rocket_lifter_arm unlink();
 	level.rocket_lifter_arm RotateTo( (13, 0, 0), 0.05 );
 	level.rocket_lifter_arm waittill("rotatedone");
-	
+
 	//unlink all the linked pieces of the rocket and lifter
 	unlink_rocket_pieces();
-	
+
 	// Wait for power to turn on.
 	level waittill("power_on");
 
 	// Wait for the sounds to settle
 	wait(5.0);
-	
+
 	link_rocket_pieces();
-	
+
 	level.rocket_lifter_arm linkto( level.rocket_lifter );
 
 	// move rocket into position after power.
@@ -166,24 +166,24 @@ rocket_move_ready( )
 
 	//wait( 16.0 );
 	level.rocket_lifter waittill("movedone");
-	
+
 	//unlink
 	level.rocket_lifter_arm unlink();
-	
+
 	// Start it in vertical position
 	rocket_move_vertical();
-	
+
 	unlink_rocket_pieces();
 
 }
 
-// 
+//
 // Spotlights for the rocket
 //
 rocket_spotlight_init()
 {
 
-	level waittill( "rocket_lights_on" );	
+	level waittill( "rocket_lights_on" );
 
 	exploder(5501); //- Low level 1 lights
 	wait(randomfloatrange(1,2));
@@ -191,7 +191,7 @@ rocket_spotlight_init()
 	wait(randomfloatrange(1,2));
 	exploder(5503); //- High level 3 lights
 
-	
+
 }
 
 //*****************************************************************************
@@ -199,7 +199,7 @@ rocket_spotlight_init()
 //*****************************************************************************
 rocket_move_vertical()
 {
-	
+
 	// Shawn J  - Sound - adding sound to rocket moving into position
 	//iprintlnbold( "rocket setting up!" );
 	level thread rocket_arm_sounds();
@@ -212,15 +212,15 @@ rocket_move_vertical()
 
 	// Drop the rocket into place
 	level.rocket MoveZ( -20, 3 );
-	
+
 	// DCS: move new claws in.
 	// Steve G movement sound
 	level.claw_arm_r playsound("evt_rocket_claw_arm");
 	level.claw_arm_r MoveTo(level.claw_extend_r_pos, 3.0);
 	level.claw_arm_l MoveTo(level.claw_extend_l_pos, 3.0);
-	
+
 	level thread maps\zombie_cosmodrome_amb::play_cosmo_announcer_vox( "vox_ann_rocket_anim" );
-	
+
 	wait( 3 );
 
 }
@@ -240,14 +240,14 @@ move_lifter_away()
 		level.rocket_lifter_arm MoveTo( start_spot.origin + offset, 15, 3, 3 );
 		level.rocket_lifter MoveTo( start_spot.origin, 15, 3, 3 );
 		wait(15.0);
-		
+
 		//detach the claws
 		claw_detach( level.claw_arm_l, "claw_l" );
 		claw_detach( level.claw_arm_r, "claw_r" );
-		
-		
+
+
 	//	level.rocket_lifter_arm unlink();
-}	
+}
 
 
 ////*****************************************************************************
@@ -270,10 +270,10 @@ move_lifter_away()
 //	// DCS: move new claws.
 //	level.claw_arm_r MoveTo(level.claw_retract_r_pos, 3.0);
 //	level.claw_arm_l MoveTo(level.claw_retract_l_pos, 3.0);
-//	
+//
 //	level.rocket_lifter_arm RotateTo( (0, 0, 0), 15, 3, 5 );
 //	wait( 15.0 );
-//	
+//
 //}
 
 ////*****************************************************************************
@@ -325,21 +325,21 @@ move_lifter_away()
 //			if ( players.size == 1 && who.score >= trap.zombie_cost )
 //			{
 //				// solo buy
-//				who maps\_zombiemode_score::minus_to_player_score( trap.zombie_cost ); 
+//				who maps\_zombiemode_score::minus_to_player_score( trap.zombie_cost );
 //				can_purchase = true;
 //			}
 //			else if( level.team_pool[ who.team_num ].score >= trap.zombie_cost )
 //			{
 //				// team buy
-//				who maps\_zombiemode_score::minus_to_team_score( trap.zombie_cost ); 
+//				who maps\_zombiemode_score::minus_to_team_score( trap.zombie_cost );
 //				can_purchase = true;
 //			}
 //			else if( level.team_pool[ who.team_num ].score + who.score >= trap.zombie_cost )
 //			{
 //				// team funds + player funds
 //				team_points = level.team_pool[ who.team_num ].score;
-//				who maps\_zombiemode_score::minus_to_player_score( trap.zombie_cost - team_points ); 
-//				who maps\_zombiemode_score::minus_to_team_score( team_points ); 
+//				who maps\_zombiemode_score::minus_to_player_score( trap.zombie_cost - team_points );
+//				who maps\_zombiemode_score::minus_to_team_score( team_points );
 //			}
 //			else
 //			{
@@ -422,9 +422,9 @@ move_lifter_away()
 //	for( i=0; i<fx_points.size; i++ )
 //	{
 //		wait_network_frame();
-//		fx_points[i] thread maps\_zombiemode_traps::trap_audio_fx(self);		
+//		fx_points[i] thread maps\_zombiemode_traps::trap_audio_fx(self);
 //	}
-//	
+//
 //	// Shawn J  - Sound - adding sound to rocket fire
 //	self playloopsound( "evt_rocket_fire", 1 );
 //
@@ -433,12 +433,12 @@ move_lifter_away()
 //
 //	earthquake( .25, self._trap_duration, self.origin, 1000 );
 //	wait( self._trap_duration );
-//	
+//
 //	// Shawn J  - Sound - stopping sound for rocket fire
 //	self stoploopsound( 2 );
 //
 //	// Shut down
-//	self notify ("trap_done");	
+//	self notify ("trap_done");
 //	clientnotify(self.script_string +"0");	// turn off FX
 //}
 
@@ -482,7 +482,7 @@ move_lifter_away()
 //	}
 //}
 
-// 
+//
 //  This hanles damaging the player when they are inside the triggers under teh rocket trap
 //
 //rocket_trap_player_damage( guy, str_endon )
@@ -491,13 +491,13 @@ move_lifter_away()
 //	{
 //		self endon( str_endon );
 //	}
-//	
+//
 //	while( guy IsTouching( self ) )
 //	{
 //		guy DoDamage( 2, guy.origin+(0,0,20) );
 //		wait( 0.2 );
 //	}
-//	
+//
 //}
 
 
@@ -545,7 +545,7 @@ centrifuge_init()
 	// Get Centrifuge trigger
 	centrifuge_trig = GetEnt( "trigger_centrifuge_damage", "targetname" );
 	centrifuge_trap = GetEnt( "rotating_trap_group1", "targetname" );
-	
+
 	// ww: client flag for centrifuge (allows csc to perform rumble
 	level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_RUMBLE = 8;
 	level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_LIGHTS = 11;
@@ -554,33 +554,33 @@ centrifuge_init()
 	centrifuge_trig EnableLinkTo();
 	centrifuge_trig LinkTo( centrifuge_trap );
 
-	
+
 	// Link the collision to the centrifuge
 	centrifuge_collision_brush = GetEnt( "rotating_trap_collision", "targetname" );
 	/#
 	AssertEx( IsDefined( centrifuge_collision_brush.target ), "collision missing target" );
 	#/
 	centrifuge_collision_brush LinkTo( GetEnt( centrifuge_collision_brush.target, "targetname" ) );
-	
-	
+
+
 	// Link the origins needed for sound to play on the ends of the model
 	tip_sound_origins = GetEntArray( "origin_centrifuge_spinning_sound", "targetname" );
 	array_thread( tip_sound_origins, ::centrifuge_spinning_edge_sounds );
-	
+
 	flag_wait( "all_players_connected" );
-	
+
 	// warning lights on
 	centrifuge_trap SetClientFlag( level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_LIGHTS );
 
 	// Now power down
-	
+
 	wait(4);
 	centrifuge_trap RotateYaw( 720, 10.0, 0.0, 4.5 );
     //centrifuge_trap playloopsound( "zmb_cent_mach_loop", .6 );
 	centrifuge_trap waittill( "rotatedone" );
 	//centrifuge_trap stoploopsound( 2 );
 	centrifuge_trap playsound( "zmb_cent_end" );
-	
+
 	// warning lights off
 	centrifuge_trap ClearClientFlag( level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_LIGHTS );
 
@@ -606,16 +606,16 @@ centrifuge_activate()
 	centrifuge = self._trap_movers[0];
 	old_angles = centrifuge.angles;
 	self thread maps\_zombiemode_traps::trig_update( centrifuge );
-	
+
 	//Shawn J Sound - power up sound for centrifuge
 	//self playsound ("zmb_cent_start");
-	
+
 	for ( i=0; i<self._trap_movers.size; i++ )
 	{
 		self._trap_movers[i] RotateYaw( 360, 5.0, 4.5 );
 	}
 	wait( 2.0 );
-	
+
 	self thread centrifuge_damage();
 	wait( 3.0 );
 
@@ -632,7 +632,7 @@ centrifuge_activate()
 		}
 		wait( step );
 	}
-	
+
 	// Spin to the angle we're going to end at
 	end_angle = RandomInt( 360 );
 	curr_angle = Int(centrifuge.angles[1]) % 360;
@@ -665,13 +665,13 @@ centrifuge_activate()
 
 	self notify( "trap_done" );
 
-	// 
+	//
 	for ( i=0; i<self._trap_movers.size; i++ )
 	{
 		self._trap_movers[i] RotateTo( (0, end_angle%360, 0), 1.0, 0.0, 0.9);
 	}
 	wait(1.0);
-	
+
 	self PlaySound( "zmb_cent_lockdown" );
 
 	// Pick a prize
@@ -690,12 +690,12 @@ centrifuge_random()
 	// objects
 	centrifuge_model = GetEnt( "rotating_trap_group1", "targetname" );
 	centrifuge_damage_trigger = GetEnt( "trigger_centrifuge_damage", "targetname" );
-	
+
 	// save the start angles
 	centrifuge_start_angles = centrifuge_model.angles;
 
 	while( true )
-	{	
+	{
 		// randomize centrifuge so it has the chance of missing a round
 		/*malfunction_for_round = RandomInt( 10 );
 		if( malfunction_for_round > 6 )
@@ -707,35 +707,35 @@ centrifuge_random()
 			level waittill( "between_round_over" ); // this will wait for the next time a round starts
 			level waittill( "between_round_over" ); // this will wait for the next time a round starts
 		}*/
-		
+
 		//wait( RandomIntRange( 24, 90 ) );
 		wait( RandomIntRange( 48, 180 ) );
-		
+
 		// figure out the roatation amount
 		rotation_amount = RandomIntRange( 3, 7 ) * 360;
-		
+
 		// how much time will it take to rotate?
 		wait_time = RandomIntRange( 4, 7 );
-		
+
 		// activation warning
 		level centrifuge_spin_warning( centrifuge_model );
-		
+
 		// set client flag for rumble
 		centrifuge_model SetClientFlag( level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_RUMBLE );
-		
+
 		// rotate the centrifuge
 		centrifuge_model RotateYaw( rotation_amount, wait_time, 1.0, 2.0 );
-		
+
 		// start the damage
 		centrifuge_damage_trigger thread centrifuge_damage();
-		
+
 		//C. Ayers: Start the sound
 		//centrifuge_model playsound ("zmb_cent_start");
-		
+
 		wait( 3.0 );
-		
+
 		// Spin full rotations as long as we can
-		
+
 		// track when the fuge should start slowing down in order to change the sound
 		// wait time minus the spin up and spin down times
 		slow_down_moment = wait_time - 3;
@@ -746,31 +746,31 @@ centrifuge_random()
 		centrifuge_model stoploopsound (4);
 		centrifuge_model playsound ("zmb_cent_end");
 		wait( slow_down_moment );
-		
+
 		//Shawn J Sound - power down sound for centrifuge
-		
+
 		centrifuge_model waittill( "rotatedone" );
 		centrifuge_damage_trigger notify( "trap_done" );
 		centrifuge_model PlaySound( "zmb_cent_lockdown" );
-		
+
 		// warning lights on
 		centrifuge_model ClearClientFlag( level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_LIGHTS );
-		
+
 		//for( i = 0; i < red_lights_fx.size; i++ )
 		//{
 		//	red_lights_fx[i] Unlink();
 		//}
-		
+
 		//array_delete( red_lights_fx );
-		
+
 		// clear client flag for rumble
 		centrifuge_model ClearClientFlag( level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_RUMBLE );
 	}
-	
+
 }
 
 centrifuge_spin_warning( ent_centrifuge_model )
-{	
+{
 	// create the fx parts
 	//centrifuge_warning_lights = [];
 	//for( i = 0; i < ent_centrifuge_model._fx_spots_lights.size; i++ )
@@ -782,7 +782,7 @@ centrifuge_spin_warning( ent_centrifuge_model )
 	//	PlayFXOnTag( level._effect[ "centrifuge_warning_light" ], temp_mdl, "tag_origin" );
 	//	centrifuge_warning_lights = add_to_array( centrifuge_warning_lights, temp_mdl, false );
 	//}
-	
+
 	// count down
 	// 3
 	// warning lights on
@@ -790,7 +790,7 @@ centrifuge_spin_warning( ent_centrifuge_model )
 	ent_centrifuge_model playsound ( "zmb_cent_alarm" );
 	ent_centrifuge_model PlaySound( "vox_ann_centrifuge_spins_1" );
 	wait( 1.0 );
-	
+
 	// 2 & 1
 	ent_centrifuge_model playsound ( "zmb_cent_start" );
 	//exhuast fx
@@ -800,12 +800,12 @@ centrifuge_spin_warning( ent_centrifuge_model )
 	//	PlayFXOnTag( level._effect[ "centrifuge_start_steam" ], ent_centrifuge_model, ent_centrifuge_model._fx_spots_steam[i] );
 	//}
 	wait( 2.0 );
-	
+
 	// 0
 	//C. Ayers: Play the looper
 	ent_centrifuge_model playloopsound ("zmb_cent_mach_loop", .6);
 	wait( 1.0 );
-	
+
 
 	//return centrifuge_warning_lights;
 }
@@ -815,9 +815,9 @@ centrifuge_spin_warning( ent_centrifuge_model )
 // Damage things that touch the damage trigger
 //*****************************************************************************
 centrifuge_damage()
-{	
+{
 	self endon( "trap_done" );
-		
+
 	// ww: Hack which allows the trigger to use zombie_trap_death even through it didn't go through trap init
 	self._trap_type = self.script_noteworthy;
 	players = getplayers();
@@ -831,7 +831,7 @@ centrifuge_damage()
 			if ( ent GetStance() == "stand" )
 			{
 				ent dodamage( 155, ent.origin+(0,0,20) );
-				ent SetStance( "crouch" );		
+				ent SetStance( "crouch" );
 			}
 		}
 		else
@@ -859,30 +859,30 @@ centrifuge_spinning_edge_sounds()
 	/#
 	AssertEx( IsDefined( self.target ), "origin is missing a target to link to" );
 	#/
-	
+
 	// leave the function if the origin has no target
 	if( !IsDefined( self.target ) )
 	{
 		return;
 	}
-	
+
 	// link the origin to the target
 	self LinkTo( GetEnt( self.target, "targetname" ) );
-	
+
 	// while loop so the sound can play each time the spinning starts
 	while( true )
 	{
 		// wait for the flag to start sound
-		flag_wait( "fuge_spining" );	
-		
+		flag_wait( "fuge_spining" );
+
 		// play sound
 		self PlayLoopSound( "zmb_cent_close_loop", .5 );
-		
+
 		// wait for spinning to end
 		flag_wait( "fuge_slowdown" );
-		
+
 		self StopLoopSound( 2 );
-		
+
 		// avoid any infinite loop issues
 		wait( 0.05 );
 	}
@@ -905,7 +905,7 @@ kill_counter()
 
 	// Random number flipping to setup the counter
 	level.kill_counter_hud FadeOverTime( 1.0 );
-	level.kill_counter_hud.alpha = 1;		
+	level.kill_counter_hud.alpha = 1;
 
 	// Note: First 2 stages will be number flipping
 	num_stages = 3;		// Only 1 digit counter
@@ -943,7 +943,7 @@ kill_counter()
 			ones = i % 10;
 		}
 		self.counter_1s set_counter( ones );
-	
+
 		// 10s
 		if ( IsDefined( self.counter_10s ) )
 		{
@@ -979,7 +979,7 @@ kill_counter()
 	self waittill( "kill_counter_end" );
 
 	level.kill_counter_hud FadeOverTime( 1.0 );
-	level.kill_counter_hud.alpha = 0;		
+	level.kill_counter_hud.alpha = 0;
  	wait(1.0);
 
 	level.kill_counter_hud destroy_hud();
@@ -998,7 +998,7 @@ kill_counter_update()
 		return;
 	}
 
-	// Now keep track of how many kills 
+	// Now keep track of how many kills
 	while ( 1 )
 	{
 		if ( IsDefined( self.counter_10s ) )
@@ -1039,7 +1039,7 @@ rocket_arm_sounds()
 	level.rocket_lifter playsound( "evt_rocket_set_main" );
 	wait(13.8);
 	level.rocket_lifter playsound( "evt_rocket_set_impact" );
-}	
+}
 
 door_firetrap_init()
 {
@@ -1050,21 +1050,21 @@ door_firetrap_init()
 	{
 		if(IsDefined(traps[i].script_string) && traps[i].script_string == "f2")
 		{
-			door_trap = traps[i]; 
+			door_trap = traps[i];
 			door_trap trap_set_string( &"ZOMBIE_NEED_POWER" );
 		}
-	}	
-	
+	}
+
 	flag_wait("power_on");
-	
+
 	if(!flag("base_entry_2_north_path"))
 	{
 		door_trap trap_set_string( &"ZOMBIE_COSMODROME_DOOR_CLOSED" );
 	}
 	flag_wait("base_entry_2_north_path");
-	
+
 	flag_set("base_door_opened");
-}	
+}
 
 
 unlink_rocket_pieces()
@@ -1079,7 +1079,7 @@ unlink_rocket_pieces()
 //	level.claw_retract_r_pos	= retract_r.origin;
 //	level.claw_extend_l_pos		= extend_l.origin;
 //	level.claw_extend_r_pos		= extend_r.origin;
-	
+
 //	level.gantry_l = getent("claw_arm_l","targetname");
 //	level.gantry_r = getent("claw_arm_r","targetname");
 
@@ -1147,4 +1147,3 @@ link_rocket_pieces()
 	}
 
 }
-

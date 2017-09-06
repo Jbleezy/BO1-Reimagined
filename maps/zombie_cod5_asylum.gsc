@@ -1,8 +1,8 @@
 #include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
-#include maps\_zombiemode_zone_manager; 
-#include maps\_music; 
+#include maps\_zombiemode_zone_manager;
+#include maps\_music;
 //#include maps\_anim;
 
 
@@ -10,7 +10,7 @@
 
 main()
 {
-	maps\zombie_cod5_asylum_fx::main();	
+	maps\zombie_cod5_asylum_fx::main();
 
 	// viewmodel arms for the level
 	PreCacheModel( "viewmodel_usa_pow_arms" ); // Dempsey
@@ -30,7 +30,7 @@ main()
 
 //	maps\_waw_destructible_opel_blitz::init_blitz();
 	precacheshellshock("electrocution");
-	
+
 	level.door_dialog_function = maps\_zombiemode::play_door_dialog;
 	level.custom_zombie_vox = ::setup_custom_vox;
 	//level.exit_level_func = ::asylum_exit_level;
@@ -44,12 +44,12 @@ main()
 	precachemodel("lights_tinhatlamp_on");
 	precachemodel("lights_indlight_on");
 	precachemodel("lights_indlight");
-	
+
 	level.valve_hint_north = (&"WAW_ZOMBIE_BUTTON_NORTH_FLAMES");
 	level.valve_hint_south = (&"WAW_ZOMBIE_BUTTON_NORTH_FLAMES");
-	
+
 	precachestring(level.valve_hint_north);
-	precachestring(level.valve_hint_south);	
+	precachestring(level.valve_hint_south);
 	precachestring(&"WAW_ZOMBIE_BETTY_ALREADY_PURCHASED");
 	precachestring(&"WAW_ZOMBIE_BETTY_HOWTO");
 	precachestring(&"WAW_ZOMBIE_FLAMES_UNAVAILABLE");
@@ -62,10 +62,10 @@ main()
 	PrecacheString(&"ZOMBIE_BUTTON_BUY_TRAP");
 	PrecacheString(&"ZOMBIE_TRAP_ACTIVE");
 	PrecacheString(&"ZOMBIE_TRAP_COOLDOWN");
-	
+
 	include_weapons();
-	include_powerups();		
-	
+	include_powerups();
+
 	if(getdvar("light_mode") != "")
 	{
 		return;
@@ -73,7 +73,7 @@ main()
 
 	level._effect["zombie_grain"]			= LoadFx( "misc/fx_zombie_grain_cloud" );
 
-	maps\_waw_zombiemode_radio::init();	
+	maps\_waw_zombiemode_radio::init();
 
 	level.Player_Spawn_func = ::spawn_point_override;
 	level.zombiemode_precache_player_model_override = ::precache_player_model_override;
@@ -96,27 +96,27 @@ main()
 
 	level.burning_zombies = [];
 	level.electrocuted_zombies = [];
-	
+
 	init_sounds();
-	
+
 	//the electric switch in the control room
 	level thread master_electric_switch();
-	
-//	thread maps\_zombiemode_audio::level_start_vox("level", "power"); 
+
+//	thread maps\_zombiemode_audio::level_start_vox("level", "power");
 
 	//zombie asylum custom stuff
-	init_zombie_asylum();	
-	
+	init_zombie_asylum();
+
 	//level thread intro_screen();
 	//level thread debug_health();
 	level thread toilet_useage();
 	level thread chair_useage();
 	level thread magic_box_light();
 	level thread mature_settings_changes();
-	
+
 	//DCS: get betties working.
 	maps\_zombiemode_betty::init();
-	
+
 	// If you want to modify/add to the weapons table, please copy over the _zombiemode_weapons init_weapons() and paste it here.
 	// I recommend putting it in it's own function...
 	// If not a MOD, you may need to provide new localized strings to reflect the proper cost.
@@ -155,7 +155,7 @@ asylum_zone_init()
 	add_adjacent_zone( "south_upstairs_zone", "south2_upstairs_zone", "south_access_1" );
 	add_adjacent_zone( "south2_upstairs_zone", "power_upstairs_zone", "magic_box_south" );
 
-}	
+}
 
 precache_player_model_override()
 {
@@ -182,7 +182,7 @@ give_player_model_override( entity_num )
 			break;
 		case 3:
 			character\c_ger_richtofen_zt::main();// Richtofen
-			break;	
+			break;
 	}
 }
 
@@ -205,7 +205,7 @@ player_set_viewmodel_override( entity_num )
 		case 3:
 			// Richtofen
 			self SetViewModel( "viewmodel_usa_hazmat_arms" );
-			break;		
+			break;
 	}
 }
 
@@ -228,38 +228,38 @@ player_zombie_awareness()
 {
 	self endon("disconnect");
 	self endon("death");
-	
+
 	while(1)
 	{
 		wait(1);
-		
+
 		zombie = get_closest_ai(self.origin,"axis");
-		
+
 		if(!isDefined(zombie) || !isDefined(zombie.zombie_move_speed) )
 		{
 			continue;
 		}
-		
+
 		dist = 200;
-		
+
 		switch(zombie.zombie_move_speed)
 		{
 			case "walk": dist = 200;break;
 			case "run": dist = 250; break;
 			case "sprint": dist = 275;break;
 		}
-		
+
 		if(distance2d(zombie.origin,self.origin) < dist)
-		{				
+		{
 			yaw = self animscripts\zombie_utility::GetYawToSpot(zombie.origin );
-			
+
 			//check to see if he's actually behind the player
 			if(yaw < -95 || yaw > 95)
 			{
 				zombie playsound ("behind_vocals");
-			}			
-		}		
-	}	
+			}
+		}
+	}
 }
 
 intro_screen()
@@ -278,7 +278,7 @@ intro_screen()
 		level.intro_hud[i].horzAlign = "left";
 		level.intro_hud[i].vertAlign = "bottom";
 		level.intro_hud[i].foreground = true;
-		
+
 		if ( level.splitscreen && !level.hidef )
 		{
 			level.intro_hud[i].fontScale = 2.75;
@@ -294,36 +294,36 @@ intro_screen()
 	level.intro_hud[0].y = -110;
 	level.intro_hud[1].y = -90;
 	level.intro_hud[2].y = -70;
-	
-	
+
+
 	level.intro_hud[0] settext(&"WAW_ZOMBIE_INTRO_ASYLUM_LEVEL_BERLIN");
 	level.intro_hud[1] settext(&"WAW_ZOMBIE_INTRO_ASYLUM_LEVEL_HIMMLER");
 	level.intro_hud[2] settext(&"WAW_ZOMBIE_INTRO_ASYLUM_LEVEL_SEPTEMBER");
-	
+
 	for(i = 0 ; i < 3; i++)
 	{
-		level.intro_hud[i] FadeOverTime( 1.5 ); 
+		level.intro_hud[i] FadeOverTime( 1.5 );
 		level.intro_hud[i].alpha = 1;
 		wait(1.5);
 
-	
+
 	}
 	wait(1.5);
 	for(i = 0 ; i < 3; i++)
 	{
-		level.intro_hud[i] FadeOverTime( 1.5 ); 
+		level.intro_hud[i] FadeOverTime( 1.5 );
 		level.intro_hud[i].alpha = 0;
 		wait(1.5);
-	
-	
-	}	
+
+
+	}
 	for(i = 0 ; i < 3; i++)
 	{
 		level.intro_hud[i] destroy();
-	
+
 	}
-	
-	
+
+
 	level thread magic_box_limit_location_init();
 
 }
@@ -336,16 +336,16 @@ play_pa_system()
 	playsoundatposition("alarm", speakerA.origin);
 
 	level thread play_comp_sounds();
-	
+
 	generator_arc = getent("generator_arc", "targetname");
 	generator_arc playloopsound("gen_arc_loop");
-	
+
 	wait(4.0);
 	generator = getent("generator_origin", "targetname");
 	generator playloopsound("generator_loop");
 
-	
-	wait(8.0);	
+
+	wait(8.0);
 	playsoundatposition ("amb_pa_system", speakerA.origin);
 
 }
@@ -363,18 +363,18 @@ Zombie Asylum special sauce
 init_zombie_asylum()
 {
 	level.magic_box_uses = 1;
-	
+
 	//flags
 	flag_init("both_doors_opened");			//keeps track of the players opening the 'magic box' room doors
 	flag_init("electric_switch_used");	//when the players use the electric switch in the control room
-	
+
 	flag_set("spawn_point_override");
-		
+
 	//electric traps
 	level thread init_elec_trap_trigs();
-	
-	level thread init_lights();	
-	
+
+	level thread init_lights();
+
 	//water sheeting triggers
 	water_trigs = getentarray("waterfall","targetname");
 	array_thread(water_trigs,::watersheet_on_trigger);
@@ -382,10 +382,10 @@ init_zombie_asylum()
 
 init_lights()
 {
-	
+
 	tinhats = [];
 	arms = [];
-	
+
 	ents = getentarray("elect_light_model","targetname");
 	for(i=0;i<ents.size;i++)
 	{
@@ -397,8 +397,8 @@ init_lights()
 		{
 			arms[arms.size] = ents[i];
 		}
-	}	
-	
+	}
+
 	for(i = 0;i<tinhats.size;i++)
 	{
 		wait_network_frame();
@@ -408,8 +408,8 @@ init_lights()
 	{
 		wait_network_frame();
 		arms[i] setmodel("lights_indlight");
-	}	
-	
+	}
+
 	flag_wait("electric_switch_used");
 
 	for(i = 0;i<tinhats.size;i++)
@@ -421,8 +421,8 @@ init_lights()
 	{
 		wait_network_frame();
 		arms[i] setmodel("lights_indlight_on");
-	}	
-	
+	}
+
 	//shut off magic box light
 	//open_light = getent("opened_chest_light", "script_noteworthy");
 	//hallway_light = getent("magic_box_hallway_light", "script_noteworthy");
@@ -444,7 +444,7 @@ init_sounds()
 {
 	maps\_zombiemode_utility::add_sound( "break_stone", "break_stone" );
 	maps\_zombiemode_utility::add_sound( "zmb_couch_slam", "couch_slam" );
-	
+
 	// override the default slide with the buzz slide
 	maps\_zombiemode_utility::add_sound("door_slide_open", "door_slide_open");
 
@@ -520,33 +520,33 @@ include_weapons()
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_kar98k", "zombie_kar98k_upgraded", 						&"WAW_ZOMBIE_WEAPON_KAR98K_200", 				200,	"rifle");
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_type99_rifle", "",					&"WAW_ZOMBIE_WEAPON_TYPE99_200", 			    200,	"rifle" );
 
-	// Semi Auto                                        		
+	// Semi Auto
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_gewehr43", "zombie_gewehr43_upgraded",						&"WAW_ZOMBIE_WEAPON_GEWEHR43_600", 				600,	"rifle" );
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_m1carbine","zombie_m1carbine_upgraded",						&"WAW_ZOMBIE_WEAPON_M1CARBINE_600",				600,	"rifle" );
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_m1garand", "zombie_m1garand_upgraded" ,						&"WAW_ZOMBIE_WEAPON_M1GARAND_600", 				600,	"rifle" );
 
 	maps\_zombiemode_weapons::add_zombie_weapon( "stielhandgranate", "", 						&"WAW_ZOMBIE_WEAPON_STIELHANDGRANATE_250", 		250,	"grenade", "", 250 );
-	maps\_zombiemode_weapons::add_zombie_weapon( "mine_bouncing_betty", "", &"WAW_ZOMBIE_WEAPON_SATCHEL_2000", 2000 );		
+	maps\_zombiemode_weapons::add_zombie_weapon( "mine_bouncing_betty", "", &"WAW_ZOMBIE_WEAPON_SATCHEL_2000", 2000 );
 	// Scoped
 	maps\_zombiemode_weapons::add_zombie_weapon( "kar98k_scoped_zombie", "", 					&"WAW_ZOMBIE_WEAPON_KAR98K_S_750", 				750,	"sniper");
 
-	// Full Auto                                                                                	
+	// Full Auto
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_stg44", "zombie_stg44_upgraded", 							    &"WAW_ZOMBIE_WEAPON_STG44_1200", 				1200, "mg" );
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_thompson", "zombie_thompson_upgraded", 							&"WAW_ZOMBIE_WEAPON_THOMPSON_1200", 			1200, "mg" );
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_type100_smg", "zombie_type100_smg_upgraded", 						&"WAW_ZOMBIE_WEAPON_TYPE100_1000", 				1000, "mg" );
 
-	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_fg42", "zombie_fg42_upgraded", 							&"WAW_ZOMBIE_WEAPON_FG42_1500", 				1500,	"mg" ); 
+	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_fg42", "zombie_fg42_upgraded", 							&"WAW_ZOMBIE_WEAPON_FG42_1500", 				1500,	"mg" );
 
 
-	// Shotguns                                         	
+	// Shotguns
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_doublebarrel", "zombie_doublebarrel_upgraded", 						&"WAW_ZOMBIE_WEAPON_DOUBLEBARREL_1200", 		1200, "shotgun");
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_doublebarrel_sawed", "", 			    &"WAW_ZOMBIE_WEAPON_DOUBLEBARREL_SAWED_1200", 	1200, "shotgun");
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_shotgun", "zombie_shotgun_upgraded",							&"WAW_ZOMBIE_WEAPON_SHOTGUN_1500", 				1500, "shotgun");
 
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_bar", "zombie_bar_upgraded", 						&"WAW_ZOMBIE_WEAPON_BAR_1800", 					1800,	"mg" );
 
-	// Bipods                               				
-	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_bar_bipod", 	"",					&"WAW_ZOMBIE_WEAPON_BAR_1800", 			1800,	"mg" ); 
+	// Bipods
+	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_bar_bipod", 	"",					&"WAW_ZOMBIE_WEAPON_BAR_1800", 			1800,	"mg" );
 }
 
 //-------------------------------------------------------------------------------
@@ -562,14 +562,14 @@ include_powerups()
 
 
 /*------------------------------------
-	FIRE TRAPS 
+	FIRE TRAPS
 
 - players can activate
 	gas valves that enable a wall of fire for a few seconds
-	
+
 	NOT!
 	it's been changed to electricity
-	
+
 	need to update the relevant function names/variables and such to reflect the change
 ------------------------------------*/
 init_elec_trap_trigs()
@@ -597,8 +597,8 @@ toilet_useage()
 		wait(0.5);
 
 		toilet_trig waittill( "trigger");
-		toilet_trig playsound ("toilet_flush", "sound_done");				
-		toilet_trig waittill ("sound_done");				
+		toilet_trig playsound ("toilet_flush", "sound_done");
+		toilet_trig waittill ("sound_done");
 		toilet_counter ++;
 
 		if(toilet_counter == 3)
@@ -607,7 +607,7 @@ toilet_useage()
 			level thread play_music_easter_egg();
 		}
 	}
-	
+
 }
 
 //-------------------------------------------------------------------------------
@@ -615,8 +615,8 @@ play_music_easter_egg(player)
 {
 	level.music_override = true;
 	level thread maps\_zombiemode_audio::change_zombie_music( "egg" );
-	
-	wait(245);	
+
+	wait(245);
 
 	level.music_override = false;
 	level thread maps\_zombiemode_audio::change_zombie_music( "wave_loop" );
@@ -636,7 +636,7 @@ chair_useage()
 	{
 		wait(0.05);
 		for(i=0;i<players.size;i++)
-		{			
+		{
 			chair_trig waittill( "trigger", players);
 			chair_counter ++;
 			if(chair_counter == 3)
@@ -644,10 +644,10 @@ chair_useage()
 				playsoundatposition ("chair", chair_trig.origin);
 				chair_counter = 0;
 			}
-				
+
 		}
 	}
-	
+
 }
 
 //-------------------------------------------------------------------------------
@@ -662,7 +662,7 @@ electric_trap_dialog()
 		wait(0.5);
 		players = get_players();
 		for(i = 0; i < players.size; i++)
-		{		
+		{
 			dist = distancesquared(players[i].origin, self.origin );
 			if(dist > 70*70)
 			{
@@ -676,9 +676,9 @@ electric_trap_dialog()
 			}
 			if(dist < 70*70 && timer == 3)
 			{
-				
-				//players[i] thread do_player_vo("vox_start", 5);	
-				wait(3);				
+
+				//players[i] thread do_player_vo("vox_start", 5);
+				wait(3);
 				self notify ("warning_dialog");
 				//iprintlnbold("warning_given");
 			}
@@ -698,7 +698,7 @@ hint_string( string )
 self = use trigger associated with the gas valve
 ------------------------------------*/
 electric_trap_think()
-{	
+{
 	self.is_available = undefined;
 	self.zombie_cost = 1000;
 	self.in_use = 0;
@@ -707,13 +707,13 @@ electric_trap_think()
 	self SetCursorHint( "HINT_NOICON" );
 	flag_wait( "power_on" );
 
-	//triggers = getentarray(self.script_noteworthy ,"script_noteworthy");		
+	//triggers = getentarray(self.script_noteworthy ,"script_noteworthy");
 
 	while(1)
 	{
-		
+
 		self sethintstring( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
-		
+
 		//array_thread(triggers, ::hint_string, &"WAW_ZOMBIE_ACTIVATE_TRAP" );
 
 		//wait until someone uses the valve
@@ -722,16 +722,16 @@ electric_trap_think()
 		{
 			continue;
 		}
-		
+
 		if(!isDefined(self.is_available))
-		{			
-			continue;			
+		{
+			continue;
 		}
-				
+
 		if( is_player_valid( who ) )
 		{
 			if( who.score >= self.zombie_cost )
-			{				
+			{
 				if(!self.in_use)
 				{
 					self.in_use = 1;
@@ -751,15 +751,15 @@ electric_trap_think()
 					//this trigger detects zombies walking thru the flames
 					self.zombie_dmg_trig = getent(self.target,"targetname");
 					self.zombie_dmg_trig trigger_on();
-					
+
 					//play the flame FX and do the actual damage
-					self thread activate_electric_trap(who);					
-					
+					self thread activate_electric_trap(who);
+
 					//wait until done and then re-enable the valve for purchase again
 					self waittill("elec_done");
-					
+
 					clientnotify(self.script_string +"off");
-										
+
 					//delete any FX ents
 					if(isDefined(self.fx_org))
 					{
@@ -773,21 +773,21 @@ electric_trap_think()
 					{
 						self.zapper_fx_switch_org delete();
 					}
-										
-					
+
+
 					//turn the damage detection trigger off until the flames are used again
 			 		self.zombie_dmg_trig trigger_off();
 					//array_thread(triggers, ::hint_string, &"ZOMBIE_TRAP_COOLDOWN" );
 					self sethintstring( &"ZOMBIE_TRAP_COOLDOWN" );
 
 					wait(25);
-				
+
 					//Play the 'alarm' sound to alert players that the traps are available again (playing on a temp ent in case the PA is already in use.
 					speakerA = getstruct("loudspeaker", "targetname");
 					playsoundatposition("warning", speakera.origin);
 					self notify("available");
 
-					self.in_use = 0;					
+					self.in_use = 0;
 				}
 			}
 		}
@@ -809,7 +809,7 @@ electric_trap_move_switch(parent)
 		while(IsDefined(self.moving) && self.moving)
 		{
 			wait_network_frame();
-		}	
+		}
 
 		tswitch rotatepitch(-180,.5);
 		tswitch playsound("amb_sparks_l_b");
@@ -820,7 +820,7 @@ electric_trap_move_switch(parent)
 		self.moving = true;
 
 		tswitch rotatepitch(180,.5);
-		
+
 		//turn the light back green once the trap is available again
 		north_zapper_light_green();
 
@@ -835,7 +835,7 @@ electric_trap_move_switch(parent)
 		{
 			wait_network_frame();
 		}
-		
+
 		tswitch rotatepitch(180,.5);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
@@ -845,7 +845,7 @@ electric_trap_move_switch(parent)
 		self.moving = true;
 
 		tswitch rotatepitch(-180,.5);
-		
+
 		south_zapper_light_green();
 
 		tswitch waittill("rotatedone");
@@ -856,35 +856,35 @@ electric_trap_move_switch(parent)
 
 activate_electric_trap(who)
 {
-	//the trap on the north side is kinda busted, so it has a sparky wire. 
+	//the trap on the north side is kinda busted, so it has a sparky wire.
 	if(isDefined(self.script_string) && self.script_string == "north")
 	{
-		
+
 		machine = getent("zap_machine_north","targetname");
 		machine setmodel("zombie_zapper_power_box_on");
 		clientnotify("north");
 	}
 	else
 	{
-		
+
 		machine = getent("zap_machine_south","targetname");
 		machine setmodel("zombie_zapper_power_box_on");
 		clientnotify("south");
-	}	
-		
+	}
+
 	clientnotify(self.target);
-	
+
 	fire_points = getstructarray(self.target,"targetname");
-	
+
 	for(i=0;i<fire_points.size;i++)
 	{
 		wait_network_frame();
-		fire_points[i] thread electric_trap_fx(self);		
+		fire_points[i] thread electric_trap_fx(self);
 	}
-	
+
 	//do the damage
 	self.zombie_dmg_trig thread elec_barrier_damage(who);
-	
+
 	// reset the zapper model
 	level waittill("arc_done");
 	machine setmodel("zombie_zapper_power_box");
@@ -903,35 +903,35 @@ electric_trap_fx(notify_ent)
 		self.tag_origin playsound("zmb_elec_start");
 		self.tag_origin playloopsound("zmb_elec_loop");
 		self thread play_electrical_sound();
-	} 
+	}
 	wait(25);
-		
+
 	if(isDefined(self.script_sound))
 	{
 		self.tag_origin stoploopsound();
 	}
-	self.tag_origin delete(); 
+	self.tag_origin delete();
 	notify_ent notify("elec_done");
 	level notify ("arc_done");
-	
+
 }
 play_electrical_sound()
 {
 	level endon ("arc_done");
 	while(1)
-	{	
+	{
 		wait(randomfloatrange(0.1, 0.5));
 		playsoundatposition("zmb_elec_arc", self.origin);
 	}
-	
+
 
 }
 elec_barrier_damage(who)
-{	
+{
 	while(1)
 	{
 		self waittill("trigger",ent);
-		
+
 		//player is standing flames, dumbass
 		if(isplayer(ent) )
 		{
@@ -939,7 +939,7 @@ elec_barrier_damage(who)
 		}
 		else
 		{
-		
+
 			if(!isDefined(ent.marked_for_death))
 			{
 				ent.marked_for_death = true;
@@ -950,7 +950,7 @@ elec_barrier_damage(who)
 }
 play_elec_vocals()
 {
-	if(IsDefined (self)) 
+	if(IsDefined (self))
 	{
 		org = self.origin;
 		wait(0.15);
@@ -960,32 +960,32 @@ play_elec_vocals()
 	}
 }
 player_elec_damage()
-{	
+{
 	self endon("death");
 	self endon("disconnect");
-	
+
 	if(!IsDefined (level.elec_loop))
 	{
 		level.elec_loop = 0;
-	}	
-	
+	}
+
 	if( !isDefined(self.is_burning) && !self maps\_laststand::player_is_in_laststand() )
 	{
-		self.is_burning = 1;		
-		self setelectrified(1.25);	
-		shocktime = 1.5;			
+		self.is_burning = 1;
+		self setelectrified(1.25);
+		shocktime = 1.5;
 		//Changed Shellshock to Electrocution so we can have different bus volumes.
 		self shellshock("electrocution", shocktime);
-		
+
 		if(level.elec_loop == 0)
-		{	
+		{
 			elec_loop = 1;
 			//self playloopsound ("electrocution");
 			self playsound("zmb_zombie_arc");
 		}
 		if(!self hasperk("specialty_armorvest") || self.health - 100 < 1)
 		{
-			
+
 			radiusdamage(self.origin,10,self.health + 100,self.health + 100);
 			self.is_burning = undefined;
 
@@ -1006,7 +1006,7 @@ player_elec_damage()
 zombie_elec_death(flame_chance, who)
 {
 	self endon("death");
-	
+
 	//10% chance the zombie will burn, a max of 6 burning zombs can be goign at once
 	//otherwise the zombie just gibs and dies
 	if(flame_chance > 90 && level.burning_zombies.size < 6)
@@ -1015,16 +1015,16 @@ zombie_elec_death(flame_chance, who)
 		self thread zombie_flame_watch();
 		self playsound("zmb_ignite");
 		self thread animscripts\zombie_death::flame_death_fx();
-		//wait(randomfloat(1.25));		
+		//wait(randomfloat(1.25));
 	}
 	else
 	{
-		
+
 		refs[0] = "guts";
-		refs[1] = "right_arm"; 
-		refs[2] = "left_arm"; 
-		refs[3] = "right_leg"; 
-		refs[4] = "left_leg"; 
+		refs[1] = "right_arm";
+		refs[2] = "left_arm";
+		refs[3] = "right_leg";
+		refs[4] = "left_leg";
 		refs[5] = "no_legs";
 		refs[6] = "head";
 		self.a.gib_ref = refs[randomint(refs.size)];
@@ -1053,15 +1053,15 @@ zombie_flame_watch()
 
 /*------------------------------------
 	SPAWN POINT OVERRIDE
-	
+
 - special asylum spawning hotness
 ------------------------------------*/
 spawn_point_override()
 {
 	// eschmidt: changed so we're guaranteed that the zombiemode spawn function goes first
 	flag_wait( "all_players_connected" );
-	
-	players = get_players(); 
+
+	players = get_players();
 
 	//spawn points are split, so grab them both seperately
 	north_structs = getstructarray("north_spawn","script_noteworthy");
@@ -1074,14 +1074,14 @@ spawn_point_override()
 		side1 = south_structs;
 		side2 = north_structs;
 	}
-		
+
 	//spawn players on a specific side, but randomize it up a bit
 	for( i = 0; i < players.size; i++ )
 	{
-			
+
 		if(i<2)
 		{
-			players[i] setorigin( side1[i].origin ); 
+			players[i] setorigin( side1[i].origin );
 			players[i] setplayerangles( side1[i].angles );
 			players[i].respawn_point = side1[i];
 			players[i].spawn_side = side1[i].script_noteworthy;
@@ -1094,8 +1094,8 @@ spawn_point_override()
 			players[i].respawn_point = side2[i];
 			players[i].spawn_side = side2[i].script_noteworthy;
 			players[i].spectator_respawn = side2[i];
-		}	
-	}	
+		}
+	}
 }
 
 disable_bump_trigger(triggername)
@@ -1109,7 +1109,7 @@ disable_bump_trigger(triggername)
 			{
 				triggers[i].script_activated =0;
 			}
-			
+
 		}
 	}
 
@@ -1123,9 +1123,9 @@ disable_bump_trigger(triggername)
 //-------------------------------------------------------------------------------
 master_electric_switch()
 {
-	
+
 	trig = getent("use_master_switch","targetname");
-	master_switch = getent("master_switch","targetname");	
+	master_switch = getent("master_switch","targetname");
 	master_switch notsolid();
 	//master_switch rotatepitch(90,1);
 	trig sethintstring(&"ZOMBIE_ELECTRIC_SWITCH");
@@ -1135,13 +1135,13 @@ master_electric_switch()
 	fx_org = spawn("script_model", (-674.922, -300.473, 284.125));
 	fx_org setmodel("tag_origin");
 	fx_org.angles = (0, 90, 0);
-	playfxontag(level._effect["electric_power_gen_idle"], fx_org, "tag_origin");  
-	
-	
-		
+	playfxontag(level._effect["electric_power_gen_idle"], fx_org, "tag_origin");
+
+
+
 	cheat = false;
-	
-/# 
+
+/#
 	if( GetDvarInt( "zombie_cheat" ) >= 3 )
 	{
 		wait( 5 );
@@ -1155,7 +1155,7 @@ master_electric_switch()
 	}
 
 	trig delete();
-	
+
 	master_switch rotateroll(-90,.3);
 
 	//TO DO (TUEY) - kick off a 'switch' on client script here that operates similiarly to Berlin2 subway.
@@ -1167,7 +1167,7 @@ master_electric_switch()
 	//level thread electric_current_doubletap_machine();
 	//level thread electric_current_juggernog_machine();
 
-	
+
 	flag_set("power_on");
 	//clientnotify("revive_on");
 	//clientnotify("middle_door_open");
@@ -1176,8 +1176,8 @@ master_electric_switch()
 	//clientnotify("jugger_on");
 
 	clientnotify("ZPO");	 // Zombie Power On.
-	
-	
+
+
 	level notify("switch_flipped");
 	disable_bump_trigger("switch_door_trig");
 	level thread play_the_numbers();
@@ -1186,55 +1186,55 @@ master_electric_switch()
 	left_org_b = getent("audio_swtch_b_left", "targetname");
 	right_org_b = getent("audio_swtch_b_right", "targetname");
 
-	if( isdefined (left_org)) 
+	if( isdefined (left_org))
 	{
 		left_org playsound("amb_sparks_l");
 	}
-	if( isdefined (left_org_b)) 
+	if( isdefined (left_org_b))
 	{
 		left_org playsound("amb_sparks_l_b");
 	}
-	if( isdefined (right_org)) 
+	if( isdefined (right_org))
 	{
 		right_org playsound("amb_sparks_r");
 	}
-	if( isdefined (right_org_b)) 
+	if( isdefined (right_org_b))
 	{
 		right_org playsound("amb_sparks_r_b");
 	}
 	// TUEY - Sets the "ON" state for all electrical systems via client scripts
 	SetClientSysState("levelNotify","start_lights");
-	level thread play_pa_system();	
+	level thread play_pa_system();
 
-	flag_set("electric_switch_used");	
-	
+	flag_set("electric_switch_used");
+
 	//enable the electric traps
 	traps = getentarray("gas_access","targetname");
 	for(i=0;i<traps.size;i++)
 	{
 		//traps[i] sethintstring(&"WAW_ZOMBIE_BUTTON_NORTH_FLAMES");
 		//traps[i] SetCursorHint( "HINT_NOICON" );
-		
+
 		traps[i].is_available = true;
 	}
-	
+
 	master_switch waittill("rotatedone");
 	playfx(level._effect["switch_sparks"] ,getstruct("switch_fx","targetname").origin);
-	
+
 	//activate perks-a-cola
 	level notify( "master_switch_activated" );
 	fx_org delete();
-	
+
 	fx_org = spawn("script_model", (-675.021, -300.906, 283.724));
 	fx_org setmodel("tag_origin");
 	fx_org.angles = (0, 90, 0);
-	playfxontag(level._effect["electric_power_gen_on"], fx_org, "tag_origin");  
+	playfxontag(level._effect["electric_power_gen_on"], fx_org, "tag_origin");
 	fx_org playloopsound("zmb_elec_current_loop");
 
 
 	//elec room fx on
 	//playfx(level._effect["elec_room_on"], (-440, -208, 8));
-	
+
 	//turn on green lights above the zapper trap doors
 	level thread north_zapper_light_green();
 	level thread south_zapper_light_green();
@@ -1248,12 +1248,12 @@ master_electric_switch()
 
 	exploder(101);
 	//exploder(201);
-	
+
 	//This wait is to time out the SFX properly
 	wait(8);
 	playsoundatposition ("amb_sparks_l_end", left_org.origin);
 	playsoundatposition ("amb_sparks_r_end", right_org.origin);
-	
+
 }
 
 /*------------------------------------
@@ -1262,7 +1262,7 @@ electrical current FX once the traps are activated on the north side
 electric_trap_wire_sparks(side)
 {
 	self endon("elec_done");
-			
+
 	while(1)
 	{
 		sparks = getstruct("trap_wire_sparks_"+ side,"targetname");
@@ -1270,18 +1270,18 @@ electric_trap_wire_sparks(side)
 		self.fx_org setmodel("tag_origin");
 		self.fx_org.angles = sparks.angles;
 		playfxontag(level._effect["electric_current"],self.fx_org,"tag_origin");
-		
+
 		targ = getstruct(sparks.target,"targetname");
 		while(isDefined(targ))
 		{
 			self.fx_org moveto(targ.origin,.15);
-		
-		
+
+
 		// Kevin adding playloop on electrical fx
 			self.fx_org playloopsound("zmb_elec_current_loop",.1);
 			self.fx_org waittill("movedone");
 			self.fx_org stoploopsound(.1);
-		
+
 			if(isDefined(targ.target))
 			{
 				targ = getstruct(targ.target,"targetname");
@@ -1293,7 +1293,7 @@ electric_trap_wire_sparks(side)
 		}
 		playfxontag(level._effect["electric_short_oneshot"],self.fx_org,"tag_origin");
 		wait(randomintrange(3,9));
-		self.fx_org delete();	
+		self.fx_org delete();
 	}
 }
 
@@ -1306,7 +1306,7 @@ electric_current_open_middle_door()
 		fx_org setmodel("tag_origin");
 		fx_org.angles = sparks.angles;
 		playfxontag(level._effect["electric_current"], fx_org,"tag_origin");
-		
+
 		targ = getstruct(sparks.target,"targetname");
 		while(isDefined(targ))
 		{
@@ -1316,7 +1316,7 @@ electric_current_open_middle_door()
 			{
 				playfxontag(level._effect["electric_short_oneshot"], fx_org,"tag_origin");
 			}
-			
+
 			fx_org playloopsound("zmb_elec_current_loop",.1);
 			fx_org waittill("movedone");
 			fx_org stoploopsound(.1);
@@ -1332,7 +1332,7 @@ electric_current_open_middle_door()
 		level notify ("electric_on_middle_door");
 		playfxontag(level._effect["electric_short_oneshot"], fx_org,"tag_origin");
 		wait(randomintrange(3,9));
-		fx_org delete();	
+		fx_org delete();
 
 
 
@@ -1346,7 +1346,7 @@ electric_current_revive_machine()
 		fx_org setmodel("tag_origin");
 		fx_org.angles = sparks.angles;
 		playfxontag(level._effect["electric_current"], fx_org,"tag_origin");
-		
+
 		targ = getstruct(sparks.target,"targetname");
 		wait(0.2);
 		while(isDefined(targ))
@@ -1357,7 +1357,7 @@ electric_current_revive_machine()
 			{
 				playfxontag(level._effect["electric_short_oneshot"], fx_org,"tag_origin");
 			}
-			
+
 			fx_org playloopsound("zmb_elec_current_loop",.1);
 			fx_org waittill("movedone");
 			fx_org stoploopsound(.1);
@@ -1373,7 +1373,7 @@ electric_current_revive_machine()
 		level notify("revive_on");
 		playfxontag(level._effect["electric_short_oneshot"], fx_org,"tag_origin");
 		wait(randomintrange(3,9));
-		fx_org delete();	
+		fx_org delete();
 
 
 
@@ -1387,7 +1387,7 @@ electric_current_reload_machine()
 		fx_org setmodel("tag_origin");
 		fx_org.angles = sparks.angles;
 		playfxontag(level._effect["electric_current"], fx_org,"tag_origin");
-		
+
 		targ = getstruct(sparks.target,"targetname");
 		while(isDefined(targ))
 		{
@@ -1397,7 +1397,7 @@ electric_current_reload_machine()
 			{
 				playfxontag(level._effect["electric_short_oneshot"], fx_org,"tag_origin");
 			}
-			
+
 			fx_org playloopsound("zmb_elec_current_loop",.1);
 			fx_org waittill("movedone");
 			fx_org stoploopsound(.1);
@@ -1413,7 +1413,7 @@ electric_current_reload_machine()
 		level notify ("sleight_on");
 		playfxontag(level._effect["electric_short_oneshot"], fx_org,"tag_origin");
 		wait(randomintrange(3,9));
-		fx_org delete();	
+		fx_org delete();
 
 
 
@@ -1426,7 +1426,7 @@ electric_current_doubletap_machine()
 		fx_org setmodel("tag_origin");
 		fx_org.angles = sparks.angles;
 		playfxontag(level._effect["electric_current"], fx_org,"tag_origin");
-		
+
 		targ = getstruct(sparks.target,"targetname");
 		while(isDefined(targ))
 		{
@@ -1436,7 +1436,7 @@ electric_current_doubletap_machine()
 			{
 				playfxontag(level._effect["electric_short_oneshot"], fx_org,"tag_origin");
 			}
-			
+
 			fx_org playloopsound("zmb_elec_current_loop",.1);
 			fx_org waittill("movedone");
 			fx_org stoploopsound(.1);
@@ -1452,7 +1452,7 @@ electric_current_doubletap_machine()
 		level notify ("doubletap_on");
 		playfxontag(level._effect["electric_short_oneshot"], fx_org,"tag_origin");
 		wait(randomintrange(3,9));
-		fx_org delete();	
+		fx_org delete();
 
 
 
@@ -1465,13 +1465,13 @@ electric_current_juggernog_machine()
 		fx_org setmodel("tag_origin");
 		fx_org.angles = sparks.angles;
 		playfxontag(level._effect["electric_current"], fx_org,"tag_origin");
-		
+
 		targ = getstruct(sparks.target,"targetname");
 		while(isDefined(targ))
 		{
 			fx_org moveto(targ.origin,.075);
 			//Kevin adding playloop on electrical fx
-			
+
 			fx_org playloopsound("zmb_elec_current_loop",.1);
 			fx_org waittill("movedone");
 			fx_org stoploopsound(.1);
@@ -1487,7 +1487,7 @@ electric_current_juggernog_machine()
 		level notify ("juggernog_on");
 		playfxontag(level._effect["electric_short_oneshot"], fx_org,"tag_origin");
 		wait(randomintrange(3,9));
-		fx_org delete();	
+		fx_org delete();
 
 
 
@@ -1498,17 +1498,17 @@ north_zapper_light_red()
 	zapper_lights = getentarray("zapper_light_north","targetname");
 	for(i=0;i<zapper_lights.size;i++)
 	{
-		zapper_lights[i] setmodel("zombie_zapper_cagelight_red");	
+		zapper_lights[i] setmodel("zombie_zapper_cagelight_red");
 	}
-	
+
 	if(isDefined(level.north_light))
 	{
 		level.north_light delete();
 	}
-	
+
 	level.north_light = spawn("script_model",(366, 476 ,329));
 	level.north_light setmodel("tag_origin");
-	level.north_light.angles = (0,270,0);	
+	level.north_light.angles = (0,270,0);
 	playfxontag(level._effect["zapper_light_notready"],level.north_light,"tag_origin");
 }
 
@@ -1517,16 +1517,16 @@ north_zapper_light_green()
 	zapper_lights = getentarray("zapper_light_north","targetname");
 	for(i=0;i<zapper_lights.size;i++)
 	{
-		zapper_lights[i] setmodel("zombie_zapper_cagelight_green");	
+		zapper_lights[i] setmodel("zombie_zapper_cagelight_green");
 	}
-	
+
 	if(isDefined(level.north_light))
 	{
 		level.north_light delete();
 	}
-	
+
 	level.north_light = spawn("script_model",(366, 476 ,329));
-	level.north_light setmodel("tag_origin");	
+	level.north_light setmodel("tag_origin");
 	level.north_light.angles = (0,270,0);
 	playfxontag(level._effect["zapper_light_ready"],level.north_light,"tag_origin");
 
@@ -1537,16 +1537,16 @@ south_zapper_light_red()
 	zapper_lights = getentarray("zapper_light_south","targetname");
 	for(i=0;i<zapper_lights.size;i++)
 	{
-		zapper_lights[i] setmodel("zombie_zapper_cagelight_red");	
-	}	
-	
+		zapper_lights[i] setmodel("zombie_zapper_cagelight_red");
+	}
+
 	if(isDefined(level.south_light))
 	{
 		level.south_light delete();
 	}
 	level.south_light = spawn("script_model",(168, -404, 330));
 	level.south_light setmodel("tag_origin");
-	level.south_light.angles = (0,90,0);	
+	level.south_light.angles = (0,90,0);
 	playfxontag(level._effect["zapper_light_notready"],level.south_light,"tag_origin");
 }
 
@@ -1556,15 +1556,15 @@ south_zapper_light_green()
 	zapper_lights = getentarray("zapper_light_south","targetname");
 	for(i=0;i<zapper_lights.size;i++)
 	{
-		zapper_lights[i] setmodel("zombie_zapper_cagelight_green");	
+		zapper_lights[i] setmodel("zombie_zapper_cagelight_green");
 	}
 	if(isDefined(level.south_light))
 	{
 		level.south_light delete();
 	}
-	
+
 	level.south_light = spawn("script_model",(168, -404, 330));
-	level.south_light setmodel("tag_origin");	
+	level.south_light setmodel("tag_origin");
 	level.south_light.angles = (0,270,0);
 	playfxontag(level._effect["zapper_light_ready"],level.south_light,"tag_origin");
 
@@ -1581,48 +1581,48 @@ electroctute_death_fx()
 	{
 		return;
 	}
-	
+
 	self.is_electrocuted = true;
-	
+
 	self thread electrocute_timeout();
-		
+
 	// JamesS - this will darken the burning body
-	//self StartTanning(); 
+	//self StartTanning();
 
 	if(self.team == "axis")
 	{
 		level.bcOnFireTime = gettime();
 		level.bcOnFireOrg = self.origin;
 	}
-	
-	
-	PlayFxOnTag( level._effect["elec_torso"], self, "J_SpineLower" ); 
+
+
+	PlayFxOnTag( level._effect["elec_torso"], self, "J_SpineLower" );
 	self playsound ("zmb_elec_jib_zombie");
 	wait 1;
 
-	tagArray = []; 
-	tagArray[0] = "J_Elbow_LE"; 
-	tagArray[1] = "J_Elbow_RI"; 
-	tagArray[2] = "J_Knee_RI"; 
-	tagArray[3] = "J_Knee_LE"; 
-	tagArray = array_randomize( tagArray ); 
+	tagArray = [];
+	tagArray[0] = "J_Elbow_LE";
+	tagArray[1] = "J_Elbow_RI";
+	tagArray[2] = "J_Knee_RI";
+	tagArray[3] = "J_Knee_LE";
+	tagArray = array_randomize( tagArray );
 
-	PlayFxOnTag( level._effect["elec_md"], self, tagArray[0] ); 
+	PlayFxOnTag( level._effect["elec_md"], self, tagArray[0] );
 	self playsound ("zmb_elec_jib_zombie");
 
 	wait 1;
 	self playsound ("zmb_elec_jib_zombie");
 
-	tagArray[0] = "J_Wrist_RI"; 
-	tagArray[1] = "J_Wrist_LE"; 
+	tagArray[0] = "J_Wrist_RI";
+	tagArray[1] = "J_Wrist_LE";
 	if( !IsDefined( self.a.gib_ref ) || self.a.gib_ref != "no_legs" )
 	{
-		tagArray[2] = "J_Ankle_RI"; 
-		tagArray[3] = "J_Ankle_LE"; 
+		tagArray[2] = "J_Ankle_RI";
+		tagArray[3] = "J_Ankle_LE";
 	}
-	tagArray = array_randomize( tagArray ); 
+	tagArray = array_randomize( tagArray );
 
-	PlayFxOnTag( level._effect["elec_sm"], self, tagArray[0] ); 
+	PlayFxOnTag( level._effect["elec_sm"], self, tagArray[0] );
 	PlayFxOnTag( level._effect["elec_sm"], self, tagArray[1] );
 
 }
@@ -1639,7 +1639,7 @@ electrocute_timeout()
 		self.is_electrocuted = false;
 		self notify ("stop_flame_damage");
 	}
-	
+
 }
 play_the_numbers()
 {
@@ -1668,7 +1668,7 @@ magic_box_limit_location_init()
 		level thread waitfor_flag_open_chest_location("north_door1");
 		level thread waitfor_flag_open_chest_location("north_upstairs_blocker");
 		level thread waitfor_flag_open_chest_location("south_upstairs_blocker");
-	
+
 }
 
 waitfor_flag_open_chest_location(which)
@@ -1698,14 +1698,14 @@ waitfor_flag_open_chest_location(which)
 		flag_wait("north_upstairs_blocker");
 		level.open_chest_location[2] = "magic_box_hallway";
 		break;
-	
+
 	case "south_upstairs_blocker":
 		flag_wait("south_upstairs_blocker");
 		level.open_chest_location[1] = "magic_box_bathroom";
 		break;
 
 	default:
-		return;	
+		return;
 
 	}
 
@@ -1714,7 +1714,7 @@ magic_box_light()
 {
 	open_light = getent("opened_chest_light", "script_noteworthy");
 	hallway_light = getent("magic_box_hallway_light", "script_noteworthy");
-	
+
 	open_light_model = getent("opened_chest_model", "script_noteworthy");
 	hallway_light_model = getent("magic_box_hallway_model", "script_noteworthy");
 
@@ -1739,7 +1739,7 @@ magic_box_light()
 			hallway_light setLightIntensity(1);
 			hallway_light_model setmodel("lights_tinhatlamp_on");
 		}
-		
+
 	}
 
 }
@@ -1757,7 +1757,7 @@ watersheet_on_trigger( )
 
 		if( isDefined(who) && isplayer(who) && isAlive(who) && who.sessionstate != "spectator" )
 		{
-			if( !who maps\_laststand::player_is_in_laststand() ) 
+			if( !who maps\_laststand::player_is_in_laststand() )
 			{
 				who setwatersheeting(true, 3);
 				wait( 0.1 );
@@ -1824,7 +1824,7 @@ asylum_find_exit_point()
 		}
 		wait_network_frame();
 	}
-	
+
 	self thread maps\_zombiemode_spawner::find_flesh();
 }
 //-------------------------------------------------------------------------------
@@ -1833,20 +1833,20 @@ asylum_find_exit_point()
 mature_settings_changes()
 {
 	if(!is_mature())
-	{	
-		master_switch = getent("master_switch","targetname");	
+	{
+		master_switch = getent("master_switch","targetname");
 		if(IsDefined(master_switch))
 		{
 			master_switch SetModel("zombie_power_lever_handle");
-		}	
-	
+		}
+
 		// level specific
 		asylum_chair_mature = GetEnt("asylum_chair_mature", "targetname");
 		if(IsDefined(asylum_chair_mature))
 		{
 			asylum_chair_mature SetModel("zombie_asylum_chair_nogore");
 		}
-	}	
+	}
 }
 
 move_speed_cola()

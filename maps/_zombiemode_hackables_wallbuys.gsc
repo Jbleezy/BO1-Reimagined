@@ -4,11 +4,11 @@
 
 hack_wallbuys()
 {
-	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" ); 	
-	
+	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" );
+
 	for(i = 0; i < weapon_spawns.size; i ++)
 	{
-		
+
 		if(WeaponType( weapon_spawns[i].zombie_weapon_upgrade ) == "grenade")
 		{
 			continue;
@@ -30,19 +30,19 @@ hack_wallbuys()
 			continue;
 		}
 
-		
+
 		struct = SpawnStruct();
 		struct.origin = weapon_spawns[i].origin;
 		struct.radius = 48;
 		struct.height = 48;
 		struct.script_float = 2;
 		struct.script_int = 5000;
-		struct.wallbuy = weapon_spawns[i];		
+		struct.wallbuy = weapon_spawns[i];
 		maps\_zombiemode_equip_hacker::register_pooled_hackable_struct(struct, ::wallbuy_hack);
 	}
-	
+
 	bowie_triggers = GetEntArray( "bowie_upgrade", "targetname" );
-	
+
 	array_thread(bowie_triggers, maps\_zombiemode_equip_hacker::hide_hint_when_hackers_active);
 }
 

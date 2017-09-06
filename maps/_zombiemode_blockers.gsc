@@ -1,6 +1,6 @@
 #include maps\_utility; 
-#include common_scripts\utility; 
-#include maps\_zombiemode_utility; 
+#include common_scripts\utility;
+#include maps\_zombiemode_utility;
 #using_animtree( "generic_human" );
 
 //
@@ -21,11 +21,11 @@ init()
 	//
 	//
 	//////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	init_blockers(); 
 
-//	level thread rebuild_barrier_think(); 
+
+	init_blockers();
+
+//	level thread rebuild_barrier_think();
 
 	//////////////////////////////////////////
 	//designed by prod
@@ -45,7 +45,7 @@ init()
 init_blockers()
 {
 	// EXTERIOR BLOCKERS ----------------------------------------------------------------- //
-	level.exterior_goals = getstructarray( "exterior_goal", "targetname" ); 
+	level.exterior_goals = getstructarray( "exterior_goal", "targetname" );
 
 	for( i = 0; i < level.exterior_goals.size; i++ )
 	{
@@ -53,19 +53,19 @@ init_blockers()
 	}
 
 	// DOORS ----------------------------------------------------------------------------- //
-	zombie_doors = GetEntArray( "zombie_door", "targetname" ); 
+	zombie_doors = GetEntArray( "zombie_door", "targetname" );
 
 	for( i = 0; i < zombie_doors.size; i++ )
 	{
-		zombie_doors[i] thread door_init(); 
+		zombie_doors[i] thread door_init();
 	}
 
 	// DEBRIS ---------------------------------------------------------------------------- //
-	zombie_debris = GetEntArray( "zombie_debris", "targetname" ); 
+	zombie_debris = GetEntArray( "zombie_debris", "targetname" );
 
 	for( i = 0; i < zombie_debris.size; i++ )
 	{
-		zombie_debris[i] thread debris_init(); 
+		zombie_debris[i] thread debris_init();
 	}
 
 	// Flag Blockers ---------------------------------------------------------------------- //
@@ -73,15 +73,15 @@ init_blockers()
 
 	for( i = 0; i < flag_blockers.size; i++ )
 	{
-		flag_blockers[i] thread flag_blocker(); 
-	}	
+		flag_blockers[i] thread flag_blocker();
+	}
 
 	// SHUTTERS --------------------------------------------------------------------------- //
-	window_shutter = GetEntArray( "window_shutter", "targetname" ); 
+	window_shutter = GetEntArray( "window_shutter", "targetname" );
 
 	for( i = 0; i < window_shutter.size; i++ )
 	{
-		window_shutter[i] thread shutter_init(); 
+		window_shutter[i] thread shutter_init();
 	}
 }
 
@@ -91,15 +91,15 @@ init_blockers()
 //
 door_init()
 {
-	self.type = undefined; 
+	self.type = undefined;
 
 	self._door_open = false;
 
 	// Figure out what kind of door we are
-	targets = GetEntArray( self.target, "targetname" ); 
-	
+	targets = GetEntArray( self.target, "targetname" );
+
 	//CHRIS_P - added script_flag support for doors as well
-	if( isDefined(self.script_flag) && !IsDefined( level.flag[self.script_flag] ) ) 
+	if( isDefined(self.script_flag) && !IsDefined( level.flag[self.script_flag] ) )
 	{
 		// Initialize any flags called
 		if( IsDefined( self.script_flag ) )
@@ -111,7 +111,7 @@ door_init()
 			}
 		}
 
-	}	
+	}
 
 	// Door trigger types
 	if ( !IsDefined( self.script_noteworthy ) )
@@ -126,7 +126,7 @@ door_init()
 		targets[i] door_classify( self );
 	}
 
-	//AssertEx( IsDefined( self.type ), "You must determine how this door opens. Specify script_angles, script_vector, or a script_noteworthy... Door at: " + self.origin ); 
+	//AssertEx( IsDefined( self.type ), "You must determine how this door opens. Specify script_angles, script_vector, or a script_noteworthy... Door at: " + self.origin );
 	cost = 1000;
 	if( IsDefined( self.zombie_cost ) )
 	{
@@ -137,7 +137,7 @@ door_init()
 
 	// MM (03/09/10) - Allow activation at any time in order to make it easier to open bigger doors.
 //	self UseTriggerRequireLookAt();
-	self thread door_think(); 
+	self thread door_think();
 
 	// MM - Added support for electric doors.  Don't have to add them to level scripts
 	if ( IsDefined( self.script_noteworthy ) )
@@ -197,9 +197,9 @@ door_classify( parent_trig )
 		switch( self.script_string )
 		{
 		case "anim":
-			AssertEx( IsDefined( self.script_animname ), "Blocker_init: You must specify a script_animname for "+self.targetname ); 
-			AssertEx( IsDefined( level.scr_anim[ self.script_animname ] ), "Blocker_init: You must define a level.scr_anim for script_anim -> "+self.script_animname ); 
-			AssertEx( IsDefined( level.blocker_anim_func ), "Blocker_init: You must define a level.blocker_anim_func" ); 
+			AssertEx( IsDefined( self.script_animname ), "Blocker_init: You must specify a script_animname for "+self.targetname );
+			AssertEx( IsDefined( level.scr_anim[ self.script_animname ] ), "Blocker_init: You must define a level.scr_anim for script_anim -> "+self.script_animname );
+			AssertEx( IsDefined( level.blocker_anim_func ), "Blocker_init: You must define a level.blocker_anim_func" );
 			break;
 
 		case "counter_1s":
@@ -235,17 +235,17 @@ door_classify( parent_trig )
 //
 //	Someone just tried to buy the door
 //		return true if door was bought
-//		NOTE: This is currently intended to be used as a non-threaded call 
+//		NOTE: This is currently intended to be used as a non-threaded call
 //	self is a door trigger
 door_buy()
 {
-	self waittill( "trigger", who, force ); 
+	self waittill( "trigger", who, force );
 
 	if ( GetDvarInt( #"zombie_unlock_all") > 0 || is_true( force ) )
 	{
-		return true;		
-	}	
-	
+		return true;
+	}
+
 	if( !who UseButtonPressed() )
 	{
 		return false;
@@ -263,19 +263,19 @@ door_buy()
 		if ( players.size == 1 && who.score >= self.zombie_cost )
 		{
 			// solo buy
-			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost ); 
+			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 		}
 		else if( level.team_pool[ who.team_num ].score >= self.zombie_cost )
 		{
 			// team buy
-			who maps\_zombiemode_score::minus_to_team_score( self.zombie_cost ); 
+			who maps\_zombiemode_score::minus_to_team_score( self.zombie_cost );
 		}
 		else if( level.team_pool[ who.team_num ].score + who.score >= self.zombie_cost )
 		{
 			// team funds + player funds
 			team_points = level.team_pool[ who.team_num ].score;
-			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost - team_points ); 
-			who maps\_zombiemode_score::minus_to_team_score( team_points ); 
+			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost - team_points );
+			who maps\_zombiemode_score::minus_to_team_score( team_points );
 		}
 		else // Not enough money
 		{
@@ -313,10 +313,10 @@ door_delay()
 	}
 
 	// Turn off the triggers.
-	all_trigs = getentarray( self.target, "target" ); 
+	all_trigs = getentarray( self.target, "target" );
 	for( i = 0; i < all_trigs.size; i++ )
 	{
-		all_trigs[i] trigger_off(); 
+		all_trigs[i] trigger_off();
 	}
 
 	wait (self.script_int);
@@ -358,13 +358,13 @@ kill_countdown()
 		}
 		else
 		{
-			players[i] playlocalsound( "zmb_laugh_child" );	
+			players[i] playlocalsound( "zmb_laugh_child" );
 		}
 	}
 
 	// Random number flipping to setup the counter
 	level.kill_counter_hud FadeOverTime( 1.0 );
-	level.kill_counter_hud.alpha = 1;		
+	level.kill_counter_hud.alpha = 1;
 
 	// Note: First 2 stages will be number flipping
 	num_stages = 3;		// Only 1 digit counter
@@ -402,7 +402,7 @@ kill_countdown()
 			ones = i % 10;
 		}
 		self.counter_1s set_counter( ones );
-	
+
 		// 10s
 		if ( IsDefined( self.counter_10s ) )
 		{
@@ -483,7 +483,7 @@ kill_countdown()
 //	self is a door
 door_kill_counter()
 {
-//	flag_wait( "all_players_connected" ); 
+//	flag_wait( "all_players_connected" );
 
 	// init the counter
 	counter = 0;
@@ -529,7 +529,7 @@ door_kill_counter()
 // 			self.explosives[i] Show();
 // 		}
 // 	}
-//	self waittill( "trigger", who ); 
+//	self waittill( "trigger", who );
 
 	num_enemies = get_enemy_count();
 	if ( level.zombie_total + num_enemies < counter )
@@ -538,10 +538,10 @@ door_kill_counter()
 	}
 
 	// Turn off the triggers.
-	all_trigs = getentarray( self.target, "target" ); 
+	all_trigs = getentarray( self.target, "target" );
 	for( i = 0; i < all_trigs.size; i++ )
 	{
-		all_trigs[i] trigger_off(); 
+		all_trigs[i] trigger_off();
 	}
 
 	// Now do the countdown
@@ -585,10 +585,10 @@ door_activate( time, open, door )
 {
 	if ( !IsDefined(time) )
 	{
-		time = 1; 
+		time = 1;
 		if( IsDefined( self.script_transition_time ) )
 		{
-			time = self.script_transition_time; 
+			time = self.script_transition_time;
 		}
 	}
 
@@ -649,10 +649,10 @@ door_activate( time, open, door )
 	case "rotate":
 		if(isDefined(self.script_angles))
 		{
-			self RotateTo( self.script_angles, time, 0, 0 ); 
-			self thread door_solid_thread(); 
+			self RotateTo( self.script_angles, time, 0, 0 );
+			self thread door_solid_thread();
 		}
-		wait(randomfloat(.15));						
+		wait(randomfloat(.15));
 		break;
 	case "move":
 	case "slide_apart":
@@ -661,11 +661,11 @@ door_activate( time, open, door )
 			vector = vector_scale( self.script_vector, scale );
 			if ( time >= 0.5 )
 			{
-				self MoveTo( self.origin + vector, time, time * 0.25, time * 0.25 ); 
+				self MoveTo( self.origin + vector, time, time * 0.25, time * 0.25 );
 			}
 			else
 			{
-				self MoveTo( self.origin + vector, time ); 
+				self MoveTo( self.origin + vector, time );
 			}
 			self thread door_solid_thread();
 			if ( !open )
@@ -678,14 +678,14 @@ door_activate( time, open, door )
 
 	case "anim":
 		//						self animscripted( "door_anim", self.origin, self.angles, level.scr_anim[ self.script_animname ] );
-		self [[ level.blocker_anim_func ]]( self.script_animname ); 
+		self [[ level.blocker_anim_func ]]( self.script_animname );
 		self thread door_solid_thread_anim();
-		wait(randomfloat(.15));						
+		wait(randomfloat(.15));
 		break;
 
 	case "physics":
 		self thread physics_launch_door( self );
-		wait(0.10);						
+		wait(0.10);
 		break;
 	}
 
@@ -769,19 +769,19 @@ door_think()
 // 		else if(isDefined(self.script_noteworthy) && self.script_noteworthy == "electric_buyable_door")
 // 		{
 // 			flag_wait( "power_on" );
-// 			
+//
 // 			self set_hint_string( self, "default_buy_door_" + cost );
-// 			self SetCursorHint( "HINT_NOICON" ); 	
+// 			self SetCursorHint( "HINT_NOICON" );
 // 			self UseTriggerRequireLookAt();
-// 			
-// 			self waittill( "trigger", who ); 
-// 
+//
+// 			self waittill( "trigger", who );
+//
 // 			self door_buy();
 // 		}
 // 		else
 // 		{
-// 			self waittill( "trigger", who ); 
-// 
+// 			self waittill( "trigger", who );
+//
 // 			self door_buy();
 // 		}
 
@@ -789,7 +789,7 @@ door_think()
 
 		break;
 	}
-	
+
 	self._door_open = true;
 	self notify("door_opened");
 }
@@ -808,10 +808,10 @@ door_opened()
 
 	// get all trigs for the door, we might want a trigger on both sides
 	// of some junk sometimes
-	all_trigs = getentarray( self.target, "target" ); 
+	all_trigs = getentarray( self.target, "target" );
 	for( i = 0; i < all_trigs.size; i++ )
 	{
-		all_trigs[i] trigger_off(); 
+		all_trigs[i] trigger_off();
 	}
 
 	// Just play purchase sound on the first door
@@ -839,7 +839,7 @@ physics_launch_door( door_trig )
 // 	{
 // 		origin = door_trig.explosives[0].origin;
 // 	}
-// 
+//
 	vec = vector_scale( VectorNormalize( self.script_vector ), 5 );
 	self MoveTo( self.origin + vec, 0.1 );
 	self waittill( "movedone" );
@@ -862,13 +862,13 @@ physics_launch_door( door_trig )
 door_solid_thread()
 {
 	// MM - added support for movedone.
-	self waittill_either( "rotatedone", "movedone" ); 
+	self waittill_either( "rotatedone", "movedone" );
 
 	self.door_moving = undefined;
 	while( 1 )
 	{
-		players = get_players(); 
-		player_touching = false; 
+		players = get_players();
+		player_touching = false;
 		for( i = 0; i < players.size; i++ )
 		{
 			if( players[i] IsTouching( self ) )
@@ -880,11 +880,11 @@ door_solid_thread()
 
 		if( !player_touching )
 		{
-			self Solid(); 
-			return; 
+			self Solid();
+			return;
 		}
 
-		wait( .05 ); 
+		wait( .05 );
 	}
 }
 
@@ -895,35 +895,35 @@ random_push()
 }
 
 //
-//	Called on doors using anims.  It needs a different waittill, 
+//	Called on doors using anims.  It needs a different waittill,
 //		and expects the animname message to be the same as the one passed into scripted anim
 //	self is a door
 door_solid_thread_anim( )
 {
 	// MM - added support for movedone.
-	self waittillmatch( "door_anim", "end" ); 
+	self waittillmatch( "door_anim", "end" );
 
 	self.door_moving = undefined;
 	while( 1 )
 	{
-		players = get_players(); 
-		player_touching = false; 
+		players = get_players();
+		player_touching = false;
 		for( i = 0; i < players.size; i++ )
 		{
 			if( players[i] IsTouching( self ) )
 			{
-				player_touching = true; 
-				break; 
+				player_touching = true;
+				break;
 			}
 		}
 
 		if( !player_touching )
 		{
-			self Solid(); 
-			return; 
+			self Solid();
+			return;
 		}
 
-		wait( 1 ); 
+		wait( 1 );
 	}
 }
 
@@ -952,16 +952,16 @@ debris_init()
 
 	self set_hint_string( self, "default_buy_debris_" + cost );
 	self setCursorHint( "HINT_NOICON" );
-	
+
 //	self thread add_teampot_icon();
 
 	if( isdefined (self.script_flag)  && !IsDefined( level.flag[self.script_flag] ) )
 	{
-		flag_init( self.script_flag ); 
+		flag_init( self.script_flag );
 	}
 
 //	self UseTriggerRequireLookAt();
-	self thread debris_think(); 
+	self thread debris_think();
 }
 
 
@@ -970,33 +970,33 @@ debris_init()
 //
 debris_think()
 {
-	
+
 	if( isDefined( level.custom_debris_function ) )
 	{
 		self [[ level.custom_debris_function ]]();
-	}	
-	
+	}
+
 	while( 1 )
 	{
-		self waittill( "trigger", who, force ); 
+		self waittill( "trigger", who, force );
 
 		if ( GetDvarInt( #"zombie_unlock_all") > 0 || is_true( force ) )
 		{
 			//bypass.
 		}
 		else
-		{	
+		{
 			if( !who UseButtonPressed() )
 			{
 				continue;
 			}
-	
+
 			if( who in_revive_trigger() )
 			{
 				continue;
 			}
 		}
-		
+
 		if( is_player_valid( who ) )
 		{
 			// Can we afford this door?
@@ -1008,19 +1008,19 @@ debris_think()
 			else if ( players.size == 1 && who.score >= self.zombie_cost )
 			{
 				// solo buy
-				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost ); 
+				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 			}
 			else if( level.team_pool[ who.team_num ].score >= self.zombie_cost )
 			{
 				// team buy
-				who maps\_zombiemode_score::minus_to_team_score( self.zombie_cost ); 
+				who maps\_zombiemode_score::minus_to_team_score( self.zombie_cost );
 			}
 			else if( level.team_pool[ who.team_num ].score + who.score >= self.zombie_cost )
 			{
 				// team funds + player funds
 				team_points = level.team_pool[ who.team_num ].score;
-				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost - team_points ); 
-				who maps\_zombiemode_score::minus_to_team_score( team_points ); 
+				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost - team_points );
+				who maps\_zombiemode_score::minus_to_team_score( team_points );
 			}
 			else
 			{
@@ -1033,7 +1033,7 @@ debris_think()
 			bbPrint( "zombie_uses: playername %s playerscore %d teamscore %d round %d cost %d name %s x %f y %f z %f type door", who.playername, who.score, level.team_pool[ who.team_num ].score, level.round_number, self.zombie_cost, self.script_flag, self.origin );
 
 			// delete the stuff
-			junk = getentarray( self.target, "targetname" ); 
+			junk = getentarray( self.target, "targetname" );
 
 			// Set any flags called
 			if( IsDefined( self.script_flag ) )
@@ -1051,9 +1051,9 @@ debris_think()
 			move_ent = undefined;
 			clip = undefined;
 			for( i = 0; i < junk.size; i++ )
-			{	
-				junk[i] connectpaths(); 
-//				junk[i] add_new_zombie_spawners(); 
+			{
+				junk[i] connectpaths();
+//				junk[i] add_new_zombie_spawners();
 
 				if( IsDefined( junk[i].script_noteworthy ) )
 				{
@@ -1083,13 +1083,13 @@ debris_think()
 					junk[i] Delete();
 				}
 			}
-			
+
 			// get all trigs, we might want a trigger on both sides
 			// of some junk sometimes
-			all_trigs = getentarray( self.target, "target" ); 
+			all_trigs = getentarray( self.target, "target" );
 			for( i = 0; i < all_trigs.size; i++ )
 			{
-				all_trigs[i] delete(); 
+				all_trigs[i] delete();
 			}
 
 			if( IsDefined( clip ) )
@@ -1101,8 +1101,8 @@ debris_think()
 
 				clip Delete();
 			}
-			
-			break; 								
+
+			break;
 		}
 	}
 }
@@ -1117,7 +1117,7 @@ debris_move( struct )
 	self script_delay();
 	//chrisp - prevent playerse from getting stuck on the stuff
 	self notsolid();
-	
+
 	self play_sound_on_ent( "debris_move" );
 	playsoundatposition ("zmb_lightning_l", self.origin);
 	if( IsDefined( self.script_firefx ) )
@@ -1145,7 +1145,7 @@ debris_move( struct )
 	time = 0.5;
 	if( IsDefined( self.script_transition_time ) )
 	{
-		time = self.script_transition_time; 
+		time = self.script_transition_time;
 	}
 
 	self MoveTo( struct.origin, time, time * 0.5 );
@@ -1200,16 +1200,16 @@ blocker_init()
 			}
 		}
 
-		// jl/ jan/15/10 add new setup for grates	
+		// jl/ jan/15/10 add new setup for grates
 		// I hide all the pieces you don't need to see right now.
 		// This works
-		// Now when they get pulled off, I just want them to swap out the model		
-		
+		// Now when they get pulled off, I just want them to swap out the model
+
 		if( IsDefined( targets[j].script_string ) && targets[j].script_string == "rock" )
 		{
 		    targets[j].material = "rock";
 		}
-		
+
 		if( IsDefined( targets[j].script_parameters ) ) // If a script noteworthy is defined
 		{
 			if( targets[j].script_parameters == "grate" )
@@ -1238,7 +1238,7 @@ blocker_init()
 					targets[j] Hide();
 					targets[j] notSolid();
 					targets[j].unbroken = true;
-					
+
 					// self is the goal (level.exterior_goals)
 					if(IsDefined(targets[j].unbroken_section.script_noteworthy) && targets[j].unbroken_section.script_noteworthy == "glass")
 					{
@@ -1249,14 +1249,14 @@ blocker_init()
 					{
 						targets[j].material = "metal";
 					}
-				}	
+				}
 			}
 			else if( targets[j].script_parameters == "barricade_vents" )
 			{
 				targets[j].material = "metal_vent";
-			}					
+			}
 		}
-			
+
 			if( IsDefined ( targets[j].targetname ) )
 			{
 				if( targets[j].targetname == "auto2" )
@@ -1280,11 +1280,11 @@ blocker_init()
 			targets[j].claimed = false;
 			targets[j].anim_grate_index = 0; // check this index to know where each piece is
 			// I can create another thing to track here if I need to
-			targets[j].og_origin = targets[j].origin; // This one piece's origin is defined by grabbing the starting origin 
-			targets[j].og_angles = targets[j].angles; // The one piece's angles is defined by grabbing the starting angles 
-			self.barrier_chunks[self.barrier_chunks.size] = targets[j]; // barrier_chunks is the total size of the bars windows or boards used 
+			targets[j].og_origin = targets[j].origin; // This one piece's origin is defined by grabbing the starting origin
+			targets[j].og_angles = targets[j].angles; // The one piece's angles is defined by grabbing the starting angles
+			self.barrier_chunks[self.barrier_chunks.size] = targets[j]; // barrier_chunks is the total size of the bars windows or boards used
 
-			self blocker_attack_spots(); // exterior_goal thread 
+			self blocker_attack_spots(); // exterior_goal thread
 	}
 
 	if( use_boards )
@@ -1313,20 +1313,20 @@ destructible_glass_barricade(unbroken_section, node)
 		self update_states("destroyed");
 		self notify("destroyed");
 		self.unbroken = false;
-		
-	}	
+
+	}
 }
 //-------------------------------------------------------------------------------
 
-// jl jan/05/10 
+// jl jan/05/10
 // Self = exterior_goal, it is the node that targets all of the boards and bars
 // Creates three spots that the AI can now choose from to attack the window
 blocker_attack_spots()
 {
 	// Get closest chunk
 	chunk = getClosest( self.origin, self.barrier_chunks );  // chunk = grab closest origin from array of barrier_chunks
-	
-	dist = Distance2d( self.origin, chunk.origin ) - 36; 
+
+	dist = Distance2d( self.origin, chunk.origin ) - 36;
 	spots = [];
 	spots[0] = groundpos( self.origin + ( AnglesToForward( self.angles ) * dist ) + ( 0, 0, 60 ) );
 	spots[spots.size] = groundpos( spots[0] + ( AnglesToRight( self.angles ) * 28 ) + ( 0, 0, 60 ) );
@@ -1348,7 +1348,7 @@ blocker_attack_spots()
 blocker_choke()
 {
 	level._blocker_choke = 0;
-	
+
 	while(1)
 	{
 		wait(0.05);
@@ -1356,26 +1356,26 @@ blocker_choke()
 	}
 }
 
-// jl jan/05/10 
+// jl jan/05/10
 // Self = exterior_goal, it is the node that targets all of the boards and bars
 blocker_think()
 {
-	
+
 	if(!IsDefined(level._blocker_choke))
 	{
 		level thread blocker_choke();
 	}
 
 	use_choke = false;
-	
+
 	if(IsDefined(level._use_choke_blockers) && level._use_choke_blockers == 1)
 	{
 		use_choke = true;
 	}
-	
+
 	while( 1 ) // exterior_goal is going to constantly loop
 	{
-		wait( 0.5 ); 
+		wait( 0.5 );
 
 		if(use_choke)
 		{
@@ -1384,14 +1384,14 @@ blocker_think()
 				wait(0.05);
 			}
 		}
-		
+
 		level._blocker_choke ++;
 
-		if( all_chunks_intact( self.barrier_chunks ) ) // speak to _zombiemode_utility and into all_chunks_intact function 
+		if( all_chunks_intact( self.barrier_chunks ) ) // speak to _zombiemode_utility and into all_chunks_intact function
 		{
 			// if any piece has the state of not repaired then return false
-			// if the board has been repaired then return true 
-			continue;  
+			// if the board has been repaired then return true
+			continue;
 		}
 
 		if( no_valid_repairable_boards( self.barrier_chunks ) )// speak to _zombiemode_utility and into no_valid_repairable_boards function
@@ -1401,13 +1401,13 @@ blocker_think()
 			continue;
 		}
 
-		self blocker_trigger_think(); 
+		self blocker_trigger_think();
 	}
 }
 
 
 // Self = exterior_goal, it is the node that targets all of the boards and bars
-// trigger_location 
+// trigger_location
 // this function repairs the boards
 blocker_trigger_think()
 {
@@ -1415,13 +1415,13 @@ blocker_trigger_think()
 	cost = 10;
 	if( IsDefined( self.zombie_cost ) )
 	{
-		cost = self.zombie_cost; 
+		cost = self.zombie_cost;
 	}
 
 	original_cost = cost;
 
-	radius = 96; 
-	height = 96; 
+	radius = 96;
+	height = 96;
 
 	if( IsDefined( self.trigger_location ) ) // this is defined in the blocker_init function
 	{
@@ -1434,41 +1434,41 @@ blocker_trigger_think()
 
 	if( IsDefined( trigger_location.radius ) ) // he is asking if it is defined here, yet he never defines it anywhere
 	{
-		radius = trigger_location.radius; 
+		radius = trigger_location.radius;
 	}
 
 	if( IsDefined( trigger_location.height ) ) // he is asking if it is defined here, yet he never defines it anywhere
 	{
-		height = trigger_location.height; 
+		height = trigger_location.height;
 	}
 
 	trigger_pos = groundpos( trigger_location.origin ) + ( 0, 0, 4 ); // this is from trigger_location and is reset to trigger_pos
 	trigger = Spawn( "trigger_radius", trigger_pos, 0, radius, height ); // spawn in a trigger at the location of the exterior_goal
-	trigger thread trigger_delete_on_repair(); // This function waits till the boards/bars are repaired 
+	trigger thread trigger_delete_on_repair(); // This function waits till the boards/bars are repaired
 	if(IsDefined(level._zombiemode_blocker_trigger_extra_thread))
 	{
 		trigger thread [[level._zombiemode_blocker_trigger_extra_thread]]();
 	}
 	/#
-		if( GetDvarInt( #"zombie_debug" ) > 0 ) // 
+		if( GetDvarInt( #"zombie_debug" ) > 0 ) //
 		{
-			thread debug_blocker( trigger_pos, radius, height ); 
+			thread debug_blocker( trigger_pos, radius, height );
 		}
 	#/
 
 	// Rebuilding no longer costs us money... It's rewarded
-	
+
 	//////////////////////////////////////////
 	//designed by prod; NO reward hint (See DT#36173)
 	trigger set_hint_string( self, "default_reward_barrier_piece" ); // this is the string to call when the player is the trigger
 	//trigger thread blocker_doubler_hint( "default_reward_barrier_piece_", original_cost );
 	//////////////////////////////////////////
-	
-	trigger SetCursorHint( "HINT_NOICON" ); 
+
+	trigger SetCursorHint( "HINT_NOICON" );
 
 	while( 1 ) // the trigger constantly loops here till while the player interacts with it.
 	{
-		trigger waittill( "trigger", player ); 
+		trigger waittill( "trigger", player );
 
 		if( player hasperk( "specialty_fastreload" ) )
 		{
@@ -1482,11 +1482,11 @@ blocker_trigger_think()
 		{
 			has_perk = undefined;
 		}
-		
+
 		if( all_chunks_intact( self.barrier_chunks ) ) // barrier chunks are all the pieces targeted from the exterior_goal
 		{
 			// if any piece has the state of not repaired then return false
-			// if the board has been repaired then return true 
+			// if the board has been repaired then return true
 			trigger notify("all_boards_repaired");
 			return;
 		}
@@ -1500,7 +1500,7 @@ blocker_trigger_think()
 		}
 
 		players = GetPlayers();
-	
+
 		while( 1 )
 		{
 			if( !player IsTouching( trigger ) )
@@ -1510,7 +1510,7 @@ blocker_trigger_think()
 
 			if( !is_player_valid( player ) )
 			{
-				break; 
+				break;
 			}
 
 			if( player in_revive_trigger() )
@@ -1532,13 +1532,13 @@ blocker_trigger_think()
 			{
 				break;
 			}
-	
+
 			/*if( !player use_button_held() )
 			{
-				break; 
+				break;
 			}*/
-			
-			
+
+
 
 			chunk = get_random_destroyed_chunk( self.barrier_chunks ); // calls get_random_destroyed_chunk in _zombiemode_utility, continue if the chunk was destroyed
 
@@ -1549,83 +1549,83 @@ blocker_trigger_think()
 					chunk Show();
 					chunk Solid();
 					chunk.unbroken_section self_delete();
-				}	
+				}
 			}
 			else
-			{	
-				chunk Show(); 			
+			{
+				chunk Show();
 			}
-			
-			
-	
+
+
+
 			    if ( !isDefined( chunk.script_parameters ) || chunk.script_parameters == "board" || chunk.script_parameters == "repair_board" || chunk.script_parameters == "barricade_vents")
 			    {
 			    	//sounds now played on client
-			    	
+
 			    	if(!is_true(level.use_clientside_board_fx))
 			    	{
-			    	
+
 							if( !IsDefined( chunk.material ) || ( IsDefined( chunk.material ) && chunk.material != "rock" ) )
 							{
 						    chunk play_sound_on_ent( "rebuild_barrier_piece" );
 							}
 							playsoundatposition ("zmb_cha_ching", (0,0,0));
 						}
-						
+
 			    }
 			   	if ( chunk.script_parameters == "bar" )
 			    {
 						chunk play_sound_on_ent( "rebuild_barrier_piece" );
 						playsoundatposition ("zmb_cha_ching", (0,0,0));
 			    }
-	
-				// I need to do this in a different place	
+
+				// I need to do this in a different place
 					if(isdefined(chunk.script_parameters))
 					{
 						if( chunk.script_parameters == "bar"  )
-						{	
+						{
 								if(isdefined(chunk.script_noteworthy))
 								{
 									if(chunk.script_noteworthy == "5") // this is the far left , this bar now bends it does not leave
 									{
 										chunk hide();
 									}
-									else if(chunk.script_noteworthy == "3" ) 
+									else if(chunk.script_noteworthy == "3" )
 									{
 										chunk hide();
 									}
 								}
 						}
 					}
-	
-	
+
+
 			self thread replace_chunk( chunk ); // writing out
-	
-	
+
+
 			assert( IsDefined( self.clip ) );
-			self.clip enable_trigger(); 
+			self.clip enable_trigger();
 			self.clip DisconnectPaths(); // the boards disconnect paths everytime they are used here
 
-			//maps\_zombiemode_challenges::doMissionCallback( "zm_board_repair", player );	
+			//maps\_zombiemode_challenges::doMissionCallback( "zm_board_repair", player );
 			bbPrint( "zombie_uses: playername %s playerscore %d teamscore %d round %d cost %d name %s x %f y %f z %f type repair", player.playername, player.score, level.team_pool[ player.team_num ].score, level.round_number, original_cost, self.target, self.origin );
 
 			if( !self script_delay() )
 			{
-				wait( 1 ); 
+				wait( 1 );
 			}
 
 			if( !is_player_valid( player ) )
 			{
 				break;
 			}
-	
+
 			// set the score
 			player.rebuild_barrier_reward += cost;
 			if( player.rebuild_barrier_reward < level.zombie_vars["rebuild_barrier_cap_per_round"] )
 			{
 				player maps\_zombiemode_score::player_add_points( "rebuild_board", cost );
 				player play_sound_on_ent( "purchase" );
-				
+
 			}
 			// general contractor achievement for dlc 2. keep track of how many board player repaired.
 			if(IsDefined(player.board_repair))
@@ -1633,10 +1633,10 @@ blocker_trigger_think()
 				player.board_repair += 1;
 			}
 
-			if( all_chunks_intact( self.barrier_chunks ) ) // This calls into _zombiemode_utility 
+			if( all_chunks_intact( self.barrier_chunks ) ) // This calls into _zombiemode_utility
 			{
 				// if any piece has the state of not repaired then return false
-				// if the board has been repaired then return true 
+				// if the board has been repaired then return true
 				trigger notify("all_boards_repaired");
 				return;
 			}
@@ -1648,7 +1648,7 @@ blocker_trigger_think()
 				trigger notify("no valid boards");
 				return;
 			}
-			
+
 		}
 	}
 }
@@ -1656,7 +1656,7 @@ blocker_trigger_think()
 random_destroyed_chunk_show( )
 {
 	wait( 0.5 );
-	self Show(); 
+	self Show();
 }
 
 
@@ -1671,16 +1671,16 @@ door_repaired_rumble_n_sound()
 
 	for(i = 0; i < players.size; i++)
 		{
-			
+
 			if (distance (players[i].origin, self.origin) < 150)
 			{
-			
+
 				if(isalive(players[i]))
-					//-- not usedif(isalive(players[i]) && (isdefined(players[i].pers["team"])) && (players[i].pers["team"] == team)) 
+					//-- not usedif(isalive(players[i]) && (isdefined(players[i].pers["team"])) && (players[i].pers["team"] == team))
 				{
-					
+
 				players[i] thread board_completion();
-						
+
 				}
 			}
 		}
@@ -1689,7 +1689,7 @@ door_repaired_rumble_n_sound()
 board_completion()
 {
 	self endon ("disconnect");
-	
+
 		// need to be place a delay if done within a certain time frame
 		//wait(1.2);
 		//self play_sound_on_ent( "purchase" );
@@ -1731,7 +1731,7 @@ blocker_doubler_hint( hint, original_cost )
 			{
 				cost = original_cost * 2;
 			}
-	
+
 			self set_hint_string( self, hint + cost );
 		}
 	}
@@ -1745,7 +1745,7 @@ rebuild_barrier_reward_reset()
 remove_chunk( chunk, node, destroy_immediately, zomb )
 {
 	chunk update_states("mid_tear");
-	
+
 	// jl dec 15 09
 	// jl added check for differnt types of windows
 	if(IsDefined(chunk.script_parameters))
@@ -1755,7 +1755,7 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 			chunk thread zombie_boardtear_audio_offset(chunk);
 		}
 	}
-	
+
 	if(IsDefined(chunk.script_parameters))
 	{
 		if( chunk.script_parameters == "bar" ) // jl this is new check to see if it is a board then do board anims, this needs to hold the entire function
@@ -1763,41 +1763,41 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 			chunk thread zombie_bartear_audio_offset(chunk);
 		}
 	}
-	
-	
+
+
 	chunk NotSolid();
-	// here I do a check for if it is a bar 
-	
+	// here I do a check for if it is a bar
+
 	//if ( isdefined( destroy_immediately ) && destroy_immediately)
 	//{
 	//	chunk.destroyed = true;
 	//}
-		
+
 	fx = "wood_chunk_destory";
 	if( IsDefined( self.script_fxid ) )
 	{
 		fx = self.script_fxid;
 	}
-	
-	
+
+
 
 		if ( IsDefined( chunk.script_moveoverride ) && chunk.script_moveoverride )
 		{
 			chunk Hide();
-		}	
-		
-	
-		// an origin is created and the current chunk is linked to it. Then it flings the chunk and deletes the origin	
+		}
+
+
+		// an origin is created and the current chunk is linked to it. Then it flings the chunk and deletes the origin
 		if ( IsDefined( chunk.script_parameters ) && ( chunk.script_parameters == "bar" ) )
 		{
-			
+
 			// added top bar check so it goes less higher
 			if( IsDefined ( chunk.script_noteworthy ) && ( chunk.script_noteworthy == "4" ) )
 			{
-				ent = Spawn( "script_origin", chunk.origin ); 
+				ent = Spawn( "script_origin", chunk.origin );
 				ent.angles = node.angles +( 0, 180, 0 );
-				
-				//DCS 030711: adding potential for having max distance movement 
+
+				//DCS 030711: adding potential for having max distance movement
 				//for boards in closets that aren't very deep.
 				dist = 100; // base number.
 				if(IsDefined(chunk.script_move_dist))
@@ -1806,13 +1806,13 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 						dist = 100 + RandomInt(dist_max);
 				}
 				else
-				{	
+				{
 					dist = 100 + RandomInt( 100 );
 				}
-			
+
 				dest = ent.origin + ( AnglesToForward( ent.angles ) * dist );
 				trace = BulletTrace( dest + ( 0, 0, 16 ), dest + ( 0, 0, -200 ), false, undefined );
-		
+
 				if( trace["fraction"] == 1 )
 				{
 					dest = dest + ( 0, 0, -200 );
@@ -1821,40 +1821,40 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 				{
 					dest = trace["position"];
 				}
-			
-		//		time = 1; 
-				chunk LinkTo( ent ); 
-		
+
+		//		time = 1;
+				chunk LinkTo( ent );
+
 				//time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
 				time = ent fake_physicslaunch( dest, 300 + RandomInt( 100 ) );
 
-		
+
 				if( RandomInt( 100 ) > 40 )
 				{
 					ent RotatePitch( 180, time * 0.5 );
 				}
 				else
 				{
-					ent RotatePitch( 90, time, time * 0.5 ); 
+					ent RotatePitch( 90, time, time * 0.5 );
 				}
 				wait( time );
-		
+
 				chunk Hide();
-			
+
 				// try sending the notify now...
 				wait( 0.1);
-				//wait( 1 ); // the notify is sent out late... so I can't call it right away... 
+				//wait( 1 ); // the notify is sent out late... so I can't call it right away...
 				// I need to keep track of what the last peice is...
-				ent Delete(); 
+				ent Delete();
 			}
-			
+
 			else
 			{
-				ent = Spawn( "script_origin", chunk.origin ); 
+				ent = Spawn( "script_origin", chunk.origin );
 				ent.angles = node.angles +( 0, 180, 0 );
 
 
-				//DCS 030711: adding potential for having max distance movement 
+				//DCS 030711: adding potential for having max distance movement
 				//for boards in closets that aren't very deep.
 				dist = 100; // base number.
 				if(IsDefined(chunk.script_move_dist))
@@ -1863,13 +1863,13 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 						dist = 100 + RandomInt(dist_max);
 				}
 				else
-				{	
+				{
 					dist = 100 + RandomInt( 100 );
 				}
 
 				dest = ent.origin + ( AnglesToForward( ent.angles ) * dist );
 				trace = BulletTrace( dest + ( 0, 0, 16 ), dest + ( 0, 0, -200 ), false, undefined );
-		
+
 				if( trace["fraction"] == 1 )
 				{
 					dest = dest + ( 0, 0, -200 );
@@ -1878,55 +1878,55 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 				{
 					dest = trace["position"];
 				}
-			
-		//		time = 1; 
-				chunk LinkTo( ent ); 
-		
+
+		//		time = 1;
+				chunk LinkTo( ent );
+
 				time = ent fake_physicslaunch( dest, 260 + RandomInt( 100 ) );
-				
+
 				// here you will do a random damage... however it would be better if you made them fall over
 				// call damage function out of here so the wait doesn't interrupt normal flow.
-				
-				
+
+
 				//time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
-		
-				//forward = AnglesToForward( ent.angles + ( -60, 0, 0 ) ) * power ); 
-				//ent MoveGravity( forward, time ); 
-		
+
+				//forward = AnglesToForward( ent.angles + ( -60, 0, 0 ) ) * power );
+				//ent MoveGravity( forward, time );
+
 				if( RandomInt( 100 ) > 40 )
 				{
 					ent RotatePitch( 180, time * 0.5 );
 				}
 				else
 				{
-					ent RotatePitch( 90, time, time * 0.5 ); 
+					ent RotatePitch( 90, time, time * 0.5 );
 				}
 				wait( time );
-		
+
 				chunk Hide();
-			
+
 				// try sending the notify now...
 				wait( 0.1);
-				//wait( 1 ); // the notify is sent out late... so I can't call it right away... 
+				//wait( 1 ); // the notify is sent out late... so I can't call it right away...
 				// I need to keep track of what the last peice is...
 				ent Delete();
-				
+
 			}
 			//if (isdefined( destroy_immediately ) && destroy_immediately)
 			//{
 			//	return;
 			//}
 			chunk update_states("destroyed");
-			chunk notify( "destroyed" );			
+			chunk notify( "destroyed" );
 		}
 
-	if ( IsDefined ( chunk.script_parameters ) && chunk.script_parameters == "board" || chunk.script_parameters == "repair_board" || chunk.script_parameters == "barricade_vents" ) 
+	if ( IsDefined ( chunk.script_parameters ) && chunk.script_parameters == "board" || chunk.script_parameters == "repair_board" || chunk.script_parameters == "barricade_vents" )
 	{
-		
-			ent = Spawn( "script_origin", chunk.origin ); 
+
+			ent = Spawn( "script_origin", chunk.origin );
 			ent.angles = node.angles +( 0, 180, 0 );
-			
-			//DCS 030711: adding potential for having max distance movement 
+
+			//DCS 030711: adding potential for having max distance movement
 			//for boards in closets that aren't very deep.
 				dist = 100; // base number.
 				if(IsDefined(chunk.script_move_dist))
@@ -1935,13 +1935,13 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 						dist = 100 + RandomInt(dist_max);
 				}
 				else
-				{	
+				{
 					dist = 100 + RandomInt( 100 );
 				}
-				
+
 			dest = ent.origin + ( AnglesToForward( ent.angles ) * dist );
 			trace = BulletTrace( dest + ( 0, 0, 16 ), dest + ( 0, 0, -200 ), false, undefined );
-	
+
 			if( trace["fraction"] == 1 )
 			{
 				dest = dest + ( 0, 0, -200 );
@@ -1950,15 +1950,15 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 			{
 				dest = trace["position"];
 			}
-		
-	//		time = 1; 
-			chunk LinkTo( ent ); 
-	
+
+	//		time = 1;
+			chunk LinkTo( ent );
+
 			time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
 			//time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
-	
-	//		forward = AnglesToForward( ent.angles + ( -60, 0, 0 ) ) * power ); 
-	//		ent MoveGravity( forward, time ); 
+
+	//		forward = AnglesToForward( ent.angles + ( -60, 0, 0 ) ) * power );
+	//		ent MoveGravity( forward, time );
 
 			// DCS 090110: delete glass or wall piece before sending flying.
 			//DCS 090910: but not metal.
@@ -1967,16 +1967,16 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 				if(!IsDefined(chunk.material) || chunk.material != "metal")
 				{
 					chunk.unbroken_section self_delete();
-				}	
+				}
 			}
-	
+
 			if( RandomInt( 100 ) > 40 )
 			{
 				ent RotatePitch( 180, time * 0.5 );
 			}
 			else
 			{
-				ent RotatePitch( 90, time, time * 0.5 ); 
+				ent RotatePitch( 90, time, time * 0.5 );
 			}
 			wait( time );
 
@@ -1986,43 +1986,43 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 				if(IsDefined(chunk.material) && chunk.material == "metal")
 				{
 					chunk.unbroken_section self_delete();
-				}	
+				}
 			}
 
 			chunk Hide();
-						
+
 			// try sending the notify now...
 			wait( 0.1);
-			//wait( 1 ); // the notify is sent out late... so I can't call it right away... 
+			//wait( 1 ); // the notify is sent out late... so I can't call it right away...
 			// I need to keep track of what the last peice is...
-			ent Delete(); 
-		
-	
+			ent Delete();
+
+
 			//if (isdefined( destroy_immediately ) && destroy_immediately)
 			//{
 			//	return;
 			//}
-		
+
 			chunk update_states("destroyed");
 			chunk notify( "destroyed" );
 		}
 
-	
+
 	if ( IsDefined ( chunk.script_parameters ) && ( chunk.script_parameters == "grate" ) )
 	{
 		// Only make the last piece of the grate get pulled off.
 		if( IsDefined ( chunk.script_noteworthy ) && ( chunk.script_noteworthy == "6" ) )
 		{
 	//		angles = node.angles +( 0, 180, 0 );
-	//		force = AnglesToForward( angles + ( -60, 0, 0 ) ) * ( 200 + RandomInt( 100 ) ); 
+	//		force = AnglesToForward( angles + ( -60, 0, 0 ) ) * ( 200 + RandomInt( 100 ) );
 	//		chunk PhysicsLaunch( chunk.origin, force );
-		
-			ent = Spawn( "script_origin", chunk.origin ); 
+
+			ent = Spawn( "script_origin", chunk.origin );
 			ent.angles = node.angles +( 0, 180, 0 );
 			dist = 100 + RandomInt( 100 );
 			dest = ent.origin + ( AnglesToForward( ent.angles ) * dist );
 			trace = BulletTrace( dest + ( 0, 0, 16 ), dest + ( 0, 0, -200 ), false, undefined );
-	
+
 			if( trace["fraction"] == 1 )
 			{
 				dest = dest + ( 0, 0, -200 );
@@ -2031,33 +2031,33 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 			{
 				dest = trace["position"];
 			}
-		
-	//		time = 1; 
-			chunk LinkTo( ent ); 
-	
+
+	//		time = 1;
+			chunk LinkTo( ent );
+
 			time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
 			//time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
-	
-	//		forward = AnglesToForward( ent.angles + ( -60, 0, 0 ) ) * power ); 
-	//		ent MoveGravity( forward, time ); 
-	
+
+	//		forward = AnglesToForward( ent.angles + ( -60, 0, 0 ) ) * power );
+	//		ent MoveGravity( forward, time );
+
 			if( RandomInt( 100 ) > 40 )
 			{
 				ent RotatePitch( 180, time * 0.5 );
 			}
 			else
 			{
-				ent RotatePitch( 90, time, time * 0.5 ); 
+				ent RotatePitch( 90, time, time * 0.5 );
 			}
 			wait( time );
 			chunk Hide();
-			//wait( 1 ); // the notify is sent out late... so I can't call it right away... 
+			//wait( 1 ); // the notify is sent out late... so I can't call it right away...
 			// I need to keep track of what the last peice is...
-			ent Delete(); 
+			ent Delete();
 			chunk update_states("destroyed");
 			chunk notify( "destroyed" );
 		}
-		
+
 		else
 		{
 			chunk Hide();
@@ -2072,24 +2072,24 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 	// this is kicking off but is to late to send the notify
 	if( all_chunks_destroyed( node.barrier_chunks ) )
 	{
-	
+
 		if( IsDefined( node.clip ) )
 		{
-			node.clip ConnectPaths(); 
-			wait( 0.05 ); 
-			node.clip disable_trigger(); 
+			node.clip ConnectPaths();
+			wait( 0.05 );
+			node.clip disable_trigger();
 		}
 		else
 		{
 			for( i = 0; i < node.barrier_chunks.size; i++ )
 			{
-				node.barrier_chunks[i] ConnectPaths(); 
+				node.barrier_chunks[i] ConnectPaths();
 			}
 		}
 	}
 	else
 	{
-		EarthQuake( RandomFloatRange( 1, 3 ), 0.9, chunk.origin, 500 ); 
+		EarthQuake( RandomFloatRange( 1, 3 ), 0.9, chunk.origin, 500 );
 	}
 	*/
 }
@@ -2100,29 +2100,29 @@ remove_chunk_rotate_grate( chunk )
 {
 	// this is going to rotate all of them.. I need to some how do this off of the node pointing to it..
 	//chunk_rotate_piece = GetEntArray( "grate", "script_parameters");
-	
+
 	//chunk_rotate_piece = GetEnt( "grate", "script_parameters");
 	//chunk vibrate(( 0, 270, 0 ), 0.2, 0.4, 0.4);
-	
-	
+
+
 	// how do I only effect the one for that window and not affect all of them
 	// This is actually checked every time
-	
+
 	if( IsDefined (chunk.script_parameters) && chunk.script_parameters == "grate" ) //&& chunk.script_parameters != "grate" )
 	{
-		chunk vibrate(( 0, 270, 0 ), 0.2, 0.4, 0.4);	
+		chunk vibrate(( 0, 270, 0 ), 0.2, 0.4, 0.4);
 		return;
 	}
 }
 
 // jl just for now I added an audio offset to give more length and depth to the tearing off feeling
-// i should add these to the same area where the fx is called, which is zombie_boardtear_offset_fx_horizontle(chunk) 
+// i should add these to the same area where the fx is called, which is zombie_boardtear_offset_fx_horizontle(chunk)
 // in zombiemode_spawner
 zombie_boardtear_audio_offset(chunk)
 {
 	if( IsDefined(chunk.material) && !IsDefined( chunk.already_broken ) )
 	    chunk.already_broken = false;
-	
+
 	if( IsDefined(chunk.material) && chunk.material == "glass" && chunk.already_broken == false )
 	{
 	    chunk PlaySound( "zmb_break_glass_barrier" );
@@ -2136,7 +2136,7 @@ zombie_boardtear_audio_offset(chunk)
 	    wait( randomfloat( 0.3, 0.6 ));
 	    chunk PlaySound( "break_metal_bar" );
 	    chunk.already_broken = true;
-	}	
+	}
 	else if( IsDefined(chunk.material) && chunk.material == "rock" )
 	{
 	    if(!is_true(level.use_clientside_rock_tearin_fx))
@@ -2155,7 +2155,7 @@ zombie_boardtear_audio_offset(chunk)
 	    	//wait( randomfloat( 0.3, 0.6 ));
 	    	chunk PlaySound( "evt_vent_slat_remove" );
 	  	}
-	}		
+	}
 	else
 	{
 			if(!is_true(level.use_clientside_board_fx))
@@ -2199,7 +2199,7 @@ replace_chunk( chunk, perk, via_powerup )
 	{
 		has_perk = true;
 	}
-	
+
 	// need to remove this for the bar bend repair
 	//chunk Show();
 
@@ -2216,13 +2216,13 @@ replace_chunk( chunk, perk, via_powerup )
 	}
 
 
-	only_z = ( chunk.origin[0], chunk.origin[1], chunk.og_origin[2] ); 
+	only_z = ( chunk.origin[0], chunk.origin[1], chunk.og_origin[2] );
 
 // JL I setup the bar check on the inside of the else, but I will probably need to make it the first check and incompass all of it.
 
 	if( IsDefined(chunk.script_parameters) )
 	{
-		
+
 		if( chunk.script_parameters == "board" ) // jl this is new check to see if it is a board then do board anims, this needs to hold the entire function
 		{
 			chunk Show();
@@ -2231,17 +2231,17 @@ replace_chunk( chunk, perk, via_powerup )
 			{
 				if( "specialty_fastreload" == perk )
 				{
-			
-					chunk RotateTo( chunk.og_angles,  0.15 ); 
-					chunk waittill_notify_or_timeout( "rotatedone", 1 ); 
-					wait( 0.1 ); 
+
+					chunk RotateTo( chunk.og_angles,  0.15 );
+					chunk waittill_notify_or_timeout( "rotatedone", 1 );
+					wait( 0.1 );
 				}
 				else if( "specialty_fastreload_upgrade" == perk )
 				{
-			
-					chunk RotateTo( chunk.og_angles,  0.08 ); 
-					chunk waittill_notify_or_timeout( "rotatedone", 1 ); 
-					wait( 0.1 ); 
+
+					chunk RotateTo( chunk.og_angles,  0.08 );
+					chunk waittill_notify_or_timeout( "rotatedone", 1 );
+					wait( 0.1 );
 				}
 			}
 			else
@@ -2250,10 +2250,10 @@ replace_chunk( chunk, perk, via_powerup )
 				chunk waittill ("rotatedone");
 				chunk RotateTo( chunk.angles + (  0,  18,  0 ) , 0.1 );
 				chunk waittill ("rotatedone");
-				chunk MoveTo( only_z, 0.15); 
-				chunk RotateTo( chunk.og_angles,  0.3 ); 
-				chunk waittill_notify_or_timeout( "rotatedone", 1 ); 
-				wait( 0.2 ); 
+				chunk MoveTo( only_z, 0.15);
+				chunk RotateTo( chunk.og_angles,  0.3 );
+				chunk waittill_notify_or_timeout( "rotatedone", 1 );
+				wait( 0.2 );
 			}
 		}
 		// DCS: new start in good shape.
@@ -2265,25 +2265,25 @@ replace_chunk( chunk, perk, via_powerup )
 				chunk Show();
 			}
 			else
-			{	
+			{
 				chunk Show();
 			}
-			
+
 			if( has_perk )
 			{
 				if( "specialty_fastreload" == perk )
 				{
-			
-					chunk RotateTo( chunk.og_angles,  0.15 ); 
-					chunk waittill_notify_or_timeout( "rotatedone", 1 ); 
-					wait( 0.1 ); 
+
+					chunk RotateTo( chunk.og_angles,  0.15 );
+					chunk waittill_notify_or_timeout( "rotatedone", 1 );
+					wait( 0.1 );
 				}
 				else if( "specialty_fastreload_upgrade" == perk )
 				{
-			
-					chunk RotateTo( chunk.og_angles,  0.08 ); 
-					chunk waittill_notify_or_timeout( "rotatedone", 1 ); 
-					wait( 0.1 ); 
+
+					chunk RotateTo( chunk.og_angles,  0.08 );
+					chunk waittill_notify_or_timeout( "rotatedone", 1 );
+					wait( 0.1 );
 				}
 			}
 			else
@@ -2292,77 +2292,77 @@ replace_chunk( chunk, perk, via_powerup )
 				chunk waittill ("rotatedone");
 				chunk RotateTo( chunk.angles + (  0,  18,  0 ) , 0.1 );
 				chunk waittill ("rotatedone");
-				chunk MoveTo( only_z, 0.15); 
-				chunk RotateTo( chunk.og_angles,  0.3 ); 
-				chunk waittill_notify_or_timeout( "rotatedone", 1 ); 
-				wait( 0.2 ); 
+				chunk MoveTo( only_z, 0.15);
+				chunk RotateTo( chunk.og_angles,  0.3 );
+				chunk waittill_notify_or_timeout( "rotatedone", 1 );
+				wait( 0.2 );
 			}
 		}
-		
-			
+
+
 		if( IsDefined(chunk.script_parameters) )
 		{
-						
+
 			if( chunk.script_parameters == "bar" ) // jl this is new check to see if it is a board then do board anims, this needs to hold the entire function
 			{
-				
+
 				chunk Show();
-				
+
 				if( has_perk )
 				{
 					if( "specialty_fastreload" == perk )
 					{
-						chunk RotateTo( chunk.og_angles,  0.15 ); 
-						chunk waittill_notify_or_timeout( "rotatedone", 1 ); 
-						wait( 0.1 ); 
+						chunk RotateTo( chunk.og_angles,  0.15 );
+						chunk waittill_notify_or_timeout( "rotatedone", 1 );
+						wait( 0.1 );
 					}
 					else if( "specialty_fastreload_upgrade" == perk )
 					{
-				
-						chunk RotateTo( chunk.og_angles,  0.08 ); 
-						chunk waittill_notify_or_timeout( "rotatedone", 1 ); 
-						wait( 0.1 ); 
+
+						chunk RotateTo( chunk.og_angles,  0.08 );
+						chunk waittill_notify_or_timeout( "rotatedone", 1 );
+						wait( 0.1 );
 					}
 				}
-				
-				
-				
+
+
+
 				if(chunk.script_noteworthy == "3"  || chunk.script_noteworthy == "5")
 				{
 							// bend model back here... send notify0.
-				}	
-			
+				}
+
 					// was 180
 				chunk RotateTo( chunk.angles + (  0,  -9, 0 ), 0.1 );
 				chunk waittill ("rotatedone");
 				chunk RotateTo( chunk.angles + (  0,  18,  0 ), 0.1 );
-				chunk waittill ("rotatedone");	
-				chunk MoveTo( only_z, 0.15); 
-				chunk RotateTo( chunk.og_angles,  0.3 ); 
-				chunk waittill_notify_or_timeout( "rotatedone", 1 ); 
-				wait( 0.2 ); 
+				chunk waittill ("rotatedone");
+				chunk MoveTo( only_z, 0.15);
+				chunk RotateTo( chunk.og_angles,  0.3 );
+				chunk waittill_notify_or_timeout( "rotatedone", 1 );
+				wait( 0.2 );
 			}
 		}
 	}
-	
-	//Jl seperate board and bar type checks now 
+
+	//Jl seperate board and bar type checks now
 	if(isdefined(chunk.script_parameters))
 	{
 		if( chunk.script_parameters == "board" || chunk.script_parameters == "repair_board" || chunk.script_parameters == "barricade_vents") // jl this is new check to see if it is a board then do board anims, this needs to hold the entire function
 		{
-			
+
 			if( has_perk )
 			{
 				if( "specialty_fastreload" == perk )
 				{
-					chunk MoveTo( chunk.og_origin, 0.05 ); 
-					chunk waittill_notify_or_timeout( "movedone", 1 ); 
+					chunk MoveTo( chunk.og_origin, 0.05 );
+					chunk waittill_notify_or_timeout( "movedone", 1 );
 					ensure_chunk_is_back_to_origin( chunk );
 				}
 				else if( "specialty_fastreload_upgrade" == perk )
 				{
-					chunk MoveTo( chunk.og_origin, 0.03 ); 
-					chunk waittill_notify_or_timeout( "movedone", 1 ); 
+					chunk MoveTo( chunk.og_origin, 0.03 );
+					chunk waittill_notify_or_timeout( "movedone", 1 );
 					ensure_chunk_is_back_to_origin( chunk );
 				}
 			}
@@ -2372,38 +2372,38 @@ replace_chunk( chunk, perk, via_powerup )
 				chunk waittill ("rotatedone");
 				chunk RotateTo( chunk.angles + (  0,  18,  0 ), 0.1 );
 				chunk waittill ("rotatedone");
-				chunk RotateTo( chunk.og_angles,  0.1 ); 
-				chunk waittill_notify_or_timeout( "RotateTo", 0.1 ); 
+				chunk RotateTo( chunk.og_angles,  0.1 );
+				chunk waittill_notify_or_timeout( "RotateTo", 0.1 );
 				chunk MoveTo( chunk.og_origin, 0.1 );
 				chunk waittill_notify_or_timeout( "movedone", 1 ); // the time out is playing crashing out
 				ensure_chunk_is_back_to_origin( chunk );
-				// jl try flipping the boards as they move in to add more impact 
+				// jl try flipping the boards as they move in to add more impact
 			}
 		}
 	}
-	
+
 	if(isdefined(chunk.script_parameters))
 	{
-		
+
 		if( chunk.script_parameters == "bar" ) // jl this is new check to see if it is a board then do board anims, this needs to hold the entire function
 		{
-			
-			
-			
+
+
+
 			if( has_perk )
 			{
 				if( "specialty_fastreload" == perk )
 				{
 					chunk Show();
-					chunk MoveTo( chunk.og_origin, 0.05 ); 
-					chunk waittill_notify_or_timeout( "movedone", 1 ); 
+					chunk MoveTo( chunk.og_origin, 0.05 );
+					chunk waittill_notify_or_timeout( "movedone", 1 );
 					ensure_chunk_is_back_to_origin( chunk );
 				}
 				else if( "specialty_fastreload_upgrade" == perk  )
 				{
 					chunk Show();
-					chunk MoveTo( chunk.og_origin, 0.03 ); 
-					chunk waittill_notify_or_timeout( "movedone", 1 ); 
+					chunk MoveTo( chunk.og_origin, 0.03 );
+					chunk waittill_notify_or_timeout( "movedone", 1 );
 					ensure_chunk_is_back_to_origin( chunk );
 				}
 			}
@@ -2413,30 +2413,30 @@ replace_chunk( chunk, perk, via_powerup )
 				chunk waittill ("rotatedone");
 				chunk RotateTo( chunk.angles + (  0,  18,  0 ), 0.1 );
 				chunk waittill ("rotatedone");
-				chunk RotateTo( chunk.og_angles,  0.1 ); 
+				chunk RotateTo( chunk.og_angles,  0.1 );
 				chunk MoveTo( chunk.og_origin, 0.1 );
-				chunk waittill_notify_or_timeout( "movedone", 1 ); 
+				chunk waittill_notify_or_timeout( "movedone", 1 );
 				ensure_chunk_is_back_to_origin( chunk );
 				//targets[j].destroyed = false;
 				//level notify ("reset_bar_left");
 				chunk Show();
 			}
-			
+
 			else if(chunk.script_noteworthy == "5") // bend repiar
 			{
 				chunk RotateTo( chunk.angles + (  0,  -9, 0 ), 0.1 );
 				chunk waittill ("rotatedone");
 				chunk RotateTo( chunk.angles + (  0,  18,  0 ), 0.1 );
 				chunk waittill ("rotatedone");
-				chunk RotateTo( chunk.og_angles,  0.1 ); 
+				chunk RotateTo( chunk.og_angles,  0.1 );
 				chunk MoveTo( chunk.og_origin, 0.1 );
-				chunk waittill_notify_or_timeout( "movedone", 1 ); 
+				chunk waittill_notify_or_timeout( "movedone", 1 );
 				ensure_chunk_is_back_to_origin( chunk );
 				// change this to chunk set
 				//level notify ("reset_bar_right");
 				chunk Show();
 			}
-			
+
 			else
 			{
 				chunk Show();
@@ -2446,21 +2446,21 @@ replace_chunk( chunk, perk, via_powerup )
 				chunk waittill ("rotatedone");
 				chunk RotateTo( chunk.angles + (  0,  18,  0 ), 0.1 );
 				chunk waittill ("rotatedone");
-				chunk RotateTo( chunk.og_angles,  0.1 ); 
+				chunk RotateTo( chunk.og_angles,  0.1 );
 				chunk MoveTo( chunk.og_origin, 0.1 );
-				chunk waittill_notify_or_timeout( "movedone", 1 ); 
+				chunk waittill_notify_or_timeout( "movedone", 1 );
 				ensure_chunk_is_back_to_origin( chunk );
-				// jl try flipping the boards as they move in to add more impact 
+				// jl try flipping the boards as they move in to add more impact
 			}
 		}
 	}
-	
+
 	if( IsDefined(chunk.script_parameters) )
 	{
-		
+
 		if( chunk.script_parameters == "grate" ) // jl this is new check to see if it is a board then do board anims, this needs to hold the entire function
-		{	
-			// Replace the grate 
+		{
+			// Replace the grate
 			if( IsDefined ( chunk.script_noteworthy ) && ( chunk.script_noteworthy == "6" ) )
 			{
 				amplitude1 = RandomfloatRange( 10, 15); // the amount of vibration in a degree , this feels good for wood but too much for bars
@@ -2468,7 +2468,7 @@ replace_chunk( chunk, perk, via_powerup )
 				time1 = RandomfloatRange( 0.3, 0.4); // total time to move
 				chunk vibrate(( 0, 180, 0 ), amplitude1,  period1, time1); // this looks really cool.. very sppplke
 				wait(0.3);
-				chunk RotateTo( chunk.og_angles,  0.1 ); 
+				chunk RotateTo( chunk.og_angles,  0.1 );
 				chunk MoveTo( chunk.og_origin, 0.1 );
 				chunk waittill_notify_or_timeout( "movedone", 1 );
 				// jl 02/11/10 I removed the line below because we don't need this check
@@ -2478,25 +2478,25 @@ replace_chunk( chunk, perk, via_powerup )
 				chunk thread zombie_gratetear_audio_plus_fx_offset_repair_horizontal( chunk );
 				chunk Show();
 			}
-			
+
 			// If they are not noteworthy six then do a check for the entity index
 			else
 			{
-		
+
 				// was 180 chunk vibrate(( 0, 270, 0 ), 5, 1, 0.3);
 				//wait(0.3);
 				//chunk moveto( chunk.origin + ( 0, 0, 1000 ), 0.3, 0.1, 0.1 );
 				wait( 0.5 );
-				chunk waittill_notify_or_timeout( "movedone", 1 );  
+				chunk waittill_notify_or_timeout( "movedone", 1 );
 				chunk thread zombie_gratetear_audio_plus_fx_offset_repair_horizontal( chunk );
 				chunk Show();
 			}
 		}
 	}
-	
-	
+
+
 	// jl moved this to another location
-	//chunk waittill_notify_or_timeout( "movedone", 1 ); 
+	//chunk waittill_notify_or_timeout( "movedone", 1 );
 	//assert( chunk.origin == chunk.og_origin );
 
 	// Jl commented out
@@ -2513,13 +2513,13 @@ replace_chunk( chunk, perk, via_powerup )
 	{
 		sound = "zmb_vent_fix";
 	}
-	
+
 		//TUEY Play the sounds
 		// JL, hey Tuey I added calls in here for our different windows so we can call different sounds
 		if(isdefined(chunk.script_parameters))
 		{
 			if( chunk.script_parameters == "board" || chunk.script_parameters == "repair_board" || chunk.script_parameters == "barricade_vents") // jl this is new check to see if it is a board then do board anims, this needs to hold the entire function
-			{				
+			{
 				if(chunk.script_noteworthy == "1" || chunk.script_noteworthy == "5" || chunk.script_noteworthy == "6")
 				{
 							chunk thread zombie_boardtear_audio_plus_fx_offset_repair_horizontal(chunk);
@@ -2528,14 +2528,14 @@ replace_chunk( chunk, perk, via_powerup )
 				{
 						chunk thread zombie_boardtear_audio_plus_fx_offset_repair_verticle(chunk);
 				}
-												
+
 			}
 		}
-		
+
 		if(isdefined(chunk.script_parameters))
 		{
 			if( chunk.script_parameters == "bar" ) // jl this is new check to see if it is a board then do board anims, this needs to hold the entire function
-			{				
+			{
 				if(chunk.script_noteworthy == "4"  || chunk.script_noteworthy == "6")
 				{
 						// Jluyties 03/09/10 I commented out fx for non model bars till we get the models
@@ -2543,7 +2543,7 @@ replace_chunk( chunk, perk, via_powerup )
 						{
 							// I need to kill this thread.
 						}
-						
+
 						if (!IsDefined( chunk.script_squadname ) )
 						{
 						// this doesn't work because it calls it at the beggining, I need to find where it locks into place
@@ -2556,36 +2556,36 @@ replace_chunk( chunk, perk, via_powerup )
 						if ( IsDefined( chunk.script_squadname ) && ( chunk.script_squadname == "cosmodrome_storage_area" ) )
 						{
 							// I need to kill this thread.
-						}			
+						}
 						if (!IsDefined( chunk.script_squadname ) )
 						{
 						// this doesn't work because it calls it at the beggining, I need to find where it locks into place
 									chunk thread zombie_bartear_audio_plus_fx_offset_repair_verticle(chunk);
 						}
 				}
-												
+
 			}
 		}
-	
-	chunk Solid(); 
-	chunk update_states("repaired"); 
+
+	chunk Solid();
+	chunk update_states("repaired");
 
 	fx = "wood_chunk_destory";
 	if( IsDefined( self.script_fxid ) )
 	{
 		fx = self.script_fxid;
 	}
-	
+
 	//AUDIO: Removing this isdefined, because we want the sound to play always
 	//if( !IsDefined( via_powerup ) )
 	//{
-	
+
 		//the repair sounds are now played on the client
-		
+
 		if( IsDefined( chunk.script_string ) && chunk.script_string == "rock" )
 		{
 			if(	!is_true(level.use_clientside_rock_tearin_fx))
-			{	
+			{
 				play_sound_at_pos( sound, chunk.origin );
 			}
 		}
@@ -2605,44 +2605,29 @@ replace_chunk( chunk, perk, via_powerup )
 		//play_sound_at_pos( sound, chunk.origin );
 		//playfx( level._effect[fx], chunk.origin ); // need to call at offset
 		//JL u need to call the offset for particles and sounds from here
-		//playfx( level._effect[fx], chunk.origin +( randomint( 20 ), randomint( 20 ), randomint( 10 ) ) ); 
-		//playfx( level._effect[fx], chunk.origin +( randomint( 40 ), randomint( 40 ), randomint( 20 ) ) ); 
+		//playfx( level._effect[fx], chunk.origin +( randomint( 20 ), randomint( 20 ), randomint( 10 ) ) );
+		//playfx( level._effect[fx], chunk.origin +( randomint( 40 ), randomint( 40 ), randomint( 20 ) ) );
 	//}
 
 	if( !Isdefined( self.clip ) )
 	{
-		chunk Disconnectpaths(); 
+		chunk Disconnectpaths();
 	}
-	
+
 }
 
 // Jl we want different audio for each type of board or bar when they are repaired
 // Need tags so the off sets for the effects is less code.
 zombie_boardtear_audio_plus_fx_offset_repair_horizontal( chunk )
 {
-	
+
 	if(isDefined(chunk.material) && chunk.material == "rock" )
 	{
 		if(is_true(level.use_clientside_rock_tearin_fx))
 		{
 			chunk clearclientflag(level._ZOMBIE_SCRIPTMOVER_FLAG_ROCK_FX);//PlayFX( level._effect["wall_break"], chunk.origin );
 		}
-		else 
-		{
-			EarthQuake( RandomFloatRange( 0.3, 0.4 ), RandomFloatRange(0.2, 0.4), chunk.origin, 150 ); // do I want an increment if more are gone...
-			PlayFx( level._effect["wood_chunk_destory"], chunk.origin + (0, 0, 30));
-			wait( randomfloat( 0.3, 0.6 )); // 06 might be too much, a little seperation sounds great...
-			chunk play_sound_on_ent( "break_barrier_piece" );
-			PlayFx( level._effect["wood_chunk_destory"], chunk.origin + (0, 0, -30));
-		}
-	}	
-	else 
-	{
-		if(is_true(level.use_clientside_board_fx))
-		{
-			chunk clearclientflag(level._ZOMBIE_SCRIPTMOVER_FLAG_BOARD_HORIZONTAL_FX);
-		}
-		else 
+		else
 		{
 			EarthQuake( RandomFloatRange( 0.3, 0.4 ), RandomFloatRange(0.2, 0.4), chunk.origin, 150 ); // do I want an increment if more are gone...
 			PlayFx( level._effect["wood_chunk_destory"], chunk.origin + (0, 0, 30));
@@ -2651,7 +2636,22 @@ zombie_boardtear_audio_plus_fx_offset_repair_horizontal( chunk )
 			PlayFx( level._effect["wood_chunk_destory"], chunk.origin + (0, 0, -30));
 		}
 	}
-	
+	else
+	{
+		if(is_true(level.use_clientside_board_fx))
+		{
+			chunk clearclientflag(level._ZOMBIE_SCRIPTMOVER_FLAG_BOARD_HORIZONTAL_FX);
+		}
+		else
+		{
+			EarthQuake( RandomFloatRange( 0.3, 0.4 ), RandomFloatRange(0.2, 0.4), chunk.origin, 150 ); // do I want an increment if more are gone...
+			PlayFx( level._effect["wood_chunk_destory"], chunk.origin + (0, 0, 30));
+			wait( randomfloat( 0.3, 0.6 )); // 06 might be too much, a little seperation sounds great...
+			chunk play_sound_on_ent( "break_barrier_piece" );
+			PlayFx( level._effect["wood_chunk_destory"], chunk.origin + (0, 0, -30));
+		}
+	}
+
 
 }
 
@@ -2689,7 +2689,7 @@ zombie_boardtear_audio_plus_fx_offset_repair_verticle( chunk )
 		}
 	}
 
-	
+
 }
 
 
@@ -2697,7 +2697,7 @@ zombie_gratetear_audio_plus_fx_offset_repair_horizontal( chunk )
 {
 	EarthQuake( RandomFloatRange( 0.3, 0.4 ), RandomFloatRange(0.2, 0.4), chunk.origin, 150 ); // do I want an increment if more are gone...
 	chunk play_sound_on_ent( "bar_rebuild_slam" );
-	
+
 		switch( randomInt( 9 ) ) // This sets up random versions of the bars being pulled apart for variety
 		{
 			case 0:
@@ -2705,34 +2705,34 @@ zombie_gratetear_audio_plus_fx_offset_repair_horizontal( chunk )
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFX( level._effect["fx_zombie_bar_break_lite"], chunk.origin + (-30, 0, 0) );
 				break;
-				
+
 			case 1:
 							PlayFX( level._effect["fx_zombie_bar_break"], chunk.origin + (-30, 0, 0) );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFX( level._effect["fx_zombie_bar_break"], chunk.origin + (-30, 0, 0) );
 
 				break;
-				
+
 			case 2:
 							PlayFX( level._effect["fx_zombie_bar_break_lite"], chunk.origin + (-30, 0, 0) );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFX( level._effect["fx_zombie_bar_break"], chunk.origin + (-30, 0, 0) );
-			
+
 				break;
-				
+
 			case 3:
 							PlayFX( level._effect["fx_zombie_bar_break"], chunk.origin + (-30, 0, 0) );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFX( level._effect["fx_zombie_bar_break_lite"], chunk.origin + (-30, 0, 0) );
-			
+
 				break;
-				
+
 			case 4:
 							PlayFX( level._effect["fx_zombie_bar_break_lite"], chunk.origin + (-30, 0, 0) );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFX( level._effect["fx_zombie_bar_break_lite"], chunk.origin + (-30, 0, 0) );
 				break;
-				
+
 			case 5:
 							PlayFX( level._effect["fx_zombie_bar_break_lite"], chunk.origin + (-30, 0, 0) );
 				break;
@@ -2745,50 +2745,50 @@ zombie_gratetear_audio_plus_fx_offset_repair_horizontal( chunk )
 			case 8:
 							PlayFX( level._effect["fx_zombie_bar_break"], chunk.origin + (-30, 0, 0) );
 				break;
-		} 
-	
+		}
+
 }
 
 
 zombie_bartear_audio_plus_fx_offset_repair_horizontal( chunk )
 {
-	
+
 	EarthQuake( RandomFloatRange( 0.3, 0.4 ), RandomFloatRange(0.2, 0.4), chunk.origin, 150 ); // do I want an increment if more are gone...
 	chunk play_sound_on_ent( "bar_rebuild_slam" );
 
-	
+
 		switch( randomInt( 9 ) ) // This sets up random versions of the bars being pulled apart for variety
-		{			
+		{
 			case 0:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_left" );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_right" );
 				break;
-				
+
 			case 1:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break"], chunk, "Tag_fx_left" );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFXOnTag( level._effect["fx_zombie_bar_break"], chunk, "Tag_fx_right" );
 				break;
-				
+
 			case 2:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_left" );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFXOnTag( level._effect["fx_zombie_bar_break"], chunk, "Tag_fx_right" );
 				break;
-				
+
 			case 3:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break"], chunk, "Tag_fx_left" );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_right" );
 				break;
-				
+
 			case 4:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_left" );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_right" );
 				break;
-				
+
 			case 5:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_left" );
 				break;
@@ -2801,16 +2801,16 @@ zombie_bartear_audio_plus_fx_offset_repair_horizontal( chunk )
 			case 8:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break"], chunk, "Tag_fx_right" );
 				break;
-		} 
-	
+		}
+
 }
 
 zombie_bartear_audio_plus_fx_offset_repair_verticle(chunk)
 {
 	EarthQuake( RandomFloatRange( 0.3, 0.4 ), RandomFloatRange(0.2, 0.4), chunk.origin, 150 ); // do I want an increment if more are gone...
 	chunk play_sound_on_ent( "bar_rebuild_slam" );
-	
-	
+
+
 		switch( randomInt( 9 ) ) // This sets up random versions of the bars being pulled apart for variety
 		{
 			case 0:
@@ -2818,31 +2818,31 @@ zombie_bartear_audio_plus_fx_offset_repair_verticle(chunk)
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_bottom" );
 				break;
-				
+
 			case 1:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break"], chunk, "Tag_fx_top" );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFXOnTag( level._effect["fx_zombie_bar_break"], chunk, "Tag_fx_bottom" );
 				break;
-				
+
 			case 2:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_top" );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFXOnTag( level._effect["fx_zombie_bar_break"], chunk, "Tag_fx_bottom" );
 				break;
-				
+
 			case 3:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break"], chunk, "Tag_fx_top" );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_bottom" );
 				break;
-				
+
 			case 4:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_top" );
 							wait( randomfloat( 0.0, 0.3 ));
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_bottom" );
 				break;
-				
+
 			case 5:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break_lite"], chunk, "Tag_fx_top" );
 				break;
@@ -2855,29 +2855,29 @@ zombie_bartear_audio_plus_fx_offset_repair_verticle(chunk)
 			case 8:
 							PlayFXOnTag( level._effect["fx_zombie_bar_break"], chunk, "Tag_fx_bottom" );
 				break;
-		} 
+		}
 }
 
 add_new_zombie_spawners()
 {
 	if( isdefined( self.target ) )
 	{
-		self.possible_spawners = getentarray( self.target, "targetname" ); 
-	}	
+		self.possible_spawners = getentarray( self.target, "targetname" );
+	}
 
 	if( isdefined( self.script_string ) )
 	{
-		spawners = getentarray( self.script_string, "targetname" ); 
+		spawners = getentarray( self.script_string, "targetname" );
 		self.possible_spawners = array_combine( self.possible_spawners, spawners );
-	}	
-	
+	}
+
 	if( !isdefined( self.possible_spawners ) )
 	{
-		return; 
+		return;
 	}
-	
+
 	// add new check if they've been added already
-	zombies_to_add = self.possible_spawners; 
+	zombies_to_add = self.possible_spawners;
 
 	for( i = 0; i < self.possible_spawners.size; i++ )
 	{
@@ -2900,7 +2900,7 @@ flag_blocker()
 
 	if( !IsDefined( level.flag[self.script_flag_wait] ) )
 	{
-		flag_init( self.script_flag_wait ); 
+		flag_init( self.script_flag_wait );
 	}
 
 	type = "connectpaths";
@@ -2936,7 +2936,7 @@ flag_blocker()
 update_states( states )
 {
 	assertex( isdefined( states ) );
-	
+
 	self.state = states;
 
 }
@@ -2944,7 +2944,7 @@ update_states( states )
 
 //*****************************************************************************
 //	SHUTTERS - they cover windows and prevent zombies from spawning and entering through them
-//		
+//
 //		Shutter Switch Trigger
 //			targetname		"window_shutter"
 //			target			targets all related entities.  script will sort them out
@@ -2954,7 +2954,7 @@ update_states( states )
 //
 //	Shutter Switch Trigger targets the following:
 //
-//		Area affected by the shutter 
+//		Area affected by the shutter
 //			trigger_multi - (all things that must be killed or deactivated must be encompased by this)/
 //
 //		Shutter Switch Model
@@ -2965,9 +2965,9 @@ update_states( states )
 //
 //		Shutter
 //			script_model/brushmodel - the thing that will move to cover the window
-//			script_string		the movement mode the shutter will use, like "move" 
+//			script_string		the movement mode the shutter will use, like "move"
 //								(see doors, may require other fields to be set)
-//			
+//
 //*****************************************************************************
 shutter_init()
 {
@@ -2975,7 +2975,7 @@ shutter_init()
 	self.shutters = [];
 	self.lights = [];
 	self.area_triggers = [];
-//	self.type = undefined; 
+//	self.type = undefined;
 
 	targets = GetEntArray(self.target, "targetname" );
 	for(i=0;i<targets.size;i++)
@@ -3022,9 +3022,9 @@ shutter_init()
 		{
 			if( self.shutters[i].script_string == "anim" )
 			{
-				AssertEx( IsDefined( self.shutters[i].script_animname ), "Blocker_init: You must specify a script_animname for "+self.shutters[i].targetname ); 
-				AssertEx( IsDefined( level.scr_anim[ self.shutters[i].script_animname ] ), "Blocker_init: You must define a level.scr_anim for script_anim -> "+self.shutters[i].script_animname ); 
-				AssertEx( IsDefined( level.blocker_anim_func ), "Blocker_init: You must define a level.blocker_anim_func" ); 
+				AssertEx( IsDefined( self.shutters[i].script_animname ), "Blocker_init: You must specify a script_animname for "+self.shutters[i].targetname );
+				AssertEx( IsDefined( level.scr_anim[ self.shutters[i].script_animname ] ), "Blocker_init: You must define a level.scr_anim for script_anim -> "+self.shutters[i].script_animname );
+				AssertEx( IsDefined( level.blocker_anim_func ), "Blocker_init: You must define a level.blocker_anim_func" );
 			}
 			self.shutters[i] door_activate( 0.05 );
 		}
@@ -3038,7 +3038,7 @@ shutter_init()
 		self set_hint_string( self, "default_buy_door_" + cost );
 //		self thread add_teampot_icon();
 //		self UseTriggerRequireLookAt();
-		self thread shutter_think(); 
+		self thread shutter_think();
 	}
 	else	// shut it down permanently
 	{
@@ -3046,7 +3046,7 @@ shutter_init()
 //		shutter_light_red( self.lights );
 
 		// Keep it off
-		self disable_trigger(); 
+		self disable_trigger();
 
 		self thread shutter_enable_zone( false );
 	}
@@ -3059,7 +3059,7 @@ shutter_light_red( shutter_lights )
 {
 	for(i=0;i<shutter_lights.size;i++)
 	{
-		shutter_lights[i] setmodel("zombie_zapper_cagelight_red");	
+		shutter_lights[i] setmodel("zombie_zapper_cagelight_red");
 
 		if(isDefined(shutter_lights[i].fx))
 		{
@@ -3081,7 +3081,7 @@ shutter_light_green( shutter_lights )
 {
 	for(i=0;i<shutter_lights.size;i++)
 	{
-		shutter_lights[i] setmodel("zombie_zapper_cagelight_green");	
+		shutter_lights[i] setmodel("zombie_zapper_cagelight_green");
 
 		if(isDefined(shutter_lights[i].fx))
 		{
@@ -3111,9 +3111,9 @@ shutter_move_switch()
 		// When "available" notify hit, bring back the level
 		self notify( "switch_activated" );
 		self waittill( "available" );
-	
+
 		self.handle rotatepitch( -180, .5 );
-	}	
+	}
 }
 
 
@@ -3126,7 +3126,7 @@ shutter_think()
 {
 	while( 1 )
 	{
-		self waittill( "trigger", who ); 
+		self waittill( "trigger", who );
 		if( !who UseButtonPressed() )
 		{
 			continue;
@@ -3144,19 +3144,19 @@ shutter_think()
 			if ( players.size == 1 && who.score >= self.zombie_cost )
 			{
 				// solo buy
-				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost ); 
+				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 			}
 			else if( level.team_pool[ who.team_num ].score >= self.zombie_cost )
 			{
 				// team buy
-				who maps\_zombiemode_score::minus_to_team_score( self.zombie_cost ); 
+				who maps\_zombiemode_score::minus_to_team_score( self.zombie_cost );
 			}
 			else if( level.team_pool[ who.team_num ].score + who.score >= self.zombie_cost )
 			{
 				// team funds + player funds
 				team_points = level.team_pool[ who.team_num ].score;
-				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost - team_points ); 
-				who maps\_zombiemode_score::minus_to_team_score( team_points ); 
+				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost - team_points );
+				who maps\_zombiemode_score::minus_to_team_score( team_points );
 			}
 			else // Not enough money
 			{
@@ -3169,7 +3169,7 @@ shutter_think()
 		}
 
 		// shutter has been activated, make it do its thing
-		
+
 		// rotate switch
 		self disable_trigger();
 		self thread shutter_move_switch();
@@ -3310,9 +3310,9 @@ replace_chunk_instant( chunk )
 		chunk Show();
 		chunk.origin = chunk.og_origin;
 		chunk.angles = chunk.og_angles;
-		
+
 		if( chunk.script_parameters == "board" || chunk.script_parameters == "repair_board" || chunk.script_parameters == "barricade_vents") // jl this is new check to see if it is a board then do board anims, this needs to hold the entire function
-		{				
+		{
 			if(chunk.script_noteworthy == "1" || chunk.script_noteworthy == "4" ||chunk.script_noteworthy == "5" || chunk.script_noteworthy == "6")
 			{
 
@@ -3322,11 +3322,11 @@ replace_chunk_instant( chunk )
 			{
 				chunk thread zombie_boardtear_audio_plus_fx_offset_repair_verticle(chunk);
 			}
-											
+
 		}
 
 		else if( chunk.script_parameters == "bar" ) // jl this is new check to see if it is a board then do board anims, this needs to hold the entire function
-		{				
+		{
 			if(chunk.script_noteworthy == "4"  || chunk.script_noteworthy == "6")
 			{
 				// Jluyties 03/09/10 I commented out fx for non model bars till we get the models
@@ -3334,7 +3334,7 @@ replace_chunk_instant( chunk )
 				{
 					// I need to kill this thread.
 				}
-				
+
 				if (!IsDefined( chunk.script_squadname ) )
 				{
 				// this doesn't work because it calls it at the beggining, I need to find where it locks into place
@@ -3347,25 +3347,25 @@ replace_chunk_instant( chunk )
 				if ( IsDefined( chunk.script_squadname ) && ( chunk.script_squadname == "cosmodrome_storage_area" ) )
 				{
 					// I need to kill this thread.
-				}			
+				}
 				if (!IsDefined( chunk.script_squadname ) )
 				{
 				// this doesn't work because it calls it at the beggining, I need to find where it locks into place
 							chunk thread zombie_bartear_audio_plus_fx_offset_repair_verticle(chunk);
 				}
 			}
-											
+
 		}
 	}
 
-	chunk Solid(); 
-	chunk update_states("repaired"); 
+	chunk Solid();
+	chunk update_states("repaired");
 
 	if( !Isdefined( self.clip ) )
 	{
-		chunk Disconnectpaths(); 
+		chunk Disconnectpaths();
 	}
-	
+
 }
 
 
@@ -3373,7 +3373,7 @@ quantum_bomb_open_nearest_door_validation( position )
 {
 	range_squared = 180 * 180; // 15 feet
 
-	zombie_doors = GetEntArray( "zombie_door", "targetname" ); 
+	zombie_doors = GetEntArray( "zombie_door", "targetname" );
 	for( i = 0; i < zombie_doors.size; i++ )
 	{
 		if ( DistanceSquared( zombie_doors[i].origin, position ) < range_squared )
@@ -3382,7 +3382,7 @@ quantum_bomb_open_nearest_door_validation( position )
 		}
 	}
 
-	zombie_airlock_doors = GetEntArray( "zombie_airlock_buy", "targetname" ); 
+	zombie_airlock_doors = GetEntArray( "zombie_airlock_buy", "targetname" );
 	for( i = 0; i < zombie_airlock_doors.size; i++ )
 	{
 		if ( DistanceSquared( zombie_airlock_doors[i].origin, position ) < range_squared )
@@ -3391,7 +3391,7 @@ quantum_bomb_open_nearest_door_validation( position )
 		}
 	}
 
-	zombie_debris = GetEntArray( "zombie_debris", "targetname" ); 
+	zombie_debris = GetEntArray( "zombie_debris", "targetname" );
 	for( i = 0; i < zombie_debris.size; i++ )
 	{
 		if ( DistanceSquared( zombie_debris[i].origin, position ) < range_squared )
@@ -3408,7 +3408,7 @@ quantum_bomb_open_nearest_door_result( position )
 {
 	range_squared = 180 * 180; // 15 feet
 
-	zombie_doors = GetEntArray( "zombie_door", "targetname" ); 
+	zombie_doors = GetEntArray( "zombie_door", "targetname" );
 	for( i = 0; i < zombie_doors.size; i++ )
 	{
 		if ( DistanceSquared( zombie_doors[i].origin, position ) < range_squared )
@@ -3420,7 +3420,7 @@ quantum_bomb_open_nearest_door_result( position )
 		}
 	}
 
-	zombie_airlock_doors = GetEntArray( "zombie_airlock_buy", "targetname" ); 
+	zombie_airlock_doors = GetEntArray( "zombie_airlock_buy", "targetname" );
 	for( i = 0; i < zombie_airlock_doors.size; i++ )
 	{
 		if ( DistanceSquared( zombie_airlock_doors[i].origin, position ) < range_squared )
@@ -3432,7 +3432,7 @@ quantum_bomb_open_nearest_door_result( position )
 		}
 	}
 
-	zombie_debris = GetEntArray( "zombie_debris", "targetname" ); 
+	zombie_debris = GetEntArray( "zombie_debris", "targetname" );
 	for( i = 0; i < zombie_debris.size; i++ )
 	{
 		if ( DistanceSquared( zombie_debris[i].origin, position ) < range_squared )
@@ -3444,4 +3444,3 @@ quantum_bomb_open_nearest_door_result( position )
 		}
 	}
 }
-

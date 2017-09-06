@@ -8,26 +8,26 @@ init()
 	PrecacheRumble( "explosion_generic" );
 
 	init_monkey_zombie_anims();
-	
+
 	level._effect["monkey_groundhit"] = loadfx("maps/zombie/fx_zmb_monkey_ground_hit");
 	level._effect["monkey_death"] = loadfx("maps/zombie/fx_zmb_monkey_death");
 	level._effect["monkey_spawn"] =		loadfx("maps/zombie/fx_zombie_ape_spawn_dust");
-	level._effect["monkey_eye_glow"] =	LoadFx( "maps/zombie/fx_zmb_monkey_eyes" ); 
-	
+	level._effect["monkey_eye_glow"] =	LoadFx( "maps/zombie/fx_zmb_monkey_eyes" );
+
 	// Function that will be used to calculate the value of different spawners when choosing which to use when spawning new monkey
 	// Functions that overload this, should return an int, with a higher value indicating a better spawner
 	if( !isDefined( level.monkey_zombie_spawn_heuristic ) )
 	{
 		level.monkey_zombie_spawn_heuristic = maps\_zombiemode_ai_monkey::monkey_zombie_default_spawn_heuristic;
 	}
-	
+
 	if ( !isDefined( level.monkey_zombie_enter_level ) )
 	{
 		level.monkey_zombie_enter_level = ::monkey_zombie_default_enter_level;
 	}
 
 	precacheshellshock( "electrocution" );
-	
+
 	// Number of current active monkey zombies
 	level.num_monkey_zombies = 0;
 
@@ -114,9 +114,9 @@ init()
 monkey_prespawn()
 {
 	self.animname = "monkey_zombie";
-	
+
 	self.custom_idle_setup = maps\_zombiemode_ai_monkey::monkey_zombie_idle_setup;
-	
+
 	self.a.idleAnimOverrideArray = [];
 	self.a.idleAnimOverrideArray["stand"] = [];
 	self.a.idleAnimOverrideWeights["stand"] = [];
@@ -124,44 +124,44 @@ monkey_prespawn()
 	self.a.idleAnimOverrideWeights["stand"][0][0] 	= 10;
 	self.a.idleAnimOverrideArray["stand"][0][1] 	= %ai_zombie_monkey_idle_01;
 	self.a.idleAnimOverrideWeights["stand"][0][1] 	= 10;
-	
+
 	rand = randomIntRange( 1, 4 );
 	self.deathanim = level.scr_anim["monkey_zombie"]["death"+rand];
 
-	self.ignorelocationaldamage = true; 
-	self.ignoreall = true; 
+	self.ignorelocationaldamage = true;
+	self.ignoreall = true;
 	self.allowdeath = true; 			// allows death during animscripted calls
 	self.is_zombie = true; 			// needed for melee.gsc in the animscripts
-	self.has_legs = true; 			// Sumeet - This tells the zombie that he is allowed to stand anymore or not, gibbing can take 
+	self.has_legs = true; 			// Sumeet - This tells the zombie that he is allowed to stand anymore or not, gibbing can take
 															// out both legs and then the only allowed stance should be prone.
-	self allowedStances( "stand" ); 
+	self allowedStances( "stand" );
 
-	self.gibbed = false; 
+	self.gibbed = false;
 	self.head_gibbed = false;
-	
-	// might need this so co-op zombie players cant block zombie pathing
-	self PushPlayer( true ); 
 
-	self.disableArrivals = true; 
-	self.disableExits = true; 
+	// might need this so co-op zombie players cant block zombie pathing
+	self PushPlayer( true );
+
+	self.disableArrivals = true;
+	self.disableExits = true;
 	self.grenadeawareness = 0;
 	self.badplaceawareness = 0;
 
-	self.ignoreSuppression = true; 	
-	self.suppressionThreshold = 1; 
-	self.noDodgeMove = true; 
+	self.ignoreSuppression = true;
+	self.suppressionThreshold = 1;
+	self.noDodgeMove = true;
 	self.dontShootWhileMoving = true;
 	self.pathenemylookahead = 0;
 
 	self.badplaceawareness = 0;
-	self.chatInitialized = false; 
+	self.chatInitialized = false;
 
 	self.a.disablePain = true;
 	self disable_react(); // SUMEET - zombies dont use react feature.
 
 	self.freezegun_damage = 0;
-	
-	self.dropweapon = false; 
+
+	self.dropweapon = false;
 	self thread maps\_zombiemode_spawner::zombie_damage_failsafe();
 
 	self thread maps\_zombiemode_spawner::delayed_zombie_eye_glow();	// delayed eye glow for ground crawlers (the eyes floated above the ground before the anim started)
@@ -238,13 +238,13 @@ init_monkey_specific_zombie_anims()
 	level.scr_anim["monkey_zombie"]["sprint3"] = %ai_zombie_monkey_sprint_03;
 	level.scr_anim["monkey_zombie"]["sprint4"] = %ai_zombie_monkey_sprint_04;
 
-	level._zombie_melee["monkey_zombie"][0] 				= %ai_zombie_monkey_attack_01; 
-	level._zombie_melee["monkey_zombie"][1] 				= %ai_zombie_monkey_attack_02; 
-	level._zombie_melee["monkey_zombie"][2] 				= %ai_zombie_monkey_attack_03; 
-	level._zombie_melee["monkey_zombie"][3] 				= %ai_zombie_monkey_attack_04;	
-	level._zombie_melee["monkey_zombie"][4] 				= %ai_zombie_monkey_attack_05;	
-	level._zombie_melee["monkey_zombie"][5] 				= %ai_zombie_monkey_attack_06;	
-	level._zombie_melee["monkey_zombie"][6] 				= %ai_zombie_monkey_attack_07;	
+	level._zombie_melee["monkey_zombie"][0] 				= %ai_zombie_monkey_attack_01;
+	level._zombie_melee["monkey_zombie"][1] 				= %ai_zombie_monkey_attack_02;
+	level._zombie_melee["monkey_zombie"][2] 				= %ai_zombie_monkey_attack_03;
+	level._zombie_melee["monkey_zombie"][3] 				= %ai_zombie_monkey_attack_04;
+	level._zombie_melee["monkey_zombie"][4] 				= %ai_zombie_monkey_attack_05;
+	level._zombie_melee["monkey_zombie"][5] 				= %ai_zombie_monkey_attack_06;
+	level._zombie_melee["monkey_zombie"][6] 				= %ai_zombie_monkey_attack_07;
 
 	level._zombie_run_melee["monkey_zombie"][0]				=	%ai_zombie_monkey_attack_01;
 	level._zombie_run_melee["monkey_zombie"][1]				=	%ai_zombie_monkey_attack_02;
@@ -332,14 +332,14 @@ init_monkey_zombie_anims()
 	}
 
 	//level._zombie_walk_melee["monkey_zombie"][0]			= %ai_zombie_boss_walk_headhit;
-	
+
 	// melee in crawl
 	if( !isDefined( level._zombie_melee_crawl ) )
 	{
 		level._zombie_melee_crawl = [];
 	}
 	level._zombie_melee_crawl["monkey_zombie"] = [];
-	level._zombie_melee_crawl["monkey_zombie"][0] 		= %ai_zombie_attack_crawl; 
+	level._zombie_melee_crawl["monkey_zombie"][0] 		= %ai_zombie_attack_crawl;
 	level._zombie_melee_crawl["monkey_zombie"][1] 		= %ai_zombie_attack_crawl_lunge;
 
 	if( !isDefined( level._zombie_stumpy_melee ) )
@@ -410,7 +410,7 @@ init_monkey_zombie_anims()
 
 	level._zombie_rise_death_anims["monkey_zombie"][2]["out"][0]		= %ai_zombie_traverse_ground_v2_death_high;
 	level._zombie_rise_death_anims["monkey_zombie"][2]["out"][1]		= %ai_zombie_traverse_ground_v2_death_high_alt;
-	
+
 	//taunts
 	if( !isDefined( level._zombie_run_taunt ) )
 	{
@@ -420,7 +420,7 @@ init_monkey_zombie_anims()
 	{
 		level._zombie_board_taunt = [];
 	}
-	
+
 	level._zombie_run_taunt["monkey_zombie"] = [];
 	level._zombie_board_taunt["monkey_zombie"] = [];
 
@@ -431,23 +431,23 @@ init_monkey_zombie_anims()
 // spawn the zombie
 //-----------------------------------------------------------------
 monkey_zombie_spawn( pack )
-{	
-	self.script_moveoverride = true; 
-	
+{
+	self.script_moveoverride = true;
+
 	if( !isDefined( level.num_monkey_zombies ) )
 	{
 		level.num_monkey_zombies = 0;
 	}
 	level.num_monkey_zombies++;
-	
+
 	monkey_zombie = self maps\_zombiemode_net::network_safe_stalingrad_spawn( "monkey_zombie_spawn", 1 );
-	
-	self.count = 666; 
+
+	self.count = 666;
 
 	self.last_spawn_time = GetTime();
 
-	if( !spawn_failed( monkey_zombie ) ) 
-	{ 
+	if( !spawn_failed( monkey_zombie ) )
+	{
 		monkey_zombie.script_noteworthy = self.script_noteworthy;
 		monkey_zombie.targetname = self.targetname;
 		monkey_zombie.target = self.target;
@@ -480,10 +480,10 @@ monkey_round_spawning()
 	level endon( "end_of_round" );
 	level endon( "restart_round" );
 
-/# 
+/#
 	level endon( "kill_round" );
 
-	if ( GetDvarInt( #"zombie_cheat" ) == 2 || GetDvarInt( #"zombie_cheat" ) >= 4 ) 
+	if ( GetDvarInt( #"zombie_cheat" ) == 2 || GetDvarInt( #"zombie_cheat" ) >= 4 )
 	{
 		return;
 	}
@@ -554,7 +554,7 @@ monkey_setup_packs()
 }
 
 //-----------------------------------------------------------------
-// increase half after each encounter 
+// increase half after each encounter
 //-----------------------------------------------------------------
 monkey_setup_health()
 {
@@ -586,7 +586,7 @@ monkey_setup_health()
 }
 
 //-----------------------------------------------------------------
-// grab the spawners in enabled zones and randomize them 
+// grab the spawners in enabled zones and randomize them
 //-----------------------------------------------------------------
 monkey_setup_spawners()
 {
@@ -604,7 +604,7 @@ monkey_setup_spawners()
 }
 
 //-----------------------------------------------------------------
-// 
+//
 //-----------------------------------------------------------------
 monkey_get_next_spawner()
 {
@@ -692,7 +692,7 @@ monkey_pack_man_get_next_perk()
 
 	perk = level.monkey_perks[ level.monkey_perk_idx ];
 	perk.targeted = 1;
-	
+
 	level.monkey_perk_idx++;
 	if ( level.monkey_perk_idx == level.monkey_perks.size )
 	{
@@ -824,7 +824,7 @@ monkey_pack_next_perk()
 		perk = keys[ perk_idx ];
 	}
 
-	
+
 	if ( isdefined( perk ) )
 	{
 		monkey_print( "perk is " + perk );
@@ -1206,10 +1206,10 @@ monkey_player_has_perk()
 //-----------------------------------------------------------------
 monkey_zombie_manager()
 {
-	while( true ) 
+	while( true )
 	{
 		AssertEx( isDefined( level.num_monkey_zombies ) && isDefined( level.max_monkey_zombies ), "Either max_monkey_zombies or num_monkey_zombies not defined, this should never be the case!" );
-		while( level.num_monkey_zombies < level.max_monkey_zombies ) 
+		while( level.num_monkey_zombies < level.max_monkey_zombies )
 		{
 			spawner = monkey_zombie_pick_best_spawner();
 			if( isDefined( spawner ) )
@@ -1273,14 +1273,14 @@ monkey_zombie_choose_run()
 monkey_zombie_think()
 {
 	self endon( "death" );
-	
+
 	self thread play_random_monkey_vox();
-	
-	self.goalradius = 32; 
+
+	self.goalradius = 32;
 	//self.ignoreall = false;
 	self.pathEnemyFightDist = 64;
 	self.meleeAttackDist = 64;
-	
+
 	self.charge_player = false;
 
 	level.monkey_zombie_min_health = int( level.monkey_zombie_health );
@@ -1301,7 +1301,7 @@ monkey_zombie_think()
 
 	//try to prevent always turning towards the enemy
 	self.maxsightdistsqrd = 96 * 96;
-	
+
 	self [[ level.monkey_zombie_enter_level ]]();
 
 	if ( isDefined( level.monkey_zombie_custom_think ) )
@@ -1372,7 +1372,7 @@ monkey_zombie_update()
 			wait_network_frame();
 			continue;
 		}
-		else if( !isDefined( self.following_player ) || !self.following_player ) 
+		else if( !isDefined( self.following_player ) || !self.following_player )
 		{
 			self thread maps\_zombiemode_ai_monkey::monkey_find_flesh();
 			self.following_player = true;
@@ -1402,7 +1402,7 @@ monkey_zombie_get_perk_pos()
 }
 
 //-----------------------------------------------------------------
-// clears the attack points at the machine 
+// clears the attack points at the machine
 //-----------------------------------------------------------------
 monkey_pack_clear_perk_pos()
 {
@@ -1410,7 +1410,7 @@ monkey_pack_clear_perk_pos()
 }
 
 //-----------------------------------------------------------------
-// monkey only chases player after losing some health 
+// monkey only chases player after losing some health
 //-----------------------------------------------------------------
 monkey_zombie_health_watcher()
 {
@@ -1437,7 +1437,7 @@ monkey_zombie_health_watcher()
 }
 
 //-----------------------------------------------------------------
-// monkey doesn't need thundergun fling override after losing too much health 
+// monkey doesn't need thundergun fling override after losing too much health
 //-----------------------------------------------------------------
 monkey_zombie_fling_watcher()
 {
@@ -1564,7 +1564,7 @@ monkey_zombie_grenade_throw_watcher( target, animname )
 	dir = AnglesToForward( dir );
 
 	velocity = dir * 550;
-	
+
 	fuse = RandomFloatRange( 1, 2 );
 	hand_pos = self GetTagOrigin( "TAG_WEAPON_RIGHT" );
 
@@ -1661,7 +1661,7 @@ monkey_zombie_set_state( state )
 
 	self.state_history[ self.state_history_idx ] = state;
 	self.state_history_idx++;
-	if ( self.state_history_idx > 100 ) 
+	if ( self.state_history_idx > 100 )
 	{
 		self.state_history_idx = 0;
 	}
@@ -1679,7 +1679,7 @@ monkey_zombie_get_state()
 }
 
 //-----------------------------------------------------------------
-// attack machine until it's destroyed 
+// attack machine until it's destroyed
 //-----------------------------------------------------------------
 monkey_zombie_attack_perk()
 {
@@ -1701,7 +1701,7 @@ monkey_zombie_attack_perk()
 
 	//C. Ayers: Adding in player dialogue stating that their perk is being taken
     level thread play_player_perk_theft_vox( self.perk.script_noteworthy, self );
-    
+
 	spot = self.attack.script_int;
 
 	// try this to align
@@ -1722,7 +1722,7 @@ monkey_zombie_attack_perk()
 	perk_attack_anim = undefined;
 
 	// check for machine specific attacks
-	if ( choose == 2 )	
+	if ( choose == 2 )
 	{
 		if ( isdefined( level.monkey_perk_attack_anims[ self.perk.script_noteworthy ] ) )
 		{
@@ -1753,7 +1753,7 @@ monkey_zombie_attack_perk()
 	while ( 1 )
 	{
 		monkey_pack_flash_perk( self.perk.script_noteworthy, self.machine_damage );
-	
+
 		self animscripted( "perk_attack_anim", self.attack.origin, self.attack.angles, perk_attack_anim, "normal", %body, 1, 0.2 );
 		//self animscripted( "perk_attack_anim", self.origin, self.angles, perk_attack_anim, "normal", %body, 1 );
 		//self thread maps\_zombiemode_audio::do_zombies_playvocals( "attack", self.animname );
@@ -1800,31 +1800,31 @@ monkey_wait_to_drop()
 }
 
 play_player_perk_theft_vox( perk, monkey )
-{   
+{
     force_quit = 0;
-    
+
     if( !IsDefined( level.perk_theft_vox ) )
         level.perk_theft_vox = [];
-    
+
     if( !IsDefined( level.perk_theft_vox[perk] ) )
         level.perk_theft_vox[perk] = false;
-        
+
     if( level.perk_theft_vox[perk] )
-        return;   
-    
+        return;
+
     level.perk_theft_vox[perk] = true;
-        
+
     while(1)
     {
         player = getplayers();
         rand = RandomIntRange(0, player.size );
-        
+
         if ( monkey.pack.machine.monkey_health == 0 )
 	    {
 		    level.perk_theft_vox[perk] = false;
 		    return;
 	    }
-        
+
         if( ( IsAlive( player[rand] ) ) && ( !player[rand] maps\_laststand::player_is_in_laststand() ) && ( player[rand] HasPerk( perk ) ) )
         {
             player[rand] maps\_zombiemode_audio::create_and_play_dialog( "perk", "steal_" + perk );
@@ -1834,28 +1834,28 @@ play_player_perk_theft_vox( perk, monkey )
         {
             break;
         }
-        
+
         force_quit ++;
         wait(.05);
     }
-	
+
 	while( monkey.pack.machine.monkey_health != 0 )
 	{
 	    wait(1);
 	}
-	
+
 	level.perk_theft_vox[perk] = false;
 }
 
 play_attack_impacts( time )
 {
     self endon( "death" );
-    
+
     for(i=0;i<time;i++)
     {
         if( RandomIntRange(0,100) >= 41 )
             self PlaySound( "zmb_monkey_attack_machine" );
-            
+
         wait(RandomFloatRange(.7,1.1));
     }
 }
@@ -1901,17 +1901,17 @@ monkey_zombie_default_spawn_heuristic( spawner )
 	{
 		return -1;
 	}
-	
+
 	score = 0;
-	
+
 	// if we don't have a position, give score relative to player positions, farther is better
 	players = get_players();
-	
+
 	for( i = 0; i < players.size; i++ )
 	{
 		score = int( distanceSquared( spawner.origin, players[i].origin ) );
 	}
-	
+
 	return score;
 }
 
@@ -1934,7 +1934,7 @@ monkey_zombie_ground_hit()
 	self.ground_hit = true;
 
 	self thread groundhit_watcher( "groundhit_anim" );
-	
+
 	//self thread maps\_zombiemode_audio::do_zombies_playvocals( "attack", self.animname );
 
 	choose = RandomInt( level.monkey_groundpound_anims.size );
@@ -1942,9 +1942,9 @@ monkey_zombie_ground_hit()
 
 	self animscripted( "groundhit_anim", self.origin, self.angles, groundpound_anim );
 	//self SetFlaggedAnimKnobAllRestart( "groundhit_anim", %ai_zombie_simianaut_ground_pound, %body, 1, .1, 1 );
-	
+
 	animscripts\traverse\zombie_shared::wait_anim_length(groundpound_anim, .02);
-	
+
 	self.ground_hit = false;
 
 	self monkey_zombie_set_state( "ground_pound_done" );
@@ -2108,7 +2108,7 @@ groundhit_watcher( animname )
 	self endon( "death" );
 
 	self waittillmatch( animname, "fire" );
-	
+
 	playfxontag( level._effect["monkey_groundhit"], self, "tag_origin" );
 	//self PlaySound( "zmb_monkey_groundpound" );
 
@@ -2152,18 +2152,18 @@ groundhit_watcher( animname )
 				continue;
 			}
 
-			refs = []; 
-			refs[refs.size] = "guts"; 
-			refs[refs.size] = "right_arm"; 
-			refs[refs.size] = "left_arm"; 
-			refs[refs.size] = "right_leg"; 
-			refs[refs.size] = "left_leg"; 
-			refs[refs.size] = "no_legs"; 
-			refs[refs.size] = "head"; 
+			refs = [];
+			refs[refs.size] = "guts";
+			refs[refs.size] = "right_arm";
+			refs[refs.size] = "left_arm";
+			refs[refs.size] = "right_leg";
+			refs[refs.size] = "left_leg";
+			refs[refs.size] = "no_legs";
+			refs[refs.size] = "head";
 
 			if( refs.size )
 			{
-				zombies[i].a.gib_ref = random( refs ); 
+				zombies[i].a.gib_ref = random( refs );
 			}
 
 			zombies[i] DoDamage( zombies[i].health * 10, self.origin, self );
@@ -2601,8 +2601,8 @@ monkey_zombie_bhb_watcher()
 
 	while ( 1 )
 	{
-		if ( self.state == "default" || 
-			 self.state == "ground_pound" || self.state == "ground_pound_taunt" || 
+		if ( self.state == "default" ||
+			 self.state == "ground_pound" || self.state == "ground_pound_taunt" ||
 			 self.state == "grenade_reponse" || self.state == "bhb_response" ||
 			 self.state == "attack_perk" || !self.dropped )
 		{
@@ -2674,7 +2674,7 @@ monkey_remove_from_pack()
 		{
 			forward = VectorNormalize( AnglesToForward( self.angles ) );
 			end_pos = self.origin - vector_scale( forward, 32 );
-			
+
 			level thread maps\_zombiemode_powerups::specific_powerup_drop( "free_perk", end_pos );
 		}
 
@@ -2749,10 +2749,10 @@ monkey_zombie_die()
 	PlayFX( level._effect["monkey_death"], self.origin );
 
 	// Give attacker points
-	
+
 	//ChrisP - 12/8/08 - added additional 'self' argument
 	level maps\_zombiemode_spawner::zombie_death_points( self.origin, self.damagemod, self.damagelocation, self.attacker,self );
-    
+
     //C. Ayers: Adding in player dialog for successfully killing a monkey
     if( RandomIntRange(0,100) >= 75 )
     {
@@ -2825,7 +2825,7 @@ monkey_pathing()
 //-----------------------------------------------------------------
 monkey_find_flesh()
 {
-	self endon( "death" ); 
+	self endon( "death" );
 	level endon( "intermission" );
 	self endon( "stop_find_flesh" );
 
@@ -2833,7 +2833,7 @@ monkey_find_flesh()
 	{
 		return;
 	}
-	
+
 	self maps\_zombiemode_spawner::zombie_history( "monkey find flesh -> start" );
 
 	self.goalradius = 48;
@@ -2841,14 +2841,14 @@ monkey_find_flesh()
 	players = getplayers();
 	self.ignore_player = [];
 
-	player = get_closest_valid_player( self.origin, self.ignore_player ); 
+	player = get_closest_valid_player( self.origin, self.ignore_player );
 	if( !isDefined( player ) )
 	{
 		self maps\_zombiemode_spawner::zombie_history( "monkey find flesh -> can't find player, continue" );
-		//wait( 1 ); 
-		//continue; 
+		//wait( 1 );
+		//continue;
 	}
-	
+
 	self.favoriteenemy = player;
 
 	while( 1 )
@@ -2872,7 +2872,7 @@ monkey_find_flesh()
 		}
 
 		self.zombie_path_timer = GetTime() + ( RandomFloatRange( 1, 3 ) * 1000 );
-		while( GetTime() < self.zombie_path_timer ) 
+		while( GetTime() < self.zombie_path_timer )
 		{
 			wait( 0.1 );
 		}
@@ -3091,7 +3091,7 @@ monkey_revive_solo_fx()
 		}
 	}
 }
-	
+
 //-----------------------------------------------------------------
 // debug
 //-----------------------------------------------------------------
@@ -3108,11 +3108,11 @@ monkey_print( str )
 play_random_monkey_vox()
 {
     self endon( "death" );
-    
+
     while(1)
     {
         self thread maps\_zombiemode_audio::do_zombies_playvocals( "ambient", "monkey_zombie" );
-		
+
 		wait(RandomFloatRange(1.25,3));
     }
 }

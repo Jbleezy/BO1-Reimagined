@@ -8,8 +8,8 @@ main()
 {
 	level._effect["crossbow_enemy_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_red_os" );
 	level._effect["crossbow_friendly_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_grn_os" );
-	//SetDvarFloat("snd_crossbow_bolt_timer_interval", 0.4); 
-	//SetDvarFloat("snd_crossbow_bolt_timer_divisor", 1.4); 
+	//SetDvarFloat("snd_crossbow_bolt_timer_interval", 0.4);
+	//SetDvarFloat("snd_crossbow_bolt_timer_divisor", 1.4);
 
 	PrintLn( "crossbow_enemy_light :" + level._effect["crossbow_enemy_light"] );
 	PrintLn( "crossbow_friendly_light :" + level._effect["crossbow_friendly_light"] );
@@ -17,9 +17,9 @@ main()
 
 
 spawned( localClientNum, play_sound ) // self == the crossbow bolt
-{	
+{
 	self endon( "entityshutdown" );
-	
+
 	//friend = self friendNotFoe( localClientNum );
 	self.fxTagName = "tag_origin";
 
@@ -102,6 +102,6 @@ loop_local_sound( localClientNum, alias, interval, fx ) // self == the crossbow 
 		if (interval < .05)
 		{
 			interval = .05;
-		}	
+		}
 	}
 }

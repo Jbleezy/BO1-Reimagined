@@ -5,7 +5,7 @@
 bowie_init()
 {
 	PrecacheItem( "zombie_bowie_flourish" );
-	
+
 	if( isDefined( level.bowie_cost ) )
 	{
 		cost = level.bowie_cost;
@@ -14,27 +14,27 @@ bowie_init()
 	{
 		cost = 3000;
 	}
-		
+
 	bowie_triggers = GetEntArray( "bowie_upgrade", "targetname" );
 	for( i = 0; i < bowie_triggers.size; i++ )
 	{
 		knife_model = GetEnt( bowie_triggers[i].target, "targetname" );
 		knife_model hide();
 		bowie_triggers[i] thread bowie_think(cost);
-		bowie_triggers[i] SetHintString( &"ZOMBIE_WEAPON_BOWIE_BUY", cost ); 
-		bowie_triggers[i] setCursorHint( "HINT_NOICON" ); 
+		bowie_triggers[i] SetHintString( &"ZOMBIE_WEAPON_BOWIE_BUY", cost );
+		bowie_triggers[i] setCursorHint( "HINT_NOICON" );
 		bowie_triggers[i] UseTriggerRequireLookAt();
 	}
 }
 
 bowie_think(cost)
 {
-	
-	self.first_time_triggered = false; 
-	
+
+	self.first_time_triggered = false;
+
 	for( ;; )
 	{
-		self waittill( "trigger", player ); 		
+		self waittill( "trigger", player );
 		// if not first time and they have the weapon give ammo
 
 		if( !is_player_valid( player ) )
@@ -48,7 +48,7 @@ bowie_think(cost)
 			wait( 0.1 );
 			continue;
 		}
-		
+
 		if( player isThrowingGrenade() )
 		{
 			wait( 0.1 );
@@ -79,7 +79,7 @@ bowie_think(cost)
 			wait(0.1);
 			continue;
 		}
-		
+
 		if (player maps\_laststand::player_is_in_laststand() || is_true( player.intermission ) )
 		{
 			wait(0.1);
@@ -87,7 +87,7 @@ bowie_think(cost)
 		}
 
 //Z2	HasPerk( "specialty_altmelee" ) is returning undefined
-//		player_has_bowie = player HasPerk( "specialty_altmelee" ); 
+//		player_has_bowie = player HasPerk( "specialty_altmelee" );
 		player_has_bowie = false;
 
 		if( !player_has_bowie )
@@ -97,13 +97,13 @@ bowie_think(cost)
 			{
 				if( self.first_time_triggered == false )
 				{
-					model = getent( self.target, "targetname" ); 
-					//					model show(); 
-					model thread bowie_show( player ); 
-					self.first_time_triggered = true; 
+					model = getent( self.target, "targetname" );
+					//					model show();
+					model thread bowie_show( player );
+					self.first_time_triggered = true;
 				}
 
-				player maps\_zombiemode_score::minus_to_player_score( cost ); 
+				player maps\_zombiemode_score::minus_to_player_score( cost );
 
 				bbPrint( "zombie_uses: playername %s playerscore %d teamscore %d round %d cost %d name %s x %f y %f z %f type weapon",
 						player.playername, player.score, level.team_pool[ player.team_num ].score, level.round_number, cost, "bowie_knife", self.origin );
@@ -123,7 +123,7 @@ bowie_think(cost)
 
 give_bowie_think(player)
 {
-	player give_bowie(); 
+	player give_bowie();
 
 	if ( player maps\_laststand::player_is_in_laststand() || is_true( player.intermission ) )
 	{
@@ -145,10 +145,10 @@ give_bowie()
 	{
 		self UnSetPerk("specialty_fastswitch");
 	}
-	
+
 	gun = self do_bowie_flourish_begin();
 	self maps\_zombiemode_audio::create_and_play_dialog( "weapon_pickup", "bowie" );
-	
+
 	self waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
 
 	if(has_fastswitch && !self maps\_laststand::player_is_in_laststand() && !is_true(self.intermission) && self.sessionstate != "spectator")
@@ -170,9 +170,9 @@ do_bowie_flourish_begin()
 	self AllowCrouch( true );
 	self AllowProne( false );
 	self AllowMelee( false );
-	
+
 	wait( 0.05 );
-	
+
 	if ( self GetStance() == "prone" )
 	{
 		self SetStance( "crouch" );
@@ -198,14 +198,14 @@ do_bowie_flourish_end( gun )
 	assert( gun != "zombie_perk_bottle_deadshot" );
 	assert( gun != "zombie_perk_bottle_additionalprimaryweapon" );
 	assert( gun != "syrette_sp" );
-	
+
 	self AllowLean( true );
 	self AllowAds( true );
 	self AllowSprint( true );
-	self AllowProne( true );		
+	self AllowProne( true );
 	self AllowMelee( true );
 	weapon = "zombie_bowie_flourish";
-	
+
 	// TODO: race condition?
 	if ( self maps\_laststand::player_is_in_laststand() || is_true( self.intermission ) )
 	{
@@ -219,7 +219,7 @@ do_bowie_flourish_end( gun )
 		self notify( "zmb_lost_knife" );
 		self TakeWeapon( "knife_ballistic_zm" );
 		self GiveWeapon( "knife_ballistic_bowie_zm" );
-		
+
 		if ( gun == "knife_ballistic_zm" )
 		{
 			gun = "knife_ballistic_bowie_zm";
@@ -230,7 +230,7 @@ do_bowie_flourish_end( gun )
 		self notify( "zmb_lost_knife" );
 		self TakeWeapon( "knife_ballistic_upgraded_zm" );
 		self GiveWeapon( "knife_ballistic_bowie_upgraded_zm", 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( "knife_ballistic_bowie_upgraded_zm" ) );
-		
+
 		if ( gun == "knife_ballistic_upgraded_zm" )
 		{
 			gun = "knife_ballistic_bowie_upgraded_zm";
@@ -259,7 +259,7 @@ do_bowie_flourish_end( gun )
 	else if ( gun == "combat_knife_zm" ) // if all they had was the knife, we need to switch them to the bowie
 	{
 		self SwitchToWeapon( "combat_bowie_knife_zm" );
-		
+
 		// and since it has no raise anim, there'll be no "weapon_change_complete" notify
 		self decrement_is_drinking();
 		return;
@@ -268,7 +268,7 @@ do_bowie_flourish_end( gun )
 	{
 		self SwitchToWeapon( gun );
 	}
-	else 
+	else
 	{
 		// try to switch to first primary weapon
 		primaryWeapons = self GetWeaponsListPrimaries();
@@ -288,30 +288,30 @@ do_bowie_flourish_end( gun )
 
 bowie_show( player )
 {
-	player_angles = VectorToAngles( player.origin - self.origin ); 
+	player_angles = VectorToAngles( player.origin - self.origin );
 
-	player_yaw = player_angles[1]; 
-	weapon_yaw = self.angles[1]; 
+	player_yaw = player_angles[1];
+	weapon_yaw = self.angles[1];
 
-	yaw_diff = AngleClamp180( player_yaw - weapon_yaw ); 
+	yaw_diff = AngleClamp180( player_yaw - weapon_yaw );
 
 	if( yaw_diff > 0 )
 	{
-		yaw = weapon_yaw - 90; 
+		yaw = weapon_yaw - 90;
 	}
 	else
 	{
-		yaw = weapon_yaw + 90; 
+		yaw = weapon_yaw + 90;
 	}
 
-	self.og_origin = self.origin; 
-	self.origin = self.origin +( AnglesToForward( ( 0, yaw, 0 ) ) * 8 ); 
+	self.og_origin = self.origin;
+	self.origin = self.origin +( AnglesToForward( ( 0, yaw, 0 ) ) * 8 );
 
-	wait( 0.05 ); 
-	self Show(); 
+	wait( 0.05 );
+	self Show();
 
 	play_sound_at_pos( "weapon_show", self.origin, self );
 
-	time = 1; 
-	self MoveTo( self.og_origin, time ); 
+	time = 1;
+	self MoveTo( self.og_origin, time );
 }

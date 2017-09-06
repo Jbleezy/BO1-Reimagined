@@ -18,7 +18,7 @@ on_spawn( watcher, player )
 	level endon( "game_ended" );
 
 	self waittill( "stationary", endpos, normal, angles, attacker, prey, bone );
-	
+
 	isFriendly = false;
 
 	if( isDefined(endpos) )
@@ -144,7 +144,7 @@ on_spawn_retrieve_trigger( watcher, player )
 
 
 	pickup_trigger SetTeamForTrigger( player.team );
-	
+
 	player ClientClaimTrigger( pickup_trigger );
 
 	// link the model and trigger, then link them to the ragdoll if needed
@@ -228,7 +228,7 @@ pick_up( weapon, model, trigger ) // self == player
 		else
 		{
 			new_ammo_stock = self GetWeaponAmmoStock( weapon ) + 1;
-			self SetWeaponAmmoStock( weapon , new_ammo_stock );		
+			self SetWeaponAmmoStock( weapon , new_ammo_stock );
 		}
 	}
 	else

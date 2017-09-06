@@ -1,5 +1,5 @@
 #include maps\_utility; 
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_zombiemode_utility;
 #include maps\_zombiemode_net;
 
@@ -34,12 +34,12 @@ init()
 	set_zombie_var( "thundergun_knockdown_range",		1200 ); // 100 feet
 	set_zombie_var( "thundergun_knockdown_damage",		0 );
 
-	level.thundergun_gib_refs = []; 
-	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "guts"; 
-	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "right_arm"; 
-	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "left_arm"; 
+	level.thundergun_gib_refs = [];
+	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "guts";
+	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "right_arm";
+	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "left_arm";
 
-	level thread thundergun_on_player_connect(); 
+	level thread thundergun_on_player_connect();
 }
 
 
@@ -47,8 +47,8 @@ thundergun_on_player_connect()
 {
 	for( ;; )
 	{
-		level waittill( "connecting", player ); 
-		player thread wait_for_thundergun_fired(); 
+		level waittill( "connecting", player );
+		player thread wait_for_thundergun_fired();
 	}
 }
 
@@ -56,15 +56,15 @@ thundergun_on_player_connect()
 wait_for_thundergun_fired()
 {
 	self endon( "disconnect" );
-	self waittill( "spawned_player" ); 
+	self waittill( "spawned_player" );
 
 	for( ;; )
 	{
-		self waittill( "weapon_fired" ); 
-		currentweapon = self GetCurrentWeapon(); 
+		self waittill( "weapon_fired" );
+		currentweapon = self GetCurrentWeapon();
 		if( ( currentweapon == "thundergun_zm" ) || ( currentweapon == "thundergun_upgraded_zm" ) )
 		{
-			self thread thundergun_fired(); 
+			self thread thundergun_fired();
 
 			view_pos = self GetTagOrigin( "tag_flash" ) - self GetPlayerViewHeight();
 			view_angles = self GetTagAngles( "tag_flash" );
@@ -77,7 +77,7 @@ wait_for_thundergun_fired()
 thundergun_network_choke()
 {
 	level.thundergun_network_choke_count++;
-	
+
 	if ( !(level.thundergun_network_choke_count % 10) )
 	{
 		wait_network_frame();
@@ -91,7 +91,7 @@ thundergun_fired()
 {
 	// ww: physics hit when firing
 	PhysicsExplosionCylinder( self.origin, 600, 240, 1 );
-	
+
 	if ( !IsDefined( level.thundergun_knockdown_enemies ) )
 	{
 		level.thundergun_knockdown_enemies = [];
@@ -179,7 +179,7 @@ thundergun_get_enemies_in_range()
 			zombies[i] thundergun_debug_print( "dot", (1, 0, 0) );
 			continue;
 		}
-		
+
 		radial_origin = PointOnSegmentNearestToPoint( view_pos, end_pos, test_origin );
 		if ( DistanceSquared( test_origin, radial_origin ) > cylinder_radius_squared )
 		{
@@ -254,7 +254,7 @@ thundergun_fling_zombie( player, fling_vec, index )
 {
 	if( !IsDefined( self ) || !IsAlive( self ) )
 	{
-		// guy died on us 
+		// guy died on us
 		return;
 	}
 
@@ -263,7 +263,7 @@ thundergun_fling_zombie( player, fling_vec, index )
 		self [[ self.thundergun_fling_func ]]( player );
 		return;
 	}
-	
+
 	self DoDamage( self.health + 666, player.origin, player );
 
 	if ( self.health <= 0 )
@@ -283,7 +283,7 @@ thundergun_fling_zombie( player, fling_vec, index )
 		{
 			player maps\_zombiemode_score::player_add_points( "thundergun_fling", points );
 		}
-		
+
 		self StartRagdoll();
 		self LaunchRagdoll( fling_vec );
 
@@ -301,7 +301,7 @@ thundergun_knockdown_zombie( player, gib )
 
 	if( !IsDefined( self ) || !IsAlive( self ) )
 	{
-		// guy died on us 
+		// guy died on us
 		return;
 	}
 
@@ -311,13 +311,13 @@ thundergun_knockdown_zombie( player, gib )
 	}
 	else
 	{
-		
-		//self DoDamage( level.zombie_vars["thundergun_knockdown_damage"], player.origin, player );
-	
 
-		
+		//self DoDamage( level.zombie_vars["thundergun_knockdown_damage"], player.origin, player );
+
+
+
 	}
-	
+
 	if ( gib )
 	{
 		self.a.gib_ref = random( level.thundergun_gib_refs );
@@ -328,7 +328,7 @@ thundergun_knockdown_zombie( player, gib )
 	self.thundergun_handle_pain_notetracks = ::handle_thundergun_pain_notetracks;
 	//self DoDamage( level.zombie_vars["thundergun_knockdown_damage"], player.origin, player );
 	self playsound( "fly_thundergun_forcehit" );
-	
+
 }
 
 
@@ -350,19 +350,19 @@ is_thundergun_damage()
 
 enemy_killed_by_thundergun()
 {
-	return ( IsDefined( self.thundergun_death ) && self.thundergun_death == true ); 
+	return ( IsDefined( self.thundergun_death ) && self.thundergun_death == true );
 }
 
 
 thundergun_sound_thread()
 {
 	self endon( "disconnect" );
-	self waittill( "spawned_player" ); 
+	self waittill( "spawned_player" );
 
 
 	for( ;; )
 	{
-		result = self waittill_any_return( "grenade_fire", "death", "player_downed", "weapon_change", "grenade_pullback" );		
+		result = self waittill_any_return( "grenade_fire", "death", "player_downed", "weapon_change", "grenade_pullback" );
 
 		if ( !IsDefined( result ) )
 		{
@@ -391,7 +391,7 @@ setup_thundergun_vox( player, fling, gib, knockdown )
 	{
 		return;
 	}
-	
+
 	if( !fling && ( gib || knockdown ) )
 	{
 		if( 25 > RandomIntRange( 1, 100 ) )
@@ -399,7 +399,7 @@ setup_thundergun_vox( player, fling, gib, knockdown )
 			//IPrintLnBold( "HAHA, You Knocked Down Some Zombies!" );
 		}
 	}
-		 
+
 	if( fling )
 	{
 		if( 30 > RandomIntRange( 1, 100 ) )

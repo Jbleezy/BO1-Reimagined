@@ -12,8 +12,8 @@ init()
 	PrecacheShader( "zom_icon_bonfire");
 	PrecacheShader( "zom_icon_minigun");
 
-	
-	PrecacheShader( "black" ); 
+
+	PrecacheShader( "black" );
 	// powerup Vars
 	set_zombie_var( "zombie_insta_kill", 				0 );
 	set_zombie_var( "zombie_point_scalar", 				1 );
@@ -54,13 +54,13 @@ init()
 	{
 		return;
 	}
-	
+
 	init_powerups();
 
 	thread watch_for_drop();
 	thread setup_firesale_audio();
 	thread setup_bonfiresale_audio();
-	
+
 	level.use_new_carpenter_func = maps\_zombiemode_powerups::start_carpenter_new;
 	level.board_repair_distance_squared = 750*750;
 	level.last_powerup = false;
@@ -100,7 +100,7 @@ init_powerups()
 	{
 		add_zombie_powerup( "carpenter",  	"zombie_carpenter",	&"ZOMBIE_POWERUP_MAX_AMMO", false, false, false );
 	}*/
-	
+
 	//GZheng - Temp VO
 	//add the correct VO for firesale in the 3rd parameter of this function.
 	if( !level.mutators["mutator_noMagicBox"] )
@@ -119,15 +119,15 @@ init_powerups()
 	// additional special "drops"
 //	add_zombie_special_drop( "nothing" );
 	add_zombie_special_drop( "dog" );
-	
+
 	// minigun
 	add_zombie_powerup( "minigun",	"zombie_pickup_minigun", &"ZOMBIE_POWERUP_MINIGUN", true, false, false );
 
 	// free perk
 	add_zombie_powerup( "free_perk", "zombie_pickup_perk_bottle", &"ZOMBIE_POWERUP_FREE_PERK", false, false, false );
-	
+
 	// tesla
-	add_zombie_powerup( "tesla", "zombie_pickup_minigun", &"ZOMBIE_POWERUP_MINIGUN", true, false, false ); 
+	add_zombie_powerup( "tesla", "zombie_pickup_minigun", &"ZOMBIE_POWERUP_MINIGUN", true, false, false );
 
 	// random weapon
 	add_zombie_powerup( "random_weapon", "zombie_pickup_minigun", &"ZOMBIE_POWERUP_MAX_AMMO", true, false, false );
@@ -150,7 +150,7 @@ init_powerups()
 
 	// Rare powerups
 	level.rare_powerups_active = 0;
-	
+
 	//AUDIO: Prevents the long firesale vox from playing more than once
 	level.firesale_vox_firstime = false;
 
@@ -164,7 +164,7 @@ init_powerups()
 		[[level.quantum_bomb_register_result_func]]( "random_weapon_powerup", ::quantum_bomb_random_weapon_powerup_result, 25, level.quantum_bomb_in_playable_area_validation_func );
 		[[level.quantum_bomb_register_result_func]]( "random_bonus_or_lose_points_powerup", ::quantum_bomb_random_bonus_or_lose_points_powerup_result, 25, level.quantum_bomb_in_playable_area_validation_func );
 	}
-}  
+}
 
 
 //	Creates zombie_vars that need to be tracked on an individual basis rather than as
@@ -178,7 +178,7 @@ init_player_zombie_vars()
 	{
 		players[p].zombie_vars[ "zombie_powerup_minigun_on" ] = false; // minigun
 		players[p].zombie_vars[ "zombie_powerup_minigun_time" ] = 0;
-		
+
 		players[p].zombie_vars[ "zombie_powerup_tesla_on" ] = false; // tesla
 		players[p].zombie_vars[ "zombie_powerup_tesla_time" ] = 0;
 
@@ -207,7 +207,7 @@ powerup_hud_overlay()
 	level.powerup_hud_array[1] = true;
 	level.powerup_hud_array[2] = true;
 	level.powerup_hud_array[3] = true;
-	
+
 
 
 	level.powerup_hud = [];
@@ -220,14 +220,14 @@ powerup_hud_overlay()
 		for(j = 0; j < players.size; j++)
 		{
 			players[j].powerup_hud[i] = create_simple_hud(players[j]);
-			players[j].powerup_hud[i].foreground = true; 
-			players[j].powerup_hud[i].sort = 2; 
-			players[j].powerup_hud[i].hidewheninmenu = false; 
-			players[j].powerup_hud[i].alignX = "center"; 
+			players[j].powerup_hud[i].foreground = true;
+			players[j].powerup_hud[i].sort = 2;
+			players[j].powerup_hud[i].hidewheninmenu = false;
+			players[j].powerup_hud[i].alignX = "center";
 			players[j].powerup_hud[i].alignY = "bottom";
-			players[j].powerup_hud[i].horzAlign = "user_center"; 
+			players[j].powerup_hud[i].horzAlign = "user_center";
 			players[j].powerup_hud[i].vertAlign = "user_bottom";
-			players[j].powerup_hud[i].x = 0; 
+			players[j].powerup_hud[i].x = 0;
 			players[j].powerup_hud[i].y -= 5; // ww: used to offset by - 78
 			players[j].powerup_hud[i].alpha = 0.8;
 
@@ -239,9 +239,9 @@ powerup_hud_overlay()
 		players[j].active_powerup_hud = [];
 		players[j] thread Power_up_hud( "specialty_doublepoints_zombies", players[j].powerup_hud[0], -44, "zombie_powerup_point_doubler_time", "zombie_powerup_point_doubler_on" );
 		players[j] thread Power_up_hud( "specialty_instakill_zombies", players[j].powerup_hud[1], -04, "zombie_powerup_insta_kill_time", "zombie_powerup_insta_kill_on" );
-		players[j] thread Power_up_hud( "specialty_firesale_zombies", players[j].powerup_hud[2], 36, "zombie_powerup_fire_sale_time", "zombie_powerup_fire_sale_on" );	
+		players[j] thread Power_up_hud( "specialty_firesale_zombies", players[j].powerup_hud[2], 36, "zombie_powerup_fire_sale_time", "zombie_powerup_fire_sale_on" );
 		players[j] thread Power_up_hud( "zom_icon_bonfire", players[j].powerup_hud[3], 116, "zombie_powerup_bonfire_sale_time", "zombie_powerup_bonfire_sale_on" );
-	}	
+	}
 }
 
 
@@ -253,7 +253,7 @@ Power_up_hud( Shader, PowerUp_Hud, X_Position, PowerUp_timer, PowerUp_Var )
 		if(self.zombie_vars[PowerUp_timer] < 5)
 		{
 			wait(0.1);
-			PowerUp_Hud FadeOverTime( 0.05 );	
+			PowerUp_Hud FadeOverTime( 0.05 );
 			PowerUp_Hud.alpha = 0;
 			wait(0.1);
 			PowerUp_Hud FadeOverTime( 0.05 );
@@ -261,7 +261,7 @@ Power_up_hud( Shader, PowerUp_Hud, X_Position, PowerUp_timer, PowerUp_Var )
 		else if(self.zombie_vars[PowerUp_timer] < 10)
 		{
 			wait(0.2);
-			PowerUp_Hud FadeOverTime( 0.09 ); 
+			PowerUp_Hud FadeOverTime( 0.09 );
 			PowerUp_Hud.alpha = 0;
 			wait(0.18);
 			PowerUp_Hud FadeOverTime( 0.09 );
@@ -363,7 +363,7 @@ hud_move_over_time(new_pos)
 solo_powerup_hud_overlay()
 {
 	level endon ("disconnect");
-	
+
 	flag_wait( "all_players_connected" );
 	wait( 0.1 );  // wait for solo zombie_vars to be initialized in init_player_zombie_vars
 
@@ -377,21 +377,21 @@ solo_powerup_hud_overlay()
 		players[p].solo_powerup_hud_array[ players[p].solo_powerup_hud_array.size ] = true; // double
 		players[p].solo_powerup_hud_array[ players[p].solo_powerup_hud_array.size ] = true; // fire
 		players[p].solo_powerup_hud_array[ players[p].solo_powerup_hud_array.size ] = true; // bonfire
-	
+
 		players[p].solo_powerup_hud = [];
 		players[p].solo_powerup_hud_cover = [];
-	
+
 		for(i = 0; i < players[p].solo_powerup_hud_array.size; i++)
 		{
 			players[p].solo_powerup_hud[i] = create_simple_hud( players[p] );
-			players[p].solo_powerup_hud[i].foreground = true; 
-			players[p].solo_powerup_hud[i].sort = 2; 
-			players[p].solo_powerup_hud[i].hidewheninmenu = false; 
-			players[p].solo_powerup_hud[i].alignX = "center"; 
+			players[p].solo_powerup_hud[i].foreground = true;
+			players[p].solo_powerup_hud[i].sort = 2;
+			players[p].solo_powerup_hud[i].hidewheninmenu = false;
+			players[p].solo_powerup_hud[i].alignX = "center";
 			players[p].solo_powerup_hud[i].alignY = "bottom";
-			players[p].solo_powerup_hud[i].horzAlign = "user_center"; 
+			players[p].solo_powerup_hud[i].horzAlign = "user_center";
 			players[p].solo_powerup_hud[i].vertAlign = "user_bottom";
-			players[p].solo_powerup_hud[i].x = 0; 
+			players[p].solo_powerup_hud[i].x = 0;
 			players[p].solo_powerup_hud[i].y -= 5; // ww: used to offset by - 78
 			players[p].solo_powerup_hud[i].alpha = 0.8;
 		}
@@ -402,23 +402,23 @@ solo_powerup_hud_overlay()
 		players[p] thread solo_power_up_hud( "zom_icon_minigun", players[p].solo_powerup_hud[1], "zombie_powerup_tesla_time", "zombie_powerup_tesla_on" );
 		players[p] thread solo_power_up_hud( "specialty_doublepoints_zombies", players[p].solo_powerup_hud[2], "zombie_powerup_point_doubler_time", "zombie_powerup_point_doubler_on" );
 		players[p] thread solo_power_up_hud( "specialty_instakill_zombies", players[p].solo_powerup_hud[3], "zombie_powerup_insta_kill_time", "zombie_powerup_insta_kill_on" );
-		players[p] thread solo_power_up_hud( "specialty_firesale_zombies", players[p].solo_powerup_hud[4], "zombie_powerup_fire_sale_time", "zombie_powerup_fire_sale_on" );	
+		players[p] thread solo_power_up_hud( "specialty_firesale_zombies", players[p].solo_powerup_hud[4], "zombie_powerup_fire_sale_time", "zombie_powerup_fire_sale_on" );
 		players[p] thread solo_power_up_hud( "zom_icon_bonfire", players[p].solo_powerup_hud[5], "zombie_powerup_bonfire_sale_time", "zombie_powerup_bonfire_sale_on" );
 	}
 }
 
 
-// 
+//
 solo_power_up_hud( Shader, PowerUp_Hud, PowerUp_timer, PowerUp_Var )
 {
 	self endon( "disconnect" );
-	
+
 	while(true)
 	{
 		if(self.zombie_vars[PowerUp_timer] < 5 ) //&& ( IsDefined( self._show_solo_hud ) && self._show_solo_hud == true )
 		{
 			wait(0.1);
-			PowerUp_Hud FadeOverTime( 0.05 );	
+			PowerUp_Hud FadeOverTime( 0.05 );
 			PowerUp_Hud.alpha = 0;
 			wait(0.1);
 		}
@@ -528,7 +528,7 @@ randomize_powerups()
 get_next_powerup()
 {
 	powerup = level.zombie_powerup_array[ level.zombie_powerup_index ];
-		
+
 
 	level.zombie_powerup_index++;
 
@@ -582,12 +582,12 @@ get_valid_powerup()
 	while( 1 )
 	{
 		// Carpenter needs 5 destroyed windows
-		if( powerup == "carpenter" ) //&& get_num_window_destroyed() < 5 
-		{	
+		if( powerup == "carpenter" ) //&& get_num_window_destroyed() < 5
+		{
 			powerup = get_next_powerup();
 		}
-		
-		// Don't bring up fire_sale if the box hasn't moved 
+
+		// Don't bring up fire_sale if the box hasn't moved
 		else if( powerup == "fire_sale" &&( level.chest_moves < 1 ) ) //level.zombie_vars["zombie_powerup_fire_sale_on"] == true ||
 		{
 			powerup = get_next_powerup();
@@ -604,7 +604,7 @@ get_valid_powerup()
 			powerup = get_next_powerup();
 		}
 		else if( powerup == "minigun" && minigun_no_drop() ) // don't drop unless life bought in solo, or power has been turned on
-		{			
+		{
 			powerup = get_next_powerup();
 		}
 		else if ( powerup == "free_perk" )		// never drops with regular powerups
@@ -671,10 +671,10 @@ minigun_no_drop()
 			return true; // not a solo game, powerup is invalid
 		}
 	}
-	
+
 	return false;
 }
-		
+
 
 
 get_num_window_destroyed()
@@ -684,14 +684,14 @@ get_num_window_destroyed()
 	{
 		/*targets = getentarray(level.exterior_goals[i].target, "targetname");
 
-		barrier_chunks = []; 
+		barrier_chunks = [];
 		for( j = 0; j < targets.size; j++ )
 		{
 			if( IsDefined( targets[j].script_noteworthy ) )
 			{
 				if( targets[j].script_noteworthy == "clip" )
-				{ 
-					continue; 
+				{
+					continue;
 				}
 			}
 
@@ -807,7 +807,7 @@ powerup_drop(drop_point)
 	{
 		return;
 	}
-		
+
 	if( level.powerup_drop_count >= level.zombie_vars["zombie_powerup_drop_max_per_round"] )
 	{
 /#
@@ -815,7 +815,7 @@ powerup_drop(drop_point)
 #/
 		return;
 	}
-	
+
 	if( !isDefined(level.zombie_include_powerups) || level.zombie_include_powerups.size == 0 )
 	{
 		return;
@@ -823,7 +823,7 @@ powerup_drop(drop_point)
 
 	// some guys randomly drop, but most of the time they check for the drop flag
 	rand_drop = randomint(100);
-	
+
 	if (rand_drop > 2)
 	{
 		if (!level.zombie_vars["zombie_drop_item"])
@@ -836,7 +836,7 @@ powerup_drop(drop_point)
 	else
 	{
 		debug = "random";
-	}	
+	}
 
 	// Never drop unless in the playable area
 	playable_area = getentarray("player_volume","script_noteworthy");
@@ -846,7 +846,7 @@ powerup_drop(drop_point)
 	level.powerup_drop_count++;
 
 	powerup = maps\_zombiemode_net::network_safe_spawn( "powerup", 1, "script_model", drop_point + (0,0,40));
-	
+
 	//chris_p - fixed bug where you could not have more than 1 playable area trigger for the whole map
 	valid_drop = false;
 	for (i = 0; i < playable_area.size; i++)
@@ -856,7 +856,7 @@ powerup_drop(drop_point)
 			valid_drop = true;
 		}
 	}
-	
+
 	// If a valid drop
 	// We will rarely override the drop with a "rare drop"  (MikeA 3/23/10)
 	if( valid_drop && level.rare_powerups_active )
@@ -868,7 +868,7 @@ powerup_drop(drop_point)
 			valid_drop = 0;
 		}
 	}
-	
+
 	// If not a valid drop, allow another spawn to be attempted
 	if(! valid_drop )
 	{
@@ -957,7 +957,7 @@ quantum_bomb_random_powerup_result( position )
 				keys = array_remove_nokeys( keys, keys[index] );
 				continue;
 			}
-			
+
 			self thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "quant_good" );
 			[[level.quantum_bomb_play_player_effect_at_position_func]]( position );
 			level specific_powerup_drop( keys[index], position );
@@ -1000,7 +1000,7 @@ quantum_bomb_random_zombie_grab_powerup_result( position )
 quantum_bomb_random_weapon_powerup_result( position )
 {
 	self thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "quant_good" );
-	
+
 	[[level.quantum_bomb_play_player_effect_at_position_func]]( position );
 	level specific_powerup_drop( "random_weapon", position );
 }
@@ -1069,7 +1069,7 @@ cleanup_random_weapon_list()
 powerup_setup( powerup_override )
 {
 	powerup = undefined;
-	
+
 	if ( !IsDefined( powerup_override ) )
 	{
 		powerup = get_valid_powerup();
@@ -1084,7 +1084,7 @@ powerup_setup( powerup_override )
 			// only one tesla at a time, give a minigun instead
 			powerup = "minigun";
 		}*/
-	}	
+	}
 
 	struct = level.zombie_powerups[powerup];
 
@@ -1299,7 +1299,7 @@ powerup_zombie_grab()
 	self endon( "powerup_timedout" );
 	self endon( "powerup_grabbed" );
 	self endon( "hacked" );
-	
+
 	spawnflags = 1; // SF_TOUCH_AI_AXIS
 	zombie_grab_trigger = spawn( "trigger_radius", self.origin - (0,0,40), spawnflags, 32, 72 );
 	zombie_grab_trigger enablelinkto();
@@ -1317,28 +1317,28 @@ powerup_zombie_grab()
 			continue;
 		}
 
-		playfx( level._effect["powerup_grabbed_red"], self.origin );	
-		playfx( level._effect["powerup_grabbed_wave_red"], self.origin );	
+		playfx( level._effect["powerup_grabbed_red"], self.origin );
+		playfx( level._effect["powerup_grabbed_wave_red"], self.origin );
 
 		switch ( self.powerup_name )
 		{
 		case "lose_points_team":
 			level thread lose_points_team_powerup( self );
-			
+
 			players = get_players();
 			players[randomintrange(0,players.size)] thread powerup_vo( "lose_points" ); // TODO: Audio should uncomment this once the sounds have been set up
 			break;
 
 		case "lose_perk":
 			level thread lose_perk_powerup( self );
-			
+
 //			players = get_players();
 //			players[randomintrange(0,players.size)] thread powerup_vo( "lose_perk" ); // TODO: Audio should uncomment this once the sounds have been set up
 			break;
 
 		case "empty_clip":
 			level thread empty_clip_powerup( self );
-			
+
 //			players = get_players();
 //			players[randomintrange(0,players.size)] thread powerup_vo( "empty_clip" ); // TODO: Audio should uncomment this once the sounds have been set up
 			break;
@@ -1393,7 +1393,7 @@ powerup_grab()
 		{
 			// Don't let them grab the minigun, tesla, or random weapon if they're downed or reviving
 			//	due to weapon switching issues.
-			if ( (self.powerup_name == "minigun" || self.powerup_name == "tesla" || self.powerup_name == "random_weapon") && 
+			if ( (self.powerup_name == "minigun" || self.powerup_name == "tesla" || self.powerup_name == "random_weapon") &&
 				( players[i] maps\_laststand::player_is_in_laststand() ||
 				  ( players[i] UseButtonPressed() && players[i] in_revive_trigger() ) ) )
 			{
@@ -1405,7 +1405,7 @@ powerup_grab()
 
 			if(self.powerup_name == "minigum" && IsDefined(players[i].has_tesla) && players[i].has_tesla)
 				continue;
-			
+
 			if ( DistanceSquared( players[i].origin, self.origin ) < range_squared )
 			{
 				if( IsDefined( level.zombie_powerup_grab_func ) )
@@ -1418,13 +1418,13 @@ powerup_grab()
 					{
 					case "nuke":
 						level thread nuke_powerup( self, players[i] );
-						
+
 						//chrisp - adding powerup VO sounds
 						players[i] thread powerup_vo("nuke");
 						zombies = getaiarray("axis");
 						players[i].zombie_nuked = get_array_of_closest( self.origin, zombies );
 						players[i] notify("nuke_triggered");
-						
+
 						break;
 					case "full_ammo":
 						for(j=0;j<players.size;j++)
@@ -1466,7 +1466,7 @@ powerup_grab()
 						}
 						players[i] thread powerup_vo("firesale");
 						break;
-						
+
 					case "bonfire_sale":
 						for(j=0;j<players.size;j++)
 						{
@@ -1474,7 +1474,7 @@ powerup_grab()
 						}
 						players[i] thread powerup_vo("firesale");
 						break;
-						
+
 					case "minigun":
 						level thread minigun_weapon_powerup( players[i] );
 						players[i] thread powerup_vo( "minigun" );
@@ -1484,12 +1484,12 @@ powerup_grab()
 						level thread free_perk_powerup( self );
 						//players[i] thread powerup_vo( "insta_kill" );
 						break;
-						
+
 					case "all_revive":
 						level thread start_revive_all( self );
 						players[i] thread powerup_vo("revive");
 						break;
-						
+
 					case "tesla":
 						level thread tesla_weapon_powerup( players[i] );
 						players[i] thread powerup_vo( "tesla" ); // TODO: Audio should uncomment this once the sounds have been set up
@@ -1529,7 +1529,7 @@ powerup_grab()
 
 					}
 				}
-				
+
 				if ( self.solo )
 				{
 					playfx( level._effect["powerup_grabbed_solo"], self.origin );
@@ -1551,16 +1551,16 @@ powerup_grab()
 					level notify( "monkey_see_monkey_dont_achieved" );
 				}
 
-				// RAVEN BEGIN bhackbarth: since there is a wait here, flag the powerup as being taken 
+				// RAVEN BEGIN bhackbarth: since there is a wait here, flag the powerup as being taken
 				self.claimed = true;
 				self.power_up_grab_player = players[i]; //Player who grabbed the power up
 				// RAVEN END
 
 				wait( 0.1 );
-				
+
 				playsoundatposition("zmb_powerup_grabbed", self.origin);
 				self stoploopsound();
-				
+
 				//Preventing the line from playing AGAIN if fire sale becomes active before it runs out
 				if( self.powerup_name != "fire_sale" )
 				{
@@ -1576,7 +1576,7 @@ powerup_grab()
 			}
 		}
 		wait 0.1;
-	}	
+	}
 }
 
 //PI ESM - revive all players in last stand on the map
@@ -1609,7 +1609,7 @@ start_fire_sale( item )
 	self notify ("powerup fire sale");
 	self endon ("powerup fire sale");
 	self endon ("disconnect");
-	
+
 	players = get_players();
 	if(self == players[0])
 		level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["fire_sale_short"] );
@@ -1640,16 +1640,16 @@ start_fire_sale( item )
 	players = get_players();
 	if(self == players[0])
 		level notify ( "fire_sale_off" );
-	
+
 }
 
- 
+
 start_bonfire_sale( item )
 {
 	self notify ("powerup bonfire sale");
 	self endon ("powerup bonfire sale");
 	self endon ("disconnect");
-	
+
 	temp_ent = undefined;
 	players = get_players();
 	if(self == players[0])
@@ -1685,9 +1685,9 @@ start_bonfire_sale( item )
 	players = get_players();
 	if(self == players[0])
 		level notify ( "bonfire_sale_off" );
-	
+
 	self playsound("zmb_points_loop_off");
-	
+
 	if(IsDefined(temp_ent))
 		temp_ent Delete();
 }
@@ -1700,18 +1700,18 @@ delete_on_bonfire_sale(temp_ent)
 		temp_ent Delete();
 }
 
- 
+
 start_carpenter( origin )
 {
 
 	//level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["carpenter"] );
-	window_boards = getstructarray( "exterior_goal", "targetname" ); 
+	window_boards = getstructarray( "exterior_goal", "targetname" );
 	total = level.exterior_goals.size;
-	
+
 	//COLLIN
 	carp_ent = spawn("script_origin", (0,0,0));
 	carp_ent playloopsound( "evt_carpenter" );
-	
+
 	while(true)
 	{
 		windows = get_closest_window_repair(window_boards, origin);
@@ -1722,7 +1722,7 @@ start_carpenter( origin )
 			carp_ent waittill( "sound_done" );
 			break;
 		}
-		
+
 		else
 			window_boards = array_remove(window_boards, windows);
 
@@ -1734,29 +1734,29 @@ start_carpenter( origin )
 				break;
 			}
 
-			chunk = get_random_destroyed_chunk( windows.barrier_chunks ); 
+			chunk = get_random_destroyed_chunk( windows.barrier_chunks );
 
 			if( !IsDefined( chunk ) )
 				break;
 
 			windows thread maps\_zombiemode_blockers::replace_chunk( chunk, undefined, true );
-			windows.clip enable_trigger(); 
+			windows.clip enable_trigger();
 			windows.clip DisconnectPaths();
 			wait_network_frame();
 			wait(0.05);
 		}
-		 
+
 		wait_network_frame();
 	}
-	
+
 	players = get_players();
 	for(i = 0; i < players.size; i++)
 	{
-		players[i] maps\_zombiemode_score::player_add_points( "carpenter_powerup", 200 ); 
+		players[i] maps\_zombiemode_score::player_add_points( "carpenter_powerup", 200 );
 	}
-	
+
 	carp_ent delete();
-	
+
 }
 
 
@@ -1770,11 +1770,11 @@ get_closest_window_repair( windows, origin )
 		if( all_chunks_intact(windows[i].barrier_chunks ) )
 			continue;
 
-		if( !IsDefined( current_window ) )	
+		if( !IsDefined( current_window ) )
 		{
 			current_window = windows[i];
 			shortest_distance = DistanceSquared( current_window.origin, origin );
-			
+
 		}
 		else
 		{
@@ -1799,9 +1799,9 @@ powerup_vo( type )
 {
 	self endon("death");
 	self endon("disconnect");
-	
+
 	wait(randomfloatrange(4.5,5.5));
-    
+
     if( type == "tesla" )
     {
         self maps\_zombiemode_audio::create_and_play_dialog( "weapon_pickup", type );
@@ -1925,7 +1925,7 @@ nuke_powerup( drop_item, grabber )
 
 	wait( 0.5 );
 
-	
+
 	zombies = get_array_of_closest( location, zombies );
 	zombies_nuked = [];
 
@@ -1944,7 +1944,7 @@ nuke_powerup( drop_item, grabber )
  			zombies[i] thread [[ zombies[i].nuke_damage_func ]]();
 			continue;
 		}
-		
+
 		if( is_magic_bullet_shield_enabled( zombies[i] ) )
 		{
 			continue;
@@ -1962,19 +1962,19 @@ nuke_powerup( drop_item, grabber )
  		{
  			continue;
  		}
- 
+
  		if( is_magic_bullet_shield_enabled( zombies_nuked[i] ) )
  		{
  			continue;
  		}
- 
+
  		if( i < 5 && !( zombies_nuked[i].isdog ) )
  		{
  			zombies_nuked[i] thread animscripts\zombie_death::flame_death_fx();
  			zombies_nuked[i] playsound ("evt_nuked");
- 
+
  		}
- 
+
  		if( !( zombies_nuked[i].isdog ) )
  		{
 			if ( !is_true( zombies_nuked[i].no_gib ) )
@@ -1983,7 +1983,7 @@ nuke_powerup( drop_item, grabber )
 	 		}
  			zombies_nuked[i] playsound ("evt_nuked");
  		}
- 		
+
  		grabber.kills++;
  		zombies_nuked[i] dodamage( zombies_nuked[i].health + 666, zombies_nuked[i].origin );
  	}
@@ -1991,38 +1991,38 @@ nuke_powerup( drop_item, grabber )
 	players = get_players();
 	for(i = 0; i < players.size; i++)
 	{
-		players[i] maps\_zombiemode_score::player_add_points( "nuke_powerup", 400 ); 
+		players[i] maps\_zombiemode_score::player_add_points( "nuke_powerup", 400 );
 	}
 }
 
 nuke_flash()
 {
-	players = getplayers();	
+	players = getplayers();
 	for(i=0; i<players.size; i ++)
 	{
 		players[i] play_sound_2d("evt_nuke_flash");
 	}
 	level thread devil_dialog_delay();
-	
-	
+
+
 	fadetowhite = newhudelem();
 
-	fadetowhite.x = 0; 
-	fadetowhite.y = 0; 
-	fadetowhite.alpha = 0; 
+	fadetowhite.x = 0;
+	fadetowhite.y = 0;
+	fadetowhite.alpha = 0;
 
-	fadetowhite.horzAlign = "fullscreen"; 
-	fadetowhite.vertAlign = "fullscreen"; 
-	fadetowhite.foreground = true; 
-	fadetowhite SetShader( "white", 640, 480 ); 
+	fadetowhite.horzAlign = "fullscreen";
+	fadetowhite.vertAlign = "fullscreen";
+	fadetowhite.foreground = true;
+	fadetowhite SetShader( "white", 640, 480 );
 
 	// Fade into white
-	fadetowhite FadeOverTime( 0.2 ); 
-	fadetowhite.alpha = 0.8; 
+	fadetowhite FadeOverTime( 0.2 );
+	fadetowhite.alpha = 0.8;
 
 	wait 0.5;
-	fadetowhite FadeOverTime( 1.0 ); 
-	fadetowhite.alpha = 0; 
+	fadetowhite FadeOverTime( 1.0 );
+	fadetowhite.alpha = 0;
 
 	wait 1.1;
 	fadetowhite destroy();
@@ -2036,7 +2036,7 @@ double_points_powerup( drop_item )
 	self endon ("powerup points scaled");
 	self endon("disconnect");
 
-	//	players = get_players();	
+	//	players = get_players();
 	//	array_thread(level,::point_doubler_on_hud, drop_item);
 	self thread point_doubler_on_hud( drop_item );
 
@@ -2057,7 +2057,7 @@ full_ammo_powerup( drop_item )
 			continue;
 		}
 
-		primary_weapons = players[i] GetWeaponsList(); 
+		primary_weapons = players[i] GetWeaponsList();
 
 		players[i] notify( "zmb_max_ammo" );
 		players[i] notify( "zmb_lost_knife" );
@@ -2098,7 +2098,7 @@ insta_kill_powerup( drop_item )
 	self endon( "powerup instakill" );
 	self endon ("disconnect");
 
-		
+
 	//	array_thread (players, ::insta_kill_on_hud, drop_item);
 	self thread insta_kill_on_hud( drop_item );
 
@@ -2151,7 +2151,7 @@ check_for_instakill( player, mod, hit_location )
 			}
 			self DoDamage( self.health * 10, self.origin, player, undefined, modName, hit_location );
 			player notify("zombie_killed");
-			
+
 		}
 	}
 }
@@ -2184,7 +2184,7 @@ insta_kill_on_hud( drop_item )
 	//hudelem.label = drop_item.hint;
 
 	// set time remaining for insta kill
-	self thread time_remaning_on_insta_kill_powerup();		
+	self thread time_remaning_on_insta_kill_powerup();
 
 	// offset in case we get another powerup
 	//level.zombie_timer_offset -= level.zombie_timer_offset_interval;
@@ -2201,7 +2201,7 @@ time_remaning_on_insta_kill_powerup()
 	{
 		temp_enta = spawn("script_origin", (0,0,0));
 		temp_enta playloopsound("zmb_insta_kill_loop");
-	}	
+	}
 
 	/*
 	players = get_players();
@@ -2217,7 +2217,7 @@ time_remaning_on_insta_kill_powerup()
 	{
 		wait 0.1;
 		self.zombie_vars["zombie_powerup_insta_kill_time"] -= 0.1;
-	//	self setvalue( level.zombie_vars["zombie_powerup_insta_kill_time"] );	
+	//	self setvalue( level.zombie_vars["zombie_powerup_insta_kill_time"] );
 	}
 
 	self playsound("zmb_insta_kill");
@@ -2263,7 +2263,7 @@ point_doubler_on_hud( drop_item )
 	//hudelem.label = drop_item.hint;
 
 	// set time remaining for point doubler
-	self thread time_remaining_on_point_doubler_powerup();		
+	self thread time_remaining_on_point_doubler_powerup();
 
 	// offset in case we get another powerup
 	//level.zombie_timer_offset -= level.zombie_timer_offset_interval;
@@ -2279,16 +2279,16 @@ time_remaining_on_point_doubler_powerup()
 		temp_ent = spawn("script_origin", (0,0,0));
 		temp_ent playloopsound ("zmb_double_point_loop");
 	}
-	
+
 	//level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["doublepoints"] );
-	
-	
+
+
 	// time it down!
 	while ( self.zombie_vars["zombie_powerup_point_doubler_time"] >= 0)
 	{
 		wait 0.1;
 		self.zombie_vars["zombie_powerup_point_doubler_time"] = self.zombie_vars["zombie_powerup_point_doubler_time"] - 0.1;
-		//self setvalue( level.zombie_vars["zombie_powerup_point_doubler_time"] );	
+		//self setvalue( level.zombie_vars["zombie_powerup_point_doubler_time"] );
 	}
 
 	// turn off the timer
@@ -2338,7 +2338,7 @@ toggle_fire_sale_on()
 		for( i = 0; i < level.chests.size; i++ )
 		{
 			show_firesale_box = level.chests[i] [[level._zombiemode_check_firesale_loc_valid_func]]();
-			
+
 			if(show_firesale_box)
 			{
 				level.chests[i].zombie_cost = 10;
@@ -2366,16 +2366,16 @@ toggle_fire_sale_on()
 					level.chests[i].was_temp = undefined;
 					level thread remove_temp_chest( i );
 				}
-				
+
 				if(IsDefined(level.chests[i].grab_weapon_hint) && (level.chests[i].grab_weapon_hint == true))
 				{
 					level.chests[i] thread fire_sale_weapon_wait();
 				}
 				else
-				{			
+				{
 					level.chests[i].zombie_cost = level.chests[i].old_cost;
 					level.chests[i] set_hint_string( level.chests[i] , "default_treasure_chest_" + level.chests[i].zombie_cost );
-				}	
+				}
 			}
 		}
 
@@ -2392,8 +2392,8 @@ fire_sale_weapon_wait()
 	{
 		wait_network_frame();
 	}
-	self set_hint_string( self , "default_treasure_chest_" + self.zombie_cost );	
-}	
+	self set_hint_string( self , "default_treasure_chest_" + self.zombie_cost );
+}
 
 //
 //	Bring the chests back to normal.
@@ -2431,7 +2431,7 @@ full_ammo_on_hud( drop_item )
 	hudelem.label = drop_item.hint;
 
 	// set time remaining for insta kill
-	hudelem thread full_ammo_move_hud();		
+	hudelem thread full_ammo_move_hud();
 
 	// offset in case we get another powerup
 	//level.zombie_timer_offset -= level.zombie_timer_offset_interval;
@@ -2445,12 +2445,12 @@ full_ammo_move_hud()
 	for (i = 0; i < players.size; i++)
 	{
 		players[i] playsound ("zmb_full_ammo");
-		
+
 	}
 	wait 0.5;
 	move_fade_time = 1.5;
 
-	self FadeOverTime( move_fade_time ); 
+	self FadeOverTime( move_fade_time );
 	self MoveOverTime( move_fade_time );
 	self.y = 270;
 	self.alpha = 0;
@@ -2477,22 +2477,22 @@ check_for_rare_drop_override( pos )
 setup_firesale_audio()
 {
 	wait(2);
-	
+
 	intercom = getentarray ("intercom", "targetname");
 	while(1)
-	{	
+	{
 		while( level.zombie_vars["zombie_powerup_fire_sale_on"] == false)
 		{
-			wait(0.2);		
-		}	
+			wait(0.2);
+		}
 		for(i=0;i<intercom.size;i++)
 		{
 			intercom[i] thread play_firesale_audio();
-			//PlaySoundatposition( "zmb_vox_ann_firesale", intercom[i].origin );			
-		}	
+			//PlaySoundatposition( "zmb_vox_ann_firesale", intercom[i].origin );
+		}
 		while( level.zombie_vars["zombie_powerup_fire_sale_on"] == true)
 		{
-			wait (0.1);		
+			wait (0.1);
 		}
 		level notify ("firesale_over");
 	}
@@ -2507,31 +2507,31 @@ play_firesale_audio()
 	{
 		self playloopsound ("mus_fire_sale");
 	}
-	
+
 	level waittill ("firesale_over");
-	self stoploopsound ();	
-	
+	self stoploopsound ();
+
 }
 
 setup_bonfiresale_audio()
 {
 	wait(2);
-	
+
 	intercom = getentarray ("intercom", "targetname");
 	while(1)
-	{	
+	{
 		while( level.zombie_vars["zombie_powerup_fire_sale_on"] == false)
 		{
-			wait(0.2);		
-		}	
+			wait(0.2);
+		}
 		for(i=0;i<intercom.size;i++)
 		{
 			intercom[i] thread play_bonfiresale_audio();
-			//PlaySoundatposition( "zmb_vox_ann_firesale", intercom[i].origin );			
-		}	
+			//PlaySoundatposition( "zmb_vox_ann_firesale", intercom[i].origin );
+		}
 		while( level.zombie_vars["zombie_powerup_fire_sale_on"] == true)
 		{
-			wait (0.1);		
+			wait (0.1);
 		}
 		level notify ("firesale_over");
 	}
@@ -2546,10 +2546,10 @@ play_bonfiresale_audio()
 	{
 		self playloopsound ("mus_fire_sale");
 	}
-	
+
 	level waittill ("firesale_over");
-	self stoploopsound ();	
-	
+	self stoploopsound ();
+
 }
 
 //******************************************************************************
@@ -2584,12 +2584,12 @@ random_weapon_powerup( item, player )
 	{
 		return false;
 	}
-	
+
 	if ( is_true( player.random_weapon_powerup_throttle ) || player IsSwitchingWeapons() || player is_drinking() )
 	{
 		return false;
 	}
-	
+
 	current_weapon = player GetCurrentWeapon();
 	current_weapon_type = WeaponInventoryType( current_weapon );
 	if ( !is_tactical_grenade( item.weapon ) )
@@ -2726,7 +2726,7 @@ minigun_weapon_powerup( ent_player, time )
 	ent_player endon( "disconnect" );
 	ent_player endon( "death" );
 	ent_player endon( "player_downed" );
-	
+
 	if ( !IsDefined( time ) )
 	{
 		if( IsDefined(level.longer_minigun_reward) && level.longer_minigun_reward )
@@ -2740,7 +2740,7 @@ minigun_weapon_powerup( ent_player, time )
 	}*/
 
 	// Just replenish the time if it's already active
-	if ( ent_player.zombie_vars[ "zombie_powerup_minigun_on" ] && 
+	if ( ent_player.zombie_vars[ "zombie_powerup_minigun_on" ] &&
 		 ("minigun_zm" == ent_player GetCurrentWeapon() || (IsDefined(ent_player.has_minigun) && ent_player.has_minigun) ))
 	{
 		ent_player.zombie_vars["zombie_powerup_minigun_time"] += time;
@@ -2749,21 +2749,21 @@ minigun_weapon_powerup( ent_player, time )
 
 	ent_player notify( "replace_weapon_powerup" );
 	ent_player._show_solo_hud = true;
-	
+
 	// make sure weapons are replaced properly if the player is downed
 	level._zombie_minigun_powerup_last_stand_func = ::minigun_watch_gunner_downed;
 	ent_player.has_minigun = true;
 	ent_player.has_powerup_weapon = true;
-	
+
 	ent_player increment_is_drinking(true);
 	ent_player._zombie_gun_before_minigun = ent_player GetCurrentWeapon();
-	
+
 	// give player a minigun
 	ent_player GiveWeapon( "minigun_zm" );
 	ent_player SwitchToWeapon( "minigun_zm" );
-	
+
 	ent_player.zombie_vars[ "zombie_powerup_minigun_on" ] = true;
-	
+
 	level thread minigun_weapon_powerup_countdown( ent_player, "minigun_time_over", time );
 	level thread minigun_weapon_powerup_replace( ent_player, "minigun_time_over" );
 	level thread minigun_weapon_powerup_weapon_change( ent_player, "minigun_time_over" );
@@ -2776,7 +2776,7 @@ minigun_weapon_powerup_countdown( ent_player, str_gun_return_notify, time )
 	ent_player endon( "player_downed" );
 	ent_player endon( str_gun_return_notify );
 	ent_player endon( "replace_weapon_powerup" );
-	
+
 	//AUDIO: Starting powerup loop on ONLY this player
 	setClientSysState( "levelNotify", "minis", ent_player );
 
@@ -2786,12 +2786,12 @@ minigun_weapon_powerup_countdown( ent_player, str_gun_return_notify, time )
 		wait(1.0);
 		ent_player.zombie_vars["zombie_powerup_minigun_time"]--;
 	}
-	
+
 	//AUDIO: Ending powerup loop on ONLY this player
 	setClientSysState( "levelNotify", "minie", ent_player );
-	
+
 	level thread minigun_weapon_powerup_remove( ent_player, str_gun_return_notify );
-	
+
 }
 
 
@@ -2805,11 +2805,11 @@ minigun_weapon_powerup_replace( ent_player, str_gun_return_notify )
 	ent_player waittill( "replace_weapon_powerup" );
 
 	ent_player TakeWeapon( "minigun_zm" );
-	
+
 	ent_player.zombie_vars[ "zombie_powerup_minigun_on" ] = false;
-	
+
 	ent_player.has_minigun = false;
-	
+
 	ent_player decrement_is_drinking();
 }
 
@@ -2818,26 +2818,26 @@ minigun_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
 {
 	ent_player endon( "death" );
 	ent_player endon( "player_downed" );
-	
+
 	// take the minigun back
 	ent_player TakeWeapon( "minigun_zm" );
-	
+
 	ent_player.zombie_vars[ "zombie_powerup_minigun_on" ] = false;
 	ent_player._show_solo_hud = false;
-	
+
 	ent_player.has_minigun = false;
 	ent_player.has_powerup_weapon = false;
-	
+
 	// this gives the player back their weapons
 	ent_player notify( str_gun_return_notify );
-	
+
 	ent_player decrement_is_drinking();
 
 	if(IsDefined(weapon_swap) && weapon_swap)
 	{
 		return;
 	}
-	
+
 	if( IsDefined( ent_player._zombie_gun_before_minigun ) )
 	{
 		player_weapons = ent_player GetWeaponsListPrimaries();
@@ -2850,7 +2850,7 @@ minigun_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
 			}
 		}
 	}
-	
+
 	// if the player got through all that without getting a weapon back give them the first one
 	primaryWeapons = ent_player GetWeaponsListPrimaries();
 	if( primaryWeapons.size > 0 )
@@ -2869,7 +2869,7 @@ minigun_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
 			}
 		}
 	}
-	
+
 }
 
 minigun_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
@@ -2922,7 +2922,7 @@ minigun_watch_gunner_downed()
 	}
 
 	primaryWeapons = self GetWeaponsListPrimaries();
-	
+
 	for( i = 0; i < primaryWeapons.size; i++ )
 	{
 		if( primaryWeapons[i] == "minigun_zm" )
@@ -2930,7 +2930,7 @@ minigun_watch_gunner_downed()
 			self TakeWeapon( "minigun_zm" );
 		}
 	}
-	
+
 	// self decrement_is_drinking();
 
 	// this gives the player back their weapons
@@ -2950,21 +2950,21 @@ minigun_watch_gunner_downed()
 //******************************************************************************
 // Tesla powerup
 //		players[p].zombie_vars[ "zombie_powerup_tesla_on" ] = false; // tesla
-//		players[p].zombie_vars[ "zombie_powerup_tesla_time" ] = 0;	
+//		players[p].zombie_vars[ "zombie_powerup_tesla_time" ] = 0;
 //******************************************************************************
 tesla_weapon_powerup( ent_player, time )
 {
 	ent_player endon( "disconnect" );
 	ent_player endon( "death" );
 	ent_player endon( "player_downed" );
-	
+
 	if ( !IsDefined( time ) )
 	{
 		time = 11; // no blink
 	}
 
 	// Just replenish the time if it's already active
-	if ( ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] && 
+	if ( ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] &&
 		 ("tesla_gun_zm" == ent_player GetCurrentWeapon() || (IsDefined(ent_player.has_tesla) && ent_player.has_tesla) ))
 	{
 		ent_player GiveMaxAmmo( "tesla_gun_zm" );
@@ -2979,7 +2979,7 @@ tesla_weapon_powerup( ent_player, time )
 	ent_player._show_solo_hud = true;
 
 	wait_network_frame();
-	
+
 	// make sure weapons are replaced properly if the player is downed
 	level._zombie_tesla_powerup_last_stand_func = ::tesla_watch_gunner_downed;
 	ent_player.has_tesla = true;
@@ -2987,14 +2987,14 @@ tesla_weapon_powerup( ent_player, time )
 
 	ent_player increment_is_drinking();
 	ent_player._zombie_gun_before_tesla = ent_player GetCurrentWeapon();
-	
+
 	// give player a minigun
 	ent_player GiveWeapon( "tesla_gun_zm" );
 	ent_player GiveMaxAmmo( "tesla_gun_zm" );
 	ent_player SwitchToWeapon( "tesla_gun_zm" );
-	
+
 	ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] = true;
-	
+
 	level thread tesla_weapon_powerup_countdown( ent_player, "tesla_time_over", time );
 	level thread tesla_weapon_powerup_replace( ent_player, "tesla_time_over" );
 	level thread tesla_weapon_powerup_weapon_change( ent_player, "tesla_time_over" );
@@ -3006,7 +3006,7 @@ tesla_weapon_powerup_countdown( ent_player, str_gun_return_notify, time )
 	ent_player endon( "player_downed" );
 	ent_player endon( str_gun_return_notify );
 	ent_player endon( "replace_weapon_powerup" );
-	
+
 	//AUDIO: Starting powerup loop on ONLY this player
 	setClientSysState( "levelNotify", "minis", ent_player );
 
@@ -3014,11 +3014,11 @@ tesla_weapon_powerup_countdown( ent_player, str_gun_return_notify, time )
 	while ( true )
 	{
 		ent_player waittill_any( "weapon_fired", "reload", "zmb_max_ammo" );
-		
+
 		if ( !ent_player GetWeaponAmmoStock( "tesla_gun_zm" ) )
 		{
 			clip_count = ent_player GetWeaponAmmoClip( "tesla_gun_zm" );
-			
+
 			if ( !clip_count )
 			{
 				break; // powerup now ends
@@ -3037,12 +3037,12 @@ tesla_weapon_powerup_countdown( ent_player, str_gun_return_notify, time )
 			ent_player.zombie_vars[ "zombie_powerup_tesla_time" ] = 11; // no blink
 		}
 	}
-	
+
 	//AUDIO: Ending powerup loop on ONLY this player
 	setClientSysState( "levelNotify", "minie", ent_player ); // TODO: need a new sound for the tesla
-	
+
 	level thread tesla_weapon_powerup_remove( ent_player, str_gun_return_notify );
-	
+
 }
 
 
@@ -3056,11 +3056,11 @@ tesla_weapon_powerup_replace( ent_player, str_gun_return_notify )
 	ent_player waittill( "replace_weapon_powerup" );
 
 	ent_player TakeWeapon( "tesla_gun_zm" );
-	
+
 	ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] = false;
-	
+
 	ent_player.has_tesla = false;
-	
+
 	ent_player decrement_is_drinking();
 }
 
@@ -3069,26 +3069,26 @@ tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
 {
 	ent_player endon( "death" );
 	ent_player endon( "player_downed" );
-	
+
 	// take the minigun back
 	ent_player TakeWeapon( "tesla_gun_zm" );
-	
+
 	ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] = false;
 	ent_player._show_solo_hud = false;
-	
+
 	ent_player.has_tesla = false;
 	ent_player.has_powerup_weapon = false;
-	
+
 	// this gives the player back their weapons
 	ent_player notify( str_gun_return_notify );
-	
+
 	ent_player decrement_is_drinking();
 
 	if(IsDefined(weapon_swap) && weapon_swap)
 	{
 		return;
 	}
-	
+
 	if( IsDefined( ent_player._zombie_gun_before_tesla ) )
 	{
 		player_weapons = ent_player GetWeaponsListPrimaries();
@@ -3101,7 +3101,7 @@ tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
 			}
 		}
 	}
-	
+
 	// if the player got through all that without getting a weapon back give them the first one
 	primaryWeapons = ent_player GetWeaponsListPrimaries();
 	if( primaryWeapons.size > 0 )
@@ -3120,7 +3120,7 @@ tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
 			}
 		}
 	}
-	
+
 }
 
 tesla_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
@@ -3160,7 +3160,7 @@ tesla_watch_gunner_downed()
 	}
 
 	primaryWeapons = self GetWeaponsListPrimaries();
-	
+
 	for( i = 0; i < primaryWeapons.size; i++ )
 	{
 		if( primaryWeapons[i] == "tesla_gun_zm" )
@@ -3168,7 +3168,7 @@ tesla_watch_gunner_downed()
 			self TakeWeapon( "tesla_gun_zm" );
 		}
 	}
-	
+
 	// self decrement_is_drinking();
 
 	// this gives the player back their weapons
@@ -3194,7 +3194,7 @@ tesla_powerup_active()
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -3239,30 +3239,30 @@ print_powerup_drop( powerup, type )
 
 
 
- 
+
 start_carpenter_new( origin )
 {
-	
-	window_boards = getstructarray( "exterior_goal", "targetname" ); 
-	
+
+	window_boards = getstructarray( "exterior_goal", "targetname" );
+
 	//COLLIN
 	carp_ent = spawn("script_origin", (0,0,0));
-	carp_ent playloopsound( "evt_carpenter" );	
-	
+	carp_ent playloopsound( "evt_carpenter" );
+
 	boards_near_players = get_near_boards(window_boards);
-	boards_far_from_players = get_far_boards(window_boards);	
-	
+	boards_far_from_players = get_far_boards(window_boards);
+
 	//instantly repair all 'far' boards
 	level repair_far_boards(boards_far_from_players);
 
 	for(i=0;i<boards_near_players.size;i++)
 	{
 		window = boards_near_players[i];
-		
+
 		num_chunks_checked = 0;
-		
+
 		last_repaired_chunk = undefined;
-		
+
 		while(1)
 		{
 			if( all_chunks_intact( window.barrier_chunks ) )
@@ -3270,36 +3270,36 @@ start_carpenter_new( origin )
 				break;
 			}
 
-			chunk = get_random_destroyed_chunk( window.barrier_chunks ); 
+			chunk = get_random_destroyed_chunk( window.barrier_chunks );
 
 			if( !IsDefined( chunk ) )
 				break;
 
 			window thread maps\_zombiemode_blockers::replace_chunk( chunk, undefined, true );
-			
+
 			last_repaired_chunk = chunk;
-			
-			window.clip enable_trigger(); 
+
+			window.clip enable_trigger();
 			window.clip DisconnectPaths();
 			wait_network_frame();
-			
+
 			num_chunks_checked++;
-			
+
 			if(num_chunks_checked >= 20)
 			{
 				break;	// Avoid staying in this while loop forever....
 			}
 		}
-		
+
 		//wait for the last window board to be repaired
-		
-		
+
+
 		while((IsDefined(last_repaired_chunk)) && (last_repaired_chunk.state == "mid_repair"))
 		{
 			wait(.05);
 		}
 	}
-	
+
 	carp_ent stoploopsound( 1 );
 	carp_ent playsound( "evt_carpenter_end", "sound_done" );
 	carp_ent waittill( "sound_done" );
@@ -3307,7 +3307,7 @@ start_carpenter_new( origin )
 	players = get_players();
 	for(i = 0; i < players.size; i++)
 	{
-		players[i] maps\_zombiemode_score::player_add_points( "carpenter_powerup", 200 ); 
+		players[i] maps\_zombiemode_score::player_add_points( "carpenter_powerup", 200 );
 	}
 
 	carp_ent delete();
@@ -3319,7 +3319,7 @@ get_near_boards(windows)
 	// get all boards that are farther than 500 units away from any player and put them into a list
 	players = get_players();
 	boards_near_players = [];
-	
+
 	for(j =0;j<windows.size;j++)
 	{
 		close = false;
@@ -3333,7 +3333,7 @@ get_near_boards(windows)
 		if(close)
 		{
 			boards_near_players[boards_near_players.size] = windows[j];
-		}			
+		}
 	}
 	return boards_near_players;
 }
@@ -3343,7 +3343,7 @@ get_far_boards(windows)
 	// get all boards that are farther than 500 units away from any player and put them into a list
 	players = get_players();
 	boards_far_from_players = [];
-	
+
 	for(j =0;j<windows.size;j++)
 	{
 		close = false;
@@ -3357,7 +3357,7 @@ get_far_boards(windows)
 		if(close)
 		{
 			boards_far_from_players[boards_far_from_players.size] = windows[j];
-		}			
+		}
 	}
 	return boards_far_from_players;
 }
@@ -3371,19 +3371,19 @@ repair_far_boards(barriers)
 		{
 			continue;
 		}
-		
+
 		for(x=0;x<barrier.barrier_chunks.size;x++)
 		{
 
-			chunk = barrier.barrier_chunks[x];  
+			chunk = barrier.barrier_chunks[x];
 			chunk dontinterpolate();
 			barrier maps\_zombiemode_blockers::replace_chunk_instant( chunk);
 
 		}
-		
-		barrier.clip enable_trigger(); 
+
+		barrier.clip enable_trigger();
 		barrier.clip DisconnectPaths();
-		
+
 		wait_network_frame();
 		wait_network_frame();
 		wait_network_frame();
@@ -3486,7 +3486,7 @@ add_fire_sale_later()
 add_death_machine_later()
 {
 	flag_wait("all_players_connected");
-	
+
 	level.zombie_powerup_array = array_remove (level.zombie_powerup_array, "minigun");
 	while(1)
 	{

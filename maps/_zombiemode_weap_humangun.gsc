@@ -1,5 +1,5 @@
 #include maps\_utility; 
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_zombiemode_utility;
 
 #using_animtree( "generic_human" );
@@ -20,10 +20,10 @@ init()
 	maps\_zombiemode::register_player_damage_callback( ::humangun_player_damage_response );
 	maps\_zombiemode_spawner::register_zombie_damage_callback( ::humangun_zombie_damage_response );
 	maps\_zombiemode_spawner::register_zombie_death_animscript_callback( ::humangun_zombie_death_response );
-	
+
 	precachemodel( "c_usa_pent_ciaagent_body" );
 	precachemodel( "c_zom_head_human" );
-	
+
 	// WW (02-11-11): Array for humanized zombies
 	level._zombie_using_humangun = true;
 	level._zombie_human_array = [];
@@ -41,7 +41,7 @@ init()
 	level._effect["humangun_explosion_death_mist"]		= loadfx( "maps/zombie/fx_zmb_coast_jackal_death" );
 
 	humangun_init_human_zombie_anims();
-	
+
 	level thread humangun_on_player_connect();
 }
 
@@ -215,9 +215,9 @@ humangun_init_human_zombie_anims()
 	{
 		level._zombie_humangun_react = [];
 	}
-	
+
 	level._zombie_humangun_react["zombie"] = [];
-	
+
 	level._zombie_humangun_react["zombie"][0] = %ai_zombie_humangun_react;
 }
 
@@ -226,8 +226,8 @@ humangun_on_player_connect()
 {
 	for( ;; )
 	{
-		level waittill( "connecting", player ); 
-		player thread wait_for_humangun_fired(); 
+		level waittill( "connecting", player );
+		player thread wait_for_humangun_fired();
 	}
 }
 
@@ -235,12 +235,12 @@ humangun_on_player_connect()
 wait_for_humangun_fired()
 {
 	self endon( "disconnect" );
-	self waittill( "spawned_player" ); 
+	self waittill( "spawned_player" );
 
 	for( ;; )
 	{
-		self waittill( "weapon_fired" ); 
-		currentweapon = self GetCurrentWeapon(); 
+		self waittill( "weapon_fired" );
+		currentweapon = self GetCurrentWeapon();
 		if( ( currentweapon == "humangun_zm" ) || ( currentweapon == "humangun_upgraded_zm" ) )
 		{
 			self thread humangun_fired( currentweapon == "humangun_upgraded_zm" );
@@ -315,7 +315,7 @@ humangun_player_ignored_timer( owner, upgraded )
 
 		self setclientflag( level._ZOMBIE_PLAYER_FLAG_HUMANGUN_UPGRADED_HIT_RESPONSE );
 	}
-	
+
 	enemy_zombies = GetAiSpeciesArray( "axis", "all" );
 	for ( i = 0; i < enemy_zombies.size; i++ )
 	{
@@ -328,7 +328,7 @@ humangun_player_ignored_timer( owner, upgraded )
 	self.humangun_player_ignored_timer = GetTime() + (level.zombie_vars["humangun_player_ignored_time"] * 1000);
 	while ( GetTime() < self.humangun_player_ignored_timer )
 	{
-		wait .05;		
+		wait .05;
 	}
 
 	self.ignoreme = false;
@@ -356,7 +356,7 @@ humangun_player_effects_audio()
     {
         self.humangun_effects_audio_isplaying = false;
     }
-    
+
     if( !self.humangun_effects_audio_isplaying )
     {
         sound_ent_humangun = Spawn( "script_origin", self.origin );
@@ -365,9 +365,9 @@ humangun_player_effects_audio()
         self thread humangun_player_effects_audio_cleanup_on_disconnect( sound_ent_humangun );
 
 	    self waittill_any( "player_downed", "spawned_spectator", "humangun_player_ignored_timer_done" );
-        
+
         self.humangun_effects_audio_isplaying = false;
-        
+
 	    sound_ent_humangun StopLoopSound( 2 );
 	    wait(2);
 	    sound_ent_humangun Delete();
@@ -399,7 +399,7 @@ humangun_player_damage_response( eInflictor, eAttacker, iDamage, iDFlags, sMeans
 	{
 		return -1; // did nothing
 	}
-	
+
 	self thread humangun_player_hit_response( eAttacker, sWeapon == "humangun_upgraded_zm" );
 
 	return 0;
@@ -686,8 +686,8 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	self Attach( "c_zom_head_human", "" );
 
 	// fix up previous gibs, and don't let them gib after this
-	self.has_legs = true; 
-	self AllowedStances( "prone", "crouch", "stand" ); 
+	self.has_legs = true;
+	self AllowedStances( "prone", "crouch", "stand" );
 	self.gibbed = true;
 	death_anims = level._zombie_deaths[self.animname];
 	self.deathanim = random(death_anims);
@@ -696,7 +696,7 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	if(isDefined(level._func_humangun_check))
 	{
 		self [[level._func_humangun_check]]();
-	}	
+	}
 
 	//AUDIO
 	self PlayLoopSound( "zmb_humangun_effect_loop" );
@@ -783,7 +783,7 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	{
 		self clearclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_UPGRADED_HIT_RESPONSE );
 	}
-	
+
 	if ( isalive( self ) && !IsDefined( level._humangun_escape_override ) ) // any human that is the lighthouse's should not die
 	{
 		self.water_damage = true;
@@ -892,7 +892,7 @@ humangun_zombie_2nd_hit_response( player )
 
 	self.humangun_zombie_2nd_hit_response = true;
 	self setclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_HIT_RESPONSE );
-	
+
 	self thread play_humangun_upgraded_effect_audio();
 
 	self waittill_any_or_timeout( level.zombie_vars["humangun_zombie_explosion_delay"], "humangun_zombie_3rd_hit_response", "goal", "bad_path", "death" );
@@ -923,9 +923,9 @@ audio_wait_for_death()
     self waittill( "death" );
     if( IsDefined( self ) )
     {
-    	self StopLoopSound( 1 );	
+    	self StopLoopSound( 1 );
     }
-    
+
 }
 
 audio_human_screams()
@@ -950,7 +950,7 @@ audio_human_screams()
 		wait (.25);
 	}
 }
-	
+
 
 humangun_zombie_hit_response_internal( mod, damageweapon, player )
 {
@@ -1041,7 +1041,7 @@ is_humangun_damage( mod, weapon )
 humangun_play_zombie_hit_vox()
 {
     rand = RandomIntRange(0,101);
-    
+
     if( rand >= 20 )
     {
         self maps\_zombiemode_audio::create_and_play_dialog( "kill", "human" );

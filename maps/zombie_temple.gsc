@@ -16,7 +16,7 @@ main()
 	SetDvar("ai_useCheapSight", 1);
 	level._use_choke_weapon_hints = 1;
 	level._use_choke_blockers = 1;
-	
+
 	level thread maps\zombie_temple_ffotd::main_start();
 
 	// set excludes on chests so we can have a random start
@@ -25,14 +25,14 @@ main()
 	level._zombie_custom_add_weapons = ::custom_add_weapons;
 
 	level.riser_fx_on_client  = 1;
-	level.use_clientside_rock_tearin_fx = 1;	
+	level.use_clientside_rock_tearin_fx = 1;
 	level.use_clientside_board_fx = 1;
 	init_client_flags();
 	level.check_for_alternate_poi = ::check_if_should_avoid_poi;
 	level._dontInitNotifyMessage = 1;
-	
+
 	precache_assets();
-	
+
 	init_sounds();
 	maps\zombie_temple_fx::main();
 	maps\zombie_temple_amb::main();
@@ -42,11 +42,11 @@ main()
 	level thread maps\zombie_temple_waterslide::cave_slide_anim_init();
 
 	level thread maps\_callbacksetup::SetupCallbacks();
-	
+
 	include_weapons();
 	include_powerups();
-	
-	level.zombiemode_using_marathon_perk = true;	
+
+	level.zombiemode_using_marathon_perk = true;
 	level.zombiemode_using_divetonuke_perk = true;
 	level.zombiemode_using_deadshot_perk = true;
 
@@ -66,37 +66,37 @@ main()
 	level.custom_ai_type = array_add( level.custom_ai_type, maps\zombie_temple_ai_monkey::init );
 	level.custom_ai_type = array_add( level.custom_ai_type, maps\_zombiemode_ai_sonic::sonic_zombie_init );
 	level.custom_ai_type = array_add( level.custom_ai_type, maps\_zombiemode_ai_faller::faller_init );
-	
+
 	level.max_perks = 4;
 	level.max_solo_lives = 3;
 
 	level.register_offhand_weapons_for_level_defaults_override = ::temple_offhand_weapon_overrride;
-	
+
 	level.player_out_of_playable_area_monitor = true;
 	level.player_out_of_playable_area_monitor_callback = ::zombie_temple_player_out_of_playable_area_monitor_callback;
 
 	// leave spikemore init local here, so as to not include it in all the other maps
 	maps\_zombiemode_spikemore::init();
 
-	
+
 	//Init random perk machines (must be called before _zombiemode::main()
 	init_random_perk_machines();
-	
+
 	level.zombiemode_sidequest_init = ::temple_sidequest_of_awesome;
 
 	maps\_zombiemode::main();
-	
+
 	level thread maps\_zombiemode::register_sidequest( "COTD", "ZOMBIE_COAST_EGG_SOLO", 43, "ZOMBIE_COAST_EGG_COOP", 44 );
 	level thread maps\_zombiemode::register_sidequest( "EOA", undefined, undefined, "ZOMBIE_TEMPLE_SIDEQUEST", undefined );
-	
+
 	level thread init_electric_switch();
-	
+
 	// including sticky grenade
 	maps\_sticky_grenade::init();
-	
+
 	// Setup the magic box maps
 	thread maps\zombie_temple_magic_box::magic_box_init();
-	
+
 	//Shrink Ray Init
 	level.shrink_ray_model_mapping_func = ::temple_shrink_ray_model_mapping_func;
 	maps\_zombiemode_weap_shrink_ray::init();
@@ -111,22 +111,22 @@ main()
 	level.poi_positioning_func		= ::temple_poi_positioning_func;
 	level.powerup_fx_func			= ::temple_powerup_fx_func;
 	level.playerlaststand_func		= ::player_laststand_temple;
-	
+
 	//waterfall should just knock zombies down and not kill them
 	level.override_thundergun_damage_func = maps\zombie_temple_traps::override_thundergun_damage_func;
 
 	maps\zombie_temple_powerups::init();
-	
+
 	level.zone_manager_init_func 	= ::local_zone_init;
 	init_zones[0] = "temple_start_zone";
-	
+
 	// don't enable these zones until you hit the elevator button
 	//init_zones[1] = "waterfall_upper_zone";
 	//init_zones[2] = "waterfall_lower_zone";
 	level thread maps\_zombiemode_zone_manager::manage_zones( init_zones );
-	
+
 	level thread maps\zombie_temple_achievement::init();
-	
+
  	//level thread add_powerups_after_round_1();
 	level thread maps\zombie_temple_elevators::init_elevator();
 	level thread maps\zombie_temple_minecart::minecart_main();
@@ -134,29 +134,29 @@ main()
 	level thread setup_water_physics();
 
 	//exploder(20); // waterfall body w/o trap
-	
+
 	level thread start_sparks();
 	// makes the box spawn randomly between the start box choices
 	level.random_pandora_box_start = false;
-	
+
 	level thread init_temple_traps();
 	level thread init_pack_a_punch();
-	
+
 	level thread double_door_fx();
 	level thread init_rolling_doors();
-	
+
 	level thread init_random_paths();
-	
+
 	level thread maps\zombie_temple_triggers::main();
-	
+
 	level thread maps\zombie_temple_spawning::zombie_tracking_init();
-		
+
 	level thread maps\zombie_temple_debug::main();
-	
+
 	//OnPlayerConnect_Callback( ::temple_player_connect );
-	
+
 	level thread maps\zombie_temple_ffotd::main_end();
-	
+
 	level thread maps\zombie_temple_sq::start_temple_sidequest();
 
 }
@@ -170,21 +170,21 @@ init_client_flags()
 	level._CF_ACTOR_NAPALM_ZOMBIE_WET = 4;
 	level._CF_ACTOR_CLIENT_FLAG_SPIKEMORE = 5;
 	level._CF_ACTOR_RAGDOLL_IMPACT_GIB = 6;
-	
+
 	level._CF_PLAYER_GEYSER_FAKE_PLAYER_SETUP_PRONE = 0;
 	level._CF_PLAYER_GEYSER_FAKE_PLAYER_SETUP_STAND = 1;
 	level._CF_PLAYER_MAZE_FLOOR_RUMBLE = 3;
 	level.CF_PLAYER_UNDERWATER = 15; //TODO: Move to zombiemode_load
-	
+
 	level._CF_SCRIPTMOVER_CLIENT_FLAG_SPIKES = 3;
 	level._CF_SCRIPTMOVER_CLIENT_FLAG_MAZE_WALL = 4;
 	level._CF_SCRIPTMOVER_CLIENT_FLAG_SPIKEMORE = 5;
-	
+
 	level._CF_SCRIPTMOVER_CLIENT_FLAG_WEAKSAUCE_START = 6;
 	level._CF_SCRIPTMOVER_CLIENT_FLAG_HOTSAUCE_START = 7;
 	level._CF_SCRIPTMOVER_CLIENT_FLAG_SAUCE_END = 8;
 	level._CF_SCRIPTMOVER_CLIENT_FLAG_WATER_TRAIL = 9;
-	
+
 }
 
 //temple_player_connect()
@@ -225,7 +225,7 @@ precache_assets()
 	PreCacheModel( "viewmodel_rus_prisoner_arms" ); // Nikolai
 	PreCacheModel( "viewmodel_vtn_nva_standard_arms" );// Takeo
 	PreCacheModel( "viewmodel_usa_hazmat_arms" );// Richtofen
-	
+
 	maps\zombie_temple_minecart::precache_assets();
 	maps\zombie_temple_waterslide::precache_assets();
 
@@ -266,27 +266,27 @@ local_zone_init()
 	add_adjacent_zone( "waterfall_upper1_zone", "waterfall_upper_zone", "start_to_waterfall_upper" );
 	add_adjacent_zone( "waterfall_upper1_zone", "waterfall_upper_zone", "waterfall_to_tunnel" );
 
-	
+
 	//**************************
-	// when the main door is opened the lower and upper waterfall will be connected.zombies will spawn 
-	// even if the elevator isn't purchased 
+	// when the main door is opened the lower and upper waterfall will be connected.zombies will spawn
+	// even if the elevator isn't purchased
 	//add_adjacent_zone( "waterfall_upper_zone", "waterfall_lower_zone", "start_to_waterfall_upper" );
 	//**************************
 
 	// Caves
-	
+
     add_adjacent_zone( "caves1_zone", "caves2_zone", "cave01_to_cave02" );
-	
+
 
 	add_adjacent_zone( "caves3_zone", "power_room_zone", "cave03_to_power" );
 
 	add_adjacent_zone( "caves_water_zone", "power_room_zone", "cave_water_to_power" );
 	add_adjacent_zone( "caves_water_zone", "waterfall_lower_zone", "cave_water_to_waterfall" );
-	
+
 	add_adjacent_zone( "caves2_zone", "caves3_zone", "cave01_to_cave02" );
 	add_adjacent_zone( "caves2_zone", "caves3_zone", "cave02_to_cave_water" );
 	add_adjacent_zone( "caves2_zone", "caves3_zone", "cave03_to_power" );
-	
+
 
 	// setup the script_struct spawn locations
 	temple_init_zone_spawn_locations();
@@ -311,15 +311,15 @@ include_weapons()
 	include_weapon( "m1911_upgraded_zm", false );
 	include_weapon( "python_zm" );								// 357
 	include_weapon( "python_upgraded_zm", false );
-	include_weapon( "cz75_zm" );                                                                               
-    include_weapon( "cz75_upgraded_zm", false );        
+	include_weapon( "cz75_zm" );
+    include_weapon( "cz75_upgraded_zm", false );
 
 	//	Weapons - Semi-Auto Rifles
 	include_weapon( "m14_zm", false, true );					// gewehr43
 	include_weapon( "m14_upgraded_zm", false );
 
 	//	Weapons - Burst Rifles
-	include_weapon( "m16_zm", false, true );						
+	include_weapon( "m16_zm", false, true );
 	include_weapon( "m16_gl_upgraded_zm", false );
 	include_weapon( "g11_lps_zm" );
 	include_weapon( "g11_lps_upgraded_zm", false );
@@ -347,7 +347,7 @@ include_weapons()
 	include_weapon( "ithaca_upgraded_zm", false );
 	include_weapon( "rottweil72_zm", false, true );
 	include_weapon( "rottweil72_upgraded_zm", false );
-	include_weapon( "spas_zm" );						
+	include_weapon( "spas_zm" );
 	include_weapon( "spas_upgraded_zm", false );
 	include_weapon( "hs10_zm" );
 	include_weapon( "hs10_upgraded_zm", false );
@@ -386,7 +386,7 @@ include_weapons()
 	include_weapon( "ray_gun_upgraded_zm", false );
 	include_weapon( "shrink_ray_zm" );
 	include_weapon( "shrink_ray_upgraded_zm", false );
-	
+
 	include_weapon( "crossbow_explosive_zm" );
 	include_weapon( "crossbow_explosive_upgraded_zm", false );
 	include_weapon( "knife_ballistic_zm", true );
@@ -435,7 +435,7 @@ add_powerups_after_round_1()
 #/
 
 	//want to precache all the stuff for these powerups, but we don't want them to be available in the first round
-	level.zombie_powerup_array = array_remove (level.zombie_powerup_array, "nuke"); 
+	level.zombie_powerup_array = array_remove (level.zombie_powerup_array, "nuke");
 	level.zombie_powerup_array = array_remove (level.zombie_powerup_array, "fire_sale");
 
 	while (1)
@@ -461,7 +461,7 @@ init_weapons_locker()
 	trigger = getEnt("weapons_locker", "targetname");
 	// trigger SetHintString( "" ); // No longer a valid feature, removing hint string being set
 	trigger SetCursorHint( "HINT_NOICON" );
-	
+
 	wallModel = getEnt(trigger.target, "targetname");
 
 	trigger thread triggerWeaponsLockerWatch(wallModel);
@@ -484,10 +484,10 @@ mergeSort(current_list, less_than)
 	{
 		return current_list;
 	}
-		
+
 	left = [];
 	right = [];
-	
+
 	middle = current_list.size / 2;
 	for (x = 0; x < middle; x++)
 	{
@@ -497,13 +497,13 @@ mergeSort(current_list, less_than)
 	{
 		right = add_to_array(right, current_list[x]);
 	}
-	
+
 	left = mergeSort(left, less_than);
 	right = mergeSort(right, less_than);
-	
+
 	result = merge(left, right, less_than);
 
-	return result;	
+	return result;
 }
 
 merge(left, right, less_than)
@@ -575,20 +575,20 @@ rolling_door_think()
 	self.door_moveTime = self.script_timer;
 	self.door_radius = self.script_radius;
 	self.door_wait = self.script_string;
-		
+
 	flag_wait(self.door_wait);
 	PlaySoundAtPosition( "evt_door_stone_disc", self.origin );
 	self play_sound_on_ent("purchase");
 
 	PlayFX( level._effect["rolling_door_open"], self.origin );
-	
+
 	pi = 3.1415926;
 	endOrigin = self.origin + (self.door_moveDir * self.door_moveDist);
 	self moveto(endOrigin,self.door_moveTime, 0.1, 0.1);
-	
+
 	cir = 2*pi*self.door_radius;
 	rotate = (self.door_moveDist / cir) * 360.0;
-	
+
 //	x=self.script_angles[1];
 //	a = Cos(x);
 //	b = 0;
@@ -614,7 +614,7 @@ temple_poi_positioning_func(origin, forward)
 temple_powerup_fx_func()
 {
 	self delete_powerup_fx();
-	
+
 	self.fx_green = maps\_zombiemode_net::network_safe_spawn( "powerup_fx", 2, "script_model", self.origin );
 	self.fx_green setmodel("tag_origin");
 	self.fx_green LinkTo(self);
@@ -645,9 +645,9 @@ init_random_perk_machines()
 	randMachines = _add_machine(randMachines, "vending_deadshot", "mus_perks_deadshot_sting", "specialty_deadshot", "mus_perks_deadshot_jingle", "tap_deadshot", "zombie_vending_ads");
 	randMachines = _add_machine(randMachines, "vending_sleight", "mus_perks_speed_sting", "specialty_fastreload", "mus_perks_speed_jingle", "speedcola_perk", "zombie_vending_sleight");
 	randMachines = _add_machine(randMachines, "vending_doubletap", "mus_perks_doubletap_sting", "specialty_rof", "mus_perks_doubletap_jingle", "tap_perk", "zombie_vending_doubletap");
-	
+
 	machines = getEntArray("zombie_vending_random","targetname");
-	
+
 	//Parse what machines are allowed
 	for(i=0;i<machines.size;i++)
 	{
@@ -662,18 +662,18 @@ init_random_perk_machines()
 			//allow all
 			machine.allowed = array("jugg_perk","marathon_perk","divetonuke_perk","tap_deadshot","speedcola_perk","tap_perk");
 		}
-		
+
 		machine.allowed = array_randomize(machine.allowed);
 	}
-	
+
 	//Sort machines by the one with the least options gets first pick of vending machines
 	machines = mergeSort(machines, ::perk_machines_compare_func);
-	
+
 	for(i=0;i<machines.size;i++)
 	{
 		machine = machines[i];
-		
-		
+
+
 		//Pick a machine
 		randMachine = undefined;
 		for(j=0;j<machine.allowed.size;j++)
@@ -686,15 +686,15 @@ init_random_perk_machines()
 				break;
 			}
 		}
-		
+
 		AssertEx(IsDefined(randMachine), "Random Perk could not be assigned to machine.");
-		
+
 		machine.script_label = randMachine.script_label;
 		machine.script_noteworthy = randMachine.script_noteworthy;
 		machine.script_sound = randMachine.script_sound;
 		machine.script_string = randMachine.script_string;
 		machine.targetname = randMachine.targetname;
-		
+
 		machine_model = undefined;
 		clip = undefined; //All the clip code is special case for the quick revive machine. Blah!
 		targets = getEntArray(machine.target,"targetname");
@@ -710,16 +710,16 @@ init_random_perk_machines()
 				machine_model = targets[j];
 			}
 		}
-		
+
 		machine.target = randMachine.target;
-		
+
 		if(isdefined(machine_model))
 		{
 			machine_model setModel(randMachine.model);
 			machine_model.targetname = randMachine.target;
 			machine_model.script_string = randMachine.script_string;
 		}
-		
+
 		if(isDefined(clip))
 		{
 			clip.targetname = randMachine.target;
@@ -752,9 +752,9 @@ _add_machine(machines, target, script_label, script_noteworthy, script_sound, sc
 	s.script_string = script_string;
 	s.targetname = "zombie_vending";
 	s.model = model;
-	
+
 	precacheModel(model);
-	
+
 	machines[machines.size] = s;
 	return machines;
 }
@@ -785,7 +785,7 @@ give_player_model_override( entity_num )
 			break;
 		case 3:
 			character\c_ger_richtofen_zt::main();// Richtofen
-			break;	
+			break;
 	}
 }
 
@@ -809,7 +809,7 @@ player_set_viewmodel_override( entity_num )
 		case 3:
 			// Richtofen
 			self SetViewModel( "viewmodel_usa_hazmat_arms" );
-			break;		
+			break;
 	}
 }
 
@@ -829,7 +829,7 @@ random_node_toggle(minOn, maxOn, minOff, maxOff)
 	{
 		return;
 	}
-	
+
 	while(1)
 	{
 		wait randomfloatrange(minOn, maxOff);
@@ -892,24 +892,24 @@ temple_delayed_exit()
 temple_find_exit_point()
 {
 	self endon( "death" );
-	
+
 	while(is_true(self.sliding))
 	{
-		wait(.1);		
+		wait(.1);
 	}
 
 	min_distance_squared = 1024 * 1024;
 	player = getplayers()[0];
 	dest = 0;
 	dist_far = 0;
-	
+
 	locs = array_randomize( level.enemy_dog_locations );
 
 	for( i = 0; i < locs.size; i++ )
 	{
 		dist_zombie = DistanceSquared( locs[i].origin, self.origin );
 		dist_player = DistanceSquared( locs[i].origin, player.origin );
-		
+
 		//Track the furthest away node that will be used if the criteria below if not met
 		if(dist_player > dist_far)
 		{
@@ -937,7 +937,7 @@ temple_find_exit_point()
 		}
 		wait_network_frame();
 	}
-	
+
 	self thread maps\_zombiemode_spawner::find_flesh();
 }
 
@@ -973,15 +973,15 @@ temple_shrink_ray_model_mapping_func()
 	level.shrink_models["c_viet_zombie_female_alt"]				= "c_viet_zombie_female_mini_alt";
 	level.shrink_models["c_viet_zombie_vc_grunt_head"]			= "c_viet_zombie_vc_grunt_head_m";
 	level.shrink_models["c_viet_zombie_vc_grunt"]				= "c_viet_zombie_vc_grunt_m";
-		
+
 	//Attachments
 	//level.shrink_models["c_viet_zombie_nohat"]				= "c_viet_zombie_nohat_mini";
 	//level.shrink_models["c_viet_zombie_sonic_shirt"]			= "c_viet_zombie_sonic_shirt_m";
 	level.shrink_models["c_viet_zombie_sonic_bandanna"]			= "c_viet_zombie_sonic_bandanna_m";
 	level.shrink_models["c_viet_zombie_nva1_gasmask"]			= "c_viet_zombie_nva1_gasmask_m";
-	
+
 	//Gib Mappings
-	level.shrink_models["c_viet_zombie_female_g_barmsoff"]		= "c_viet_zombie_female_g_barmsoff_mini";	
+	level.shrink_models["c_viet_zombie_female_g_barmsoff"]		= "c_viet_zombie_female_g_barmsoff_mini";
 	level.shrink_models["c_viet_zombie_female_g_headoff"]		= "c_viet_zombie_female_g_headoff_mini";
 	level.shrink_models["c_viet_zombie_female_g_legsoff"]		= "c_viet_zombie_female_g_legsoff_mini";
 	level.shrink_models["c_viet_zombie_female_g_llegoff"]		= "c_viet_zombie_female_g_llegoff_mini";
@@ -990,8 +990,8 @@ temple_shrink_ray_model_mapping_func()
 	level.shrink_models["c_viet_zombie_female_g_rlegoff"]		= "c_viet_zombie_female_g_rlegoff_mini";
 	level.shrink_models["c_viet_zombie_female_g_upclean"]		= "c_viet_zombie_female_g_upclean_mini";
 	level.shrink_models["c_viet_zombie_female_g_larmoff"]		= "c_viet_zombie_female_g_larmoff_mini";
-	
-	level.shrink_models["c_viet_zombie_female_g_barmsoff_alt"]	= "c_viet_zombie_female_g_barmsoff_alt_mini";	
+
+	level.shrink_models["c_viet_zombie_female_g_barmsoff_alt"]	= "c_viet_zombie_female_g_barmsoff_alt_mini";
 	//level.shrink_models["c_viet_zombie_female_g_headoff_alt"]	= "c_viet_zombie_female_g_headoff_alt_mini"; //Uses c_viet_zombie_female_g_headoff
 	level.shrink_models["c_viet_zombie_female_g_legsoff_alt"]	= "c_viet_zombie_female_g_legsoff_alt_mini";
 	level.shrink_models["c_viet_zombie_female_g_llegoff_alt"]	= "c_viet_zombie_female_g_llegoff_alt_mini";
@@ -1000,8 +1000,8 @@ temple_shrink_ray_model_mapping_func()
 	level.shrink_models["c_viet_zombie_female_g_rlegoff_alt"]	= "c_viet_zombie_female_g_rlegoff_alt_mini";
 	level.shrink_models["c_viet_zombie_female_g_upclean_alt"]	= "c_viet_zombie_female_g_upclean_alt_mini";
 	level.shrink_models["c_viet_zombie_female_g_larmoff_alt"]	= "c_viet_zombie_female_g_larmoff_alt_mini";
-	
-	level.shrink_models["c_viet_zombie_nva1_g_barmsoff"]		= "c_viet_zombie_nva1_g_barmsoff_m";	
+
+	level.shrink_models["c_viet_zombie_nva1_g_barmsoff"]		= "c_viet_zombie_nva1_g_barmsoff_m";
 	level.shrink_models["c_viet_zombie_nva1_g_headoff"]			= "c_viet_zombie_nva1_g_headoff_m";
 	level.shrink_models["c_viet_zombie_nva1_g_legsoff"]			= "c_viet_zombie_nva1_g_legsoff_m";
 	level.shrink_models["c_viet_zombie_nva1_g_llegoff"]			= "c_viet_zombie_nva1_g_llegoff_m";
@@ -1010,8 +1010,8 @@ temple_shrink_ray_model_mapping_func()
 	level.shrink_models["c_viet_zombie_nva1_g_rlegoff"]			= "c_viet_zombie_nva1_g_rlegoff_m";
 	level.shrink_models["c_viet_zombie_nva1_g_upclean"]			= "c_viet_zombie_nva1_g_upclean_m";
 	level.shrink_models["c_viet_zombie_nva1_g_larmoff"]			= "c_viet_zombie_nva1_g_larmoff_m";
-	
-	level.shrink_models["c_viet_zombie_nva1_g_barmsoff_alt"]	= "c_viet_zombie_nva1_g_barmsoff_alt_m";	
+
+	level.shrink_models["c_viet_zombie_nva1_g_barmsoff_alt"]	= "c_viet_zombie_nva1_g_barmsoff_alt_m";
 	//level.shrink_models["c_viet_zombie_nva1_g_headoff_alt"]		= "c_viet_zombie_nva1_g_headoff_alt_m"; //Uses c_viet_zombie_nva1_g_headoff
 	level.shrink_models["c_viet_zombie_nva1_g_legsoff_alt"]		= "c_viet_zombie_nva1_g_legsoff_alt_m";
 	level.shrink_models["c_viet_zombie_nva1_g_llegoff_alt"]		= "c_viet_zombie_nva1_g_llegoff_alt_m";
@@ -1020,8 +1020,8 @@ temple_shrink_ray_model_mapping_func()
 	level.shrink_models["c_viet_zombie_nva1_g_rlegoff_alt"]		= "c_viet_zombie_nva1_g_rlegoff_alt_m";
 	level.shrink_models["c_viet_zombie_nva1_g_upclean_alt"]		= "c_viet_zombie_nva1_g_upclean_alt_m";
 	level.shrink_models["c_viet_zombie_nva1_g_larmoff_alt"]		= "c_viet_zombie_nva1_g_larmoff_alt_m";
-	
-	level.shrink_models["c_viet_zombie_vc_grunt_g_barmsoff"]	= "c_viet_zombie_vc_grunt_g_barmsoff_m";	
+
+	level.shrink_models["c_viet_zombie_vc_grunt_g_barmsoff"]	= "c_viet_zombie_vc_grunt_g_barmsoff_m";
 	level.shrink_models["c_viet_zombie_vc_grunt_g_headoff"]		= "c_viet_zombie_vc_grunt_g_headoff_m";
 	level.shrink_models["c_viet_zombie_vc_grunt_g_legsoff"]		= "c_viet_zombie_vc_grunt_g_legsoff_m";
 	level.shrink_models["c_viet_zombie_vc_grunt_g_llegoff"]		= "c_viet_zombie_vc_grunt_g_llegoff_m";
@@ -1039,16 +1039,16 @@ down the waterslide if someone throws a cymbol monkey down the slide
 ------------------------------------*/
 check_if_should_avoid_poi()
 {
-	
+
 	if(is_true(self.sliding))
 	{
-		return true; 
+		return true;
 	}
 	else
 	{
 		return false;
 	}
-	
+
 }
 
 zombiemode_cross_bow_fired_temple(grenade, weaponName, parent, player)
@@ -1057,7 +1057,7 @@ zombiemode_cross_bow_fired_temple(grenade, weaponName, parent, player)
 	{
 		level.cross_bow_bolts = [];
 	}
-	
+
 	level.cross_bow_bolts[level.cross_bow_bolts.size] = grenade;
 	level.cross_bow_bolts = array_removeUndefined(level.cross_bow_bolts);
 }
@@ -1101,10 +1101,10 @@ zombie_temple_player_out_of_playable_area_monitor_callback()
 temple_death_screen_cleanup()
 {
 	self ClearClientFlag( level._CF_PLAYER_MAZE_FLOOR_RUMBLE );
-	
+
 	wait_network_frame();
 	wait_network_frame();
-	
+
 	self SetBlur( 0, 0.1 );
 }
 

@@ -8,7 +8,7 @@
 zombie_tracking_init()
 {
 	flag_wait( "all_players_connected" );
-	
+
 	while(true)
 	{
 		zombies = GetAiSpeciesArray( "axis", "all" );
@@ -27,12 +27,12 @@ zombie_tracking_init()
 				}
 			}
 		}
-		
+
 		wait(10);
-	}	
-}	
+	}
+}
 //-------------------------------------------------------------------------------
-//	DCS 030111: 
+//	DCS 030111:
 //	if can't be seen kill and so replacement can spawn closer to player.
 //	self = zombie to check.
 //-------------------------------------------------------------------------------
@@ -49,10 +49,10 @@ delete_zombie_noone_looking(how_close, i)
 	{
 		how_close = 1000;
 	}
-	
+
 	self.inview = 0;
 	self.player_close = 0;
-	
+
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
@@ -60,7 +60,7 @@ delete_zombie_noone_looking(how_close, i)
 		if(players[i].sessionstate == "spectator")
 		{
 			continue;
-		}	 
+		}
 
 		can_be_seen = self player_can_see_me(players[i]);
 		if(can_be_seen)
@@ -73,12 +73,12 @@ delete_zombie_noone_looking(how_close, i)
 			if(dist < how_close)
 			{
 				self.player_close++;
-			}					
-		}		
-	}	
+			}
+		}
+	}
 
 	wait_network_frame();
-	
+
 	if(self.inview == 0 && self.player_close == 0 )
 	{
 		if(!IsDefined(self.animname))
@@ -89,21 +89,21 @@ delete_zombie_noone_looking(how_close, i)
 		if(IsDefined(self.electrified) && self.electrified == true)
 		{
 			return;
-		}		
-	
+		}
+
 		// zombie took damage, don't touch.
 		if(self.health != self.maxhealth)
 		{
 			return;
-		}	
+		}
 		else
 		{
 			// exclude rising zombies that haven't finished rising.
 			if(IsDefined(self.in_the_ground) && self.in_the_ground == true)
 			{
 				return;
-			}				
-			
+			}
+
  			//IPrintLnBold("deleting zombie out of view");
 			level.zombie_total++;
 			if(IsDefined(self.fx_quad_trail))
@@ -113,7 +113,7 @@ delete_zombie_noone_looking(how_close, i)
 			self maps\_zombiemode_spawner::reset_attack_spot();
 			self notify("zombie_delete");
 			self Delete();
-		}	
+		}
 	}
 }
 //-------------------------------------------------------------------------------
@@ -132,10 +132,10 @@ player_can_see_me( player )
 	playerToBanzaiUnitVec = VectorNormalize( playerToBanzaiVec );
 
 	forwardDotBanzai = VectorDot( playerUnitForwardVec, playerToBanzaiUnitVec );
-	angleFromCenter = ACos( forwardDotBanzai ); 
+	angleFromCenter = ACos( forwardDotBanzai );
 
 	playerFOV = GetDvarFloat( #"cg_fov" );
-	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );	
+	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );
 	if ( banzaiVsPlayerFOVBuffer <= 0 )
 	{
 		banzaiVsPlayerFOVBuffer = 0.2;

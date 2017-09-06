@@ -223,7 +223,7 @@ gravity_zombie_update( low_gravity, force_update )
 }
 
 //----------------------------------------------------------------------------------------------
-// launch zombie ragdoll in low gravity 
+// launch zombie ragdoll in low gravity
 //----------------------------------------------------------------------------------------------
 gravity_zombie_death_response()
 {
@@ -274,7 +274,7 @@ gravity_zombie_death_response()
 }
 
 //----------------------------------------------------------------------------------------------
-// checks if zombie is in a low gravity zone 
+// checks if zombie is in a low gravity zone
 //----------------------------------------------------------------------------------------------
 zombie_moon_is_low_gravity_zone( zone_name )
 {
@@ -283,7 +283,7 @@ zombie_moon_is_low_gravity_zone( zone_name )
 	{
 		return true;
 	}
-	
+
 	return false;
 }
 
@@ -358,7 +358,7 @@ zombie_low_gravity_locomotion()
 	if ( isdefined( gravity_str ) )
 	{
 		gravity_anim = level.scr_anim[self.animname][gravity_str];
-		
+
 		self set_run_anim( gravity_str );
 		self.run_combatanim = gravity_anim;
 		self.crouchRunAnim = gravity_anim;
@@ -433,72 +433,72 @@ zombie_watch_run_notetracks()
 reset_zombie_anim()
 {
 	self endon( "death" );
-	
+
 	theanim = undefined;
 	if( self.has_legs )
 	{
 		if(IsDefined(self.preslide_death))
 		{
 			self.deathanim = self.preslide_death;
-		}	
+		}
 		switch(self.zombie_move_speed)
 		{
 			case "walk":
-				theanim = "walk" + randomintrange(1, 8);  
+				theanim = "walk" + randomintrange(1, 8);
 				break;
-			case "run":                                
-				theanim = "run" + randomintrange(1, 6);  
+			case "run":
+				theanim = "run" + randomintrange(1, 6);
 				break;
-			case "sprint":                             
-				theanim = "sprint" + randomintrange(1, 4);  
+			case "sprint":
+				theanim = "sprint" + randomintrange(1, 4);
 				break;
 		}
 	}
 	else
 	{
-		// walk - there are four legless walk animations 
+		// walk - there are four legless walk animations
 		legless_walk_anims = [];
 		legless_walk_anims = add_to_array( legless_walk_anims, "crawl1", false );
 		legless_walk_anims = add_to_array( legless_walk_anims, "crawl5", false );
 		legless_walk_anims = add_to_array( legless_walk_anims, "crawl_hand_1", false );
 		legless_walk_anims = add_to_array( legless_walk_anims, "crawl_hand_2", false );
 		rand_walk_anim = RandomInt( legless_walk_anims.size );
-		
+
 		// run
 		// there is only one legless run animations, so there is no point in randomizing an array
-		
+
 		// sprint
 		// there are three legless sprint animations
 		legless_sprint_anims = [];
 		legless_sprint_anims = add_to_array( legless_sprint_anims, "crawl2", false );
 		legless_sprint_anims = add_to_array( legless_sprint_anims, "crawl3", false );
 		legless_sprint_anims = add_to_array( legless_sprint_anims, "crawl_sprint1", false );
-		rand_sprint_anim = RandomInt( legless_sprint_anims.size );		
-		
+		rand_sprint_anim = RandomInt( legless_sprint_anims.size );
+
 		switch(self.zombie_move_speed)
 		{
 			case "walk":
-				theanim = legless_walk_anims[ rand_walk_anim ];  
+				theanim = legless_walk_anims[ rand_walk_anim ];
 				break;
-			case "run":                                
-				theanim = "crawl4";  
+			case "run":
+				theanim = "crawl4";
 				break;
-			case "sprint":                             
-				theanim = legless_sprint_anims[ rand_sprint_anim ];  
+			case "sprint":
+				theanim = legless_sprint_anims[ rand_sprint_anim ];
 				break;
-			default:                             
-				theanim = "crawl4";  
-				break;				
-				
+			default:
+				theanim = "crawl4";
+				break;
+
 		}
-	}		
+	}
 
 	if ( isDefined(level.scr_anim[self.animname][theanim]) )
 	{
 		self clear_run_anim();
 		wait_network_frame();
-				
-		self set_run_anim( theanim );                         
+
+		self set_run_anim( theanim );
 		self.run_combatanim = level.scr_anim[self.animname][theanim];
 		self.walk_combatanim = level.scr_anim[self.animname][theanim];
 		self.crouchRunAnim = level.scr_anim[self.animname][theanim];
@@ -510,7 +510,7 @@ reset_zombie_anim()
 	{
 		//try again.
 		self thread reset_zombie_anim();
-	}	
+	}
 }
 
 // --------------------------------------------------------------------------------------
@@ -608,7 +608,7 @@ zombie_moon_player_float()
 					player_velocity = self GetVelocity();
 					boost_velocity = player_velocity + ( 0, 0, 100 );
 					self SetVelocity( boost_velocity );
-					
+
 					if( randomintrange( 0, 100 ) <= 15 )
 					{
 						self thread maps\_zombiemode_audio::create_and_play_dialog( "general", "moonjump" );
@@ -628,7 +628,7 @@ zombie_moon_player_float()
 				wait( 2 );
 			}
 		}
-		
+
 		wait_network_frame();
 	}
 }
@@ -651,12 +651,12 @@ low_gravity_watch()
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	self notify("low_gravity_watch_start");	// Make sure that there's only one of these...
  	self endon("low_gravity_watch_start");
- 	
+
  	self.airless_vox_in_progess = false;
-	
+
 	time_in_low_gravity = 0;
 	time_to_death = 0;
 	time_to_death_default = 15000;
@@ -734,7 +734,7 @@ low_gravity_watch()
 			{
 				self thread airless_vox_without_repeat();
 			}
-			
+
 			time_til_damage += diff;
 			time_in_low_gravity += diff;
 
@@ -800,24 +800,24 @@ airless_vox_without_repeat()
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	entity_num = self GetEntityNumber();
-	
+
 	if( isdefined( self.zm_random_char ) )
 	{
 		entity_num = self.zm_random_char;
 	}
-	
+
 	if( entity_num == 3 && is_true( level.player_4_vox_override ) )
 	{
 		entity_num = 4;
 	}
-	
+
 	if( !self.airless_vox_in_progess )
 	{
 		self.airless_vox_in_progess = true;
 		wait(2);
-		
+
 		if( isdefined( self ) && is_true( self.in_low_gravity ) )
 		{
 			level.player_is_speaking = 1;
@@ -825,7 +825,7 @@ airless_vox_without_repeat()
 			wait(10);
 			level.player_is_speaking = 0;
 		}
-		
+
 		wait(.1);
 		self.airless_vox_in_progess = false;
 	}
@@ -977,7 +977,7 @@ update_zombie_gravity_transition()
 	airlock_doors = GetEntArray("zombie_door_airlock", "script_noteworthy");
 	for( i = 0; i < airlock_doors.size; i++ )
 	{
-		airlock_doors[i] thread zombie_airlock_think(); 
+		airlock_doors[i] thread zombie_airlock_think();
 	}
 }
 
@@ -986,7 +986,7 @@ zombie_airlock_think()
 	while ( 1 )
 	{
 		self waittill( "trigger", who );
-	
+
 		if ( isplayer( who ) )
 		{
 			continue;
@@ -1015,14 +1015,14 @@ zombie_airlock_think()
 				continue;
 			}
 		}
-	
+
 		if(self.script_string == "inside")
 		{
 			//adding check if zone originally set for inside has breached.
 			if(IsDefined(self.doors[0].script_noteworthy))
 			{
-				_zones = getentarray(self.doors[0].script_noteworthy,"targetname");				
-					
+				_zones = getentarray(self.doors[0].script_noteworthy,"targetname");
+
 				if(_zones[0].script_string == "lowgravity" )
 				{
 					who maps\zombie_moon_gravity::gravity_zombie_update( 1 );
@@ -1031,18 +1031,18 @@ zombie_airlock_think()
 				else //not breached
 				{
 					who maps\zombie_moon_gravity::gravity_zombie_update( 0 );
-				}	
-			}	
-			else 
+				}
+			}
+			else
 			{
 				who maps\zombie_moon_gravity::gravity_zombie_update( 0 );
 			}
-		}		
+		}
 		else
 		{
 			who maps\zombie_moon_gravity::gravity_zombie_update( 1 );
 		}
-	}	
+	}
 }
 
 //----------------------------------------------------------------------------------------------
@@ -1117,24 +1117,3 @@ zombie_moon_crawl_anim_override()
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

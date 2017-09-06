@@ -17,7 +17,7 @@ main()
 setup_teleport_aftereffects()
 {
 	waitforclient( 0 );
-	
+
 	level.teleport_ae_funcs = [];
 	if( getlocalplayers().size == 1 )
 	{
@@ -34,7 +34,7 @@ setup_teleport_aftereffects()
 wait_for_black_box()
 {
 	secondClientNum = -1;
-	while( true ) 
+	while( true )
 	{
 		level waittill( "black_box_start", localClientNum );
 		assert( isDefined( localClientNum ) );
@@ -81,7 +81,7 @@ teleport_aftereffect_fov( localClientNum )
 	start_fov = 30;
 	end_fov = 65;
 	duration = 0.5;
-	
+
 	for( i = 0; i < duration; i += 0.017 )
 	{
 		fov = start_fov + (end_fov - start_fov)*(i/duration);

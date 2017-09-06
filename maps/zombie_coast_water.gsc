@@ -17,7 +17,7 @@ init()
 	level thread zombie_coast_adjust_percent();
 
 	level.zombie_init_done = ::zombie_check_riser;
-	
+
 	level.deathcard_spawn_func = ::water_frost_bleed_out_reset;
 
 	level thread check_water();
@@ -268,15 +268,15 @@ water_trigger()
 	while ( 1 )
 	{
 		self waittill( "trigger", who );
-		
+
 		if ( IsPlayer( who ) && who.sessionstate != "spectator")
 		{
-	
+
 			self thread trigger_thread( who, ::water_player_in, ::water_player_out );
-			
+
 			//who thread water_damage_player();
 		}
-		//else 
+		//else
 		//{
 		//	who thread water_damage_zombie();
 		//}
@@ -291,7 +291,7 @@ update_hud_elem(player)
 {
 	player endon("disconnect");
 	player endon("death");
-	
+
 	while(1)
 	{
 		wait(0.1);
@@ -321,7 +321,7 @@ water_player_in( e_player, endon_condition )
 	{
 		e_player._in_coast_water = 0;
 		e_player thread water_watch_player_frost_state();
-		
+
 /*		if(!IsDefined(e_player._water_debug_hudelem))
 		{
 			e_player._water_debug_hudelem = NewDebugHudElem();
@@ -335,10 +335,10 @@ water_player_in( e_player, endon_condition )
 			e_player._water_debug_hudelem thread water_debug_hud_elem_thread(e_player);
 		}*/
 	}
-	
+
 	// entered a trigger
 	e_player._in_coast_water++;
-	
+
 //	e_player thread play_cold_dialog_while_inwater();
 }
 
@@ -347,7 +347,7 @@ water_player_in( e_player, endon_condition )
 //----------------------------------------------------------------------------------------------
 water_player_out( e_player )
 {
-	
+
 	// left a trigger
 	if(e_player._in_coast_water > 0)
 	{
@@ -365,12 +365,12 @@ water_watch_player_frost_state()
 	self endon( "spawned_spectator" );
 
 	frost = 0;
-	
+
 //	PrintLn("S: ccf pwf : " + self GetEntityNumber() + " " + self.team + " " + self.sessionteam + " " + self.sessionstate);
 	self ClearClientFlag( level._CF_PLAYER_WATER_FROST );
-	
+
 	self thread play_cold_dialog_while_inwater();
-	
+
 	while( IsDefined( self ) && IsAlive( self ) )
 	{
 		if( frost )
@@ -380,12 +380,12 @@ water_watch_player_frost_state()
 			{
 				// turn off reset function
 				self notify( "frost_reset_off" );
-				
+
 				// turn off frost
 //				PrintLn("S: ccf pwf2 : " + self GetEntityNumber()+ " " + self.team + " " + self.sessionteam + " " + self.sessionstate);
 				self ClearClientFlag( level._CF_PLAYER_WATER_FROST );
 				frost = 0;
-				
+
 //				IPrintLn( self GetEntityNumber() + " FROST CLEARED %%%" );
 				return;
 			}
@@ -397,12 +397,12 @@ water_watch_player_frost_state()
 			{
 				// thread function to clear frost if the player bleeds out
 				// self thread water_frost_bleed_out_reset();
-				
+
 				// turn on frost
 //				PrintLn("S: scf pwf : " + self GetEntityNumber() + " " + self.team + " " + self.sessionteam + " " + self.sessionstate);
 				self SetClientFlag( level._CF_PLAYER_WATER_FROST );
 				frost = 1;
-				
+
 //				IPrintLn( self GetEntityNumber() + " FROST SET %%%" );
 			}
 		}
@@ -414,7 +414,7 @@ wait_to_update_frost_state()
 {
 	self endon("disconnect");
 	self endon("update_frost_state");
-	
+
 	wait(0.1);
 }
 
@@ -431,7 +431,7 @@ water_frost_bleed_out_reset()
 	wait_network_frame();
 //	PrintLn("S: ccf pwfr : " + self GetEntityNumber() + " " + self.team + " " + self.sessionteam + " " + self.sessionstate);
 	self ClearClientFlag( level._CF_PLAYER_WATER_FROST_REMOVE );
-	
+
 	wait_network_frame();
 	wait_network_frame();
 }
@@ -525,19 +525,19 @@ wade_audio( trigger )
 {
   self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	if( !IsDefined( self._wading_active ) || !self._wading_active )
 	{
 	    self._wading_active = true;
 	    self.is_wading = true;
-	    
+
 	    ent1 = Spawn( "script_origin", self.origin );
 	    ent2 = Spawn( "script_origin", self.origin );
 	    ent1 LinkTo( self );
 	    ent2 LinkTo( self );
 
 	    self thread monitor_player_movement();
-	    
+
 	    while( self IsTouching( trigger ) )
 	    {
 	        if( self.is_wading )
@@ -550,10 +550,10 @@ wade_audio( trigger )
 	            ent1 StopLoopSound( 1 );
 	            ent2 PlayLoopSound( "zmb_wade_idle", 1 );
 	        }
-	        
+
 	        wait(.1);
 	    }
-	    
+
 	    self._wading_active = false;
 	    ent1 StopLoopSound( 1 );
 	    ent2 StopLoopSound( 1 );
@@ -576,13 +576,13 @@ monitor_player_movement()
 		distancemoved = distanceSquared( org_1, org_2 );
 		if(distancemoved > 2*2)
 		{
-			self.is_wading = true;	
-		} 
+			self.is_wading = true;
+		}
 		else
 		{
-			self.is_wading = false;	
-		}	
-	}		
+			self.is_wading = false;
+		}
+	}
 }
 
 play_cold_dialog_while_inwater()
@@ -593,28 +593,28 @@ play_cold_dialog_while_inwater()
 	self endon( "death" );
 	self endon( "spawned_spectator" );
 	self endon( "joined_spectators" );
-    
+
     wait(RandomIntRange(2,5));
-    
+
     while( IsDefined( self._in_coast_water ) && self._in_coast_water > 0 )
-    {   
+    {
         while( is_true( self.is_frozen ) )
         {
             wait(1);
         }
-        
+
         rand = RandomIntRange(0,101);
-        
+
         if( !IsAlive( self ) || ( IsDefined( self.sessionstate ) && is_true( self.sessionstate == "spectator" ) ) )
         {
             return;
         }
-        
+
         if( rand >= 25 )
         {
             self maps\_zombiemode_audio::create_and_play_dialog( "general", "water_damage" );
         }
-        
+
         wait(RandomIntRange(15,30));
     }
 }
@@ -623,11 +623,11 @@ water_watch_freeze()
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	self notify("water_watch_freeze_start");	// Make sure that there's only one of these...
  	self endon("water_watch_freeze_start");
- 	
- 
+
+
 	time_in_water = 0;
 	time_to_freeze = 30000;
 
@@ -678,11 +678,11 @@ water_player_freeze()
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-    
+
 	self.is_frozen = true;
 	self EnableInvulnerability();
 	self FreezeControls( true );
-	
+
 	self StopLoopSound(2);
 	ice_trigger = spawn( "trigger_damage", self.origin, 0, 15, 72 );
 	ice_trigger enablelinkto();
@@ -692,7 +692,7 @@ water_player_freeze()
 
 //	PrintLn("S: scf pwfreeze : " + self GetEntityNumber());
 	self SetClientFlag( level._CF_PLAYER_WATER_FREEZE );
-	
+
 	self thread maps\_zombiemode_audio::create_and_play_dialog( "general", "water_frozen" );
 
 	self thread water_player_free( ice_trigger );
@@ -704,7 +704,7 @@ water_player_free( ice_trigger )
 	self endon( "disconnect" );
 
 	ice_trigger waittill( "damage" );
-	
+
 	self PlaySound("zmb_ice_shatter");
 
 	self.is_frozen = false;
@@ -722,9 +722,3 @@ water_player_free( ice_trigger )
 
 	self thread water_watch_freeze();
 }
-
-
-
-
-
-

@@ -16,22 +16,22 @@ main()
 	level thread pack_clock_init();
 }
 
-//	DCS: extra_cam system for portals. 
+//	DCS: extra_cam system for portals.
 setup_teleporter_screen()
 {
 	waitforclient( 0 );
-	
-	level.extraCamActive = false;	
-	level thread start_extra_cam();	
+
+	level.extraCamActive = false;
+	level thread start_extra_cam();
 	level thread stop_extra_cam();
 	wait(.5);
-	level notify("camera_stop");	
-}	
+	level notify("camera_stop");
+}
 
 setup_teleport_aftereffects()
 {
 	waitforclient( 0 );
-	
+
 	level.teleport_ae_funcs = [];
 	if( getlocalplayers().size == 1 )
 	{
@@ -48,7 +48,7 @@ setup_teleport_aftereffects()
 wait_for_black_box()
 {
 	secondClientNum = -1;
-	while( true ) 
+	while( true )
 	{
 		level waittill( "black_box_start", localClientNum );
 		assert( isDefined( localClientNum ) );
@@ -95,7 +95,7 @@ teleport_aftereffect_fov( localClientNum )
 	start_fov = 30;
 	end_fov = 65;
 	duration = 0.5;
-	
+
 	for( i = 0; i < duration; i += 0.017 )
 	{
 		fov = start_fov + (end_fov - start_fov)*(i/duration);
@@ -148,7 +148,7 @@ teleport_aftereffect_flare_vision( localClientNum )
 
 //-------------------------------------------------------------------------------
 //	DCS: EXTRA CAM for portal jumping
-//	to show where going to. 
+//	to show where going to.
 //-------------------------------------------------------------------------------
 
 start_extra_cam()
@@ -165,13 +165,13 @@ start_extra_cam()
 			level.cam_corona = Spawn( localClientNum, level.cameraEnt.origin + (0, 1, 0), "script_model" );
 			level.cam_corona SetModel( "tag_origin" );
 			level.cam_corona.angles = level.cameraEnt.angles;
-				
+
 			PlayFxOnTag( localClientNum, level._effect["fx_mp_light_lamp"], level.cam_corona, "tag_origin" );
-			
+
 			//mp_light_lamp
 			//zombie_theater_projector_beam
 		}
-	}		
+	}
 }
 
 stop_extra_cam()
@@ -187,9 +187,9 @@ stop_extra_cam()
 			if(IsDefined(level.cam_corona))
 			{
 				level.cam_corona Delete();
-			}	
-		}		
-	}		
+			}
+		}
+	}
 }
 
 //-------------------------------------------------------------------------------
@@ -200,9 +200,9 @@ stop_extra_cam()
 
 pack_clock_init()
 {
-	
+
 	level waittill( "pack_clock_start", clientNum );
-	
+
 	// the format should be an array (hour, min, sec), military time
 	//	if we pass in a 1 then we'll get GMT 0 London time, else we get the local time on the kit
 	curr_time = GetSystemTime();
@@ -219,13 +219,13 @@ pack_clock_init()
 	}
 	minutes = curr_time[1];
 	seconds = curr_time[2];
-	
+
 	// set the starting time
 	// hoping that all of the hands start pointing straight up at 12
 	// each hour is 30 degrees of rotation ...
 	//	it should also rotate a little bit each time the minute hand moves
 	//	the math is 30 degrees of rotations in 3600 seconds (1 hour)
-	
+
 	hour_hand = GetEnt(clientNum, "zom_clock_hour_hand", "targetname");
 	hour_values = [];
 	hour_values["hand_time"] = hours;
@@ -233,7 +233,7 @@ pack_clock_init()
 	hour_values["rotate_bit"] = 30 / 3600;
 	// we need to do the first rotation based on the beginning time, if we don't do this the time will look like it's off a little bit
 	hour_values["first_rotate"] = ((minutes * 60) + seconds) * hour_values["rotate_bit"];
-	
+
 	// each minute is 6 degrees of rotation ...
 	//	it should also rotate a little bit each time the second hand moves
 	//	the math is 6 degrees of rotations in 60 seconds (1 minute)
@@ -249,7 +249,7 @@ pack_clock_init()
 	if( IsDefined(hour_hand) )
 	{
 		hour_hand thread pack_clock_run( hour_values );
-		
+
 	}
 	if( IsDefined(minute_hand) )
 	{
@@ -263,7 +263,7 @@ pack_clock_run(time_values) // self == either hour hand, minute hand, or second 
 
 	self RotatePitch(time_values["hand_time"] * time_values["rotate"] *-1, 0.05);
 	self waittill("rotatedone");
-	
+
 	if( IsDefined(time_values["first_rotate"]) )
 	{
 		self RotatePitch(time_values["first_rotate"] *-1, 0.05);

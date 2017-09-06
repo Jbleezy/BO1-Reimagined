@@ -1,5 +1,5 @@
 #include maps\_utility; 
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_zombiemode_utility;
 
 #using_animtree( "generic_human" );
@@ -34,7 +34,7 @@ init()
 	set_zombie_var( "freezegun_shatter_range_upgraded",			300 ); // 25 feet
 	set_zombie_var( "freezegun_shatter_inner_damage_upgraded",	750 );
 	set_zombie_var( "freezegun_shatter_outer_damage_upgraded",	500 );
-	
+
 
 	level._effect[ "freezegun_shatter" ]				= LoadFX( "weapon/freeze_gun/fx_freezegun_shatter" );
 	level._effect[ "freezegun_crumple" ]				= LoadFX( "weapon/freeze_gun/fx_freezegun_crumple" );
@@ -51,11 +51,11 @@ init()
 	level._effect[ "freezegun_crumple_gibtrail_fx" ]	= LoadFX( "system_elements/fx_null" );
 	// level._effect[ "freezegun_crumple_gib_fx" ]			= LoadFX( "weapon/bullet/fx_flesh_gib_fatal_01" );
 	// level._effect[ "freezegun_crumple_gibtrail_fx" ]	= LoadFX( "trail/fx_trail_blood_streak" );
-	
-	// For testing FX 
+
+	// For testing FX
 	// system_elements/fx_null
-	
-	level thread freezegun_on_player_connect(); 
+
+	level thread freezegun_on_player_connect();
 }
 
 
@@ -63,8 +63,8 @@ freezegun_on_player_connect()
 {
 	for( ;; )
 	{
-		level waittill( "connecting", player ); 
-		player thread wait_for_thundergun_fired(); 
+		level waittill( "connecting", player );
+		player thread wait_for_thundergun_fired();
 	}
 }
 
@@ -72,12 +72,12 @@ freezegun_on_player_connect()
 wait_for_thundergun_fired()
 {
 	self endon( "disconnect" );
-	self waittill( "spawned_player" ); 
+	self waittill( "spawned_player" );
 
 	for( ;; )
 	{
-		self waittill( "weapon_fired" ); 
-		currentweapon = self GetCurrentWeapon(); 
+		self waittill( "weapon_fired" );
+		currentweapon = self GetCurrentWeapon();
 		if( ( currentweapon == "freezegun_zm" ) || ( currentweapon == "freezegun_upgraded_zm" ) )
 		{
 			self thread freezegun_fired( currentweapon == "freezegun_upgraded_zm" );
@@ -274,7 +274,7 @@ freezegun_get_enemies_in_range( upgraded )
 			zombies[i] freezegun_debug_print( "dot", (1, 0, 0) );
 			continue;
 		}
-		
+
 		radial_origin = PointOnSegmentNearestToPoint( view_pos, end_pos, test_origin );
 		if ( DistanceSquared( test_origin, radial_origin ) > cylinder_radius_squared )
 		{
@@ -389,7 +389,7 @@ freezegun_damage_response( player, amount )
 	new_move_speed = self.zombie_move_speed;
 
 	percent_dmg = self enemy_percent_damaged_by_freezegun();
-	
+
 	if ( 0.66 <= percent_dmg )
 	{
 		new_move_speed = "walk";
@@ -558,9 +558,9 @@ freezegun_death( hit_location, hit_origin, player )
 	self.freezegun_death = true;
 	self.skip_death_notetracks = true;
 	self.nodeathragdoll = true;
-	
+
 	self PlaySound( "wpn_freezegun_impact_zombie" );
-	
+
 
 	if ( IsPlayer( player ) )
 	{

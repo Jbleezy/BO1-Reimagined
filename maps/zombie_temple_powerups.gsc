@@ -1,10 +1,10 @@
 /// zombie_temple_powerups.gsc
 
-#include maps\_utility; 
-#include common_scripts\utility; 
+#include maps\_utility;
+#include common_scripts\utility;
 #include maps\_zombiemode_utility;
 #include maps\_zombiemode_utility_raven;
-#include maps\_zombiemode;  
+#include maps\_zombiemode;
 
 // needs to be called after zombiemode has been setup (after powerups have been initialized)
 init()
@@ -164,16 +164,16 @@ player_monkey_think(numMonkeys)
 		monkey SetPlayerCollision(false);
 
 		monkey maps\_zombiemode_ai_monkey::monkey_prespawn();
-	
+
 		monkey ForceTeleport( spawnLoc, spawnAngles );
 
 		if ( bloodFX )
 		{
 			PlayFX( level._effect["zombie_kill"], spawnLoc );
 		}
-		
+
 		PlayFX( level._effect["monkey_death"], spawnLoc );
-		
+
 		playsoundatposition( "zmb_bolt", spawnLoc );
 
 		monkey magic_bullet_shield();
@@ -223,9 +223,9 @@ monkey_protect_player(player)
 		{
 			self waittill("forever");
 		}
-		
+
 		zombie = player _ent_GetBestZombie();
-		
+
 		if ( IsDefined(zombie) )
 		{
 			self thread monkey_attack_zombie(zombie);
@@ -244,7 +244,7 @@ monkey_protect_player(player)
 			dist2 = DistanceSquared(self.origin, player.origin);
 			if ( dist2 > checkDist2 )
 			{
-				self.goalradius = goalDist; 
+				self.goalradius = goalDist;
 				self SetGoalEntity( player );
 
 				self waittill("goal");
@@ -264,12 +264,12 @@ monkey_attack_zombie(zombie)
 
 	self.zombie = zombie;
 	zombie.monkey_claimed = true;
-	self.goalradius = 32; 
+	self.goalradius = 32;
 	self SetGoalPos( zombie.origin );
 
 	// wait until we get there, or the zombie is killed by a player
 	checkDist2 = self.goalradius * self.goalradius;
-	while ( true ) 
+	while ( true )
 	{
 		if ( !IsDefined(zombie) || !IsAlive(zombie) )
 		{
@@ -312,12 +312,12 @@ monkey_attack_zombie(zombie)
 		// kill the zombie (pop his head off)
 		zombie.a.gib_ref = "head";
 		zombie dodamage(zombie.health + 666, zombie.origin);
-		
+
 		players = GetPlayers();
 		for(i = 0; i < players.size; i++)
 		{
 			// nuke powerup does the same thing we want, w/o having to update the common files
-			players[i] maps\_zombiemode_score::player_add_points( "nuke_powerup", 20 ); 
+			players[i] maps\_zombiemode_score::player_add_points( "nuke_powerup", 20 );
 		}
 	}
 

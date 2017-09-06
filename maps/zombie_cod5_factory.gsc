@@ -1,7 +1,7 @@
 #include common_scripts\utility; 
 #include maps\_utility;
-#include maps\_zombiemode_utility; 
-#include maps\_zombiemode_zone_manager; 
+#include maps\_zombiemode_utility;
+#include maps\_zombiemode_zone_manager;
 #include maps\zombie_cod5_factory_teleporter;
 #include maps\_music;
 //
@@ -10,7 +10,7 @@ main()
 {
 	// This has to be first for CreateFX -- Dale
 	maps\zombie_cod5_factory_fx::main();
-	
+
 	// viewmodel arms for the level
 	PreCacheModel( "viewmodel_usa_pow_arms" ); // Dempsey
 	PreCacheModel( "viewmodel_rus_prisoner_arms" ); // Nikolai
@@ -34,7 +34,7 @@ main()
 	script_anims_init();
 
 	level thread maps\_callbacksetup::SetupCallbacks();
-	
+
 	level.zombie_anim_override = maps\zombie_cod5_factory::anim_override_func;
 	//level.exit_level_func = ::factory_exit_level;
 
@@ -82,7 +82,7 @@ main()
 
 	level._effect["zombie_grain"]			= LoadFx( "misc/fx_zombie_grain_cloud" );
 
-	maps\_waw_zombiemode_radio::init();	
+	maps\_waw_zombiemode_radio::init();
 
 	level.zombiemode_precache_player_model_override = ::precache_player_model_override;
 	level.zombiemode_give_player_model_override = ::give_player_model_override;
@@ -90,7 +90,7 @@ main()
 	level.register_offhand_weapons_for_level_defaults_override = ::register_offhand_weapons_for_level_defaults_override;
 
 	// Special zombie types, dogs.
-	level.dogs_enabled = true;	
+	level.dogs_enabled = true;
 	level.custom_ai_type = [];
 	level.custom_ai_type = array_add( level.custom_ai_type, maps\_zombiemode_ai_dogs::init );
 	maps\_zombiemode_ai_dogs::enable_dog_rounds();
@@ -98,11 +98,11 @@ main()
 	level.use_zombie_heroes = true;
 
 	maps\_zombiemode::main();
-	
+
 	init_sounds();
 	init_achievement();
 	level thread power_electric_switch();
-	
+
 	level thread magic_box_init();
 
 	//DCS: need stop watch setup
@@ -116,14 +116,14 @@ main()
 	level thread maps\_zombiemode_zone_manager::manage_zones( init_zones );
 
 	teleporter_init();
-	
+
 	//level thread intro_screen();
 
 	level thread jump_from_bridge();
 	level lock_additional_player_spawner();
 
 	level thread bridge_init();
-	
+
 	//AUDIO EASTER EGGS
 	level thread phono_egg_init( "phono_one", "phono_one_origin" );
 	level thread phono_egg_init( "phono_two", "phono_two_origin" );
@@ -177,15 +177,15 @@ main()
 
 	// Set the color vision set back
 	level.zombie_visionset = "zombie_factory";
-	
-	
+
+
 	VisionSetNaked( "zombie_factory", 0 );
 	SetSavedDvar( "r_lightGridEnableTweaks", 1 );
 	SetSavedDvar( "r_lightGridIntensity", 1.45 );
 	SetSavedDvar( "r_lightGridContrast", 0.15 );
 
 	maps\createart\zombie_cod5_factory_art::main();
-	
+
 	//DCS: get betties working.
 	maps\_zombiemode_betty::init();
 
@@ -217,7 +217,7 @@ give_player_model_override( entity_num )
 			break;
 		case 3:
 			character\c_ger_richtofen_zt::main();// Richtofen
-			break;	
+			break;
 	}
 }
 
@@ -240,7 +240,7 @@ player_set_viewmodel_override( entity_num )
 		case 3:
 			// Richtofen
 			self SetViewModel( "viewmodel_usa_hazmat_arms" );
-			break;		
+			break;
 	}
 }
 
@@ -296,7 +296,7 @@ factory_zone_init()
 	// Wnuen stairway
 	add_adjacent_zone( "wnuen_zone",		"wnuen_bridge_zone",	"enter_wnuen_loading_dock" );
 
-	// Warehouse bottom 
+	// Warehouse bottom
 	add_adjacent_zone( "warehouse_bottom_zone", "outside_west_zone",	"enter_warehouse_building" );
 
 	// Warehosue top
@@ -305,7 +305,7 @@ factory_zone_init()
 
 	// TP East
 	add_adjacent_zone( "tp_east_zone",			"wnuen_zone",			"enter_tp_east" );
-	
+
 	add_adjacent_zone( "tp_east_zone",			"outside_east_zone",	"enter_tp_east",			true );
 
 	// TP South
@@ -313,7 +313,7 @@ factory_zone_init()
 
 	// TP West
 	add_adjacent_zone( "tp_west_zone",			"warehouse_top_zone",	"enter_tp_west" );
-	
+
 	//add_adjacent_zone( "tp_west_zone",			"warehouse_bottom_zone", "enter_tp_west",		true );
 	//add_zone_flags(	"enter_tp_west",										"enter_warehouse_second_floor" );
 
@@ -371,17 +371,17 @@ intro_screen()
 
 	for(i = 0 ; i < 3; i++)
 	{
-		level.intro_hud[i] FadeOverTime( 3.5 ); 
+		level.intro_hud[i] FadeOverTime( 3.5 );
 		level.intro_hud[i].alpha = 1;
 		wait(1.5);
 	}
 	wait(1.5);
 	for(i = 0 ; i < 3; i++)
 	{
-		level.intro_hud[i] FadeOverTime( 3.5 ); 
+		level.intro_hud[i] FadeOverTime( 3.5 );
 		level.intro_hud[i].alpha = 0;
 		wait(1.5);
-	}	
+	}
 	//wait(1.5);
 	for(i = 0 ; i < 3; i++)
 	{
@@ -413,13 +413,13 @@ factory_playanim( animname )
 #using_animtree( "generic_human" );
 anim_override_func()
 {
-		level._zombie_melee[0] 				= %ai_zombie_attack_forward_v1; 
-		level._zombie_melee[1] 				= %ai_zombie_attack_forward_v2; 
-		level._zombie_melee[2] 				= %ai_zombie_attack_v1; 
-		level._zombie_melee[3] 				= %ai_zombie_attack_v2;	
+		level._zombie_melee[0] 				= %ai_zombie_attack_forward_v1;
+		level._zombie_melee[1] 				= %ai_zombie_attack_forward_v2;
+		level._zombie_melee[2] 				= %ai_zombie_attack_v1;
+		level._zombie_melee[3] 				= %ai_zombie_attack_v2;
 		level._zombie_melee[4]				= %ai_zombie_attack_v1;
 		level._zombie_melee[5]				= %ai_zombie_attack_v4;
-		level._zombie_melee[6]				= %ai_zombie_attack_v6;	
+		level._zombie_melee[6]				= %ai_zombie_attack_v6;
 
 		level._zombie_run_melee[0]				=	%ai_zombie_run_attack_v1;
 		level._zombie_run_melee[1]				=	%ai_zombie_run_attack_v2;
@@ -437,7 +437,7 @@ anim_override_func()
 
 lock_additional_player_spawner()
 {
-	
+
 	spawn_points = getstructarray("player_respawn_point", "targetname");
 	for( i = 0; i < spawn_points.size; i++ )
 	{
@@ -469,7 +469,7 @@ bridge_init()
 		warehouse_bridge_coils[i] LinkTo( warehouse_bridge );
 	}
 	warehouse_bridge rotatepitch( -90, 1, .5, .5 );
-	
+
 	bridge_audio = getstruct( "bridge_audio", "targetname" );
 
 	// wait for power
@@ -478,7 +478,7 @@ bridge_init()
 	// lower bridge
 	wnuen_bridge rotatepitch( -90, 4, .5, 1.5 );
 	warehouse_bridge rotatepitch( 90, 4, .5, 1.5 );
-	
+
 	if(isdefined( bridge_audio ) )
 		playsoundatposition( "bridge_lower", bridge_audio.origin );
 
@@ -489,7 +489,7 @@ bridge_init()
 
 	// wait until the bridges are down.
 	wnuen_bridge waittill( "rotatedone" );
-	
+
 	flag_set( "bridge_down" );
 	if(isdefined( bridge_audio ) )
 		playsoundatposition( "bridge_hit", bridge_audio.origin );
@@ -631,7 +631,7 @@ include_weapons()
 	level._uses_retrievable_ballisitic_knives = true;
 
 	precacheItem( "explosive_bolt_zm" );
-	precacheItem( "explosive_bolt_upgraded_zm" );	
+	precacheItem( "explosive_bolt_upgraded_zm" );
 
 	// get the bowie into the collector achievement list
 	level.collector_achievement_weapons = array_add( level.collector_achievement_weapons, "bowie_knife_zm" );
@@ -641,40 +641,40 @@ include_weapons()
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_kar98k", "zombie_kar98k_upgraded", 						&"WAW_ZOMBIE_WEAPON_KAR98K_200", 				200,	"rifle");
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_type99_rifle", "",					&"WAW_ZOMBIE_WEAPON_TYPE99_200", 			    200,	"rifle" );
 
-	// Semi Auto                                        		
+	// Semi Auto
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_gewehr43", "zombie_gewehr43_upgraded",						&"WAW_ZOMBIE_WEAPON_GEWEHR43_600", 				600,	"rifle" );
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_m1carbine","zombie_m1carbine_upgraded",						&"WAW_ZOMBIE_WEAPON_M1CARBINE_600",				600,	"rifle" );
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_m1garand", "zombie_m1garand_upgraded" ,						&"WAW_ZOMBIE_WEAPON_M1GARAND_600", 				600,	"rifle" );
 
 	maps\_zombiemode_weapons::add_zombie_weapon( "stielhandgranate", "", 						&"WAW_ZOMBIE_WEAPON_STIELHANDGRANATE_250", 		250,	"grenade", "", 250 );
-	maps\_zombiemode_weapons::add_zombie_weapon( "mine_bouncing_betty", "", &"WAW_ZOMBIE_WEAPON_SATCHEL_2000", 2000 );		
+	maps\_zombiemode_weapons::add_zombie_weapon( "mine_bouncing_betty", "", &"WAW_ZOMBIE_WEAPON_SATCHEL_2000", 2000 );
 	// Scoped
 	maps\_zombiemode_weapons::add_zombie_weapon( "kar98k_scoped_zombie", "", 					&"WAW_ZOMBIE_WEAPON_KAR98K_S_750", 				750,	"sniper");
 
-	// Full Auto                                                                                	
+	// Full Auto
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_stg44", "zombie_stg44_upgraded", 							    &"WAW_ZOMBIE_WEAPON_STG44_1200", 				1200, "mg" );
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_thompson", "zombie_thompson_upgraded", 							&"WAW_ZOMBIE_WEAPON_THOMPSON_1200", 			1200, "mg" );
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_type100_smg", "zombie_type100_smg_upgraded", 						&"WAW_ZOMBIE_WEAPON_TYPE100_1000", 				1000, "mg" );
 
-	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_fg42", "zombie_fg42_upgraded", 							&"WAW_ZOMBIE_WEAPON_FG42_1500", 				1500,	"mg" ); 
+	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_fg42", "zombie_fg42_upgraded", 							&"WAW_ZOMBIE_WEAPON_FG42_1500", 				1500,	"mg" );
 
 
-	// Shotguns                                         	
+	// Shotguns
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_doublebarrel", "zombie_doublebarrel_upgraded", 						&"WAW_ZOMBIE_WEAPON_DOUBLEBARREL_1200", 		1200, "shotgun");
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_doublebarrel_sawed", "", 			    &"WAW_ZOMBIE_WEAPON_DOUBLEBARREL_SAWED_1200", 	1200, "shotgun");
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_shotgun", "zombie_shotgun_upgraded",							&"WAW_ZOMBIE_WEAPON_SHOTGUN_1500", 				1500, "shotgun");
 
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_bar", "zombie_bar_upgraded", 						&"WAW_ZOMBIE_WEAPON_BAR_1800", 					1800,	"mg" );
 
-	// Bipods                               				
-	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_bar_bipod", 	"",					&"WAW_ZOMBIE_WEAPON_BAR_BIPOD_2500", 			2500,	"mg" ); 
+	// Bipods
+	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_bar_bipod", 	"",					&"WAW_ZOMBIE_WEAPON_BAR_BIPOD_2500", 			2500,	"mg" );
 }
 
 
 factory_ray_gun_weighting_func()
 {
 	if( level.chest_moves > 0 )
-	{	
+	{
 		num_to_add = 1;
 		// increase the percentage of ray gun
 		if( isDefined( level.pulls_since_last_ray_gun ) )
@@ -683,14 +683,14 @@ factory_ray_gun_weighting_func()
 			if( level.pulls_since_last_ray_gun > 11 )
 			{
 				num_to_add += int(level.zombie_include_weapons.size*0.1);
-			}			
+			}
 			// after 8 pulls the Ray Gun percentage increases to 10%
 			else if( level.pulls_since_last_ray_gun > 7 )
 			{
 				num_to_add += int(.05 * level.zombie_include_weapons.size);
-			}		
+			}
 		}
-		return num_to_add;	
+		return num_to_add;
 	}
 	else
 	{
@@ -746,22 +746,22 @@ include_powerups()
 //{
 //	//activate perks-a-cola
 //	//level notify( "master_switch_activated" );
-//	
+//
 //	//level notify( "specialty_armorvest_power_on" );
 //	//level notify( "specialty_rof_power_on" );
 //	//level notify( "specialty_quickrevive_power_on" );
 //	//level notify( "specialty_fastreload_power_on" );
-//	
+//
 //	//clientnotify("revive_on");
 //	//clientnotify("middle_door_open");
 //	//clientnotify("fast_reload_on");
 //	//clientnotify("doubletap_on");
-//	//clientnotify("jugger_on");	
+//	//clientnotify("jugger_on");
 //
 //}
 //
 //
-//#using_animtree( "generic_human" ); 
+//#using_animtree( "generic_human" );
 //force_zombie_crawler()
 //{
 //	if( !IsDefined( self ) )
@@ -771,21 +771,21 @@ include_powerups()
 //
 //	if( !self.gibbed )
 //	{
-//		refs = []; 
+//		refs = [];
 //
-//		refs[refs.size] = "no_legs"; 
+//		refs[refs.size] = "no_legs";
 //
 //		if( refs.size )
 //		{
-//			self.a.gib_ref = animscripts\death::get_random( refs ); 
-//		
+//			self.a.gib_ref = animscripts\death::get_random( refs );
+//
 //			// Don't stand if a leg is gone
-//			self.has_legs = false; 
-//			self AllowedStances( "crouch" ); 
-//								
-//			which_anim = RandomInt( 5 ); 
-//			
-//			if( which_anim == 0 ) 
+//			self.has_legs = false;
+//			self AllowedStances( "crouch" );
+//
+//			which_anim = RandomInt( 5 );
+//
+//			if( which_anim == 0 )
 //			{
 //				self.deathanim = %ai_zombie_crawl_death_v1;
 //				self set_run_anim( "death3" );
@@ -793,7 +793,7 @@ include_powerups()
 //				self.crouchRunAnim = level.scr_anim["zombie"]["crawl1"];
 //				self.crouchrun_combatanim = level.scr_anim["zombie"]["crawl1"];
 //			}
-//			else if( which_anim == 1 ) 
+//			else if( which_anim == 1 )
 //			{
 //				self.deathanim = %ai_zombie_crawl_death_v2;
 //				self set_run_anim( "death4" );
@@ -801,7 +801,7 @@ include_powerups()
 //				self.crouchRunAnim = level.scr_anim["zombie"]["crawl2"];
 //				self.crouchrun_combatanim = level.scr_anim["zombie"]["crawl2"];
 //			}
-//			else if( which_anim == 2 ) 
+//			else if( which_anim == 2 )
 //			{
 //				self.deathanim = %ai_zombie_crawl_death_v1;
 //				self set_run_anim( "death3" );
@@ -809,7 +809,7 @@ include_powerups()
 //				self.crouchRunAnim = level.scr_anim["zombie"]["crawl3"];
 //				self.crouchrun_combatanim = level.scr_anim["zombie"]["crawl3"];
 //			}
-//			else if( which_anim == 3 ) 
+//			else if( which_anim == 3 )
 //			{
 //				self.deathanim = %ai_zombie_crawl_death_v2;
 //				self set_run_anim( "death4" );
@@ -817,20 +817,20 @@ include_powerups()
 //				self.crouchRunAnim = level.scr_anim["zombie"]["crawl4"];
 //				self.crouchrun_combatanim = level.scr_anim["zombie"]["crawl4"];
 //			}
-//			else if( which_anim == 4 ) 
+//			else if( which_anim == 4 )
 //			{
 //				self.deathanim = %ai_zombie_crawl_death_v1;
 //				self set_run_anim( "death3" );
 //				self.run_combatanim = level.scr_anim["zombie"]["crawl5"];
 //				self.crouchRunAnim = level.scr_anim["zombie"]["crawl5"];
 //				self.crouchrun_combatanim = level.scr_anim["zombie"]["crawl5"];
-//			}								
+//			}
 //		}
 //
 //		if( self.health > 50 )
 //		{
 //			self.health = 50;
-//			
+//
 //			// force gibbing if the zombie is still alive
 //			self thread animscripts\death::do_gib();
 //		}
@@ -863,39 +863,39 @@ and makes them available to use
 power_electric_switch()
 {
 	trig = getent("use_power_switch","targetname");
-	master_switch = getent("power_switch","targetname");	
+	master_switch = getent("power_switch","targetname");
 	master_switch notsolid();
 	//master_switch rotatepitch(90,1);
 	trig sethintstring(&"ZOMBIE_ELECTRIC_SWITCH");
-	trig SetCursorHint( "HINT_NOICON" ); 
-		
+	trig SetCursorHint( "HINT_NOICON" );
+
 	//turn off the buyable door triggers for electric doors
 // 	door_trigs = getentarray("electric_door","script_noteworthy");
 // 	array_thread(door_trigs,::set_door_unusable);
 // 	array_thread(door_trigs,::play_door_dialog);
 
 	cheat = false;
-	
-/# 
+
+/#
 	if( GetDvarInt( "zombie_cheat" ) >= 3 )
 	{
 		wait( 5 );
 		cheat = true;
 	}
-#/	
+#/
 
 	user = undefined;
 	if ( cheat != true )
 	{
 		trig waittill("trigger",user);
 	}
-	
+
 	// MM - turning on the power powers the entire map
 // 	if ( IsDefined(user) )	// only send a notify if we weren't originally triggered through script
 // 	{
 // 		other_trig = getent("use_warehouse_switch","targetname");
 // 		other_trig notify( "trigger", undefined );
-// 
+//
 // 		wuen_trig = getent("use_wuen_switch", "targetname" );
 // 		wuen_trig notify( "trigger", undefined );
 // 	}
@@ -931,7 +931,7 @@ power_electric_switch()
 	clientnotify("ZPO");	// Zombie Power On!
 	wait_network_frame();
 	exploder(600);
-	
+
 	playfx(level._effect["switch_sparks"] ,getstruct("power_switch_fx","targetname").origin);
 
 	// Don't want east or west to spawn when in south zone, but vice versa is okay
@@ -975,7 +975,7 @@ electric_trap_dialog()
 		wait(0.5);
 		players = get_players();
 		for(i = 0; i < players.size; i++)
-		{		
+		{
 			dist = distancesquared(players[i].origin, self.origin );
 			if(dist > 70*70)
 			{
@@ -990,7 +990,7 @@ electric_trap_dialog()
 			if(dist < 70*70 && timer == 3)
 			{
 				players[i] maps\_zombiemode_audio::create_and_play_dialog( "general", "intro" );
-				wait(3);				
+				wait(3);
 				self notify ("warning_dialog");
 				//iprintlnbold("warning_given");
 			}
@@ -1002,8 +1002,8 @@ electric_trap_dialog()
 hint_string( string )
 {
 	self SetHintString( string );
-	self SetCursorHint( "HINT_NOICON" ); 
-	
+	self SetCursorHint( "HINT_NOICON" );
+
 }
 
 
@@ -1012,12 +1012,12 @@ hint_string( string )
 		self = use trigger associated with the trap
 ------------------------------------*/
 electric_trap_think( enable_flag )
-{	
+{
 	self sethintstring(&"ZOMBIE_NEED_POWER");
-	self SetCursorHint( "HINT_NOICON" ); 
-	
+	self SetCursorHint( "HINT_NOICON" );
+
 	self.zombie_cost = 1000;
-	
+
 	self thread electric_trap_dialog();
 
 	// get a list of all of the other triggers with the same name
@@ -1030,7 +1030,7 @@ electric_trap_think( enable_flag )
 
 	// Set buy string
 	self sethintstring( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
-	self SetCursorHint( "HINT_NOICON" ); 
+	self SetCursorHint( "HINT_NOICON" );
 
 	// Getting the light that's related is a little esoteric, but there isn't
 	// a better way at the moment.  It uses linknames, which are really dodgy.
@@ -1040,7 +1040,7 @@ electric_trap_think( enable_flag )
 	{
 	case "10":	// wnuen
 	case "11":
-		light_name = "zapper_light_wuen";	
+		light_name = "zapper_light_wuen";
 		break;
 
 	case "20":	// warehouse
@@ -1073,24 +1073,24 @@ electric_trap_think( enable_flag )
 
 	self sethintstring(&"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 
-	// Open for business!  
+	// Open for business!
 	zapper_light_green( light_name );
 
 	while(1)
 	{
-		//valve_trigs = getentarray(self.script_noteworthy ,"script_noteworthy");		
-	
+		//valve_trigs = getentarray(self.script_noteworthy ,"script_noteworthy");
+
 		//wait until someone uses the valve
 		self waittill("trigger",who);
 		if( who in_revive_trigger() )
 		{
 			continue;
 		}
-		
+
 		if( is_player_valid( who ) )
 		{
 			if( who.score >= self.zombie_cost )
-			{				
+			{
 				if(!self.zombie_dmg_trig.in_use)
 				{
 					self.zombie_dmg_trig.in_use = 1;
@@ -1112,13 +1112,13 @@ electric_trap_think( enable_flag )
 					self.zombie_dmg_trig trigger_on();
 
 					//play the flame FX and do the actual damage
-					self thread activate_electric_trap(who);					
+					self thread activate_electric_trap(who);
 
 					//wait until done and then re-enable the valve for purchase again
 					self waittill("elec_done");
-					
+
 					clientnotify(self.script_string +"off");
-										
+
 					//delete any FX ents
 					if(isDefined(self.fx_org))
 					{
@@ -1165,7 +1165,7 @@ electric_trap_move_switch(parent)
 	{
 	case "10":	// wnuen
 	case "11":
-		light_name = "zapper_light_wuen";	
+		light_name = "zapper_light_wuen";
 		break;
 
 	case "20":	// warehouse
@@ -1183,7 +1183,7 @@ electric_trap_move_switch(parent)
 	{
 		wait_network_frame();
 	}
-	
+
 	//turn the light above the door red
 	zapper_light_red( light_name );
 	tswitch rotatepitch(180,.5);
@@ -1213,21 +1213,21 @@ activate_electric_trap(who)
 	else
 	{
 		clientnotify("bridge");
-	}	
-		
+	}
+
 	clientnotify(self.target);
-	
+
 	fire_points = getstructarray(self.target,"targetname");
-	
+
 	for(i=0;i<fire_points.size;i++)
 	{
 		wait_network_frame();
-		fire_points[i] thread electric_trap_fx(self);		
+		fire_points[i] thread electric_trap_fx(self);
 	}
-	
+
 	//do the damage
 	self.zombie_dmg_trig thread elec_barrier_damage(who);
-	
+
 	// reset the zapper model
 	level waittill("arc_done");
 }
@@ -1242,34 +1242,34 @@ electric_trap_fx(notify_ent)
 	self.tag_origin playsound("zmb_elec_start");
 	self.tag_origin playloopsound("zmb_elec_loop");
 	self thread play_electrical_sound();
-	
+
 	wait(25);
-		
+
 	self.tag_origin stoploopsound();
-		
-	self.tag_origin delete(); 
+
+	self.tag_origin delete();
 	notify_ent notify("elec_done");
-	level notify ("arc_done");	
+	level notify ("arc_done");
 }
 
 play_electrical_sound()
 {
 	level endon ("arc_done");
 	while(1)
-	{	
+	{
 		wait(randomfloatrange(0.1, 0.5));
 		playsoundatposition("zmb_elec_arc", self.origin);
 	}
-	
+
 
 }
 
 elec_barrier_damage(who)
-{	
+{
 	while(1)
 	{
 		self waittill("trigger",ent);
-		
+
 		//player is standing electricity, dumbass
 		if(isplayer(ent) )
 		{
@@ -1287,7 +1287,7 @@ elec_barrier_damage(who)
 }
 play_elec_vocals()
 {
-	if(IsDefined (self)) 
+	if(IsDefined (self))
 	{
 		org = self.origin;
 		wait(0.15);
@@ -1297,32 +1297,32 @@ play_elec_vocals()
 	}
 }
 player_elec_damage()
-{	
+{
 	self endon("death");
 	self endon("disconnect");
-	
+
 	if(!IsDefined (level.elec_loop))
 	{
 		level.elec_loop = 0;
-	}	
-	
+	}
+
 	if( !isDefined(self.is_burning) && !self maps\_laststand::player_is_in_laststand() )
 	{
-		self.is_burning = 1;		
-		self setelectrified(1.25);	
-		shocktime = 1.5;			
+		self.is_burning = 1;
+		self setelectrified(1.25);
+		shocktime = 1.5;
 		//Changed Shellshock to Electrocution so we can have different bus volumes.
 		self shellshock("electrocution", shocktime);
-		
+
 		if(level.elec_loop == 0)
-		{	
+		{
 			elec_loop = 1;
 			//self playloopsound ("electrocution");
 			self playsound("zmb_zombie_arc");
 		}
 		if(!self hasperk("specialty_armorvest") || self.health - 100 < 1)
 		{
-			
+
 			radiusdamage(self.origin,10,self.health + 100,self.health + 100);
 			self.is_burning = undefined;
 
@@ -1344,7 +1344,7 @@ player_elec_damage()
 zombie_elec_death(flame_chance, who)
 {
 	self endon("death");
-	
+
 	//10% chance the zombie will burn, a max of 6 burning zombs can be goign at once
 	//otherwise the zombie just gibs and dies
 	if(flame_chance > 90 && level.burning_zombies.size < 6)
@@ -1353,16 +1353,16 @@ zombie_elec_death(flame_chance, who)
 		self thread zombie_flame_watch();
 		self playsound("ignite");
 		self thread animscripts\zombie_death::flame_death_fx();
-		//wait(randomfloat(1.25));		
+		//wait(randomfloat(1.25));
 	}
 	else
 	{
-		
+
 		refs[0] = "guts";
-		refs[1] = "right_arm"; 
-		refs[2] = "left_arm"; 
-		refs[3] = "right_leg"; 
-		refs[4] = "left_leg"; 
+		refs[1] = "right_arm";
+		refs[2] = "left_arm";
+		refs[3] = "right_leg";
+		refs[4] = "left_leg";
 		refs[5] = "no_legs";
 		refs[6] = "head";
 		self.a.gib_ref = refs[randomint(refs.size)];
@@ -1397,7 +1397,7 @@ zapper_light_red( lightname )
 	zapper_lights = getentarray( lightname, "targetname");
 	for(i=0;i<zapper_lights.size;i++)
 	{
-		zapper_lights[i] setmodel("zombie_zapper_cagelight_red");	
+		zapper_lights[i] setmodel("zombie_zapper_cagelight_red");
 
 		if(isDefined(zapper_lights[i].fx))
 		{
@@ -1419,7 +1419,7 @@ zapper_light_green( lightname )
 	zapper_lights = getentarray( lightname, "targetname");
 	for(i=0;i<zapper_lights.size;i++)
 	{
-		zapper_lights[i] setmodel("zombie_zapper_cagelight_green");	
+		zapper_lights[i] setmodel("zombie_zapper_cagelight_green");
 
 		if(isDefined(zapper_lights[i].fx))
 		{
@@ -1435,7 +1435,7 @@ zapper_light_green( lightname )
 
 
 //
-//	
+//
 electroctute_death_fx()
 {
 	self endon( "death" );
@@ -1445,48 +1445,48 @@ electroctute_death_fx()
 	{
 		return;
 	}
-	
+
 	self.is_electrocuted = true;
-	
+
 	self thread electrocute_timeout();
-		
+
 	// JamesS - this will darken the burning body
-	//self StartTanning(); 
+	//self StartTanning();
 
 	if(self.team == "axis")
 	{
 		level.bcOnFireTime = gettime();
 		level.bcOnFireOrg = self.origin;
 	}
-	
-	
-	PlayFxOnTag( level._effect["elec_torso"], self, "J_SpineLower" ); 
+
+
+	PlayFxOnTag( level._effect["elec_torso"], self, "J_SpineLower" );
 	self playsound ("zmb_elec_jib_zombie");
 	wait 1;
 
-	tagArray = []; 
-	tagArray[0] = "J_Elbow_LE"; 
-	tagArray[1] = "J_Elbow_RI"; 
-	tagArray[2] = "J_Knee_RI"; 
-	tagArray[3] = "J_Knee_LE"; 
-	tagArray = array_randomize( tagArray ); 
+	tagArray = [];
+	tagArray[0] = "J_Elbow_LE";
+	tagArray[1] = "J_Elbow_RI";
+	tagArray[2] = "J_Knee_RI";
+	tagArray[3] = "J_Knee_LE";
+	tagArray = array_randomize( tagArray );
 
-	PlayFxOnTag( level._effect["elec_md"], self, tagArray[0] ); 
+	PlayFxOnTag( level._effect["elec_md"], self, tagArray[0] );
 	self playsound ("elec_jib_zombie");
 
 	wait 1;
 	self playsound ("zmb_elec_jib_zombie");
 
-	tagArray[0] = "J_Wrist_RI"; 
-	tagArray[1] = "J_Wrist_LE"; 
+	tagArray[0] = "J_Wrist_RI";
+	tagArray[1] = "J_Wrist_LE";
 	if( !IsDefined( self.a.gib_ref ) || self.a.gib_ref != "no_legs" )
 	{
-		tagArray[2] = "J_Ankle_RI"; 
-		tagArray[3] = "J_Ankle_LE"; 
+		tagArray[2] = "J_Ankle_RI";
+		tagArray[3] = "J_Ankle_LE";
 	}
-	tagArray = array_randomize( tagArray ); 
+	tagArray = array_randomize( tagArray );
 
-	PlayFxOnTag( level._effect["elec_sm"], self, tagArray[0] ); 
+	PlayFxOnTag( level._effect["elec_sm"], self, tagArray[0] );
 	PlayFxOnTag( level._effect["elec_sm"], self, tagArray[1] );
 
 }
@@ -1503,7 +1503,7 @@ electrocute_timeout()
 		self.is_electrocuted = false;
 		self notify ("stop_flame_damage");
 	}
-	
+
 }
 
 //*** AUDIO SECTION ***
@@ -1528,7 +1528,7 @@ check_for_change()
 extra_events()
 {
 	self UseTriggerRequireLookAt();
-	self SetCursorHint( "HINT_NOICON" ); 
+	self SetCursorHint( "HINT_NOICON" );
 	self waittill( "trigger" );
 
 	targ = GetEnt( self.target, "targetname" );
@@ -1554,7 +1554,7 @@ flytrap()
 	wait_network_frame();
 	level thread hide_and_seek_target( "ee_perk_bear" );
 	wait_network_frame();
-	
+
 	trig_control_panel = GetEnt( "trig_ee_flytrap", "targetname" );
 
 	// Wait for it to be hit by an upgraded weapon
@@ -1581,7 +1581,7 @@ flytrap()
 	wait(9.0);
 	thread play_sound_2d( "sam_fly_act_0" );
 	wait(6.0);
-	
+
 	thread play_sound_2d( "sam_fly_act_1" );
 	//iprintlnbold( "Samantha Sez: Let's play Hide and Seek!" );
 
@@ -1620,7 +1620,7 @@ hide_and_seek_target( target_name )
 	}
 	trig trigger_on();
 	trig waittill( "trigger" );
-	
+
 	level.flytrap_counter = level.flytrap_counter + 1;
 	thread flytrap_samantha_vox();
 	trig playsound( "object_hit" );
@@ -1636,35 +1636,35 @@ phono_egg_init( trigger_name, origin_name )
 {
 	if(!IsDefined (level.phono_counter))
 	{
-		level.phono_counter = 0;	
+		level.phono_counter = 0;
 	}
 	players = getplayers();
 	phono_trig = getent ( trigger_name, "targetname");
 	phono_origin = getent( origin_name, "targetname");
-	
+
 	if( ( !isdefined( phono_trig ) ) || ( !isdefined( phono_origin ) ) )
 	{
 		return;
 	}
-	
+
 	phono_trig UseTriggerRequireLookAt();
-	phono_trig SetCursorHint( "HINT_NOICON" ); 
-	
+	phono_trig SetCursorHint( "HINT_NOICON" );
+
 	for(i=0;i<players.size;i++)
-	{			
+	{
 		phono_trig waittill( "trigger", players);
 		level.phono_counter = level.phono_counter + 1;
 		phono_origin play_phono_egg();
-	}	
+	}
 }
 
 play_phono_egg()
 {
 	if(!IsDefined (level.phono_counter))
 	{
-		level.phono_counter = 0;	
+		level.phono_counter = 0;
 	}
-	
+
 	if( level.phono_counter == 1 )
 	{
 		//iprintlnbold( "Phono Egg One Activated!" );
@@ -1694,31 +1694,31 @@ radio_egg_init( trigger_name, origin_name )
 	}
 
 	radio_trig UseTriggerRequireLookAt();
-	radio_trig SetCursorHint( "HINT_NOICON" ); 
+	radio_trig SetCursorHint( "HINT_NOICON" );
 	radio_origin playloopsound( "radio_static" );
 
 	for(i=0;i<players.size;i++)
-	{			
+	{
 		radio_trig waittill( "trigger", players);
 		radio_origin stoploopsound( .1 );
 		//iprintlnbold( "You activated " + trigger_name + ", playing off " + origin_name );
 		radio_origin playsound( trigger_name );
-	}	
+	}
 }
 
 play_music_easter_egg(player)
 {
 	level.music_override = true;
 	level thread maps\_zombiemode_audio::change_zombie_music( "egg" );
-	
+
 	wait(4);
-	
+
 	if( IsDefined( player ) )
 	{
 	    player maps\_zombiemode_audio::create_and_play_dialog( "eggs", "music_activate" );
 	}
-	
-	wait(236);	
+
+	wait(236);
 	level.music_override = false;
 	level thread maps\_zombiemode_audio::change_zombie_music( "wave_loop" );
 }
@@ -1726,23 +1726,23 @@ play_music_easter_egg(player)
 meteor_egg(trigger_name)
 {
 	meteor_trig = getent ( trigger_name, "targetname");
-	
+
 	meteor_trig UseTriggerRequireLookAt();
-	meteor_trig SetCursorHint( "HINT_NOICON" ); 
+	meteor_trig SetCursorHint( "HINT_NOICON" );
 	meteor_trig PlayLoopSound( "zmb_meteor_loop" );
-		
+
 	meteor_trig waittill( "trigger", player );
-	
+
 	meteor_trig StopLoopSound( 1 );
 	player PlaySound( "zmb_meteor_activate" );
-	
+
 	// no meterors in this level
 	//player maps\_waw_zombiemode_audio::create_and_play_dialog( "eggs", "meteors", undefined, level.meteor_counter );
-		
+
 	level.meteor_counter = level.meteor_counter + 1;
-	
+
 	if( level.meteor_counter == 3 )
-	{ 
+	{
 	    level thread play_music_easter_egg( player );
 	}
 }
@@ -1751,7 +1751,7 @@ flytrap_samantha_vox()
 {
 	if(!IsDefined (level.flytrap_counter))
 	{
-		level.flytrap_counter = 0;	
+		level.flytrap_counter = 0;
 	}
 
 	if( level.flytrap_counter == 1 )
@@ -1766,7 +1766,7 @@ flytrap_samantha_vox()
 	}
 	if( level.flytrap_counter == 3 )
 	{
-		//iprintlnbold( "Samantha Sez: And GAME OVER!" );		
+		//iprintlnbold( "Samantha Sez: And GAME OVER!" );
 		thread play_sound_2d( "sam_fly_last" );
 		return;
 	}
@@ -1775,13 +1775,13 @@ flytrap_samantha_vox()
 
 play_giant_mythos_lines()
 {
-	round = 5; 
-	
+	round = 5;
+
 	wait(10);
 	while(1)
 	{
 		vox_rand = randomintrange(1,100);
-		
+
 		if( level.round_number <= round )
 		{
 			if( vox_rand <= 2 )
@@ -1803,14 +1803,14 @@ play_giant_mythos_lines()
 play_level_easteregg_vox( object )
 {
 	percent = 35;
-	
+
 	trig = getent( object, "targetname" );
 //	iprintlnbold ("trig = " + trig.targetname);
 	if(!isdefined( trig ) )
 	{
 		return;
 	}
-	
+
 	trig UseTriggerRequireLookAt();
 	trig SetCursorHint( "HINT_NOICON" );
 
@@ -1819,18 +1819,18 @@ play_level_easteregg_vox( object )
 		trig disable_trigger();
 		return;
 	}
-	
+
 	while(1)
 	{
 		trig waittill( "trigger", who );
-		
+
 		vox_rand = randomintrange(1,100);
-			
+
 		if( vox_rand <= percent )
 		{
-	
+
 			index = maps\_zombiemode_weapons::get_player_index(who);
-			
+
 			switch( object )
 			{
 				case "vox_corkboard_1":
@@ -1896,7 +1896,7 @@ setup_custom_vox()
 {
 	wait(1);
 //	iprintlnbold ("setting up custom vox");
-	
+
 	level.plr_vox["level"]["corkboard_1"] = "resp_corkmap";
 	level.plr_vox["level"]["corkboard_2"] = "resp_corkmap";
 	level.plr_vox["level"]["corkboard_3"] = "resp_corkmap";
@@ -1966,7 +1966,7 @@ factory_find_exit_point()
 		}
 		wait_network_frame();
 	}
-	
+
 	self thread maps\_zombiemode_spawner::find_flesh();
 }
 
@@ -1976,21 +1976,21 @@ factory_find_exit_point()
 mature_settings_changes()
 {
 	if(!is_mature())
-	{	
-		master_switch = getent("power_switch","targetname");	
+	{
+		master_switch = getent("power_switch","targetname");
 		if(IsDefined(master_switch))
 		{
 			master_switch SetModel("zombie_power_lever_handle");
-		}	
-	}	
-}	
+		}
+	}
+}
 factory_german_safe()
 {
 	if(is_german_build())
 	{
 		dead_guy = GetEnt("hanging_dead_guy","targetname");
 		dead_guy Hide();
-	}	
+	}
 }
 
 curbs_fix()

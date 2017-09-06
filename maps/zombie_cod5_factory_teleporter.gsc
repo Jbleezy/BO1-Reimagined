@@ -8,7 +8,7 @@
 teleporter_init()
 {
 	PreCacheModel("collision_wall_128x128x10");
-	
+
 	// DCS: added to fix non-attacking dogs.
 	level.dog_melee_range = 130;
 	level thread dog_blocker_clip();
@@ -47,7 +47,7 @@ teleporter_init()
 
 	thread start_black_room_fx();
 	thread init_pack_door();
-	
+
 	SetDvar( "factoryAftereffectOverride", "-1" );
 	SetSavedDvar( "zombiemode_path_minz_bias", 13 );
 	level.no_dog_clip = true;
@@ -57,9 +57,9 @@ teleporter_init()
 	{
 		packapunch_see thread play_packa_see_vox();
 	}
-	
+
 	level.teleport_ae_funcs = [];
-	
+
 	if( !IsSplitscreen() )
 	{
 		level.teleport_ae_funcs[level.teleport_ae_funcs.size] = maps\zombie_cod5_factory_teleporter::teleport_aftereffect_fov;
@@ -81,8 +81,8 @@ init_pack_door()
 	collision = spawn("script_model", (-56, 467, 157));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 0, 0);
-	collision Hide();	
-	
+	collision Hide();
+
 	door = getent( "pack_door", "targetname" );
 	door movez( -50, 0.05, 0 );
 	wait(1.0);
@@ -177,9 +177,9 @@ teleport_pad_think( index )
 	{
 		tele_help thread play_tele_help_vox();
 	}
-	
+
 	active = false;
-	
+
 	// init the pad
 	level.teleport[index] = "waiting";
 
@@ -211,7 +211,7 @@ teleport_pad_think( index )
 				level.teleporter_pad_trig[ i ] teleport_trigger_invisible( true );
 			}
 			level.teleport[index] = "timer_on";
-			
+
 			// start the countdown back to the core
 			trigger thread teleport_pad_countdown( index, 30 );
 			teleporter_vo( "countdown", trigger );
@@ -227,7 +227,7 @@ teleport_pad_think( index )
 			{
 				active = true;
 				ClientNotify( "pw" + index );	// pad wire #
-											
+
 				//AUDIO
 				ClientNotify( "tp" + index );	// Teleporter #
 
@@ -358,7 +358,7 @@ player_teleporting( index, user )
 
 	// start fps fx
 	self thread teleport_pad_player_fx( level.teleport_delay );
-	
+
 	//AUDIO
 	self thread teleport_2d_audio();
 
@@ -541,7 +541,7 @@ teleport_players(user)
 		if ( isdefined( players[i] ) )
 		{
 			players[i] settransported( 0 );
-			
+
 			if ( self player_is_near_pad( players[i] ) )
 			{
 				players_touching[player_idx] = i;
@@ -563,7 +563,7 @@ teleport_players(user)
 					{
 						desired_origin = image_room[i].origin + stand_offset;
 					}
-					
+
 					players[i].teleport_origin = spawn( "script_origin", players[i].origin );
 					players[i].teleport_origin.angles = players[i].angles;
 					players[i] linkto( players[i].teleport_origin );
@@ -648,9 +648,9 @@ teleport_players(user)
 		player setplayerangles( core_pos[slot].angles );
 		player FreezeControls( false );
 		player thread teleport_aftereffects();
-		
+
 		vox_rand = randomintrange(1,100);  //RARE: Sets up rare post-teleport line
-		
+
 		if( vox_rand <= 2 )
 		{
 			//player teleporter_vo( "vox_tele_sick_rare" );
@@ -660,7 +660,7 @@ teleport_players(user)
 		{
 			//player teleporter_vo( "vox_tele_sick" );
 		}
-		
+
 		//player achievement_notify( "DLC3_ZOMBIE_FIVE_TELEPORTS" );
 	}
 
@@ -794,7 +794,7 @@ stop_countdown()
 {
 	self notify( "stop_countdown" );
 	players = get_players();
-	
+
 	for( i = 0; i < players.size; i++ )
 	{
 		players[i] notify( "stop_countdown" );
@@ -852,16 +852,16 @@ teleport_2d_audio()
 	while ( 1 )
 	{
 		players = getplayers();
-		
+
 		wait(1.7);
-		
+
 		for ( i = 0; i < players.size; i++ )
 		{
 			if ( isdefined( players[i] ) )
 			{
 				if ( self player_is_near_pad( players[i] ) )
 				{
-					setClientSysState("levelNotify", "t2d", players[i]);	
+					setClientSysState("levelNotify", "t2d", players[i]);
 				}
 			}
 		}
@@ -944,17 +944,17 @@ teleporter_vo_play( vox_type, pre_wait )
 play_tele_help_vox()
 {
 	level endon( "tele_help_end" );
-	
+
 	while(1)
 	{
 		self waittill("trigger", who);
-		
+
 		if( flag( "power_on" ) )
 		{
-			who thread teleporter_vo_play( "tele_help" );	
+			who thread teleporter_vo_play( "tele_help" );
 			level notify( "tele_help_end" );
 		}
-		
+
 		while(IsDefined (who) && (who) IsTouching (self))
 		{
 			wait(0.1);
@@ -965,16 +965,16 @@ play_tele_help_vox()
 play_packa_see_vox()
 {
 	wait(10);
-	
+
 	if( !flag( "teleporter_pad_link_3" ) )
 	{
-		self waittill("trigger", who);	
+		self waittill("trigger", who);
 		who thread teleporter_vo_play( "perk_packa_see" );
 	}
 }
 
 
-//	
+//
 //	This should match the perk_wire_fx_client function
 //	waits for the effect to travel along the wire
 teleporter_wire_wait( index )
@@ -997,7 +997,7 @@ teleporter_wire_wait( index )
 		else
 		{
 			break;
-		}		
+		}
 	}
 }
 
@@ -1069,11 +1069,11 @@ dog_blocker_clip()
 	collision = spawn("script_model", (-106, -2294, 216));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 37.2, 0);
-	collision Hide();	
-	
+	collision Hide();
+
 	// adding clip for barricade glitch
 	collision = spawn("script_model", (-1208, -439, 363));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 0, 0);
-	collision Hide();		
-}	
+	collision Hide();
+}

@@ -18,7 +18,7 @@ init()
 	PreCacheShader( "minimap_icon_mystery_box" );
 	PrecacheShader( "specialty_instakill_zombies" );
 	PrecacheShader( "specialty_firesale_zombies" );
-	
+
 	level._zombiemode_check_firesale_loc_valid_func = ::default_check_firesale_loc_valid_func;
 }
 
@@ -33,7 +33,7 @@ add_zombie_weapon( weapon_name, upgrade_name, hint, cost, weaponVO, weaponVOresp
 	{
 		return;
 	}
-	
+
 	// Check the table first
 	table = "mp/zombiemode.csv";
 	table_cost = TableLookUp( table, 0, weapon_name, 1 );
@@ -92,10 +92,10 @@ default_tesla_weighting_func()
 	{
 		// player has dropped the tesla for another weapon, so we set all future polls to 20%
 		if( isDefined(level.player_drops_tesla_gun) && level.player_drops_tesla_gun == true )
-		{						
-			num_to_add += int(.2 * level.zombie_include_weapons.size);		
+		{
+			num_to_add += int(.2 * level.zombie_include_weapons.size);
 		}
-		
+
 		// player has not seen tesla gun in late rounds
 		if( !isDefined(level.player_seen_tesla_gun) || level.player_seen_tesla_gun == false )
 		{
@@ -103,13 +103,13 @@ default_tesla_weighting_func()
 			if( level.round_number > 10 )
 			{
 				num_to_add += int(.2 * level.zombie_include_weapons.size);
-			}		
+			}
 			// after round 5 the Tesla gun percentage increases to 15%
 			else if( level.round_number > 5 )
 			{
 				// calculate the number of times we have to add it to the array to get the desired percent
 				num_to_add += int(.15 * level.zombie_include_weapons.size);
-			}						
+			}
 		}
 	}
 	return num_to_add;
@@ -121,10 +121,10 @@ default_tesla_weighting_func()
 default_1st_move_weighting_func()
 {
 	if( level.chest_moves > 0 )
-	{	
+	{
 		num_to_add = 1;
 
-		return num_to_add;	
+		return num_to_add;
 	}
 	else
 	{
@@ -222,7 +222,7 @@ include_zombie_weapon( weapon_name, in_box, collector, weighting_func )
 
 
 //
-//Z2 add_zombie_weapon will call PrecacheItem on the weapon name.  So this means we're loading 
+//Z2 add_zombie_weapon will call PrecacheItem on the weapon name.  So this means we're loading
 //		the model even if we're not using it?  This could save some memory if we change this.
 init_weapons()
 {
@@ -274,16 +274,16 @@ init_weapons()
 	add_zombie_weapon( "rpk_zm",					"rpk_upgraded_zm",						&"ZOMBIE_WEAPON_RPK",					4000,		"mg",				"",		undefined );
 	add_zombie_weapon( "hk21_zm",					"hk21_upgraded_zm",						&"ZOMBIE_WEAPON_HK21",					50,		"mg",				"",		undefined );
 
-	// Grenades                                         		
+	// Grenades
 	add_zombie_weapon( "frag_grenade_zm", 			undefined,								&"ZOMBIE_WEAPON_FRAG_GRENADE",			250,	"grenade",			"",		undefined );
 	add_zombie_weapon( "sticky_grenade_zm", 		undefined,								&"ZOMBIE_WEAPON_STICKY_GRENADE",		250,	"grenade",			"",		undefined );
 	add_zombie_weapon( "claymore_zm", 				undefined,								&"ZOMBIE_WEAPON_CLAYMORE",				1000,	"grenade",			"",		undefined );
 
 	// Rocket Launchers
-	add_zombie_weapon( "m72_law_zm", 				"m72_law_upgraded_zm",					&"ZOMBIE_WEAPON_M72_LAW",	 			2000,	"launcher",			"",		undefined ); 
-	add_zombie_weapon( "china_lake_zm", 			"china_lake_upgraded_zm",				&"ZOMBIE_WEAPON_CHINA_LAKE", 			2000,	"launcher",			"",		undefined ); 
+	add_zombie_weapon( "m72_law_zm", 				"m72_law_upgraded_zm",					&"ZOMBIE_WEAPON_M72_LAW",	 			2000,	"launcher",			"",		undefined );
+	add_zombie_weapon( "china_lake_zm", 			"china_lake_upgraded_zm",				&"ZOMBIE_WEAPON_CHINA_LAKE", 			2000,	"launcher",			"",		undefined );
 
-	// Special                                          	
+	// Special
  	add_zombie_weapon( "zombie_cymbal_monkey",		undefined,								&"ZOMBIE_WEAPON_SATCHEL_2000", 			2000,	"monkey",			"",		undefined );
  	add_zombie_weapon( "ray_gun_zm", 				"ray_gun_upgraded_zm",					&"ZOMBIE_WEAPON_RAYGUN", 				10000,	"raygun",			"",		undefined );
  	add_zombie_weapon( "tesla_gun_zm",				"tesla_gun_upgraded_zm",				&"ZOMBIE_WEAPON_TESLA", 				10,		"tesla",			"",		undefined );
@@ -314,17 +314,17 @@ init_weapons()
 	}
 
 	Precachemodel("zombie_teddybear");
-}   
+}
 
 //remove this function and whenever it's call for production. this is only for testing purpose.
 add_limited_tesla_gun()
 {
 
-	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" ); 
+	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" );
 
 	for( i = 0; i < weapon_spawns.size; i++ )
 	{
-		hint_string = weapon_spawns[i].zombie_weapon_upgrade; 
+		hint_string = weapon_spawns[i].zombie_weapon_upgrade;
 		if(hint_string == "tesla_gun_zm")
 		{
 			weapon_spawns[i] waittill("trigger");
@@ -332,7 +332,7 @@ add_limited_tesla_gun()
 			break;
 
 		}
-		
+
 	}
 
 }
@@ -346,14 +346,14 @@ add_limited_weapon( weapon_name, amount )
 	}
 
 	level.limited_weapons[weapon_name] = amount;
-}                                          	
+}
 
 // For pay turrets
 init_pay_turret()
 {
 	pay_turrets = [];
 	pay_turrets = GetEntArray( "pay_turret", "targetname" );
-	
+
 	for( i = 0; i < pay_turrets.size; i++ )
 	{
 		cost = level.pay_turret_cost;
@@ -364,7 +364,7 @@ init_pay_turret()
 		pay_turrets[i] SetHintString( &"ZOMBIE_PAY_TURRET", cost );
 		pay_turrets[i] SetCursorHint( "HINT_NOICON" );
 		pay_turrets[i] UseTriggerRequireLookAt();
-		
+
 		pay_turrets[i] thread pay_turret_think( cost );
 	}
 }
@@ -373,24 +373,24 @@ init_pay_turret()
 init_weapon_upgrade()
 {
 	weapon_spawns = [];
-	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" ); 
+	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" );
 
 	for( i = 0; i < weapon_spawns.size; i++ )
 	{
         if(weapon_spawns[i].zombie_weapon_upgrade == "zombie_bar_bipod")
 			weapon_spawns[i].zombie_weapon_upgrade = "zombie_bar";
 
-		hint_string = get_weapon_hint( weapon_spawns[i].zombie_weapon_upgrade ); 
+		hint_string = get_weapon_hint( weapon_spawns[i].zombie_weapon_upgrade );
 		cost = get_weapon_cost( weapon_spawns[i].zombie_weapon_upgrade );
 
-		weapon_spawns[i] SetHintString( hint_string, cost ); 
-		weapon_spawns[i] setCursorHint( "HINT_NOICON" ); 
+		weapon_spawns[i] SetHintString( hint_string, cost );
+		weapon_spawns[i] setCursorHint( "HINT_NOICON" );
 		weapon_spawns[i] UseTriggerRequireLookAt();
 
-		weapon_spawns[i] thread weapon_spawn_think(); 
-		model = getent( weapon_spawns[i].target, "targetname" ); 
+		weapon_spawns[i] thread weapon_spawn_think();
+		model = getent( weapon_spawns[i].target, "targetname" );
 		model useweaponhidetags( weapon_spawns[i].zombie_weapon_upgrade );
-		model hide(); 
+		model hide();
 	}
 }
 
@@ -546,7 +546,7 @@ activate_weapon_toggle( weapon_name, trig_for_vox )
         {
             trig_for_vox thread maps\_zombiemode_audio::weapon_toggle_vox( "max" );
         }
-            
+
 		return;
 	}
 
@@ -555,7 +555,7 @@ activate_weapon_toggle( weapon_name, trig_for_vox )
 	{
 		return;
 	}
-	
+
 	if( IsDefined( trig_for_vox ) )
 	{
 	    trig_for_vox thread maps\_zombiemode_audio::weapon_toggle_vox( "activate", weapon_name );
@@ -576,7 +576,7 @@ deactivate_weapon_toggle( weapon_name, trig_for_vox )
 	{
 		return;
 	}
-	
+
 	if( IsDefined( trig_for_vox ) )
 	{
 	    trig_for_vox thread maps\_zombiemode_audio::weapon_toggle_vox( "deactivate", weapon_name );
@@ -609,7 +609,7 @@ acquire_weapon_toggle( weapon_name, player )
 
 	toggle.light setmodel( level.zombie_weapon_toggle_acquired_light );
 	toggle.trigger SetHintString( level.zombie_weapon_toggle_acquired_hint );
-	
+
 	toggle thread unacquire_weapon_toggle_on_death_or_disconnect_thread( player );
 }
 
@@ -651,7 +651,7 @@ weapon_toggle_think()
 {
 	for( ;; )
 	{
-		self.trigger waittill( "trigger", player ); 		
+		self.trigger waittill( "trigger", player );
 		// if not first time and they have the weapon give ammo
 
 		if( !is_player_valid( player ) )
@@ -659,7 +659,7 @@ weapon_toggle_think()
 			player thread ignore_triggers( 0.5 );
 			continue;
 		}
-        
+
 		if ( !self.enabled || self.acquired )
 		{
             self.trigger thread maps\_zombiemode_audio::weapon_toggle_vox( "max" );
@@ -680,17 +680,17 @@ weapon_toggle_think()
 init_weapon_cabinet()
 {
 	// the triggers which are targeted at doors
-	weapon_cabs = GetEntArray( "weapon_cabinet_use", "targetname" ); 
+	weapon_cabs = GetEntArray( "weapon_cabinet_use", "targetname" );
 
 	for( i = 0; i < weapon_cabs.size; i++ )
 	{
 
-		weapon_cabs[i] SetHintString( &"ZOMBIE_CABINET_OPEN_1500" ); 
-		weapon_cabs[i] setCursorHint( "HINT_NOICON" ); 
+		weapon_cabs[i] SetHintString( &"ZOMBIE_CABINET_OPEN_1500" );
+		weapon_cabs[i] setCursorHint( "HINT_NOICON" );
 		weapon_cabs[i] UseTriggerRequireLookAt();
 	}
 
-//	array_thread( weapon_cabs, ::weapon_cabinet_think ); 
+//	array_thread( weapon_cabs, ::weapon_cabinet_think );
 }
 
 // returns the trigger hint string for the given weapon
@@ -718,7 +718,7 @@ get_ammo_cost( weapon_name )
 get_is_in_box( weapon_name )
 {
 	AssertEx( IsDefined( level.zombie_weapons[weapon_name] ), weapon_name + " was not included or is not part of the zombie weapon list." );
-	
+
 	return level.zombie_weapons[weapon_name].is_in_box;
 }
 
@@ -737,7 +737,7 @@ is_weapon_upgraded( weaponname )
 	ziw_keys = GetArrayKeys( level.zombie_weapons );
 	for ( i=0; i<level.zombie_weapons.size; i++ )
 	{
-		if ( IsDefined(level.zombie_weapons[ ziw_keys[i] ].upgrade_name) && 
+		if ( IsDefined(level.zombie_weapons[ ziw_keys[i] ].upgrade_name) &&
 			 level.zombie_weapons[ ziw_keys[i] ].upgrade_name == weaponname )
 		{
 			return true;
@@ -759,7 +759,7 @@ has_upgrade( weaponname )
 		has_upgrade = self HasWeapon( level.zombie_weapons[weaponname].upgrade_name );
 	}
 
-	// double check for the bowie variant on the ballistic knife	
+	// double check for the bowie variant on the ballistic knife
 	if ( !has_upgrade && "knife_ballistic_zm" == weaponname )
 	{
 		has_upgrade = has_upgrade( "knife_ballistic_bowie_zm" ) || has_upgrade( "knife_ballistic_sickle_zm" );
@@ -787,7 +787,7 @@ has_weapon_or_upgrade( weaponname )
 		has_weapon = self HasWeapon( weaponname ) || self has_upgrade( weaponname );
 	}
 
-	// double check for the bowie variant on the ballistic knife	
+	// double check for the bowie variant on the ballistic knife
 	if ( !has_weapon && "knife_ballistic_zm" == weaponname )
 	{
 		has_weapon = has_weapon_or_upgrade( "knife_ballistic_bowie_zm" ) || has_weapon_or_upgrade( "knife_ballistic_sickle_zm" );
@@ -825,14 +825,14 @@ treasure_chest_init()
 	flag_init("moving_chest_enabled");
 	flag_init("moving_chest_now");
 	flag_init("chest_has_been_used");
-	
+
 	level.chest_moves = 0;
 	level.chest_level = 0;	// Level 0 = normal chest, 1 = upgraded chest
 	level.chests = GetEntArray( "treasure_chest_use", "targetname" );
 	for (i=0; i<level.chests.size; i++ )
 	{
 		level.chests[i].box_hacks = [];
-		
+
 		level.chests[i].orig_origin = level.chests[i].origin;
 		level.chests[i] get_chest_pieces();
 
@@ -852,7 +852,7 @@ treasure_chest_init()
 	if (level.chests.size > 1)
 	{
 		flag_set("moving_chest_enabled");
-	
+
 		level.chests = array_randomize(level.chests);
 
 		//determine magic box starting location at random or normal
@@ -907,7 +907,7 @@ init_starting_chest_location()
 		{
 			if ( start_chest_found || (IsDefined( level.chests[i].start_exclude ) && level.chests[i].start_exclude == 1) )
 			{
-				level.chests[i] hide_chest();	
+				level.chests[i] hide_chest();
 			}
 			else
 			{
@@ -925,7 +925,7 @@ init_starting_chest_location()
 			// Pick from any box marked as the "start_chest"
 			if ( start_chest_found || !IsDefined(level.chests[i].script_noteworthy ) || ( !IsSubStr( level.chests[i].script_noteworthy, "start_chest" ) ) )
 			{
-				level.chests[i] hide_chest();	
+				level.chests[i] hide_chest();
 			}
 			else
 			{
@@ -1028,7 +1028,7 @@ play_crazi_sound()
 	}
 	else
 	{
-		self playlocalsound( "zmb_laugh_child" );	
+		self playlocalsound( "zmb_laugh_child" );
 	}
 }
 
@@ -1056,7 +1056,7 @@ show_chest()
 	{
 		self [[self.box_hacks["summon_box"]]](false);
 	}
-	
+
 }
 
 hide_chest()
@@ -1069,9 +1069,9 @@ hide_chest()
 	{
 		self.pandora_light delete();
 	}
-	
+
 	self.hidden = true;
-	
+
 	if(IsDefined(self.box_hacks["summon_box"]))
 	{
 		self [[self.box_hacks["summon_box"]]](true);
@@ -1106,7 +1106,7 @@ default_pandora_show_func( anchor, anchorTarget, pieces )
 	wait(0.5);
 
 	playfx( level._effect["lght_marker_flare"],self.pandora_light.origin );
-	
+
 	//Add this location to the map
 	//Objective_Add( 0, "active", "Mystery Box", self.chest_lid.origin, "minimap_icon_mystery_box" );
 }
@@ -1134,19 +1134,19 @@ treasure_chest_think()
 	{
 		if(!IsDefined(self.forced_user))
 		{
-			self waittill( "trigger", user ); 
+			self waittill( "trigger", user );
 		}
 		else
 		{
 			user = self.forced_user;
 		}
-		
+
 		if( user in_revive_trigger() )
 		{
 			wait( 0.1 );
 			continue;
 		}
-		
+
 		/*if( user is_drinking() )
 		{
 			wait( 0.1 );
@@ -1177,30 +1177,30 @@ treasure_chest_think()
 			if(!IsDefined(self.no_charge))
 			{
 				user maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
-				user_cost = self.zombie_cost; 
+				user_cost = self.zombie_cost;
 			}
 			else
 			{
 				user_cost = 0;
-			}			
-			
+			}
+
 			self.chest_user = user;
 			break;
 		}
 		else if( is_player_valid( user ) && user.score >= self.zombie_cost )
 		{
 			user maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
-			user_cost = self.zombie_cost; 
+			user_cost = self.zombie_cost;
 			self.chest_user = user;
-			break; 
+			break;
 		}
 		else if ( user.score < self.zombie_cost )
 		{
 			user maps\_zombiemode_audio::create_and_play_dialog( "general", "no_money", undefined, 2 );
-			continue;	
+			continue;
 		}
 
-		wait 0.05; 
+		wait 0.05;
 	}
 
 	flag_set("chest_has_been_used");
@@ -1220,15 +1220,15 @@ treasure_chest_think()
 
 	// mario kart style weapon spawning
 	self.weapon_out = true;
-	self.chest_origin thread treasure_chest_weapon_spawn( self, user ); 
+	self.chest_origin thread treasure_chest_weapon_spawn( self, user );
 
-	// the glowfx	
-	self.chest_origin thread treasure_chest_glowfx(); 
+	// the glowfx
+	self.chest_origin thread treasure_chest_glowfx();
 
 	// take away usability until model is done randomizing
-	self disable_trigger(); 
+	self disable_trigger();
 
-	self.chest_origin waittill( "randomization_done" ); 
+	self.chest_origin waittill( "randomization_done" );
 
 	// refund money from teddy.
 	if (flag("moving_chest_now") && !self._box_opened_by_fire_sale && IsDefined(user_cost))
@@ -1255,13 +1255,13 @@ treasure_chest_think()
 		{
 			self sethintstring( &"ZOMBIE_TRADE_WEAPONS" );
 		}
-		self setCursorHint( "HINT_NOICON" ); 
-		
+		self setCursorHint( "HINT_NOICON" );
+
 		self	thread decide_hide_show_hint( "weapon_grabbed");
 		//self setvisibletoplayer( user );
 
 		// Limit its visibility to the player who bought the box
-		self enable_trigger(); 
+		self enable_trigger();
 		self thread treasure_chest_timeout();
 
 		// make sure the guy that spent the money gets the item
@@ -1294,12 +1294,12 @@ treasure_chest_think()
 			{
 				user = grabber;
 			}
-			
-			if( grabber == user || grabber == level )			
+
+			if( grabber == user || grabber == level )
 			{
 				self.box_rerespun = undefined;
 				current_weapon = "none";
-				
+
 				if(is_player_valid(user))
 				{
 					current_weapon = user GetCurrentWeapon();
@@ -1311,7 +1311,7 @@ treasure_chest_think()
 						user.playername, user.score, level.team_pool[ user.team_num ].score, level.round_number, self.zombie_cost, self.chest_origin.weapon_string, self.origin );
 					self notify( "user_grabbed_weapon" );
 					user thread treasure_chest_give_weapon( self.chest_origin.weapon_string );
-					break; 
+					break;
 				}
 				else if( grabber == level )
 				{
@@ -1327,7 +1327,7 @@ treasure_chest_think()
 				}
 			}
 
-			wait 0.05; 
+			wait 0.05;
 		}
 
 		self.grab_weapon_hint = false;
@@ -1338,16 +1338,16 @@ treasure_chest_think()
 			//increase counter of amount of time weapon grabbed, but not during a fire sale
 			level.chest_accessed += 1;
 		}
-			
+
 		// PI_CHANGE_BEGIN
 		// JMA - we only update counters when it's available
 		if( level.chest_moves > 0 && isDefined(level.pulls_since_last_ray_gun) )
 		{
 			level.pulls_since_last_ray_gun += 1;
 		}
-		
+
 		if( isDefined(level.pulls_since_last_tesla_gun) )
-		{				
+		{
 			level.pulls_since_last_tesla_gun += 1;
 		}
 		// PI_CHANGE_END
@@ -1372,9 +1372,9 @@ treasure_chest_think()
 	self._box_open = false;
 	self._box_opened_by_fire_sale = false;
 	self.chest_user = undefined;
-	
+
 	self notify( "chest_accessed" );
-	
+
 	self thread treasure_chest_think();
 }
 
@@ -1412,7 +1412,7 @@ decide_hide_show_chest_hint( endon_notify )
 weapon_show_hint_choke()
 {
 	level._weapon_show_hint_choke = 0;
-	
+
 	while(1)
 	{
 		wait(0.05);
@@ -1433,7 +1433,7 @@ weapon_show_hint_choke()
 	}
 
 	use_choke = false;
-	
+
 	if(IsDefined(level._use_choke_weapon_hints) && level._use_choke_weapon_hints == 1)
 	{
 		use_choke = true;
@@ -1491,7 +1491,7 @@ weapon_show_hint_choke()
 			}
 		}
 		else //box when its closed
-		{	
+		{
 			players = get_players();
 			for( i = 0; i < players.size; i++ )
 			{
@@ -1527,8 +1527,8 @@ weapon_show_hint_choke()
 					self SetInvisibleToPlayer( players[i], true );
 				}
 			}
-		}	
-		
+		}
+
 		if(use_choke)
 		{
 			while((level._weapon_show_hint_choke > 4) && (GetTime() < (last_update + 150)))
@@ -1539,8 +1539,8 @@ weapon_show_hint_choke()
 		else
 		{
 			wait(0.1);
-		}		
-		
+		}
+
 		level._weapon_show_hint_choke ++;
 	}
 }*/
@@ -1558,7 +1558,7 @@ decide_hide_show_hint( endon_notify )
 	}
 
 	use_choke = false;
-	
+
 	if(IsDefined(level._use_choke_weapon_hints) && level._use_choke_weapon_hints == 1)
 	{
 		use_choke = true;
@@ -1708,8 +1708,8 @@ decide_hide_show_hint( endon_notify )
 					self SetInvisibleToPlayer( players[i], true );
 				}
 			}
-		}	
-		
+		}
+
 		if(use_choke)
 		{
 			while((level._weapon_show_hint_choke > 4) && (GetTime() < (last_update + 150)))
@@ -1720,8 +1720,8 @@ decide_hide_show_hint( endon_notify )
 		else
 		{
 			wait(0.05);
-		}		
-		
+		}
+
 		level._weapon_show_hint_choke ++;
 	}
 }
@@ -1754,7 +1754,7 @@ can_buy_weapon()
 	{
 		return false;
 	}
-	
+
 	if( current_weapon == "none" )
 	{
 		return false;
@@ -1767,7 +1767,7 @@ default_box_move_logic()
 {
 	// Check to see if there's a chest selection we should use for this move
 	// This is indicated by a script_noteworthy of "moveX*"
-	//	(e.g. move1_chest0, move1_chest1)  We will randomly choose between 
+	//	(e.g. move1_chest0, move1_chest1)  We will randomly choose between
 	//		one of those two chests for that move number only.
 	index = -1;
 	for ( i=0; i<level.chests.size; i++ )
@@ -1814,7 +1814,7 @@ treasure_chest_move( player_vox )
 	level waittill("weapon_fly_away_start");
 
 	players = get_players();
-	
+
 	array_thread(players, ::play_crazi_sound);
 
 	level waittill("weapon_fly_away_end");
@@ -1866,7 +1866,7 @@ treasure_chest_move( player_vox )
 	   //Get the normal of the box using the positional data of the box and self.chest_lid
 	   direction = self.chest_box.origin - self.chest_lid.origin;
 	   direction = (direction[1], direction[0], 0);
-	   
+
 	   if(direction[1] < 0 || (direction[0] > 0 && direction[1] > 0))
 	   {
             direction = (direction[0], direction[1] * -1, 0);
@@ -1875,18 +1875,18 @@ treasure_chest_move( player_vox )
        {
             direction = (direction[0] * -1, direction[1], 0);
        }
-	   
+
         anchor Vibrate( direction, 10, 0.5, 5);
 	}
-	
+
 	//anchor thread rotateroll_box();
 	anchor waittill("movedone");
 	//players = get_players();
 	//array_thread(players, ::play_crazi_sound);
 	//wait(3.9);
-	
+
 	playfx(level._effect["poltergeist"], self.chest_origin.origin);
-	
+
 	//TUEY - Play the 'disappear' sound
 	playsoundatposition ("zmb_box_poof", soundpoint.origin);
 	for(i=0;i<fake_pieces.size;i++)
@@ -1894,17 +1894,17 @@ treasure_chest_move( player_vox )
 		fake_pieces[i] delete();
 	}
 
-	// 
+	//
 	self show_rubble();
 	wait(0.1);
 	anchor delete();
 	soundpoint delete();
-	
+
 	post_selection_wait_duration = 7;
-	
+
 	//Delaying the Player Vox
 	if( IsDefined( player_vox ) )
-    {    
+    {
         player_vox maps\_zombiemode_audio::create_and_play_dialog( "general", "box_move" );
     }
 
@@ -1914,15 +1914,15 @@ treasure_chest_move( player_vox )
 		current_sale_time = level.zombie_vars["zombie_powerup_fire_sale_time"];
 		//IPrintLnBold("need to reset this box spot! Time left is ", current_sale_time);
 
-		wait_network_frame();				
+		wait_network_frame();
 		self thread fire_sale_fix();
 		level.zombie_vars["zombie_powerup_fire_sale_time"] = current_sale_time;
 
 		while(level.zombie_vars["zombie_powerup_fire_sale_time"] > 0)
 		{
 			wait(0.1);
-		}	
-	}	
+		}
+	}
 	else
 	{
 		post_selection_wait_duration += 5;
@@ -1946,13 +1946,13 @@ treasure_chest_move( player_vox )
 
 	// Now choose a new location
 
-	//wait for all the chests to reset 
+	//wait for all the chests to reset
 	//wait(post_selection_wait_duration);
-		
+
 	playfx(level._effect["poltergeist"], level.chests[level.chest_index].chest_origin.origin);
 	level.chests[level.chest_index] show_chest();
 	level.chests[level.chest_index] hide_rubble();
-	
+
 	flag_clear("moving_chest_now");
 	self.chest_origin.chest_moving = false;
 }
@@ -1976,18 +1976,18 @@ fire_sale_fix()
 		wait_network_frame();
 
 		level waittill( "fire_sale_off" );
-		
+
 		while(is_true(self._box_open ))
 		{
 			wait(.1);
-		}		
-		
+		}
+
 		playfx(level._effect["poltergeist"], self.origin);
 		self playsound ( "zmb_box_poof_land" );
 		self playsound( "zmb_couch_slam" );
 		self thread hide_chest();
 		self thread show_rubble();
-	
+
 		self.zombie_cost = self.old_cost;
 		self set_hint_string( self , "reimagined_treasure_chest_" + self.zombie_cost );
 	}
@@ -2033,7 +2033,7 @@ rotateroll_box()
 		self RotateRoll(angles * -2, 0.5);
 		wait(0.7);
 	}
-	
+
 
 
 }
@@ -2050,7 +2050,7 @@ verify_chest_is_open()
 			if(level.open_chest_location[i] == level.chests[level.chest_index].script_noteworthy)
 			{
 				level.verify_chest = true;
-				return;		
+				return;
 			}
 		}
 
@@ -2069,7 +2069,7 @@ treasure_chest_timeout()
 	self.chest_origin endon( "box_hacked_rerespin" );
 
 	wait( 12 );
-	self notify( "trigger", level ); 
+	self notify( "trigger", level );
 }
 
 treasure_chest_lid_open()
@@ -2090,7 +2090,7 @@ treasure_chest_lid_close( timedOut )
 
 	self RotateRoll( closeRoll, closeTime, ( closeTime * 0.5 ) );
 	play_sound_at_pos( "close_chest", self.origin );
-	
+
 	self notify("lid_closed");
 }
 
@@ -2120,7 +2120,7 @@ treasure_chest_ChooseWeightedRandomWeapon( player, final_wep, empty )
 		{
 			continue;
 		}
-		
+
 		if( isdefined( player ) && is_player_valid(player) && player has_weapon_or_upgrade( keys[i] ) )
 		{
 			if ( is_weapon_toggle( keys[i] ) )
@@ -2143,13 +2143,13 @@ treasure_chest_ChooseWeightedRandomWeapon( player, final_wep, empty )
 		filtered[filtered.size] = keys[i];
 
 		/*num_entries = [[ level.weapon_weighting_funcs[keys[i]] ]]();
-		
+
 		for( j = 0; j < num_entries; j++ )
 		{
 			filtered[filtered.size] = keys[i];
 		}*/
 	}
-	
+
 	// Filter out the limited weapons
 	if( IsDefined( level.limited_weapons ) )
 	{
@@ -2184,7 +2184,7 @@ treasure_chest_ChooseWeightedRandomWeapon( player, final_wep, empty )
 					count++;
 				}
 			}
-			
+
 			if ( isdefined( level.random_weapon_powerups ) )
 			{
 				for ( powerupIndex = 0; powerupIndex < level.random_weapon_powerups.size; powerupIndex++ )
@@ -2207,7 +2207,7 @@ treasure_chest_ChooseWeightedRandomWeapon( player, final_wep, empty )
 			}
 		}
 	}
-	
+
 	// finally, filter based on toggle mechanic
 	if ( IsDefined( level.zombie_weapon_toggles ) )
 	{
@@ -2288,7 +2288,7 @@ clean_up_hacked_box()
 {
 	//self waittill("box_hacked_respin");
 	//self endon("box_spin_done");
-	
+
 	if(IsDefined(self.weapon_model))
 	{
 		self.weapon_model Delete();
@@ -2308,42 +2308,42 @@ treasure_chest_weapon_spawn( chest, player, respin )
 	self clean_up_hacked_box();
 	assert(IsDefined(player));
 	// spawn the model
-//	model = spawn( "script_model", self.origin ); 
+//	model = spawn( "script_model", self.origin );
 //	model.angles = self.angles +( 0, 90, 0 );
 
 //	floatHeight = 40;
 
 	//move it up
-//	model moveto( model.origin +( 0, 0, floatHeight ), 3, 2, 0.9 ); 
+//	model moveto( model.origin +( 0, 0, floatHeight ), 3, 2, 0.9 );
 
 	// rotation would go here
 
 	// make with the mario kart
 	/*self.weapon_string = undefined;
-	modelname = undefined; 
-	rand = undefined; 
+	modelname = undefined;
+	rand = undefined;
 	number_cycles = 40;*/
-	
+
 	/*chest.chest_box setclientflag(level._ZOMBIE_SCRIPTMOVER_FLAG_BOX_RANDOM);
-	
+
 	for( i = 0; i < number_cycles; i++ )
 	{
 
 		if( i < 20 )
 		{
-			wait( 0.05 ); 
+			wait( 0.05 );
 		}
 		else if( i < 30 )
 		{
-			wait( 0.1 ); 
+			wait( 0.1 );
 		}
 		else if( i < 35 )
 		{
-			wait( 0.2 ); 
+			wait( 0.2 );
 		}
 		else if( i < 38 )
 		{
-			wait( 0.3 ); 
+			wait( 0.3 );
 		}
 
 		if( i + 1 < number_cycles )
@@ -2365,16 +2365,16 @@ treasure_chest_weapon_spawn( chest, player, respin )
 #/
 		}
 	}
-	
+
 	// Here's where the org get it's weapon type for the give function
-	self.weapon_string = rand; 
-	
+	self.weapon_string = rand;
+
 	chest.chest_box clearclientflag(level._ZOMBIE_SCRIPTMOVER_FLAG_BOX_RANDOM);*/
 
 
 	//self.model_dw = undefined;
 
-	//self.weapon_model = spawn( "script_model", self.origin + ( 0, 0, floatHeight)); 
+	//self.weapon_model = spawn( "script_model", self.origin + ( 0, 0, floatHeight));
 	//self.weapon_model.angles = self.angles +( 0, 90, 0 );
 
 	self.previous_floating_weapon = undefined;
@@ -2395,7 +2395,7 @@ treasure_chest_weapon_spawn( chest, player, respin )
 		}
 
 		if( level.chest_accessed < level.chest_min_move_usage )
-		{		
+		{
 			chance_of_joker = -1;
 		}
 		else
@@ -2437,7 +2437,7 @@ treasure_chest_weapon_spawn( chest, player, respin )
 						chance_of_joker = -1;
 					}
 				}
-				
+
 				// after 12th pull, the teddy bear percent is 50%
 				if( level.chest_accessed >= 13 )
 				{
@@ -2472,14 +2472,14 @@ treasure_chest_weapon_spawn( chest, player, respin )
 			self.weapon_model SetModel("zombie_teddybear");
 		//	model rotateto(level.chests[level.chest_index].angles, 0.01);
 			//wait(1);
-			self.weapon_model.angles = self.angles;		
-			
+			self.weapon_model.angles = self.angles;
+
 			if(IsDefined(self.weapon_model_dw))
 			{
 				self.weapon_model_dw Delete();
 				self.weapon_model_dw = undefined;
 			}
-			
+
 			self.chest_moving = true;
 			flag_set("moving_chest_now");
 			level.chest_accessed = 0;
@@ -2497,42 +2497,42 @@ treasure_chest_weapon_spawn( chest, player, respin )
 		level notify("weapon_fly_away_start");
 		wait 2;
 		self.weapon_model MoveZ(500, 4, 3);
-		
+
 		if(IsDefined(self.weapon_model_dw))
 		{
 			self.weapon_model_dw MoveZ(500,4,3);
 		}
-		
+
 		self.weapon_model waittill("movedone");
 		self.weapon_model delete();
-		
+
 		if(IsDefined(self.weapon_model_dw))
 		{
 			self.weapon_model_dw Delete();
 			self.weapon_model_dw = undefined;
 		}
-		
+
 		self notify( "box_moving" );
 		level notify("weapon_fly_away_end");
 	}
 	else
 	{
 		rand = treasure_chest_ChooseWeightedRandomWeapon( player, true );
-		
+
 		self.weapon_string = rand;
 
 		floatHeight = 40;
 
 		modelname = GetWeaponModel( rand );
-		self.weapon_model setmodel( modelname ); 
+		self.weapon_model setmodel( modelname );
 		self.weapon_model useweaponhidetags( rand );
 
 		if ( weapon_is_dual_wield(rand))
 		{
 			//self.weapon_model_dw = spawn( "script_model", self.weapon_model.origin - ( 3, 3, 3 ) ); // extra model for dualwield weapons
-			//self.weapon_model_dw.angles = self.angles +( 0, 90, 0 );		
+			//self.weapon_model_dw.angles = self.angles +( 0, 90, 0 );
 
-			self.weapon_model_dw setmodel( get_left_hand_weapon_model_name( rand ) ); 
+			self.weapon_model_dw setmodel( get_left_hand_weapon_model_name( rand ) );
 			self.weapon_model_dw useweaponhidetags( rand );
 			self.weapon_model_dw show();
 		}
@@ -2553,12 +2553,12 @@ treasure_chest_weapon_spawn( chest, player, respin )
 //				level.chest_moves = false;
 				level.pulls_since_last_ray_gun = 0;
 			}
-			
+
 			if( rand == "tesla_gun_zm" )
 			{
 				level.pulls_since_last_tesla_gun = 0;
 				level.player_seen_tesla_gun = true;
-			}			
+			}
 		}
 
 		if(!IsDefined(respin))
@@ -2580,7 +2580,7 @@ treasure_chest_weapon_spawn( chest, player, respin )
 		{
 			self.weapon_model_dw thread timer_til_despawn(floatHeight);
 		}
-		
+
 		self waittill( "weapon_grabbed" );
 
 		if( !chest.timedOut )
@@ -2589,7 +2589,7 @@ treasure_chest_weapon_spawn( chest, player, respin )
 			{
 				self.weapon_model Delete();
 			}
-			
+
 			if(IsDefined(self.weapon_model_dw))
 			{
 				self.weapon_model_dw Delete();
@@ -2611,38 +2611,38 @@ weapon_floats_up(player)
 	rand = treasure_chest_ChooseWeightedRandomWeapon(player);
 	modelname = GetWeaponModel( rand );
 
-	self.weapon_model = spawn("script_model", self.origin); 
+	self.weapon_model = spawn("script_model", self.origin);
 	self.weapon_model.angles = self.angles + ( 0, 90, 0 );
 	self.weapon_model_dw = spawn("script_model", self.weapon_model.origin - ( 3, 3, 3 ));
 	self.weapon_model_dw.angles = self.weapon_model.angles;
 	self.weapon_model_dw Hide();
 
-	self.weapon_model SetModel( modelname ); 
+	self.weapon_model SetModel( modelname );
 	self.weapon_model_dw SetModel(modelname);
 	self.weapon_model useweaponhidetags( rand );
 
 	//move it up
-	self.weapon_model moveto( self.origin + ( 0, 0, floatHeight ), 3, 2, 0.9 ); 	
+	self.weapon_model moveto( self.origin + ( 0, 0, floatHeight ), 3, 2, 0.9 );
 	self.weapon_model_dw MoveTo(self.origin + (0,0,floatHeight) - ( 3, 3, 3 ), 3, 2, 0.9);
-	
+
 	for( i = 0; i < number_cycles; i++ )
 	{
 
 		if( i < 20 )
 		{
-			wait( 0.05 ); 
+			wait( 0.05 );
 		}
 		else if( i < 30 )
 		{
-			wait( 0.10 ); 
+			wait( 0.10 );
 		}
 		else if( i < 35 )
 		{
-			wait( 0.20 ); 
+			wait( 0.20 );
 		}
 		else
 		{
-			wait( 0.30 ); 
+			wait( 0.30 );
 		}
 
 		//debugstar(self.weapon_models[0].origin, 20, (0,1,0));
@@ -2652,9 +2652,9 @@ weapon_floats_up(player)
 
 		if(IsDefined(self.weapon_model))
 		{
-			self.weapon_model SetModel( modelname ); 
+			self.weapon_model SetModel( modelname );
 			self.weapon_model useweaponhidetags( rand );
-			
+
 			if(weapon_is_dual_wield(rand))
 			{
 				self.weapon_model_dw SetModel( get_left_hand_weapon_model_name( rand ) );
@@ -2801,30 +2801,30 @@ timer_til_despawn(floatHeight)
 	wait( putBackTime );
 
 	if(isdefined(self))
-	{	
+	{
 		self Delete();
 	}
 }
 
 treasure_chest_glowfx()
 {
-	fxObj = spawn( "script_model", self.origin +( 0, 0, 0 ) ); 
-	fxobj setmodel( "tag_origin" ); 
-	fxobj.angles = self.angles +( 90, 0, 0 ); 
+	fxObj = spawn( "script_model", self.origin +( 0, 0, 0 ) );
+	fxobj setmodel( "tag_origin" );
+	fxobj.angles = self.angles +( 90, 0, 0 );
 
-	playfxontag( level._effect["chest_light"], fxObj, "tag_origin"  ); 
+	playfxontag( level._effect["chest_light"], fxObj, "tag_origin"  );
 
-	self waittill_any( "weapon_grabbed", "box_moving" ); 
+	self waittill_any( "weapon_grabbed", "box_moving" );
 
-	fxobj delete(); 
+	fxobj delete();
 }
 
 // self is the player string comes from the randomization function
 treasure_chest_give_weapon( weapon_string )
 {
 	self.last_box_weapon = GetTime();
-	primaryWeapons = self GetWeaponsListPrimaries(); 
-	current_weapon = undefined; 
+	primaryWeapons = self GetWeaponsListPrimaries();
+	current_weapon = undefined;
 	weapon_limit = 2;
 
 	if( self HasWeapon( weapon_string ) )
@@ -2842,13 +2842,13 @@ treasure_chest_give_weapon( weapon_string )
  	{
  		weapon_limit = 3;
  	}
-	
+
 	// This should never be true for the first time.
 	if( primaryWeapons.size >= weapon_limit )
 	{
 		current_weapon = self getCurrentWeapon(); // get hiss current weapon
 
-		if ( is_placeable_mine( current_weapon ) || is_equipment( current_weapon ) ) 
+		if ( is_placeable_mine( current_weapon ) || is_equipment( current_weapon ) )
 		{
 			current_weapon = undefined;
 		}
@@ -2864,12 +2864,12 @@ treasure_chest_give_weapon( weapon_string )
 					level.player_drops_tesla_gun = true;
 				}
 				// PI_CHANGE_END
-				
+
 				if ( issubstr( current_weapon, "knife_ballistic_" ) )
 				{
 					self notify( "zmb_lost_knife" );
 				}
-				
+
 				self TakeWeapon( current_weapon );
 				unacquire_weapon_toggle( current_weapon );
 				if ( current_weapon == "m1911_zm" )
@@ -2877,12 +2877,12 @@ treasure_chest_give_weapon( weapon_string )
 					self.last_pistol_swap = GetTime();
 				}
 
-			} 
-		} 
-	} 
+			}
+		}
+	}
 
 	self play_sound_on_ent( "purchase" );
-	
+
 	if( IsDefined( level.zombiemode_offhand_weapon_give_override ) )
 	{
 		self [[ level.zombiemode_offhand_weapon_give_override ]]( weapon_string );
@@ -2929,7 +2929,7 @@ treasure_chest_give_weapon( weapon_string )
 	}
 	if (weapon_string == "ray_gun_zm")
 	{
-			playsoundatposition ("mus_raygun_stinger", (0,0,0));		
+			playsoundatposition ("mus_raygun_stinger", (0,0,0));
 	}
 
 	self GiveWeapon( weapon_string, 0 );
@@ -2953,9 +2953,9 @@ pay_turret_think( cost )
 	{
 		return;
 	}
-	
+
 	turret makeTurretUnusable();
-	
+
 	// figure out what zone it's in
 	zone_name = turret get_current_zone();
 	if ( !IsDefined( zone_name ) )
@@ -2966,7 +2966,7 @@ pay_turret_think( cost )
 	while( true )
 	{
 		self waittill( "trigger", player );
-		
+
 		if( !is_player_valid( player ) )
 		{
 			player thread ignore_triggers( 0.5 );
@@ -2984,7 +2984,7 @@ pay_turret_think( cost )
 			wait(0.1);
 			continue;
 		}
-		
+
 		if( player.score >= cost )
 		{
 			player maps\_zombiemode_score::minus_to_player_score( cost );
@@ -2992,27 +2992,27 @@ pay_turret_think( cost )
 			turret makeTurretUsable();
 			turret UseBy( player );
 			self disable_trigger();
-			
+
 			player maps\_zombiemode_audio::create_and_play_dialog( "weapon_pickup", "mg" );
-			
+
 			player.curr_pay_turret = turret;
-			
+
 			turret thread watch_for_laststand( player );
 			turret thread watch_for_fake_death( player );
 			if( isDefined( level.turret_timer ) )
 			{
 				turret thread watch_for_timeout( player, level.turret_timer );
 			}
-			
+
 			while( isDefined( turret getTurretOwner() ) && turret getTurretOwner() == player )
 			{
 				wait( 0.05 );
 			}
-			
+
 			turret notify( "stop watching" );
-			
+
 			player.curr_pay_turret = undefined;
-			
+
 			turret makeTurretUnusable();
 			self enable_trigger();
 		}
@@ -3027,7 +3027,7 @@ pay_turret_think( cost )
 watch_for_laststand( player )
 {
 	self endon( "stop watching" );
-	
+
 	while( !player maps\_laststand::player_is_in_laststand() )
 	{
 		if( isDefined( level.intermission ) && level.intermission )
@@ -3036,7 +3036,7 @@ watch_for_laststand( player )
 		}
 		wait( 0.05 );
 	}
-	
+
 	if( isDefined( self getTurretOwner() ) && self getTurretOwner() == player )
 	{
 		self UseBy( player );
@@ -3046,9 +3046,9 @@ watch_for_laststand( player )
 watch_for_fake_death( player )
 {
 	self endon( "stop watching" );
-	
+
 	player waittill( "fake_death" );
-	
+
 	if( isDefined( self getTurretOwner() ) && self getTurretOwner() == player )
 	{
 		self UseBy( player );
@@ -3058,13 +3058,13 @@ watch_for_fake_death( player )
 watch_for_timeout( player, time )
 {
 	self endon( "stop watching" );
-	
+
 	self thread cancel_timer_on_end( player );
-	
+
 //	player thread maps\_zombiemode_timer::start_timer( time, "stop watching" );
-	
+
 	wait( time );
-	
+
 	if( isDefined( self getTurretOwner() ) && self getTurretOwner() == player )
 	{
 		self UseBy( player );
@@ -3081,12 +3081,12 @@ weapon_cabinet_door_open( left_or_right )
 {
 	if( left_or_right == "left" )
 	{
-		self rotateyaw( 120, 0.3, 0.2, 0.1 ); 	
+		self rotateyaw( 120, 0.3, 0.2, 0.1 );
 	}
 	else if( left_or_right == "right" )
 	{
-		self rotateyaw( -120, 0.3, 0.2, 0.1 ); 	
-	}	
+		self rotateyaw( -120, 0.3, 0.2, 0.1 );
+	}
 }
 
 check_collector_achievement( bought_weapon )
@@ -3105,7 +3105,7 @@ check_collector_achievement( bought_weapon )
 		// don't bother checking, they've bought it before
 		return;
 	}
-	
+
 	for( i = 0; i < level.collector_achievement_weapons.size; i++ )
 	{
 		if ( !is_in_array( self.bought_weapons, level.collector_achievement_weapons[i] ) )
@@ -3113,7 +3113,7 @@ check_collector_achievement( bought_weapon )
 			return;
 		}
 	}
-	
+
 	self giveachievement_wrapper( "SP_ZOM_COLLECTOR" );
 }
 
@@ -3122,7 +3122,7 @@ weapon_set_first_time_hint( cost, ammo_cost )
 	if ( isDefined( level.has_pack_a_punch ) && !level.has_pack_a_punch )
 	{
 		self SetHintString( &"REIMAGINED_WEAPONCOSTAMMO", cost, ammo_cost );
-		//self SetHintString( &"ZOMBIE_WEAPONCOSTAMMO", cost, ammo_cost ); 
+		//self SetHintString( &"ZOMBIE_WEAPONCOSTAMMO", cost, ammo_cost );
 	}
 	else
 	{
@@ -3135,7 +3135,7 @@ weapon_set_first_time_hint( cost, ammo_cost )
 			self SetHintString(&"REIMAGINED_WEAPONCOSTAMMO_UPGRADE", cost, ammo_cost );
 			//self SetHintString( "Hold ^3[{+activate}]^7 to buy Weapon [Cost: &&1], Ammo [Cost: &&2], Upgraded Ammo [Cost: 2500]", cost, ammo_cost );
 		}
-		//self SetHintString( &"ZOMBIE_WEAPONCOSTAMMO_UPGRADE", cost, ammo_cost ); 
+		//self SetHintString( &"ZOMBIE_WEAPONCOSTAMMO_UPGRADE", cost, ammo_cost );
 	}
 }
 
@@ -3147,10 +3147,10 @@ weapon_spawn_think()
 
 	self thread decide_hide_show_hint();
 
-	self.first_time_triggered = false; 
+	self.first_time_triggered = false;
 	for( ;; )
 	{
-		self waittill( "trigger", player ); 		
+		self waittill( "trigger", player );
 		// if not first time and they have the weapon give ammo
 
 		if( !is_player_valid( player ) )
@@ -3158,7 +3158,7 @@ weapon_spawn_think()
 			player thread ignore_triggers( 0.5 );
 			continue;
 		}
-		
+
 		if( player has_powerup_weapon() )
 		{
 			wait( 0.1 );
@@ -3168,7 +3168,7 @@ weapon_spawn_think()
 		//iprintln(self.zombie_weapon_upgrade);
 
 		// Allow people to get ammo off the wall for upgraded weapons
-		player_has_weapon = player has_weapon_or_upgrade( self.zombie_weapon_upgrade ); 
+		player_has_weapon = player has_weapon_or_upgrade( self.zombie_weapon_upgrade );
 
 		if( !player_has_weapon )
 		{
@@ -3182,17 +3182,17 @@ weapon_spawn_think()
 						temp_model = getent( self.target, "targetname" );
 						origin = temp_model.origin + (2,0,-.5);
 						//thread print_origin(origin);
-						model = spawn( "script_model", origin); 
+						model = spawn( "script_model", origin);
 						model.angles = temp_model.angles;
 						modelname = GetWeaponModel( self.zombie_weapon_upgrade );
-						model setmodel( modelname ); 
+						model setmodel( modelname );
 						model useweaponhidetags( self.zombie_weapon_upgrade );
 					}
 					else
-						model = getent( self.target, "targetname" ); 
-					//model show(); 
-					model thread weapon_show( player ); 
-					self.first_time_triggered = true; 
+						model = getent( self.target, "targetname" );
+					//model show();
+					model thread weapon_show( player );
+					self.first_time_triggered = true;
 
 					if(!is_grenade)
 					{
@@ -3200,7 +3200,7 @@ weapon_spawn_think()
 					}
 				}
 
-				player maps\_zombiemode_score::minus_to_player_score( cost ); 
+				player maps\_zombiemode_score::minus_to_player_score( cost );
 
 				bbPrint( "zombie_uses: playername %s playerscore %d teamscore %d round %d cost %d name %s x %f y %f z %f type weapon",
 						player.playername, player.score, level.team_pool[ player.team_num ].score, level.round_number, cost, self.zombie_weapon_upgrade, self.origin );
@@ -3226,7 +3226,7 @@ weapon_spawn_think()
 			{
 				play_sound_on_ent( "no_purchase" );
 				player maps\_zombiemode_audio::create_and_play_dialog( "general", "no_money", undefined, 1 );
-				
+
 			}
 		}
 		else
@@ -3264,19 +3264,19 @@ weapon_spawn_think()
 					{
 						temp_model = getent( self.target, "targetname" );
 						origin = temp_model.origin + (10,0,0);
-						model = spawn( "script_model", origin); 
+						model = spawn( "script_model", origin);
 						model.angles = temp_model.angles;
 						modelname = GetWeaponModel( self.zombie_weapon_upgrade );
-						model setmodel( modelname ); 
+						model setmodel( modelname );
 						model useweaponhidetags( self.zombie_weapon_upgrade );
 					}
 					else
-						model = getent( self.target, "targetname" ); 
-					//model show(); 
-					model thread weapon_show( player ); 
+						model = getent( self.target, "targetname" );
+					//model show();
+					model thread weapon_show( player );
 					self.first_time_triggered = true;
 					if(!is_grenade)
-					{ 
+					{
 						self weapon_set_first_time_hint( cost, get_ammo_cost( self.zombie_weapon_upgrade ) );
 					}
 				}
@@ -3286,18 +3286,18 @@ weapon_spawn_think()
 //				MM - I don't think this is necessary
 // 				if( player HasWeapon( self.zombie_weapon_upgrade ) && player has_upgrade( self.zombie_weapon_upgrade ) )
 // 				{
-// 					ammo_given = player ammo_give( self.zombie_weapon_upgrade, true ); 
+// 					ammo_given = player ammo_give( self.zombie_weapon_upgrade, true );
 // 				}
-//				else 
+//				else
 				if( player has_upgrade( self.zombie_weapon_upgrade ) )
 				{
 					ammo_given = player ammo_give( level.zombie_weapons[ self.zombie_weapon_upgrade ].upgrade_name );
 				}
 				else
 				{
-					ammo_given = player ammo_give( self.zombie_weapon_upgrade ); 
+					ammo_given = player ammo_give( self.zombie_weapon_upgrade );
 				}
-				
+
 				if( ammo_given )
 				{
 						player maps\_zombiemode_score::minus_to_player_score( ammo_cost ); // this give him ammo to early
@@ -3328,9 +3328,9 @@ print_origin(origin)
 
 weapon_show( player )
 {
-	player_angles = VectorToAngles( player.origin - self.origin ); 
+	player_angles = VectorToAngles( player.origin - self.origin );
 
-	player_yaw = player_angles[1]; 
+	player_yaw = player_angles[1];
 	weapon_yaw = self.angles[1];
 
 	if ( isdefined( self.script_int ) )
@@ -3338,27 +3338,27 @@ weapon_show( player )
 		weapon_yaw -= self.script_int;
 	}
 
-	yaw_diff = AngleClamp180( player_yaw - weapon_yaw ); 
+	yaw_diff = AngleClamp180( player_yaw - weapon_yaw );
 
 	if( yaw_diff > 0 )
 	{
-		yaw = weapon_yaw - 90; 
+		yaw = weapon_yaw - 90;
 	}
 	else
 	{
-		yaw = weapon_yaw + 90; 
+		yaw = weapon_yaw + 90;
 	}
 
-	self.og_origin = self.origin; 
-	self.origin = self.origin +( AnglesToForward( ( 0, yaw, 0 ) ) * 8 ); 
+	self.og_origin = self.origin;
+	self.origin = self.origin +( AnglesToForward( ( 0, yaw, 0 ) ) * 8 );
 
-	wait( 0.05 ); 
-	self Show(); 
+	wait( 0.05 );
+	self Show();
 
 	play_sound_at_pos( "weapon_show", self.origin, self );
 
-	time = 1; 
-	self MoveTo( self.og_origin, time ); 
+	time = 1;
+	self MoveTo( self.og_origin, time );
 }
 
 get_pack_a_punch_weapon_options( weapon )
@@ -3389,7 +3389,7 @@ get_pack_a_punch_weapon_options( weapon )
 	{
 		reticle_index = smiley_face_reticle_index;
 	}
-	
+
 /*
 /#
 	if ( GetDvarInt( #"scr_force_reticle_index" ) )
@@ -3424,7 +3424,7 @@ get_pack_a_punch_weapon_options( weapon )
 
 weapon_give( weapon, is_upgrade )
 {
-	primaryWeapons = self GetWeaponsListPrimaries(); 
+	primaryWeapons = self GetWeaponsListPrimaries();
 	current_weapon = undefined;
 	weapon_limit = 2;
 
@@ -3457,16 +3457,16 @@ weapon_give( weapon, is_upgrade )
 				{
 					self notify( "zmb_lost_knife" );
 				}
-				self TakeWeapon( current_weapon ); 
+				self TakeWeapon( current_weapon );
 				unacquire_weapon_toggle( current_weapon );
 				if ( current_weapon == "m1911_zm" )
 				{
 					self.last_pistol_swap = GetTime();
 				}
 			}
-		} 
+		}
 	}
-	
+
 	if( IsDefined( level.zombiemode_offhand_weapon_give_override ) )
 	{
 		if( self [[ level.zombiemode_offhand_weapon_give_override ]]( weapon ) )
@@ -3496,7 +3496,7 @@ weapon_give( weapon, is_upgrade )
 	acquire_weapon_toggle( weapon, self );
 	self GiveStartAmmo( weapon );
 	self SwitchToWeapon( weapon );
-	 
+
 	self play_weapon_vo(weapon);
 }
 
@@ -3511,46 +3511,46 @@ play_weapon_vo(weapon)
 	{
 	    type = self weapon_type_check(weapon);
 	}
-				
+
 	self maps\_zombiemode_audio::create_and_play_dialog( "weapon_pickup", type );
 }
 
 weapon_type_check(weapon)
 {
     if( !IsDefined( self.entity_num ) )
-        return "crappy";    
-    
+        return "crappy";
+
     switch(self.entity_num)
     {
         case 0:   //DEMPSEY'S FAVORITE WEAPON: M16 UPGRADED: ROTTWEIL72
             if( weapon == "m16_zm" )
                 return "favorite";
             else if( weapon == "rottweil72_upgraded_zm" )
-                return "favorite_upgrade";   
+                return "favorite_upgrade";
             break;
-            
+
         case 1:   //NIKOLAI'S FAVORITE WEAPON: FNFAL UPGRADED: HK21
             if( weapon == "fnfal_zm" )
                 return "favorite";
             else if( weapon == "hk21_upgraded_zm" )
-                return "favorite_upgrade";   
+                return "favorite_upgrade";
             break;
-            
+
         case 2:   //TAKEO'S FAVORITE WEAPON: M202 UPGRADED: THUNDERGUN
             if( weapon == "china_lake_zm" )
                 return "favorite";
             else if( weapon == "thundergun_upgraded_zm" )
-                return "favorite_upgrade";   
+                return "favorite_upgrade";
             break;
-            
+
         case 3:   //RICHTOFEN'S FAVORITE WEAPON: MP40 UPGRADED: CROSSBOW
             if( weapon == "mp40_zm" )
                 return "favorite";
             else if( weapon == "crossbow_explosive_upgraded_zm" )
-                return "favorite_upgrade";   
-            break;                
+                return "favorite_upgrade";
+            break;
     }
-    
+
     if( IsSubStr( weapon, "upgraded" ) )
         return "upgrade";
     else
@@ -3592,22 +3592,22 @@ ammo_give( weapon )
 	}
 
 	// compare it with the ammo player actually has, if more or equal just dont give the ammo, else do
-	if( self getammocount( weapon ) < max_ammo )	
+	if( self getammocount( weapon ) < max_ammo )
 	{
-		give_ammo = true; 
-	} 
+		give_ammo = true;
+	}
 
 	// Check to see if ammo belongs to a primary weapon
 	/*if( !is_offhand_weapon( weapon ) )
 	{
-		if( isdefined( weapon ) )  
+		if( isdefined( weapon ) )
 		{
 			// get the max allowed ammo on the current weapon
 			//stockMax = 0;	// scope declaration
-			//stockMax = WeaponStartAmmo( weapon ); 
+			//stockMax = WeaponStartAmmo( weapon );
 
 			// Get the current weapon clip count
-			//clipCount = self GetWeaponAmmoClip( weapon ); 
+			//clipCount = self GetWeaponAmmoClip( weapon );
 
 			//currStock = self GetAmmoCount( weapon );
 
@@ -3623,9 +3623,9 @@ ammo_give( weapon )
 			}
 
 			// compare it with the ammo player actually has, if more or equal just dont give the ammo, else do
-			if( self getammocount( weapon ) < max_ammo )	
+			if( self getammocount( weapon ) < max_ammo )
 			{
-				give_ammo = true; 
+				give_ammo = true;
 			}
 		}
 	}
@@ -3641,7 +3641,7 @@ ammo_give( weapon )
 				if( self getammocount( weapon ) < 4 )
 				{
 					// give the ammo to the player
-					give_ammo = true; 					
+					give_ammo = true;
 				}
 			}
 			else
@@ -3650,10 +3650,10 @@ ammo_give( weapon )
 				if( self getammocount( weapon ) < WeaponMaxAmmo( weapon ) )
 				{
 					// give the ammo to the player
-					give_ammo = true; 					
+					give_ammo = true;
 				}
 			}
-		}		
+		}
 	}*/
 
 	if( give_ammo )

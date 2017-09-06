@@ -11,7 +11,7 @@
 //*****************************************************************************
 teleporter_function( name )
 {
-				
+
 	// Get the Teleporter Trigger Ent
 	teleporter = getent( name, "targetname" );
 
@@ -22,19 +22,19 @@ teleporter_function( name )
 	fx_bottom = getstruct( str, "targetname" );
 	str = name + "_top_name";
 	fx_top = getstruct( str, "targetname" );
-	
-	
+
+
 	/***************************/
 	/* Update Teleporter State */
 	/***************************/
-	
+
 	teleport_state = "Waiting for Players";
-	
+
 	while( 1 )
 	{
 		// How many players do we have?
 		players = get_players();
-		
+
 /#
 		//Check for dev cheaters
 		for( i=0; i<players.size; i++ )
@@ -49,20 +49,20 @@ teleporter_function( name )
 			}
 		}
 #/
-	
+
 		num_players = valid_players_teleport();
-	
+
 		switch( teleport_state )
 		{
-			// Not Yet Implemented		
+			// Not Yet Implemented
 			case "Waiting for Power":
 			break;
-				
-		
+
+
 			//********************
 			// Waiting For Players
 			//********************
-			
+
 			case "Waiting for Players":
 				num_players_inside = num_players_touching_volume( teleporter );
 
@@ -82,25 +82,25 @@ teleporter_function( name )
 					// Set teleport start time
 					teleport_time = gettime();
 					teleport_time += 2500;
-	
+
 					// Special case startup
 					//teleporter_starting( teleporter );
-					
+
 					teleport_state = "Teleport Countdown";
-					
+
 					//AUDIO: Triggering some sfx
 					clientnotify( "tafx" );
-					
+
 					// Trigger Effect
 					//playfx( level._effect["pad_bottom"], fx_bottom.origin );
 					//playfx( level._effect["pad_top"], fx_top.origin );
 				}
 			break;
-				
+
 			//**********************
 			// Countdown to Teleport
 			//**********************
-			
+
 			case "Teleport Countdown":
 				// Check for Players aborting the teleportation
 				num_players_inside = num_players_touching_volume( teleporter );
@@ -112,7 +112,7 @@ teleporter_function( name )
 					//AUDIO: Triggering some sfx
 					clientnotify( "cafx" );
 				}
-			
+
 				// Time to teleport yet?
 				else
 				{
@@ -125,13 +125,13 @@ teleporter_function( name )
 						{
 							continue;
 						}
-						
+
 						// Get player teleport positions
 						target_positions = get_teleporter_target_positions( teleporter, name );
-				
+
 						// Special case startup
 						teleporter_starting( teleporter );
-												
+
 						// Teleport the players
 						for( i=0; i<players.size; i++ )
 						{
@@ -141,12 +141,12 @@ teleporter_function( name )
 							players[i] clientnotify( "bmfx" );
 						}
 
-										
+
 						// Set next Teleporter State
 						teleport_state = "Recharging";
 						set_teleporter_message( &"NULL_EMPTY" );
 						teleport_time = gettime() + 5000;
-					
+
 						// give dogs 30 seconds to start spawning.
 						level thread nml_dogs_init();
 						// Teleporter completed special case checks
@@ -154,7 +154,7 @@ teleporter_function( name )
 					}
 				}
 			break;
-			
+
 
 			//**************************************
 			// Recharging Teleporter for Another Use
@@ -164,11 +164,11 @@ teleporter_function( name )
 				current_time = gettime();
 				if( teleport_time <= current_time )
 				{
-					teleport_state = "Waiting for Players";				
+					teleport_state = "Waiting for Players";
 				}
 			break;
 		}
-		
+
 		wait( 0.5 );
 	}
 }
@@ -188,15 +188,15 @@ valid_players_teleport()
 }
 is_player_teleport_valid( player )
 {
-	if( !IsDefined( player ) ) 
+	if( !IsDefined( player ) )
 	{
-		return false; 
+		return false;
 	}
 
 	if( !IsAlive( player ) )
 	{
-		return false; 
-	} 
+		return false;
+	}
 
 	if( !IsPlayer( player ) )
 	{
@@ -205,19 +205,19 @@ is_player_teleport_valid( player )
 
 	if( player.sessionstate == "spectator" )
 	{
-		return false; 
+		return false;
 	}
 
 	if( player.sessionstate == "intermission" )
 	{
-		return false; 
+		return false;
 	}
 
 	if ( player isnotarget() )
 	{
 		return false;
 	}
-	return true; 
+	return true;
 }
 //*****************************************************************************
 // Get the teleporter target_positions
@@ -234,7 +234,7 @@ get_teleporter_target_positions( teleporter_ent, name )
 
 	if( (isDefined(teleporter_ent.script_noteworthy)) && (teleporter_ent.script_noteworthy == "enter_no_mans_land") )
 	{
-		
+
 		// Get the potential respawn points
 		player_starts = getstructarray( "packp_respawn_point", "script_noteworthy" );
 		for( i=0; i<player_starts.size; i++ )
@@ -248,7 +248,7 @@ get_teleporter_target_positions( teleporter_ent, name )
 		// DCS 050911: currently always to hanger.
 		dest_name = "nml_to_bridge_teleporter";
 
-	
+
 		for( i=0; i<4; i++ )
 		{
 			str = dest_name + "_player" + (i+1) + "_position";
@@ -256,7 +256,7 @@ get_teleporter_target_positions( teleporter_ent, name )
 			target_positions[i] = ent;
 		}
 	}
-	
+
 	return( target_positions );
 }
 
@@ -273,14 +273,14 @@ get_teleporter_dest_ent_name()
 
 
 //*****************************************************************************
-// 
+//
 //*****************************************************************************
 teleport_player_to_target( player, target_positions )
 {
 	player_index = player GetEntityNumber();
 
 	target_ent = undefined;
-	
+
 	// uses position specific to player index(+1), same as respawning so won't telefrag.
 	for( i=0; i<target_positions.size; i++ )
 	{
@@ -288,7 +288,7 @@ teleport_player_to_target( player, target_positions )
 		{
 			target_ent = target_positions[i];
 		}
-	}		
+	}
 
 	if(!IsDefined(target_ent))
 	{
@@ -300,17 +300,17 @@ teleport_player_to_target( player, target_positions )
 	{
 		player SetStance("crouch");
 	}
-	
+
 	// adding random offset to additionally avoid telefragging.
 	player setorigin( target_ent.origin + (RandomFloat(24), RandomFloat(24), 0));
-	
+
 	if( isdefined( target_ent.angles ) )
 	{
 		player setplayerangles( target_ent.angles );
 	}
 
 	player SetVelocity((0,0,0));
-	
+
 	if( !level.been_to_moon_before )
 	{
 		level.been_to_moon_before = true;
@@ -323,14 +323,14 @@ turn_override_off()
 {
 	level notify( "no_multiple_overrides" );
 	level endon( "no_multiple_overrides" );
-	
+
 	wait(15);
 	level.skit_vox_override = false;
 }
 
 
 //*****************************************************************************
-// 
+//
 //*****************************************************************************
 teleporter_starting( teleporter_ent )
 {
@@ -344,7 +344,7 @@ teleporter_starting( teleporter_ent )
 			player EnableInvulnerability();
 		}
 	}
-	
+
 
 	/***************************************************/
 	/* Check for special case teleporter functionality */
@@ -368,7 +368,7 @@ teleporter_check_for_endgame()
 {
 	level waittill_any( "end_game", "track_nml_time" );
 	level.nml_best_time = GetTime() - level.nml_start_time;
-	
+
 	players = get_players();
 	level.nml_kills = players[0].kills;
 	level.nml_score = players[0].score_total;
@@ -377,7 +377,7 @@ teleporter_check_for_endgame()
 	level.nml_pap = 0;
 	level.nml_speed = 0;
 	level.nml_jugg = 0;
-	
+
 	//Store the perk and pap values
 	if( isdefined(players[0].pap_used) && players[0].pap_used )
 	{
@@ -391,8 +391,8 @@ teleporter_check_for_endgame()
 	{
 		level.nml_jugg = 44;
 	}
-	
-	/*player_survival_time = int( level.nml_best_time/1000 ); 
+
+	/*player_survival_time = int( level.nml_best_time/1000 );
 	player_survival_time_in_mins = maps\_zombiemode::to_mins( player_survival_time );
 	IPrintLnBold( "DEAD NO MANS LAND = " + player_survival_time_in_mins ); */
 }
@@ -404,7 +404,7 @@ display_time_survived()
 	players = get_players();
 
 	level.nml_best_time = GetTime() - level.nml_start_time;
-	
+
 	//Should only be 1 player......
 	level.nml_kills = players[0].kills;
 	level.nml_score = players[0].score_total;
@@ -412,7 +412,7 @@ display_time_survived()
 	level.nml_pap = 0;
 	level.nml_speed = 0;
 	level.nml_jugg = 0;
-	
+
 	level.left_nomans_land = 1;
 
 	survived = [];
@@ -431,7 +431,7 @@ display_time_survived()
 		{
 			level.nml_jugg = 44;
 		}
-	
+
 		survived[i] = NewClientHudElem( players[i] );
 		survived[i].alignX = "center";
 		survived[i].alignY = "middle";
@@ -446,35 +446,35 @@ display_time_survived()
 		{
 			survived[i].y += 40;
 		}
-		
-		//nomanslandtime = level.nml_best_time; 
+
+		//nomanslandtime = level.nml_best_time;
 		//player_survival_time = int( nomanslandtime/1000 );
 		player_survival_time = level.total_time;
-		player_survival_time_in_mins = maps\_zombiemode::to_mins( player_survival_time );		
+		player_survival_time_in_mins = maps\_zombiemode::to_mins( player_survival_time );
 		survived[i] SetText( &"ZOMBIE_SURVIVED_NOMANS", player_survival_time_in_mins );
 		survived[i] FadeOverTime( 1 );
 		survived[i].alpha = 1;
 	}
-	
+
 	wait( 3.0 );
-	
+
 	for( i = 0; i < players.size; i++ )
 	{
 		survived[i] FadeOverTime( 1 );
 		survived[i].alpha = 0;
 	}
-	
+
 	level.left_nomans_land = 2;
 }
-	
 
-	
+
+
 teleporter_ending( teleporter_ent, was_aborted )
 {
 	/***********************/
 	/* Restore the Players */
 	/***********************/
-	
+
 	players = get_players();
 	for( i=0; i<players.size; i++ )
 	{
@@ -502,11 +502,11 @@ teleporter_ending( teleporter_ent, was_aborted )
 				level thread nml_ramp_up_zombies();
 				//level thread nml_side_stepping_zombies();
 
-				
+
 				//set for earth sky.
-				level clientnotify("NMS"); 
-				level thread sky_transition_fog_settings();				
-				
+				level clientnotify("NMS");
+				level thread sky_transition_fog_settings();
+
 				set_zombie_var( "zombie_intermission_time", 2 );
 				set_zombie_var( "zombie_between_round_time", 2 );
 
@@ -535,16 +535,16 @@ teleporter_ending( teleporter_ent, was_aborted )
  				flag_clear( "zombie_drop_powerups" );
 
 				level thread perk_machine_arrival_update();
-				
+
 				nml_setup_round_spawner();
-				
+
 			}
 			else if( teleporter_ent.script_noteworthy == "exit_no_mans_land" )
 			{
 				flag_clear("enter_nml");
 				level notify("stop_ramp");
 				flag_clear("start_supersprint");
-				
+
 				level.on_the_moon = true;
 				level.ignore_distance_tracking = true;
 
@@ -555,28 +555,28 @@ teleporter_ending( teleporter_ent, was_aborted )
 					level thread display_time_survived();
 					level.ever_been_on_the_moon = true;
 				}
-				
+
 				//set for moon sky.
 				level clientnotify("MMS");
 				//SetSavedDvar( "r_skyTransition", 0 );
-				level thread sky_transition_fog_settings();				
-				
+				level thread sky_transition_fog_settings();
+
 				// Jump to Next Round
 				level.round_number = level.nml_last_round;
 				resume_moon_rounds( level.round_number );
-				
+
 				level thread maps\zombie_moon::zombie_moon_gravity_init();
-				
+
 				// resume regular zombiemode spawning.
 				level.round_spawn_func = maps\_zombiemode::round_spawning;
-			
+
 				// Power down the Teleporter Gate
 				level thread teleporter_to_nml_power_down();
-				
+
 				// Restore normal round intermission times
 				set_zombie_var( "zombie_intermission_time", 15 );
 				set_zombie_var( "zombie_between_round_time", 10 );
-				
+
 				// Switch pickups back on when exiting No Mans Land
  				flag_set( "zombie_drop_powerups" );
 				level.ignore_distance_tracking = false;
@@ -596,10 +596,10 @@ teleporter_to_nml_init()
 	level.teleporter_to_nml_gate_ent = getent( "teleporter_gate", "targetname" );
 	level.teleporter_to_nml_gate_open = 0;
 	level.teleporter_to_nml_powerdown_time = 120;
-	
+
 	level.teleporter_to_nml_gate2_ent = getent( "teleporter_gate_top", "targetname" );
 	level.teleporter_to_nml_gate2_height = 256;
-	
+
 	// Teleporter exit NML gate
 	level.teleporter_exit_nml_gate_ent = getent( "bunker_gate", "targetname" );
 	level.teleporter_exit_nml_gate_height = -195;	// -100
@@ -611,10 +611,10 @@ teleporter_to_nml_init()
 
 	// Shared Gate Data
 	level.teleporter_gate_move_time = 3;
-	
+
 	init_teleporter_lights();
 	teleporter_lights_red();
-		
+
 	level thread teleporter_exit_nml_think();
 	level thread teleporter_waiting_for_electric();
 }
@@ -631,7 +631,7 @@ teleporter_waiting_for_electric()
 }
 
 //*****************************************************************************
-// Either open or close the teleporter gate 
+// Either open or close the teleporter gate
 // - Moves the gates SBM, sets lights and updates paths
 //*****************************************************************************
 teleporter_to_nml_gate_move( open_it )
@@ -641,7 +641,7 @@ teleporter_to_nml_gate_move( open_it )
 	{
 		return;
 	}
-	
+
 	level.teleporter_to_nml_gate_open = open_it;
 
 	// Move the gate
@@ -652,17 +652,17 @@ teleporter_to_nml_gate_move( open_it )
 	{
 		gate_height *= -1.0;
 	}
-	
+
 	time = level.teleporter_gate_move_time;
 	accel = time / 6.0;
 
 	ent = level.teleporter_to_nml_gate_ent;
 	ent2 = level.teleporter_to_nml_gate2_ent;
-	
+
 	// play sound when open teleporter gate
 	ent PlaySound( "amb_teleporter_gate_start" );
 	ent playloopsound( "amb_teleporter_gate_loop", .5 );
-	
+
 	pos = ( ent.origin[0], ent.origin[1], ent.origin[2]-gate_height );
 	ent moveto ( pos, time, accel, accel );
 	ent thread play_stopmoving_sounds();
@@ -679,7 +679,7 @@ teleporter_to_nml_gate_move( open_it )
 	{
 		ent disconnectpaths();
 	}
-	
+
 	// Update Lights
 	if( open_it )
 	{
@@ -698,7 +698,7 @@ teleporter_to_nml_gate_move( open_it )
 init_teleporter_lights()
 {
 	level.teleporter_lights = [];
-	
+
 	level.teleporter_lights[ level.teleporter_lights.size ] = "zapper_teleport_opening_1";
 	level.teleporter_lights[ level.teleporter_lights.size ] = "zapper_teleport_opening_2";
 	level.teleporter_lights[ level.teleporter_lights.size ] = "zapper_teleport_opening_3";
@@ -707,7 +707,7 @@ init_teleporter_lights()
 
 
 //*****************************************************************************
-// 
+//
 //*****************************************************************************
 teleporter_lights_red()
 {
@@ -718,7 +718,7 @@ teleporter_lights_red()
 }
 
 //*****************************************************************************
-// 
+//
 //*****************************************************************************
 teleporter_lights_green()
 {
@@ -734,7 +734,7 @@ teleporter_lights_green()
 //*****************************************************************************
 teleporter_to_nml_power_down()
 {
-	
+
 	// Close the Teleporter Gate
 	teleporter_to_nml_gate_move( 0 );
 
@@ -748,8 +748,8 @@ teleporter_to_nml_power_down()
 	if(!isDefined(level.first_teleporter_use))
 	{
 		level.first_teleporter_use = true;
-	}	
-	
+	}
+
 	// waittill next round over after return to moon.
 	level waittill("between_round_over");
 
@@ -760,18 +760,18 @@ teleporter_to_nml_power_down()
 	open_door_time = time + (level.teleporter_to_nml_powerdown_time * 1000);
 
 	lights_mode = 0;
-	
+
 	dt = open_door_time - time;
 	time0 = time + (dt / 4.0);
 	time1 = time + (dt / 2.0);
 	time2 = time + ((3.0 * dt) / 4.0);
 	time3 = open_door_time - 0.75;
-	
+
 	// Wait for the timeout
 	while( time < open_door_time )
 	{
 		time = gettime();
-		
+
 		switch( lights_mode )
 		{
 			case 0:
@@ -781,7 +781,7 @@ teleporter_to_nml_power_down()
 					lights_mode++;
 				}
 			break;
-			
+
 			case 1:
 				if( time >= time1 )
 				{
@@ -789,7 +789,7 @@ teleporter_to_nml_power_down()
 					lights_mode++;
 				}
 			break;
-			
+
 			case 2:
 				if( time >= time2 )
 				{
@@ -807,12 +807,12 @@ teleporter_to_nml_power_down()
 					teleporter_to_nml_gate_move( 1 );
 				}
 			break;
-			
+
 			default:
 				wait( 0.1 );
 			break;
 		}
-		
+
 		wait( 1 );
 	}
 }
@@ -833,7 +833,7 @@ teleporter_exit_nml_think()
 	{
 		// Wait for players to enter No mans land
 		flag_wait( "enter_nml" );
-		
+
 		if(level.on_the_moon == false)
 		{
 			wait(20);
@@ -843,12 +843,12 @@ teleporter_exit_nml_think()
 			wait( level.teleporter_exit_nml_powerdown_time );
 		}
 		level thread teleporter_exit_nml_gate_move( 1 );
-	
+
 		// Wait for players to exit No Mans Land
 		while(flag("enter_nml"))
 		{
 			wait(1);
-		}	
+		}
 		level thread teleporter_exit_nml_gate_move( 0 );
 	}
 }
@@ -862,19 +862,19 @@ teleporter_exit_nml_gate_move( open_it )
 	{
 		return;
 	}
-	
+
 	level.teleporter_exit_nml_gate_open = open_it;
 
 	// Move the gate
 	gate_height = level.teleporter_exit_nml_gate_height;
 	gate2_height = level.teleporter_exit_nml_gate2_height;
-	
+
 	if( !open_it )
 	{
 		gate_height *= -1.0;
 		gate2_height *= -1.0;
 	}
-	
+
 	time = level.teleporter_gate_move_time;
 	accel = time / 6.0;
 
@@ -889,11 +889,11 @@ teleporter_exit_nml_gate_move( open_it )
 	ent2 = level.teleporter_exit_nml_gate2_ent;
 	pos2 = ( ent2.origin[0], ent2.origin[1], ent2.origin[2]-gate2_height );
  	ent2 moveto ( pos2, time, accel, accel );
-	
+
 	// move primary gate
 	pos = ( ent.origin[0], ent.origin[1], ent.origin[2]-gate_height );
 	ent moveto ( pos, time, accel, accel );
-	
+
 	ent thread play_stopmoving_sounds();
 
 	// Update Paths
@@ -914,5 +914,3 @@ play_stopmoving_sounds()
 	self stoploopsound( .5 );
 	self playsound( "amb_teleporter_gate_stop" );
 }
-
-

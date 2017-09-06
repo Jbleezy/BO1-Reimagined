@@ -1,14 +1,14 @@
 #include common_scripts\utility; 
-#include maps\_utility; 
+#include maps\_utility;
 
 //
 //	This manages which spawners are valid for the game.  The round_spawn function
 //	will use the arrays generated to figure out where to spawn a zombie from.
-//	
+//
 //	Your level will need to set the level.zone_manager_init_func.  This function
 //	should specify all of the connections you need to generate for each zone.
 //		Ex.:	level.zone_manager_init_func = ::cosmodrome_zone_init;
-//	
+//
 //	You will also need to call the zone_manager startup function, manage_zones.
 //	Pass in an array of starting zone names.
 //		Ex.:	init_zones[0] = "start_zone";
@@ -168,13 +168,13 @@ zone_init( zone_name )
 
 	zone.is_enabled = false;	// The zone is not enabled.  You can stop looking at it
 								//		until it is.
-	zone.is_occupied = false;	// The zone is not occupied by a player.  This is what we 
+	zone.is_occupied = false;	// The zone is not occupied by a player.  This is what we
 								//		use to determine when to activate adjacent zones
 	zone.is_active = false;		// The spawners will not be added to the spawning list
 								//		until this true.
 	zone.adjacent_zones = [];	// NOTE: These must be defined in a separate level-specific initialization via add_adjacent_zone
-	
-	// 
+
+	//
 	zone.volumes = [];
 	volumes = GetEntArray( zone_name, "targetname" );
 	for ( i=0; i<volumes.size; i++ )
@@ -184,8 +184,8 @@ zone_init( zone_name )
 			zone.volumes[ zone.volumes.size ] = volumes[i];
 		}
 	}
-	
-	AssertEx( IsDefined( zone.volumes[0] ), "zone_init: No volumes found for zone: "+zone_name );	
+
+	AssertEx( IsDefined( zone.volumes[0] ), "zone_init: No volumes found for zone: "+zone_name );
 
 	if ( IsDefined( zone.volumes[0].target ) )
 	{
@@ -280,7 +280,7 @@ enable_zone( zone_name )
 	{
 		return;
 	}
-	
+
 	level.zones[ zone_name ].is_enabled = true;
 	level notify( zone_name );
 
@@ -302,7 +302,7 @@ enable_zone( zone_name )
 	{
 		entry_points[i].is_active = true;
 		entry_points[i] trigger_on();
-	}		
+	}
 }
 
 
@@ -335,7 +335,7 @@ make_zone_adjacent( main_zone_name, adj_zone_name, flag_name )
 	}
 	else
 	{
-		// we've already defined a link condition, but we need to add another one and treat 
+		// we've already defined a link condition, but we need to add another one and treat
 		//	it as an "OR" condition
 		AssertEx( !IsArray( flag_name ), "make_zone_adjacent: can't mix single and arrays of flags" );
 		adj_zone = main_zone.adjacent_zones[ adj_zone_name ];
@@ -374,7 +374,7 @@ add_zone_flags( wait_flag, add_flags )
 
 //
 // Makes zone_b adjacent to zone_a.  If one_way is false, zone_a is also made "adjacent" to zone_b
-//	Note that you may not always want zombies coming from zone B while you are in Zone A, but you 
+//	Note that you may not always want zombies coming from zone B while you are in Zone A, but you
 //	might want them to come from B while in A.  It's a rare case though, such as a one-way traversal.
 add_adjacent_zone( zone_name_a, zone_name_b, flag_name, one_way )
 {
@@ -555,7 +555,7 @@ connect_zones( zone_name_a, zone_name_b, one_way )
 //--------------------------------------------------------------
 manage_zones( initial_zone )
 {
-	AssertEx( IsDefined( initial_zone ), "You must specify an initial zone to manage" );	
+	AssertEx( IsDefined( initial_zone ), "You must specify an initial zone to manage" );
 
 	deactivate_initial_barrier_goals();	// Must be called before zone_init
 
@@ -652,13 +652,13 @@ manage_zones( initial_zone )
 				level.zones[ initial_zone ].is_occupied = true;
 			}
 		}
-		
+
 
 		// Okay now we can re-create the spawner list
 		[[ level.create_spawner_list_func ]]( zkeys );
 
 		//wait a second before another check
-		wait(1);			
+		wait(1);
 	}
 }
 
@@ -761,7 +761,7 @@ create_spawner_list( zkeys )
 					level.spawners_to_remove[1] = disabled_window2;
 				}
 				if(IsDefined(zone.num_spawners) && zone.spawners.size > zone.num_spawners )
-				{		
+				{
 					j = 0;
 					while(zone.spawners.size > zone.num_spawners)
 					{
@@ -777,9 +777,9 @@ create_spawner_list( zkeys )
 					{
 						array[i] = zone.spawners[keys[i]];
 					}
-					zone.spawners = array;	
+					zone.spawners = array;
 				}
-			}				
+			}
 
 			// Add spawners
 			for(x=0;x<zone.spawners.size;x++)
@@ -847,7 +847,7 @@ _destroy_debug_zones()
 _debug_zones()
 {
 	enabled = false;
-	if ( GetDvar("zombiemode_debug_zones") == "" ) 
+	if ( GetDvar("zombiemode_debug_zones") == "" )
 	{
 		SetDvar("zombiemode_debug_zones", "0");
 	}
@@ -878,7 +878,7 @@ _debug_zones()
 				{
 					text += " Enabled";
 				}
-				if ( zone.is_active ) 
+				if ( zone.is_active )
 				{
 					text += " Active";
 				}

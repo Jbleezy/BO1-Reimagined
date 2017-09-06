@@ -1,7 +1,7 @@
 #include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
-#include maps\_zombiemode_zone_manager; 
+#include maps\_zombiemode_zone_manager;
 //#include maps\_zombiemode_protips;
 
 #include maps\zombie_theater_magic_box;
@@ -18,7 +18,7 @@ main()
 
 	PreCacheModel("zombie_zapper_cagelight_red");
 	precachemodel("zombie_zapper_cagelight_green");
-	precacheShader("ac130_overlay_grain");	
+	precacheShader("ac130_overlay_grain");
 	precacheshellshock( "electrocution" );
 	// ww: model used for ee rooms
 	PreCacheModel( "zombie_theater_reelcase_obj" );
@@ -37,25 +37,25 @@ main()
 	precachemodel("zombie_theater_chandelier1arm_on");
 	precachemodel("zombie_theater_chandelier1_off");
 	precachemodel("zombie_theater_chandelier1_on");
-	
-	
-	
+
+
+
 
 	if(GetDvarInt( #"artist") > 0)
 	{
 		return;
 	}
-	
-	level.dogs_enabled = true;	
+
+	level.dogs_enabled = true;
 	level.random_pandora_box_start = true;
-	
+
 	level.zombie_anim_override = maps\zombie_theater::anim_override_func;
 
 	// Animations needed for door initialization
 	curtain_anim_init();
 
 	level thread maps\_callbacksetup::SetupCallbacks();
-	
+
 	level.quad_move_speed = 35;
 	level.quad_traverse_death_fx = maps\zombie_theater_quad::quad_traverse_death_fx;
 	level.quad_explode = true;
@@ -88,14 +88,14 @@ main()
 	maps\_zombiemode_ai_dogs::enable_dog_rounds();
 
 	init_zombie_theater();
-	
+
 	// Setup the levels Zombie Zone Volumes
-	maps\_compass::setupMiniMap("menu_map_zombie_theater"); 
+	maps\_compass::setupMiniMap("menu_map_zombie_theater");
 	level.ignore_spawner_func = ::theater_ignore_spawner;
 
 	level.zone_manager_init_func = ::theater_zone_init;
 	init_zones[0] = "foyer_zone";
-	init_zones[1] = "foyer2_zone";	
+	init_zones[1] = "foyer2_zone";
 	level thread maps\_zombiemode_zone_manager::manage_zones( init_zones );
 
 	level thread maps\_zombiemode_auto_turret::init();
@@ -103,7 +103,7 @@ main()
 
 	// DCS: extracam screen stuff.
 	level.extracam_screen = GetEnt("theater_extracam_screen", "targetname");
-	level.extracam_screen Hide();	
+	level.extracam_screen Hide();
 	clientnotify("camera_stop");
 
 	init_sounds();
@@ -172,7 +172,7 @@ include_weapons()
 	include_weapon( "m14_upgraded_zm", false );
 
 	//	Weapons - Burst Rifles
-	include_weapon( "m16_zm", false, true );						
+	include_weapon( "m16_zm", false, true );
 	include_weapon( "m16_gl_upgraded_zm", false );
 	include_weapon( "g11_lps_zm" );
 	include_weapon( "g11_lps_upgraded_zm", false );
@@ -202,7 +202,7 @@ include_weapons()
 	include_weapon( "ithaca_upgraded_zm", false );
 	include_weapon( "rottweil72_zm", false, true );
 	include_weapon( "rottweil72_upgraded_zm", false );
-	include_weapon( "spas_zm" );						// 
+	include_weapon( "spas_zm" );						//
 	include_weapon( "spas_upgraded_zm", false );
 	include_weapon( "hs10_zm" );
 	include_weapon( "hs10_upgraded_zm", false );
@@ -294,9 +294,9 @@ include_powerups()
 
 add_powerups_after_round_1()
 {
-	
+
 	//want to precache all the stuff for these powerups, but we don't want them to be available in the first round
-	level.zombie_powerup_array = array_remove (level.zombie_powerup_array, "nuke"); 
+	level.zombie_powerup_array = array_remove (level.zombie_powerup_array, "nuke");
 	level.zombie_powerup_array = array_remove (level.zombie_powerup_array, "fire_sale");
 
 	while (1)
@@ -309,7 +309,7 @@ add_powerups_after_round_1()
 		}
 		wait (1);
 	}
-}			
+}
 
 //*****************************************************************************
 
@@ -321,14 +321,14 @@ init_zombie_theater()
 	flag_init( "special_quad_round" );
 
 
-	level thread electric_switch();	
+	level thread electric_switch();
 
 	// Setup the magic box map
-	thread maps\zombie_theater_magic_box::magic_box_init();	
-	
+	thread maps\zombie_theater_magic_box::magic_box_init();
+
 	//setup the movie screen
 	level thread maps\zombie_theater_movie_screen::initMovieScreen();
-		
+
 	// setup breakaway roofs
 	thread maps\zombie_theater_quad::init_roofs();
 
@@ -347,7 +347,7 @@ teleporter_intro()
 	{
 		players[i] SetTransported( 2 );
 	}
-	
+
 	playsoundatposition( "evt_beam_fx_2d", (0,0,0) );
     playsoundatposition( "evt_pad_cooldown_2d", (0,0,0) );
 }
@@ -362,13 +362,13 @@ electric_switch()
 	trig = getent("use_elec_switch","targetname");
 	trig sethintstring(&"ZOMBIE_ELECTRIC_SWITCH");
 	trig setcursorhint( "HINT_NOICON" );
-	
+
 
 	level thread wait_for_power();
 
 	trig waittill("trigger",user);
 
-	trig delete();	
+	trig delete();
 	flag_set( "power_on" );
 	Objective_State(8,"done");
 }
@@ -380,7 +380,7 @@ electric_switch()
 //
 wait_for_power()
 {
-	master_switch = getent("elec_switch","targetname");	
+	master_switch = getent("elec_switch","targetname");
 	master_switch notsolid();
 
 	flag_wait( "power_on" );
@@ -392,12 +392,12 @@ wait_for_power()
 
 	master_switch waittill("rotatedone");
 	playfx(level._effect["switch_sparks"] ,getstruct("elec_switch_fx","targetname").origin);
-	
+
 	//Sound - Shawn J  - adding temp sound to looping sparks & turning on power sources
 	master_switch playsound("zmb_turn_on");
 
 	//get the teleporter ready
-	maps\zombie_theater_teleporter::teleporter_init();	
+	maps\zombie_theater_teleporter::teleporter_init();
 	wait_network_frame();
 	// Set Perk Machine Notifys
 	level notify("revive_on");
@@ -408,7 +408,7 @@ wait_for_power()
 	wait_network_frame();
 	level notify("doubletap_on");
 	wait_network_frame();
-	level notify("Pack_A_Punch_on" );	
+	level notify("Pack_A_Punch_on" );
 	wait_network_frame();
 
 	// start quad round
@@ -418,11 +418,11 @@ wait_for_power()
 
 	level notify("quad_round_can_end");
 	level.delay_spawners = undefined;
-		
+
 	//maps\zombie_theater_quad::begin_quad_introduction("theater_round");
 	//level.round_spawn_func = maps\zombie_theater_quad::Intro_Quad_Spawn;;
 	//maps\zombie_theater_quad::Theater_Quad_Round();
-	
+
 	// DCS: start check for potential quad waves after power turns on.
 	//level thread quad_wave_init();
 }
@@ -446,34 +446,34 @@ theater_zone_init()
 	flag_set( "always_on" );
 
 	// foyer_zone
-	add_adjacent_zone( "foyer_zone", "foyer2_zone", "always_on" );	
-	
+	add_adjacent_zone( "foyer_zone", "foyer2_zone", "always_on" );
+
 	add_adjacent_zone( "foyer_zone", "vip_zone", "magic_box_foyer1" );
 	add_adjacent_zone( "foyer2_zone", "crematorium_zone", "magic_box_crematorium1" );
 	add_adjacent_zone( "foyer_zone", "crematorium_zone", "magic_box_crematorium1" );
 
 	// vip_zone
 	add_adjacent_zone( "vip_zone", "dining_zone", "vip_to_dining" );
-	
+
 	// crematorium_zone
 	add_adjacent_zone( "crematorium_zone", "alleyway_zone", "magic_box_alleyway1" );
-	
+
 	// dining_zone
 	add_adjacent_zone( "dining_zone", "dressing_zone", "dining_to_dressing" );
-	
+
 	// dressing_zone
 	add_adjacent_zone( "dressing_zone", "stage_zone", "magic_box_dressing1" );
-	
+
 	// stage_zone
 	add_adjacent_zone( "stage_zone", "west_balcony_zone", "magic_box_west_balcony2" );
-	
+
 	// theater_zone
 	add_adjacent_zone( "theater_zone", "foyer2_zone", "power_on" );
 	add_adjacent_zone( "theater_zone", "stage_zone", "power_on" );
-	
+
 	// west_balcony_zone
 	add_adjacent_zone( "west_balcony_zone", "alleyway_zone", "magic_box_west_balcony1" );
-}	
+}
 
 theater_ignore_spawner( spawner )
 {
@@ -526,9 +526,9 @@ quad_wave_init()
 	level thread time_for_quad_wave("theater_zone");
 	level thread time_for_quad_wave("stage_zone");
 	level thread time_for_quad_wave("dining_zone");
-	
+
 	level waittill( "end_of_round" );
-	flag_clear( "special_quad_round" );	
+	flag_clear( "special_quad_round" );
 }
 
 time_for_quad_wave(zone_name)
@@ -542,13 +542,13 @@ time_for_quad_wave(zone_name)
 
 	//	wait for round change.
 	level waittill( "between_round_over" );
-	
+
 	//avoid dog rounds.
 	if ( IsDefined( level.next_dog_round ) && level.next_dog_round == level.round_number )
 	{
-		level thread time_for_quad_wave(zone_name);			
+		level thread time_for_quad_wave(zone_name);
 		return;
-	}	
+	}
 
 	// ripped from spawn script for accuracy.	-------------------------------------
 	max = level.zombie_vars["zombie_max_ai"];
@@ -567,11 +567,11 @@ time_for_quad_wave(zone_name)
 
 	if( player_num == 1 )
 	{
-		max += int( ( 0.5 * level.zombie_vars["zombie_ai_per_player"] ) * multiplier ); 
+		max += int( ( 0.5 * level.zombie_vars["zombie_ai_per_player"] ) * multiplier );
 	}
 	else
 	{
-		max += int( ( ( player_num - 1 ) * level.zombie_vars["zombie_ai_per_player"] ) * multiplier ); 
+		max += int( ( ( player_num - 1 ) * level.zombie_vars["zombie_ai_per_player"] ) * multiplier );
 	}
 	// ripped from spawn script for accuracy.	-------------------------------------
 
@@ -579,10 +579,10 @@ time_for_quad_wave(zone_name)
 	chance = 100;
 	max_zombies = [[ level.max_zombie_func ]]( max );
 	current_round = level.round_number;
-	
+
 	// every third round a chance of a quad wave.
 	if((level.round_number % 3 == 0) && chance >= RandomInt(100))
-	{	
+	{
 		if(zone.is_occupied)
 		{
 			flag_set( "special_quad_round" );
@@ -597,7 +597,7 @@ time_for_quad_wave(zone_name)
 
 			flag_clear( "special_quad_round" );
 			maps\_zombiemode_zone_manager::reinit_zone_spawners();
-			
+
 		}
 	}
 	level thread time_for_quad_wave(zone_name);
@@ -607,7 +607,7 @@ time_for_quad_wave(zone_name)
 theater_chandelier_model_scale()
 {
 	flag_wait( "power_on" );
-	
+
 	if( self.model == "zombie_theater_chandelier1arm_off")
 	{
 		self SetModel("zombie_theater_chandelier1arm_on");
@@ -617,7 +617,7 @@ theater_chandelier_model_scale()
 		self SetModel("zombie_theater_chandelier1_on");
 	}
 
-}	
+}
 
 set_rope_collision()
 {
@@ -638,17 +638,17 @@ zombie_dog_pathing_hack()
 	PreCacheModel("collision_geo_64x64x128");
 	PreCacheModel("collision_wall_128x128x10");
 	wait(1);
-	
+
 	collision = spawn("script_model", (-391, 1194, 16));
 	collision setmodel("collision_geo_64x64x128");
 	collision.angles = (0, 301.8, 0);
 	collision Hide();
-	
+
 	collision = spawn("script_model", (480, 1155, -16));
 	collision setmodel("collision_geo_64x64x128");
 	collision.angles = (0, 357, 0);
 	collision Hide();
-	
+
 	//DCS: additional collision for theater turret platform
 	collision = spawn("script_model", (-20, 957, 128));
 	collision setmodel("collision_geo_64x64x128");
@@ -657,12 +657,12 @@ zombie_dog_pathing_hack()
 	collision = spawn("script_model", (20, 957, 128));
 	collision setmodel("collision_geo_64x64x128");
 	collision.angles = (0, 0, 0);
-	collision Hide();	
-	
+	collision Hide();
+
 	collision = spawn("script_model", (1458, -57, 342));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 0, 0);
-	collision Hide();	
+	collision Hide();
 }
 
 barricade_glitch_fix()
@@ -672,34 +672,34 @@ barricade_glitch_fix()
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
+
 	// dressing room
 	collision = spawn("script_model", (1538, 1288, 48));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
+
 	// upper room left
 	collision = spawn("script_model", (-1099, 1120, 332));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
+
 	// alley north
 	collision = spawn("script_model", (-1749, 552, 168));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
-	collision Hide();	
-	
+	collision Hide();
+
 	// theater left
 	collision = spawn("script_model", (-763, 834, 96));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
+
 	// alley doubletap: 72246
 	collision = spawn("script_model", (-1746, -378, 147));
 	collision setmodel("collision_geo_64x64x128");
 	collision.angles = (0, 0, 0);
-	collision Hide();	
-}			
+	collision Hide();
+}

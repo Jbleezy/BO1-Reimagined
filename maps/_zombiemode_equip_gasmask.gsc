@@ -1,5 +1,5 @@
 #include maps\_utility; 
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_zombiemode_utility;
 
 #using_animtree( "generic_human" );
@@ -20,7 +20,7 @@ init()
 
 	PreCacheItem("lower_equip_gasmask_zm");
 
-	level thread gasmask_on_player_connect(); 
+	level thread gasmask_on_player_connect();
 }
 
 
@@ -37,37 +37,37 @@ gasmask_removed_watcher_thread()
 	self notify("only_one_gasmask_removed_thread");
 	self endon("only_one_gasmask_removed_thread");
 	self endon("disconnect");
-	
+
 	self waittill("equip_gasmask_zm_taken");
-	
+
 	//  Do switch to normal player model/head here.
-	
+
 	if(IsDefined(level.zombiemode_gasmask_reset_player_model))
 	{
 		ent_num = self GetEntityNumber();
-		
+
 		if(IsDefined(self.zm_random_char))
 		{
 			ent_num = self.zm_random_char;
 		}
-				
+
 		self [[level.zombiemode_gasmask_reset_player_model]](ent_num);
 	}
-	
+
 	/*if(IsDefined(level.zombiemode_gasmask_reset_player_viewmodel))
 	{
 		ent_num = self GetEntityNumber();
-		
+
 		if(IsDefined(self.zm_random_char))
 		{
 			ent_num = self.zm_random_char;
 		}
-				
+
 		self [[level.zombiemode_gasmask_reset_player_viewmodel]](ent_num);
 	}*/
-	
+
 	self clearclientflag(level._CF_PLAYER_GASMASK_OVERLAY);
-	
+
 }
 
 /*
@@ -82,39 +82,39 @@ gasmask_activation_watcher_thread()
 	self endon("zombified");
 	self endon("disconnect");
 	self endon("equip_gasmask_zm_taken");
-	
+
 	self thread gasmask_removed_watcher_thread();
-	
+
 	self thread remove_gasmask_on_game_over();
-		
-	
+
+
 	// Switch to hazmat suited player model here.
 	//IPrintLnBold("I can hazMat.");
-	
+
 	if(IsDefined(level.zombiemode_gasmask_set_player_model))
 	{
 		ent_num = self GetEntityNumber();
-		
+
 		if(IsDefined(self.zm_random_char))
 		{
 			ent_num = self.zm_random_char;
 		}
-		
+
 		self [[level.zombiemode_gasmask_set_player_model]](ent_num);
 	}
-	
+
 	if(IsDefined(level.zombiemode_gasmask_set_player_viewmodel))
 	{
 		ent_num = self GetEntityNumber();
-		
+
 		if(IsDefined(self.zm_random_char))
 		{
 			ent_num = self.zm_random_char;
 		}
-				
+
 		self [[level.zombiemode_gasmask_set_player_viewmodel]](ent_num);
-	}	
-	
+	}
+
 	while(1)
 	{
 		self waittill_either("equip_gasmask_zm_activate", "equip_gasmask_zm_deactivate");
@@ -124,7 +124,7 @@ gasmask_activation_watcher_thread()
 		{
 			self UnSetPerk("specialty_fastswitch");
 		}
-		
+
 		if(self maps\_zombiemode_equipment::is_equipment_active("equip_gasmask_zm"))
 		{
 			self increment_is_drinking();
@@ -133,19 +133,19 @@ gasmask_activation_watcher_thread()
 			self GiveWeapon("equip_gasmask_zm");
 			self SwitchToWeapon("equip_gasmask_zm");
 
-			// clear the actionslot during the anim to prevent the player breaking the anims by spamming the dpad 
+			// clear the actionslot during the anim to prevent the player breaking the anims by spamming the dpad
 			self SetActionSlot( 1, "" );
 
 			// Switch to hazmat suited player model, with gasmask here.
 			if ( IsDefined( level.zombiemode_gasmask_set_player_model ) )
 			{
 				ent_num = self GetEntityNumber();
-				
+
 				if(IsDefined(self.zm_random_char))
 				{
 					ent_num = self.zm_random_char;
 				}
-								
+
 				self [[level.zombiemode_gasmask_change_player_headmodel]]( ent_num, true );
 			}
 
@@ -157,9 +157,9 @@ gasmask_activation_watcher_thread()
 			self waittill( "weapon_change_complete" );
 
 			// Start overlay on client.
-			
+
 			//clientNotify( "_gasmask_on_pristine" );
-			//self clientnotify("gmon");//setClientSysState("levelNotify", "gmon", self);			
+			//self clientnotify("gmon");//setClientSysState("levelNotify", "gmon", self);
 			self setclientflag(level._CF_PLAYER_GASMASK_OVERLAY);
 		}
 		else
@@ -170,19 +170,19 @@ gasmask_activation_watcher_thread()
 			self GiveWeapon("lower_equip_gasmask_zm");
 			self SwitchToWeapon("lower_equip_gasmask_zm");
 
-			// clear the actionslot during the anim to prevent the player breaking the anims by spamming the dpad 
+			// clear the actionslot during the anim to prevent the player breaking the anims by spamming the dpad
 			self SetActionSlot( 1, "" );
 
 			// Switch to hazmat suited player model, without gasmask here.
 			if ( IsDefined( level.zombiemode_gasmask_set_player_model ) )
 			{
 				ent_num = self GetEntityNumber();
-				
+
 				if(IsDefined(self.zm_random_char))
 				{
 					ent_num = self.zm_random_char;
 				}
-				
+
 				self [[level.zombiemode_gasmask_change_player_headmodel]]( ent_num, false );
 			}
 
@@ -199,7 +199,7 @@ gasmask_activation_watcher_thread()
 			if( self is_multiple_drinking() )
 			{
 				self decrement_is_drinking();
-				// now re-set the cleared the actionslot during the anim to prevent the player breaking the anims by spamming the dpad 
+				// now re-set the cleared the actionslot during the anim to prevent the player breaking the anims by spamming the dpad
 				self setactionslot( 1, "weapon", "equip_gasmask_zm" );
 				self notify("equipment_select_response_done");
 				continue;
@@ -233,7 +233,7 @@ gasmask_activation_watcher_thread()
 			}
 		}
 
-		// now re-set the cleared the actionslot during the anim to prevent the player breaking the anims by spamming the dpad 
+		// now re-set the cleared the actionslot during the anim to prevent the player breaking the anims by spamming the dpad
 		self setactionslot( 1, "weapon", "equip_gasmask_zm" );
 
 		if ( !self maps\_laststand::player_is_in_laststand() && !is_true( self.intermission ) )
@@ -262,10 +262,10 @@ remove_gasmask_on_game_over()
 {
 	self endon("equip_gasmask_zm_taken");
 	level waittill("pre_end_game");
-	
+
 	self clearclientflag(level._CF_PLAYER_GASMASK_OVERLAY);
-	
-	
+
+
 }
 
 

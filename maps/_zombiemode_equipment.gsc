@@ -14,7 +14,7 @@ register_equipment( equipment_name, hint, howto_hint, equipmentVO, watcher_threa
 	{
 		return;
 	}
-	
+
 	PrecacheString( hint );
 
 	struct = SpawnStruct();
@@ -31,7 +31,7 @@ register_equipment( equipment_name, hint, howto_hint, equipmentVO, watcher_threa
 	struct.triggers = [];
 	struct.models = [];
 	struct.watcher_thread = watcher_thread;
-	
+
 	level.zombie_equipment[equipment_name] = struct;
 }
 
@@ -116,11 +116,11 @@ equipment_spawn_think()
 			wait( 0.1 );
 			continue;
 		}
-		
+
 		if( is_limited_equipment(self.zombie_equipment_upgrade)) //only one player can have limited equipment at a time
-		{			
+		{
 			player setup_limited_equipment(self.zombie_equipment_upgrade);
-			
+
 			//move the equpiment respawn to a new location
 			if(isDefined(level.hacker_tool_positions))
 			{
@@ -128,11 +128,11 @@ equipment_spawn_think()
 				self.origin = new_pos.trigger_org;
 				model = getent(self.target,"targetname");
 				model.origin = new_pos.model_org;
-				model.angles = new_pos.model_ang;				
+				model.angles = new_pos.model_ang;
 			}
-			
-		}		
-		
+
+		}
+
 		player equipment_give( self.zombie_equipment_upgrade );
 	}
 }
@@ -182,8 +182,8 @@ equipment_take()
 	self notify(equipment + "_taken");
 
 	self TakeWeapon( equipment );
-	
-	if( (!is_limited_equipment(equipment) ) ||  (is_limited_equipment(equipment) && !limited_equipment_in_use(equipment) )) 
+
+	if( (!is_limited_equipment(equipment) ) ||  (is_limited_equipment(equipment) && !limited_equipment_in_use(equipment) ))
 	{
 		self set_equipment_invisibility_to_player( equipment, false );
 	}
@@ -204,7 +204,7 @@ equipment_give( equipment )
 	self equipment_take();
 	if ( curr_weapon_was_curr_equipment )
 	{
-		// if they just traded in their current weapon, switch them to a primary 
+		// if they just traded in their current weapon, switch them to a primary
 		primaryWeapons = self GetWeaponsListPrimaries();
 		if ( IsDefined( primaryWeapons ) && primaryWeapons.size > 0 )
 		{
@@ -218,14 +218,14 @@ equipment_give( equipment )
 	self notify(equipment + "_given");
 	self set_equipment_invisibility_to_player( equipment, true );
 	self setactionslot( 1, "weapon", equipment );
-	
+
 	if(IsDefined(level.zombie_equipment[equipment].watcher_thread))
 	{
 		self thread [[level.zombie_equipment[equipment].watcher_thread]]();
 	}
 
 	self thread equipment_slot_watcher(equipment);
-		
+
 	self maps\_zombiemode_audio::create_and_play_dialog( "weapon_pickup", level.zombie_equipment[equipment].vox );
 }
 
@@ -234,7 +234,7 @@ equipment_slot_watcher(equipment)
 	self notify("kill_equipment_slot_watcher");
 	self endon("kill_equipment_slot_watcher");
 	self endon("disconnect");
-	
+
 	while(1)
 	{
 		self waittill( "weapon_change", curr_weapon, prev_weapon );
@@ -250,7 +250,7 @@ equipment_slot_watcher(equipment)
 		}
 
 		if ( IsDefined( level.zombie_equipment[equipment].watcher_thread ) )
-		{		
+		{
 			if ( curr_weapon == equipment )
 			{
 				if ( self.current_equipment_active[equipment] == true )
@@ -279,7 +279,7 @@ equipment_slot_watcher(equipment)
 				self notify( equipment + "_deactivate" );
 				self.current_equipment_active[equipment] = false;
 			}
-		}		
+		}
 	}
 }
 
@@ -287,7 +287,7 @@ is_limited_equipment(equipment)
 {
 	if(isDefined(level._limited_equipment))
 	{
-	 
+
 		for(i=0;i<level._limited_equipment.size;i++)
 		{
 			if(level._limited_equipment[i] == equipment)
@@ -295,9 +295,9 @@ is_limited_equipment(equipment)
 				return true;
 			}
 		}
-		
+
 		return false;
-	}	
+	}
 }
 
 limited_equipment_in_use(equipment)
@@ -322,7 +322,7 @@ setup_limited_equipment(equipment)
 	{
 		players[i] set_equipment_invisibility_to_player( equipment, true );
 	}
-		
+
 	self thread release_limited_equipment_on_disconnect(equipment);
 	self thread release_limited_equipment_on_equipment_taken(equipment);
 }
@@ -330,24 +330,24 @@ setup_limited_equipment(equipment)
 release_limited_equipment_on_equipment_taken(equipment)
 {
 	self endon("disconnect");
-	
-	self waittill_either( equipment + "_taken","spawned_spectator");	
-	
+
+	self waittill_either( equipment + "_taken","spawned_spectator");
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
 
 		players[i] set_equipment_invisibility_to_player( equipment, false );
-	}	
+	}
 }
 
 
 release_limited_equipment_on_disconnect(equipment)
 {
 	self endon( equipment + "_taken");
-	
+
 	self waittill("disconnect");
-	
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
@@ -355,7 +355,7 @@ release_limited_equipment_on_disconnect(equipment)
 		{
 			players[i] set_equipment_invisibility_to_player( equipment, false );
 		}
-	}	
+	}
 }
 
 is_equipment_active(equipment)
@@ -364,7 +364,7 @@ is_equipment_active(equipment)
 	{
 		return false;
 	}
-	
+
 	return(self.current_equipment_active[equipment]);
 }
 
@@ -401,9 +401,9 @@ show_equipment_hint( equipment )
 	self endon("kill_previous_show_equipment_hint_thread");
 	self endon("death");
 	self endon("disconnect");
-	
+
 	wait(.5);
-	
+
 	text = get_equipment_howto_hint( equipment );
 
 	self setup_equipment_client_hintelem();

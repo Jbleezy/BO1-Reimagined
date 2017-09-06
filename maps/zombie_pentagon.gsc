@@ -2,8 +2,8 @@
 #include maps\_utility;
 #include maps\_zombiemode_utility;
 #include maps\_zombiemode_zone_manager;
-#include maps\zombie_pentagon_teleporter; 
- 
+#include maps\zombie_pentagon_teleporter;
+
 //#include maps\_zombiemode_protips;
 
 main()
@@ -16,18 +16,18 @@ main()
 
 	// ww: this was getting big, made a preacache function
 	level pentagon_precache();
-	
+
 	PrecacheShader( "zom_icon_trap_switch_handle" ); // ww: hud icon for battery
-	
-	level.dogs_enabled = false;	
+
+	level.dogs_enabled = false;
 	level.random_pandora_box_start = false;
-	
+
 	level thread maps\_callbacksetup::SetupCallbacks();
 
 	level.quad_move_speed = 35;
 	//level.quad_traverse_death_fx = ::quad_traverse_death_fx;
 	level.quad_explode = true;
-	
+
 	level.dog_spawn_func = maps\_zombiemode_ai_dogs::dog_spawn_factory_logic;
 
 	// Special zombie types.
@@ -48,7 +48,7 @@ main()
 
 	// DO ACTUAL ZOMBIEMODE INIT
 	maps\_zombiemode::main();
-	
+
 	// Init tv screens
 	level maps\zombie_pentagon_magic_box::magic_box_init();
 
@@ -57,7 +57,7 @@ main()
 	battlechatter_off("axis");
 
 	// Setup the levels Zombie Zone Volumes
-	maps\_compass::setupMiniMap("menu_map_zombie_pentagon"); 
+	maps\_compass::setupMiniMap("menu_map_zombie_pentagon");
 	level.zone_manager_init_func = ::pentagon_zone_init;
 	init_zones[0] = "conference_level1";
 	level thread maps\_zombiemode_zone_manager::manage_zones( init_zones );
@@ -82,7 +82,7 @@ main()
 	level thread zombie_warroom_barricade_fix();
 	level thread barricade_glitch_fix();
 
-	
+
 	//bonfire_init
 	level.bonfire_init_func = ::pentagon_bonfire_init;
 
@@ -126,10 +126,10 @@ delete_in_createfx()
 					if ( IsDefined( unbroken_section ) )
 					{
 						unbroken_section self_delete();
-					}	
+					}
 				}
-				
-				targets[j] self_delete();	
+
+				targets[j] self_delete();
 			}
 		}
 		return;
@@ -143,39 +143,39 @@ pentagon_zone_init()
 {
 	flag_init( "always_on" );
 	flag_set( "always_on" );
-	
+
 
 	//Level 1
-	add_adjacent_zone( "conference_level1", "hallway_level1", "conf1_hall1" );	
-	add_adjacent_zone( "hallway3_level1", "hallway_level1", "conf1_hall1" );	
+	add_adjacent_zone( "conference_level1", "hallway_level1", "conf1_hall1" );
+	add_adjacent_zone( "hallway3_level1", "hallway_level1", "conf1_hall1" );
 
-	// Only used between pack room and war room (special one way) 
+	// Only used between pack room and war room (special one way)
 	add_adjacent_zone( "conference_level2", "war_room_zone_south", "war_room_entry", true );
 	add_adjacent_zone( "conference_level2", "war_room_zone_north", "war_room_special", true );
 
-	
+
 	// Level 2
-	add_adjacent_zone( "war_room_zone_top", "war_room_zone_south", "war_room_stair" );	
+	add_adjacent_zone( "war_room_zone_top", "war_room_zone_south", "war_room_stair" );
 	add_adjacent_zone( "war_room_zone_top", "war_room_zone_north", "war_room_stair" );
-	add_adjacent_zone( "war_room_zone_south", "war_room_zone_north", "war_room_stair" );	
-	add_adjacent_zone( "war_room_zone_south", "war_room_zone_north", "war_room_west" );	
+	add_adjacent_zone( "war_room_zone_south", "war_room_zone_north", "war_room_stair" );
+	add_adjacent_zone( "war_room_zone_south", "war_room_zone_north", "war_room_west" );
 
 	//special elevator spawns
-	add_adjacent_zone( "war_room_zone_north", "war_room_zone_elevator", "war_room_elevator" );	
-	
+	add_adjacent_zone( "war_room_zone_north", "war_room_zone_elevator", "war_room_elevator" );
+
 	//level 3
-	add_adjacent_zone( "labs_elevator", "labs_hallway1", "labs_enabled" );	
-	add_adjacent_zone( "labs_hallway1", "labs_hallway2", "labs_enabled" );	
-	
-	add_adjacent_zone( "labs_hallway2", "labs_zone1", "lab1_level3" );	
+	add_adjacent_zone( "labs_elevator", "labs_hallway1", "labs_enabled" );
+	add_adjacent_zone( "labs_hallway1", "labs_hallway2", "labs_enabled" );
+
+	add_adjacent_zone( "labs_hallway2", "labs_zone1", "lab1_level3" );
 	add_adjacent_zone( "labs_hallway1", "labs_zone2", "lab2_level3" );
-	add_adjacent_zone( "labs_hallway2", "labs_zone2", "lab2_level3" );	
-	add_adjacent_zone( "labs_hallway1", "labs_zone3", "lab3_level3" );	
-	
+	add_adjacent_zone( "labs_hallway2", "labs_zone2", "lab2_level3" );
+	add_adjacent_zone( "labs_hallway1", "labs_zone3", "lab3_level3" );
+
 	// DCS: if random spawner set to true, reduce randomly to this number of active spawners.
 	level.zones["conference_level1"].num_spawners = 4;
 	level.zones["hallway_level1"].num_spawners = 4;
-	//level.zones["hallway2_level1"].num_spawners = 2;	
+	//level.zones["hallway2_level1"].num_spawners = 2;
 }
 
 //-------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ enable_zone_elevators_init()
 	elev_zone_trig thread maps\zombie_pentagon_teleporter::enable_zone_portals();
 
 	elev_zone_trig2 = GetEnt( "elevator2_down_riders", "targetname" );
-	elev_zone_trig2 thread maps\zombie_pentagon_teleporter::enable_zone_portals();	
+	elev_zone_trig2 thread maps\zombie_pentagon_teleporter::enable_zone_portals();
 }
 
 //*****************************************************************************
@@ -216,7 +216,7 @@ include_weapons()
 	include_weapon( "m14_upgraded_zm", false );
 
 	//	Weapons - Burst Rifles
-	include_weapon( "m16_zm", false, true );						
+	include_weapon( "m16_zm", false, true );
 	include_weapon( "m16_gl_upgraded_zm", false );
 	include_weapon( "g11_lps_zm" );
 	include_weapon( "g11_lps_upgraded_zm", false );
@@ -244,7 +244,7 @@ include_weapons()
 	include_weapon( "ithaca_upgraded_zm", false );
 	include_weapon( "rottweil72_zm", false, true );
 	include_weapon( "rottweil72_upgraded_zm", false );
-	include_weapon( "spas_zm" );						// 
+	include_weapon( "spas_zm" );						//
 	include_weapon( "spas_upgraded_zm", false );
 	include_weapon( "hs10_zm" );
 	include_weapon( "hs10_upgraded_zm", false );
@@ -300,7 +300,7 @@ include_weapons()
 
 	precacheItem( "explosive_bolt_zm" );
 	precacheItem( "explosive_bolt_upgraded_zm" );
-	
+
 	// get the bowie into the collector achievement list
 	level.collector_achievement_weapons = array_add( level.collector_achievement_weapons, "bowie_knife_zm" );
 }
@@ -319,10 +319,10 @@ include_powerups()
 	include_powerup( "carpenter" );
 	include_powerup( "fire_sale" );
 	include_powerup( "bonfire_sale" );
-	
+
 	// minigun
 	PreCacheItem( "minigun_zm" );
-	
+
 	include_powerup( "minigun" );
 }
 
@@ -341,7 +341,7 @@ electric_switch()
 
 	trig waittill("trigger",user);
 
-	trig delete();	
+	trig delete();
 	flag_set( "power_on" );
 	Objective_State(8,"done");
 }
@@ -353,7 +353,7 @@ electric_switch()
 //
 wait_for_power()
 {
-	master_switch = getent("elec_switch","targetname");	
+	master_switch = getent("elec_switch","targetname");
 	master_switch notsolid();
 
 	flag_wait( "power_on" );
@@ -376,28 +376,28 @@ wait_for_power()
 	level notify("sleight_on");
 	level notify("doubletap_on");
 	level notify("Pack_A_Punch_on" );
-	
+
 	// DSL - putting these together into 1 single client notify - redispatching them all as level notifies on the client.
-	
-/*	clientnotify( "power_on" );	
+
+/*	clientnotify( "power_on" );
 
 	clientnotify("revive_on");
 	clientnotify("middle_door_open");
 	clientnotify("fast_reload_on");
 	clientnotify("doubletap_on");
 	clientnotify("jugger_on");	*/
-	
+
 	clientnotify("ZPO");	 // Zombie Power On.
-	
+
 	//get the teleporter ready
-	maps\zombie_pentagon_teleporter::teleporter_init();		
-	
+	maps\zombie_pentagon_teleporter::teleporter_init();
+
 	master_switch waittill("rotatedone");
 	playfx(level._effect["switch_sparks"] ,getstruct("elec_switch_fx","targetname").origin);
-	
+
 	//Sound - Shawn J  - adding temp sound to looping sparks & turning on power sources
 	master_switch playsound("zmb_turn_on");
-	
+
 	level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_poweron" );
 }
 
@@ -434,14 +434,14 @@ zombie_pathing_init()
 	{
 		cleanup_trig[i] thread zombie_pathing_cleanup();
 	}
-}	
+}
 zombie_pathing_cleanup()
 {
-	
+
 	while(true)
 	{
 		self waittill("trigger", who);
-		
+
 		if(IsDefined(who.animname) && who.animname == "thief_zombie")
 		{
 			continue;
@@ -449,26 +449,26 @@ zombie_pathing_cleanup()
 		else if(who.team == "axis")
 		{
 			//IPrintLnBold("zombie triggered death!");
-		
+
 			level.zombie_total++;
 			who DoDamage(who.health + 100, who.origin);
-		}	
+		}
 	}
-}	
+}
 //-------------------------------------------------------------------------------
 // DCS: Vision set init and setup
 //-------------------------------------------------------------------------------
 vision_set_init()
 {
 	level waittill( "start_of_round" );
-	
+
 	exploder(2000);
-	
+
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
 		players[i] VisionSetNaked("zombie_pentagon", 0.5);
-	}	
+	}
 }
 
 change_pentagon_vision()
@@ -478,22 +478,22 @@ change_pentagon_vision()
 	{
 		return;
 	}
-	
-	players = get_players();	
+
+	players = get_players();
 	for ( i = 0; i < players.size; i++ )
 	{
 		players[i].floor = maps\_zombiemode_ai_thief::thief_check_floor( players[i] );
 		setClientSysState( "levelNotify", "vis" + players[i].floor, players[i] );
-		wait_network_frame();			
-	}	
-}	
+		wait_network_frame();
+	}
+}
 
 //-------------------------------------------------------------------------------
 // DCS 090310: wait for last stand, check floors for zombie movement.
 //-------------------------------------------------------------------------------
 laststand_bleedout_init()
 {
-	flag_wait( "all_players_connected" ); 
+	flag_wait( "all_players_connected" );
 	players = get_players();
 	if(players.size > 1)
 	{
@@ -502,25 +502,25 @@ laststand_bleedout_init()
 			players[i] thread wait_for_laststand_notify();
 			players[i] thread bleedout_listener();
 		}
-	}	
-}	
-	
+	}
+}
+
 wait_for_laststand_notify()
 {
 	self endon("disconnect");
 
 	while(true)
 	{
-		num_on_floor = 0;		
+		num_on_floor = 0;
 		num_floor_laststand = 0;
-		
+
 		self waittill( "player_downed" );
-		
+
 		while(self maps\_laststand::player_is_in_laststand())
 		{
 			self.floor = maps\_zombiemode_ai_thief::thief_check_floor( self );
-			current_floor = self.floor;		
-	
+			current_floor = self.floor;
+
 			players = get_players();
 			for ( i = 0; i < players.size; i++ )
 			{
@@ -531,17 +531,17 @@ wait_for_laststand_notify()
 					if(players[i] maps\_laststand::player_is_in_laststand())
 					{
 						num_floor_laststand++;
-					}	
+					}
 				}
 			}
-			
+
 			wait_network_frame();
 			if(players.size > 1 && num_on_floor == num_floor_laststand)
 			{
 				self thread maps\zombie_pentagon_elevators::laststand_elev_zombies_away();
 			}
 			wait(5);
-		}		
+		}
 	}
 }
 //-------------------------------------------------------------------------------
@@ -550,14 +550,14 @@ wait_for_laststand_notify()
 bleedout_listener()
 {
 	while(true)
-	{	
+	{
 		self waittill( "spawned_spectator" );
 		self thread bleedout_respawn_listener();
-		
+
 		wait(2);
 
 		level thread check_if_empty_floors();
-		
+
 		wait(1);
 	}
 }
@@ -565,26 +565,26 @@ bleedout_listener()
 bleedout_respawn_listener()
 {
 	self waittill("spawned_player");
-	
+
 	self.floor = maps\_zombiemode_ai_thief::thief_check_floor( self );
 	setClientSysState( "levelNotify", "vis" + self.floor, self );
-}	
+}
 //-------------------------------------------------------------------------------
 // DCS 091310:	Bonfire powerup init
-//-------------------------------------------------------------------------------		
+//-------------------------------------------------------------------------------
 pentagon_bonfire_init()
 {
 	// portals already available, and no one entered pack room yet.
 	if(flag("defcon_active") && level.defcon_activated == false)
 	{
-		return;		
+		return;
 	}
 	else if(flag("defcon_active") && level.defcon_activated == true) // if someone in room reset countdown
 	{
 		level.defcon_countdown_time = 30;
 		level.defcon_level = 5;
 		return;
-	}		
+	}
 
 	current_defcon_level = level.defcon_level;
 	punch_switches = GetEntArray("punch_switch","targetname");
@@ -597,7 +597,7 @@ pentagon_bonfire_init()
 	//force reset.
 	level.defcon_level = 1;
 	level notify("pack_room_reset");
-	
+
 	wait(0.1);
 
 	if(IsDefined(punch_switches))
@@ -619,7 +619,7 @@ pentagon_bonfire_init()
 	}
 
 	level waittill( "bonfire_sale_off" );
-	
+
 	//someone entered pack room or is currently in the pack room.
 	if(	level.defcon_activated == true || level.zones["conference_level2"].is_occupied)
 	{
@@ -628,19 +628,19 @@ pentagon_bonfire_init()
 	else // otherwise reset pack room and portals, times up!
 	{
 		flag_clear("defcon_active");
-		
+
 		level thread regular_portal_fx_on();
 
 		level.defcon_level = 1;
 		level notify("pack_room_reset");
 
 		level thread defcon_sign_lights();
-	}	
+	}
 	flag_clear("bonfire_reset");
 }
 
 //-------------------------------------------------------------------------------
-// player should be within a couple feet of enemy	
+// player should be within a couple feet of enemy
 //-------------------------------------------------------------------------------
 pentagon_validate_enemy_path_length( player )
 {
@@ -654,9 +654,9 @@ pentagon_validate_enemy_path_length( player )
 
 	return false;
 }
-	
+
 //-------------------------------------------------------------------------------
-// DCS 090710:	setup shutter to work independent of doors.	
+// DCS 090710:	setup shutter to work independent of doors.
 //							close shutters for tech round.
 //-------------------------------------------------------------------------------
 lab_shutters_init()
@@ -667,15 +667,15 @@ lab_shutters_init()
 		for ( i = 0; i < shutters.size; i++ )
 		{
 			shutters[i] thread lab_shutters_think();
-		}	
-	}	
-}	
+		}
+	}
+}
 lab_shutters_think()
 {
 	door_pos = self.origin;
-	time = 1;	
+	time = 1;
 	scale = 1;
-			
+
 	if(IsDefined(self.script_flag) && !flag(self.script_flag))
 	{
 		flag_wait(self.script_flag);
@@ -684,34 +684,34 @@ lab_shutters_think()
 				while(flag("thief_round"))
 				{
 					wait(0.5);
-				}	
+				}
 		}
-		
+
 		if(isDefined(self.script_vector))
 		{
 			vector = vector_scale( self.script_vector, scale );
 			thief_vector = vector_scale( self.script_vector, .2 );
 			while(true)
 			{
-				self MoveTo( door_pos + vector, time, time * 0.25, time * 0.25 ); 
+				self MoveTo( door_pos + vector, time, time * 0.25, time * 0.25 );
 				self thread maps\_zombiemode_blockers::door_solid_thread();
-			
+
 				flag_wait("thief_round");
 				//IPrintLnBold("start_thief_round");
-				self MoveTo( door_pos + thief_vector, time, time * 0.25, time * 0.25 ); 
-				self thread maps\_zombiemode_blockers::door_solid_thread(); 
-	
+				self MoveTo( door_pos + thief_vector, time, time * 0.25, time * 0.25 );
+				self thread maps\_zombiemode_blockers::door_solid_thread();
+
 				while(flag("thief_round"))
 				{
 					wait(0.5);
-				}	
-	
+				}
+
 				//level waittill( "between_round_over" );
 				//IPrintLnBold("end_thief_round");
 			}
 		}
-	}		
-}	
+	}
+}
 
 play_starting_vox()
 {
@@ -724,10 +724,10 @@ pentagon_brush_lights_init()
 {
 	// sbrush lights
 	sbrush_office_ceiling_lights_off = GetEntArray( "sbrushmodel_interior_office_lights", "targetname" );
-	
+
 	if( IsDefined( sbrush_office_ceiling_lights_off ) && sbrush_office_ceiling_lights_off.size > 0 )
 	{
-		array_thread( sbrush_office_ceiling_lights_off, ::pentagon_brush_lights );	
+		array_thread( sbrush_office_ceiling_lights_off, ::pentagon_brush_lights );
 	}
 }
 
@@ -738,16 +738,16 @@ pentagon_brush_lights()
 	{
 		return;
 	}
-	
+
 	self.off_version = GetEnt( self.target, "targetname" );
-	
+
 	self.off_version Hide();
-	
+
 	flag_wait( "power_on" );
-	
+
 	self Hide();
 	self.off_version Show();
-	
+
 }
 
 //******************************************************************************
@@ -758,10 +758,10 @@ pentagon_precache()
 	// models for the old school electric trap
 	PreCacheModel("zombie_zapper_cagelight_red");
 	precachemodel("zombie_zapper_cagelight_green");
-	
+
 	// shell shock when walking through an active electric trap
 	PreCacheShellShock( "electrocution" );
-	
+
 	// ww: temp viewmodel arms for pentagon until we get the right ones
 	PreCacheModel( "viewmodel_usa_pow_arms" ); // TEMP
 	// TODO: PUT THE REAL VIEWMODEL ARMS IN FOR PENTAGON
@@ -771,7 +771,7 @@ pentagon_precache()
 	PreCacheModel( "zombie_trap_switch_light_on_green" );
 	PreCacheModel( "zombie_trap_switch_light_on_red" );
 	PreCacheModel( "zombie_trap_switch_handle" );
-	
+
 	// ww: therse pieces are used for the magic box televisions. the models are changed in csc
 	PreCacheModel( "p_zom_monitor_screen_fsale1" );
 	PreCacheModel( "p_zom_monitor_screen_fsale2" );
@@ -787,7 +787,7 @@ pentagon_precache()
 	PreCacheModel( "p_zom_monitor_screen_on" );
 	PreCacheModel( "p_zom_monitor_screen_warroom0" );
 	PreCacheModel( "p_zom_monitor_screen_warroom1" );
-	
+
 	// WW: light models for the "power_on" swap. actual swap is in .csc
 	PreCacheModel( "p_pent_light_ceiling" );
 	PreCacheModel( "p_pent_light_tinhat_off" );
@@ -796,8 +796,8 @@ pentagon_precache()
 	PreCacheModel( "p_rus_rb_lab_warning_light_01_off" );
 	PreCacheModel( "p_rus_rb_lab_light_core_on" );
 	PreCacheModel( "p_rus_rb_lab_light_core_off" );
-	
-	
+
+
 	//defcon sign models
 	PreCacheModel( "p_zom_pent_defcon_sign_02" );
 	PreCacheModel( "p_zom_pent_defcon_sign_03" );
@@ -809,9 +809,9 @@ pentagon_precache()
 zombie_warroom_barricade_fix()
 {
 	PreCacheModel("collision_wall_128x128x10");
-	
+
 	wait(1);
-	
+
 	collision = spawn("script_model", (-1219, 2039, -241));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
@@ -819,90 +819,90 @@ zombie_warroom_barricade_fix()
 
 	flag_wait("war_room_stair");
 	collision Delete();
-	
+
 }
 
 barricade_glitch_fix()
 {
 	PreCacheModel("collision_wall_64x64x10");
 	PreCacheModel("collision_geo_64x64x64");
-	
+
 	// table glitch in start room
 	collision = spawn("script_model", (-270, 2318, 184));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
+
 	// Other barricade near table, for good measure.
 	collision = spawn("script_model", (-270, 2712, 184));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
+
 	// labs glitch near bowie
 	collision = spawn("script_model", (-1215, 3426, -547));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
+
 	// pack room
 	collision = spawn("script_model", (-2361, 1871, -347));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 0, 0);
 	collision Hide();
-	
+
 	// labs hall sw
 	collision = spawn("script_model", (-1675, 3754, -547));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
-	// labs hall near elevator 
+
+	// labs hall near elevator
 	collision = spawn("script_model", (-875, 3395, -579));
 	collision setmodel("collision_wall_64x64x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
-	
+
+
 	//War room railing DTP fix.
 	collision = spawn("script_model", (-644, 1960, -448));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
+
 	collision = spawn("script_model", (-794, 1801, -449));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 0, 0);
 	collision Hide();
-	
+
 	collision = spawn("script_model", (-959, 1801, -449));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 0, 0);
 	collision Hide();
-	
+
 	// upper war room clip.
 	collision = spawn("script_model", (-640, 1324, -211));
 	collision setmodel("collision_geo_64x64x64");
 	collision.angles = (0, 342.6, 0);
 	collision Hide();
-	
+
 	collision = spawn("script_model", (-774, 1390, -189));
 	collision setmodel("collision_geo_64x64x64");
 	collision.angles = (0, 341.6, 0);
-	collision Hide();	
-	
+	collision Hide();
+
 	// pack room glitch, jump while hit.
 	collision = spawn("script_model", (-1763, 2212, -449));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
 	collision Hide();
-	
+
 	// labs: 72337
 	collision = spawn("script_model", (-381, 4988, -545));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 90, 0);
-	collision Hide();	
-	
+	collision Hide();
+
 	//War room railing: 73288, 73979.
 	collision = spawn("script_model", (-644, 1960, -448));
 	collision setmodel("collision_wall_128x128x10");
@@ -916,32 +916,32 @@ barricade_glitch_fix()
 	collision3 setmodel("collision_wall_128x128x10");
 	collision3.angles = (0, 0, 0);
 	collision3 Hide();
-	
+
 	//Pack room: 72655.
 	collision = spawn("script_model", (-2116, 2300, -347));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 0, 0);
-	collision Hide();	
-	
-	//labs (north west barricade door): 74595			
+	collision Hide();
+
+	//labs (north west barricade door): 74595
 	collision = spawn("script_model", (-568, 5354, -648));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 0, 0);
-	collision Hide();	
-	
+	collision Hide();
+
 	// Zombie head jumping glitch.
 	collision2 = spawn("script_model", (-1100, 2243, -407));
 	collision2 setmodel("collision_wall_64x64x10");
 	collision2.angles = (0, 0, 0);
 	collision2 Hide();
-	
+
 	collision3 = spawn("script_model", (-1063, 2271, -407));
 	collision3 setmodel("collision_wall_64x64x10");
 	collision3.angles = (0, 60.8, 0);
 	collision3 Hide();
-	
+
 	collision4 = spawn("script_model", (-1019, 2300, -407));
 	collision4 setmodel("collision_wall_64x64x10");
 	collision4.angles = (0, 6.19994, 0);
-	collision4 Hide();		
-}		
+	collision4 Hide();
+}

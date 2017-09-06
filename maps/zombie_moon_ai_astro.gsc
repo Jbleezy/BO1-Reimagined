@@ -42,7 +42,7 @@ moon_astro_enter_level()
 	self playsound( "zmb_hellhound_spawn" );
 	PlayRumbleOnPosition("explosion_generic", self.origin);
 	self playloopsound( "zmb_zombie_astronaut_loop", 1 );
-	
+
 	self thread play_line_if_player_can_see();
 	self zombie_set_fake_playername();
 
@@ -65,7 +65,7 @@ play_line_if_player_can_see()
 				return;
 			}
 		}
-	}	
+	}
 }
 
 //-----------------------------------------------------------------
@@ -117,4 +117,3 @@ moon_astro_get_spawn_struct()
 
 	return undefined;
 }
-

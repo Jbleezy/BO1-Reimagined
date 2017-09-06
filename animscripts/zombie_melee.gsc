@@ -31,16 +31,16 @@ MeleeCombat()
 	{
 		doingAIMelee = false;
 	}
-	
+
 	if ( doingAiMelee )
 	{
 		assert( animscripts\zombie_utility::okToMelee( self.enemy ) );
 		animscripts\zombie_utility::IAmMeleeing( self.enemy );
-		
+
 		AiVsAiMeleeCombat();
-		
+
 		animscripts\zombie_utility::ImNotMeleeing( self.enemy );
-		
+
 		scriptChange();
 
 		/#
@@ -49,7 +49,7 @@ MeleeCombat()
 
 		return;
 	}
-	
+
 	realMelee = true;
 
 	if ( animscripts\zombie_utility::okToMelee(self.enemy) )
@@ -63,13 +63,13 @@ MeleeCombat()
 
 	self thread EyesAtEnemy();
 	self OrientMode("face enemy");
-	
+
 	MeleeDebugPrint("Melee begin");
-	
+
 	self AnimMode( "zonly_physics" );
-	
+
 	resetGiveUpTime();
-	
+
     for ( ;; )
     {
 		// Don't attack if you're supposed to die but can't because of the network
@@ -79,9 +79,9 @@ MeleeCombat()
 		}
 
 		MeleeDebugPrint("Melee main loop" + RandomInt(100));
-		
+
 		// we should now be close enough to melee.
-		
+
 		// If no one else is meleeing this person, tell the system that I am, so no one else will charge him.
 		if ( !realMelee && animscripts\zombie_utility::okToMelee(self.enemy) )
 		{
@@ -90,15 +90,15 @@ MeleeCombat()
 		}
 
 		self thread EyesAtEnemy();
-		
+
 		self animscripts\battleChatter_ai::evaluateMeleeEvent();
-		
+
 		if( IsDefined( self.enemy ) )
 		{
 			angles = VectorToAngles( self.enemy.origin - self.origin );
 			self OrientMode( "face angle", angles[1] );
 		}
-		
+
 		if( !IsDefined(level.zombietron_mode) )
 		{
 		    switch( self.animname )
@@ -106,19 +106,19 @@ MeleeCombat()
 		        case "zombie":
 		            self PlaySound( "zmb_vocals_zombie_attack" );
 		            break;
-		            
+
 		        case "quad_zombie":
 		            self PlaySound( "zmb_vocals_quad_attack" );
 		            break;
-		            
+
 		        case "boss_zombie":
 		            self PlaySound( "zmb_vocals_boss_attack" );
 		            break;
-				//Raven begin	
+				//Raven begin
 				case "napalm_zombie":
 					self PlaySound( "zmb_vocals_napalm_attack" );
 					break;
-					
+
 				case "sonic_zombie":
 					self PlaySound( "zmb_vocals_sonic_attack" );
 					break;
@@ -141,7 +141,7 @@ MeleeCombat()
 		self SetFlaggedAnimKnobAllRestart("meleeanim", zombie_attack, %body, 1, .2, 1);
 
 		attack_times = 0;
-		
+
 		while ( 1 )
 		{
 			self waittill("meleeanim", note);
@@ -170,7 +170,7 @@ MeleeCombat()
 				{
 					break;
 				}
-					
+
 				oldhealth = self.enemy.health;
 				self melee();
 
@@ -205,7 +205,7 @@ MeleeCombat()
 				}
 			}
 		}
-		
+
 		self OrientMode("face default");
 
 		if ( is_true( self.noChangeDuringMelee ) )
@@ -228,14 +228,14 @@ MeleeCombat()
 			}
 		}
     }
-	
+
 	if (realMelee)
 	{
 		animscripts\zombie_utility::ImNotMeleeing(self.enemy);
 	}
-	
+
 	self AnimMode("none");
-	
+
 	/#
 	debug_replay("melee.gsc MeleeCombat()");
 	#/
@@ -289,7 +289,7 @@ meleeDebugPrintThread()
 	self endon("death");
 	self endon("killanimscript");
 	self endon("stop_melee_debug_print");
-	
+
 	while(1)
 	{
 		Print3d(self.origin + (0,0,60), self.meleedebugprint, (1,1,1), 1, .1);
@@ -306,12 +306,12 @@ debug_melee_on_actor()
 	{
 		return false;
 	}
-	
+
 	if ( dvar == 1 )
 	{
 		return true;
 	}
-	
+
 	if ( int( dvar ) == self getentnum() )
 	{
 		return true;
@@ -347,7 +347,7 @@ debug_melee_line( start, end, color, duration )
 	{
 		recordLine( start, end, color, "Script", self );
 	}
-	
+
 	debugLine( start, end, color, duration );
 	#/
 }
@@ -386,14 +386,14 @@ CanMeleeInternal( state )
 	{
 		return false;
 	}
-	
+
 	if ( IsDefined( self.disableMelee ) )
 	{
 		assert( self.disableMelee ); // must be true or undefined
 		debug_melee( "Not doing melee - Melee is disabled, self.disableMelee is set to true." );
 		return false;
 	}
-	
+
 	// if we're not at least partially facing the guy, wait until we are
 	yaw = abs(getYawToEnemy());
 	if ( (yaw > 60 && state != "already started") || yaw > 110 )
@@ -402,7 +402,7 @@ CanMeleeInternal( state )
 		debug_melee( "Not doing melee - Not facing the enemy." );
 		return false;
 	}
-	
+
 	enemyPoint = self.enemy GetOrigin();
 	vecToEnemy = enemyPoint - self.origin;
 	self.enemyDistanceSq = lengthSquared( vecToEnemy );
@@ -411,7 +411,7 @@ CanMeleeInternal( state )
 	nearest_enemy_sqrd_dist = self GetClosestEnemySqDist();
 	epsilon = 0.1; // Necessary to avoid rounding errors.
 
-	
+
 	if( IsDefined( nearest_enemy_sqrd_dist ) &&  ( nearest_enemy_sqrd_dist - epsilon > self.enemyDistanceSq ) )
 	{
 		debug_melee( "Not doing melee - Entity " + self getEntityNumber() + " can't melee entity " + self.enemy getEntityNumber() + " at distSq " + self.enemyDistanceSq + " because there is a closer enemy at distSq " + nearest_enemy_sqrd_dist + "." );
@@ -427,22 +427,22 @@ CanMeleeInternal( state )
 	{
 		doingAIMelee = false;
 	}
-	
+
 	if ( doingAIMelee )
 	{
 		// check if someone else is already meleeing my enemy.
 		if ( !animscripts\zombie_utility::okToMelee(self.enemy) )
 		{
-			debug_melee( "Not doing melee - Enemy is already being meleed." );	
+			debug_melee( "Not doing melee - Enemy is already being meleed." );
 			return false;
 		}
-		
+
 		if ( IsDefined( self.magic_bullet_shield ) && self.magic_bullet_shield && IsDefined( self.enemy.magic_bullet_shield ) && self.enemy.magic_bullet_shield )
 		{
-			debug_melee( "Not doing melee - Enemy has magic bullet shield." );	
+			debug_melee( "Not doing melee - Enemy has magic bullet shield." );
 			return false;
 		}
-	
+
 		if ( !isMeleePathClear( vecToEnemy, enemyPoint ) )
 		{
 			return false;
@@ -454,11 +454,11 @@ CanMeleeInternal( state )
 		if ( IsDefined( self.enemy.magic_bullet_shield ) && self.enemy.magic_bullet_shield )
 		{
 			// Banzai attacks are OK against those with magic_bullet_shield - as long as the
-			// shielded ones always win the melee. 
+			// shielded ones always win the melee.
 			if ( !( self is_banzai() ) )
 			{
 				//AI_TODO - In this case the heros should go through melee, but they do and look bad
-				debug_melee( "Not doing melee - Enemy has magic bullet shield." );	
+				debug_melee( "Not doing melee - Enemy has magic bullet shield." );
 				return false;
 			}
 		}
@@ -472,7 +472,7 @@ CanMeleeInternal( state )
 						return false;
 					}
 				}
-				
+
 			// Enemy is already close enough to melee.
 			return true;
 		}
@@ -480,7 +480,7 @@ CanMeleeInternal( state )
 		{
 			return false;
 		}
-		
+
 		if ( state != "any range" )
 		{
 			chargeRangeSq = anim.chargeRangeSq;
@@ -492,29 +492,29 @@ CanMeleeInternal( state )
 			if (self.enemyDistanceSq > chargeRangeSq)
 			{
 				// Enemy isn't even close enough to charge.
-				debug_melee( "Not doing melee - Enemy is not close enough to charge." );		
+				debug_melee( "Not doing melee - Enemy is not close enough to charge." );
 				return false;
 			}
 		}
-		
+
 		if ( state == "already started" ) // if we already started, we're checking to see if we can melee *without* charging.
 		{
 			return false;
 		}
-		
+
 		// at this point, we can melee iff we can charge.
-	
+
 		// don't charge if we recently missed someone
 		if ( ( !self is_banzai() || IsPlayer( self.enemy ) ) && IsDefined( self.lastMeleeGiveUpTime ) && GetTime() - self.lastMeleeGiveUpTime < 3000 )
 		{
-			debug_melee( "Not doing melee - Recently meleed someone and missed." );		
+			debug_melee( "Not doing melee - Recently meleed someone and missed." );
 			return false;
 		}
-		
+
 		// check if someone else is already meleeing my enemy.
 		if ( !animscripts\zombie_utility::okToMelee(self.enemy) )
 		{
-			debug_melee( "Not doing melee - Enemy is being meleed." );		
+			debug_melee( "Not doing melee - Enemy is being meleed." );
 			return false;
 		}
 
@@ -527,7 +527,7 @@ CanMeleeInternal( state )
 			}
 		}
 	}
-	
+
 	return true;
 }
 
@@ -551,7 +551,7 @@ isMeleePathClear( vecToEnemy, enemyPoint )
 
 	// we're within melee distance and the melee point is within our goalradius
 	// BUT we cannot move to the point with a capsule trace
-	// what if we do a sight trace from the knees/eye position.  
+	// what if we do a sight trace from the knees/eye position.
 	trace1 = bullettrace( self.origin + (0,0,20), meleePoint + (0,0,20), true, self );
 	trace2 = bullettrace( self.origin + (0,0,72), meleePoint + (0,0,72), true, self );
 
@@ -588,7 +588,7 @@ PlayMeleeSound()
 	{
 		 self.a.nextMeleeChargeSound = 0;
 	}
-	
+
 	if ( GetTime() > self.a.nextMeleeChargeSound )
 	{
 		self animscripts\face::SaySpecificDialogue( undefined, "chr_play_grunt_" + self.voice, 0.3 );
@@ -604,11 +604,11 @@ AiVsAiMeleeCombat()
 {
 	self endon("killanimscript");
 	self melee_notify_wrapper();
-	
+
 	self OrientMode("face enemy");
-	
+
 	self ClearAnim( %root, 0.3 );
-	
+
 	IWin = ( RandomInt(10) < 8 );
 	if ( IsDefined( self.magic_bullet_shield ) && self.magic_bullet_shield )
 	{
@@ -619,11 +619,11 @@ AiVsAiMeleeCombat()
 	{
 		IWin = false;
 	}
-	
+
 	// TODO: more anims
 	winAnim = %bog_melee_R_attack;
 	loseAnim = %bog_melee_R_defend;
-	
+
 	if ( IWin )
 	{
 		myAnim = winAnim;
@@ -634,33 +634,33 @@ AiVsAiMeleeCombat()
 		myAnim = loseAnim;
 		theirAnim = winAnim;
 	}
-	
+
 	// TODO: associate this with the anim
 	desiredDistSqrd = 72 * 72;
-	
+
 	self PlayMeleeSound();
-	
+
 	// charge into correct distance
 	AiVsAiMeleeCharge( desiredDistSqrd );
-	
+
 	if ( DistanceSquared( self.origin, self.enemy.origin ) > desiredDistSqrd )
 	{
 		return false;
 	}
-	
+
 	// TODO: if too close, Teleport backwards?
-	
+
 	// TODO: disable pushing?
-	
+
 	// TODO: need a tag_sync to LinkTo, like is done with dogs
-	
+
 	// start animation, start enemy on animation
 	self.meleePartner = self.enemy;
 	self.enemy.meleePartner = self;
-	
+
 	self.enemy.meleeAnim = theirAnim;
 	self.enemy animcustom( ::AiVsAiAnimCustom );
-	
+
 	self.meleeAnim = myAnim;
 	self animcustom( ::AiVsAiAnimCustom ); // TODO: we should try to avoid using animcustom on ourselves
 }
@@ -669,7 +669,7 @@ AiVsAiMeleeCharge( desiredDistSqrd )
 {
 	giveUpTime = GetTime() + 2500;
 	self SetAnimKnobAll( animscripts\zombie_run::GetRunAnim(), %body, 1, 0.2 );
-	
+
 	while ( DistanceSquared( self.origin, self.enemy.origin ) > desiredDistSqrd && GetTime() < giveUpTime )
 	{
 		// play run forward anim
@@ -687,14 +687,14 @@ AiVsAiMeleeAnim( myAnim )
 {
 	self endon("end_melee");
 	self thread endMeleeOnKillanimscript();
-	
+
 	partnerDir = self.meleePartner.origin - self.origin;
 	self OrientMode( "face angle", VectorToAngles( partnerDir )[1] );
 	self AnimMode( "zonly_physics" );
 
 	self SetFlaggedAnimKnobAllRestart( "meleeAnim", myAnim, %body, 1, 0.2 );
 	self animscripts\zombie_shared::DoNoteTracks( "meleeAnim" );
-	
+
 	self notify("end_melee");
 }
 
@@ -705,7 +705,7 @@ endMeleeOnKillanimscript()
 	self.meleePartner notify("end_melee");
 }
 
-//chris_p - rewrote this to be more friendly 
+//chris_p - rewrote this to be more friendly
 pick_zombie_melee_anim( zombie_guy )
 {
 	melee_anim = undefined;
@@ -715,16 +715,16 @@ pick_zombie_melee_anim( zombie_guy )
 		{
 			switch(zombie_guy.zombie_move_speed)
 			{
-				
-				case "walk": 
+
+				case "walk":
 					anims = array(level._zombie_melee[zombie_guy.animname][0], level._zombie_walk_melee[zombie_guy.animname][1], level._zombie_walk_melee[zombie_guy.animname][3]);
 					melee_anim = random(anims);
 					break;
-					
-				case "run":			
+
+				case "run":
 				case "sprint":
 					melee_anim = level._zombie_melee[zombie_guy.animname][0];
-					break;			
+					break;
 			}
 		}
 		else if(zombie_guy.a.gib_ref == "no_legs")
@@ -742,13 +742,13 @@ pick_zombie_melee_anim( zombie_guy )
 	{
 		switch(zombie_guy.zombie_move_speed)
 		{
-			
-			case "walk": 
+
+			case "walk":
 				anims = array_combine(level._zombie_melee[zombie_guy.animname],level._zombie_walk_melee[zombie_guy.animname]);
 				melee_anim = random(anims);
 				break;
-				
-			case "run":			
+
+			case "run":
 			case "sprint":
 				anims = array_combine(level._zombie_melee[zombie_guy.animname],level._zombie_run_melee[zombie_guy.animname]);
 				melee_anim = random(anims);

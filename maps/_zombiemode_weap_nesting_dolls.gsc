@@ -123,7 +123,7 @@ player_handle_nesting_dolls()
 	self notify( "starting_nesting_dolls" );
 	self endon( "disconnect" );
 	self endon( "starting_nesting_dolls" );
-	
+
 	while( true )
 	{
 		grenade = get_thrown_nesting_dolls();
@@ -183,7 +183,7 @@ doll_spawner( start_grenade )
 		grenade = self MagicGrenadeType( "zombie_nesting_doll_single", origin, grenade_vel );
 		grenade spawn_doll_model( self.doll_id, num_dolls, self );
 		grenade thread doll_behavior_explode_when_stopped( self, self.doll_id, num_dolls );
-		
+
 		//self thread nesting_dolls_tesla_nearby_zombies( grenade );
 
 		num_dolls++;
@@ -228,11 +228,11 @@ doll_spawner_cluster( start_grenade )
 		// spawn a magic grenade
 		grenade = self MagicGrenadeType( "zombie_nesting_doll_single", origin, grenade_vel );
 		grenade spawn_doll_model( self.doll_id, num_dolls, self );
-		
+
 		grenade PlaySound( "wpn_nesting_pop_npc" );
-		
+
 		grenade thread doll_behavior_explode_when_stopped( self, self.doll_id, num_dolls );
-		
+
 		num_dolls++;
 
 		wait( 0.25 );
@@ -243,7 +243,7 @@ doll_do_damage( origin, owner, id, index )
 {
 	self waittill( "explode" );
 
-	zombies = GetAiSpeciesArray( "axis", "all" ); 
+	zombies = GetAiSpeciesArray( "axis", "all" );
 	if ( zombies.size == 0 )
 	{
 		return;
@@ -393,7 +393,7 @@ spawn_doll_model( id, index, parent )
 	model_name = "t5_nesting_bomb_world_doll" + model_index + "_" + name;
 
 	// finish setting up
-	self.doll_model SetModel( model_name ); 
+	self.doll_model SetModel( model_name );
 	self.doll_model UseAnimTree( #animtree );
 	self.doll_model LinkTo( self );
 	self.doll_model.angles = self.angles;
@@ -409,7 +409,7 @@ doll_behavior_explode_when_stopped( parent, doll_id, index )
 {
 	velocitySq = 10000*10000;
 	oldPos = self.origin;
-	
+
 	while( velocitySq != 0 )
 	{
 		wait( 0.1 );
@@ -573,7 +573,7 @@ nesting_dolls_cleanup( parent )
 do_nesting_dolls_sound( model, info )
 {
 	monk_scream_vox = false;
-	
+
 	if( level.music_override == false )
 	{
 		monk_scream_vox = false;
@@ -585,7 +585,7 @@ do_nesting_dolls_sound( model, info )
 	{
 		// model ClearAnim( %o_monkey_bomb, 0.2 );
 	}
-	
+
 	//for( i = 0; i < info.sound_attractors.size; i++ )
 	//{
 	//	if( isDefined( info.sound_attractors[i] ) )
@@ -605,15 +605,15 @@ get_thrown_nesting_dolls()
 {
 	self endon( "disconnect" );
 	self endon( "starting_nesting_dolls" );
-	
-	while( true ) 
+
+	while( true )
 	{
 		self waittill( "grenade_fire", grenade, weapName );
 		if( weapName == "zombie_nesting_dolls" )
 		{
 			return grenade;
 		}
-		
+
 		wait( 0.05 );
 	}
 }
@@ -656,7 +656,7 @@ nesting_dolls_play_tesla_bolt( origin, target_origin )
 
 	fx = PlayFxOnTag( level._effect["tesla_bolt"], fxOrg, "tag_origin" );
 	playsoundatposition( "wpn_tesla_bounce", fxOrg.origin );
-	
+
 	fxOrg MoveTo( target_origin, 0.25 );
 	fxOrg waittill( "movedone" );
 	fxOrg delete();
@@ -759,20 +759,20 @@ nesting_dolls_setup_next_doll_throw()
 //monitor_zombie_groans( info )
 //{
 //	self endon( "explode" );
-//            
-//	while( true ) 
+//
+//	while( true )
 //	{
 //		if( !isDefined( self ) )
 //		{
 //			return;
 //		}
-//		
+//
 //		if( !isDefined( self.attractor_array ) )
 //		{
 //			wait( 0.05 );
 //			continue;
 //		}
-//		
+//
 //		for( i = 0; i < self.attractor_array.size; i++ )
 //		{
 //			if( array_check_for_dupes( info.sound_attractors, self.attractor_array[i] ) )
@@ -789,13 +789,13 @@ nesting_dolls_setup_next_doll_throw()
 //		}
 //		wait( 0.05 );
 //	}
-//} 
+//}
 //
 //play_zombie_groans()
 //{
 //	self endon( "death" );
 //	self endon( "nesting_dolls_blown_up" );
-//            
+//
 //	while(1)
 //	{
 //		if( isdefined ( self ) )
@@ -810,6 +810,3 @@ nesting_dolls_setup_next_doll_throw()
 //	}
 //}
 //
-
-
-

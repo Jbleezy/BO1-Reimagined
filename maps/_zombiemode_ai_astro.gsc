@@ -12,7 +12,7 @@ init()
 
 	init_astro_zombie_anims();
 	init_astro_zombie_fx();
-	
+
 	if ( !isDefined( level.astro_zombie_enter_level ) )
 	{
 		level.astro_zombie_enter_level = ::astro_zombie_default_enter_level;
@@ -58,9 +58,9 @@ init()
 astro_prespawn()
 {
 	self.animname = "astro_zombie";
-	
+
 	self.custom_idle_setup = ::astro_zombie_idle_setup;
-	
+
 	self.a.idleAnimOverrideArray = [];
 	self.a.idleAnimOverrideArray["stand"] = [];
 	self.a.idleAnimOverrideWeights["stand"] = [];
@@ -69,37 +69,37 @@ astro_prespawn()
 	self.a.idleAnimOverrideArray["stand"][0][1] 	= %ai_zombie_idle_v1_delta;
 	self.a.idleAnimOverrideWeights["stand"][0][1] 	= 10;
 
-	self.ignoreall = true; 
+	self.ignoreall = true;
 	self.allowdeath = true; 			// allows death during animscripted calls
 	self.is_zombie = true; 			// needed for melee.gsc in the animscripts
-	self.has_legs = true; 			// Sumeet - This tells the zombie that he is allowed to stand anymore or not, gibbing can take 
+	self.has_legs = true; 			// Sumeet - This tells the zombie that he is allowed to stand anymore or not, gibbing can take
 															// out both legs and then the only allowed stance should be prone.
-	self allowedStances( "stand" ); 
+	self allowedStances( "stand" );
 
-	self.gibbed = false; 
+	self.gibbed = false;
 	self.head_gibbed = false;
-	
-	// might need this so co-op zombie players cant block zombie pathing
-	//self PushPlayer( true ); 
 
-	self.disableArrivals = true; 
-	self.disableExits = true; 
+	// might need this so co-op zombie players cant block zombie pathing
+	//self PushPlayer( true );
+
+	self.disableArrivals = true;
+	self.disableExits = true;
 	self.grenadeawareness = 0;
 	self.badplaceawareness = 0;
 
-	self.ignoreSuppression = true; 	
-	self.suppressionThreshold = 1; 
-	self.noDodgeMove = true; 
+	self.ignoreSuppression = true;
+	self.suppressionThreshold = 1;
+	self.noDodgeMove = true;
 	self.dontShootWhileMoving = true;
 	self.pathenemylookahead = 0;
 
 	self.badplaceawareness = 0;
-	self.chatInitialized = false; 
+	self.chatInitialized = false;
 
 	self.a.disablePain = true;
 	self disable_react(); // SUMEET - zombies dont use react feature.
 
-	self.dropweapon = false; 
+	self.dropweapon = false;
 	self thread maps\_zombiemode_spawner::zombie_damage_failsafe();
 
 	self maps\_zombiemode_spawner::set_zombie_run_cycle( "walk" );
@@ -199,9 +199,9 @@ init_astro_zombie_anims()
 	level._zombie_walk_melee["astro_zombie"] = [];
 	level._zombie_run_melee["astro_zombie"] = [];
 
-	level._zombie_melee["astro_zombie"][0] 				= %ai_zombie_attack_v2; 
-	level._zombie_melee["astro_zombie"][1] 				= %ai_zombie_attack_v4; 
-	level._zombie_melee["astro_zombie"][2] 				= %ai_zombie_attack_v6; 
+	level._zombie_melee["astro_zombie"][0] 				= %ai_zombie_attack_v2;
+	level._zombie_melee["astro_zombie"][1] 				= %ai_zombie_attack_v4;
+	level._zombie_melee["astro_zombie"][2] 				= %ai_zombie_attack_v6;
 
 	if( isDefined( level.astro_zombie_anim_override ) )
 	{
@@ -227,10 +227,10 @@ init_astro_zombie_anims()
 	{
 		level._zombie_board_taunt = [];
 	}
-	
+
 	level._zombie_run_taunt["astro_zombie"] = [];
 	level._zombie_board_taunt["astro_zombie"] = [];
-	
+
 	level._zombie_board_taunt["astro_zombie"][0] = %ai_zombie_taunts_4;
 	level._zombie_board_taunt["astro_zombie"][1] = %ai_zombie_taunts_7;
 	level._zombie_board_taunt["astro_zombie"][2] = %ai_zombie_taunts_9;
@@ -255,26 +255,26 @@ init_astro_zombie_fx()
 //-----------------------------------------------------------------
 astro_zombie_spawn()
 {
-	self.script_moveoverride = true; 
-	
+	self.script_moveoverride = true;
+
 	if( !isDefined( level.num_astro_zombies ) )
 	{
 		level.num_astro_zombies = 0;
 	}
 	level.num_astro_zombies++;
-	
+
 	astro_zombie = self maps\_zombiemode_net::network_safe_stalingrad_spawn( "astro_zombie_spawn", 1 );
 
 	self.count = 100;
-	
-	if( !spawn_failed( astro_zombie ) ) 
-	{ 
+
+	if( !spawn_failed( astro_zombie ) )
+	{
 		astro_zombie.script_noteworthy = self.script_noteworthy;
 		astro_zombie.targetname = self.targetname + "_ai";
 		astro_zombie.target = self.target;
 		astro_zombie.deathFunction = ::astro_zombie_die;
 		astro_zombie.animname = "astro_zombie";
-	
+
 		astro_zombie thread astro_zombie_think();
 
 		_debug_astro_print( "astro spawned in " + level.round_number );
@@ -361,10 +361,10 @@ astro_zombie_total_update()
 astro_zombie_think()
 {
 	self endon( "death" );
-	
+
 	self.entered_level = false;
-	
-	//self.goalradius = 128; 
+
+	//self.goalradius = 128;
 	self.ignoreall = false;
 	self.pathEnemyFightDist = 64;
 	self.meleeAttackDist = 64;
@@ -373,10 +373,10 @@ astro_zombie_think()
 	if(self.maxhealth > 250000)
 		self.maxhealth = 250000;
 	self.health = self.maxhealth;
-	
+
 	//try to prevent always turning towards the enemy
 	self.maxsightdistsqrd = 96 * 96;
-	
+
 	self.zombie_move_speed = "walk";
 
 	self thread [[ level.astro_zombie_enter_level ]]();
@@ -400,7 +400,7 @@ astro_zombie_think()
 			wait_network_frame();
 			continue;
 		}
-		else if( !isDefined( self.following_player ) || !self.following_player ) 
+		else if( !isDefined( self.following_player ) || !self.following_player )
 		{
 			self thread maps\_zombiemode_spawner::find_flesh();
 			self.following_player = true;
@@ -459,7 +459,7 @@ astro_zombie_headbutt_think()
 
 			self thread astro_turn_player();
 
-			//_debug_astro_print( "try headbutt" );		
+			//_debug_astro_print( "try headbutt" );
 			headbutt_anim = %ai_zombie_astro_headbutt;
 			time = getAnimLength( headbutt_anim );
 			self animscripted( "headbutt_anim", self.origin, self.angles, headbutt_anim, "normal", %body, 1, 0.1 );
@@ -477,7 +477,7 @@ astro_zombie_headbutt_think()
 astro_restore_move_speed( time )
 {
 	self endon( "disconnect" );
-	
+
 	wait( time );
 	self AllowJump( true );
 	self AllowProne( true );
@@ -681,7 +681,7 @@ astro_zombie_teleport_enemy()
 	// grab all the structs
 	black_hole_teleport_structs = getstructarray( "struct_black_hole_teleport", "targetname" );
 	chosen_spot = undefined;
-	
+
 	if ( isDefined( level._special_blackhole_bomb_structs ) )
 	{
 		black_hole_teleport_structs = [[level._special_blackhole_bomb_structs]]();
@@ -701,10 +701,10 @@ astro_zombie_teleport_enemy()
 	for ( i = 0; i < black_hole_teleport_structs.size; i++ )
 	{
 		volume = level.zones[ black_hole_teleport_structs[i].script_string ].volumes[0];
-		
+
 		active_zone = check_point_in_active_zone( black_hole_teleport_structs[i].origin );
 
-		if ( check_point_in_active_zone( black_hole_teleport_structs[i].origin ) && 
+		if ( check_point_in_active_zone( black_hole_teleport_structs[i].origin ) &&
 				( player_current_zone != black_hole_teleport_structs[i].script_string )	)
 		{
 			if ( !flag( "power_on" ) || volume.script_string == "lowgravity" )
@@ -726,7 +726,7 @@ astro_zombie_teleport_enemy()
 	if ( IsDefined( chosen_spot ) )
 	{
 		player thread astro_zombie_teleport( chosen_spot );
-	}	
+	}
 }
 
 //-----------------------------------------------------------------
@@ -735,17 +735,17 @@ astro_zombie_teleport_enemy()
 astro_zombie_teleport( struct_dest )
 {
 	self endon( "death" );
-	
+
 	if( !IsDefined( struct_dest ) )
 	{
 		return;
 	}
-	
+
 	prone_offset = (0, 0, 49);
 	crouch_offset = (0, 0, 20);
 	stand_offset = (0, 0, 0);
 	destination = undefined;
-	
+
 	// figure out the player's stance
 	if( self GetStance() == "prone" )
 	{
@@ -759,7 +759,7 @@ astro_zombie_teleport( struct_dest )
 	{
 		destination = struct_dest.origin + stand_offset;
 	}
-	
+
 	// override
 	if( IsDefined( level._black_hole_teleport_override ) )
 	{
@@ -770,12 +770,12 @@ astro_zombie_teleport( struct_dest )
 	self FreezeControls( true );
 	self DisableOffhandWeapons();
 	self DisableWeapons();
-	
+
 	// so the player doesn't show up while moving
 	self DontInterpolate();
 	self SetOrigin( destination );
 	self SetPlayerAngles( struct_dest.angles );
-	
+
 	// allow the funny biz
 	self EnableOffhandWeapons();
 	self EnableWeapons();
@@ -818,7 +818,7 @@ astro_zombie_die()
 	{
 		level thread [[level.quantum_bomb_results["zombie_fling"].result_func]]( self.origin );
 	}
-	
+
 	return self maps\_zombiemode_spawner::zombie_death_animscript();
 }
 
@@ -904,7 +904,7 @@ astro_player_pulse()
 		player_velocity = dir;
 		//boost_velocity = player_velocity + ( 0, 0, 100 );
 		player SetVelocity( player_velocity );
-		
+
 		if( isdefined( level.ai_astro_explode ) )
 		{
 			player thread [[ level.ai_astro_explode ]]( mid_org );
@@ -971,7 +971,7 @@ astro_zombie_default_enter_level()
 	Playfx( level._effect["astro_spawn"], self.origin );
 	playsoundatposition( "zmb_bolt", self.origin );
 	PlayRumbleOnPosition("explosion_generic", self.origin);
-	
+
 	players = get_players();
 	players[randomintrange(0,players.size)] thread maps\_zombiemode_audio::create_and_play_dialog( "general", "astro_spawn" );
 

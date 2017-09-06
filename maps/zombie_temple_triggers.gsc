@@ -29,24 +29,24 @@ trigger_code()
 	{
 		code = "DPAD_UP DPAD_UP DPAD_DOWN DPAD_DOWN DPAD_LEFT DPAD_RIGHT DPAD_LEFT DPAD_RIGHT BUTTON_B BUTTON_A";
 	}
-	
+
 	if(!isDefined(self.script_string))
 	{
 		self.script_string = "cash";
 	}
-	
+
 	self.players = [];
 	while(1)
 	{
 		self waittill("trigger", who);
-		
+
 		//PLayer may already be in trigger
 		//Or player may have already completed code
 		if(is_in_array(self.players, who))
 		{
 			continue;
 		}
-		
+
 		who thread watch_for_code_touching_trigger(code, self);
 	}
 }
@@ -56,11 +56,11 @@ watch_for_code_touching_trigger(code, trigger)
 	trigger.players = array_add(trigger.players, self);
 	self thread watch_for_code(code);
 	self thread touching_trigger(trigger);
-	
+
 	returnNotify = self waittill_any_return("code_correct", "stopped_touching_trigger", "death");
-	
+
 	self notify("code_trigger_end");
-	
+
 	if(returnNotify == "code_correct")
 	{
 		trigger code_trigger_activated(self);
@@ -80,7 +80,7 @@ code_trigger_activated(who)
 			who maps\_zombiemode_score::add_to_player_score(100);
 			break;
 		default:
-	}	
+	}
 }
 
 touching_trigger(trigger)
@@ -102,13 +102,13 @@ watch_for_code(code)
 		for(i=0; i<codes.size;i++)
 		{
 			button = codes[i];
-			
+
 			//wait for button to be pressed or start over
 			if(!self button_pressed(button,.3))
 			{
 				break;
 			}
-			
+
 			//wait for button to not be pressed
 			if( !self button_not_pressed(button, .3) )
 			{
@@ -135,7 +135,7 @@ button_not_pressed(button, time)
 		}
 		wait .01;
 	}
-	return false;	
+	return false;
 }
 
 button_pressed(button, time)
@@ -157,13 +157,13 @@ button_pressed(button, time)
 init_slow_trigger()
 {
 	flag_wait( "all_players_connected" );
-	
+
 	players = get_players();
 	for(p=0;p<players.size;p++)
 	{
 		players[p].moveSpeedScale = 1.0;
 	}
-	
+
 	slowTriggers = getEntArray("slow_trigger", "targetname");
 	for ( t = 0; t < slowTriggers.size; t++ )
 	{
@@ -173,10 +173,10 @@ init_slow_trigger()
 			//move speed scale - can be set in map
 			trig.script_float = 0.5;
 		}
-		
+
 		trig.inturp_time = 1.0;
 		trig.inturp_rate = trig.script_float / trig.inturp_time;
-		
+
 		trig thread trigger_slow_touched_wait();
 	}
 }
@@ -198,7 +198,7 @@ trigger_slow_ent( player, endon_condition )
 	if ( IsDefined( player ) )
 	{
 		prevTime = GetTime();
-		
+
 		while(player.moveSpeedScale > self.script_float)
 		{
 			wait .05;
@@ -208,7 +208,7 @@ trigger_slow_ent( player, endon_condition )
 			player SetMoveSpeedScale( player.moveSpeedScale );
 		}
 		player.moveSpeedScale = self.script_float;
-		
+
 		player allowJump(false);
 		player allowSprint(false);
 
@@ -220,11 +220,11 @@ trigger_slow_ent( player, endon_condition )
 trigger_unslow_ent( player )
 {
 	player endon("enter_slowTrigger");
-	
+
 	if ( IsDefined( player ) )
 	{
 		prevTime = GetTime();
-		
+
 		while(player.moveSpeedScale < 1.0)
 		{
 			wait .05;
@@ -234,10 +234,10 @@ trigger_unslow_ent( player )
 			player SetMoveSpeedScale( player.moveSpeedScale );
 		}
 		player.moveSpeedScale = 1.0;
-		
+
 		player allowJump(true);
 		player allowSprint(true);
-		player SetMoveSpeedScale( 1.0 );	
+		player SetMoveSpeedScale( 1.0 );
 	}
 }
 //End slow Triggers
@@ -249,7 +249,7 @@ init_corpse_triggers()
 {
 	//triggers = getEntArray("corpse_trigger", "targetname");
 	//array_thread(triggers, ::trigger_corpse);
-	//level thread code_rewards();	
+	//level thread code_rewards();
 }
 
 trigger_corpse()
@@ -304,7 +304,7 @@ init_water_drop_triggers()
 				trig.waterSheeting = false;
 			}
 		}
-		
+
 		trig thread water_drop_trigger_think();
 	}
 }
@@ -312,19 +312,19 @@ init_water_drop_triggers()
 water_drop_trigger_think()
 {
 	flag_wait( "all_players_connected" );
-	
+
 	wait( 1.0 );
-	
+
 	if(IsDefined(self.script_flag))
 	{
 		flag_wait( self.script_flag );
 	}
-	
+
 	if(IsDefined(self.script_float))
 	{
 		wait( self.script_float );
 	}
-	
+
 	while(1)
 	{
 		self waittill("trigger", who);
@@ -346,22 +346,22 @@ water_drop_trig_entered( player, endon_string )
 	player endon("death");
 	player endon("disconnect");
 	player endon("spawned_spectator");
-	
+
 	if(player.sessionstate == "spectator")
 	{
 		return;
 	}
-	
+
 	if(!isDefined(player.water_drop_ents))
 	{
 		player.water_drop_ents = [];
 	}
-	
+
 	if(isDefined(self.script_sound))
 	{
 		player playsound(self.script_sound);
 	}
-	
+
 	if(self.waterDrops)
 	{
 		player.water_drop_ents = array_add(player.water_drop_ents, self);
@@ -373,13 +373,13 @@ water_drop_trig_entered( player, endon_string )
 			player setwaterdrops(player player_get_num_water_drops());
 		}
 	}
-	
+
 	if(self.waterSheeting)
 	{
 		// set client side rumble
 		player SetClientFlag( level._CF_PLAYER_MAZE_FLOOR_RUMBLE );
 		player thread intermission_rumble_clean_up();
-		
+
 		while(1)
 		{
 			player setwatersheeting(1, self.waterSheetingTime);
@@ -389,24 +389,24 @@ water_drop_trig_entered( player, endon_string )
 }
 
 water_drop_trig_exit( player )
-{	
-	
+{
+
 	if(!isDefined(player.water_drop_ents))
 	{
 		player.water_drop_ents = [];
 	}
-	
+
 	if(self.waterDrops)
 	{
 		if(self.waterSheeting)
 		{
 			player notify( "irt" ); //intermission rumble tracking
 			player ClearClientFlag( level._CF_PLAYER_MAZE_FLOOR_RUMBLE );
-			
+
 			player setwaterdrops(player player_get_num_water_drops());
 		}
 		player.water_drop_ents = array_remove(player.water_drop_ents, self);
-		
+
 		if(player.water_drop_ents.size == 0)
 		{
 			player water_drop_remove(self.water_drop_time);
@@ -422,9 +422,9 @@ water_drop_remove(delay)
 	self endon("death");
 	self endon("disconnect");
 	self endon("water_drop_trig_enter");
-	
+
 	wait delay;
-	
+
 	self setwaterdrops(0);
 }
 player_get_num_water_drops()
@@ -453,20 +453,20 @@ structs_code()
 		code = "DPAD_UP DPAD_DOWN DPAD_LEFT DPAD_RIGHT BUTTON_B BUTTON_A";
 	}
 	self.codes = strTok(code, " ");
-	
+
 	if(!isDefined(self.script_string))
 	{
 		self.script_string = "cash";
 	}
 	self.reward = self.script_string;
-	
+
 	if(!isDefined(self.radius))
 	{
 		self.radius = 32;
 	}
-	
+
 	self.radiusSq = self.radius * self.radius;
-	
+
 	playersInRadius = [];
 	while(1)
 	{
@@ -489,7 +489,7 @@ structs_code()
 			}
 			players = array_remove(players, player);
 		}
-		
+
 		//Add any new player
 		for(i=0;i<players.size;i++)
 		{
@@ -510,19 +510,19 @@ code_entry(player)
 	self endon("end_code_struct");
 	player endon("death");
 	player endon("disconnect");
-	
+
 	while(1)
 	{
 		for(i=0; i<self.codes.size;i++)
 		{
 			button = self.codes[i];
-			
+
 			//wait for button to be pressed or start over
 			if(!player button_pressed(button,.3))
 			{
 				break;
 			}
-			
+
 			//wait for button to not be pressed
 			if( !player button_not_pressed(button, .3) )
 			{
@@ -549,7 +549,7 @@ code_reward(player)
 			maps\zombie_temple_ai_monkey::monkey_ambient_gib_all();
 			break;
 		default:
-	}	
+	}
 }
 
 is_player_in_radius(player)
@@ -558,25 +558,25 @@ is_player_in_radius(player)
 	{
 		return false;
 	}
-	
+
 	if(abs(self.origin[2]-player.origin[2])>30)
 	{
 		return false;
 	}
-	
+
 	if(distance2dsquared(self.origin, player.origin)>self.radiusSq)
 	{
 		return false;
 	}
-	
+
 	return true;
 }
 
 intermission_rumble_clean_up()
 {
 	self endon( "irt" ); //intermission rumble tracking
-	
+
 	level waittill( "intermission" );
-	
+
 	self ClearClientFlag( level._CF_PLAYER_MAZE_FLOOR_RUMBLE );
 }

@@ -1,36 +1,36 @@
 #include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
-#include maps\_zombiemode_zone_manager; 
+#include maps\_zombiemode_zone_manager;
 //#include maps\_zombiemode_protips;
 
 main()
 {
 	level thread maps\zombie_coast_ffotd::main_start();
-	
+
 	//for clientsiding the riser fx
 	level.riser_type = "snow";
 	level.use_new_riser_water = 1;
 	level.riser_fx_on_client  = 1;
-	level.use_clientside_rock_tearin_fx = 1;	
+	level.use_clientside_rock_tearin_fx = 1;
 	level.use_clientside_board_fx = 1;
-	
-	
+
+
 	//needs to be first for create fx
 	maps\zombie_coast_fx::main();
-	
-	
+
+
 	init_fx_anims();
-	
+
 	//create points of interest underwater if needed
 	level.poi_positioning_func = ::zombie_coast_poi_positioning_func;
-	
+
 	//moved environ anims to the client
 	//maps\zombie_coast_environmental::main();
 
 	//precachemodel("zombie_zapper_cagelight_red");
 	//precachemodel("zombie_zapper_cagelight_green");
-	
+
 	// viewmodel arms for the level
 	PreCacheModel( "viewmodel_zom_gellar_arms" );
 	PreCacheModel( "viewmodel_zom_englund_arms" );
@@ -38,15 +38,15 @@ main()
 	PreCacheModel( "viewmodel_zom_trejo_arms" );
 
 	level._zombie_custom_add_weapons = ::custom_add_weapons;
-	
-	//clientflag variables		
+
+	//clientflag variables
 	level._CF_PLAYER_ZIPLINE_RUMBLE_QUAKE = 0;
 	level._CF_PLAYER_ZIPLINE_FAKE_PLAYER_SETUP = 1;
 
 	level._COAST_FOG_BLIZZARD = 2;
 	level._CF_PLAYER_FLINGER_FAKE_PLAYER_SETUP_PRONE =3;
 	level._CF_PLAYER_FLINGER_FAKE_PLAYER_SETUP_STAND =4;
-		
+
 	level._CF_PLAYER_WATER_FROST = 5; // WW: Player flag for water frost
 	level._CF_PLAYER_WATER_FREEZE = 6;
 	level._CF_PLAYER_WATER_FROST_REMOVE = 7; // Forcibly remove the frost at spectator
@@ -70,7 +70,7 @@ main()
 	level.zombie_anim_override = maps\zombie_coast::anim_override_func;
 	level.player_intersection_tracker_override = ::zombie_coast_player_intersection_tracker_override;
 	maps\_zombiemode::register_player_damage_callback( ::zombie_coast_player_damage_level_override );
-	
+
 	level.delete_monkey_bolt_on_zombie_holder_death = ::zombie_coast_delete_monkey_bolt_on_zombie_holder_death;
 
 	level._func_humangun_check = ::func_humangun_check;
@@ -80,22 +80,22 @@ main()
 	level.pay_turret_cost = 850;
 	level.plankB_cost = 1000;
 	//level.zipline_cost	= 1000;
-	
+
 	level.random_pandora_box_start = true;
-	
+
 	level.zombie_coast_visionset = "zombie_coast";
 
 	//DCS (022211): anims from black hole bomb for cave slide, init before zombiemode.
 	level thread maps\zombie_coast_cave_slide::cave_slide_anim_init();
 
 	level thread maps\_callbacksetup::SetupCallbacks();
-	
+
 	level.dog_spawn_func = maps\_zombiemode_ai_dogs::dog_spawn_factory_logic;
-	
+
 	//setup function pointers
 	maps\zombie_coast_flinger::main();
-	
-	level.dogs_enabled = false;	
+
+	level.dogs_enabled = false;
 
 	// Special zombie types, director.
 	level.custom_ai_type = [];
@@ -108,7 +108,7 @@ main()
 	maps\zombie_coast_water::init();
 	maps\zombie_coast_eggs::init();
 
-	level.door_dialog_function = maps\_zombiemode::play_door_dialog;	
+	level.door_dialog_function = maps\_zombiemode::play_door_dialog;
 
 	include_weapons();
 	include_powerups();
@@ -120,7 +120,7 @@ main()
 	// used for the water hazard
 	level.use_freezegun_features = true;
 	level.uses_tesla_powerup = true;
-	
+
 	// WW (01-24-11): Custom model loadouts for coast
 	level.zombiemode_precache_player_model_override = ::coast_precache_custom_models;
 	level.zombiemode_give_player_model_override = ::coast_custom_third_person_override;
@@ -138,7 +138,7 @@ main()
 	//level.zombiemode_animated_intro = maps\_zombiemode_animated_intro::precache_scene_assets;
 	// DO ACTUAL ZOMBIEMODE INIT
 	maps\_zombiemode::main();
-	
+
 	maps\_sticky_grenade::init();
 	maps\_zombiemode_weap_sickle::init();
 	maps\_zombiemode_weap_humangun::init();
@@ -153,7 +153,7 @@ main()
 	battlechatter_off("axis");
 
 	// Setup the levels Zombie Zone Volumes
-	//maps\_compass::setupMiniMap("menu_map_zombie_coast"); 
+	//maps\_compass::setupMiniMap("menu_map_zombie_coast");
 	level.zone_manager_init_func = ::coast_zone_init;
 	init_zones[0] = "beach_zone";
 	level thread maps\_zombiemode_zone_manager::manage_zones( init_zones );
@@ -167,40 +167,40 @@ main()
 
 	level thread maps\zombie_coast_achievement::init();
 	//level thread maps\zombie_coast_zipline::init();
-	
+
 	//VisionSetNaked( "zombie_coast_2", 6 );
-	
+
 	level thread maps\zombie_coast_ai_director::coast_director_start();
 
 	// WW (02/17/11) - Introscreen fade
 	level thread coast_fade_in_notify();
-	
+
 	//DCS(022211): triggered zombie slide.
 	level thread maps\zombie_coast_cave_slide::zombie_cave_slide_init();
-	
+
 	//player zipline
 	maps\_zombiemode_player_zipline::main();
-	
+
 	level thread setup_water_physics();
 	level thread setup_zcoast_water();
 	level thread maps\zombie_coast_distance_tracking::zombie_tracking_init();
 
 	// fix for pathing below player at drop offs.
 	SetSavedDvar( "zombiemode_path_minz_bias", 17 );
-	
+
 	//init the flinger trap/transport
 	maps\zombie_coast_flinger::init_flinger();
 	init_sounds();
 	level thread maps\zombie_coast_amb::main();
-	
+
 	// WW: Temp sun direction change
 	// TODO: Get it working then hand off to Laufer so he can transfer it to csc
 	level thread coast_power_on_lighthouse_react();
-	
+
 	level thread coast_spawn_init_delay();
-	
+
 	level thread maps\zombie_coast_fx:: manage_blizzard();
-	
+
 	//level thread rock_wall_barricade();
 
 	// KEEP AT END!!! DCS
@@ -216,7 +216,7 @@ main()
 check_to_set_play_outro_movie()
 {
 	flag_wait( "all_players_connected" );
-	
+
 	if ( !level.onlineGame && !level.systemlink )
 	{
 		SetDvar("ui_playCoastOutroMovie", 1);
@@ -240,17 +240,17 @@ zombie_unlock_all()
 	players = GetPlayers();
 
 	flag_set( "power_on" );
-	zombie_doors = GetEntArray( "zombie_door", "targetname" ); 
+	zombie_doors = GetEntArray( "zombie_door", "targetname" );
 	for ( i = 0; i < zombie_doors.size; i++ )
 	{
 		zombie_doors[i] notify("trigger", players[0]);
 	}
-	zombie_debris = GetEntArray( "zombie_debris", "targetname" ); 
+	zombie_debris = GetEntArray( "zombie_debris", "targetname" );
 	for ( i = 0; i < zombie_debris.size; i++ )
 	{
 		zombie_debris[i] notify("trigger", players[0]);
 	}
-}	
+}
 
 custom_add_weapons()
 {
@@ -274,22 +274,22 @@ coast_spawn_init_delay(director)
 				director_zomb = zombs[i];
 			}
 		}
-		wait_network_frame();	
+		wait_network_frame();
 	}
-	
+
 	//director_zomb waittill_notify_or_timeout( "director_spawn_zombies", 30 );
 	//wait(30.0);
-	
+
 	flag_set( "spawn_zombies");
 }
 
-	
+
 // ------------------------------------------------------------------------------------------------
 #using_animtree( "generic_human" );
 anim_override_func()
 {
 	level.scr_anim["zombie"]["walk3"] 	= %ai_zombie_walk_v2;	// DCS 030111: overwritten per bug # 76590
-	level.scr_anim["zombie"]["run6"] 	= %ai_zombie_run_v2;	
+	level.scr_anim["zombie"]["run6"] 	= %ai_zombie_run_v2;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -299,7 +299,7 @@ coast_zone_init()
 	flag_set( "always_on" );
 
 	// Start now in lighthouse, lighthouse1_zone
-	
+
 	// exit through lighthouse to beach facing ship.
 	add_adjacent_zone( "start_zone", "lighthouse1_zone", "lighthouse_enter" );
 	add_zone_flags(	"lighthouse_enter",									"start_beach_group" );
@@ -312,13 +312,13 @@ coast_zone_init()
 	// GROUP: always connected: start beach zone group.
 	add_adjacent_zone( "start_zone", "start_beach_zone", "start_beach_group" );
 	add_adjacent_zone( "start_beach_zone", "start_cave_zone", "start_beach_group", true ); // one way connection cave -> beach.
-	
+
 	// Ship front bottom
 	add_adjacent_zone( "start_zone", "shipfront_bottom_zone", "enter_shipfront_bottom" );
 	add_zone_flags(	"enter_shipfront_bottom",									"start_beach_group" );
 
-	
-	// Shipfront zones always connected because of drop down. 
+
+	// Shipfront zones always connected because of drop down.
 	add_adjacent_zone( "shipfront_bottom_zone", "shipfront_near_zone", "enter_shipfront_bottom" );
 	add_adjacent_zone( "shipfront_bottom_zone", "shipfront_near_zone", "plankA_enter" );
 
@@ -331,7 +331,7 @@ coast_zone_init()
 	add_adjacent_zone( "shipfront_near_zone", "shipfront_2_beach_zone", "plankA_enter" );
 	add_adjacent_zone( "beach_zone", "shipfront_2_beach_zone", "", true ); // one way connection
 
-	
+
 
 
 	// Ship front under deck
@@ -343,7 +343,7 @@ coast_zone_init()
 
 	// Ship back far
 	add_adjacent_zone( "shipback_near_zone", "shipback_far_zone", "shipback_far_enter" );
-	
+
 	// Stairs to 2 deck house level
 	add_adjacent_zone( "shipback_near_zone", "shipback_near2_zone", "shipback_level2_enter" );
 
@@ -352,11 +352,11 @@ coast_zone_init()
 
 
 	// GROUP: always connected: residence, residence roof, beach 1 & 2 (to ship back)
-	add_adjacent_zone( "residence1_zone", "residence_roof_zone", "residence_beach_group" ); 
+	add_adjacent_zone( "residence1_zone", "residence_roof_zone", "residence_beach_group" );
 	add_adjacent_zone( "residence_roof_zone", "beach_zone2", "residence_beach_group" );
-	
-	// debris at side beach to residence. 
-	add_adjacent_zone( "beach_zone2", "beach_zone", "side_beach_debris" ); 
+
+	// debris at side beach to residence.
+	add_adjacent_zone( "beach_zone2", "beach_zone", "side_beach_debris" );
 	add_zone_flags(	"side_beach_debris",									"residence_beach_group" );
 
 	// Plank B, from ship back to beach debris
@@ -365,7 +365,7 @@ coast_zone_init()
 	// Balcony - door from residence roof to lighthouse
 	add_adjacent_zone( "residence_roof_zone", "lighthouse2_zone", "balcony_enter" );
 	add_zone_flags(	"balcony_enter",									"residence_beach_group" );
-	
+
 	// lighthouse to residence interior
 	add_adjacent_zone( "residence1_zone", "lighthouse1_zone", "res_2_lighthouse1" );
 	add_zone_flags(	"res_2_lighthouse1",									"residence_beach_group" );
@@ -374,7 +374,7 @@ coast_zone_init()
 	add_adjacent_zone( "start_zone", "residence1_zone", "lighthouse_residence_front" );
 	add_zone_flags(	"lighthouse_residence_front",									"residence_beach_group" );
 	add_zone_flags(	"lighthouse_residence_front",									"start_beach_group" );
-	
+
 	// Lighthouse 2
 	add_adjacent_zone( "lighthouse1_zone", "lighthouse2_zone", "lighthouse2_enter" );
 
@@ -411,7 +411,7 @@ include_weapons()
 	include_weapon( "m14_upgraded_zm", false );
 
 	//	Weapons - Burst Rifles
-	include_weapon( "m16_zm", false, true );						
+	include_weapon( "m16_zm", false, true );
 	include_weapon( "m16_gl_upgraded_zm", false );
 	include_weapon( "g11_lps_zm" );
 	include_weapon( "g11_lps_upgraded_zm", false );
@@ -430,7 +430,7 @@ include_weapons()
 	include_weapon( "spectre_zm" );
 	include_weapon( "spectre_upgraded_zm", false );
 	include_weapon( "mp40_zm", false );
-	include_weapon( "mp40_upgraded_zm", false );	
+	include_weapon( "mp40_upgraded_zm", false );
 
 	//	Weapons - Dual Wield
   	include_weapon( "cz75dw_zm" );
@@ -441,7 +441,7 @@ include_weapons()
 	include_weapon( "ithaca_upgraded_zm", false );
 	include_weapon( "rottweil72_zm", false, true );
 	include_weapon( "rottweil72_upgraded_zm", false );
-	include_weapon( "spas_zm" );						// 
+	include_weapon( "spas_zm" );						//
 	include_weapon( "spas_upgraded_zm", false );
 	include_weapon( "hs10_zm" );
 	include_weapon( "hs10_upgraded_zm", false );
@@ -509,7 +509,7 @@ include_weapons()
 	precacheItem( "explosive_bolt_upgraded_zm" );
 	precacheItem( "sniper_explosive_bolt_zm" );
 	precacheItem( "sniper_explosive_bolt_upgraded_zm" );
-	
+
 	// get the sickle into the collector achievement list
 	level.collector_achievement_weapons = array_add( level.collector_achievement_weapons, "sickle_knife_zm" );
 }
@@ -541,13 +541,13 @@ coast_offhand_weapon_overrride()
 coast_offhand_weapon_give_override( str_weapon )
 {
 	self endon( "death" );
-	
+
 	if( is_tactical_grenade( str_weapon ) && IsDefined( self get_player_tactical_grenade() ) && !self is_player_tactical_grenade( str_weapon ) )
 	{
 		self SetWeaponAmmoClip( self get_player_tactical_grenade(), 0 );
 		self TakeWeapon( self get_player_tactical_grenade() );
 	}
-	
+
 	if( str_weapon == "zombie_nesting_dolls" )
 	{
 		self maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
@@ -598,11 +598,11 @@ include_powerups()
 	include_powerup( "full_ammo" );
 	include_powerup( "carpenter" );
 	include_powerup( "fire_sale" );
-	
+
 	// WW (02-04-11): Added minigun
 	PreCacheItem( "minigun_zm" );
 	include_powerup( "minigun" );
-	
+
 	// WW (03-14-11): Added Tesla
 	PreCacheItem( "tesla_gun_zm" );
 	include_powerup( "tesla" );
@@ -638,14 +638,14 @@ electric_switch()
 
 	trig waittill("trigger",user);
 
-	trig delete();	
+	trig delete();
 	flag_set( "power_on" );
 	Objective_State(8,"done");
 }
 
 wait_for_power()
 {
-	master_switch = getent("elec_switch","targetname");	
+	master_switch = getent("elec_switch","targetname");
 	master_switch notsolid();
 
 	flag_wait( "power_on" );
@@ -675,7 +675,7 @@ wait_for_power()
 	level notify("electric_door");
 
 	clientnotify("ZPO");	 // Zombie Power On.
-	
+
 	master_switch waittill("rotatedone");
 	playfx(level._effect["switch_sparks"] ,getstruct("elec_switch_fx","targetname").origin);
 
@@ -690,7 +690,7 @@ wait_for_power()
 electric_door_function()
 {
 	door_trigs = getentarray( "electric_door", "script_noteworthy" );
-	
+
 	// Shows hintstring
 	//door_trigs[0] sethintstring(&"ZOMBIE_FLAMES_UNAVAILABLE");
 	//door_trigs[0] UseTriggerRequireLookAt();
@@ -699,7 +699,7 @@ electric_door_function()
 
 	// Wait for the Electric Switch Activation
 	level waittill( "electric_door" );
-	
+
 	array_thread( door_trigs, ::trigger_off );
 
 	thread open_electric_doors( door_trigs );
@@ -728,47 +728,47 @@ open_electric_doors( door_trigs )
 
 		for ( j=0; j<doors.size; j++ )
 		{
-			doors[j] NotSolid(); 
+			doors[j] NotSolid();
 
-			time = 1; 
+			time = 1;
 			if( IsDefined( doors[j].script_transition_time ) )
 			{
-				time = doors[j].script_transition_time; 
+				time = doors[j].script_transition_time;
 			}
 
 			doors[j] connectpaths();
 
 			if( door_trigs[i].type == "rotate" )
 			{
-				doors[j] NotSolid(); 
+				doors[j] NotSolid();
 
-				time = 1; 
+				time = 1;
 				if( IsDefined( doors[j].script_transition_time ) )
 				{
-					time = doors[j].script_transition_time; 
+					time = doors[j].script_transition_time;
 				}
 
 				play_sound_at_pos( "door_rotate_open", doors[j].origin );
 
-				doors[j] RotateTo( doors[j].script_angles, time, 0, 0 ); 
-				doors[j] thread maps\_zombiemode_blockers::door_solid_thread(); 
-				doors[j] playsound ("door_slide_open");			
+				doors[j] RotateTo( doors[j].script_angles, time, 0, 0 );
+				doors[j] thread maps\_zombiemode_blockers::door_solid_thread();
+				doors[j] playsound ("door_slide_open");
 			}
 			else if( door_trigs[i].type == "move" || door_trigs[i].type == "slide_apart" )
 			{
-				doors[j] NotSolid(); 
+				doors[j] NotSolid();
 
-				time = 1; 
+				time = 1;
 				if( IsDefined( doors[j].script_transition_time ) )
 				{
-					time = doors[j].script_transition_time; 
+					time = doors[j].script_transition_time;
 				}
 
 				play_sound_at_pos( "door_slide_open", doors[j].origin );
 
-				doors[j] MoveTo( doors[j].origin + doors[j].script_vector, time, time * 0.25, time * 0.25 ); 
+				doors[j] MoveTo( doors[j].origin + doors[j].script_vector, time, time * 0.25, time * 0.25 );
 				doors[j] thread maps\_zombiemode_blockers::door_solid_thread();
-				doors[j] playsound ("door_slide_open");			
+				doors[j] playsound ("door_slide_open");
 			}
 			wait(randomfloat(.15));
 		}
@@ -785,7 +785,7 @@ play_door_dialog()
 		wait(0.05);
 		players = get_players();
 		for(i = 0; i < players.size; i++)
-		{		
+		{
 			dist = distancesquared(players[i].origin, self.origin );
 			if(dist > 70*70)
 			{
@@ -800,8 +800,8 @@ play_door_dialog()
 			if(dist > 70*70 && timer >= 3)
 			{
 				self playsound("door_deny");
-				players[i] thread do_player_vo("vox_start", 5);	
-				wait(3);				
+				players[i] thread do_player_vo("vox_start", 5);
+				wait(3);
 				self notify ("warning_dialog");
 				//iprintlnbold("warning_given");
 			}
@@ -876,7 +876,7 @@ check_plankB( from, forward )
 
 
 //-------------------------------------------------------------------------
-// waits for zone to be enabled before unlocking 
+// waits for zone to be enabled before unlocking
 //-------------------------------------------------------------------------
 wait_for_respawn()
 {
@@ -904,7 +904,7 @@ stairs_blocker_buyable()
 	{
 		trigger[i] thread stairs_init();
 	}
-}	
+}
 
 stairs_init()
 {
@@ -916,21 +916,21 @@ stairs_init()
 	}
 
 	self set_hint_string( self, "default_buy_debris_" + cost );
-	self SetCursorHint( "HINT_NOICON" ); 
+	self SetCursorHint( "HINT_NOICON" );
 
 	if( isdefined (self.script_flag)  && !IsDefined( level.flag[self.script_flag] ) )
 	{
-		flag_init( self.script_flag ); 
+		flag_init( self.script_flag );
 	}
 
 	self UseTriggerRequireLookAt();
 
 	clip = undefined;
-	debris = undefined;	
-	planks = getentarray( self.target, "targetname" ); 
+	debris = undefined;
+	planks = getentarray( self.target, "targetname" );
 
 	for( i = 0; i < planks.size; i++ )
-	{	
+	{
 		if( IsDefined( planks[i].script_noteworthy ) )
 		{
 			if( planks[i].script_noteworthy == "clip")
@@ -946,23 +946,23 @@ stairs_init()
 				planks = array_remove(planks, debris);
 				i--;
 				continue;
-			}	
+			}
 			else
 			{
 				//planks[i] hide();
-			}	
+			}
 		}
-	}	
+	}
 
-	wait_network_frame();	
-	self thread stairs_think(planks, debris, clip); 
+	wait_network_frame();
+	self thread stairs_think(planks, debris, clip);
 }
 
 stairs_think(planks, debris, clip)
 {
 	while( 1 )
 	{
-		self waittill( "trigger", who ); 
+		self waittill( "trigger", who );
 
 		if( !who UseButtonPressed() )
 		{
@@ -979,11 +979,11 @@ stairs_think(planks, debris, clip)
 			if( who.score >= self.zombie_cost )
 			{
 				// set the score
-				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost ); 
-	
+				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
+
 				bbPrint( "zombie_uses: playername %s playerscore %d round %d cost %d name %s x %f y %f z %f type debris", who.playername, who.score, level.round_number, self.zombie_cost, self.target, self.origin );
-				
-	
+
+
 				if( IsDefined( self.script_flag ) )
 				{
 					flag_set( self.script_flag );
@@ -995,7 +995,7 @@ stairs_think(planks, debris, clip)
 /*
 				//iprintlnbold("How many planks ", planks.size);
 				for( i = 0; i < planks.size; i++ )
-				{	
+				{
 
 					if( IsDefined( planks[i].script_linkTo ) )
 					{
@@ -1009,34 +1009,34 @@ stairs_think(planks, debris, clip)
 					{
 						planks[i] show();
 					}
-				}	
+				}
 */
 				self set_hint_string( self, "" );
 //				self waittill("stairs_complete");
-				
+
 				if( IsDefined( debris.script_linkTo ) )
 				{
 					debris_struct = getstruct( debris.script_linkTo, "script_linkname" );
 					if( IsDefined( debris_struct ))
 					{
 						debris thread special_debris_move(debris_struct);
-					}	
+					}
 				}
 
 				if(IsDefined(clip))
-				{					
+				{
 					clip moveto(clip.origin + (0, 0, -1000), 0.1);
 					wait(0.1);
 					clip connectpaths();
 					clip delete();
 				}
-						
+
 				self delete();
 			}
 			else
 			{
 				play_sound_at_pos( "no_purchase", self.origin );
-			}			
+			}
 		}
 	}
 }
@@ -1045,7 +1045,7 @@ stairs_think(planks, debris, clip)
 stairs_move( struct, planks, trigger )
 {
 	self script_delay();
-	
+
 	self notsolid();
 
 	selfpos = self.origin;
@@ -1055,7 +1055,7 @@ stairs_move( struct, planks, trigger )
 
 	wait(randomfloatrange(1.0, 10.0));
 
-	self show();	
+	self show();
 	self play_sound_on_ent( "debris_move" );
 	playsoundatposition ("lightning_l", self.origin);
 	if( IsDefined( self.script_firefx ) )
@@ -1083,19 +1083,19 @@ stairs_move( struct, planks, trigger )
 	time = 0.5;
 	if( IsDefined( self.script_transition_time ) )
 	{
-		time = self.script_transition_time; 
+		time = self.script_transition_time;
 	}
 
 	self MoveTo( selfpos, time, time * 0.5 );
 	self RotateTo( selfang, time * 0.75 );
 
 	self waittill( "movedone" );
-	
+
 	level.stairs_pieces++;
 	if(level.stairs_pieces >= planks.size)
 	{
 		trigger notify("stairs_complete");
-	}	
+	}
 
 	//Z2 commented out missing sound, wouldn't go past.
 	//self play_sound_on_entity ("couch_slam");
@@ -1112,7 +1112,7 @@ special_debris_move( struct )
 {
 	self script_delay();
 	self notsolid();
-	
+
 	self play_sound_on_ent( "debris_move" );
 	playsoundatposition ("lightning_l", self.origin);
 	if( IsDefined( self.script_firefx ) )
@@ -1247,9 +1247,9 @@ SetDvar( "r_waterWaveSpeed", "1 0.5 1 0.5" );
 coast_fade_in_notify()
 {
 	level waittill( "fade_in_complete" );
-	
+
 	wait_network_frame();
-	
+
 	level ClientNotify( "ZID" ); // "Zombie Introscreen Done"
 }
 
@@ -1259,10 +1259,10 @@ coast_power_on_lighthouse_react()
 
 	// wait for power
 	flag_wait( "power_on" );
-	
+
 	// exploder for the lighthouse going nuts
 	exploder( 301 );
-		
+
 }
 //------------------------------------------------------------------------------
 rock_wall_barricade()
@@ -1270,7 +1270,7 @@ rock_wall_barricade()
 	rock_wall = getstruct("special_rock_wall", "script_noteworthy");
 	boards = GetEntArray(rock_wall.target, "targetname");
 	rock = undefined;
-	
+
 	for (i = 0; i < boards.size; i++)
 	{
 		if(IsDefined(boards[i].target))
@@ -1280,9 +1280,9 @@ rock_wall_barricade()
 			{
 				rock LinkTo(boards[i]);
 			}
-		}			
-	}	
-}	
+		}
+	}
+}
 
 //------------------------------------------------------------------------------
 coast_revive_solo_fx()
@@ -1300,7 +1300,7 @@ coast_revive_solo_fx()
 
 
 /*------------------------------------
-this handles an electrified zombie being 
+this handles an electrified zombie being
 hit with the humangun still ahving the electrified FX
 ------------------------------------*/
 func_humangun_check()
@@ -1314,7 +1314,7 @@ func_humangun_check()
 
 
 /*------------------------------------
-make sure the zombies don't get their 
+make sure the zombies don't get their
 point of interest reset when they are following a player or a humanized zombie on the zipline
 ------------------------------------*/
 check_for_alternate_poi()
@@ -1334,7 +1334,7 @@ init_fx_anims()
 	level.fxanims = [];
 	level.fxanims["hook_anim"]		= %fxanim_zom_ship_crane01_hook_anim;
 	level.fxanims["boat_anim"]		= %fxanim_zom_ship_lifeboat_anim;
-	
+
 }
 
 

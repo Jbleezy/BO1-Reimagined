@@ -3,7 +3,7 @@
 #include maps\_zombiemode_utility;
 #include animscripts\zombie_Utility;
 
-#using_animtree( "generic_human" ); 
+#using_animtree( "generic_human" );
 
 init()
 {
@@ -12,7 +12,7 @@ init()
 	director_precache_models();
 
 	init_director_zombie_anims();
-	
+
 	level._effect["director_groundhit"] = loadfx("maps/zombie/fx_zombie_boss_grnd_hit");
 	level._effect["director_spawn"] = loadfx("maps/zombie/fx_zombie_boss_spawn");
 	level._effect["director_weapon_light"] = loadfx("maps/zombie/fx_zombie_boss_weapon_light");
@@ -24,14 +24,14 @@ init()
 	level._effect["director_death_weapon"] = loadfx("maps/zombie/fx_zombie_boss_weapon_defeat");
 	level._effect["director_impact_humangun"] = loadfx("weapon/human_gun/fx_hgun_impact_exp_lrg");
 	level._effect["director_impact_humangun_upgraded"] = loadfx("weapon/human_gun/fx_hgun_impact_exp_lrg_ug");
-	
+
 	// Function that will be used to calculate the value of different spawners when choosing which to use when spawning new boss
 	// Functions that overload this, should return an int, with a higher value indicating a better spawner
 	if( !isDefined( level.director_zombie_spawn_heuristic ) )
 	{
 		level.director_zombie_spawn_heuristic = maps\_zombiemode_ai_director::director_zombie_default_spawn_heuristic;
 	}
-	
+
 	// Function that will be used to calculate the value of different idle nodes for bosses in the "non-active" state
 	// Functions that overload this, should return an int, with a higher value indicating a better node
 	if( !isDefined( level.director_zombie_pathfind_heuristic ) )
@@ -65,7 +65,7 @@ init()
 	}
 
 	precacheshellshock( "electrocution" );
-	
+
 	// Number of current active boss zombies
 	level.num_director_zombies = 0;
 
@@ -139,7 +139,7 @@ init()
 	{
 		level.director_max_speed_buff = 2;
 	}
-	
+
 	level thread director_zombie_manager();
 	//level thread director_zombie_update_proximity_wake();
 	level.director_death = 0;
@@ -172,9 +172,9 @@ director_precache_models()
 director_prespawn()
 {
 	self.animname = "director_zombie";
-	
+
 	self.custom_idle_setup = maps\_zombiemode_ai_director::director_zombie_idle_setup;
-	
+
 	self.a.idleAnimOverrideArray = [];
 	self.a.idleAnimOverrideArray["stand"] = [];
 	self.a.idleAnimOverrideWeights["stand"] = [];
@@ -183,32 +183,32 @@ director_prespawn()
 	self.a.idleAnimOverrideArray["stand"][0][1] 	= %ai_zombie_boss_idle_b_coast;
 	self.a.idleAnimOverrideWeights["stand"][0][1] 	= 10;
 
-	self.ignoreall = true; 
+	self.ignoreall = true;
 	self.allowdeath = true; 			// allows death during animscripted calls
 	self.is_zombie = true; 			// needed for melee.gsc in the animscripts
-	self.has_legs = true; 			// Sumeet - This tells the zombie that he is allowed to stand anymore or not, gibbing can take 
+	self.has_legs = true; 			// Sumeet - This tells the zombie that he is allowed to stand anymore or not, gibbing can take
 															// out both legs and then the only allowed stance should be prone.
-	self allowedStances( "stand" ); 
+	self allowedStances( "stand" );
 
-	self.gibbed = false; 
+	self.gibbed = false;
 	self.head_gibbed = false;
-	
-	// might need this so co-op zombie players cant block zombie pathing
-	//self PushPlayer( true ); 
 
-	self.disableArrivals = true; 
-	self.disableExits = true; 
+	// might need this so co-op zombie players cant block zombie pathing
+	//self PushPlayer( true );
+
+	self.disableArrivals = true;
+	self.disableExits = true;
 	self.grenadeawareness = 0;
 	self.badplaceawareness = 0;
 
-	self.ignoreSuppression = true; 	
-	self.suppressionThreshold = 1; 
-	self.noDodgeMove = true; 
+	self.ignoreSuppression = true;
+	self.suppressionThreshold = 1;
+	self.noDodgeMove = true;
 	self.dontShootWhileMoving = true;
 	self.pathenemylookahead = 0;
 
 	self.badplaceawareness = 0;
-	self.chatInitialized = false; 
+	self.chatInitialized = false;
 
 	self.a.disablePain = true;
 	self disable_react(); // SUMEET - zombies dont use react feature.
@@ -217,8 +217,8 @@ director_prespawn()
 	//self thread maps\_zombiemode_ai_director::director_health_watch();
 
 	self.freezegun_damage = 0;
-	
-	self.dropweapon = false; 
+
+	self.dropweapon = false;
 	self thread maps\_zombiemode_spawner::zombie_damage_failsafe();
 
 	self thread maps\_zombiemode_spawner::delayed_zombie_eye_glow();	// delayed eye glow for ground crawlers (the eyes floated above the ground before the anim started)
@@ -309,7 +309,7 @@ init_director_zombie_anims()
 	level.scr_anim["director_zombie"]["death4"] 	= %ai_zombie_boss_death_mg_coast;
 
 	// run cycles
-	
+
 	level.scr_anim["director_zombie"]["walk1"] 	= %ai_zombie_boss_walk_slow_coast;
 	level.scr_anim["director_zombie"]["walk2"] 	= %ai_zombie_boss_walk_a_coast;
 
@@ -360,10 +360,10 @@ init_director_zombie_anims()
 	level._zombie_walk_melee["director_zombie"] = [];
 	level._zombie_run_melee["director_zombie"] = [];
 
-	level._zombie_melee["director_zombie"][0] 				= %ai_zombie_boss_attack_multiswing_a_coast; 
-	level._zombie_melee["director_zombie"][1] 				= %ai_zombie_boss_attack_multiswing_b_coast; 
-	level._zombie_melee["director_zombie"][2] 				= %ai_zombie_boss_attack_swing_overhead_coast; 
-	level._zombie_melee["director_zombie"][3] 				= %ai_zombie_boss_attack_swing_swipe_coast;	
+	level._zombie_melee["director_zombie"][0] 				= %ai_zombie_boss_attack_multiswing_a_coast;
+	level._zombie_melee["director_zombie"][1] 				= %ai_zombie_boss_attack_multiswing_b_coast;
+	level._zombie_melee["director_zombie"][2] 				= %ai_zombie_boss_attack_swing_overhead_coast;
+	level._zombie_melee["director_zombie"][3] 				= %ai_zombie_boss_attack_swing_swipe_coast;
 
 	if( isDefined( level.director_zombie_anim_override ) )
 	{
@@ -371,7 +371,7 @@ init_director_zombie_anims()
 	}
 
 	//level._zombie_walk_melee["director_zombie"][0]			= %ai_zombie_boss_walk_headhit;
-	
+
 	level._zombie_run_melee["director_zombie"][0]				=	%ai_zombie_boss_attack_running_coast;
 	level._zombie_run_melee["director_zombie"][1]				=	%ai_zombie_boss_attack_sprinting_coast;
 	level._zombie_run_melee["director_zombie"][2]				=	%ai_zombie_boss_attack_running_coast;
@@ -382,7 +382,7 @@ init_director_zombie_anims()
 		level._zombie_melee_crawl = [];
 	}
 	level._zombie_melee_crawl["director_zombie"] = [];
-	level._zombie_melee_crawl["director_zombie"][0] 		= %ai_zombie_attack_crawl; 
+	level._zombie_melee_crawl["director_zombie"][0] 		= %ai_zombie_attack_crawl;
 	level._zombie_melee_crawl["director_zombie"][1] 		= %ai_zombie_attack_crawl_lunge;
 
 	if( !isDefined( level._zombie_stumpy_melee ) )
@@ -462,7 +462,7 @@ init_director_zombie_anims()
 
 	level._zombie_rise_death_anims["director_zombie"][2]["out"][0]		= %ai_zombie_traverse_ground_v2_death_high;
 	level._zombie_rise_death_anims["director_zombie"][2]["out"][1]		= %ai_zombie_traverse_ground_v2_death_high_alt;
-	
+
 	//taunts
 	if( !isDefined( level._zombie_run_taunt ) )
 	{
@@ -472,10 +472,10 @@ init_director_zombie_anims()
 	{
 		level._zombie_board_taunt = [];
 	}
-	
+
 	level._zombie_run_taunt["director_zombie"] = [];
 	level._zombie_board_taunt["director_zombie"] = [];
-	
+
 	level._zombie_board_taunt["director_zombie"][0] = %ai_zombie_taunts_4;
 	level._zombie_board_taunt["director_zombie"][1] = %ai_zombie_taunts_7;
 	level._zombie_board_taunt["director_zombie"][2] = %ai_zombie_taunts_9;
@@ -488,33 +488,33 @@ init_director_zombie_anims()
 
 director_zombie_spawn()
 {
-	self.script_moveoverride = true; 
-	
+	self.script_moveoverride = true;
+
 	if( !isDefined( level.num_director_zombies ) )
 	{
 		level.num_director_zombies = 0;
 	}
 	level.num_director_zombies++;
-	
+
 	director_zombie = self maps\_zombiemode_net::network_safe_stalingrad_spawn( "boss_zombie_spawn", 1 );
 	director_zombie Hide();
-	
+
 	//Sound - Shawn J - adding boss spawn sound - note: sound is played in 2d so it doesn't matter what it's played off of.
 	//iprintlnbold( "Boss_Spawning!" );
 	//self playsound( "zmb_engineer_spawn" );
-	
-	self.count = 666; 
+
+	self.count = 666;
 
 	self.last_spawn_time = GetTime();
 
-	if( !spawn_failed( director_zombie ) ) 
-	{ 
+	if( !spawn_failed( director_zombie ) )
+	{
 		director_zombie.script_noteworthy = self.script_noteworthy;
 		director_zombie.targetname = self.targetname;
 		director_zombie.target = self.target;
 		director_zombie.deathFunction = maps\_zombiemode_ai_director::director_zombie_die;
 		director_zombie.animname = "director_zombie";
-	
+
 		director_zombie thread director_zombie_think();
 	}
 	else
@@ -540,10 +540,10 @@ director_zombie_manager()
 		}
 	}
 
-	while( true ) 
+	while( true )
 	{
 		AssertEx( isDefined( level.num_director_zombies ) && isDefined( level.max_director_zombies ), "Either max_director_zombies or num_director_zombies not defined, this should never be the case!" );
-		while( level.num_director_zombies < level.max_director_zombies ) 
+		while( level.num_director_zombies < level.max_director_zombies )
 		{
 			spawner = director_zombie_pick_best_spawner();
 			if( isDefined( spawner ) )
@@ -709,13 +709,13 @@ director_watch_damage()
 		{
 			self.health_state = "damage_one";
 			self director_flip_light_flag();
-			
+
 			if( IsDefined( level._audio_director_vox_play ) )
 	        {
 	            rand = RandomIntRange( 0, 5 );
 	            self thread [[ level._audio_director_vox_play ]]( "vox_romero_weaken_" + rand, .25 );
 	        }
-	        
+
 			if( IsDefined( attacker ) && IsPlayer( attacker ) )
 			{
 			    attacker thread maps\_zombiemode_audio::create_and_play_dialog( "director", "weaken" );
@@ -726,13 +726,13 @@ director_watch_damage()
 			self.health_state = "damage_two";
 			self.light StopLoopSound(2);
 			self director_flip_light_flag();
-			
+
 			if( IsDefined( level._audio_director_vox_play ) )
 	        {
 	            rand = RandomIntRange( 0, 5 );
 	            self thread [[ level._audio_director_vox_play ]]( "vox_romero_weaken_" + rand, .25 );
 	        }
-			
+
 			if( IsDefined( attacker ) && IsPlayer( attacker ) )
 			{
 			    attacker thread maps\_zombiemode_audio::create_and_play_dialog( "director", "weaken" );
@@ -775,7 +775,7 @@ director_watch_damage()
 	self notify( "zombie_acquire_enemy" );
 
 	self.ignoreall = true;
-	
+
 	if ( is_true( self.is_traversing ) )
 	{
 		self.skip_stumble = true;
@@ -783,7 +783,7 @@ director_watch_damage()
 	}
 
 	level notify( "director_submerging_audio" );
-	
+
 	if( IsDefined( level._audio_director_vox_play ) )
 	{
 	    self thread [[ level._audio_director_vox_play ]]( "vox_director_die", .25, true );
@@ -810,7 +810,7 @@ director_watch_damage()
 
 	forward = VectorNormalize( AnglesToForward( self.angles ) );
 	end_pos = self.origin - vector_scale( forward, 32 );
-		
+
 	level thread maps\_zombiemode_powerups::specific_powerup_drop( "free_perk", end_pos );
 
 	level notify( "quiet_on_the_set_achieved" );
@@ -829,7 +829,7 @@ director_custom_stumble()
 	stumble_anim = %ai_zombie_boss_stumble_coast;
 
 	self thread director_stumble_watcher( "stumble_anim" );
-	
+
 	self SetFlaggedAnimKnobAllRestart( "stumble_anim", stumble_anim, %body, 1, .1, 1 );
 	animscripts\traverse\zombie_shared::wait_anim_length( stumble_anim, .02 );
 
@@ -841,7 +841,7 @@ director_stumble_watcher( animname )
 	self endon( "death" );
 
 	self waittillmatch( animname, "weapon_fx" );
-	
+
 	playfxontag( level._effect["director_death_weapon"], self, "tag_light" );
 }
 
@@ -867,7 +867,7 @@ director_scream_in_water()
 				wait_network_frame();
 			}
 		}
-        
+
         if( IsDefined( level._audio_director_vox_play ) )
 	    {
 	        self thread [[ level._audio_director_vox_play ]]( "vox_director_pain_yell", .25, true );
@@ -926,8 +926,8 @@ director_blur()
 director_zombie_think()
 {
 	self endon( "death" );
-	
-	//self.goalradius = 128; 
+
+	//self.goalradius = 128;
 	//self.pathEnemyFightDist = 64;
 	//self.meleeAttackDist = 64;
 	self.pathEnemyFightDist = 96;
@@ -935,10 +935,10 @@ director_zombie_think()
 
 	self.maxhealth = level.director_zombie_max_health;
 	self.health = level.director_zombie_max_health;
-	
+
 	//try to prevent always turning towards the enemy
 	self.maxsightdistsqrd = 96 * 96;
-	
+
 	self.is_activated = false;
 	self.entering_level = true;
 	self.zombie_move_speed = "walk";
@@ -946,9 +946,9 @@ director_zombie_think()
 	self director_zombie_choose_buff();
 
 	self [[ level.director_zombie_enter_level ]]();
-	
+
 	level notify( "audio_begin_director_vox" );
-	
+
 	self thread director_watch_damage();
 	self thread zombie_melee_watcher();
 	self thread director_zombie_update_goal_radius();
@@ -966,7 +966,7 @@ director_zombie_think()
 	//self thread director_zombie_check_player_proximity();
 	self thread director_zombie_choose_run();
 	self thread director_zombie_health_manager();
-	
+
 	self SetClientFlag( level._ZOMBIE_ACTOR_FLAG_DIRECTORS_STEPS ); // director's footsteps, handled by csc
 
 	self.entering_level = undefined;
@@ -1063,17 +1063,17 @@ director_zombie_choose_buff()
 	//director_print( "next buff is " + self.buff );
 }
 
-director_zombie_default_pathfind_heuristic( node ) 
+director_zombie_default_pathfind_heuristic( node )
 {
 	// Skip any nodes that don't have a zone or whose zones are not yet active
 	if( !isDefined( node.targetname ) || !isDefined( level.zones[node.targetname] ) )
 	{
 		return -1;
 	}
-	
+
 	players = get_players();
 	score = 0;
-	
+
 	for( i = 0; i < players.size; i++ )
 	{
 		dist = distanceSquared( node.origin, players[i].origin );
@@ -1088,7 +1088,7 @@ director_zombie_default_pathfind_heuristic( node )
 		}
 		score += int( 10000*10000/dist );
 	}
-	
+
 	return score;
 }
 
@@ -1099,7 +1099,7 @@ director_zombie_default_spawn_heuristic( spawner )
 	{
 		return -1;
 	}
-	
+
 	if( !isDefined( spawner.script_noteworthy ) )
 	{
 		return -1;
@@ -1109,17 +1109,17 @@ director_zombie_default_spawn_heuristic( spawner )
 	{
 		return -1;
 	}
-	
+
 	score = 0;
-	
+
 	// if we don't have a position, give score relative to player positions, farther is better
 	players = get_players();
-	
+
 	for( i = 0; i < players.size; i++ )
 	{
 		score = int( distanceSquared( spawner.origin, players[i].origin ) );
 	}
-	
+
 	return score;
 }
 
@@ -1129,8 +1129,8 @@ director_zombie_default_spawn_heuristic( spawner )
 director_zombie_choose_run()
 {
 	self endon( "death" );
-	
-	while( true ) 
+
+	while( true )
 	{
 		if ( isDefined( self.choose_run ) )
 		{
@@ -1391,13 +1391,13 @@ director_activation_hit_player()
 }
 
 //-----------------------------------------------------------------------------------------------
-// waits for damage to activate 
+// waits for damage to activate
 //-----------------------------------------------------------------------------------------------
 director_zombie_check_for_activation()
 {
 	self endon( "death" );
 	self endon( "disable_activation" );
-	
+
 	self.is_activated = false;
 
 	self thread director_activation_damage();
@@ -1411,7 +1411,7 @@ director_zombie_check_for_activation()
 	{
 		self waittill( "zombie_end_traverse" );
 	}
-	
+
 	self notify( "stop_find_flesh" );
 	self.following_player = false;
 	self.performing_activation = true;
@@ -1422,7 +1422,7 @@ director_zombie_check_for_activation()
 	self thread director_zombie_sprint_watcher( "aggro_anim" );
 	self thread director_zombified_watcher( "aggro_anim" );
 	//self thread scream_b_watcher( "aggro_anim" );
-	
+
 	//Sound - Shawn J - adding eng hit exert
 	if( IsDefined( level._audio_director_vox_play ) )
 	{
@@ -1436,26 +1436,26 @@ director_zombie_check_for_activation()
 	{
 		aggro_anim = %ai_zombie_boss_enrage_start_a_coast;
 	}
-	
+
 	if( IsDefined( level._audio_director_vox_play ) )
 	{
 	    self thread [[ level._audio_director_vox_play ]]( "vox_director_slam", .25, true );
 	}
 	//self PlaySound( "vox_director_slam" );
 	self director_animscripted( aggro_anim, "aggro_anim", true );
-	
+
 	self.performing_activation = false;
 	self.ground_hit = false;
-	
+
 	self.delay_time = undefined;
-	
+
 	self notify( "director_activated" );
 
 	if ( !is_true( self.is_traversing ) )
 	{
 		self director_transition( "sprint" );
 	}
-	
+
 	// once activated can use the ground hit attack
 	self thread director_zombie_ground_hit_think();
 }
@@ -1692,7 +1692,7 @@ director_zombie_speed_buff( zombies, enrage_anim )
 	self endon( "death" );
 
 	director_print( "apply speed buff " + zombies.size );
-    
+
     if( IsDefined( level._audio_director_vox_play ) )
 	{
 	    self thread [[ level._audio_director_vox_play ]]( "vox_director_speed_buff", .25, true );
@@ -1721,7 +1721,7 @@ director_zombie_speed_buff( zombies, enrage_anim )
 			zombies[i] thread zombie_speed_buff();
 		}
 	}
-	
+
 	players = getplayers();
 	for(i=0;i<players.size;i++)
 	{
@@ -1828,7 +1828,7 @@ groundhit_fx_watcher( animname )
 	self endon( "death" );
 
 	self waittillmatch( animname, "wrench_hit" );
-	
+
 	playfxontag( level._effect["director_groundhit"], self, "tag_origin" );
 }
 
@@ -1858,7 +1858,7 @@ director_zombie_electric_buff( zombies )
 	self thread groundhit_fx_watcher( "hit_anim" );
 
 	self director_animscripted( hit_anim, "hit_anim" );
-	
+
 	if( IsDefined( level._audio_director_vox_play ) )
 	{
 	    self thread [[ level._audio_director_vox_play ]]( "vox_director_electric_buff", .25, true );
@@ -1872,7 +1872,7 @@ director_zombie_electric_buff( zombies )
 			zombies[i] thread zombie_set_electric_buff();
 		}
 	}
-	
+
 	players = getplayers();
 	for(i=0;i<players.size;i++)
 	{
@@ -1925,15 +1925,15 @@ director_zombie_ground_hit()
 	{
 		return;
 	}
-	
+
 	self.ground_hit = true;
 
 	self thread groundhit_watcher( "groundhit_anim" );
-	
+
 	groundhit_anim = %ai_zombie_boss_run_hitground_coast;
 	self SetFlaggedAnimKnobAllRestart( "groundhit_anim", groundhit_anim, %body, 1, .1, 1 );
 	animscripts\traverse\zombie_shared::wait_anim_length( groundhit_anim, .02 );
-	
+
 	self.ground_hit = false;
 
 	self.nextGroundHit = GetTime() + level.director_ground_attack_delay;
@@ -2011,7 +2011,7 @@ director_zombie_ground_hit_think()
 
 			if ( closeEnough )
 			{
-				
+
 				if( IsDefined( level._audio_director_vox_play ) )
 	            {
 	                self thread [[ level._audio_director_vox_play ]]( "vox_director_slam", .25, true );
@@ -2032,11 +2032,11 @@ scream_a_watcher( animname )
 	//rand = RandomInt( 100 );
 	//if( rand > level.director_zombie_scream_a_chance )
 	//{
-	//	return; 
+	//	return;
 	//}
-	
+
 	self waittillmatch( animname, "scream_a" );
-	
+
 	/*
 	players = get_players();
 	affected_players = [];
@@ -2068,7 +2068,7 @@ director_zombie_sprint_watcher( animname )
 	{
 		return;
 	}
-	
+
 	origin = self GetEye();
 	zombies = get_array_of_closest( origin, GetAiSpeciesArray( "axis", "all" ), undefined, undefined, level.director_speed_buff_range );
 
@@ -2133,7 +2133,7 @@ groundhit_watcher( animname )
 	self endon( "death" );
 
 	self waittillmatch( animname, "wrench_hit" );
-	
+
 //	PlayFx( level._effect["director_groundhit"], self.origin );
 	playfxontag(level._effect["director_groundhit"],self,"tag_origin");
 	//self RadiusDamage( self.origin, level.director_zombie_groundhit_radius, level.director_zombie_groundhit_damage, level.director_zombie_groundhit_damage, self );
@@ -2217,11 +2217,11 @@ scream_b_watcher( animname )
 	rand = RandomInt( 100 );
 	if( rand > level.director_zombie_scream_b_chance )
 	{
-		return; 
+		return;
 	}
-	
+
 	self waittillmatch( animname, "scream_b" );
-	
+
 	players = get_players();
 	affected_players = [];
 	for( i = 0; i < players.size; i++ )
@@ -2274,7 +2274,7 @@ director_nuke_damage()
 		self.nuke_react = true;
 
 		nuke_anim = %ai_zombie_boss_nuke_react_coast;
-		
+
 		self director_animscripted( nuke_anim, "nuke_anim" );
 
 		self.nuke_react = undefined;
@@ -2354,7 +2354,7 @@ director_zombie_default_enter_level()
 setup_player_damage_watchers()
 {
 	flag_wait( "all_players_connected" );
-	
+
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
@@ -2406,7 +2406,7 @@ zombie_set_electric_buff()
 {
 	self.electrified = true;
 	self setclientflag( level._ZOMBIE_ACTOR_FLAG_ELECTRIFIED );
-	
+
 	self playloopsound("zmb_electric_zombie_loop");
 
 	self thread zombie_melee_watcher(true);
@@ -2420,12 +2420,12 @@ zombie_set_electric_buff()
 zombie_melee_watcher(is_zombie)
 {
 	self endon( "death" );
-	
+
 	if(is_true(is_zombie))
 	{
 		self endon("stop_melee_watch");
 	}
-	
+
 	while ( 1 )
 	{
 		self waittill( "damage", amount, attacker, direction, point, method );
@@ -2447,7 +2447,7 @@ zombie_melee_watcher(is_zombie)
 zombie_clear_electric_buff( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime )
 {
 	self clearclientflag( level._ZOMBIE_ACTOR_FLAG_ELECTRIFIED );
-	
+
 	self StopLoopSound(3);
 
 	if ( IsDefined( sMeansOfDeath ) && IsDefined( attacker ) && IsPlayer( attacker ))
@@ -2477,7 +2477,7 @@ zombie_drop_max_ammo()
 	chance = RandomInt( 100 );
 
 	director_print( "chance " + chance + " < " + level.director_max_ammo_chance );
-	
+
 	if ( chance < level.director_max_ammo_chance )
 	{
 		level.director_max_ammo_available = false;
@@ -2485,7 +2485,7 @@ zombie_drop_max_ammo()
 		level thread maps\_zombiemode_powerups::specific_powerup_drop( "full_ammo", self.origin );
 		level notify( "director_max_ammo_drop" );
 	}
-	else 
+	else
 	{
 		level.director_max_ammo_chance += level.director_max_ammo_chance_inc;
 	}
@@ -2690,7 +2690,7 @@ director_reenter_map()
 	self.ground_hit = false;
 	self.following_player = false;
 	self.defeated = undefined;
-	
+
 	level notify( "audio_begin_director_vox" );
 
 	self thread director_zombie_check_for_buff();
@@ -2748,7 +2748,7 @@ director_calmed( delay, humangun )
 
 		self.is_activated = false;
 		self notify( "director_calmed" );
-		
+
 		if ( is_true( humangun ) )
 		{
 			if ( is_true( self.performing_activation ) )
@@ -2761,7 +2761,7 @@ director_calmed( delay, humangun )
 				self.ground_hit = false;
 			}
 		}
-		
+
 		if ( !is_true( self.in_water ) )
 		{
 			self thread director_zombie_check_for_activation();

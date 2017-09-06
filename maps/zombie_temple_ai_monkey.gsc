@@ -29,7 +29,7 @@ init()
 
 	level.nextMonkeyStealRound = 1; //5;
 	level.monkey_zombie_health = level.zombie_vars["zombie_health_start"];
-	
+
 	level.stealer_monkey_spawns = GetStructArray("stealer_monkey_spawn", "targetname");
 	level.stealer_monkey_exits = GetStructArray("stealer_monkey_exit", "targetname");
 
@@ -49,10 +49,10 @@ init()
 	// make all barriers with the zone they are in
 	level thread _setup_zone_info();
 	level thread _watch_for_powerups();
-	
+
 	//setup
 	monkey_ambient_init();
-	
+
 	//Monkeys watch for greandes
 	level thread monkey_grenade_watcher_temple();
 }
@@ -72,14 +72,14 @@ monkey_templeThink(spawner)
 monkey_GetMonkeySpawnLocation(minDist, checkVisible, skipStartArea)
 {
 	visitedZones = [];
-	
+
 	needToVisit = [];
-	
+
 	startZone = self _ent_GetZoneName();
 	needToVisit[0] = startZone;
 
 	zoneCounter = 0;
-	
+
 	while(needToVisit.size>0)
 	{
 		zoneCounter++;
@@ -99,17 +99,17 @@ monkey_GetMonkeySpawnLocation(minDist, checkVisible, skipStartArea)
 				}
 //				else
 //				{
-//					
+//
 //					barriers[i] thread printText(text, true);
 //				}
 			}
 		}
-		
+
 		//Add Current zone to visited list
 		visitedZones[visitedZones.size] = visitName;
-		
+
 		needToVisit = array_remove_index(needToVisit, 0);
-		
+
 		//Add all adjacent zones
 		azKeys = GetArrayKeys( zone.adjacent_zones );
 		azKeys = array_randomize_knuth(azKeys); //Radomize order we visit neighbors
@@ -127,7 +127,7 @@ monkey_GetMonkeySpawnLocation(minDist, checkVisible, skipStartArea)
 			}
 		}
 	}
-	
+
 	return undefined;
 }
 
@@ -138,10 +138,10 @@ barrier_test(zone, ent, minDist, checkVisible)
 	{
 		return true;
 	}
-	
+
 	//Min distance the barrier must be from ent to be valid
 	minDist2 	= minDist*minDist;
-	
+
 	//Check that the barrier is at least a min distance from ent
 	distToBarrier = distancesquared(ent.origin, self.origin);
 	if(distToBarrier < minDist2)
@@ -149,20 +149,20 @@ barrier_test(zone, ent, minDist, checkVisible)
 		//self thread printText("Too Close To Power Up (" + sqrt(distToBarrier) + "<"+minDist+")", true );
 		return false;
 	}
-	
+
 	if(checkVisible)
 	{
 		//Max distance that player can "see"
 		//Assume any barrier past can not be seen
 		playerVisDist 	= 1800.0;
 		playerVisDist2	= playerVisDist*playerVisDist;
-		
+
 		//Check that no players can see this barrier
 		players = get_players();
 		for(i=0;i<players.size;i++)
 		{
 			player = players[i];
-			
+
 			distToPlayer2 = distancesquared(player.origin, self.origin);
 			if(distToPlayer2 < playerVisDist2)
 			{
@@ -173,7 +173,7 @@ barrier_test(zone, ent, minDist, checkVisible)
 			}
 		}
 	}
-	
+
 	//Passed all tests, this barrier should not be visible
 	return true;
 }
@@ -199,13 +199,13 @@ ent_GatherValidBarriers(zoneOverride, ignoreOccupied, ignoreVisible)
 		{
 			name = zoneNames[i];
 			zone = level.zones[name];
-			
+
 			//Skip zones with players in them
 			if(is_true(ignoreOccupied) && zone.is_occupied)
 			{
 				continue;
 			}
-			
+
 			barriers = [];
 			//Skip barriers in FOV
 			if(is_true(ignoreVisible))
@@ -216,7 +216,7 @@ ent_GatherValidBarriers(zoneOverride, ignoreOccupied, ignoreVisible)
 			{
 				barriers = zone.barriers;
 			}
-			
+
 			if ( barriers.size>0 )
 			{
 				valid_barriers = array_combine(valid_barriers, barriers);
@@ -227,17 +227,17 @@ ent_GatherValidBarriers(zoneOverride, ignoreOccupied, ignoreVisible)
 	return valid_barriers;
 }
 
-printText(text, red) 
+printText(text, red)
 {
 	level endon("stopPrints");
-	
+
 	if( !isDefined(level.printOffsets) )
 	{
 		level.printOffsets = [];
 	}
-	
+
 	originStr = "(" + self.origin[0]+","+self.origin[1]+","+self.origin[2] + ")";
-	
+
 	if( !isDefined(level.printOffsets[originStr]) )
 	{
 		level.printOffsets[originStr] = (0,0,0);
@@ -246,9 +246,9 @@ printText(text, red)
 	{
 		level.printOffsets[originStr] += (0,0,20);
 	}
-	
+
 	offset = ( 0, 0, 45 ) + level.printOffsets[originStr];
-		
+
 	color = (0,1,0); //green
 	if(is_true(red))
 	{
@@ -288,14 +288,14 @@ _get_non_visible_barriers(barriers)
 					}
 				}
 			}
-			
+
 			if(!canSee)
 			{
 				returnBarriers[returnBarriers.size] = barriers[i];
 			}
 		}
 	}
-	
+
 	return returnBarriers;
 }
 
@@ -311,10 +311,10 @@ player_can_see_me( player )
 	playerToBanzaiUnitVec = VectorNormalize( playerToBanzaiVec );
 
 	forwardDotBanzai = VectorDot( playerUnitForwardVec, playerToBanzaiUnitVec );
-	angleFromCenter = ACos( forwardDotBanzai ); 
+	angleFromCenter = ACos( forwardDotBanzai );
 
 	playerFOV = GetDvarFloat( #"cg_fov" );
-	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );	
+	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );
 	if ( banzaiVsPlayerFOVBuffer <= 0 )
 	{
 		banzaiVsPlayerFOVBuffer = 0.2;
@@ -365,14 +365,14 @@ _ent_GetZoneName()
 	}
 
 	return undefined;
-	
+
 }
 
 _setup_zone_info()
 {
 	// need to wait for it to get inited...hack
 	wait(1.0);
-	
+
 	checkEnt = spawn("script_origin", (0,0,0));
 	for ( i = 0; i < level.exterior_goals.size; i++ )
 	{
@@ -417,7 +417,7 @@ _monkey_TempleThinkInternal(spawner)
 {
 	self endon("death");
 
-	spawner.count = 100; 
+	spawner.count = 100;
 	spawner.last_spawn_time = GetTime();
 
 	//maps\_zombiemode_ai_monkey::monkey_zombie_default_enter_level();
@@ -453,13 +453,13 @@ monkey_zombie_choose_sprint_temple(movePlayBackRate)
 	{
 		self.moveplaybackrate = movePlayBackRate;
 	}
-	
+
 	rand = randomIntRange( 1, 5 );
 	self set_run_anim( "sprint"+rand );
 	self.run_combatanim = level.scr_anim["monkey_zombie"]["sprint"+rand];
 	self.crouchRunAnim = level.scr_anim["monkey_zombie"]["sprint"+rand];
 	self.crouchrun_combatanim = level.scr_anim["monkey_zombie"]["sprint"+rand];
-	
+
 	self.zombie_move_speed = "sprint";
 }
 
@@ -504,7 +504,7 @@ _monkey_GotoBoards()
 		location = getBarrierAttackLocation(barrier);
 		//maps\_debug::drawDebugLine(self.origin, location, (1,1,1), 100 );
 
-		self.goalradius = 32; 
+		self.goalradius = 32;
 		self SetGoalPos( location );
 		self waittill( "goal" );
 
@@ -549,7 +549,7 @@ _monkey_DestroyBoards(barrier, chunk, location)
 	self animscripted( "perk_attack_anim", location, self.angles, perk_attack_anim, "normal", %body, 1, 0.2 );
 	self thread maps\_zombiemode_ai_monkey::play_attack_impacts( time );
 
-	PlayFx( level._effect["wood_chunk_destory"], chunk.origin );				
+	PlayFx( level._effect["wood_chunk_destory"], chunk.origin );
 	if(chunk.script_noteworthy == "4" || chunk.script_noteworthy == "6")
 	{
 		chunk thread maps\_zombiemode_spawner::zombie_boardtear_offset_fx_horizontle(chunk, barrier);
@@ -585,7 +585,7 @@ _watch_for_powerups()
 	level waittill("powerup_dropped", powerup);
 
 	level thread _watch_for_powerups();
-	
+
 	if(!isDefined(powerup))
 	{
 		return;
@@ -634,15 +634,15 @@ _grab_powerup(powerup)
 		level.nextMonkeyStealRound = 1;
 	}
     #/
-	
+
 	//Players are getting hung up on monkeys and not understanding why.
 	//NOTE: If we turn off collision we will not get aim assist
 	//monkey setplayercollision(0);
-	
+
 	monkey.ignore_enemy_count = true;
 	monkey.meleeDamage = 10;
 	monkey.custom_damage_func = ::monkey_temple_custom_damage;
-	
+
 	monkey ForceTeleport(powerup.origin, monkey.angles);
 	location = monkey _monkey_GetSpawnLocation(powerup.origin);
 	monkey ForceTeleport( location, monkey.angles );
@@ -652,14 +652,14 @@ _grab_powerup(powerup)
 
 	monkey.no_shrink = false;
 	monkey.ignore_solo_last_stand = 1;
-	
+
 	monkey disable_pain();
 
 	// Don't play fx to help sell that monkeys come from enviroment
 	//PlayFX( level._effect["monkey_death"], monkey.origin );
 	//playsoundatposition( "zmb_stealer_spawn", monkey.origin );
 
-	spawner.count = 100; 
+	spawner.count = 100;
 	spawner.last_spawn_time = GetTime();
 
 	// path to the powerup
@@ -677,19 +677,19 @@ _monkey_play_stolen_loop()
 {
 	self endon( "death" );
 	self endon("powerup_dropped");
-	
+
 	while(1)
 	{
 		playsoundatposition( "zmb_stealer_stolen", self.origin );
 		wait 0.845;
 	}
-		
+
 }
 
 _monkey_GetSpawnLocation(location)
 {
 //	printTextStop();
-	
+
 	best = self monkey_GetMonkeySpawnLocation(700, false, true);
 	if(!isDefined(best))
 	{
@@ -699,14 +699,14 @@ _monkey_GetSpawnLocation(location)
 	{
 		best = self monkey_GetMonkeySpawnLocation(0, false, false);
 	}
-		
+
 	// if we still haven't found a location, just use the powerup's origin
 	ret = location;
 	if ( IsDefined(location) )
 	{
 		ret = getBarrierAttackLocation(best);
 	}
-	
+
 	return ret;
 }
 
@@ -714,9 +714,9 @@ _monkey_StealPowerup()
 {
 	self endon("death");
 	self endon("end_monkey_steal");
-	
+
 	self _monkey_GrabPowerup();
-	
+
 	//If we don't have a power up and we have not attacked the player already
 	if(!isDefined(self.powerUp) && !is_true(self.attack_player))
 	{
@@ -758,7 +758,7 @@ _monkey_GrabPowerup()
 	if (isDefined(self.powerup_to_grab))
 	{
 		self thread _monkey_watch_for_death();
-		self.goalradius = 16; 
+		self.goalradius = 16;
 		self SetGoalPos( self.powerup_to_grab.origin );
 		self _monkey_Grap_powerup_wait();
 	}
@@ -767,12 +767,12 @@ _monkey_GrabPowerup()
 	{
 		//Slow down because power up is heavy
 		self monkey_zombie_choose_run_temple();
-		
+
 		self.powerup_to_grab show();
 		self _monkey_BindPowerup(self.powerup_to_grab);
 		self.powerup = self.powerup_to_grab;
 		self.powerup_to_grab = undefined;
-		
+
 		if(isDefined(self.powerup.grab_count))
 		{
 			self.powerup.grab_count++;
@@ -784,14 +784,14 @@ _monkey_GrabPowerup()
 
 		//Set up red fx so players know they can not grab the power up
 		self.powerup thread powerup_red(self);
-		
+
 		self.powerup thread _powerup_Randomize(self);
 
 		// stop all the normal powerup threads
 		self thread _monkey_play_stolen_loop();
 		self.powerup.stolen = true;
 		self.powerup notify("powerup_grabbed");
-		
+
 		self thread player_random_response_to_theft();
 	}
 }
@@ -799,7 +799,7 @@ _monkey_GrabPowerup()
 player_random_response_to_theft()
 {
 	players = get_players();
-	
+
 	for(i=0;i<players.size;i++)
 	{
 		if( distancesquared( self.origin, players[i].origin ) <= 500*500 )
@@ -813,7 +813,7 @@ player_random_response_to_theft()
 _monkey_Grap_powerup_wait()
 {
 	self endon("goal");
-	
+
 	self.powerup_to_grab waittill("death");
 	self.player_stole_power_up = self.powerup_to_grab.power_up_grab_player;
 }
@@ -826,18 +826,18 @@ _monkey_watch_for_death()
 		self.powerup_to_grab.claimed = false;
 		level notify("powerup_dropped", self.powerup_to_grab);
 	}
-	
+
 }
 powerup_red(monkey)
 {
 	monkey endon("death");
-	
+
 	//Stop the green fx
 	if(isDefined(self.fx_green))
 	{
 		self.fx_green delete();
 	}
-	
+
 	self.fx_red = maps\_zombiemode_net::network_safe_spawn( "monkey_red_powerup", 2, "script_model", self.origin );
 	self.fx_red setmodel("tag_origin");
 	self.fx_red LinkTo(self);
@@ -848,12 +848,12 @@ _monkey_Escape()
 {
 	self endon("death");
 	self endon("end_monkey_steal");
-	
+
 	self notify( "stop_find_flesh" );
-	
+
 	self.escaping = true;
 	self _monkey_add_time();
-	
+
 	location = (0,0,0);
 	angles = (0,0,0);
 	playExitAnim = false;
@@ -884,11 +884,11 @@ _monkey_Escape()
 		location = getBarrierAttackLocation(bestBarrier);
 	}
 
-	self.goalradius = 8; 
+	self.goalradius = 8;
 	self SetGoalPos( location );
 	self waittill( "goal" );
 	self notify( "escape_goal" );
-	
+
 	if(playExitAnim)
 	{
 		if(!isDefined(angles))
@@ -905,7 +905,7 @@ _monkey_Escape()
 	{
 		level notify("monkey_powerup_escape");
 	}
-	
+
 	level thread escape_monkey_counter(hasPowerUp);
 
 	self _monkey_remove();
@@ -918,13 +918,13 @@ escape_monkey_counter(hasPowerUp)
 		level.monkey_escape_count = 0;
 		level.monkey_escape_with_powerup_count = 0;
 	}
-	
+
 	level.monkey_escape_count++;
 	if(hasPowerUp)
 	{
 		level.monkey_escape_with_powerup_count++;
 	}
-	
+
 	if(level.monkey_escape_with_powerup_count%5 == 0)
 	{
 		level thread launch_monkey();
@@ -935,15 +935,15 @@ launch_monkey()
 {
 	//Hard coded launch location behind the temple
 	effectEnt = Spawn("script_model", (-24, 1448, 1000));
-	
+
 	if(isDefined(effectEnt))
 	{
 		effectEnt endon("death");
 		effectEnt SetModel("tag_origin");
 		effectEnt.angles = (90,0,0);
-					
+
 		PlayFXOnTag(level._effect["monkey_launch"], effectEnt, "tag_origin" );
-		
+
 		launchTime = 6;
 		effectEnt MoveTo(effectEnt.origin + (0,0,2500), launchTime, 3);
 		wait launchTime;
@@ -993,7 +993,7 @@ _monkey_timeout()
 	{
 		self.endTime = GetTime() + 60000;
 	}
-	
+
 	while(self.endTime>GetTime())
 	{
 		wait .5;
@@ -1015,11 +1015,11 @@ _monkey_zombieTempleEscapeDeathCallback()
 	playsoundatposition("zmb_stealer_death", self.origin);
 	//self thread maps\_zombiemode_audio::do_zombies_playvocals( "death", self.animname );
 	self thread maps\_zombiemode_spawner::zombie_eye_glow_stop();
-	
+
 	if( isdefined( self.attacker ) && isPlayer( self.attacker ) )
 	{
 		self.attacker maps\_zombiemode_audio::create_and_play_dialog( "kill", "thief" );
-		
+
 		//Special bonus if you kill the monkey before he hits you
 		isFavoriteEnemy = isDefined(self.favoriteenemy) && self.favoriteenemy == self.attacker;
 		noMeleeHits = !isdefined(self.melee_count) || self.melee_count==0;
@@ -1045,7 +1045,7 @@ _monkey_zombieTempleEscapeDeathCallback()
 	{
 		self thread _monkey_temple_dragons_breath_flame_death_fx();
 	}
-	
+
 	if(is_true(self.do_gib_death))
 	{
 		self thread _monkey_gib();
@@ -1072,7 +1072,7 @@ _monkey_temple_dragons_breath_flame_death_fx()
 
 	PlayFxOnTag( level._effect["character_fire_death_sm"], self, "J_SpineLower" );
 
-	tagArray = []; 
+	tagArray = [];
 	if( !IsDefined( self.a.gib_ref ) || self.a.gib_ref != "left_arm" )
 	{
 		tagArray[tagArray.size] = "J_Elbow_LE";
@@ -1094,7 +1094,7 @@ _monkey_temple_dragons_breath_flame_death_fx()
 		tagArray[tagArray.size] = "J_Ankle_RI";
 	}
 
-	tagArray = array_randomize( tagArray ); 
+	tagArray = array_randomize( tagArray );
 	PlayFxOnTag( level._effect["character_fire_death_sm"], self, tagArray[0] );
 }
 
@@ -1105,23 +1105,23 @@ _monkey_dropStolenPowerUp()
 	{
 		self notify("powerup_dropped");
 		self.powerup notify("stop_randomize");
-		
+
 		if( isDefined(self.powerup.fx_red) )
 		{
 			self.powerup.fx_red delayThread( 0.1, ::self_delete );// Delete();
 			self.powerup.fx_red = undefined;
 		}
-		
+
 		//Send more monkeys after it
 		self.powerup.claimed = false;
 		level notify("powerup_dropped", self.powerup);
-		
+
 		origin = self.origin;
 		if(is_true(self.is_traversing))
 		{
 			origin = groundpos( self.origin + (0,0,10) );
 		}
-		
+
 		//Move off the ground a little
 		origin = origin + (0,0,40);
 		self.powerup Unlink();
@@ -1131,7 +1131,7 @@ _monkey_dropStolenPowerUp()
 		self.powerup thread maps\_zombiemode_powerups::powerup_timeout();
 		self.powerup thread maps\_zombiemode_powerups::powerup_wobble();
 		self.powerup thread maps\_zombiemode_powerups::powerup_grab();
-		self.powerup = undefined;	
+		self.powerup = undefined;
 	}
 
 	return returnPowerUp;
@@ -1145,7 +1145,7 @@ _monkey_remove(playFX)
 	{
 		playFX = true;
 	}
-	
+
 	if ( IsDefined(self.powerup) )
 	{
 		if( isdefined(self.powerup.fx_red) )
@@ -1164,7 +1164,7 @@ _monkey_remove(playFX)
 //		playsoundatposition( "zmb_bolt", self.origin );
 //	}
 
-	self Delete();	
+	self Delete();
 }
 
 _getConnectedZoneNames(zoneName, params)
@@ -1210,7 +1210,7 @@ _powerup_Randomize(monkey)
 	powerup_cycle = array("fire_sale","nuke","double_points","insta_kill");
 	powerup_cycle = array_randomize_knuth(powerup_cycle);
 	powerup_cycle[powerup_cycle.size] = "full_ammo"; //Ammo is always last
-	
+
 	//Remove fire sale so the players can not get firesale too early.
 	//if(level.chest_moves < 1)
 	//{
@@ -1221,7 +1221,7 @@ _powerup_Randomize(monkey)
 	//{
 	//	powerup_cycle = array_remove_nokeys(powerup_cycle, "nuke");
 	//}
-	
+
 	//Find current power up name
 	currentPowerUp = undefined;
 	keys = GetArrayKeys( level.zombie_powerups );
@@ -1237,7 +1237,7 @@ _powerup_Randomize(monkey)
 	if(isdefined(currentPowerUp))
 	{
 		powerup_cycle = array_remove(powerup_cycle, currentPowerUp);
-		powerup_cycle = array_insert(powerup_cycle, currentPowerUp, 0);	
+		powerup_cycle = array_insert(powerup_cycle, currentPowerUp, 0);
 	}
 	//Add Perk bottel if this is a max ammo and its the f
 	if(currentPowerUp == "full_ammo")//&& self.grab_count == 1
@@ -1245,9 +1245,9 @@ _powerup_Randomize(monkey)
 		index = randomintrange(1, powerup_cycle.size - 1);
 		powerup_cycle = array_insert(powerup_cycle, "free_perk", index);
 	}
-	
+
 	wait 1;
-	
+
 	index = 1; //Skip first because it is set to the current powerup
 	while ( true )
 	{
@@ -1273,7 +1273,7 @@ _powerup_Randomize(monkey)
 		self maps\_zombiemode_powerups::powerup_setup( powerupName );
 
 		monkey _monkey_BindPowerup(self);
-		
+
 		if(powerupName=="free_perk")
 		{
 			wait .25;
@@ -1298,7 +1298,7 @@ array_randomize_knuth(array)
 		array[index] = array[n];
 		array[n] = temp;
 	}
-	
+
 	return array;
 }
 
@@ -1344,7 +1344,7 @@ _monkey_gib()
 _monkey_TempleFling( player )
 {
 	self.do_gib_death = true;
-	self DoDamage( self.health + 666, self.origin); 
+	self DoDamage( self.health + 666, self.origin);
 }
 
 _monkey_TempleSliding( slide_node )
@@ -1358,31 +1358,31 @@ _monkey_TempleSliding( slide_node )
 	}
 
 	self notify("end_monkey_steal");
-	
+
 	self.is_traversing = true;
 	self notify("zombie_start_traverse");
 	self thread maps\zombie_temple_waterslide::zombie_slide_watch();
-	
+
 	self thread maps\zombie_temple_waterslide::play_zombie_slide_looper();
-	
+
 	self.sliding = true;
 	self.ignoreall = true;
-	
+
 	//self notify( "stop_find_flesh" );
 	//self notify( "zombie_acquire_enemy" );
-	
+
 	self thread set_monkey_slide_anim();
-	
+
 	self SetGoalNode(slide_node);
 	check_dist_squared = 60*60;
 	while(Distancesquared(self.origin, slide_node.origin) > check_dist_squared )//self.goalradius)
 	{
 		wait(0.01);
-	}			
+	}
 	//self waittill("goal");
 
 	self thread monkey_zombie_choose_sprint_temple();
-	
+
 	self notify("water_slide_exit");
 	self.sliding = false;
 	self.is_traversing = false;
@@ -1413,8 +1413,8 @@ precache_ambient_monkey_anims()
 	level.scr_anim[ "monkey" ][ "calm_idle" ][0] 		= %ai_zombie_monkey_calm_idle_03;
 	level.scr_anim[ "monkey" ][ "excited" ][0] 			= %a_monkey_freaked_01;
 	level.scr_animtree[ "monkey" ] = #animtree;
-	
-	level.scr_anim[ "monkey" ][ "shot_death" ][0]		 = %a_monkey_shot_death; 
+
+	level.scr_anim[ "monkey" ][ "shot_death" ][0]		 = %a_monkey_shot_death;
 
 	//	level.scr_anim[ "monkey" ][ "calm_pace" ][0] 			= %a_monkey_calm_pace;
 	//	level.scr_anim[ "monkey" ][ "calm_idle_2_pace" ][0] = %a_monkey_calm_idle_2_pace;
@@ -1426,20 +1426,20 @@ monkey_ambient_init()
 	flag_init("monkey_ambient_excited");
 	monkey_ambient_level_set_next_sound();
 	level.ambient_monkey_locations = GetStructArray( "monkey_ambient", "targetname" );
-	
+
 	level thread monkey_crowd_noise();
 	level thread monkey_ambient_drops_add_array();
 	level thread monkey_ambient_drops_remove_array();
-	
+
 	level thread manage_ambient_monkeys(4);
 }
 monkey_crowd_noise()
 {
-	
+
 	//Crowd sounds
 	origin1 = GetEnt("evt_monkey_crowd01_origin","targetname");
 	origin2 = GetEnt("evt_monkey_crowd02_origin","targetname");
-	
+
 	if(!isDefined(origin1) || !isDefined(origin2))
 	{
 		return;
@@ -1448,7 +1448,7 @@ monkey_crowd_noise()
 	while(1)
 	{
 		flag_wait("monkey_ambient_excited");
-		
+
 		origin1 playloopsound("evt_monkey_crowd01",2);
 		origin2 playloopsound("evt_monkey_crowd02",2);
 
@@ -1456,7 +1456,7 @@ monkey_crowd_noise()
 		{
 			wait .1;
 		}
-		
+
 		origin1 stoploopsound(3);
 		origin2 stoploopsound(3);
 	}
@@ -1471,7 +1471,7 @@ manage_ambient_monkeys(max_monkeys)
 
 	playerInZone = false;
 	hackToFixStart = true;
-	while ( true ) 
+	while ( true )
 	{
 		if(!hackToFixStart)
 		{
@@ -1490,10 +1490,10 @@ manage_ambient_monkeys(max_monkeys)
 					{
 						wait_network_frame();
 					}
-					wait_network_frame();//May need two, because multiple monkeys are showing up in the same snap shot	
+					wait_network_frame();//May need two, because multiple monkeys are showing up in the same snap shot
 				}
 			}
-			
+
 			if(hackToFixStart)
 			{
 				while(!zone_is_active(checkZone))
@@ -1502,7 +1502,7 @@ manage_ambient_monkeys(max_monkeys)
 				}
 			}
 			hackToFixStart = false;
-			playerInZone = true;	
+			playerInZone = true;
 		}
 		else
 		{
@@ -1544,13 +1544,13 @@ monkey_ambient_spawn()
 	self.health = 9999;
 
 	maps\_zombiemode_weap_shrink_ray::add_shrinkable_object(self.monkey);
-	
+
 	self.monkey.location = self;
 
 	self.monkey.anim_spot = Spawn("script_model", self.origin);
 	self.monkey.anim_spot.angles = self.angles;
 	self.monkey.anim_spot SetModel("tag_origin");
-	
+
 	level.active_monkeys = array_add(level.active_monkeys, self.monkey);
 
 	self.monkey monkey_ambient_set_next_sound();
@@ -1565,7 +1565,7 @@ monkey_ambient_idle()
 {
 	self.anim_spot notify("monkey_stop_loop");
 	self.anim_spot thread maps\_anim::anim_loop_aligned( self, "calm_idle", "tag_origin", "monkey_stop_loop" );
-	self SetAnimTime( level.scr_anim[ "monkey" ][ "calm_idle"][0], RandomFloat( 0.99 ) );	
+	self SetAnimTime( level.scr_anim[ "monkey" ][ "calm_idle"][0], RandomFloat( 0.99 ) );
 }
 
 monkey_ambient_wait_to_be_shot()
@@ -1584,26 +1584,26 @@ monkey_ambient_wait_to_be_shot()
 			if(isdefined(linkedTo) && linkedTo==self)
 			{
 				bolt delete();
-				//snigl: Tried to unlink the bolt but it didn't work:( 
+				//snigl: Tried to unlink the bolt but it didn't work:(
 //				bolt unlink();
 //				wait_network_frame();
 //				physicsexplosionsphere(bolt.origin, 1, 1, 1); //Need to wake it up
 			}
 		}
 	}
-	
+
 	self.alive = false;
 	self notify("monkey_killed");
 	playsoundatposition("zmb_stealer_death", self.origin);
 	self startragdoll();
-	
+
 	//temp test
 //	if( IsDefined( level._effect["napalm_explosion"] ) )
 //	{
 //		playfx(level._effect["napalm_explosion"], self.origin);
 //	}
 //	radiusdamage(self.origin, 200, 300, 100);
-	
+
 	//self.anim_spot maps\_anim::anim_single_aligned(self, "shot_death");
 	//self monkey_ambient_wait_for_remove();
 	//self.anim_spot thread monkey_ambient_wait_to_spawn();
@@ -1623,12 +1623,12 @@ monkey_ambient_drops_add_array()
 	self endon("monkey_killed");
 
 	level.monkey_drops = [];
-	
+
 	while(1)
 	{
 		level waittill("powerup_dropped", powerup);
 		level.monkey_drops[level.monkey_drops.size] = powerup;
-		
+
 		if(level.monkey_drops.size == 1)
 		{
 			flag_set("monkey_ambient_excited");
@@ -1661,27 +1661,27 @@ monkey_ambient_watch_for_power_up()
 {
 	self endon("monkey_killed");
 	self endon("monkey_cleanup");
-	
+
 	while ( true )
 	{
 		flag_wait("monkey_ambient_excited");
-		
+
 		wait randomfloatrange(0, 1); //Don't start at the same time
-		
+
 		self.excited = true;
 		self thread monkey_ambient_excited_noise();
 		self.anim_spot notify("monkey_stop_loop");
 		self.anim_spot thread maps\_anim::anim_loop_aligned( self, "excited", "tag_origin", "monkey_stop_loop" );
-		self SetAnimTime( level.scr_anim[ "monkey" ][ "excited" ][0], RandomFloat( 0.99 ) );	
-		
+		self SetAnimTime( level.scr_anim[ "monkey" ][ "excited" ][0], RandomFloat( 0.99 ) );
+
 		while(flag("monkey_ambient_excited"))
 		{
 			wait .1;
 		}
-		
+
 		//So all anims don't line up
 		wait randomfloatrange(0, 4);
-		
+
 		self.excited = false;
 		monkey_ambient_idle();
 	}
@@ -1700,19 +1700,19 @@ monkey_ambient_can_make_sound()
 	{
 		return false;
 	}
-	
+
 	if(GetTime() < self.next_sound_time)
 	{
 		return false;
 	}
-	
+
 	return true;
 }
 monkey_ambient_noise()
 {
 	self endon("monkey_killed");
 	self endon("monkey_cleanup");
-	
+
 	while(1)
 	{
 		if(self monkey_ambient_can_make_sound())
@@ -1730,7 +1730,7 @@ monkey_ambient_excited_noise()
 {
 	self endon("monkey_killed");
 	self endon("monkey_cleanup");
-	
+
 	while(self.excited)
 	{
 		self thread monkey_ambient_play_sound("zmb_stealer_excited");
@@ -1744,7 +1744,7 @@ monkey_ambient_play_sound(soundName)
 	{
 		wait_network_frame();
 	}
-	
+
 	//println("^2 Monkey " + self getentitynumber() + " " + soundName + " @ " + gettime());
 	level.monkey_ambient_sound_choke = true;
 	self playsound(soundname);
@@ -1805,7 +1805,7 @@ _monkey_zombie_grenade_watcher()
 					wait_network_frame();
 					continue;
 				}
-				
+
 				if(isDefined(self.powerup))
 				{
 					wait_network_frame();
@@ -1833,13 +1833,13 @@ _monkey_zombie_grenade_watcher()
 monkey_zombie_grenade_response()
 {
 	self endon( "death" );
-	
+
 	self notify("end_monkey_steal");
-	
+
 	self monkey_zombie_grenade_pickup();
-	
+
 	self thread _monkey_StealPowerup();
-	
+
 }
 
 
@@ -1904,7 +1904,7 @@ monkey_zombie_grenade_throw_watcher( target, animname )
 	dir = AnglesToForward( dir );
 
 	velocity = dir * 550;
-	
+
 	fuse = RandomFloatRange( 1, 2 );
 	hand_pos = self GetTagOrigin( "J_Thumb_RI_1");
 	//hand_pos = self GetTagOrigin( "TAG_WEAPON_RIGHT" );
@@ -1961,10 +1961,10 @@ monkey_zombie_grenade_throw( target )
 monkey_attack_player()
 {
 	self endon("death");
-	
+
 	self.attack_player = true; //Tried to attack player
 	self.attacking_player = true; //Currently attacking the player
-	
+
 	players = getplayers();
 	self.ignore_player = [];
 
@@ -1977,15 +1977,15 @@ monkey_attack_player()
 	{
 		self.favoriteenemy = player;
 		self thread monkey_obvious_vox();
-	
+
 		self _monkey_add_time();
 		self thread monkey_pathing();
-		
+
 		self thread monkey_attack_player_wait_wrapper(self.favoriteenemy);
 		self waittill("end_monkey_attacks");
 	}
-	
-	
+
+
 }
 monkey_attack_player_wait_wrapper(player)
 {
@@ -1996,7 +1996,7 @@ monkey_attack_player_wait(player)
 {
 	self endon( "death" );
 	self endon("end_monkey_steal");
-	
+
 	attackTimeEnd = GetTime() + 20000;
 	while(attackTimeEnd>GetTime())
 	{
@@ -2004,7 +2004,7 @@ monkey_attack_player_wait(player)
 		{
 			break;
 		}
-		
+
 		if(isdefined(self.melee_count) && self.melee_count>=1)
 		{
 			break;
@@ -2029,7 +2029,7 @@ monkey_pathing()
 {
 	self endon( "death" );
 	self endon("end_monkey_attacks");
-	
+
 	self.ignoreall = false;
 	self.pathEnemyFightDist = 64;
 	self.meleeAttackDist = 64;
@@ -2038,7 +2038,7 @@ monkey_pathing()
 		self.goalradius = 32;
 		self OrientMode( "face default" );
 		self SetGoalPos( self.favoriteenemy.origin );
-		
+
 		wait_network_frame();
 	}
 }
@@ -2053,14 +2053,14 @@ monkey_temple_custom_damage( player )
 		self.melee_count = 0;
 	}
 	self.melee_count++;
-	
+
 	//Take monkey if hit by the monkey
 	if(isDefined(player) && player.score>0)
 	{
 		pointsToSteal = int(min(player.score, 50));
 		player maps\_zombiemode_score::minus_to_player_score( pointsToSteal );
 	}
-	
+
 	return damage;
 }
 
@@ -2068,7 +2068,7 @@ monkey_obvious_vox()
 {
 	self endon( "death" );
 	self endon( "end_monkey_attacks" );
-	
+
 	while(1)
 	{
 		self playsound( "zmb_stealer_attack" );

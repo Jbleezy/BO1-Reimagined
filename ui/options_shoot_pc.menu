@@ -21,7 +21,7 @@
 #define OPTIONS_SHOOT_WIDTH		OPTIONS_SHOOT_HEIGHT * FRAME_ASPECT_RATIO
 
 {
-	menuDef 
+	menuDef
 	{
 		name			options_shoot
 		fullScreen		0
@@ -32,13 +32,13 @@
 		onOpen
 		{
 			LOCAL_CLOSE_ALL_BUT( options_shoot )
-			
+
 			setLocalVarBool ui_hideBack 1;
-			
+
 			if (IsInGame())
 			{
 				showMenu "pausedbkgnd";
-			}			
+			}
 			else
 			{
 				activateBlur;
@@ -51,21 +51,21 @@
 			if (IsInGame())
 			{
 				hideMenu "pausedbkgnd";
-			}			
+			}
 			else
 			{
 				deactivateBlur;
 			}
 		}
-		onESC 
-		{ 
-			close self;		
+		onESC
+		{
+			close self;
 			open options_controls_new_pc;
 		}
 		PC_TAB_SWITCH_ACTIONS( options_controls_new_pc, options_new_pc, options_new_pc )
 
 		#include "ui_mp/leftside_controls.inc"
-		
+
 #undef	CHOICE_X_START
 #undef	CHOICE_Y_START
 #undef	CHOICE_HORIZONTAL_ALIGN
@@ -100,15 +100,15 @@
 		FRAME_CHOICE_BIND( 22, "@MENU_ATTACK_CAPS", "+attack", ; )
 		FRAME_CHOICE_BIND( 23, "@MENU_AIM_DOWN_THE_SIGHT_CAPS", "+speed_throw", ; )
 		FRAME_CHOICE_BIND( 24, "@MENU_TOGGLE_AIM_DOWN_THE_SIGHT_CAPS", "+toggleads_throw", ; )
-		FRAME_CHOICE_BIND( 25, "@MENU_MELEE_ATTACK_CAPS", "+melee", ; )	
+		FRAME_CHOICE_BIND( 25, "@MENU_MELEE_ATTACK_CAPS", "+melee", ; )
 		FRAME_CHOICE_BIND( 26, "@MENU_SWITCH_WEAPON_CAPS", "weapnext", ; )
 		FRAME_CHOICE_BIND( 27, "@MENU_RELOAD_WEAPON_CAPS", "+reload", ; )
 		FRAME_CHOICE_BIND( 28, "@MENU_SPRINT_CAPS", "+sprint", ; )
 		FRAME_CHOICE_BIND( 29, "@MENU_SPRINT_HOLD_BREATH_CAPS", "+breath_sprint", ; )
 		FRAME_CHOICE_BIND( 30, "@MENU_STEADY_SNIPER_RIFLE_CAPS", "+holdbreath", ; )
-				
+
 		//FRAME_CHOICE_SEPARATOR( CHOICE_SEP_1 )
-		
+
 		FRAME_CHOICE_BIND( 31, "@MENU_THROW_FRAG_GRENADE_CAPS", "+frag", ; )
 		FRAME_CHOICE_BIND( 32, "@MENU_THROW_SPECIAL_GRENADE_CAPS", "+smoke", ; )
 
@@ -120,7 +120,7 @@
 		FRAME_CHOICE_BIND_VIS( 34, "@MENU_ACTION_INVENTORY_CAPS", "+actionslot 3", ;, ( dvarbool( ui_multiplayer ) ), dvarbool( ui_mulitplayer ) ) 	//mp
 		//FRAME_CHOICE_BIND_VIS( 34, "@MENU_SATCHEL_CHARGE", "+actionslot 2", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) ) 	//sp
 		FRAME_CHOICE_BIND_VIS( 34, "@MENU_ACTION_INVENTORY_CAPS", "+actionslot 3", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) ) //sp
-		
+
 		FRAME_CHOICE_BIND_VIS( 35, "@MENU_GROUND_SUPPORT_CAPS", "+actionslot 4", ;, ( dvarbool( ui_multiplayer ) ), dvarbool( ui_multiplayer )  ) 	//mp
 		FRAME_CHOICE_BIND_VIS( 35, "@MENU_GROUND_SUPPORT_CAPS", "+actionslot 4", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) )//sp
 		//CHOICE_BACK( "@MENU_BACK", close self )

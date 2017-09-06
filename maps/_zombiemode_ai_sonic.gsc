@@ -5,7 +5,7 @@
 #include maps\_zombiemode_spawner;
 #include maps\_zombiemode_net;
 
-#using_animtree( "generic_human" ); 
+#using_animtree( "generic_human" );
 
 sonic_zombie_init()
 {
@@ -17,28 +17,28 @@ sonic_zombie_init()
 	level.nextSonicSpawnRound          	= level.sonicZombieRoundRequirement + RandomIntRange(0, level.sonicZombieMaxRoundWait+1);
 
 	level.sonicPlayerDamage				= 10;
-	
+
 	level.sonicScreamDamageRadius		= 300;	//25 feet
 	level.sonicScreamAttackRadius		= 240;	//20 feet
 	level.sonicScreamAttackDebounceMin	= 3;	//Min deboucne time between screams globally
 	level.sonicScreamAttackDebounceMax	= 9;	//Max deboucne time between screams globally
  	level.sonicScreamAttackNext			= 0;	//Next any sonic zombie can do scream attack
-		
+
 	level.sonicHealthMultiplier        	= 2.5;
 
-	level.sonic_zombie_spawners = GetEntArray( "sonic_zombie_spawner", "script_noteworthy" ); 
-	
-	if ( GetDvar("zombiemode_debug_sonic") == "" ) 
+	level.sonic_zombie_spawners = GetEntArray( "sonic_zombie_spawner", "script_noteworthy" );
+
+	if ( GetDvar("zombiemode_debug_sonic") == "" )
 	{
 		SetDvar("zombiemode_debug_sonic", "0");
 	}
-	
+
 	//Copied from Thunder GUN
 	set_zombie_var( "thundergun_knockdown_damage",		15 );
 
-	level.thundergun_gib_refs = []; 
-	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "guts"; 
-	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "right_arm"; 
+	level.thundergun_gib_refs = [];
+	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "guts";
+	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "right_arm";
 	level.thundergun_gib_refs[level.thundergun_gib_refs.size] = "left_arm";
 	//
 
@@ -46,13 +46,13 @@ sonic_zombie_init()
 	array_thread(level.sonic_zombie_spawners, ::add_spawn_function, maps\_zombiemode::round_spawn_failsafe);
 
 	maps\_zombiemode_spawner::register_zombie_damage_callback( ::_sonic_damage_callback );
-	
+
 	_sonic_InitFX();
 	_sonic_InitAnims();
 	_sonic_InitSounds();
 	thread _sonic_InitSpawners();
 
-} 
+}
 
 _sonic_InitFX()
 {
@@ -69,7 +69,7 @@ _sonic_InitAnims()
 	level.scr_anim["sonic_zombie"]["death2"] 	= %ai_zombie_sonic_death_02;
 	level.scr_anim["sonic_zombie"]["death3"] 	= %ai_zombie_sonic_death_03;
 	level.scr_anim["sonic_zombie"]["death4"] 	= %ai_zombie_sonic_death_02;
-	
+
 	level.scream_attack_death					= %ai_zombie_sonic_death_01; //Amim 01 is standing still anim
 
 	// run cycles
@@ -146,7 +146,7 @@ _sonic_InitAnims()
 	level._zombie_tesla_crawl_death["sonic_zombie"] = level._zombie_tesla_crawl_death["zombie"];
 	//level._zombie_knockdowns["sonic_zombie"] = level._zombie_knockdowns["zombie"];
 	//level._zombie_getups["sonic_zombie"] = level._zombie_getups["zombie"];
-	
+
 	level._zombie_knockdowns["sonic_zombie"] = [];
 	level._zombie_knockdowns["sonic_zombie"]["front"] = [];
 
@@ -210,8 +210,8 @@ _sonic_InitAnims()
 	level._zombie_getups["sonic_zombie"]["belly"]["late"] = [];
 	level._zombie_getups["sonic_zombie"]["belly"]["late"][0] = %ai_zombie_thundergun_getup_a;
 	level._zombie_getups["sonic_zombie"]["belly"]["late"][1] = %ai_zombie_thundergun_getup_quick_a;
-		
-	
+
+
 
 	level._zombie_deaths["sonic_zombie"] = [];
 	level._zombie_deaths["sonic_zombie"][0] = %ai_zombie_sonic_death_01;
@@ -224,7 +224,7 @@ _sonic_InitAnims()
 
 _sonic_InitSounds()
 {
-	
+
 	level.zmb_vox["sonic_zombie"]					=   [];
 	level.zmb_vox["sonic_zombie"]["ambient"]     	=   "sonic_ambient";
 	level.zmb_vox["sonic_zombie"]["sprint"]			=   "sonic_ambient";
@@ -265,8 +265,8 @@ _sonic_InitSpawners()
 			zone = level.zones[zoneName];
 
 			inZone = testOrigin _entity_in_zone(zone);
-			
-			if ( inZone ) 
+
+			if ( inZone )
 			{
 				s.zoneName = zoneName;
 				zone.sonic_spawn_locations = array_add(zone.sonic_spawn_locations, s);
@@ -295,7 +295,7 @@ sonic_zombie_spawn( animname_set )
 
 
 	self.animname = "sonic_zombie";
-	
+
 	if(isdefined(level._CF_ACTOR_IS_SONIC_ZOMBIE))
 	{
 		self SetClientFlag(level._CF_ACTOR_IS_SONIC_ZOMBIE);
@@ -304,22 +304,22 @@ sonic_zombie_spawn( animname_set )
 	//self.maxhealth = int(self.maxhealth * GetPlayers().size * level.sonicHealthMultiplier);
 	self.maxhealth = int(self.maxhealth * level.sonicHealthMultiplier);
 	self.health = self.maxhealth;
-	
+
 	//hack to prevent gibbing for now
 	self.gibbed = true;
-	
+
 	//Sonic zombie can carry over to the next round
 	self.ignore_enemy_count = true;
 
 	self.sonicScreamAttackDebounceMin = 6;
 	self.sonicScreamAttackDebounceMax = 10;
-	
+
 	self.death_knockdown_range = 480; //40 feet
 	self.death_gib_range = 360; //30 feet
 	self.death_fling_range = 240; //20 feet
-	
+
 	self.death_scream_range = 480;
-	
+
 	self _updateNextScreamTime();
 
 	self.deathFunction = ::sonic_zombie_death;
@@ -328,20 +328,20 @@ sonic_zombie_spawn( animname_set )
 	self._zombie_unshrink_callback = ::_sonic_Unshrink;
 	self.thundergun_knockdown_func = maps\_zombiemode_spawner::zombie_knockdown;
 	self.monkey_bolt_taunts = ::sonic_monkey_bolt_taunts;
-	
+
 	self maps\_zombiemode_spawner::set_zombie_run_cycle( "sprint");
-	
+
 	self thread _zombie_screamAttackThink();
-	
+
 	//moved client side
 	//self thread _zombie_ambient_sounds();
 
 	self thread _zombie_RunEffects();
-	
+
 	self thread _zombie_InitSideStep();
-	
+
 	self thread _zombie_death_watch();
-	
+
 	//Track if sonic zombie is alive
 	self thread sonic_zombie_count_watch();
 
@@ -353,10 +353,10 @@ sonic_zombie_spawn( animname_set )
 	anchor.angles = (0,angles[1],0);
 	self linkto(anchor);
 	self Hide();
-	
-	self.a.disablepain = true; 
+
+	self.a.disablepain = true;
 	self.rising = true;
-	
+
 	// make invulnerable for now....
 	self magic_bullet_shield();
 
@@ -374,11 +374,11 @@ sonic_zombie_spawn( animname_set )
 	self thread maps\_zombiemode_spawner::hide_pop();
 
 	self playsound( "evt_sonic_spawn" );
-	
+
 	//Play a spawn response line on a random player
 	players = get_players();
 	players[randomintrange(0,players.size)] thread maps\_zombiemode_audio::create_and_play_dialog( "general", "sonic_spawn" );
-	
+
 	speed = "sprint";
 	spawn_anim = random(level._zombie_rise_anims["zombie"][1][speed]);
 	time = getanimlength(spawn_anim);
@@ -409,7 +409,7 @@ _zombie_InitSideStep()
 _zombie_death_watch()
 {
 	self waittill("death");
-	
+
 	if(isdefined(level._CF_ACTOR_IS_SONIC_ZOMBIE))
 	{
 		self ClearClientFlag(level._CF_ACTOR_IS_SONIC_ZOMBIE);
@@ -419,7 +419,7 @@ _zombie_death_watch()
 _zombie_ambient_sounds()
 {
 	self endon("death");
-	
+
 	while(1)
 	{
 		self maps\_zombiemode_audio::do_zombies_playvocals( "ambient", "sonic_zombie" );
@@ -430,7 +430,7 @@ _zombie_ambient_sounds()
 _updateNextScreamTime()
 {
 	self.sonicScreamAttackNext	= GetTime();
-	self.sonicScreamAttackNext	+= randomIntRange(self.sonicScreamAttackDebounceMin*1000, self.sonicScreamAttackDebounceMax*1000);	
+	self.sonicScreamAttackNext	+= randomIntRange(self.sonicScreamAttackDebounceMin*1000, self.sonicScreamAttackDebounceMax*1000);
 }
 
 _canScreamNow()
@@ -439,7 +439,7 @@ _canScreamNow()
 	{
 		return true;
 	}
-	
+
 	return false;
 }
 
@@ -448,13 +448,13 @@ _zombie_screamAttackThink()
 	self endon("death");
 
 	thinkDebounce = .1;
-	
+
 	//Wait to aquire enemy
 	while( !isDefined(self.favoriteenemy) || !isPlayer(self.favoriteenemy))
 	{
 		wait thinkDebounce;
 	}
-	
+
 	while(true)
 	{
 		//Check scream attack debounce timers
@@ -464,15 +464,15 @@ _zombie_screamAttackThink()
 		if( screamTime && !self.ignoreAll && !is_true(self.is_traversing) && hasHead && notMini)
 		{
 			blurPlayers = self _zombie_any_players_in_blur_area();
-			
+
 			if(blurPlayers)
 			{
 				self _zombie_screamAttackAnim();
 			}
 		}
 
-		wait thinkDebounce;	
-	}	
+		wait thinkDebounce;
+	}
 }
 
 _zombie_getNearByPlayers()
@@ -480,7 +480,7 @@ _zombie_getNearByPlayers()
 	nearByPlayers = [];
 
 	radiusSqr = level.sonicScreamAttackRadius * level.sonicScreamAttackRadius;
-	
+
 	players = get_players();
 	for(i=0; i<players.size; i++)
 	{
@@ -488,23 +488,23 @@ _zombie_getNearByPlayers()
 		{
 			continue;
 		}
-		
+
 		playerOrigin = players[i].origin;
-		
-		
+
+
 		if( abs(playerOrigin[2] - self.origin[2]) > 70 )
 		{
 			continue;
 		}
-		
+
 		if( distance2dsquared(playerOrigin, self.origin) > radiusSqr )
 		{
 			continue;
 		}
-		
+
 		nearByPlayers[nearByPlayers.size] = players[i];
 	}
-	
+
 	return nearByPlayers;
 }
 
@@ -512,13 +512,13 @@ _zombie_screamAttackAnim()
 {
 	level _updateNextScreamTime();
 	self _updateNextScreamTime();
-	
+
 	//Override death anim while screaming
 	self.deathanim = level.scream_attack_death;
-	
+
 	scream_attack_anim =  random(level.scr_anim["sonic_zombie"]["scream"]);
 	time = getAnimLength( scream_attack_anim );
-	
+
 	//NOTE: for some reason, addNotetrack_customFunction doesn't work with these anims, so I'm checking for the notetrack and manually doing the delay...
 	scream_attack_times = getnotetracktimes( scream_attack_anim, "fire" );
 	self thread _zombie_screamAttack( scream_attack_times[0] * time );
@@ -526,8 +526,8 @@ _zombie_screamAttackAnim()
 	self animscripted( "sonic_zombie_scream", self.origin, self.angles, scream_attack_anim);
 	self _zombie_screamAttackAnim_wait(time);
 	self stopanimscripted(.5);
-	self _zombie_scream_attack_done(); 
-	
+	self _zombie_scream_attack_done();
+
 	//put death anim back
 	death_anims = level._zombie_deaths[self.animname];
 	self.deathanim = random(death_anims);
@@ -536,7 +536,7 @@ _zombie_screamAttackAnim()
 _zombie_screamAttackAnim_wait(time)
 {
 	self endon("death");
-	
+
 	endTime = GetTime() + (time*1000);
 	while(GetTime()<endTime)
 	{
@@ -544,17 +544,17 @@ _zombie_screamAttackAnim_wait(time)
 		{
 			break;
 		}
-		
+
 		if(is_true(self.shrinked))
 		{
 			break;
 		}
-		
+
 		if(is_true(self.head_gibbed))
 		{
 			break;
 		}
-		
+
 		wait .1;
 	}
 }
@@ -563,19 +563,19 @@ _zombie_screamAttack( delay )
 {
 	self endon( "death" );
 	self endon("scream_attack_done");
-	
+
 	wait(delay);
 
 	self PlaySound("zmb_vocals_sonic_scream");
 	//self thread maps\_zombiemode_audio::do_zombies_playvocals( "scream", self.animname );
-	
+
 	self thread _zombie_playscreamfx();
-	
+
 	players = GetPlayers();
 	array_thread( players, ::_player_ScreamAttackWatch, self );
-	
+
 	wait (2.0);
-	
+
 	self thread _zombie_scream_attack_done();
 }
 
@@ -586,7 +586,7 @@ _zombie_scream_attack_done()
 	{
 		players[i] notify("scream_watch_done");
 	}
-	
+
 	//self stopsound("zmb_vocals_sonic_scream");
 	self notify("scream_attack_done");
 }
@@ -597,7 +597,7 @@ _zombie_playScreamFX()
 	{
 		self.screamFX Delete();
 	}
-	
+
 	tag = "TAG_EYE";
 	origin = self GetTagOrigin(tag);
 	self.screamFX = Spawn("script_model", origin);
@@ -607,7 +607,7 @@ _zombie_playScreamFX()
 	PlayFXOnTag( level._effect["sonic_attack"], self.screamFX, "tag_origin" );
 	self waittill_any("death", "scream_attack_done", "shrink");
 	self.screamFX Delete();
-	
+
 	//PlayFXOnTag( level._effect["sonic_attack"], self, "tag_eye" );
 }
 
@@ -623,7 +623,7 @@ _player_ScreamAttackWatch( sonic_zombie )
 	{
 		if(self _player_in_blur_area(sonic_zombie))
 		{
-			break;	
+			break;
 		}
 
 		wait( 0.1 );
@@ -640,24 +640,24 @@ _player_in_blur_area(sonic_zombie)
 	{
 		return false;
 	}
-	
+
 	radiusSqr = level.sonicScreamDamageRadius * level.sonicScreamDamageRadius;
 	if( distance2dsquared(self.origin, sonic_zombie.origin) > radiusSqr )
 	{
 		return false;
 	}
-	
+
 	//Sonic scream is directional
 	dirToPlayer = self.origin - sonic_zombie.origin;
 	dirToPlayer = vectornormalize(dirToPlayer);
 	sonicDir = anglestoforward(sonic_zombie.angles);
-	
+
 	dot = vectordot(dirToPlayer, sonicDir);
 	if(dot<.4)
 	{
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -667,7 +667,7 @@ _zombie_any_players_in_blur_area()
 	{
 		return false;
 	}
-	
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
@@ -689,7 +689,7 @@ _player_SonicBlurVision(zombie)
 	{
 		mini = isDefined(zombie) && is_true(zombie.shrinked);
 		self.screamAttackBlur = true;
-		
+
 		if(mini)
 		{
 			self _player_screamAttackDamage(1.0, 2, 0.2, "damage_light", zombie );
@@ -731,7 +731,7 @@ _player_screamAttack_wait(time)
 {
 	self endon("disconnect");
 	level endon("intermission");
-	
+
 	wait(time);
 }
 
@@ -791,18 +791,18 @@ sonic_zombie_death()
 	{
 		PlayFxOnTag( level._effect["sonic_explosion"], self, "J_SpineLower" );
 	}
-	
+
 	if(isDefined(self.attacker) && isPlayer(self.attacker))
 	{
 		self.attacker thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "sonic" );
 	}
-	
+
 	//Zombies head explode
 	self thread _sonic_zombie_death_scream(self.attacker);
-	
+
 //	//Push Zombies
 //	_sonic_zombie_death_explode(self.attacker);
-//		
+//
 //	//Double Vision on Players
 //	nearByPlayers = _zombie_getNearByPlayers();
 //	for(i=0; i<nearByPlayers.size; i++)
@@ -811,36 +811,36 @@ sonic_zombie_death()
 //		//nearByPlayers[i] thread _player_sonicZombieDeath_DoubleVision();
 //		nearByPlayers[i] thread _player_screamAttack_blurVision();
 //	}
- 	
+
 	return self zombie_death_animscript();
 }
 
 zombie_sonic_scream_death(attacker)
 {
 	self endon("death");
-	
+
 	//Small random so everyone isn't in sync
 	randomWait = randomfloatrange(0, 1.0);
 	wait randomWait;
-	
+
 	if(self.has_legs)
 	{
 		zombie_anim =  %ai_zombie_taunts_9;
 		time = getAnimLength( zombie_anim );
 		self notify("stop_find_flesh");
 		self animscripted("zombie_react", self.origin, self.angles, zombie_anim, "normal", %body, 1, 0.2);
-		
+
 		time = time * randomfloatrange(0.75, 1);	//Radom death time offset so every one doesn't die at the same time
 		wait(time);
 	}
 
 	// don't let these zombies drop powerups
 	self.no_powerups = true;
-	
+
 	self maps\_zombiemode_spawner::zombie_eye_glow_stop();
 
 	self playsound( "evt_zombies_head_explode" );
-	
+
 	// kill the zombie (pop his head off)
 	self maps\_zombiemode_spawner::zombie_head_gib();
 	self dodamage(self.health + 666, self.origin, attacker);
@@ -850,7 +850,7 @@ zombie_sonic_scream_death(attacker)
 _sonic_zombie_death_scream(attacker)
 {
 	zombies = _sonic_zombie_get_enemies_in_scream_range();
-	
+
 	for(i=0;i<zombies.size;i++)
 	{
 		if ( !IsDefined( zombies[i] ) )
@@ -862,12 +862,12 @@ _sonic_zombie_death_scream(attacker)
 		{
 			continue;
 		}
-		
+
 		if ( self.animname == "monkey_zombie" )
 		{
 			continue;
 		}
-		
+
 		zombies[i] thread zombie_sonic_scream_death(attacker);
 	}
 }
@@ -876,7 +876,7 @@ _sonic_zombie_death_explode(attacker)
 {
 	// ww: physics hit when firing
 	PhysicsExplosionCylinder( self.origin, 600, 240, 1 );
-	
+
 	if ( !IsDefined( level.sonicZombie_knockdown_enemies ) )
 	{
 		level.sonicZombie_knockdown_enemies = [];
@@ -888,7 +888,7 @@ _sonic_zombie_death_explode(attacker)
 	self _sonic_zombie_get_enemies_in_range();
 
 	level.sonic_zombie_network_choke_count = 0;
-	
+
 	for ( i = 0; i < level.sonicZombie_fling_enemies.size; i++ )
 	{
 		_sonic_zombie_network_choke();
@@ -909,7 +909,7 @@ _sonic_zombie_death_explode(attacker)
 _sonic_zombie_network_choke()
 {
 	level.sonic_zombie_network_choke_count++;
-	
+
 	if ( !(level.sonic_zombie_network_choke_count % 10) )
 	{
 		wait_network_frame();
@@ -922,7 +922,7 @@ _sonic_zombie_get_enemies_in_scream_range()
 {
 	return_zombies = [];
 	center = self getcentroid();
-	
+
 	zombies = get_array_of_closest( center, GetAiSpeciesArray( "axis", "all" ), undefined, undefined, self.death_scream_range );
 	if ( isDefined( zombies ) )
 	{
@@ -943,15 +943,15 @@ _sonic_zombie_get_enemies_in_scream_range()
 			return_zombies[return_zombies.size] = zombies[i];
 		}
 	}
-	
+
 	return return_zombies;
-	
+
 }
 
 _sonic_zombie_get_enemies_in_range()
 {
 	center = self getcentroid();
-	
+
 	zombies = get_array_of_closest( center, GetAiSpeciesArray( "axis", "all" ), undefined, undefined, self.death_knockdown_range );
 	if ( !isDefined( zombies ) )
 	{
@@ -1017,7 +1017,7 @@ _sonicZombie_fling_zombie( player, fling_vec, index )
 {
 	if( !IsDefined( self ) || !IsAlive( self ) )
 	{
-		// guy died on us 
+		// guy died on us
 		return;
 	}
 
@@ -1026,7 +1026,7 @@ _sonicZombie_fling_zombie( player, fling_vec, index )
 //		self [[ self.thundergun_fling_func ]]( player );
 //		return;
 //	}
-	
+
 	self DoDamage( self.health + 666, player.origin, player );
 
 	if ( self.health <= 0 )
@@ -1041,7 +1041,7 @@ _sonicZombie_fling_zombie( player, fling_vec, index )
 			points = 30;
 		}
 		player maps\_zombiemode_score::player_add_points( "thundergun_fling", points );
-		
+
 		self StartRagdoll();
 		self LaunchRagdoll( fling_vec );
 	}
@@ -1057,7 +1057,7 @@ _sonicZombie_knockdown_zombie( player, gib )
 
 	if( !IsDefined( self ) || !IsAlive( self ) )
 	{
-		// guy died on us 
+		// guy died on us
 		return;
 	}
 
@@ -1077,7 +1077,7 @@ _sonicZombie_knockdown_zombie( player, gib )
 	//	self playsound( "thundergun_impact" );
 		self.thundergun_handle_pain_notetracks = maps\_zombiemode_weap_thundergun::handle_thundergun_pain_notetracks;
 		self DoDamage( 20, player.origin, player );
-		//self playsound( "fly_thundergun_forcehit" );	
+		//self playsound( "fly_thundergun_forcehit" );
 	}
 }
 
@@ -1102,7 +1102,7 @@ sonic_zombie_count_watch()
 	level.sonicZombieCount++;
 	self waittill("death");
 	level.sonicZombieCount--;
-	
+
 	//Update next spawn time
 	if(is_true(self.shrinked))
 	{
@@ -1110,7 +1110,7 @@ sonic_zombie_count_watch()
 		level.nextSonicSpawnRound = level.round_number + 1;
 	}
 	else
-	{		
+	{
 		level.nextSonicSpawnRound = level.round_number + RandomIntRange(level.sonicZombieMinRoundWait, level.sonicZombieMaxRoundWait + 1);
 	}
 
@@ -1133,18 +1133,18 @@ _sonic_damage_callback( mod, hit_location, hit_origin, player, amount )
 		{
 			self.damageCount = 0;
 		}
-		
+
 		if(self.damageCount % int(GetPlayers().size * level.sonicHealthMultiplier) == 0)
 		{
 			player maps\_zombiemode_score::player_add_points( "thundergun_fling", 10, hit_location, self.isdog );
 		}
-		
+
 		self.damageCount++;*/
 
 		player maps\_zombiemode_score::player_add_points( "thundergun_fling", 10, hit_location, self.isdog );
-		
+
 		//self thread maps\_zombiemode_powerups::check_for_instakill( player, mod, hit_location );
-		
+
 		return true;
 	}
 

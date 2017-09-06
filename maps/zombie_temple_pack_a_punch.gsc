@@ -1,5 +1,5 @@
 #include maps\_utility; 
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_zombiemode_utility;
 #include maps\_zombiemode_utility_raven;
 #include maps\zombie_temple;
@@ -53,12 +53,12 @@ _setup_pap_blocker()
 	for(i=0;i<4;i++)
 	{
 		stair = GetEnt("pap_stairs" + (i+1), "targetname");
-		
+
 		if(!isdefined(stair.script_vector))
 		{
 			stair.script_vector = (0,0,72);
 		}
-		
+
 		stair.moveTime = 3;
 		stair.moveDist = stair.script_vector;
 		if ( i == 3 )
@@ -90,7 +90,7 @@ _setup_pap_blocker()
 	{
 		level.pap_playerclip[i].saved_origin = level.pap_playerclip[i].origin;
 	}
-	
+
 	level.pap_ramp = GetEnt("pap_ramp", "targetname");
 
 	//enable the jump traversal
@@ -99,7 +99,7 @@ _setup_pap_blocker()
 	{
 		level.brush_pap_traversal _pap_brush_connect_paths();
 	}
-	
+
 	//disable the side paths
 	level.brush_pap_side_l = GetEnt( "brush_pap_side_l", "targetname" );
 	if ( isdefined( level.brush_pap_side_l ) )
@@ -135,7 +135,7 @@ _setup_pap_blocker()
 //	joint_array[joint_array.size] = "j_ankle_ri";
 //	joint_array[joint_array.size] = "j_wrist_le";
 //	joint_index = 0;
-//	
+//
 //	spots = GetEntArray( "hanging_base", "targetname" );
 
 //	// keep track of how many zombies have been dropped before allowing the elevator to be activated
@@ -146,10 +146,10 @@ _setup_pap_blocker()
 //		guy = spawn( "script_model", spots[i].origin - (0,0,50) );
 //		guy.base = spots[i];
 //		guy.animname = "generic";
-//		
+//
 //		guy _setup_hanging_model(i);
 //		//guy SetModel("c_vtn_civ_fullbody");	//make random
-//   	
+//
 //		guy makeFakeAI();
 //		guy useAnimTree(#animtree);
 //		//guy setAnim( %crouch2stand, 1.0, 1.0, 1.0 );
@@ -182,7 +182,7 @@ _setup_hanging_model(index)
 		break;
 	case 3:
 		self character\c_ger_richtofen_zt::main();// Richtofen
-		break;	
+		break;
 	}
 }
 
@@ -214,7 +214,7 @@ _watch_for_fall()
 	{
 		level thread _play_geyser_fx(mover.origin);
 	}
-	
+
 	mover MoveZ(-14.0, 1.0, 0.2, 0.0);
 	mover waittill("movedone");
 
@@ -229,10 +229,10 @@ _play_geyser_fx(origin)
 {
 	fxObj = spawnFX(level._effect[ "geyser_active" ], origin);
 	TriggerFX(fxObj);
-	
+
 	wait 3.0;
-	
-	fxObj Delete();	
+
+	fxObj Delete();
 }
 
 power( base, exp )
@@ -243,7 +243,7 @@ power( base, exp )
 	{
 		return 1;
 	}
-		
+
 	return base * power( base, exp - 1 );
 }
 
@@ -264,19 +264,19 @@ _setup_simultaneous_pap_triggers()
 	{
 		triggers[i] = GetEnt("pap_blocker_trigger" + (i+1), "targetname");
 	}
-	
+
 	_randomize_pressure_plates(triggers);
-		
+
 	array_thread( triggers, ::_pap_pressure_plate_move );
 
 	wait(1.0);
 
 	last_num_plates_active = -1;
 	last_plate_state = -1;
-	while ( true ) 
+	while ( true )
 	{
 		players = GetPlayers();
-		
+
 		//if(players.size == 1) //Player must touch each plate once
 		//{
 		//	num_plates_needed = 4;
@@ -293,7 +293,7 @@ _setup_simultaneous_pap_triggers()
 			{
 				num_plates_active++;
 			}
-			
+
 			if(triggers[i].plate.active || (triggers[i].requiredPlayers-1)>=num_plates_needed)
 			{
 				plate_state += power(2,(triggers[i].requiredPlayers-1));
@@ -306,7 +306,7 @@ _setup_simultaneous_pap_triggers()
 			last_plate_state = plate_state;
 			_set_num_plates_active(num_plates_active, plate_state);
 		}
-		
+
 		_update_stairs(triggers);
 
 
@@ -338,7 +338,7 @@ _randomize_pressure_plates(triggers)
 	for(i=0;i<triggers.size;i++)
 	{
 		triggers[i].requiredPlayers = rand_nums[i];
-	}	
+	}
 }
 
 _update_stairs(triggers)
@@ -351,7 +351,7 @@ _update_stairs(triggers)
 			numTouched++;
 		}
 	}
-	
+
 	for(i=0;i<numTouched;i++)
 	{
 		level.pap_stairs[i] _stairs_move_up();
@@ -369,12 +369,12 @@ _pap_pressure_plate_move_enabled()
 //	{
 //		return true;
 //	}
-	
+
 	if(numPlayers>=self.requiredPlayers)
 	{
-		return true;		
+		return true;
 	}
-	
+
 	return false;
 }
 
@@ -384,9 +384,9 @@ _pap_pressure_plate_move()
 
 	plate = GetEnt(self.target, "targetname");
 	self.plate = plate;
-	
+
 	// initialized the ent flags we will use to control up/down movement
-	
+
 	plate.moveTime = 2;
 	plate.moveDist = (0,0,10);
 	plate.down_origin = plate.origin;
@@ -398,21 +398,21 @@ _pap_pressure_plate_move()
 
 	while(true)
 	{
-		
+
 		while(!self _pap_pressure_plate_move_enabled())
 		{
 			plate.active = false;
 			self.touched = false;
-			
+
 			plate thread _plate_move_down();
-			
+
 			wait .1;
 		}
 
 		// initially move the plates up to where they can be pressed down
 		plate.active = false;
 		self.touched = false;
-		
+
 		plate _plate_move_up();
 		plate waittill("state_set");
 
@@ -420,13 +420,13 @@ _pap_pressure_plate_move()
 		{
 			players = GetPlayers();
 			touching = false;
-			
+
 			//Check for players dropping out
 			if(!self _pap_pressure_plate_move_enabled())
 			{
 				break;
 			}
-			
+
 			for ( i = 0; i < players.size && !touching; i++ )
 			{
 				if( players[i].sessionstate != "spectator" )
@@ -434,13 +434,13 @@ _pap_pressure_plate_move()
 					touching = players[i] IsTouching(self);
 				}
 			}
-			
+
 			//Once a plate is touched in solo it remains touched
 			//if(!self.touched || players.size != 1)
 			//{
 				self.touched = touching;
 			//}
-			
+
 			if(touching)
 			{
 				plate _plate_move_down();
@@ -449,7 +449,7 @@ _pap_pressure_plate_move()
 			{
 				plate _plate_move_up();
 			}
-			
+
 			plate.active = plate.state == "down";
 
 			wait(0.1);
@@ -463,11 +463,11 @@ _pap_pressure_plate_move()
 _stairs_playMoveSound()
 {
 	self _stairs_stopMoveSound();
-	self playloopsound("zmb_staircase_loop");	
+	self playloopsound("zmb_staircase_loop");
 }
 _stairs_stopMoveSound()
 {
-	self stoploopsound();	
+	self stoploopsound();
 }
 _stairs_playLockedSound()
 {
@@ -500,20 +500,20 @@ _mover_get_origin(state)
 	{
 		return self.down_origin;
 	}
-	
+
 	return undefined;
 }
 _move_pap_mover_wait(state, onMoveFunc, onStopFunc)
 {
 	self endon("move");
-	
+
 	goalOrigin = self _mover_get_origin(state);
-	
+
 	//Scale time if not at beginning
 	moveTime = self.moveTime;
 	timeScale = abs((self.origin[2] - goalOrigin[2])) / (self.moveDist[2]);
 	moveTime *= timeScale;
-		
+
 	self.state = "moving_" + state;
 	if(moveTime > 0)
 	{
@@ -521,10 +521,10 @@ _move_pap_mover_wait(state, onMoveFunc, onStopFunc)
 		{
 			self thread [[onMoveFunc]]();
 		}
-		
+
 		self MoveTo(goalOrigin, moveTime);
 		self waittill("movedone");
-		
+
 		if(isDefined(onStopFunc))
 		{
 			self thread [[onStopFunc]]();
@@ -541,11 +541,11 @@ _move_pap_mover(state, onMoveFunc, onStopFunc)
 	{
 		return;
 	}
-	
+
 	self notify("move");
-	
+
 	self thread _move_pap_mover_wait(state, onMoveFunc, onStopFunc);
-	
+
 }
 _move_down(onMoveFunc, onStopFunc)
 {
@@ -631,7 +631,7 @@ _stairs_onStop()
 //_wait_for_pap_enable()
 //{
 //	cheat = false;
-//	
+//
 //	/#
 //	cheat = GetDvarInt("zombie_debug_temple_pap") > 0;
 //    #/
@@ -649,17 +649,17 @@ _stairs_onStop()
 //	plates_active = 0;
 
 //	/#
-//	if ( cheat ) 
+//	if ( cheat )
 //	{
 //		plates_active = 4;
 //	}
 //    #/
-//	
+//
 //	_set_num_plates_active(plates_active);
 
-//	while ( true ) 
+//	while ( true )
 //	{
-//		if ( level.pap_plates_active >= 4 ) 
+//		if ( level.pap_plates_active >= 4 )
 //		{
 //			_pap_think();
 
@@ -739,47 +739,47 @@ _pap_think()
 	{
 		level.pap_stairs_clip MoveZ(level.pap_stairs_clip.zMove, 2.0, 0.5, 0.5);
 	}
-		
+
 	_move_all_stairs_up();
 	_wait_for_all_stairs_up();
-	
+
 	//Turn on all indeicators right away
 	//level thread _show_activated_fx();
-			
+
 	if ( IsDefined(player_blocker) )
 	{
 		player_blocker Notsolid();
 	}
-	
+
 	level stop_pap_fx();
-	
+
 	level thread _wait_for_pap_reset();
 	level waittill("flush_done");
 
 	flag_clear("pap_active");
-	
+
 //	if ( IsDefined(player_blocker) )
 //	{
 //		player_blocker Solid();
 //	}
-	
+
 	if ( IsDefined(level.pap_stairs_clip) )
 	{
 		level.pap_stairs_clip MoveZ(-1 * level.pap_stairs_clip.zMove, 2.0, 0.5, 0.5);
 	}
-	
+
 	level thread _pap_ramp();
-	
+
 	_move_all_stairs_down();
 	_wait_for_all_stairs_down();
-	
+
 }
 
 _pap_clean_up_corpses()
 {
 	corpse_trig = GetEnt( "pap_target_finder", "targetname" );
 	stairs_trig = GetEnt( "pap_target_finder2", "targetname" );
-	
+
 	corpses = GetCorpseArray();
 	if( IsDefined( corpses ) )
 	{
@@ -789,29 +789,29 @@ _pap_clean_up_corpses()
 			{
 				corpses[i] thread _pap_remove_corpse();
 			}
-		}		
-	}		
+		}
+	}
 }
 
 _pap_remove_corpse()
 {
 	PlayFX( level._effect["corpse_gib"], self.origin );
 	self Delete();
-}		
+}
 
 
 _pap_ramp()
 {
-	
+
 	if( IsDefined(level.pap_ramp) )
 	{
 		level thread playerclip_restore();
-		
+
 		if(!IsDefined(level.pap_ramp.original_origin))
 		{
 			level.pap_ramp.original_origin = level.pap_ramp.origin;
 		}
-		
+
 		level.pap_ramp rotateRoll(45, .5);
 		wait 3;
 		level.pap_ramp RotateRoll(45, .5);
@@ -819,19 +819,19 @@ _pap_ramp()
 		level.pap_ramp waittill("movedone");
 		level.pap_ramp.origin = level.pap_ramp.original_origin;
 		level.pap_ramp rotateRoll(-90, .5);
-	}			
+	}
 }
 
 playerclip_restore()
 {
-		
-	
+
+
 	volume = GetEnt("pap_target_finder", "targetname");
-	
+
 	while(1)
 	{
 		touching = false;
-		// find all players and zombies inside the volume	
+		// find all players and zombies inside the volume
 		players = GetPlayers();
 		for ( i = 0; i < players.size; i++ )
 		{
@@ -844,15 +844,15 @@ playerclip_restore()
 		{
 			break;
 		}
-		wait(.05);	
+		wait(.05);
 	}
-	
+
 	player_clip = getent("pap_stairs_player_clip","targetname");
 	if(isDefined(player_clip))
 	{
 		player_clip solid();
 	}
-	
+
 	if(isDefined( level.pap_player_flush_temp_trig ))
 	{
 		level.pap_player_flush_temp_trig delete();
@@ -870,18 +870,18 @@ _wait_for_pap_reset()
 {
 	level endon( "fake_death" );
 	level endon ( "force_flush" );
-	
+
 	array_thread(level.pap_timers, ::_move_visual_timer );
 	array_thread(level.pap_timers, ::_pack_a_punch_timer_sounds );
-	
+
 	level thread _pack_a_punch_warning_fx(level.pap_active_time);
-	
+
 	fx_time_offset = 0.5;
 	wait(level.pap_active_time - fx_time_offset );
 	level start_pap_fx();
 	level thread _pap_fx_timer();
 	wait fx_time_offset;
-	
+
 	_find_ents_to_flush();
 }
 
@@ -897,7 +897,7 @@ _pap_force_reset()
 	level start_pap_fx();
 	level thread _pap_fx_timer();
 	wait fx_time_offset;
-	
+
 	_find_ents_to_flush();
 }
 
@@ -923,16 +923,16 @@ _pack_a_punch_timer_sounds()
 	level endon ( "force_flush" );
 
 	pap_timer_length = 8.5;
-	
+
 	self playsound("evt_pap_timer_start");
 	self playloopsound("evt_pap_timer_loop");
-	
+
 	wait (level.pap_active_time - pap_timer_length);
-	
+
 	self playsound("evt_pap_timer_countdown");
-	
+
 	wait pap_timer_length;
-	
+
 	self stoploopsound();
 	self playsound("evt_pap_timer_stop");
 }
@@ -943,7 +943,7 @@ _find_ents_to_flush()
 	level endon( "fake_death" );
 
 	_play_flush_sounds();
-	
+
 	level.flushSpeed = 400.0;  // unit/sec
 	level.ents_being_flushed = 0;
 	level.flushScale = 1.0;
@@ -951,7 +951,7 @@ _find_ents_to_flush()
 	volume = GetEnt("pap_target_finder", "targetname");
 	level.pap_player_flush_temp_trig = spawn( "trigger_radius", (-8, 560, 288), 0, 768, 256 );
 	// find all players and zombies inside the volume
-	
+
 	players = GetPlayers();
 
 	touching_players = [];
@@ -967,7 +967,7 @@ _find_ents_to_flush()
 
 
 	bottom_stairs_vol = getent("pap_target_finder2","targetname");
-	
+
 	zombies_to_flush = [];
 	zombies = GetAiSpeciesArray( "axis", "all" );
 	for ( i = 0; i < zombies.size; i++ )
@@ -977,7 +977,7 @@ _find_ents_to_flush()
 			zombies_to_flush[zombies_to_flush.size] = zombies[i];
 		}
 	}
-	
+
 	if(zombies_to_flush.size > 0)
 	{
 		level thread do_zombie_flush(zombies_to_flush);
@@ -998,7 +998,7 @@ _player_flushed_out( volume )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	level endon( "flush_fx_done" );
 
 	self thread _player_flush_fx_done();
@@ -1006,18 +1006,18 @@ _player_flushed_out( volume )
 	water_start_org = (0, 408, 304);
 	max_dist= 400;
 	time = 1.5;
-	
+
 	dist = distance(self.origin,water_start_org);
 	scale_dist = dist/max_dist;
-	
+
 	time = time * scale_dist;
-	wait(time);	
-		
+	wait(time);
+
 	if(self.sessionstate == "playing")
 	{
 		self SetWaterSheeting( 1 );
 	}
-	
+
 	while ( 1 )
 	{
 		if ( !self IsTouching( volume ) )
@@ -1027,7 +1027,7 @@ _player_flushed_out( volume )
 
 		wait_network_frame();
 	}
-	
+
 	if(self.sessionstate == "playing")
 	{
 		self SetWaterSheeting( 0 );
@@ -1040,7 +1040,7 @@ _player_flush_fx_done()
 	self endon( "disconnect" );
 
 	level waittill( "flush_fx_done" );
-	
+
 	if(self.sessionstate == "playing")
 	{
 		self SetWaterSheeting( 0 );
@@ -1067,8 +1067,8 @@ _flush_compare_func(p1, p2)
 _player_flush(index)
 {
 	//can't let players die while being flushed - causes crash
-	self EnableInvulnerability();	
-	
+	self EnableInvulnerability();
+
 	self AllowProne(false);
 	self AllowCrouch(false);
 	self PlayRumbleLoopOnEntity( "tank_rumble" );
@@ -1129,8 +1129,8 @@ _player_flush(index)
 
 		waitTime = Max(time, 0.0);
 		wait(waitTime);
-		
-		nextTarget = nextTarget.next;	
+
+		nextTarget = nextTarget.next;
 	}
 
 	mover Delete();
@@ -1144,7 +1144,7 @@ _player_flush(index)
 	self AllowCrouch(true);
 
 	self.flushed = false;
-	self DisableInvulnerability();	
+	self DisableInvulnerability();
 	level.ents_being_flushed--;
 }
 
@@ -1166,11 +1166,11 @@ do_zombie_flush(zombies_to_flush)
 		{
 			zombies_to_flush[i] thread _zombie_flush();
 		}
-	}	
+	}
 }
 
 /*------------------------------------
-flush the zombies out with a time delay based on 
+flush the zombies out with a time delay based on
 how far away they are from the waterfall that flushes
 the area
 ------------------------------------*/
@@ -1180,18 +1180,18 @@ _zombie_flush()
 	water_start_org = (0, 408, 304);
 	max_dist= 400;
 	time = 1.5;
-	
+
 	dist = distance(self.origin,water_start_org);
 	scale_dist = dist/max_dist;
-	
+
 	time = time * scale_dist;
-	wait(time);		
-		
-	
+	wait(time);
+
+
 	self StartRagdoll();
 
 	// send the ragdoll towards the next target
-	nextTarget = self _ent_GetNextFlushTarget(); 
+	nextTarget = self _ent_GetNextFlushTarget();
 	launchDir = nextTarget.origin - self.origin;
 	launchDir = (0.0, launchDir[1], launchDir[2]);
 	launchDir = VectorNormalize(launchDir);
@@ -1202,7 +1202,7 @@ _zombie_flush()
 	self.no_gib = true;
 	level.zombie_total++; //Add the zombies back
 	self dodamage(self.health + 666, self.origin);
-	
+
 }
 
 _ent_GetNextFlushTarget()
@@ -1225,7 +1225,7 @@ _ent_GetNextFlushTarget()
 //{
 //	plate = GetEnt(self.target, "targetname");
 
-//	while ( true ) 
+//	while ( true )
 //	{
 //		plate MoveZ( 10.0, 2.0, 0.0, 0.0);
 //		plate waittill("movedone");
@@ -1282,14 +1282,14 @@ _setup_pap_timer()
 			pathLength += length;
 		}
 		timer.pathLength = pathLength;
-		
+
 		//Reverse path length
 		for(p=timer.path.size-2; p>=0; p--)
 		{
 			length = Distance(timer.path[p+1].origin, timer.path[p].origin);
 			timer.path[p].pathLengthReverse = length;
 		}
-		
+
 	}
 }
 
@@ -1322,7 +1322,7 @@ _travel_path(speed, reverseSpin)
 	{
 		length = self.path[i].pathLength;
 		time = length / speed;
-		
+
 		accelTime = 0;
 		decelTime = 0;
 		if(i==1)
@@ -1333,9 +1333,9 @@ _travel_path(speed, reverseSpin)
 		{
 			decelTime = .2;
 		}
-		
+
 		self MoveTo(self.path[i].origin, time, accelTime, decelTime);
-		
+
 		rotateSpeed = speed*-4;
 		if(reverseSpin)
 		{
@@ -1354,7 +1354,7 @@ _travel_path_reverse(speed, reverseSpin)
 	{
 		length = self.path[i].pathLengthReverse;
 		time = length / speed;
-		
+
 		accelTime = 0;
 		decelTime = 0;
 		if(i==self.path.size-2)
@@ -1365,10 +1365,10 @@ _travel_path_reverse(speed, reverseSpin)
 		{
 			decelTime = .5;
 		}
-		
-		
+
+
 		self MoveTo(self.path[i].origin, time, accelTime, decelTime );
-		
+
 		rotateSpeed = speed*4;
 		if(reverseSpin)
 		{
@@ -1405,7 +1405,7 @@ _setup_pap_path()
 /////////////////////////////////////////////////////
 _setup_pap_fx()
 {
-	
+
 }
 
 start_pap_fx()
@@ -1415,7 +1415,7 @@ start_pap_fx()
 
 stop_pap_fx()
 {
-	stop_exploder(61);	
+	stop_exploder(61);
 }
 
 _pap_brush_disconnect_paths()
@@ -1424,7 +1424,7 @@ _pap_brush_disconnect_paths()
 	self enable_trigger();
 	self DisconnectPaths();
 	self disable_trigger();
-	self NotSolid();	
+	self NotSolid();
 }
 
 _pap_brush_connect_paths()
@@ -1433,5 +1433,5 @@ _pap_brush_connect_paths()
 	self enable_trigger();
 	self ConnectPaths();
 	self disable_trigger();
-	self NotSolid();	
+	self NotSolid();
 }

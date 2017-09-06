@@ -6,7 +6,7 @@
 init()
 {
 	init_quad_zombie_anims();
-	
+
 	level.quad_spawners = GetEntArray( "quad_zombie_spawner", "script_noteworthy" );
 	array_thread( level.quad_spawners, ::add_spawn_function, maps\_zombiemode_ai_quad::quad_prespawn );
 }
@@ -26,9 +26,9 @@ wait_for_leap()
 quad_prespawn()
 {
 	self.animname = "quad_zombie";
-	
+
 	self.custom_idle_setup = maps\_zombiemode_ai_quad::quad_zombie_idle_setup;
-	
+
 	self.a.idleAnimOverrideArray = [];
 	self.a.idleAnimOverrideArray["stand"] = [];
 	self.a.idleAnimOverrideArray["stand"] = [];
@@ -38,18 +38,18 @@ quad_prespawn()
 	self.a.idleAnimOverrideWeights["stand"][0][1] 	= 10;
 
 	self.no_eye_glow = true;
-	
+
 	self maps\_zombiemode_spawner::zombie_spawn_init( true );
-	
+
 	self.maxhealth = int( self.maxhealth * 0.75 );
 	self.health = self.maxhealth;
 
 	self.freezegun_damage = 0;
 
 	self.meleeDamage = 45;
-	
+
 	self playsound( "zmb_quad_spawn" );
-	
+
 	//C. Ayers: This is the TEMP version of the Quad Gas Explosion Mechanic
 	self.death_explo_radius_zomb        = 96;      //Radius around the Quad the explosion will affect Zombies
     self.death_explo_radius_plr         = 96;      //Radius around the Quad the explosion will affect Players
@@ -88,7 +88,7 @@ quad_prespawn()
 
 	// jump over quads
 	self setPhysParams( 15, 0, 24 );
-	
+
 	// bhb overrides
 	self._bhb_walk_attract = ::quad_bhb_attract_walk;
 	self._bhb_run_attract = ::quad_bhb_attract_run;
@@ -102,7 +102,7 @@ quad_prespawn()
 
 quad_zombie_idle_setup()
 {
-	
+
 	self.a.array["turn_left_45"] = %exposed_tracking_turn45L;
 	self.a.array["turn_left_90"] = %exposed_tracking_turn90L;
 	self.a.array["turn_left_135"] = %exposed_tracking_turn135L;
@@ -111,7 +111,7 @@ quad_zombie_idle_setup()
 	self.a.array["turn_right_90"] = %exposed_tracking_turn90R;
 	self.a.array["turn_right_135"] = %exposed_tracking_turn135R;
 	self.a.array["turn_right_180"] = %exposed_tracking_turn180L;
-	self.a.array["exposed_idle"] = array( %ai_zombie_quad_idle, %ai_zombie_quad_idle_2 );		
+	self.a.array["exposed_idle"] = array( %ai_zombie_quad_idle, %ai_zombie_quad_idle_2 );
 	self.a.array["straight_level"] = %ai_zombie_quad_idle;
 	self.a.array["stand_2_crouch"] = %ai_zombie_shot_leg_right_2_crawl;
 }
@@ -177,10 +177,10 @@ init_quad_zombie_anims()
 	level._zombie_walk_melee["quad_zombie"] = [];
 	level._zombie_run_melee["quad_zombie"] = [];
 
-	level._zombie_melee["quad_zombie"][0] 					= %ai_zombie_quad_attack; 
-	level._zombie_melee["quad_zombie"][1] 					= %ai_zombie_quad_attack_2; 
-	level._zombie_melee["quad_zombie"][2] 					= %ai_zombie_quad_attack_3; 
-	level._zombie_melee["quad_zombie"][3] 					= %ai_zombie_quad_attack_4;	
+	level._zombie_melee["quad_zombie"][0] 					= %ai_zombie_quad_attack;
+	level._zombie_melee["quad_zombie"][1] 					= %ai_zombie_quad_attack_2;
+	level._zombie_melee["quad_zombie"][2] 					= %ai_zombie_quad_attack_3;
+	level._zombie_melee["quad_zombie"][3] 					= %ai_zombie_quad_attack_4;
 	level._zombie_melee["quad_zombie"][4]						= %ai_zombie_quad_attack_5;
 	level._zombie_melee["quad_zombie"][5]						= %ai_zombie_quad_attack_6;
 	level._zombie_melee["quad_zombie"][6]						= %ai_zombie_quad_attack_double;
@@ -210,7 +210,7 @@ init_quad_zombie_anims()
 		level._zombie_melee_crawl = [];
 	}
 	level._zombie_melee_crawl["quad_zombie"] = [];
-	level._zombie_melee_crawl["quad_zombie"][0] 		= %ai_zombie_attack_crawl; 
+	level._zombie_melee_crawl["quad_zombie"][0] 		= %ai_zombie_attack_crawl;
 	level._zombie_melee_crawl["quad_zombie"][1] 		= %ai_zombie_attack_crawl_lunge;
 
 	if( !isDefined( level._zombie_stumpy_melee ) )
@@ -287,7 +287,7 @@ init_quad_zombie_anims()
 	{
 		level._zombie_rise_death_anims = [];
 	}
-	
+
 	level._zombie_rise_death_anims["quad_zombie"] = [];
 
 	level._zombie_rise_death_anims["quad_zombie"][1]["in"][0]		= %ai_zombie_traverse_ground_v1_deathinside;
@@ -301,7 +301,7 @@ init_quad_zombie_anims()
 
 	level._zombie_rise_death_anims["quad_zombie"][2]["out"][0]		= %ai_zombie_traverse_ground_v2_death_high;
 	level._zombie_rise_death_anims["quad_zombie"][2]["out"][1]		= %ai_zombie_traverse_ground_v2_death_high_alt;
-	
+
 	//taunts
 	if( !isDefined( level._zombie_run_taunt ) )
 	{
@@ -313,14 +313,14 @@ init_quad_zombie_anims()
 	}
 	level._zombie_run_taunt["quad_zombie"] = [];
 	level._zombie_board_taunt["quad_zombie"] = [];
-	
+
 	level._zombie_board_taunt["quad_zombie"][0] = %ai_zombie_quad_taunt;
 	level._zombie_board_taunt["quad_zombie"][1] = %ai_zombie_quad_taunt_2;
 	level._zombie_board_taunt["quad_zombie"][2] = %ai_zombie_quad_taunt_3;
 	level._zombie_board_taunt["quad_zombie"][3] = %ai_zombie_quad_taunt_4;
 	level._zombie_board_taunt["quad_zombie"][4] = %ai_zombie_quad_taunt_5;
 	level._zombie_board_taunt["quad_zombie"][5] = %ai_zombie_quad_taunt_6;
-	
+
 	level._effect[ "quad_explo_gas" ]		        = LoadFX( "maps/zombie/fx_zombie_quad_gas_nova6" );
 	level._effect[ "quad_trail" ]					= Loadfx( "maps/zombie/fx_zombie_quad_trail" );
 }
@@ -328,52 +328,52 @@ init_quad_zombie_anims()
 quad_vox()
 {
 	self endon( "death" );
-	
+
 	wait( 5 );
-	
+
 	quad_wait = 5;
-	
+
 	while(1)
 	{
 		players = getplayers();
-		
+
 		for(i=0;i<players.size;i++)
 		{
 			if(DistanceSquared(self.origin, players[i].origin) > 1200 * 1200)
 			{
-				self playsound( "zmb_quad_amb" );	
-				quad_wait = 7;		
+				self playsound( "zmb_quad_amb" );
+				quad_wait = 7;
 			}
 			else if(DistanceSquared(self.origin, players[i].origin) > 200 * 200)
 			{
-				self playsound( "zmb_quad_vox" );	
-				quad_wait = 5;		
+				self playsound( "zmb_quad_vox" );
+				quad_wait = 5;
 			}
 			else if(DistanceSquared(self.origin, players[i].origin) < 150 * 150)
 			{
 				wait(.05);
 			}
 		}
-		wait randomfloatrange( 1, quad_wait );		
+		wait randomfloatrange( 1, quad_wait );
 	}
 }
 
 quad_close()
 {
 	self endon( "death" );
-	
+
 	while(1)
 	{
 		players = getplayers();
-		
+
 		for(i=0;i<players.size;i++)
 		{
 			if ( is_player_valid( players[i], true ) )
 			{
 				if(DistanceSquared(self.origin, players[i].origin) < 150 * 150)
 				{
-					self playsound( "zmb_quad_close" );	
-					wait randomfloatrange( 1, 2 );		
+					self playsound( "zmb_quad_close" );
+					wait randomfloatrange( 1, 2 );
 				}
 			}
 		}
@@ -412,7 +412,7 @@ check_wait()
 	{
 		delta = self.enemy.origin - self.origin;
 		dist = length( delta );
-		
+
 		z_check = true;
 		z_diff = abs( self.enemy.origin[2] - self.origin[2] );
 		if ( z_diff > height_tolerance )
@@ -438,7 +438,7 @@ check_wait()
 quad_zombie_think()
 {
 	self endon( "death" );
-	
+
 //	/#
 //	self animscripts\debug::debugPushState( "quad_zombie_think" );
 //	#/
@@ -462,7 +462,7 @@ quad_zombie_think()
 
 		wait_network_frame();
 	}
-	
+
 //	/#
 //	self animscripts\debug::debugPopState();
 //	#/
@@ -527,7 +527,7 @@ quad_leap_attack()
 {
 	self endon( "death" );
 	self endon( "stop_leap" );
-	
+
 	/#
 	self animscripts\debug::debugPushState( "quad_leap_attack" );
 	#/
@@ -616,7 +616,7 @@ quad_leap_attack()
 			{
 				break;
 			}
-				
+
 			oldhealth = self.enemy.health;
 			self melee();
 		}
@@ -689,14 +689,14 @@ quad_thundergun_knockdown( player, gib )
 }
 
 quad_gas_explo_death()
-{   
+{
     death_vars = [];
     death_vars["explo_radius_zomb"]     = self.death_explo_radius_zomb;
     death_vars["explo_radius_plr"]      = self.death_explo_radius_plr;
     death_vars["explo_damage_zomb"]     = self.death_explo_damage_zomb;
     death_vars["gas_radius"]            = self.death_gas_radius;
     death_vars["gas_time"]              = self.death_gas_time;
-	
+
 	self thread quad_death_explo( self.origin, death_vars );
 	level thread quad_gas_area_of_effect( self.origin, death_vars );
 	self Delete();
@@ -706,11 +706,11 @@ quad_death_explo( origin, death_vars )
 {
     playsoundatposition( "zmb_quad_explo", origin );
     PlayFx( level._effect["dog_gib"], origin );
-    
+
     players = get_players();
     zombies = GetAIArray( "axis" );
 
-	
+
     for(i = 0; i < zombies.size; i++)
     {
         if( Distance( origin, zombies[i].origin ) <= death_vars["explo_radius_zomb"] )
@@ -743,7 +743,7 @@ quad_death_explo( origin, death_vars )
     }
 
 	self.exploded = true;
-	self RadiusDamage( origin, death_vars["explo_radius_zomb"], level.zombie_health, level.zombie_health, self, "MOD_EXPLOSIVE" ); 
+	self RadiusDamage( origin, death_vars["explo_radius_zomb"], level.zombie_health, level.zombie_health, self, "MOD_EXPLOSIVE" );
 
 
     //PhysicsExplosionSphere( origin, death_vars["explo_radius_zomb"], 175, 2 );
@@ -764,17 +764,17 @@ quad_gas_area_of_effect( origin, death_vars )
 {
 		effectArea = spawn( "trigger_radius", origin, 0, death_vars["gas_radius"], 100 );
 		//soundent = Spawn( "script_origin", origin );
-		
+
 		//soundent PlayLoopSound( "wpn_gas_hiss_lp", 1 );
 		PlayFX( level._effect[ "quad_explo_gas" ], origin );
-		
+
 		gas_time = 0;
-    
+
 		while( gas_time <= death_vars["gas_time"] )
 		{
 			players = get_players();
 //			zombies = GetAIArray( "axis" );
-			
+
 			for(i = 0; i < players.size; i++)
 			{
 				is_immune = false;
@@ -793,7 +793,7 @@ quad_gas_area_of_effect( origin, death_vars )
 					players[i] setblur( 0, .5 );
 				}
 			}
-			
+
 			wait(1);
 			gas_time = gas_time + 1;
 		}
@@ -803,7 +803,7 @@ quad_gas_area_of_effect( origin, death_vars )
 		{
 			players[i] setblur( 0, .5 );
 		}
-		
+
 		//soundent StopLoopSound( 1 );
 		effectArea Delete();
 		//wait(1);
@@ -855,12 +855,12 @@ quad_killed_override( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	}
 
 	self.attacker = attacker;
-	
+
 	if(isDefined(level._override_quad_explosion))
 	{
 		[[level._override_quad_explosion]](self);
 	}
-	
+
 }
 
 quad_pre_teleport()
@@ -896,27 +896,27 @@ quad_post_teleport()
 quad_bhb_attract_walk()
 {
 	self endon( "death" );
-	
+
 	// only quads should go through this part
 	flag_wait( "bhb_anim_change_allowed" );  // permission for adding to the array
 	level._black_hole_bomb_zombies_anim_change = add_to_array( level._black_hole_bomb_zombies_anim_change, self, false ); // no dupes allowed
-	
+
 	// wait for permission to change anim
 	self ent_flag_wait( "bhb_anim_change" );
-	
+
 	self.a.runBlendTime = 0.9;
 	self clear_run_anim();
 
 	rand =  RandomIntRange( 1, 4 );
-	
+
 	self.needs_run_update = true;
 	self._had_legs = true;
-	
+
 	self set_run_anim( "slow_pull_"+rand );
 	self.run_combatanim = level.scr_anim[self.animname]["slow_pull_"+rand];
 	self.crouchRunAnim = level.scr_anim[self.animname]["slow_pull_"+rand];
 	self.crouchrun_combatanim = level.scr_anim[self.animname]["slow_pull_"+rand];
-	
+
 	if ( is_true( self.nogravity ) )
 	{
 		self AnimMode( "none" );
@@ -926,29 +926,29 @@ quad_bhb_attract_walk()
 	self._black_hole_attract_walk = 1;
 	self._bhb_change_anim_notified = 1;
 	self.a.runBlendTime = self._normal_run_blend_time;
-	
+
 }
 
 
 quad_bhb_attract_run()
 {
 	self endon( "death" );
-	
+
 	// there are three fast pulls for zombies and legless so this random can happen here
 	rand = RandomIntRange( 1, 4 );
-	
+
 	flag_wait( "bhb_anim_change_allowed" ); // permission for adding to the array
 	level._black_hole_bomb_zombies_anim_change = add_to_array( level._black_hole_bomb_zombies_anim_change, self, false ); // no dupes allowed
-	
+
 	// wait for permission to change anim
 	self ent_flag_wait( "bhb_anim_change" );
-	
+
 	self.a.runBlendTime = 0.9;
 	self clear_run_anim();
 
 	self.needs_run_update = true;
-	
-	self set_run_anim( "fast_pull_" + rand );		
+
+	self set_run_anim( "fast_pull_" + rand );
 	self.run_combatanim = level.scr_anim[self.animname]["fast_pull_" + rand];
 	self.crouchRunAnim = level.scr_anim[self.animname]["fast_pull_" + rand];
 	self.crouchrun_combatanim = level.scr_anim[self.animname]["fast_pull_" + rand];
@@ -962,30 +962,30 @@ quad_bhb_attract_run()
 	self._black_hole_attract_run = 1;
 	self._bhb_change_anim_notified = 1;
 	self.a.runBlendTime = self._normal_run_blend_time;
-	
+
 }
 
 quad_bhb_horizon_death( bhb_org, poi_ent )
 {
 	self endon( "death" );
-	
+
 	// self maps\_zombiemode_spawner::zombie_eye_glow_stop();
 	self playsound ("wpn_gersh_device_kill");
 
 	rand_int = RandomIntRange( 1, 4 );
 	anim_str = "black_hole_death_" + rand_int;
-	
+
 	pulled_in_anim = level.scr_anim[self.animname][anim_str];
-	
+
 	// self.deathanim = black_hole_bomb_death_anim();
 	self AnimScripted( "pulled_in_complete", self.origin, self.angles, pulled_in_anim );
 	self waittill_either( "bhb_burst", "pulled_in_complete" );
-	
+
 	// soul destroy fx
 	PlayFXOnTag( level._effect[ "black_hole_bomb_zombie_destroy" ], self, "tag_origin" );
-	
+
 	poi_ent notify( "black_hole_bomb_kill" );
-		
+
 	self DoDamage( self.health + 50, self.origin + ( 0, 0, 50 ), self._black_hole_bomb_tosser, "zombie_black_hole_bomb", "MOD_CRUSH" );
 
 }

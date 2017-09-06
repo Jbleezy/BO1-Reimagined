@@ -1,7 +1,7 @@
 #include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
-#include maps\_zombiemode_zone_manager; 
+#include maps\_zombiemode_zone_manager;
 
 
 //-------------------------------------------------------------------------------
@@ -9,7 +9,7 @@
 //-------------------------------------------------------------------------------
 teleporter_init()
 {
-	
+
 	level.teleport_ae_funcs = [];
 	SetDvar( "pentagonAftereffectOverride", "-1" );
 
@@ -17,14 +17,14 @@ teleporter_init()
 	thread enable_zone_portals_init();
 	thread open_portal_rooms();
 	thread pack_hideaway_init();
-	
+
 	poi1 = GetEnt("pack_room_poi1", "targetname");
 	poi2 = GetEnt("pack_room_poi2", "targetname");
 
 	// attract_dist, num_attractors, added_poi_value, start_turned_on
 	poi1 create_zombie_point_of_interest( undefined, 30, 0, false );
 	poi1 thread create_zombie_point_of_interest_attractor_positions( 4, 45 );
-	
+
 	poi2 create_zombie_point_of_interest( undefined, 30, 0, false );
 	poi2 thread create_zombie_point_of_interest_attractor_positions( 4, 45 );
 
@@ -65,7 +65,7 @@ pack_hideaway_init()
 	{
 		level.punch_machine LinkTo(hideaway);
 	}
-	
+
 	pack_audio_trig = GetEnt( "pack_audio_trig", "script_noteworthy" );
 	pack_audio_trig EnableLinkTo();
 	pack_audio_trig LinkTo(hideaway);
@@ -75,12 +75,12 @@ pack_hideaway_init()
 		for ( i = 0; i < parts.size; i++ )
 		{
 			parts[i] LinkTo(hideaway);
-		}	
+		}
 	}
 	while(true)
-	{	
+	{
 		flag_wait("open_pack_hideaway");
-	
+
 		level.pap_moving = true;
 		hideaway NotSolid();
 		hideaway RotateYaw(180, 2.5);
@@ -90,12 +90,12 @@ pack_hideaway_init()
 		level.pap_moving = false;
 		level.punch_trigger SetVisibleToAll();
 		level.punch_trigger trigger_on();
-		
+
 		hideaway StopLoopSound( 1 );
 	    hideaway PlaySound( "evt_packapunch_revolve_end" );
-		
+
 		level.punch_sign Unlink();
-		
+
 		// time given for everyone to pack if they want.
 		//level waittill("defcon_reset");
 		wait(40); // additional time after countdown
@@ -104,23 +104,23 @@ pack_hideaway_init()
 		{
 			wait_network_frame();
 		}
-	
+
 		if(flag("pack_machine_in_use"))
 		{
 			while(flag("pack_machine_in_use"))
 			{
 				wait(0.1);
-			}	
-		}	
+			}
+		}
 		level.punch_sign LinkTo( level.punch_machine );
 		level.punch_trigger trigger_off();
-		
+
 		players = get_players();
 		for ( i = 0; i < players.size; i++ )
 		{
 			level.punch_trigger SetInvisibleToPlayer(players[i]);
 		}
-		
+
 		level.pap_moving = true;
 		hideaway RotateYaw(180, 2.5);
 		hideaway PlaySound( "evt_packapunch_revolve_start" );
@@ -131,8 +131,8 @@ pack_hideaway_init()
 		level.pap_moving = false;
 		hideaway StopLoopSound( 1 );
 	    hideaway PlaySound( "evt_packapunch_revolve_end" );
-	}	
-}	
+	}
+}
 //-------------------------------------------------------------------------------
 // DCS: Pack room door init
 //-------------------------------------------------------------------------------
@@ -142,18 +142,18 @@ pack_door_init()
 	doors = GetEntArray(trigger.target, "targetname");
 	pack_door_slam = GetEnt("slam_pack_door","targetname");
 	pack_door_open = false;
-	
+
 	while(true)
 	{
 		trigger sethintstring( &"ZOMBIE_PENTAGON_PACK_ROOM_DOOR" );
 		trigger setcursorhint( "HINT_NOICON" );
-		level waittill_any("defcon_reset", "player_in_pack");				
+		level waittill_any("defcon_reset", "player_in_pack");
 
 		players = get_players();
-	
+
 		if(level.zones["conference_level2"].is_occupied)
 		{
-			
+
 			if(level.zones["war_room_zone_south"].is_enabled  && !flag("bonfire_reset"))
 			{
 				// Open doors, if war room south has been enabled, otherwise they have to go through the portal.
@@ -161,28 +161,28 @@ pack_door_init()
 				for ( i = 0; i < doors.size; i++ )
 				{
 					doors[i].start_angles = doors[i].angles;
-					
+
 					if(isDefined(doors[i].script_angles))
 					{
 						doors[i] NotSolid();
 						doors[i] RotateTo( doors[i].script_angles, 1.0 );
 						play_sound_at_pos( "door_rotate_open", doors[i].origin );
-						doors[i] thread pack_door_solid_thread(); 
+						doors[i] thread pack_door_solid_thread();
 					}
 				}
-				pack_door_open = true;	
+				pack_door_open = true;
 			}
-			
+
 			// wait for players to leave zone.
 			while(!is_packroom_clear())
 			{
 				if(flag("bonfire_reset")) // leave loop if bonfire sale picked up.
 				{
 					break;
-				}	
+				}
 				wait(0.1);
 			}
-			
+
 			if(	pack_door_open == true)
 			{
 				// close doors
@@ -201,12 +201,12 @@ pack_door_init()
 		if(flag("bonfire_reset"))
 		{
 			flag_clear("bonfire_reset");
-			//IPrintLnBold("bonfire reset cleared");	
+			//IPrintLnBold("bonfire reset cleared");
 		}
 		else
 		{
 			level notify("pack_room_reset");
-		}			
+		}
 		wait_network_frame();
 	}
 }
@@ -224,7 +224,7 @@ is_packroom_clear()
 		{
 			return false;
 		}
-	}		
+	}
 	if(level.zones["conference_level2"].is_occupied)
 	{
 		return false;
@@ -234,56 +234,56 @@ is_packroom_clear()
 		zombies = GetAIArray("axis");
 		for (i = 0; i < zombies.size; i++)
 		{
-			if(IsDefined(zombies[i].animname) && zombies[i].animname == "thief_zombie" 
+			if(IsDefined(zombies[i].animname) && zombies[i].animname == "thief_zombie"
 			&& zombies[i] IsTouching(pack_room_trig))
 			{
 				return false;
 			}
-			if(IsDefined(zombies[i].animname) && zombies[i].animname == "thief_zombie" 
+			if(IsDefined(zombies[i].animname) && zombies[i].animname == "thief_zombie"
 			&& zombies[i] IsTouching(pack_door_slam))
 			{
 				return false;
-			}	
+			}
 		}
 	}
 	return true;
-}	
+}
 
 //-------------------------------------------------------------------------------
 pack_door_solid_thread()
 {
 	self waittill( "rotatedone" );
-	
+
 	self.door_moving = undefined;
 	while( 1 )
 	{
-		players = get_players(); 
-		player_touching = false; 
+		players = get_players();
+		player_touching = false;
 		for( i = 0; i < players.size; i++ )
 		{
 			if( players[i] IsTouching( self ) )
 			{
-				player_touching = true; 
-				break; 
+				player_touching = true;
+				break;
 			}
 		}
 
 		if( !player_touching )
 		{
 			self Solid();
-			
+
 			// Now connect paths after door is cleared.
-			if(self.angles != self.start_angles) 
+			if(self.angles != self.start_angles)
 			{
 				self ConnectPaths();
 			}
 			else
 			{
 				self DisconnectPaths();
-			}			
-			return; 
+			}
+			return;
 		}
-		wait( 1 ); 
+		wait( 1 );
 	}
 
 }
@@ -294,13 +294,13 @@ clear_zombies_in_packroom()
 	if(flag("thief_round"))
 	{
 		return;
-	}	
+	}
 
 	zombies = GetAIArray("axis");
 	if(!IsDefined(zombies))
 	{
 		return;
-	}	
+	}
 	for (i = 0; i < zombies.size; i++)
 	{
 		if ( zombies[i] IsTouching(pack_room_trig) )
@@ -313,15 +313,15 @@ clear_zombies_in_packroom()
 					zombies[i].fx_quad_trail Delete();
 				}
 				zombies[i] maps\_zombiemode_spawner::reset_attack_spot();
-				
+
 				zombies[i] notify("zombie_delete");
 				zombies[i] Delete();
 			}
 			else
 			{
 				zombies[i] thread send_zombies_out(level.portal_pack);
-			}	
-		}	
+			}
+		}
 	}
 }
 
@@ -334,7 +334,7 @@ player_teleporting()
 	while(true)
 	{
 		self waittill( "trigger", user );
-		
+
 		player_used = false;
 
 		if(IsDefined(self.portal_used))
@@ -344,19 +344,19 @@ player_teleporting()
 				if(self.portal_used[i] == user)
 				{
 					player_used = true;
-				}	
-			}	
+				}
+			}
 		}
-				
+
 		wait_network_frame();
-		
+
 		if(player_used == true)
 		{
 			continue;
-		}	
+		}
 		// DCS 081810: also allow when in last stand
 		else if ( is_player_valid( user ) || user maps\_laststand::player_is_in_laststand())
-		{	
+		{
 			self thread Teleport_Player(user);
 		}
 
@@ -366,16 +366,16 @@ cooldown_portal_timer(player)
 {
 	//self.active = false;
 	self.portal_used = array_add(self.portal_used, player);
-	
+
 	time = 0;
 	while(!flag("defcon_active") && time < 20 )
 	{
 		wait(1);
 		time++;
-	}	
+	}
 	//self.active = true;
 	self.portal_used = array_remove(self.portal_used, player);
-}	
+}
 //-------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------
 teleport_player(user)
@@ -384,18 +384,18 @@ teleport_player(user)
 	crouch_offset = (0, 0, 20);
 	stand_offset = (0, 0, 0);
 	destination = undefined;
-	dest_trig = 0;		
+	dest_trig = 0;
 
 	if(IsDefined(user.teleporting) && user.teleporting == true)
 	{
 		return;
 	}
-	
+
 	user.teleporting = true;
 	//user FreezeControls( true );
 	//user disableOffhandWeapons();
 	//user disableweapons();
-	
+
 	// random portal to exit check, or at defcon 5 go to pack room, pack room still goes random.
 	if(flag("defcon_active") && self.script_noteworthy != "conference_level2")
 	{
@@ -407,12 +407,12 @@ teleport_player(user)
 				user thread start_defcon_countdown();
 				self thread defcon_pack_poi();
 			}
-		}		
+		}
 	}
 	else
-	{	
+	{
 		dest_trig = find_portal_destination(self);
-		
+
 		// rediculous failsafe.
 		if(!IsDefined(dest_trig))
 		{
@@ -421,11 +421,11 @@ teleport_player(user)
 				dest_trig = find_portal_destination(self);
 				break;
 				wait_network_frame();
-			}	
+			}
 		}
-		
-		// setup zombies to follow. 
-		self thread no_zombie_left_behind(level.portal_trig[dest_trig], user);		
+
+		// setup zombies to follow.
+		self thread no_zombie_left_behind(level.portal_trig[dest_trig], user);
 	}
 
 	// script origin trigger destination targets for player placement.
@@ -440,15 +440,15 @@ teleport_player(user)
 			}
 		}
 	}
-	
+
 	if(!IsDefined(destination))
 	{
 		destination = groundpos(level.portal_trig[dest_trig].origin);
 	}
-		
+
 	// add cool down for exiting portal.
 	level.portal_trig[dest_trig] thread cooldown_portal_timer(user);
-				
+
 	/*if( user getstance() == "prone" )
 	{
 		desired_origin = destination.origin + prone_offset;
@@ -469,7 +469,7 @@ teleport_player(user)
 	{
 		desired_origin += (0,0,self.origin[2]-user.origin[2]);
 	}
-			
+
 
 
 	wait_network_frame();
@@ -485,25 +485,25 @@ teleport_player(user)
 	//DCS 113010: fix for telefrag posibility.
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
-	{	
+	{
 		if(players[i] == user)
 		{
 			continue;
 		}
-		
+
 		if(Distance(players[i].origin, desired_origin) < 18)
 		{
 			desired_origin = desired_origin + (AnglesToForward(destination.angles) * -32);
-		}	
+		}
 	}
-	
-		
+
+
 	// trying to force angles on player.
 	user DontInterpolate();
 	user SetOrigin( desired_origin );
 	user SetPlayerAngles( destination.angles );
 	user SetVelocity((0,0,0));
-	
+
 	PlayFX(level._effect["transporter_beam"], user.origin);
 	playsoundatposition( "evt_teleporter_go", user.origin );
 	wait(0.5);
@@ -518,20 +518,20 @@ teleport_player(user)
 //	{
 //		user.teleport_origin Delete();
 //	}
-	
+
 	//now check if and empty floors to clean up.
 	level thread check_if_empty_floors();
 
-	setClientSysState( "levelNotify", "cool_fx", user );			
+	setClientSysState( "levelNotify", "cool_fx", user );
 
 	//teleporter after effects.
 	setClientSysState( "levelNotify", "ae1", user );
 	wait( 1.25 );
-	
-	//check if a thief round. 
+
+	//check if a thief round.
 	if(flag("thief_round"))
 	{
-		setClientSysState( "levelNotify", "vis4", user );			
+		setClientSysState( "levelNotify", "vis4", user );
 		return;
 	}
 	else
@@ -539,9 +539,9 @@ teleport_player(user)
 		user.floor = maps\_zombiemode_ai_thief::thief_check_floor( user );
 		setClientSysState( "levelNotify", "vis" + user.floor, user );
 	}
-	
 
-	
+
+
 }
 //-------------------------------------------------------------------------------
 // checks for portal destinations and is valid.
@@ -558,7 +558,7 @@ find_portal_destination(orig_trig)
 	if(IsDefined(orig_trig.script_string) && orig_trig.script_string == "power_room_portal")
 	{
 		loc = [];
-		
+
 		for (i = 0; i < level.portal_trig.size; i++)
 		{
 			if(level.portal_trig[i].script_noteworthy == "war_room_zone_north")
@@ -570,28 +570,28 @@ find_portal_destination(orig_trig)
 				loc[1] = i;
 			}
 		}
-		
+
 		dest_trig = loc[RandomIntRange(0,2)];
 		return dest_trig;
-	}	
+	}
 	else
 	{
 		dest_trig = RandomIntRange(0,level.portal_trig.size);
-	
+
 		assertex(IsDefined(level.portal_trig[dest_trig].script_noteworthy),"portals need a script_noteworthy");
-	
+
 		// make sure didn't pick same portal or to inactive zone.
-		if(level.portal_trig[dest_trig] == orig_trig || level.portal_trig[dest_trig].script_noteworthy == "conference_level2" 
+		if(level.portal_trig[dest_trig] == orig_trig || level.portal_trig[dest_trig].script_noteworthy == "conference_level2"
 		|| !level.zones[level.portal_trig[dest_trig].script_noteworthy].is_enabled)
 		{
-			
+
 			portals = level.portal_trig;
-				
+
 			for( i = 0; i < level.portal_trig.size; i ++)
 			{
 				level.portal_trig[i].index = i;
-				
-				if(level.portal_trig[i] == orig_trig || level.portal_trig[i].script_noteworthy == "conference_level2" 
+
+				if(level.portal_trig[i] == orig_trig || level.portal_trig[i].script_noteworthy == "conference_level2"
 				|| !level.zones[level.portal_trig[i].script_noteworthy].is_enabled)
 				{
 					portals = array_remove( portals, level.portal_trig[i] );
@@ -621,20 +621,20 @@ delete_zombie_noone_looking(how_close, verticle_only, need_to_see)
 	if(!IsDefined(verticle_only))
 	{
 		verticle_only = true;
-	}		
+	}
 	if(!IsDefined(need_to_see))
 	{
 		need_to_see = true;
 	}
-	
+
 	self.inview = 0;
 	self.player_close = 0;
-	
+
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
 		can_be_seen = self player_can_see_me(players[i]);
-		
+
 		if(can_be_seen)
 		{
 			self.inview++;
@@ -642,13 +642,13 @@ delete_zombie_noone_looking(how_close, verticle_only, need_to_see)
 		else
 		{
 			if(verticle_only)
-			{						
+			{
 				//checking to see if 500 units above or below, likely 2 floors
 				closest = abs(self.origin[2] - players[i].origin[2]);
 				if(closest < how_close)
 				{
 					self.player_close++;
-				}					
+				}
 			}
 			else
 			{
@@ -657,14 +657,14 @@ delete_zombie_noone_looking(how_close, verticle_only, need_to_see)
 				if(closest < how_close)
 				{
 					self.player_close++;
-				}					
-			}		
-		}		
-	}	
+				}
+			}
+		}
+	}
 
 	// if can't be seen and likely 2 floors below or above (500 units)...
 	// raise total for round by one and kill zombie so another can spawn closer to players.
-	// none close, none in view.	
+	// none close, none in view.
 	wait_network_frame();
 	if(self.inview == 0 && self.player_close == 0 || need_to_see == false && self.player_close == 0)
 	{
@@ -693,13 +693,13 @@ delete_zombie_noone_looking(how_close, verticle_only, need_to_see)
 					self Delete();
 				}
 				else
-				{	 
+				{
 					level.zombie_total++;
 					self maps\_zombiemode_spawner::reset_attack_spot();
 					self notify("zombie_delete");
 					self Delete();
-				}	
-			}	
+				}
+			}
 		}
 	}
 }
@@ -719,10 +719,10 @@ player_can_see_me( player )
 	playerToBanzaiUnitVec = VectorNormalize( playerToBanzaiVec );
 
 	forwardDotBanzai = VectorDot( playerUnitForwardVec, playerToBanzaiUnitVec );
-	angleFromCenter = ACos( forwardDotBanzai ); 
+	angleFromCenter = ACos( forwardDotBanzai );
 
 	playerFOV = GetDvarFloat( #"cg_fov" );
-	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );	
+	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );
 	if ( banzaiVsPlayerFOVBuffer <= 0 )
 	{
 		banzaiVsPlayerFOVBuffer = 0.2;
@@ -747,15 +747,15 @@ open_portal_rooms()
 	yellow_conf_screen PlaySound( "evt_teleporter_door_short" );
 	yellow_conf_screen MoveZ(116, 1.5);
 	yellow_conf_screen ConnectPaths();
-	
+
 	power_room_screen PlaySound( "evt_teleporter_door_short" );
 	power_room_screen MoveZ(116, 1.5);
-	power_room_screen ConnectPaths();	
-    
+	power_room_screen ConnectPaths();
+
   jfk_room_screen PlaySound( "evt_teleporter_door_long" );
 	jfk_room_screen MoveZ(150, 2.0);
 	jfk_room_screen ConnectPaths();
-    
+
   war_room_screen_north PlaySound( "evt_teleporter_door_short" );
 	level thread war_room_portal_door();
 
@@ -763,7 +763,7 @@ open_portal_rooms()
 	war_room_screen_ramp MoveY(46, 1.5);
 	war_room_screen_ramp waittill("movedone");
 	war_room_screen_north ConnectPaths();
-	
+
 }
 war_room_portal_door()
 {
@@ -773,7 +773,7 @@ war_room_portal_door()
 	war_room_screen_south MoveZ(-120, 1.5);
 	war_room_screen_south waittill("movedone");
 	war_room_screen_south ConnectPaths();
-}	
+}
 //-------------------------------------------------------------------------------
 // zone enable through portals
 // script_noteworthy  = name of zone to enable upon entry.
@@ -789,14 +789,14 @@ enable_zone_portals_init()
 enable_zone_portals()
 {
 		self waittill( "trigger", user );
-		if ( (  user maps\_laststand::player_is_in_laststand() || is_player_valid( user ) ) && 
+		if ( (  user maps\_laststand::player_is_in_laststand() || is_player_valid( user ) ) &&
 		IsDefined(self.script_noteworthy) )
-		{	
+		{
 			level thread maps\_zombiemode_zone_manager::enable_zone(self.script_noteworthy);
-		}	
-}	
-	
-	
+		}
+}
+
+
 //-------------------------------------------------------------------------------
 // Check for lost Zombies.
 // If close to portal player went through have the zombie follow.
@@ -806,20 +806,20 @@ no_zombie_left_behind(portal_trig, targeted_player)
 {
 	portal_enter = undefined;
 	teleporting_zombies = 0;
-	
+
 	portal_entered = getstructarray(self.target, "targetname");
 	for ( i = 0; i < portal_entered.size; i++ )
 	{
 		if(IsDefined(portal_entered[i].script_noteworthy) && portal_entered[i].script_noteworthy == "zombie_pos")
 		{
-			portal_enter = portal_entered[i];		
+			portal_enter = portal_entered[i];
 		}
-	}	
+	}
 	if(!IsDefined(portal_enter))
 	{
 		return;
-	}		
-	// check distance to portal entered by player	
+	}
+	// check distance to portal entered by player
 	zombies = GetAIArray("axis");
 		if(IsDefined(zombies))
 	{
@@ -829,25 +829,25 @@ no_zombie_left_behind(portal_trig, targeted_player)
 			{
 				continue;
 			}
-			
+
 			// DCS: all zombies from conference room follow last player out.
-			else if(IsDefined(self.script_noteworthy) && self.script_noteworthy == "conference_level2" && !level.zones[ "conference_level2" ].is_occupied 
+			else if(IsDefined(self.script_noteworthy) && self.script_noteworthy == "conference_level2" && !level.zones[ "conference_level2" ].is_occupied
 			&& IsDefined(zombies[i].favoriteenemy) && zombies[i].favoriteenemy == targeted_player)
 			{
 				zombies[i].teleporting = true;
 				zombies[i] thread zombie_through_portal(portal_enter, portal_trig, targeted_player);
-			}	
+			}
 			else if(Distance(zombies[i].origin, portal_enter.origin) < 500 && IsDefined(zombies[i].favoriteenemy) && zombies[i].favoriteenemy == targeted_player)
 			{
 				//IPrintLnBold("Found zombie to send through portal");
 				zombies[i].teleporting = true;
 				zombies[i] thread zombie_through_portal(portal_enter, portal_trig, targeted_player);
 				teleporting_zombies++;
-			}	
+			}
 		}
 	}
-	
-	//IPrintLnBold("Here come ", teleporting_zombies, " zombies!");		
+
+	//IPrintLnBold("Here come ", teleporting_zombies, " zombies!");
 }
 
 zombie_through_portal(portal_enter, portal_exit, targeted_player)
@@ -859,7 +859,7 @@ zombie_through_portal(portal_enter, portal_exit, targeted_player)
 	wait_network_frame();
 	if(Distance(self.origin, targeted_player.origin) < 500)
 	{
-		self.teleporting = false;		
+		self.teleporting = false;
 		return;
 	}
 
@@ -881,7 +881,7 @@ zombie_through_portal(portal_enter, portal_exit, targeted_player)
 	while(Distance(self.origin, portal_enter.origin) > self.goalradius && self.timed_out == false)
 	{
 		wait(0.1);
-	}		
+	}
 
 //	self waittill("goal");
 //	wait(RandomFloatRange(1.5,4.0));
@@ -892,7 +892,7 @@ zombie_through_portal(portal_enter, portal_exit, targeted_player)
 	{
 		self [[ self.pre_teleport_func ]]();
 	}
-	
+
 	PlayFX(level._effect["transporter_start"], self.origin);
 	playsoundatposition( "evt_teleporter_out", portal_enter.origin );
 
@@ -901,7 +901,7 @@ zombie_through_portal(portal_enter, portal_exit, targeted_player)
 	{
 		if(IsDefined(final_destination[i].script_noteworthy) && final_destination[i].script_noteworthy == "zombie_pos")
 		{
-			portal_exit = final_destination[i];		
+			portal_exit = final_destination[i];
 		}
 	}
 	self forceteleport(portal_exit.origin + (AnglesToForward(portal_exit.angles) * RandomFloatRange(0,64)),portal_exit.angles);
@@ -911,7 +911,7 @@ zombie_through_portal(portal_enter, portal_exit, targeted_player)
 	self.teleporting = false;
 	self.ignoreall = false;
 	self thread maps\_zombiemode_spawner::find_flesh();
-	
+
 	if(IsDefined(move_speed))
 	{
 		self.zombie_move_speed = move_speed;
@@ -921,7 +921,7 @@ zombie_through_portal(portal_enter, portal_exit, targeted_player)
 	{
 		self [[ self.post_teleport_func ]]();
 	}
-}		
+}
 
 //-------------------------------------------------------------------------------
 //	DCS: Zombie Pentagon Pack-A-Punch System
@@ -942,13 +942,13 @@ pentagon_packapunch_init()
 		{
 			punch_switches[i] thread defcon_sign_setup();
 		}
-	}			
+	}
 }
 defcon_sign_setup()
 {
 	self SetHintString( &"ZOMBIE_NEED_POWER" );
 	self setcursorhint( "HINT_NOICON" );
-		
+
 	flag_wait("power_on");
 
 	//change sign level, turn light or representation of used switch
@@ -969,7 +969,7 @@ defcon_sign_setup()
 		self SetHintString( &"ZOMBIE_PENTAGON_DEFCON_SWITCH" );
 		self waittill( "trigger", user );
 		self SetHintString( "" );
-		
+
 		if(IsDefined(self.lights))
 		{
 			for ( j = 0; j < self.lights.size; j++ )
@@ -982,19 +982,19 @@ defcon_sign_setup()
 				{
 					self.lights[j] rotatepitch( -180, .5 );
 					self.lights[j] playsound( "zmb_defcon_switch" );
-				}					
+				}
 			}
-		}		
-			
+		}
+
 		if(level.defcon_level != 4)
 		{
 			level.defcon_level++;
-			
+
 			if( level.zombie_vars["zombie_powerup_bonfire_sale_on"] == false )
 			{
 			    level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_defcon", level.defcon_level );
       }
-            
+
 			level thread defcon_sign_lights();
 
 		}
@@ -1002,32 +1002,32 @@ defcon_sign_setup()
 		{
 			//link all portals to pack-a-punch room.
 			level.defcon_level = 5;
-			
+
 			if( level.zombie_vars["zombie_powerup_bonfire_sale_on"] == false || !flag("bonfire_reset"))
 			{
 			    level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_defcon", level.defcon_level );
 			}
-			
+
 			level thread defcon_sign_lights();
-		
-			
+
+
 			//IPrintLnBold("all portals to pack room");
 			flag_set("defcon_active");
-			
+
 			if( level.zombie_vars["zombie_powerup_bonfire_sale_on"] == false || !flag("bonfire_reset"))
 			{
 			    level thread play_defcon5_alarms();
 			}
-			
+
 			level thread pack_portal_fx_on();
-		}		
+		}
 		level waittill("pack_room_reset");
-		
+
 		if(!flag("bonfire_reset")) //DCS: don't want vo every time bonfire goes into effect.
 		{
 			level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_defcon_reset" );
 		}
-		
+
 		if(IsDefined(self.lights))
 		{
 			for ( j = 0; j < self.lights.size; j++ )
@@ -1040,10 +1040,10 @@ defcon_sign_setup()
 				{
 					self.lights[j] rotatepitch( 180, .5 );
 					self.lights[j] playsound( "zmb_defcon_switch" );
-				}					
+				}
 			}
-		}			
-					
+		}
+
 	}
 }
 //-------------------------------------------------------------------------------
@@ -1053,20 +1053,20 @@ pack_portal_fx_on()
 {
 	players = get_players();
 	for ( i = 0; i < players.size; i++ )
-	{	
-		players[i] ClearClientFlag(level.ZOMBIE_PENTAGON_PLAYER_PORTALFX);			
-	}	
+	{
+		players[i] ClearClientFlag(level.ZOMBIE_PENTAGON_PLAYER_PORTALFX);
+	}
 }
 regular_portal_fx_on()
 {
 	players = get_players();
 	for ( i = 0; i < players.size; i++ )
-	{	
-		players[i] SetClientFlag(level.ZOMBIE_PENTAGON_PLAYER_PORTALFX);			
+	{
+		players[i] SetClientFlag(level.ZOMBIE_PENTAGON_PLAYER_PORTALFX);
 	}
-}	
+}
 //-------------------------------------------------------------------------------
-	
+
 defcon_sign_lights()
 {
 	//change sign level, turn light or representation of used switch
@@ -1078,7 +1078,7 @@ defcon_sign_lights()
 	defcon[4] = "p_zom_pent_defcon_sign_04";
 	defcon[5] = "p_zom_pent_defcon_sign_05";
 
-		
+
 	if(IsDefined(defcon_signs))
 	{
 		for ( i = 0; i < defcon_signs.size; i++ )
@@ -1090,7 +1090,7 @@ defcon_sign_lights()
 			else
 			{
 				defcon_signs[i] SetModel(defcon[1]);
-			}	
+			}
 		}
 	}
 }
@@ -1102,10 +1102,10 @@ start_defcon_countdown()
 	{
 		return;
 	}
-	
+
 	//set adjacency for one way war room to cenference room.
 	if(level.zones["war_room_zone_south"].is_enabled)
-	{	
+	{
 		if(!flag("war_room_entry"))
 		{
 			flag_set("war_room_entry");
@@ -1114,10 +1114,10 @@ start_defcon_countdown()
 	else
 	{
 		if(!flag("war_room_special"))
-		{		
+		{
 			flag_set("war_room_special");
-		}	
-	}	
+		}
+	}
 
 	// special spawning and cleanup for pack room.
 	level thread special_pack_time_spawning();
@@ -1125,10 +1125,10 @@ start_defcon_countdown()
 
 	//open pack-a-punch hideaway.
 	flag_set("open_pack_hideaway");
-			
+
 	level.defcon_activated = true;
 	level.defcon_countdown_time = 30;
-	
+
 	while(level.defcon_level > 1)
 	{
 		wait(level.defcon_countdown_time /4);
@@ -1136,23 +1136,23 @@ start_defcon_countdown()
 
 		level thread defcon_sign_lights();
 	}
-	
+
 	level.defcon_level = 1;
 	flag_clear("defcon_active");
 	level.defcon_activated = false;
 
 	level thread regular_portal_fx_on();
-	
+
 	flag_clear("bonfire_reset");
 	level notify("defcon_reset");
-	
+
 	//	DCS: fix to make certain player didn't pop into pack room as was clearing.
 	//	will reopen door.
 	wait(2.0);
 	if(!is_packroom_clear())
 	{
 		level notify("player_in_pack");
-	}	
+	}
 }
 
 //-------------------------------------------------------------------------------
@@ -1171,7 +1171,7 @@ special_pack_time_spawning()
 }
 special_pack_cleanup()
 {
-	
+
 	while(flag("defcon_active"))
 	{
 		wait(1);
@@ -1183,10 +1183,10 @@ special_pack_cleanup()
 		{
 			wait(1);
 		}
-	}		
+	}
 	level thread clear_zombies_in_packroom();
-}	
-	
+}
+
 //-------------------------------------------------------------------------------
 defcon_pack_poi()
 {
@@ -1201,29 +1201,29 @@ defcon_pack_poi()
 	if(num_players == players.size)
 	{
 		if(level.zones["war_room_zone_south"].is_enabled)
-		{		
+		{
 			poi1 activate_zombie_point_of_interest();
 		}
 		else
 		{
 			poi2 activate_zombie_point_of_interest();
-		}		
+		}
 	}
 	else
 	{
 		return;
-	}	
+	}
 
 	while(num_players >= players.size && flag("defcon_active"))
 	{
 		num_players = maps\_zombiemode_zone_manager::get_players_in_zone( zone_name );
 		wait (0.1);
 	}
-	
+
 	poi1 deactivate_zombie_point_of_interest();
 	poi2 deactivate_zombie_point_of_interest();
-	
-}	
+
+}
 //-------------------------------------------------------------------------------
 // DCS 090110: check floors for no player when teleporting.
 //-------------------------------------------------------------------------------
@@ -1232,7 +1232,7 @@ check_if_empty_floors()
 	num_floor1 = 0;
 	num_floor2 = 0;
 	num_floor3 = 0;
-	
+
 	num_floor1_laststand = 0;
 	num_floor2_laststand = 0;
 	num_floor3_laststand = 0;
@@ -1247,7 +1247,7 @@ check_if_empty_floors()
 			if(players[i] maps\_laststand::player_is_in_laststand() || players[i].sessionstate == "spectator")
 			{
 				num_floor1_laststand++;
-			}	
+			}
 		}
 		else if(players[i].floor == 2 )
 		{
@@ -1255,7 +1255,7 @@ check_if_empty_floors()
 			if(players[i] maps\_laststand::player_is_in_laststand() || players[i].sessionstate == "spectator")
 			{
 				num_floor2_laststand++;
-			}				
+			}
 		}
 		else if(players[i].floor == 3)
 		{
@@ -1263,8 +1263,8 @@ check_if_empty_floors()
 			if(players[i] maps\_laststand::player_is_in_laststand() || players[i].sessionstate == "spectator")
 			{
 				num_floor3_laststand++;
-			}				
-		}	
+			}
+		}
 	}
 
 	// now see if need to delete zombies.
@@ -1279,7 +1279,7 @@ check_if_empty_floors()
 		zombies[i].floor = maps\_zombiemode_ai_thief::thief_check_floor( zombies[i] );
 
 		// leave thief zombie alone.
-		if(IsDefined(zombies[i].animname) && zombies[i].animname == "thief_zombie") 
+		if(IsDefined(zombies[i].animname) && zombies[i].animname == "thief_zombie")
 		{
 			continue;
 		}
@@ -1307,12 +1307,12 @@ check_if_empty_floors()
 				else
 				{
 					zombies[i] thread cleanup_unoccupied_floor();
-				}		
+				}
 			}
 			else
 			{
 				continue;
-			}		
+			}
 		}
 		else if(IsDefined(zombies[i].floor) && zombies[i].floor == 2)
 		{
@@ -1324,7 +1324,7 @@ check_if_empty_floors()
 			{
 				PlayFX(level._effect["transporter_start"], zombies[i].origin);
 				zombies[i] thread cleanup_unoccupied_floor();
-			}			
+			}
 			else if(num_floor2 == 0)
 			{
 				if(flag("power_on"))
@@ -1334,12 +1334,12 @@ check_if_empty_floors()
 				else
 				{
 					zombies[i] thread cleanup_unoccupied_floor();
-				}			
+				}
 			}
 			else
 			{
 				continue;
-			}								
+			}
 		}
 		else if(IsDefined(zombies[i].floor) && zombies[i].floor == 3)
 		{
@@ -1351,28 +1351,28 @@ check_if_empty_floors()
 			{
 				PlayFX(level._effect["transporter_start"], zombies[i].origin);
 				zombies[i] thread cleanup_unoccupied_floor();
-			}			
+			}
 			else if(num_floor3 == 0)
 			{
 				if(flag("power_on"))
-				{				
+				{
 					zombies[i] thread send_zombies_out(level.portal_power);
 				}
 				else
 				{
 					zombies[i] thread cleanup_unoccupied_floor();
-				}					
+				}
 			}
 			else
 			{
 				continue;
-			}					
+			}
 		}
 		else // zombie not on known floor kill
 		{
 			level.zombie_total++;
-			zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);			
-		}	
+			zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
+		}
 	}
 }
 //-------------------------------------------------------------------------------
@@ -1389,10 +1389,10 @@ send_zombies_out(portal)
 	{
 		move_speed = self.zombie_move_speed;
 	}
-	
+
 	self.ignoreall = true;
 	self.teleporting = true;
-	
+
 	self notify( "stop_find_flesh" );
 	self notify( "zombie_acquire_enemy" );
 	self SetGoalPos(portal.origin);
@@ -1402,8 +1402,8 @@ send_zombies_out(portal)
 	while(Distance(self.origin, portal.origin) > self.goalradius && self.timed_out == false)
 	{
 		wait(0.1);
-	}		
-	
+	}
+
 	PlayFX(level._effect["transporter_start"], self.origin);
 	playsoundatposition( "evt_teleporter_out", self.origin );
 	if(portal == level.portal_pack)
@@ -1412,13 +1412,13 @@ send_zombies_out(portal)
 		self forceteleport(level.portal_mid.origin + (AnglesToForward(level.portal_mid.angles) * RandomFloatRange(0,32)),level.portal_mid.angles);
 		PlayFX(level._effect["transporter_beam"], level.portal_top.origin);
 		playsoundatposition( "evt_teleporter_go", level.portal_top.origin);
-		
+
 		self thread cleanup_unoccupied_floor(move_speed);
 	}
 	else
-	{	
+	{
 		self thread cleanup_unoccupied_floor(move_speed);
-	}	
+	}
 }
 teleportation_timed_out()
 {
@@ -1429,9 +1429,9 @@ teleportation_timed_out()
 		time++;
 	}
 	if(IsDefined(self))
-	{	
+	{
 		self.timed_out = true;
-	}	
+	}
 }
 //-------------------------------------------------------------------------------
 // DCS 090410:	send zombie on unoccupied floor to occupied floor
@@ -1439,7 +1439,7 @@ teleportation_timed_out()
 //-------------------------------------------------------------------------------
 
 cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
-{	
+{
 	self endon( "death" );
 	self notify("teleporting");
 
@@ -1448,7 +1448,7 @@ cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
 	self maps\_zombiemode_spawner::reset_attack_spot();
 
 	// should have been covered before, just making sure.
-	if(IsDefined(self.animname) && self.animname == "thief_zombie") 
+	if(IsDefined(self.animname) && self.animname == "thief_zombie")
 	{
 		return;
 	}
@@ -1466,7 +1466,7 @@ cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
 	for ( i = 0; i < players.size; i++ )
 	{
 		players[i].floor = maps\_zombiemode_ai_thief::thief_check_floor( players[i] );
-		
+
 		//now check number in each floor
 		if(players[i].floor == 1)
 		{
@@ -1474,7 +1474,7 @@ cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
 			if(players[i] maps\_laststand::player_is_in_laststand() || players[i].sessionstate == "spectator")
 			{
 				num_floor1_laststand++;
-			}	
+			}
 		}
 		else if(players[i].floor == 2)
 		{
@@ -1482,7 +1482,7 @@ cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
 			if(players[i] maps\_laststand::player_is_in_laststand() || players[i].sessionstate == "spectator")
 			{
 				num_floor2_laststand++;
-			}				
+			}
 		}
 		else if(players[i].floor == 3)
 		{
@@ -1490,10 +1490,10 @@ cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
 			if(players[i] maps\_laststand::player_is_in_laststand() || players[i].sessionstate == "spectator")
 			{
 				num_floor3_laststand++;
-			}				
+			}
 		}
-	}		
-		
+	}
+
 	if(flag("power_on")) //teleport them through portals.
 	{
 		if(num_floor3 > 0 && num_floor3 != num_floor3_laststand && self.floor != 3)
@@ -1509,18 +1509,18 @@ cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
 			self forceteleport(level.portal_mid.origin + (AnglesToForward(level.portal_mid.angles) * RandomFloatRange(0,32)),level.portal_mid.angles);
 			PlayFX(level._effect["transporter_beam"], level.portal_mid.origin);
 			playsoundatposition( "evt_teleporter_go", level.portal_mid.origin);
-		}			
+		}
 		else if(num_floor1 > 0  && num_floor1 != num_floor1_laststand && self.floor != 1)
-		{	
+		{
 			self forceteleport(level.portal_top.origin + (AnglesToForward(level.portal_top.angles) * RandomFloatRange(0,32)),level.portal_top.angles);
 			PlayFX(level._effect["transporter_beam"], level.portal_top.origin);
 			playsoundatposition( "evt_teleporter_go", level.portal_top.origin);
 		}
-		
+
 		self.teleporting = false;
 		self.ignoreall = false;
 		self thread maps\_zombiemode_spawner::find_flesh();
-	
+
 		if(IsDefined(move_speed))
 		{
 			self.zombie_move_speed = move_speed;
@@ -1530,7 +1530,7 @@ cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
 	else // will pop all but quads into spawn closets.
 	{
 		self.teleporting = false;
-		
+
 		if(!IsDefined(self.animname) || self.animname != "quad_zombie")
 		{
 			if(self.health == level.zombie_health) // can cause problems teleporting everyone into spawn closets.
@@ -1544,54 +1544,54 @@ cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
 
 				self notify("zombie_delete");
 				self Delete();
-			}	
+			}
 			else if(IsDefined(next_floor) && IsDefined(current_floor)) // if using elevator send to next floor
 			{
 				if(next_floor == 3 && current_floor == 2)
 				{
-					teleport_pos = getstructarray("elevator1_down_hidden", "targetname");	
+					teleport_pos = getstructarray("elevator1_down_hidden", "targetname");
 				}
 				else if(next_floor == 2 && current_floor == 3)
 				{
-					teleport_pos = getstructarray("elevator1_up_hidden", "targetname");	
-				}						
+					teleport_pos = getstructarray("elevator1_up_hidden", "targetname");
+				}
 				else if(next_floor == 2 && current_floor == 1)
 				{
-					teleport_pos = getstructarray("elevator2_down_hidden", "targetname");	
-				}			
+					teleport_pos = getstructarray("elevator2_down_hidden", "targetname");
+				}
 				else if(next_floor == 1 && current_floor == 2)
-				{	
-					teleport_pos = getstructarray("elevator2_up_hidden", "targetname");	
-				}				
+				{
+					teleport_pos = getstructarray("elevator2_up_hidden", "targetname");
+				}
 			}
 			else // send to other occupied floors.
-			{	
+			{
 				if(num_floor3 > 0  && num_floor3 != num_floor3_laststand && self.floor != 3)
 				{
-					teleport_pos = getstructarray("elevator1_down_hidden", "targetname");	
+					teleport_pos = getstructarray("elevator1_down_hidden", "targetname");
 				}
 				else if(num_floor2 > 0  && num_floor2 != num_floor2_laststand && self.floor != 2)
 				{
 					teleport_pos = getstructarray("elevator2_down_hidden", "targetname");
 					//IPrintLnBold("teleport to war room");
-				}			
+				}
 				else if(num_floor1 > 0  && num_floor1 != num_floor1_laststand && self.floor != 1)
-				{	
+				{
 					teleport_pos = getstructarray("elevator2_up_hidden", "targetname");
 					//IPrintLnBold("teleport to offices");
 				}
 				else
 				{
 					return;
-				}	
+				}
 			}
-			
+
 			if(IsDefined(teleport_pos))
 			{
 				pos_num = RandomIntRange(0,teleport_pos.size);
 				self forceteleport(teleport_pos[pos_num].origin + (RandomFloatRange(0,22), RandomFloatRange(0,22), 0),teleport_pos[pos_num].angles);
 			}
-					
+
 			// now reset zombie to tear through barricade.
 			wait(1);
 			if(IsDefined(self))
@@ -1599,15 +1599,15 @@ cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
 				self.ignoreall = true;
 				self notify( "stop_find_flesh" );
 				self notify( "zombie_acquire_enemy" );
-	
-				wait_network_frame();			
+
+				wait_network_frame();
 				if(IsDefined(self.target))
 				{
 					self.target = undefined;
 				}
 				self thread maps\_zombiemode_spawner::zombie_think();
-			}	
-		}		
+			}
+		}
 		// deleting quads leaves their effect, must delete fx.
 		else if(IsDefined(self.animname) &&  self.animname == "quad_zombie")
 		{
@@ -1620,14 +1620,14 @@ cleanup_unoccupied_floor(move_speed,current_floor,next_floor)
 			self Delete();
 		}
 		else
-		{	 
+		{
 			level.zombie_total++;
 			self maps\_zombiemode_spawner::reset_attack_spot();
 
 			self notify("zombie_delete");
 			self Delete();
 		}
-	}		
+	}
 }
 
 //-------------------------------------------------------------------------------
@@ -1637,18 +1637,18 @@ teleporter_power_cable()
 {
 	cable_on = GetEnt("teleporter_link_cable_on","targetname");
 	cable_off = GetEnt("teleporter_link_cable_off","targetname");
-	
+
 	cable_on Hide();
-	
+
 	flag_wait( "power_on" );
-	
+
 	cable_off Hide();
 	cable_on Show();
 }
 
-//-------------------------------------------------------------------------------		
+//-------------------------------------------------------------------------------
 // DCS: copy of ignore spawner functio.
-//-------------------------------------------------------------------------------		
+//-------------------------------------------------------------------------------
 pentagon_ignore_spawner( spawner )
 {
 	if ( flag( "no_pack_room_spawning" ) )
@@ -1671,7 +1671,7 @@ pentagon_ignore_spawner( spawner )
 		{
 			return true;
 		}
-	}	
+	}
 	return false;
 }
 
@@ -1679,21 +1679,21 @@ play_defcon5_alarms()
 {
     structs = getstructarray( "defcon_alarms", "targetname" );
     sound_ent = [];
-    
+
     for(i=0;i<structs.size;i++)
     {
         sound_ent[i] = Spawn( "script_origin", structs[i].origin );
         sound_ent[i] PlayLoopSound( "zmb_defcon_alarm", .25 );
     }
-    
+
     level waittill( "defcon_reset" );
-    
+
     for(i=0;i<sound_ent.size;i++)
     {
         sound_ent[i] StopLoopSound( .5 );
     }
-    
+
     wait(1);
-    
+
     array_delete( sound_ent );
 }

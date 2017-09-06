@@ -4,7 +4,7 @@
 
 
 /*------------------------------------
-BOUNCING BETTY STUFFS - 
+BOUNCING BETTY STUFFS -
 a rough prototype for now, needs a bit more polish
 
 ------------------------------------*/
@@ -13,8 +13,8 @@ init()
 	trigs = getentarray("betty_purchase","targetname");
 	for(i=0; i<trigs.size; i++)
 	{
-		model = getent( trigs[i].target, "targetname" ); 
-		model hide(); 
+		model = getent( trigs[i].target, "targetname" );
+		model hide();
 	}
 
 	array_thread(trigs,::buy_bouncing_betties);
@@ -25,7 +25,7 @@ buy_bouncing_betties()
 {
 	self.zombie_cost = 1000;
 	self UseTriggerRequireLookAt();
-	self sethintstring( &"ZOMBIE_BETTY_PURCHASE" );	
+	self sethintstring( &"ZOMBIE_BETTY_PURCHASE" );
 	self setCursorHint( "HINT_NOICON" );
 
 	level thread set_betty_visible();
@@ -43,22 +43,22 @@ buy_bouncing_betties()
 		{
 
 			if( who.score >= self.zombie_cost )
-			{				
+			{
 				if ( !who is_player_placeable_mine( "mine_bouncing_betty" ) )
 				{
 					play_sound_at_pos( "purchase", self.origin );
 
 					//set the score
-					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost ); 
+					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 					who maps\_zombiemode_weapons::check_collector_achievement( "mine_bouncing_betty" );
 					who thread bouncing_betty_setup();
 					who thread show_betty_hint("betty_purchased");
 
 					// JMA - display the bouncing betties
 					if( self.betties_triggered == false )
-					{						
-						model = getent( self.target, "targetname" ); 					
-						model thread maps\_zombiemode_weapons::weapon_show( who ); 
+					{
+						model = getent( self.target, "targetname" );
+						model thread maps\_zombiemode_weapons::weapon_show( who );
 						self.betties_triggered = true;
 					}
 
@@ -80,7 +80,7 @@ buy_bouncing_betties()
 
 set_betty_visible()
 {
-	players = getplayers();	
+	players = getplayers();
 	trigs = getentarray("betty_purchase","targetname");
 
 	while(1)
@@ -88,7 +88,7 @@ set_betty_visible()
 		for(j = 0; j < players.size; j++)
 		{
 			if( !players[j] is_player_placeable_mine( "mine_bouncing_betty" ) )
-			{						
+			{
 				for(i = 0; i < trigs.size; i++)
 				{
 					trigs[i] SetInvisibleToPlayer(players[j], false);
@@ -97,7 +97,7 @@ set_betty_visible()
 		}
 
 		wait(1);
-		players = getplayers();	
+		players = getplayers();
 	}
 }
 
@@ -137,7 +137,7 @@ betty_death_think()
 }
 
 bouncing_betty_setup()
-{	
+{
 	self thread bouncing_betty_watch();
 
 	self giveweapon("mine_bouncing_betty");
@@ -151,7 +151,7 @@ betty_think()
 	if(!isdefined(self.owner.mines))
 		self.owner.mines = [];
 	self.owner.mines = array_add( self.owner.mines, self );
-	
+
 	if( self.owner.mines.size > 20 )
 	{
 		self.owner.mines[0].trigger notify("trigger");
@@ -168,7 +168,7 @@ betty_think()
 	while(1)
 	{
 		trigger waittill( "trigger", ent );
-		
+
 		if ( isdefined( self.owner ) && ent == self.owner )
 			continue;
 
@@ -180,7 +180,7 @@ betty_think()
 
 	self.activated = true;
 	self playsound("betty_activated");
-	wait(.1);	
+	wait(.1);
 	fake_model = spawn("script_model",self.origin);
 	fake_model setmodel(self.model);
 	self hide();
@@ -363,7 +363,7 @@ pickup_betty()
 			{
 				self.owner.already_picking_up = true;
 				self give_betty();
-			}	
+			}
 		}
 		else
 		{

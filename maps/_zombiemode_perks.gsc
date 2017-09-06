@@ -1,5 +1,5 @@
 #include maps\_utility; 
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_zombiemode_utility;
 
 init()
@@ -26,17 +26,17 @@ init()
 		}
 		return;
 	}
-	
+
 	if ( vending_triggers.size < 1 )
 	{
 		return;
 	}
-	
+
 	if ( vending_weapon_upgrade_trigger.size >= 1 )
 	{
 		array_thread( vending_weapon_upgrade_trigger, ::vending_weapon_upgrade );;
 	}
-	
+
 	//Perks machine
 	if( !isDefined( level.custom_vending_precaching ) )
 	{
@@ -87,7 +87,7 @@ init()
 	level thread turn_jugger_on();
 	level thread turn_revive_on();
 	level thread turn_sleight_on();
-	
+
 	// WW (02-02-11): Deadshot perk
 	if( is_true( level.zombiemode_using_deadshot_perk ) )
 	{
@@ -149,7 +149,7 @@ place_additionalprimaryweapon_machine()
 			{
 				level.struct_class_names["targetname"][machine_monkey_struct.targetname] = [];
 			}
-			
+
 			size = level.struct_class_names["targetname"][machine_monkey_struct.targetname].size;
 			level.struct_class_names["targetname"][machine_monkey_struct.targetname][size] = machine_monkey_struct;
 		}
@@ -176,31 +176,31 @@ default_vending_precaching()
 	PrecacheItem( "zombie_knuckle_crack" );
 
 	PrecacheShader( "specialty_doubletap_zombies" );
-	
+
 	if ( is_true( level.zombiemode_using_marathon_perk ) )
 	{
 		PrecacheItem( "zombie_perk_bottle_marathon" );
 		PrecacheShader( "specialty_marathon_zombies" );
 	}
-	
+
 	if ( is_true( level.zombiemode_using_divetonuke_perk ) )
 	{
 		PrecacheItem( "zombie_perk_bottle_nuke" );
 		PrecacheShader( "specialty_divetonuke_zombies" );
 	}
-	
+
 	if( is_true( level.zombiemode_using_deadshot_perk ) )
 	{
-		PreCacheItem( "zombie_perk_bottle_deadshot" );	
+		PreCacheItem( "zombie_perk_bottle_deadshot" );
 		PrecacheShader( "specialty_ads_zombies" );
 	}
-	
+
 	if ( is_true( level.zombiemode_using_additionalprimaryweapon_perk ) )
 	{
 		PrecacheItem( "zombie_perk_bottle_additionalprimaryweapon" );
 		PrecacheShader( "specialty_extraprimaryweapon_zombies" );
 	}
-	
+
 	PrecacheShader( "specialty_juggernaut_zombies" );
 	PrecacheShader( "specialty_quickrevive_zombies" );
 	PrecacheShader( "specialty_fastreload_zombies" );
@@ -265,7 +265,7 @@ default_vending_precaching()
 	if ( is_true( level.zombiemode_using_deadshot_perk ) )
 	{
 		level._effect["deadshot_light"]		= loadfx("misc/fx_zombie_cola_dtap_on");
-	}	
+	}
 	if ( is_true( level.zombiemode_using_additionalprimaryweapon_perk ) )
 	{
 		level._effect["additionalprimaryweapon_light"] = loadfx("misc/fx_zombie_cola_arsenal_on");
@@ -285,7 +285,7 @@ third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk
 	forward = anglesToForward( angles );
 	interact_pos = origin + (forward*-25);
 	PlayFx( level._effect["packapunch_fx"], origin+(0,1,-34), forward );
-	
+
 	worldgun = spawn( "script_model", interact_pos );
 	worldgun.angles  = self.angles;
 	worldgun setModel( GetWeaponModel( current_weapon ) );
@@ -367,7 +367,7 @@ third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk
 vending_machine_trigger_think()
 {
 	self endon("death");
-	
+
 	while(1)
 	{
 		players = get_players();
@@ -418,7 +418,7 @@ vending_machine_trigger_think()
 			else
 			{
 				self SetInvisibleToPlayer( players[i], false );
-			}	
+			}
 		}
 		wait(0.05);
 	}
@@ -435,7 +435,7 @@ vending_weapon_upgrade()
 	packa_timer = spawn("script_origin", self.origin);
 	packa_rollers LinkTo( self );
 	packa_timer LinkTo( self );
-	
+
 	if( isDefined( perk_machine.target ) )
 	{
 		perk_machine.wait_flag = GetEnt( perk_machine.target, "targetname" );
@@ -444,25 +444,25 @@ vending_weapon_upgrade()
 	self UseTriggerRequireLookAt();
 	self SetHintString( &"ZOMBIE_NEED_POWER" );
 	self SetCursorHint( "HINT_NOICON" );
-	
+
 	level waittill("Pack_A_Punch_on");
-	
+
 	self thread vending_machine_trigger_think();
-	
+
 	//self thread maps\_zombiemode_weapons::decide_hide_show_hint();
-	
+
 	perk_machine playloopsound("zmb_perks_packa_loop");
 
 	self thread vending_weapon_upgrade_cost();
-	
+
 	for( ;; )
 	{
-		self waittill( "trigger", player );		
-				
-		index = maps\_zombiemode_weapons::get_player_index(player);	
+		self waittill( "trigger", player );
+
+		index = maps\_zombiemode_weapons::get_player_index(player);
 		plr = "zmb_vox_plr_" + index + "_";
 		current_weapon = player getCurrentWeapon();
-		
+
 		if ( "microwavegun_zm" == current_weapon )
 		{
 			current_weapon = "microwavegundw_zm";
@@ -477,12 +477,12 @@ vending_weapon_upgrade()
 			wait( 0.1 );
 			continue;
 		}
-		
+
 		if( is_true(level.pap_moving)) //can't use the pap machine while it's being lowered or raised
 		{
 			continue;
 		}
-		
+
  		if( player isSwitchingWeapons() )
  		{
  			wait(0.1);
@@ -507,46 +507,46 @@ vending_weapon_upgrade()
 			player maps\_zombiemode_audio::create_and_play_dialog( "general", "perk_deny", undefined, 0 );
 			continue;
 		}
-		
+
 		self.user = player;
 		flag_set("pack_machine_in_use");
-		
-		player maps\_zombiemode_score::minus_to_player_score( self.cost ); 
+
+		player maps\_zombiemode_score::minus_to_player_score( self.cost );
 		sound = "evt_bottle_dispense";
 		playsoundatposition(sound, self.origin);
-		
+
 		//TUEY TODO: Move this to a general init string for perk audio later on
 		self thread maps\_zombiemode_audio::play_jingle_or_stinger("mus_perks_packa_sting");
 		player maps\_zombiemode_audio::create_and_play_dialog( "weapon_pickup", "upgrade_wait" );
-		
+
 		origin = self.origin;
 		angles = self.angles;
-		
+
 		if( isDefined(perk_machine))
 		{
 			origin = perk_machine.origin+(0,0,35);
 			angles = perk_machine.angles+(0,90,0);
 		}
-		
+
 		self SetHintString("");
 		self disable_trigger();
-		
+
 		player thread do_knuckle_crack();
 
 		// Remember what weapon we have.  This is needed to check unique weapon counts.
 		self.current_weapon = current_weapon;
-											
+
 		weaponmodel = player third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk_machine );
-		
+
 		self enable_trigger();
 		self SetHintString( &"ZOMBIE_GET_UPGRADED" );
 		//self setvisibletoplayer( player );
-		
+
 		self thread wait_for_player_to_take( player, current_weapon, packa_timer );
 		self thread wait_for_timeout( current_weapon, packa_timer );
-		
+
 		self waittill_either( "pap_timeout", "pap_taken" );
-		
+
 		self.current_weapon = "";
 		if ( isdefined( weaponmodel.worldgundw ) )
 		{
@@ -579,22 +579,22 @@ vending_weapon_upgrade_cost()
 }
 
 
-//	
+//
 //
 wait_for_player_to_take( player, weapon, packa_timer )
 {
 	AssertEx( IsDefined( level.zombie_weapons[weapon] ), "wait_for_player_to_take: weapon does not exist" );
 	AssertEx( IsDefined( level.zombie_weapons[weapon].upgrade_name ), "wait_for_player_to_take: upgrade_weapon does not exist" );
-	
+
 	upgrade_weapon = level.zombie_weapons[weapon].upgrade_name;
-	
+
 	self endon( "pap_timeout" );
 	while( true )
 	{
 		packa_timer playloopsound( "zmb_perks_packa_ticktock" );
 		self waittill( "trigger", trigger_player );
 		packa_timer stoploopsound(.05);
-		if( trigger_player == player ) 
+		if( trigger_player == player )
 		{
 			current_weapon = player GetCurrentWeapon();
 /#
@@ -625,7 +625,7 @@ if ( "none" == current_weapon )
 					player GiveWeapon( upgrade_weapon, 0, player maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( upgrade_weapon ) );
 					player GiveStartAmmo( upgrade_weapon );
 				}
-				
+
 				player SwitchToWeapon( upgrade_weapon );
 				player maps\_zombiemode_weapons::play_weapon_vo(upgrade_weapon);
 				return;
@@ -641,9 +641,9 @@ if ( "none" == current_weapon )
 wait_for_timeout( weapon, packa_timer )
 {
 	self endon( "pap_taken" );
-	
+
 	wait( level.packapunch_timeout );
-	
+
 	self notify( "pap_timeout" );
 	packa_timer stoploopsound(.05);
 	packa_timer playsound( "zmb_perks_packa_deny" );
@@ -664,14 +664,14 @@ do_knuckle_crack()
 	}
 
 	gun = self upgrade_knuckle_crack_begin();
-	
+
 	self waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
 
 	if(has_fastswitch && !self maps\_laststand::player_is_in_laststand() && !is_true(self.intermission) && self.sessionstate != "spectator")
 	{
 		self SetPerk("specialty_fastswitch");
 	}
-	
+
 	self upgrade_knuckle_crack_end( gun );
 }
 
@@ -681,14 +681,14 @@ do_knuckle_crack()
 upgrade_knuckle_crack_begin()
 {
 	self increment_is_drinking();
-	
+
 	self AllowLean( false );
 	self AllowAds( false );
 	self AllowSprint( false );
 	self AllowCrouch( true );
 	self AllowProne( false );
 	self AllowMelee( false );
-	
+
 	if ( self GetStance() == "prone" )
 	{
 		self SetStance( "crouch" );
@@ -698,7 +698,7 @@ upgrade_knuckle_crack_begin()
 
 	gun = self GetCurrentWeapon();
 	weapon = "zombie_knuckle_crack";
-	
+
 	if ( gun != "none" && !is_placeable_mine( gun ) && !is_equipment( gun ) )
 	{
 		self notify( "zmb_lost_knife" );
@@ -732,7 +732,7 @@ upgrade_knuckle_crack_end( gun )
 	self AllowLean( true );
 	self AllowAds( true );
 	self AllowSprint( true );
-	self AllowProne( true );		
+	self AllowProne( true );
 	self AllowMelee( true );
 	weapon = "zombie_knuckle_crack";
 
@@ -814,7 +814,7 @@ activate_PackAPunch()
 turn_sleight_on()
 {
 	machine = getentarray("vending_sleight", "targetname");
-	
+
 	level waittill("sleight_on");
 
 	for( i = 0; i < machine.size; i++ )
@@ -835,7 +835,7 @@ turn_revive_on()
 	machine = getentarray("vending_revive", "targetname");
 	machine_model = undefined;
 	machine_clip = undefined;
-	
+
 	flag_wait( "all_players_connected" );
 	players = GetPlayers();
 	if ( players.size == 1 )
@@ -847,7 +847,7 @@ turn_revive_on()
 				machine_clip = machine[i];
 			}
 			else // then the model
-			{	
+			{
 				machine[i] setmodel("zombie_vending_revive_on");
 				machine_model = machine[i];
 			}
@@ -872,7 +872,7 @@ turn_revive_on()
 				machine[i] thread perk_fx( "revive_light" );
 			}
 		}
-		
+
 		level notify( "specialty_quickrevive_power_on" );
 	}
 }
@@ -896,7 +896,7 @@ revive_solo_fx(machine_clip)
 	{
 		level thread [[ level.revive_solo_fx_func ]]();
 	}
-	
+
 	//DCS: make revive model fly away like a magic box.
 	//self playsound("zmb_laugh_child");
 
@@ -917,7 +917,7 @@ revive_solo_fx(machine_clip)
 	{
 	   direction = self.origin;
 	   direction = (direction[1], direction[0], 0);
-	   
+
 	   if(direction[1] < 0 || (direction[0] > 0 && direction[1] > 0))
 	   {
             direction = (direction[0], direction[1] * -1, 0);
@@ -926,10 +926,10 @@ revive_solo_fx(machine_clip)
        {
             direction = (direction[0] * -1, direction[1], 0);
        }
-	   
+
         self Vibrate( direction, 10, 0.5, 5);
 	}
-	
+
 	self waittill("movedone");
 	PlayFX(level._effect["poltergeist"], self.origin);
 	playsoundatposition ("zmb_box_poof", self.origin);
@@ -938,12 +938,12 @@ revive_solo_fx(machine_clip)
 
 	//self setmodel("zombie_vending_revive");
 	self.fx Unlink();
-	self.fx delete();	
+	self.fx delete();
 	self Delete();
 
 	// DCS: remove the clip.
 	machine_clip trigger_off();
-	machine_clip ConnectPaths();	
+	machine_clip ConnectPaths();
 	machine_clip Delete();
 }
 
@@ -952,7 +952,7 @@ revive_solo_fx(machine_clip)
 turn_jugger_on()
 {
 	machine = getentarray("vending_jugg", "targetname");
-	
+
 	level waittill("juggernog_on");
 
 	for( i = 0; i < machine.size; i++ )
@@ -963,7 +963,7 @@ turn_jugger_on()
 		machine[i] thread perk_fx( "jugger_light" );
 	}
 	level notify( "specialty_armorvest_power_on" );
-	
+
 }
 
 // Double-Tap
@@ -972,7 +972,7 @@ turn_doubletap_on()
 {
 	machine = getentarray("vending_doubletap", "targetname");
 	level waittill("doubletap_on");
-	
+
 	for( i = 0; i < machine.size; i++ )
 	{
 		machine[i] setmodel("zombie_vending_doubletap_on");
@@ -989,7 +989,7 @@ turn_marathon_on()
 {
 	machine = getentarray("vending_marathon", "targetname");
 	level waittill("marathon_on");
-	
+
 	for( i = 0; i < machine.size; i++ )
 	{
 		machine[i] setmodel("zombie_vending_marathon_on");
@@ -1006,7 +1006,7 @@ turn_divetonuke_on()
 {
 	machine = getentarray("vending_divetonuke", "targetname");
 	level waittill("divetonuke_on");
-	
+
 	for( i = 0; i < machine.size; i++ )
 	{
 		machine[i] setmodel("zombie_vending_nuke_on");
@@ -1032,7 +1032,7 @@ divetonuke_explode( attacker, origin )
 
 	// play sound
 	attacker playsound("zmb_phdflop_explo");
-	
+
 	// WW (01/12/11): start clientsided effects - These client flags are defined in _zombiemode.gsc & _zombiemode.csc
 	// Used for zombie_dive2nuke_visionset() in _zombiemode.csc
 	attacker SetClientFlag( level._ZOMBIE_PLAYER_FLAG_DIVE2NUKE_VISION );
@@ -1046,7 +1046,7 @@ turn_deadshot_on()
 {
 	machine = getentarray("vending_deadshot", "targetname");
 	level waittill("deadshot_on");
-	
+
 	for( i = 0; i < machine.size; i++ )
 	{
 		machine[i] setmodel("zombie_vending_ads_on");
@@ -1068,7 +1068,7 @@ turn_additionalprimaryweapon_on()
 		flag_wait( "power_on" );
 	}
 	wait ( 3 );
-	
+
 	for( i = 0; i < machine.size; i++ )
 	{
 		machine[i] setmodel("zombie_vending_three_gun_on");
@@ -1079,7 +1079,7 @@ turn_additionalprimaryweapon_on()
 	level notify( "specialty_additionalprimaryweapon_power_on" );
 }
 
-//	
+//
 //
 perk_fx( fx )
 {
@@ -1099,7 +1099,7 @@ electric_perks_dialog()
 	{
 		return;
 	}
-	
+
 	self endon ("warning_dialog");
 	level endon("switch_flipped");
 	timer =0;
@@ -1108,7 +1108,7 @@ electric_perks_dialog()
 		wait(0.5);
 		players = get_players();
 		for(i = 0; i < players.size; i++)
-		{		
+		{
 			dist = distancesquared(players[i].origin, self.origin );
 			if(dist > 70*70)
 			{
@@ -1122,9 +1122,9 @@ electric_perks_dialog()
 			}
 			if(dist < 70*70 && timer == 3)
 			{
-				
-				players[i] thread do_player_vo("vox_start", 5);	
-				wait(3);				
+
+				players[i] thread do_player_vo("vox_start", 5);
+				wait(3);
 				self notify ("warning_dialog");
 				/#
 				iprintlnbold("warning_given");
@@ -1143,9 +1143,9 @@ vending_trigger_think()
 	perk = self.script_noteworthy;
 	solo = false;
 	flag_init( "_start_zm_pistol_rank" );
-	
+
 	//TODO  TEMP Disable Revive in Solo games
-	if ( IsDefined(perk) && 
+	if ( IsDefined(perk) &&
 		(perk == "specialty_quickrevive" || perk == "specialty_quickrevive_upgrade") )
 	{
 		flag_wait( "all_players_connected" );
@@ -1159,7 +1159,7 @@ vending_trigger_think()
 			level maps\_zombiemode::zombiemode_solo_last_stand_pistol();
 		}
 	}
-	
+
 	flag_set( "_start_zm_pistol_rank" );
 
 	if ( !solo )
@@ -1199,22 +1199,22 @@ vending_trigger_think()
 	case "specialty_rof":
 		cost = 2000;
 		break;
-		
+
 	case "specialty_longersprint_upgrade":
 	case "specialty_longersprint":
 		cost = 2000;
 		break;
-		
+
 	case "specialty_flakjacket_upgrade":
 	case "specialty_flakjacket":
 		cost = 2000;
 		break;
-		
+
 	case "specialty_deadshot_upgrade":
 	case "specialty_deadshot":
 		cost = 1500; // WW (02-03-11): Setting this low at first so more people buy it and try it (TEMP)
 		break;
-		
+
 	case "specialty_additionalprimaryweapon_upgrade":
 	case "specialty_additionalprimaryweapon":
 		cost = 4000;
@@ -1238,20 +1238,20 @@ vending_trigger_think()
 	{
 		level._perkmachinenetworkchoke ++;
 	}
-	
+
 	for(i = 0; i < level._perkmachinenetworkchoke; i ++)
 	{
 		wait_network_frame();
 	}
-	
+
 	//Turn on music timer
 	self thread maps\_zombiemode_audio::perks_a_cola_jingle_timer();
-	
+
 	perk_hum = spawn("script_origin", self.origin);
 	perk_hum playloopsound("zmb_perks_machine_loop");
 
 	self thread check_player_has_perk(perk);
-	
+
 	switch( perk )
 	{
 	case "specialty_armorvest_upgrade":
@@ -1281,22 +1281,22 @@ vending_trigger_think()
 	case "specialty_rof":
 		self SetHintString( &"ZOMBIE_PERK_DOUBLETAP", cost );
 		break;
-		
+
 	case "specialty_longersprint_upgrade":
 	case "specialty_longersprint":
 		self SetHintString( &"ZOMBIE_PERK_MARATHON", cost );
 		break;
-		
+
 	case "specialty_flakjacket_upgrade":
 	case "specialty_flakjacket":
 		self SetHintString( &"ZOMBIE_PERK_DIVETONUKE", cost );
 		break;
-		
+
 	case "specialty_deadshot_upgrade":
 	case "specialty_deadshot":
 		self SetHintString( &"ZOMBIE_PERK_DEADSHOT", cost );
 		break;
-		
+
 	case "specialty_additionalprimaryweapon_upgrade":
 	case "specialty_additionalprimaryweapon":
 		self SetHintString( &"ZOMBIE_PERK_ADDITIONALPRIMARYWEAPON", cost );
@@ -1309,9 +1309,9 @@ vending_trigger_think()
 	for( ;; )
 	{
 		self waittill( "trigger", player );
-		
+
 		index = maps\_zombiemode_weapons::get_player_index(player);
-		
+
 		if (player maps\_laststand::player_is_in_laststand() || is_true( player.intermission ) )
 		{
 			continue;
@@ -1321,13 +1321,13 @@ vending_trigger_think()
 		{
 			continue;
 		}
-		
+
 		if( player isThrowingGrenade() )
 		{
 			wait( 0.1 );
 			continue;
 		}
-		
+
  		if( player isSwitchingWeapons() )
  		{
  			wait(0.1);
@@ -1357,7 +1357,7 @@ vending_trigger_think()
 				self playsound("deny");
 				player maps\_zombiemode_audio::create_and_play_dialog( "general", "perk_deny", undefined, 1 );
 
-				
+
 				continue;
 			}
 		}
@@ -1412,22 +1412,22 @@ vending_trigger_think()
 		case "specialty_rof":
 			sound = "mus_perks_doubletap_sting";
 			break;
-			
+
 		case "specialty_longersprint_upgrade":
 		case "specialty_longersprint":
 			sound = "mus_perks_phd_sting";
 			break;
-			
+
 		case "specialty_flakjacket_upgrade":
 		case "specialty_flakjacket":
 			sound = "mus_perks_stamin_sting";
 			break;
-			
+
 		case "specialty_deadshot_upgrade":
 		case "specialty_deadshot":
 			sound = "mus_perks_jugger_sting"; // WW TODO: Place new deadshot stinger
 			break;
-			
+
 		case "specialty_additionalprimaryweapon_upgrade":
 		case "specialty_additionalprimaryweapon":
 			sound = "mus_perks_mulekick_sting";
@@ -1437,12 +1437,12 @@ vending_trigger_think()
 			sound = "mus_perks_jugger_sting";
 			break;
 		}
-		
+
 		self thread maps\_zombiemode_audio::play_jingle_or_stinger (self.script_label);
-	
+
 		//		self waittill("sound_done");
 
-		
+
 		// do the drink animation
 		has_fastswitch = player HasPerk("specialty_fastswitch");
 		if(has_fastswitch)
@@ -1460,7 +1460,7 @@ give_perk_think(player, gun, perk, cost, has_fastswitch)
 
 	// restore player controls and movement
 	player perk_give_bottle_end( gun, perk, has_fastswitch );
-	
+
 	// TODO: race condition?
 	if ( player maps\_laststand::player_is_in_laststand() || is_true( player.intermission ) )
 	{
@@ -1485,11 +1485,11 @@ give_perk_think(player, gun, perk, cost, has_fastswitch)
 solo_revive_buy_trigger_move( revive_trigger_noteworthy )
 {
 	self endon( "death" );
-	
+
 	revive_perk_trigger = GetEnt( revive_trigger_noteworthy, "script_noteworthy" );
-	
+
 	revive_perk_trigger trigger_off();
-	
+
 	if( level.solo_lives_given >= 3 )
 	{
 		if(IsDefined(level._solo_revive_machine_expire_func))
@@ -1499,12 +1499,12 @@ solo_revive_buy_trigger_move( revive_trigger_noteworthy )
 
 		return;
 	}
-	
+
 	while( self.lives > 0 )
 	{
 		wait( 0.1 );
 	}
-	
+
 	revive_perk_trigger trigger_on();
 }
 
@@ -1513,7 +1513,7 @@ unlocked_perk_upgrade( perk )
 	ch_ref = string(tablelookup( "mp/challengeTable_zmPerk.csv", 12, perk, 7 ));
 	ch_max = int(tablelookup( "mp/challengeTable_zmPerk.csv", 12, perk, 4 ));
 	ch_progress = self getdstat( "challengeStats", ch_ref, "challengeProgress" );
-	
+
 	if( ch_progress >= ch_max )
 	{
 		return true;
@@ -1555,7 +1555,7 @@ give_perk( perk, bought )
 	{
 		self SetPerk("specialty_fastswitch");
 	}
-	
+
 	// WW (02-03-11): Deadshot csc call
 	if( perk == "specialty_deadshot" )
 	{
@@ -1573,16 +1573,16 @@ give_perk( perk, bought )
 	if ( players.size == 1 && perk == "specialty_quickrevive" )
 	{
 		self.lives = 1;
-		
+
 		level.solo_lives_given++;
-		
+
 		if( level.solo_lives_given >= 3 )
 		{
 			flag_set( "solo_revive" );
 		}
-		
+
 		self thread solo_revive_buy_trigger_move( perk );
-		
+
 		// self disable_trigger();
 	}
 
@@ -1627,7 +1627,7 @@ give_perk( perk, bought )
 							count++;
 						}
 					}
-					
+
 					//check weapon powerup
 					if ( isdefined( level.random_weapon_powerups ) )
 					{
@@ -1734,11 +1734,11 @@ check_player_has_perk(perk)
 				else if(players[i] in_revive_trigger())
 				{
 					self SetInvisibleToPlayer(players[i], true);
-				}				
+				}
 				else if( players[i] isThrowingGrenade() )
 				{
 					self SetInvisibleToPlayer(players[i], true);
-				}	
+				}
 		 		else if( players[i] isSwitchingWeapons() )
 		 		{
 		 			self SetInvisibleToPlayer(players[i], true);
@@ -1791,7 +1791,7 @@ perk_think( perk )
 	result = self waittill_any_return( "fake_death", "death", "player_downed", perk_str );
 
 	do_retain = true;
-	
+
 	if( (get_players().size == 1) && perk == "specialty_quickrevive")
 	{
 		do_retain = false;
@@ -1806,7 +1806,7 @@ perk_think( perk )
 
 	self UnsetPerk( perk );
 	self.num_perks--;
-	
+
 	switch(perk)
 	{
 		case "specialty_armorvest":
@@ -1816,7 +1816,7 @@ perk_think( perk )
 		case "specialty_fastreload":
 			self UnsetPerk("specialty_fastswitch");
 			break;
-		
+
 		case "specialty_additionalprimaryweapon":
 			self SetClientDvar("ui_show_mule_wep_color", "0");
 			//only take weapon from here if perk is lost from a way besides downing
@@ -1826,16 +1826,16 @@ perk_think( perk )
 				self.weapon_taken_by_losing_additionalprimaryweapon = self maps\_zombiemode::take_additionalprimaryweapon();
 			}
 			break;
-		
+
 		case "specialty_deadshot":
 			self ClearClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
 			break;
-		
-		case "specialty_deadshot_upgrade":		
+
+		case "specialty_deadshot_upgrade":
 			self ClearClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
 			break;
 	}
-	
+
 	self perk_hud_destroy( perk );
 	self.perk_purchased = undefined;
 	//self iprintln( "Perk Lost: " + perk );
@@ -1898,41 +1898,41 @@ perk_hud_create( perk )
 	case "specialty_rof":
 		shader = "specialty_doubletap_zombies";
 		break;
-		
+
 	case "specialty_longersprint_upgrade":
 	case "specialty_longersprint":
 		shader = "specialty_marathon_zombies";
 		break;
-		
+
 	case "specialty_flakjacket_upgrade":
 	case "specialty_flakjacket":
 		shader = "specialty_divetonuke_zombies";
 		break;
-		
+
 	case "specialty_deadshot_upgrade":
 	case "specialty_deadshot":
-		shader = "specialty_ads_zombies"; 
+		shader = "specialty_ads_zombies";
 		break;
 
 	case "specialty_additionalprimaryweapon_upgrade":
 	case "specialty_additionalprimaryweapon":
 		shader = "specialty_extraprimaryweapon_zombies";
 		break;
-		
+
 	default:
 		shader = "";
 		break;
 	}
 
 	hud = create_simple_hud( self );
-	hud.foreground = true; 
-	hud.sort = 1; 
-	hud.hidewheninmenu = false; 
-	hud.alignX = "left"; 
+	hud.foreground = true;
+	hud.sort = 1;
+	hud.hidewheninmenu = false;
+	hud.alignX = "left";
 	hud.alignY = "bottom";
-	hud.horzAlign = "user_left"; 
+	hud.horzAlign = "user_left";
 	hud.vertAlign = "user_bottom";
-	hud.x = (self.perk_hud.size * 30) + 4; 
+	hud.x = (self.perk_hud.size * 30) + 4;
 	hud.y -= 70;
 	hud.alpha = 0;
 	hud FadeOverTime(.5);
@@ -1977,38 +1977,38 @@ perk_hud_flash(damage)
 perk_flash_audio( perk )
 {
     alias = undefined;
-    
+
     switch( perk )
     {
         case "specialty_armorvest":
             alias = "zmb_hud_flash_jugga";
             break;
-        
+
         case "specialty_quickrevive":
             alias = "zmb_hud_flash_revive";
             break;
-            
+
         case "specialty_fastreload":
             alias = "zmb_hud_flash_speed";
             break;
-        
+
         case "specialty_longersprint":
             alias = "zmb_hud_flash_stamina";
             break;
-            
+
         case "specialty_flakjacket":
             alias = "zmb_hud_flash_phd";
             break;
-        
+
         case "specialty_deadshot":
             alias = "zmb_hud_flash_deadshot";
             break;
-        
+
         case "specialty_additionalprimaryweapon":
             alias = "zmb_hud_flash_additionalprimaryweapon";
             break;
     }
-    
+
     if( IsDefined( alias ) )
         self PlayLocalSound( alias );
 }
@@ -2048,7 +2048,7 @@ perk_hud_stop_flash( perk, taken )
 perk_give_bottle_begin( perk )
 {
 	self increment_is_drinking();
-	
+
 	self AllowLean( false );
 	self AllowAds( false );
 	self AllowSprint( false );
@@ -2087,22 +2087,22 @@ perk_give_bottle_begin( perk )
 	case "specialty_rof":
 		weapon = "zombie_perk_bottle_doubletap";
 		break;
-		
+
 	case "specialty_longersprint_upgrade":
 	case "specialty_longersprint":
 		weapon = "zombie_perk_bottle_marathon";
 		break;
-		
+
 	case "specialty_flakjacket_upgrade":
 	case "specialty_flakjacket":
 		weapon = "zombie_perk_bottle_nuke";
 		break;
-		
+
 	case "specialty_deadshot_upgrade":
 	case "specialty_deadshot":
 		weapon = "zombie_perk_bottle_deadshot";
 		break;
-		
+
 	case "specialty_additionalprimaryweapon_upgrade":
 	case "specialty_additionalprimaryweapon":
 		weapon = "zombie_perk_bottle_additionalprimaryweapon";
@@ -2131,7 +2131,7 @@ perk_give_bottle_end( gun, perk, has_fastswitch )
 	self AllowLean( true );
 	self AllowAds( true );
 	self AllowSprint( true );
-	self AllowProne( true );		
+	self AllowProne( true );
 	self AllowMelee( true );
 	weapon = "";
 	switch( perk )
@@ -2145,7 +2145,7 @@ perk_give_bottle_end( gun, perk, has_fastswitch )
 	case "specialty_longersprint":
 		weapon = "zombie_perk_bottle_marathon";
 		break;
-		
+
 	case "specialty_flakjacket_upgrade":
 	case "specialty_flakjacket":
 		weapon = "zombie_perk_bottle_nuke";
@@ -2167,7 +2167,7 @@ perk_give_bottle_end( gun, perk, has_fastswitch )
 		weapon = "zombie_perk_bottle_sleight";
 		self.speed_used = true;
 		break;
-		
+
 	case "specialty_deadshot_upgrade":
 	case "specialty_deadshot":
 		weapon = "zombie_perk_bottle_deadshot";
@@ -2212,7 +2212,7 @@ perk_give_bottle_end( gun, perk, has_fastswitch )
 			return;
 		}
 	}
-	else 
+	else
 	{
 		// try to switch to first primary weapon
 		primaryWeapons = self GetWeaponsListPrimaries();

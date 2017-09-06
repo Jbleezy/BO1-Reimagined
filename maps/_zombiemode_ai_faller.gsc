@@ -19,7 +19,7 @@ faller_init()
 	level._zombie_fall_anims["zombie"]["attack"][1] = %ai_zombie_ceiling_attack_02;
 	level._zombie_fall_anims["zombie"]["emerge_death"] = %ai_zombie_ceiling_death;
 
-	// setup the default callback 
+	// setup the default callback
 	level.zombie_custom_think_logic = ::check_do_zombie_fall;
 
 	// setup the faller locations once the zones have been initialized
@@ -34,7 +34,7 @@ setup_faller_locations()
 	for ( i = 0; i < level.zones.size; i++ )
 	{
 		zone = level.zones[ zkeys[i] ];
-		
+
 		if ( IsDefined( zone.volumes[0].target ) )
 		{
 			zone.fall_locations = GetStructArray(zone.volumes[0].target + "_fall", "targetname");
@@ -72,10 +72,10 @@ get_available_fall_locations()
 			}
 		}
 	}
-	
+
 	return level.zombie_fall_spawners;
 }
-		
+
 
 round_spawning_fall_test()
 {
@@ -110,7 +110,7 @@ round_spawning_fall_test()
 			ai = spawn_zombie( bestPoint );
 			ai waittill("death");
 		}
-		
+
 		wait 5;
 	}
 }
@@ -209,7 +209,7 @@ do_zombie_fall()
 	{
 		// use the spot closest to the first player always
 		player = GetPlayers()[0];
-		spot = undefined; 
+		spot = undefined;
 		bestDist = 0.0;
 		for ( i = 0; i < spots.size; i++ )
 		{
@@ -226,7 +226,7 @@ do_zombie_fall()
 		spot = random(spots);
 	}
 	self.zombie_faller_location = spot;
-	//NOTE: multiple zombie fallers could be waiting in the same spot now, need to have spawners detect this 
+	//NOTE: multiple zombie fallers could be waiting in the same spot now, need to have spawners detect this
 	//		and not use the spot again until the previous zombie has died or dropped down
 	self.zombie_faller_location.is_enabled = false;
 	self.zombie_faller_location parse_script_parameters();
@@ -269,7 +269,7 @@ do_zombie_fall()
 zombie_faller_do_fall()
 {
 	self endon("death");
-	
+
 	emerge_anim = self get_fall_emerge_anim();
 	// first play the emerge, then the fall anim
 	self AnimScripted("fall_emerge", self.zombie_faller_location.origin, self.zombie_faller_location.angles, emerge_anim);
@@ -280,7 +280,7 @@ zombie_faller_do_fall()
 	self.zombie_faller_should_drop = false;
 	self thread zombie_fall_wait();
 	self thread zombie_faller_watch_all_players();
-	while ( !self.zombie_faller_should_drop ) 
+	while ( !self.zombie_faller_should_drop )
 	{
 		if ( self zombie_fall_should_attack(self.zombie_faller_location) )
 		{
@@ -324,12 +324,12 @@ zombie_faller_do_fall()
 			}
 		}
 	}
-	
+
 	self notify("falling");
 	//now the fall location (spot) can be used by another zombie faller again
 	spot  = self.zombie_faller_location;
 	self zombie_faller_enable_location();
-	
+
 	fall_anim = self get_fall_anim(spot);
 	self AnimScripted("fall", self.origin, spot.angles, fall_anim);
 	self animscripts\zombie_shared::DoNoteTracks("fall", ::handle_fall_notetracks, undefined, spot);
@@ -343,12 +343,12 @@ zombie_faller_do_fall()
 	//play fall loop
 	self StopAnimScripted();
 	landAnim = random(level._zombie_fall_anims["zombie"]["land"]);
-	// Get Z distance 
+	// Get Z distance
 	landAnimDelta = 15; //GetMoveDelta( landAnim, 0, 1 )[2];//delta in the anim doesn't seem to reflect actual distance to ground correctly
 	ground_pos = groundpos_ignore_water_new( self.origin );
 	//draw_arrow_time( self.origin, ground_pos, (1, 1, 0), 10 );
 	physDist = self.origin[2] - ground_pos[2] + landAnimDelta;
-	
+
 	if ( physDist > 0 )
 	{
 		//high enough above the ground to play some of the falling loop before we can play the land
@@ -364,12 +364,12 @@ zombie_faller_do_fall()
 		self animcustom(::zombie_land);
 		wait( GetAnimLength( landAnim ) );
 	}
-	
+
 	self.in_the_ceiling = false;
 	self traverseMode( "gravity" );
 	//looks like I have to start this manually?
 	self SetAnimKnobAllRestart( animscripts\zombie_run::GetRunAnim(), %body, 1, 0.2, 1 );
-	
+
 	self.no_powerups = false;
 
 	// let the default spawn logic know we are done
@@ -379,9 +379,9 @@ zombie_faller_do_fall()
 zombie_fall_loop()
 {
 	self endon("death");
-	
+
 	self setFlaggedAnimKnobRestart( "fall_loop", self.fall_anim, 1, 0.20, 1.0 );
-	
+
 	while(1)
 	{
 		ground_pos = groundpos_ignore_water_new( self.origin );
@@ -440,22 +440,22 @@ zombie_faller_watch_player(player)
 	self endon("falling");
 	self endon("death");
 	player endon("disconnect");
-	
-	
+
+
 	range = 200;
 	rangeSqr = range*range;
-	
+
 	timer = 5000; //5 seconds
-	
+
 	inRange = false;
 	inRangeTime = 0;
-	
+
 	//Used to detect player passing under zombie
 	closeRange = 60;
 	closeRangeSqr = closeRange*closeRange;
 	dirToPlayerEnter = (0,0,0);
 	inCloseRange = false;
-	
+
 	while(1)
 	{
 		//Watch for standing in general area
@@ -480,7 +480,7 @@ zombie_faller_watch_player(player)
 		{
 			inRange = false;
 		}
-		
+
 		//Watch for pass under
 		if(distSqr<closeRangeSqr)
 		{
@@ -491,7 +491,7 @@ zombie_faller_watch_player(player)
 				dirToPlayerEnter = (dirToPlayerEnter[0], dirToPlayerEnter[1], 0.0);
 				dirToPlayerEnter = vectornormalize(dirToPlayerEnter);
 			}
-			
+
 			inCloseRange = true;
 		}
 		else
@@ -502,17 +502,17 @@ zombie_faller_watch_player(player)
 				dirToPlayerExit = player.origin - self.origin;
 				dirToPlayerExit = (dirToPlayerExit[0], dirToPlayerExit[1], 0.0);
 				dirToPlayerExit = vectornormalize(dirToPlayerExit);
-				
+
 				if(vectordot(dirToPlayerEnter, dirToPlayerExit) < 0)
 				{
 					self.zombie_faller_should_drop = true;
 					break;
 				}
 			}
-			
+
 			inCloseRange = false;
 		}
-		
+
 		wait .1;
 	}
 }
@@ -521,7 +521,7 @@ zombie_fall_wait()
 {
 	self endon("falling");
 	self endon("death");
-	
+
 	if ( IsDefined( self.zone_name ) )
 	{
 		if ( IsDefined(level.zones) && IsDefined(level.zones[ self.zone_name ] ) )
@@ -584,7 +584,7 @@ zombie_fall_get_vicitims(spot)
 		{
 			continue;
 		}
-				
+
 		// make sure the player is below us first
 		zCheck = self.origin[2] - player.origin[2];
 		if ( zCheck < 0.0 || zCheck > 120.0 )
@@ -670,7 +670,7 @@ _damage_mod_to_damage_type(type)
 	{
 		return type;
 	}
-	
+
 	//Throw out "MOD_"
 	returnStr = toks[1];
 
@@ -678,7 +678,7 @@ _damage_mod_to_damage_type(type)
 	{
 		returnStr += toks[i];
 	}
-	
+
 	returnStr = tolower(returnStr);
 	return returnStr;
 }
@@ -707,7 +707,7 @@ zombie_fall_burst_fx()
 {
 	self endon("stop_zombie_fall_fx");
 	self endon("fall_anim_finished");
-	
+
 	playfx(level._effect["rise_burst"],self.origin + ( 0,0,randomintrange(5,10) ) );
 	wait(.25);
 	playfx(level._effect["rise_billow"],self.origin + ( randomintrange(-10,10),randomintrange(-10,10),randomintrange(5,10) ) );
@@ -716,13 +716,13 @@ zombie_fall_burst_fx()
 zombie_fall_dust_fx(zombie)
 {
 	dust_tag = "J_SpineUpper";
-	
+
 	self endon("stop_zombie_fall_dust_fx");
 	self thread stop_zombie_fall_dust_fx(zombie);
 
 	dust_time = 7.5; // play dust fx for a max time
 	dust_interval = .1; //randomfloatrange(.1,.25); // wait this time in between playing the effect
-	
+
 	for (t = 0; t < dust_time; t += dust_interval)
 	{
 		PlayfxOnTag(level._effect["rise_dust"], zombie, dust_tag);
@@ -792,10 +792,10 @@ in_player_fov( player )
 	playerToBanzaiUnitVec = VectorNormalize( playerToBanzaiVec );
 
 	forwardDotBanzai = VectorDot( playerUnitForwardVec, playerToBanzaiUnitVec );
-	angleFromCenter = ACos( forwardDotBanzai ); 
+	angleFromCenter = ACos( forwardDotBanzai );
 
 	playerFOV = GetDvarFloat( #"cg_fov" );
-	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );	
+	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );
 	if ( banzaiVsPlayerFOVBuffer <= 0 )
 	{
 		banzaiVsPlayerFOVBuffer = 0.2;
@@ -807,7 +807,7 @@ in_player_fov( player )
 }
 
 //-------------------------------------------------------------------------------
-//	MCG 030711: 
+//	MCG 030711:
 //	can faller zombie potentially be seen by any players?
 //	self = zombie to check.
 //-------------------------------------------------------------------------------
@@ -818,7 +818,7 @@ potentially_visible( how_close )
 		how_close = 1000;
 	}
 	potentiallyVisible = false;
-	
+
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
@@ -831,9 +831,9 @@ potentially_visible( how_close )
 				potentiallyVisible = true;
 				//no need to check rest of players
 				break;
-			}					
-		}		
-	}	
+			}
+		}
+	}
 
 	return potentiallyVisible;
 }

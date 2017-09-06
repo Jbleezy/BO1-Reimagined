@@ -26,26 +26,26 @@ player_handle_cymbal_monkey()
 	self notify( "starting_monkey_watch" );
 	self endon( "disconnect" );
 	self endon( "starting_monkey_watch" );
-	
+
 	// Min distance to attract positions
 	attract_dist_diff = level.monkey_attract_dist_diff;
 	if( !isDefined( attract_dist_diff ) )
 	{
 		attract_dist_diff = 45;
 	}
-		
+
 	num_attractors = level.num_monkey_attractors;
 	if( !isDefined( num_attractors ) )
 	{
 		num_attractors = 96;
 	}
-	
+
 	max_attract_dist = level.monkey_attract_dist;
 	if( !isDefined( max_attract_dist ) )
 	{
 		max_attract_dist = 1536;
 	}
-	
+
 	while( true )
 	{
 		grenade = get_thrown_monkey();
@@ -70,7 +70,7 @@ player_handle_cymbal_monkey()
 			oldPos = grenade.origin;
 			grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000 );
 			grenade.attract_to_origin = true;
-			
+
 			while( velocitySq != 0 )
 			{
 				wait( 0.05 );
@@ -87,21 +87,21 @@ player_handle_cymbal_monkey()
 			{
 				model SetAnim( %o_monkey_bomb );
 				model thread monkey_cleanup( grenade );
-				
+
 				model unlink();
 				model.origin = grenade.origin;
 				model.angles = grenade.angles;
-				
+
 				grenade resetmissiledetonationtime();
 				PlayFxOnTag( level._effect["monkey_glow"], model, "origin_animate_jnt" );
-				
+
 				valid_poi = check_point_in_active_zone( grenade.origin );
-			
-				if( !valid_poi ) 
-				{	
+
+				if( !valid_poi )
+				{
 					valid_poi = check_point_in_playable_area( grenade.origin );
 				}
-				
+
 				if(valid_poi)
 				{
 					grenade thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
@@ -111,7 +111,7 @@ player_handle_cymbal_monkey()
 				{
 					self.script_noteworthy = undefined;
 				}
-				
+
 				grenade thread do_monkey_sound( model, info );
 			}
 		}
@@ -122,7 +122,7 @@ player_handle_cymbal_monkey()
 wait_for_attractor_positions_complete()
 {
 	self waittill( "attractor_positions_generated" );
-	
+
 	self.attract_to_origin = false;
 }
 
@@ -142,7 +142,7 @@ monkey_cleanup( parent )
 do_monkey_sound( model, info )
 {
 	monk_scream_vox = false;
-	
+
 	if( isdefined(level.monk_scream_trig) && self IsTouching( level.monk_scream_trig))
 	{
 		self playsound( "zmb_vox_monkey_scream" );
@@ -153,7 +153,7 @@ do_monkey_sound( model, info )
 		monk_scream_vox = false;
 		self playsound( "zmb_monkey_song" );
 	}
-	
+
 	self thread play_delayed_explode_vox();
 
 	self waittill( "explode", position );
@@ -161,7 +161,7 @@ do_monkey_sound( model, info )
 	{
 		model ClearAnim( %o_monkey_bomb, 0.2 );
 	}
-	
+
 	for( i = 0; i < info.sound_attractors.size; i++ )
 	{
 		if( isDefined( info.sound_attractors[i] ) )
@@ -201,15 +201,15 @@ get_thrown_monkey()
 {
 	self endon( "disconnect" );
 	self endon( "starting_monkey_watch" );
-	
-	while( true ) 
+
+	while( true )
 	{
 		self waittill( "grenade_fire", grenade, weapName );
 		if( weapName == "zombie_cymbal_monkey" )
 		{
 			return grenade;
 		}
-		
+
 		wait( 0.05 );
 	}
 }
@@ -217,20 +217,20 @@ get_thrown_monkey()
 monitor_zombie_groans( info )
 {
 	self endon( "explode" );
-            
-	while( true ) 
+
+	while( true )
 	{
 		if( !isDefined( self ) )
 		{
 			return;
 		}
-		
+
 		if( !isDefined( self.attractor_array ) )
 		{
 			wait( 0.05 );
 			continue;
 		}
-		
+
 		for( i = 0; i < self.attractor_array.size; i++ )
 		{
 			if( array_check_for_dupes( info.sound_attractors, self.attractor_array[i] ) )
@@ -247,13 +247,13 @@ monitor_zombie_groans( info )
 		}
 		wait( 0.05 );
 	}
-} 
+}
 
 play_zombie_groans()
 {
 	self endon( "death" );
 	self endon( "monkey_blown_up" );
-            
+
 	while(1)
 	{
 		if( isdefined ( self ) )

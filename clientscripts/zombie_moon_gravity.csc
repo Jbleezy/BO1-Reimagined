@@ -28,4 +28,3 @@ zombie_low_gravity( local_client_num, set, newEnt )
 		self.in_low_g = false;
 	}
 }
-

@@ -2,7 +2,7 @@
 #include maps\_utility;
 #include maps\_zombiemode_utility;
 #include maps\_zombiemode_blockers;
-#include maps\_zombiemode; 
+#include maps\_zombiemode;
 
 // --------------------------------------------------------------------------------------
 // New airlock door system (051211)
@@ -16,22 +16,22 @@ init_zombie_airlocks()
 	{
 		airlock_buys[i] thread airlock_buy_init();
 	}
-	
+
 	level thread maps\_zombiemode_hackables_doors::hack_doors("zombie_airlock_hackable", maps\zombie_moon_utility::moon_door_opened);
 	airlock_hacks = GetEntArray("zombie_airlock_hackable", "targetname");
 	for( i = 0; i < airlock_hacks.size; i++ )
 	{
 		airlock_hacks[i] thread airlock_hack_init();
-	}	
-	
-	 
+	}
+
+
 	// triggers that open airlock doors when entered after purchase.
 	airlock_doors = GetEntArray("zombie_door_airlock", "script_noteworthy");
 	for( i = 0; i < airlock_doors.size; i++ )
 	{
-		airlock_doors[i] thread airlock_init(); 
+		airlock_doors[i] thread airlock_init();
 	}
-	
+
 	level thread init_door_sounds();
 	level thread zombie_moon_receiving_hatch_init();
 	//level thread hacker_location_random_init();
@@ -51,9 +51,9 @@ init_door_sounds()
 // ------------------------------------------------------------------------------------------------
 airlock_hack_init()
 {
-	self.type = undefined; 
+	self.type = undefined;
 
-	if( isDefined(self.script_flag) && !IsDefined( level.flag[self.script_flag] ) ) 
+	if( isDefined(self.script_flag) && !IsDefined( level.flag[self.script_flag] ) )
 	{
 		if( IsDefined( self.script_flag ) )
 		{
@@ -63,10 +63,10 @@ airlock_hack_init()
 				flag_init( self.script_flag );
 			}
 		}
-	}	
+	}
 
 	self.trigs = [];
-	targets = GetEntArray( self.target, "targetname" ); 
+	targets = GetEntArray( self.target, "targetname" );
 	for(i=0;i<targets.size;i++)
 	{
 		self.trigs = array_add(self.trigs, targets[i]);
@@ -79,17 +79,17 @@ airlock_hack_init()
 	self SetCursorHint( "HINT_NOICON" );
 	self.script_noteworthy = "default";
 
-	self SetHintString(&"ZOMBIE_EQUIP_HACKER");			
-}	
+	self SetHintString(&"ZOMBIE_EQUIP_HACKER");
+}
 
 // ------------------------------------------------------------------------------------------------
 // DCS: Functions for purchasing access to an airlock
 // ------------------------------------------------------------------------------------------------
 airlock_buy_init()
 {
-	self.type = undefined; 
+	self.type = undefined;
 
-	if( isDefined(self.script_flag) && !IsDefined( level.flag[self.script_flag] ) ) 
+	if( isDefined(self.script_flag) && !IsDefined( level.flag[self.script_flag] ) )
 	{
 		if( IsDefined( self.script_flag ) )
 		{
@@ -99,10 +99,10 @@ airlock_buy_init()
 				flag_init( self.script_flag );
 			}
 		}
-	}	
+	}
 
 	self.trigs = [];
-	targets = GetEntArray( self.target, "targetname" ); 
+	targets = GetEntArray( self.target, "targetname" );
 	for(i=0;i<targets.size;i++)
 	{
 		self.trigs = array_add(self.trigs, targets[i]);
@@ -121,10 +121,10 @@ airlock_buy_init()
 	else
 	{
 		self.script_noteworthy = "default";
-	}	
+	}
 
-	self thread airlock_buy_think(); 
-}	
+	self thread airlock_buy_think();
+}
 
 airlock_buy_think()
 {
@@ -134,7 +134,7 @@ airlock_buy_think()
 	{
 		cost = self.zombie_cost;
 	}
-	
+
 	while( 1 )
 	{
 		switch( self.script_noteworthy )
@@ -155,7 +155,7 @@ airlock_buy_think()
 			break;
 
 		default:
-		
+
 			self set_hint_string( self, "default_buy_door_" + cost );
 
 			if ( !self airlock_buy() )
@@ -168,7 +168,7 @@ airlock_buy_think()
 			break;
 		}
 	}
-	
+
 
 }
 
@@ -190,13 +190,13 @@ moon_door_opened()
 		self.trigs[i] thread trigger_on();
 		self.trigs[i] thread change_door_models();
 	}
-	
+
 	play_sound_at_pos( "purchase", self.origin );
 
-	all_trigs = getentarray( self.target, "target" ); 
+	all_trigs = getentarray( self.target, "target" );
 	for( i = 0; i < all_trigs.size; i++ )
 	{
-		all_trigs[i] trigger_off(); 
+		all_trigs[i] trigger_off();
 	}
 }
 
@@ -217,11 +217,11 @@ change_door_models()
 		{
 			doors[i] SetModel("p_zom_moon_mine_airlock_door03_single");
 		}
-		
+
 		doors[i] thread airlock_connect_paths();
-		
-	}	
-}	
+
+	}
+}
 
 airlock_connect_paths()
 {
@@ -229,23 +229,23 @@ airlock_connect_paths()
 	{
 		self NotSolid();
 		self ConnectPaths();
-		
+
 		if(!IsDefined(self._door_open) || self._door_open == false)
 		{
 			self Solid();
-		}	 	
-	}	
-}	
+		}
+	}
+}
 
 airlock_buy()
 {
-	self waittill( "trigger", who, force ); 
+	self waittill( "trigger", who, force );
 
 	if ( GetDvarInt( #"zombie_unlock_all") > 0 || is_true( force ) )
 	{
-		return true;		
-	}	
-	
+		return true;
+	}
+
 	if( !who UseButtonPressed() )
 	{
 		return false;
@@ -263,19 +263,19 @@ airlock_buy()
 		if ( players.size == 1 && who.score >= self.zombie_cost )
 		{
 			// solo buy
-			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost ); 
+			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 		}
 		else if( level.team_pool[ who.team_num ].score >= self.zombie_cost )
 		{
 			// team buy
-			who maps\_zombiemode_score::minus_to_team_score( self.zombie_cost ); 
+			who maps\_zombiemode_score::minus_to_team_score( self.zombie_cost );
 		}
 		else if( level.team_pool[ who.team_num ].score + who.score >= self.zombie_cost )
 		{
 			// team funds + player funds
 			team_points = level.team_pool[ who.team_num ].score;
-			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost - team_points ); 
-			who maps\_zombiemode_score::minus_to_team_score( team_points ); 
+			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost - team_points );
+			who maps\_zombiemode_score::minus_to_team_score( team_points );
 		}
 		else // Not enough money
 		{
@@ -296,22 +296,22 @@ airlock_buy()
 // ------------------------------------------------------------------------------------------------
 airlock_init()
 {
-	
-	self.type = undefined; 
-	
+
+	self.type = undefined;
+
 	self._door_open = false;
 
-	targets = GetEntArray( self.target, "targetname" ); 
-	
+	targets = GetEntArray( self.target, "targetname" );
+
 	self.doors = [];
 	for(i=0;i<targets.size;i++)
 	{
 		targets[i] maps\_zombiemode_blockers::door_classify( self );
-		targets[i].startpos = targets[i].origin;			
+		targets[i].startpos = targets[i].origin;
 
 	}
 
-	self thread airlock_think(); 
+	self thread airlock_think();
 }
 
 airlock_think()
@@ -319,9 +319,9 @@ airlock_think()
 	while( 1 )
 	{
 		self waittill("trigger", who);
-		
+
 		//if door already open pass through.
-		if(IsDefined(self.doors[0].startpos) && self.doors[0].startpos != self.doors[0].origin) 
+		if(IsDefined(self.doors[0].startpos) && self.doors[0].startpos != self.doors[0].origin)
 		{
 			continue;
 		}
@@ -331,32 +331,32 @@ airlock_think()
 			self.doors[i] thread airlock_activate(0.25, true);
 		}
 		self._door_open = true;
-			
+
 		// if airlock remains occupied or is moving.
 		while((self moon_airlock_occupied()) || (IsDefined(self.doors[0].door_moving) && self.doors[0].door_moving == true))
 		{
 			wait(0.1);
-		}	
-	
+		}
+
 		//IPrintLnBold("Close airlock door");
 
 		//cleanup corpses in doorway
 		self thread door_clean_up_corpses();
-			
+
 		// Close the door back when area left.
 		for(i=0;i<self.doors.size;i++)
 		{
 			self.doors[i] thread airlock_activate(0.25, false);
 		}
 		self._door_open = false;
-	}	
+	}
 }
 
 airlock_activate( time, open  )
 {
 	if ( !IsDefined(time) )
 	{
-		time = 1; 
+		time = 1;
 	}
 
 	if ( !IsDefined( open ) )
@@ -410,10 +410,10 @@ airlock_activate( time, open  )
 					self MoveTo( self.startpos + vector, time );
 				}
 				else
-				{					
+				{
 					self MoveTo( self.origin + vector, time );
 				}
-				
+
 				self._door_open = true;
 			}
 			else
@@ -423,10 +423,10 @@ airlock_activate( time, open  )
 					self MoveTo( self.startpos, time );
 				}
 				else
-				{					
+				{
 					self MoveTo( self.origin - vector, time ); //this could get messy, system probably failed.
-				}	
-				
+				}
+
 				self._door_open = false;
 			}
 			self thread maps\_zombiemode_blockers::door_solid_thread();
@@ -439,7 +439,7 @@ airlock_activate( time, open  )
 moon_airlock_occupied()
 {
 	is_occupied = 0;
-		
+
 	zombies = GetAIArray ("axis");
 	for ( i = 0; i < zombies.size; i++ )
 	{
@@ -448,20 +448,20 @@ moon_airlock_occupied()
 			is_occupied++;
 		}
 	}
-	
+
 	players = get_players();
 	for( i=0; i<players.size; i++ )
 	{
 		if(players[i] IsTouching(self))
 		{
 			is_occupied++;
-		}		
+		}
 	}
-	
+
 	if(is_occupied > 0)
 	{
 		// backup: if doors somehow closed, force back open.
-		if(IsDefined(self.doors[0].startpos) && self.doors[0].startpos == self.doors[0].origin) 
+		if(IsDefined(self.doors[0].startpos) && self.doors[0].startpos == self.doors[0].origin)
 		{
 			for(i=0;i<self.doors.size;i++)
 			{
@@ -472,17 +472,17 @@ moon_airlock_occupied()
 		return true;
 	}
 	else
-	{		
+	{
 		return false;
-	}	
+	}
 }
-	
+
 //---------------------------------------------------------------------------
 // clean up dead zombie corpses in doorway
 //---------------------------------------------------------------------------
 door_clean_up_corpses()
 {
-	
+
 	corpses = GetCorpseArray();
 	if(IsDefined(corpses))
 	{
@@ -493,14 +493,14 @@ door_clean_up_corpses()
 				corpses[i] thread door_remove_corpses();
 
 			}
-		}		
-	}		
+		}
+	}
 }
 door_remove_corpses()
 {
 	PlayFX(level._effect["dog_gib"], self.origin);
 	self Delete();
-}		
+}
 // --------------------------------------------------------------------------------------
 // DCS: fog setting changes when teleporting between earth and moon sky. need to clientside yet.
 // --------------------------------------------------------------------------------------
@@ -510,7 +510,7 @@ door_remove_corpses()
 sky_transition_fog_settings()
 {
 	players = get_players();
-	
+
 	if(flag("enter_nml"))
 	{
 		for(i=0;i<players.size;i++)
@@ -518,18 +518,18 @@ sky_transition_fog_settings()
 			players[i] setclientflag(level._CLIENTFLAG_PLAYER_SKY_TRANSITION);
 		}
 	}
-	
-	// Moon exterior settings	
+
+	// Moon exterior settings
 	else
 	{
 		for(i=0;i<players.size;i++)
 		{
 			players[i] clearclientflag(level._CLIENTFLAG_PLAYER_SKY_TRANSITION);
-		}		
+		}
 	}
 
 }
-	
+
 
 //*****************************************************************************
 //	Swaps a cage light model to the green one.
@@ -537,10 +537,10 @@ sky_transition_fog_settings()
 zapper_light_green( light_name, key_name )
 {
 	zapper_lights = getentarray( light_name, key_name );
-	
+
 	for(i=0;i<zapper_lights.size;i++)
 	{
-		zapper_lights[i] setmodel("zombie_trap_switch_light_on_green");	
+		zapper_lights[i] setmodel("zombie_trap_switch_light_on_green");
 
 		if(isDefined(zapper_lights[i].fx))
 		{
@@ -563,7 +563,7 @@ zapper_light_red( light_name, key_name )
 
 	for(i=0;i<zapper_lights.size;i++)
 	{
-		zapper_lights[i] setmodel("zombie_trap_switch_light_on_red");	
+		zapper_lights[i] setmodel("zombie_trap_switch_light_on_red");
 
 		if(isDefined(zapper_lights[i].fx))
 		{
@@ -597,10 +597,10 @@ moon_intermission()
 	self.score = self.score_total;
 
 	self.sessionstate = "intermission";
-	self.spectatorclient = -1; 
-	self.killcamentity = -1; 
-	self.archivetime = 0; 
-	self.psoffsettime = 0; 
+	self.spectatorclient = -1;
+	self.killcamentity = -1;
+	self.archivetime = 0;
+	self.psoffsettime = 0;
 	self.friendlydamage = undefined;
 
 	points = getstructarray( "intermission", "targetname" );
@@ -621,17 +621,17 @@ moon_intermission()
 			{
 				points = array_remove(points, points[i]);
 			}
-		}		
-	}	
+		}
+	}
 
 	if( !IsDefined( points ) || points.size == 0 )
 	{
-		points = getentarray( "info_intermission", "classname" ); 
+		points = getentarray( "info_intermission", "classname" );
 		if( points.size < 1 )
 		{
-			println( "NO info_intermission POINTS IN MAP" ); 
+			println( "NO info_intermission POINTS IN MAP" );
 			return;
-		}	
+		}
 	}
 
 
@@ -668,14 +668,14 @@ moon_intermission()
 //				self SetPlayerAngles( points[i].angles );
 				org.origin = points[i].origin;
 				org.angles = points[i].angles;
-				
+
 
 				for ( j = 0; j < get_players().size; j++ )
 				{
 					player = get_players()[j];
 					player CameraSetPosition( org );
 					player CameraSetLookAt();
-					player CameraActivate( true );	
+					player CameraActivate( true );
 				}
 
 				speed = 20;
@@ -712,7 +712,7 @@ moon_intermission()
 				self.game_over_bg.alpha = 0;
 
 				wait( 5 );
-				
+
 				self.game_over_bg thread fade_up_over_time(1);
 
 				//wait( 1 );
@@ -727,34 +727,34 @@ moon_intermission()
 hacker_location_random_init()
 {
 	hacker_tool_array = [];
-	hacker_pos = undefined;	
-	
+	hacker_pos = undefined;
+
 	level.hacker_tool_positions = [];
-	
-	
-	
+
+
+
 	hacker = GetEntArray( "zombie_equipment_upgrade", "targetname" );
 	for ( i = 0; i < hacker.size; i++ )
 	{
 		if(isDefined(hacker[i].zombie_equipment_upgrade ) && hacker[i].zombie_equipment_upgrade == "equip_hacker_zm")
 		{
 			hacker_tool_array = array_add(hacker_tool_array, hacker[i]);
-			
+
 			struct = spawnstruct();
 			struct.trigger_org = hacker[i].origin;
 			//struct.model = getent(hacker[i].target,"targetname");
 			struct.model_org = getent(hacker[i].target,"targetname").origin;
 			struct.model_ang = getent(hacker[i].target,"targetname").angles;
-			
+
 			level.hacker_tool_positions[level.hacker_tool_positions.size] = struct;
-		}	
+		}
 	}
-	
+
 	if(	hacker_tool_array.size > 1)
 	{
 		hacker_pos = hacker_tool_array[RandomInt(hacker_tool_array.size)];
 		hacker_tool_array  = array_remove(hacker_tool_array, hacker_pos);
-		array_thread(hacker_tool_array, ::hacker_position_cleanup); 
+		array_thread(hacker_tool_array, ::hacker_position_cleanup);
 	}
 }
 
@@ -768,8 +768,8 @@ hacker_position_cleanup()
 	if(IsDefined(self))
 	{
 		self Delete();
-	}	
-}	
+	}
+}
 
 // ------------------------------------------------------------------------------------------------
 // DCS 070711: Breachable glass.
@@ -778,12 +778,12 @@ moon_glass_breach_init()
 {
 	level.glass = GetEntArray("moon_breach_glass","targetname");
 	array_thread(level.glass, ::glass_breach_think);
-	
+
 	flag_wait( "all_players_connected" );
 	players = get_players();
 	for( i=0; i<players.size; i++ )
 	{
-		players[i] thread check_for_grenade_throw();		
+		players[i] thread check_for_grenade_throw();
 	}
 }
 
@@ -794,14 +794,14 @@ glass_gets_destroyed()
 		for ( i = 0; i < self.fxpos_array.size; i++ )
 		{
 			PlayFX(level._effect["glass_impact"], self.fxpos_array[i].origin, AnglesToForward(self.fxpos_array[i].angles) );
-		}	
-	}	
-			
+		}
+	}
+
 	if(IsDefined(self.script_noteworthy))
 	{
 		level thread send_client_notify_for_breach( self.script_noteworthy );
-		_zones = getentarray(self.script_noteworthy,"targetname");				
-				
+		_zones = getentarray(self.script_noteworthy,"targetname");
+
 		if(IsDefined(_zones))
 		{
 			for(i=0;i<_zones.size;i++)
@@ -812,19 +812,19 @@ glass_gets_destroyed()
 			level thread maps\zombie_moon_gravity::zone_breached( self.script_noteworthy );
 		}
 	}
-	
-	wait_network_frame();	
-	
+
+	wait_network_frame();
+
 	if(IsDefined(self.model) && self.damage_state == 0)
 	{
 		self SetModel(self.model + "_broken");
 		self.damage_state = 1;
-		
+
 		// remove return if add additional states.
 		return;
-	}	
+	}
 	else
-	{			
+	{
 		self Delete();
 		return;
 	}
@@ -858,12 +858,12 @@ check_for_grenade_damage_on_window( grenade_origin )
 	for( i=0; i<level.glass.size; i++ )
 	{
 		if( level.glass[i].damage_state == 0 ) //no damage yet
-		{	
+		{
 			glass_destroyed = false;
 			for( j=0; j<level.glass[i].fxpos_array.size; j++ )
 			{
 				glass_origin = level.glass[i].fxpos_array[j].origin;
-				
+
 				//Do distance check
 				if( DistanceSquared( glass_origin, grenade_origin ) < radiusSqToCheck )
 				{
@@ -871,7 +871,7 @@ check_for_grenade_damage_on_window( grenade_origin )
 					break;
 				}
 			}
-			
+
 			if( glass_destroyed )
 			{
 				//IPrintLnBold( "BOOM GOES GLASS" );
@@ -888,7 +888,7 @@ check_for_grenade_throw()
 	while(1)
 	{
 		self waittill("grenade_fire", grenade, weapname);
-		
+
 		//if ( weapname != "frag_grenade" )
 		//	continue;
 
@@ -913,10 +913,10 @@ glass_breach_think()
 	self.health = 99999;
 	self SetCanDamage( true );
 	self.damage_state = 0;
-	
+
 	while(true)
 	{
-		self waittill( "damage", amount, attacker, direction, point, dmg_type, model_name, tag_name);		
+		self waittill( "damage", amount, attacker, direction, point, dmg_type, model_name, tag_name);
 
 		if( IsPlayer( attacker ) && ( dmg_type == "MOD_PROJECTILE" || dmg_type == "MOD_PROJECTILE_SPLASH" ) )
 		{
@@ -927,8 +927,8 @@ glass_breach_think()
 				self.damage_state = 1;
 			}
 		}
-	}	
-}		
+	}
+}
 
 send_client_notify_for_breach( zone )
 {
@@ -945,7 +945,7 @@ send_client_notify_for_breach( zone )
 				}
 			}
 			break;
-		
+
 		case "generator_exit_east_zone":
 			if( !is_true( level.audio_zones_breached["4a"] ) )
 			{
@@ -957,7 +957,7 @@ send_client_notify_for_breach( zone )
 				}
 			}
 			break;
-			
+
 		case "enter_forest_east_zone":
 			if( !is_true( level.audio_zones_breached["4b"] ) )
 			{
@@ -979,13 +979,13 @@ zombie_moon_receiving_hatch_init()
 {
 	hatches = GetEntArray("recieving_hatch","targetname");
 	array_thread(hatches, ::zombie_moon_hatch);
-}	
+}
 zombie_moon_hatch()
 {
 	scale = 1;
-	
+
 	flag_wait("power_on");
-	
+
 	self playsound( "evt_loading_door_start" );
 
 	if(isDefined(self.script_vector))
@@ -1001,13 +1001,9 @@ zombie_moon_hatch()
 		{
 			self NotSolid();
 			self ConnectPaths();
-		}	
-		
+		}
+
 		wait(1);
 		self playsound( "evt_loading_door_end" );
 	}
-}	
-
-
-
-
+}

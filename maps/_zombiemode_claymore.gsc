@@ -4,7 +4,7 @@
 
 
 /*------------------------------------
-CLAYMORE STUFFS - 
+CLAYMORE STUFFS -
 a rough prototype for now, needs a bit more polish
 
 ------------------------------------*/
@@ -13,13 +13,13 @@ init()
 	trigs = getentarray("claymore_purchase","targetname");
 	for(i=0; i<trigs.size; i++)
 	{
-		model = getent( trigs[i].target, "targetname" ); 
-		model hide(); 
+		model = getent( trigs[i].target, "targetname" );
+		model hide();
 	}
 
 	array_thread(trigs,::buy_claymores);
 	level thread give_claymores_after_rounds();
-	
+
 	level.pickup_claymores = ::pickup_claymores;
 	level.pickup_claymores_trigger_listener = ::pickup_claymores_trigger_listener;
 
@@ -31,7 +31,7 @@ buy_claymores()
 {
 	self.zombie_cost = 1000;
 	self UseTriggerRequireLookAt();
-	self sethintstring( &"ZOMBIE_CLAYMORE_PURCHASE" );	
+	self sethintstring( &"ZOMBIE_CLAYMORE_PURCHASE" );
 	self setCursorHint( "HINT_NOICON" );
 
 	level thread set_claymore_visible();
@@ -44,7 +44,7 @@ buy_claymores()
 		{
 			continue;
 		}
-		
+
 		if( who has_powerup_weapon() )
 		{
 			wait( 0.1 );
@@ -55,13 +55,13 @@ buy_claymores()
 		{
 
 			if( who.score >= self.zombie_cost )
-			{				
+			{
 				if ( !who is_player_placeable_mine( "claymore_zm" ) )
 				{
 					play_sound_at_pos( "purchase", self.origin );
 
 					//set the score
-					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost ); 
+					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 					who maps\_zombiemode_weapons::check_collector_achievement( "claymore_zm" );
 					who thread claymore_setup();
 					who thread show_claymore_hint("claymore_purchased");
@@ -69,9 +69,9 @@ buy_claymores()
 
 					// JMA - display the claymores
 					if( self.claymores_triggered == false )
-					{						
-						model = getent( self.target, "targetname" ); 					
-						model thread maps\_zombiemode_weapons::weapon_show( who ); 
+					{
+						model = getent( self.target, "targetname" );
+						model thread maps\_zombiemode_weapons::weapon_show( who );
 						self.claymores_triggered = true;
 					}
 
@@ -92,7 +92,7 @@ buy_claymores()
 
 set_claymore_visible()
 {
-	players = getplayers();	
+	players = getplayers();
 	trigs = getentarray("claymore_purchase","targetname");
 
 	while(1)
@@ -100,7 +100,7 @@ set_claymore_visible()
 		for(j = 0; j < players.size; j++)
 		{
 			if( !players[j] is_player_placeable_mine( "claymore_zm" ) )
-			{						
+			{
 				for(i = 0; i < trigs.size; i++)
 				{
 					trigs[i] SetInvisibleToPlayer(players[j], false);
@@ -109,7 +109,7 @@ set_claymore_visible()
 		}
 
 		wait(1);
-		players = getplayers();	
+		players = getplayers();
 	}
 }
 
@@ -133,7 +133,7 @@ claymore_watch()
 }
 
 claymore_setup()
-{	
+{
 	self thread claymore_watch();
 
 	self giveweapon("claymore_zm");
@@ -190,7 +190,7 @@ pickup_claymores_trigger_listener_enable( trigger, player )
 	while ( true )
 	{
 		player waittill_any( "zmb_enable_claymore_prompt", "spawned_player" );
-		
+
 		if ( !isDefined( trigger ) )
 		{
 			return;
@@ -236,16 +236,16 @@ waittill_not_moving()
 shouldAffectWeaponObject( object )
 {
 	pos = self.origin + (0,0,32);
-	
+
 	dirToPos = pos - object.origin;
 	objectForward = anglesToForward( object.angles );
-	
+
 	dist = vectorDot( dirToPos, objectForward );
 	if ( dist < level.claymore_detectionMinDist )
 		return false;
-	
+
 	dirToPos = vectornormalize( dirToPos );
-	
+
 	dot = vectorDot( dirToPos, objectForward );
 	return ( dot > level.claymore_detectionDot );
 }
@@ -253,12 +253,12 @@ shouldAffectWeaponObject( object )
 claymore_detonation()
 {
 	self endon("death");
-	
+
 	// wait until we settle
 	self waittill_not_moving();
-	
+
 	detonateRadius = 96;
-	
+
 	spawnFlag = 1;// SF_TOUCH_AI_AXIS
 	playerTeamToAllow = "axis";
 	if( isDefined( self.owner ) && isDefined( self.owner.pers["team"] ) && self.owner.pers["team"] == "axis" )
@@ -266,34 +266,34 @@ claymore_detonation()
 		spawnFlag = 2;// SF_TOUCH_AI_ALLIES
 		playerTeamToAllow = "allies";
 	}
-	
+
 	damagearea = spawn("trigger_radius", self.origin + (0,0,0-detonateRadius), spawnFlag, detonateRadius, detonateRadius*2);
-	
+
 	damagearea enablelinkto();
 	damagearea linkto( self );
 
 	self thread delete_claymores_on_death( damagearea );
-	
+
 	if(!isdefined(self.owner.mines))
 		self.owner.mines = [];
 	self.owner.mines = array_add( self.owner.mines, self );
-	
+
 	if( self.owner.mines.size > 20 )
 	{
 		self.owner.mines[0] detonate( self.owner );
 		self.owner.mines = array_remove_nokeys( self.owner.mines, self.owner.mines[0] );
 	}
-	
+
 	while(1)
 	{
 		damagearea waittill( "trigger", ent );
-		
+
 		if ( isdefined( self.owner ) && ent == self.owner )
 			continue;
 
 		if( isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != playerTeamToAllow )
 			continue;
-		
+
 		if ( !ent shouldAffectWeaponObject( self ) )
 			continue;
 
@@ -305,7 +305,7 @@ claymore_detonation()
 				self detonate( self.owner );
 			else
 				self detonate( undefined );
-				
+
 			return;
 		}
 	}
@@ -331,9 +331,9 @@ satchel_damage()
 
 	self setcandamage(true);
 	self.health = 100000;
-	
+
 	attacker = undefined;
-	
+
 	playerTeamToAllow = "axis";
 	if( isDefined( self.owner ) && isDefined( self.owner.pers["team"] ) && self.owner.pers["team"] == "axis" )
 	{
@@ -361,19 +361,19 @@ satchel_damage()
 
 		break;
 	}
-	
+
 	if ( level.satchelexplodethisframe )
 		wait .1 + randomfloat(.4);
 	else
 		wait .05;
-	
+
 	if (!isdefined(self))
 		return;
-	
+
 	level.satchelexplodethisframe = true;
-	
+
 	thread reset_satchel_explode_this_frame();
-	
+
 	self detonate( attacker );
 	// won't get here; got death notify.
 }
@@ -387,9 +387,9 @@ reset_satchel_explode_this_frame()
 play_claymore_effects()
 {
 	self endon("death");
-	
+
 	self waittill_not_moving();
-	
+
 	PlayFXOnTag( level._effect[ "claymore_laser" ], self, "tag_fx" );
 }
 
@@ -398,7 +398,7 @@ give_claymores_after_rounds()
 	while(1)
 	{
 		level waittill( "between_round_over" );
-		
+
 		if ( !level flag_exists( "teleporter_used" ) || !flag( "teleporter_used" ) )
 		{
 			players = get_players();

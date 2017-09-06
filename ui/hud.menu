@@ -36,7 +36,7 @@
 			decoration
 		}
 	}
-	
+
 	//objective indicators
 	menuDef
 	{
@@ -58,7 +58,7 @@
 			decoration
 		}
 	}
-	
+
 	menuDef
 	{
 		name			"Objective_Indicators_ui3d1"
@@ -131,7 +131,7 @@
 //		rect			110 -70 48 48 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
 //#else
 //		rect			560 -90 48 48 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
-//#endif						
+//#endif
 //    	fullScreen		0
 //		exp visible when ( !flashbanged() && dvarBool( #"hud_missionFailed" ) == 0 && !ui_active() && dvarint( #"ui_hud_hardcore" ) == 0);
 //
@@ -147,7 +147,7 @@
 //			forecolor		1 1 1 HUD_ALPHA
 //			decoration
 //		}
-//	
+//
 //	}
 
 #define COMPASSOFFSET  ( -150 )
@@ -158,7 +158,7 @@
 		rect			0 0 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_BOTTOM
 		fullScreen		0
 		visible			1
-		
+
 		itemDef
 		{
 			name			"heaticon"
@@ -166,8 +166,8 @@
 #ifdef CONSOLE
 			rect			-140 -82 54 27
 #else
-			rect			(-133 + COMPASSOFFSET) -72 50 50			
-#endif 
+			rect			(-133 + COMPASSOFFSET) -72 50 50
+#endif
 			forecolor		1 1 1 1
 			ownerdraw		CG_PLAYER_HEAT_VALUE
 			visible			when  ( dvarInt(#"cg_hideWeaponHeat") == 0 && dvarBool( #"cg_drawWeaponHeatVertical" ) == 0 )
@@ -182,7 +182,7 @@
 			rect			-76 -72 64 64
 #else
 			rect			( -83 + COMPASSOFFSET ) -72 50 50
-#endif 
+#endif
 			forecolor		1 1 1 1
 			ownerdraw		CG_PLAYER_HEAT_VALUE_VERTICAL
 			visible			when  ( dvarInt(#"cg_hideWeaponHeat") == 0 && dvarBool( #"cg_drawWeaponHeatVertical" ) == 1 )
@@ -198,7 +198,7 @@
 		fullScreen		0
 		visible			1
 
-		itemDef 
+		itemDef
 		{
 			name			"chRect"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
@@ -214,17 +214,17 @@
 	}
 
 
-	menuDef 
+	menuDef
 	{
 		name			"deadscreen"
-		fullScreen		0				
+		fullScreen		0
 		rect			0 0 640 480
 		focusColor		COLOR_FOCUSED
 		soundloop		""
 		visible			1
-		
+
 		// Death quote
-		itemDef 
+		itemDef
 		{
 			name			quote
 			type			ITEM_TYPE_OWNERDRAW_TEXT
@@ -238,9 +238,9 @@
 			ownerdraw		CG_DEADQUOTE
 			forecolor		1 1 1 1
 			visible			1
-			decoration 
+			decoration
 		}
-		
+
 		itemDef
 		{
 			name			hud_grenadeicon
@@ -269,16 +269,16 @@
 			decoration
 		}
 	}
-	
+
 	// Hold breath zoom hint
-	menuDef 
+	menuDef
 	{
 		name			"HoldBreathZoomHint"
 		rect			0 -170 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_CENTER
 		fullScreen		0
 		visible when ( !adsjavelin() && !inkillcam() && NOT_SPECTATING );
 
-		itemDef 
+		itemDef
 		{
 			name			"chRect"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
@@ -293,14 +293,14 @@
 	}
 
 	// Hold breath hint
-	menuDef 
+	menuDef
 	{
 		name			"HoldBreathHint"
 		rect			0 -150 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_CENTER
 		fullScreen		0
 		visible when ( !adsjavelin() && !inkillcam() && NOT_SPECTATING );
 
-		itemDef 
+		itemDef
 		{
 			name			"chRect"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
@@ -313,16 +313,16 @@
 			decoration
 		}
 	}
-	
+
 	// Invalid cmd hint
-	menuDef 
+	menuDef
 	{
 		name			"InvalidCmdHint"
 		rect			0 -130 0 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
 		fullScreen		0
 		visible			1
 
-		itemDef 
+		itemDef
 		{
 			name			"chRect"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
@@ -335,16 +335,16 @@
 			decoration
 		}
 	}
-	
+
 	// Successful cmd hint
-	menuDef 
+	menuDef
 	{
 		name			"SuccessfulCmdHint"
 		rect			0 160 0 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
 		fullScreen		0
 		visible			1
 
-		itemDef 
+		itemDef
 		{
 			name			"chRect"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
@@ -357,8 +357,8 @@
 		}
 
 	}
-	
-	
+
+
 	// Vehicle hud
 	menuDef
 	{
@@ -366,7 +366,7 @@
  	   	rect			0 0 640 480 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
  	   	fullScreen		0
  	   	visible			1
-		
+
 		itemDef
 		{
 			name			"VehicleHudTargets"
@@ -396,7 +396,7 @@
 		rect			6 10 0 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
 		fullScreen		0
 		visible			1
-		
+
 		itemDef
 		{
 			origin				0 0
@@ -418,7 +418,7 @@
 		rect			0 180 0 0 HORIZONTAL_ALIGN_CENTER_SAFEAREA VERTICAL_ALIGN_TOP
 		fullScreen		0
 		visible			1
-		
+
 		itemDef
 		{
 			origin				0 0
@@ -439,7 +439,7 @@
 		rect			0 375 0 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
 		fullScreen		0
 		visible			1
-		
+
 		itemDef
 		{
 			origin				0 0
@@ -475,9 +475,9 @@
 	}
 
 #ifdef DEADSTUFF
-	
+
 	//	SPRINT
-	menuDef 
+	menuDef
 	{
 		name "sprintMeter"
 		fullScreen MENU_FALSE
@@ -485,7 +485,7 @@
 		rect 62 -15 40 10 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
 
 
-		itemDef 
+		itemDef
 		{
 			name "sprintRect"
 			type			ITEM_TYPE_OWNERDRAW
@@ -498,7 +498,7 @@
 			decoration
 		}
 
-		itemDef 
+		itemDef
 		{
 			name "sprintRect"
 			type			ITEM_TYPE_OWNERDRAW
@@ -510,11 +510,11 @@
 			decoration
 		}
 	}
-	
+
 	#define MINIMAP_ORIGIN 2 2
 	#define RECT_COMPASS	0 0 COMPASS_SIZE_MP COMPASS_SIZE_MP HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
 	#define FSM_VISIBILITY ( NOT_SPECTATING && ( dvarBool( #"cl_paused" ) == 0 ) && (dvarInt( #"g_gameskill" ) == 0) && dvarBool( #"cg_showZombieMap" ) && dvarBool( #"zombiemode" ) && !dvarBool( #"zombietron" ) )
-	
+
 	// Compass
 	menuDef
 	{
@@ -523,7 +523,7 @@
  	   	fullScreen		0
 		//visible when( !selecting_location() && !inkillcam() && !flashbanged() && !ui_active() && !scoped() && NOT_SPECTATING );
 		visible			when ( FSM_VISIBILITY );
- 
+
 		itemDef
 		{
 			name			"minimapBG"
@@ -696,17 +696,17 @@
 	}
 
 //	//	Tank status
-//	menuDef 
+//	menuDef
 //	{
 //		name			"tankstatus_cooperative"
 //#ifdef PC
-//		rect			120 -66 60 60 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM 
+//		rect			120 -66 60 60 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
 //#else
-//		rect			100 -66 60 60 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM 
+//		rect			100 -66 60 60 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
 //#endif
 //		fullScreen		0
 //		visible			when( !ui_active() && dvarBool( #"vehInfoHide" ) == 0 )
-//		itemDef 
+//		itemDef
 //		{
 //			name			"tankbody"
 //			type			ITEM_TYPE_OWNERDRAW
@@ -717,8 +717,8 @@
 //			visible			1
 //			decoration
 //		}
-//		
-//		itemDef 
+//
+//		itemDef
 //		{
 //			name			"tankbarrel"
 //			type			ITEM_TYPE_OWNERDRAW
@@ -732,17 +732,17 @@
 //	}
 //
 //
-//	menuDef 
+//	menuDef
 //	{
 //		name			"tankstatus_normal"
 //#ifdef PC
-//		rect			-120 -66 80 80 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM 
+//		rect			-120 -66 80 80 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
 //#else
-//		rect			-100 -66 80 80 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM 
+//		rect			-100 -66 80 80 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
 //#endif
 //		fullScreen		0
 //		visible			when( !ui_active() && !dvarbool( #"arcademode" ) )
-//		itemDef 
+//		itemDef
 //		{
 //			name			"tankbody"
 //			rect			0 0 60 60 // 64x64
@@ -752,8 +752,8 @@
 //			visible			1
 //			decoration
 //		}
-//		
-//		itemDef 
+//
+//		itemDef
 //		{
 //			name			"tankbarrel"
 //			rect			30 30 60 60 // 64x64

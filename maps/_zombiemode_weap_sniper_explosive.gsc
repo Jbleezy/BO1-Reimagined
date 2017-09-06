@@ -1,5 +1,5 @@
 #include maps\_utility; 
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_zombiemode_utility;
 
 #using_animtree( "generic_human" );
@@ -17,7 +17,7 @@ init()
 
 	maps\_zombiemode_spawner::register_zombie_death_animscript_callback( ::sniper_explosive_death_response );
 
-	level thread sniper_explosive_on_player_connect(); 
+	level thread sniper_explosive_on_player_connect();
 }
 
 
@@ -25,9 +25,9 @@ sniper_explosive_on_player_connect()
 {
 	for( ;; )
 	{
-		level waittill( "connecting", player ); 
+		level waittill( "connecting", player );
 		player thread wait_for_sniper_explosive_fired();
-		player thread watch_for_sniper_bolt(); 
+		player thread watch_for_sniper_bolt();
 		player thread disable_ads_while_reloading();
 	}
 }
@@ -36,12 +36,12 @@ sniper_explosive_on_player_connect()
 wait_for_sniper_explosive_fired()
 {
 	self endon( "disconnect" );
-	self waittill( "spawned_player" ); 
+	self waittill( "spawned_player" );
 
 	for( ;; )
 	{
-		self waittill( "weapon_fired" ); 
-		currentweapon = self GetCurrentWeapon(); 
+		self waittill( "weapon_fired" );
+		currentweapon = self GetCurrentWeapon();
 		if( ( currentweapon == "sniper_explosive_zm" ) || ( currentweapon == "sniper_explosive_upgraded_zm" ) )
 		{
 			self thread sniper_explosive_fired( currentweapon == "sniper_explosive_upgraded_zm" );
@@ -90,7 +90,7 @@ sniper_explosive_death_response()
 	}
 
 	self thread sniper_explosive_death_response_internal( self.attacker );
-	
+
 	return true;
 }
 
@@ -128,18 +128,18 @@ watch_for_sniper_bolt()
 {
     self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	for (;;)
 	{
 		self waittill ( "grenade_fire", grenade, weaponName, parent );
-		
+
 		switch( weaponName )
 		{
 			case "sniper_explosive_bolt_zm":
 			case "sniper_explosive_bolt_upgraded_zm":
 				self thread shooting_on_location_achievement_check( grenade, (GetWeaponFuseTime( weaponName ) / 1000) );
 				grenade thread ubersniper_bolt_audio();
-				
+
 				linked_ent = grenade GetLinkedEnt();
 				if( IsDefined( linked_ent ) && IsAI( linked_ent ) && is_true( linked_ent.is_zombie ) )
 				{
@@ -164,7 +164,7 @@ shooting_on_location_achievement_check( grenade, fusetime )
 	self.shooting_on_location_count = 0;
 	grenade waittill( "explode" );
 	wait( 0.2 );
-	
+
 	if ( self.shooting_on_location_count >= 10 )
 	{
 		self notify( "shooting_on_location_achieved" );

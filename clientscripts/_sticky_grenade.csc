@@ -64,6 +64,6 @@ loop_local_sound( localClientNum, alias, interval, fx ) // self == the grenade
 		if (interval < .05)
 		{
 			interval = .05;
-		}	
+		}
 	}
 }
