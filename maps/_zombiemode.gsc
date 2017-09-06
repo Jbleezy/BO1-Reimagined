@@ -253,8 +253,6 @@ post_all_players_connected()
 
 	level thread timer_hud();
 
-	level thread gamemode_hud();
-
 	level thread zombies_remaining_hud();
 
 	level thread sidequest_hud();
@@ -8302,55 +8300,10 @@ set_gamemode()
 		gamemodes = array("grief", "ffa", "snr", "ctf", "koth", "gg", "race", "turned");
 		gamemodes = array_randomize(gamemodes);
 		level.gamemode = gamemodes[RandomInt(gamemodes.size)];
+		SetDvar("zm_gamemode", level.gamemode); // Update the menu to display correct gamemode
 	}
 	else
 	{
 		level.gamemode = GetDvar("zm_gamemode");
-	}
-}
-
-gamemode_hud()
-{
-	flag_wait("all_players_connected");
-
-	name = "";
-
-	if(level.gamemode == "grief")
-	{
-		name = "Grief";
-	}
-	else if(level.gamemode == "ffa")
-	{
-		name = "Free-for-all Grief";
-	}
-	else if(level.gamemode == "snr")
-	{
-		name = "Search & Rezurrect";
-	}
-	else if(level.gamemode == "ctf")
-	{
-		name = "Capture";
-	}
-	else if(level.gamemode == "koth")
-	{
-		name = "King of the Hill";
-	}
-	else if(level.gamemode == "gg")
-	{
-		name = "Gun Game";
-	}
-	else if(level.gamemode == "race")
-	{
-		name = "Race";
-	}
-	else if(level.gamemode == "turned")
-	{
-		name = "Turned";
-	}
-
-	players = get_players();
-	for(i=0;i<players.size;i++)
-	{
-		players[i] SetClientDvar("zm_gamemode_name", name);
 	}
 }
