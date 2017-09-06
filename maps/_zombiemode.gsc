@@ -564,6 +564,7 @@ init_strings()
 	PrecacheString( &"REIMAGINED_WEAPONCOSTAMMO" );
 	PrecacheString( &"REIMAGINED_WEAPONCOSTAMMO_UPGRADE" );
 	PrecacheString( &"REIMAGINED_WEAPONCOSTAMMO_UPGRADE_HACKED" );
+	PrecacheString(&"REIMAGINED_MAGICBOX");
 
 	switch(ToLower(GetDvar(#"mapname")))
 	{
@@ -722,7 +723,7 @@ init_strings()
 
 	// Random Treasure Chest
 	add_zombie_hint( "default_treasure_chest_950", &"ZOMBIE_RANDOM_WEAPON_950" );
-	add_zombie_hint( "reimagined_treasure_chest_950", &"REIMAGINED_RANDOM_WEAPON_950" );
+	// add_zombie_hint( "reimagined_treasure_chest_950", &"REIMAGINED_RANDOM_WEAPON_950" );
 
 	// Barrier Pieces
 	add_zombie_hint( "default_buy_barrier_piece_10", &"ZOMBIE_BUTTON_BUY_BACK_BARRIER_10" );
@@ -776,7 +777,7 @@ init_strings()
 
 	// POWER UPS
 	add_zombie_hint( "powerup_fire_sale_cost", &"ZOMBIE_FIRE_SALE_COST" );
-	add_zombie_hint( "reimagined_random_weapon_fire_sale_cost", &"REIMAGINED_RANDOM_WEAPON_FIRE_SALE_COST" );
+	// add_zombie_hint( "reimagined_random_weapon_fire_sale_cost", &"REIMAGINED_RANDOM_WEAPON_FIRE_SALE_COST" );
 }
 
 init_sounds()
@@ -7903,6 +7904,8 @@ give_weapons_test()
 	self SwitchToWeapon(wep);
 
 	wait 5;
+
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "fire_sale", self.origin, true );
 
 	/*while(1)
 	{

@@ -28,11 +28,8 @@ LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to activate the Zipline"
 REFERENCE          	ZIPLINE_USE
 LANG_ENGLISH        "Hold ^3[{+activate}]^7 to activate the Zipline [Cost: &&1]"
 
-REFERENCE          	RANDOM_WEAPON_950
-LANG_ENGLISH        "Hold ^3[{+activate}]^7 for a Random Weapon [Cost: 950]"
-
-REFERENCE          	RANDOM_WEAPON_FIRE_SALE_COST
-LANG_ENGLISH        "Hold ^3[{+activate}]^7 for a Random Weapon [Cost: 10]"
+REFERENCE          	MAGICBOX
+LANG_ENGLISH        "Hold ^3[{+activate}]^7 to use Mystery Box [Cost: &&1]"
 
 REFERENCE          	TRADE_EQUIPMENT
 LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to trade Equipment"

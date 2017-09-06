@@ -1,4 +1,4 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
 #include maps\_zombiemode_audio;
@@ -1114,6 +1114,8 @@ default_pandora_show_func( anchor, anchorTarget, pieces )
 treasure_chest_think()
 {
 	self endon("kill_chest_think");
+	// Change to only use 1 hint string
+	/*
 	if( IsDefined(level.zombie_vars["zombie_powerup_fire_sale_on"]) && level.zombie_vars["zombie_powerup_fire_sale_on"] && self [[level._zombiemode_check_firesale_loc_valid_func]]())
 	{
 		self set_hint_string( self, "reimagined_random_weapon_fire_sale_cost" );
@@ -1122,6 +1124,9 @@ treasure_chest_think()
 	{
 		self set_hint_string( self, "reimagined_treasure_chest_" + self.zombie_cost );
 	}
+	*/
+	self SetHintString(&"REIMAGINED_MAGICBOX", self.zombie_cost);
+	// Wardog: End
 	self setCursorHint( "HINT_NOICON" );
 
 	// waittill someuses uses this
