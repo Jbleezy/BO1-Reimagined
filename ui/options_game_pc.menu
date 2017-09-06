@@ -260,23 +260,23 @@
 
 		POPUP_TITLE_VIS( 90 10 120 80, "INITIAL BOX LOCATIONS", when(dvarString("ui_options_game_pupup") == "initial_box_locations") )
 
-		CHOICE_DVARSTRINGLIST_VIS( 1, "KINO DER TOTEN", zombie_theater_initial_box_location,
+		CHOICE_DVARSTRINGLIST_VIS( 1, "@MENU_ZOMBIE_THEATER_CAPS", zombie_theater_initial_box_location,
 			{ "@MPUI_RANDOM_CAPS"; "random"; "CREMATORIUM"; "crematorium"; "VIP ROOM"; "start"; "ALLEYWAY"; "alleyway"; "DINING ROOM"; "dining"; "CONTROL ROOM"; "control"; "DRESSING ROOM"; "dressing"; "STAGE"; "stage"; "THEATER"; "theater" },
 			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
-		CHOICE_DVARSTRINGLIST_VIS( 2, "FIVE", zombie_pentagon_initial_box_location,
+		CHOICE_DVARSTRINGLIST_VIS( 2, "@MENU_ZOMBIE_PENTAGON_CAPS", zombie_pentagon_initial_box_location,
 			{ "@MPUI_RANDOM_CAPS"; "random"; "BOWIE ROOM"; "start_chest3"; "CLAYMORE ROOM"; "start_chest2"; "GRENADE ROOM"; "start_chest" },
 			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
-		CHOICE_DVARSTRINGLIST_VIS( 3, "CALL OF THE DEAD", zombie_coast_initial_box_location,
+		CHOICE_DVARSTRINGLIST_VIS( 3, "@MENU_ZOMBIE_COAST_CAPS", zombie_coast_initial_box_location,
 			{ "@MPUI_RANDOM_CAPS"; "random"; "RESIDENCE"; "residence"; "SHIPHOUSE"; "shiphouse"; "SHIP"; "start"; "LAGOON"; "lagoon"; "LIGHTHOUSE"; "lighthouse" },
 			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
-		CHOICE_DVARSTRINGLIST_VIS( 4, "SHANGRI-LA", zombie_temple_initial_box_location,
+		CHOICE_DVARSTRINGLIST_VIS( 4, "@MENU_ZOMBIE_TEMPLE_CAPS", zombie_temple_initial_box_location,
 			{ "@MPUI_RANDOM_CAPS"; "random"; "CAVES"; "caves1"; "WATERFALL"; "bridge" },
 			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
-		CHOICE_DVARSTRINGLIST_VIS( 5, "MOON", zombie_moon_initial_box_location,
+		CHOICE_DVARSTRINGLIST_VIS( 5, "@MENU_ZOMBIE_MOON_CAPS", zombie_moon_initial_box_location,
 			{ "@MPUI_RANDOM_CAPS"; "random"; "POWER AREA"; "start"; "BIODOME"; "forest"; "AK74U AREA"; "tower" },
 			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
