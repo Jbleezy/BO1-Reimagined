@@ -106,22 +106,22 @@
    		FRAME_CHOICE_DVARFLOATLIST_VIS( 23, "@MENU_MATURE_CAPS", cg_blood, { "@MENU_MATURE_UNRESTRICTED_CAPS" 1 "@MENU_MATURE_REDUCED_CAPS" 0 }, ;, ( dvarBool(cg_allow_mature) && !dvarBool(ui_multiplayer) && SHOW_MATURE ) )
 
    		FRAME_CHOICE_DVARFLOATLIST_VIS( 24, "@PLATFORM_FOV_CAPS", cg_fov_settings, { "65" 65 "70" 70 "75" 75 "80" 80 "85" 85 "90" 90 "95" 95 "100" 100 "105" 105 "110" 110 "115" 115 "120" 120 }, ;, 1 )
-   		FRAME_CHOICE_DVARSTRINGLIST_VIS( 25, "SHOW FPS", cg_drawFPS, { "@MENU_YES_CAPS"; "Simple"; "@MENU_NO_CAPS"; "Off" }, ;, 1)
-   		FRAME_CHOICE_DVARFLOATLIST_VIS( 26, "MAX FPS", com_maxfps, { "60" 60 "90" 90 "120" 120 "180" 180 "240" 240 "360" 360 "500" 500 "750" 750 "1000" 1000 "@MPUI_RULES_UNLIMITED_CAPS" 0 }, ;, 1 )
-   		FRAME_CHOICE_DVARYESNO_VIS( 27, "FOG", r_fog_settings, ;, 1) //setdvar r_fog dvarbool("r_fog_settings")
-		FRAME_CHOICE_DVARFLOATLIST_VIS( 28, "WEAPON CYCLE DELAY", cg_weaponCycleDelay, { "@MENU_YES_CAPS" 100 "@MENU_NO_CAPS" 0 }, ;, 1)
+   		FRAME_CHOICE_DVARSTRINGLIST_VIS( 25, "@REIMAGINED_SHOW_FPS", cg_drawFPS, { "@MENU_YES_CAPS"; "Simple"; "@MENU_NO_CAPS"; "Off" }, ;, 1)
+   		FRAME_CHOICE_DVARFLOATLIST_VIS( 26, "@REIMAGINED_MAX_FPS", com_maxfps, { "60" 60 "90" 90 "120" 120 "180" 180 "240" 240 "360" 360 "500" 500 "750" 750 "1000" 1000 "@MPUI_RULES_UNLIMITED_CAPS" 0 }, ;, 1 )
+   		FRAME_CHOICE_DVARYESNO_VIS( 27, "@REIMAGINED_FOG", r_fog_settings, ;, 1) //setdvar r_fog dvarbool("r_fog_settings")
+		FRAME_CHOICE_DVARFLOATLIST_VIS( 28, "@REIMAGINED_WEAPON_CYCLE_DELAY", cg_weaponCycleDelay, { "@MENU_YES_CAPS" 100 "@MENU_NO_CAPS" 0 }, ;, 1)
 
 		#undef	CHOICE_TEXT_COLOR_HL
 		#define	CHOICE_TEXT_COLOR_HL			0 0 0 1
-		FRAME_CHOICE_BUTTON_VIS( 29, "HUD OPTIONS", setdvar ui_options_game_pupup "hud_options"; open mature_content_pc_disable_warning, 1 )
+		FRAME_CHOICE_BUTTON_VIS( 29, "@REIMAGINED_HUD_OPTIONS", setdvar ui_options_game_pupup "hud_options"; open mature_content_pc_disable_warning, 1 )
 		#undef	CHOICE_TEXT_COLOR_HL
 		#define	CHOICE_TEXT_COLOR_HL			1 1 1 1
 
-		FRAME_CHOICE_SECTION_TITLE( 30, "HOST ONLY" )
+		FRAME_CHOICE_SECTION_TITLE( 30, "@REIMAGINED_HOST_ONLY" )
 
 		FRAME_CHOICE_DVARSTRINGLIST_VIS( 31, "@REIMAGINED_GAMEMODE_CAPS", zm_gamemode, { "@REIMAGINED_GAMEMODE_SURVIVAL_CAPS"; "survival"; "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_GAMEMODE_GRIEF_CAPS"; "grief"; "@REIMAGINED_GAMEMODE_FFA_CAPS"; "ffa"; "@REIMAGINED_GAMEMODE_SNR_CAPS"; "snr"; "@REIMAGINED_GAMEMODE_CTF_CAPS"; "ctf"; "@REIMAGINED_GAMEMODE_KOTH_CAPS"; "koth"; "@REIMAGINED_GAMEMODE_GG_CAPS"; "gg"; "@REIMAGINED_GAMEMODE_RACE_CAPS"; "race"; "@REIMAGINED_GAMEMODE_TURNED_CAPS"; "turned" }, ;, 1)
-		FRAME_CHOICE_DVARYESNO_VIS( 32, "CHARACTER DIALOG", character_dialog, ;, 1)
-		FRAME_CHOICE_DVARYESNO_VIS( 33, "MULE KICK", mule_kick_enabled, ;, 1)
+		FRAME_CHOICE_DVARYESNO_VIS( 32, "@REIMAGINED_CHAR_DIALOG", character_dialog, ;, 1)
+		FRAME_CHOICE_DVARYESNO_VIS( 33, "@REIMAGINED_ADDITIONAL_PRIMARY_WEAPON_CAPS", mule_kick_enabled, ;, 1)
 
 		/*FRAME_CHOICE_DVARSTRINGLIST_VIS( 33, "VERRUCKT: START ROOM", asylum_start_room, { "QUICK REVIVE SIDE"; "revive"; "JUGGERNOG SIDE"; "jug" }, ;, 1)
 
@@ -146,7 +146,7 @@
 		#undef	CHOICE_TEXT_COLOR_HL
 		#define	CHOICE_TEXT_COLOR_HL			0 0 0 1
 
-		FRAME_CHOICE_BUTTON_VIS( 34, "MAP SPECIFIC OPTIONS", setdvar ui_options_game_pupup "map_options"; open mature_content_pc_disable_warning, 1 )
+		FRAME_CHOICE_BUTTON_VIS( 34, "@REIMAGINED_MAP_SPECIFIC", setdvar ui_options_game_pupup "map_options"; open mature_content_pc_disable_warning, 1 )
 
 		FRAME_CHOICE_BUTTON_VIS( 35, "@REIMAGINED_INITIAL_MAGICBOX_CAPS", setdvar ui_options_game_pupup "initial_box_locations"; open mature_content_pc_disable_warning, 1 )
 
@@ -194,21 +194,21 @@
 
 		//HUD OPTIONS
 
-		POPUP_TITLE_VIS( 90 10 120 80, "HUD OPTIONS", when(dvarString("ui_options_game_pupup") == "hud_options") )
+		POPUP_TITLE_VIS( 90 10 120 80, "@REIMAGINED_HUD_OPTIONS", when(dvarString("ui_options_game_pupup") == "hud_options") )
 
-		CHOICE_DVARFLOATLIST_VIS( 2, "ZOMBIE COUNTER", hud_zombs_remaining_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
+		CHOICE_DVARFLOATLIST_VIS( 2, "@REIMAGINED_ZOMBIE_COUNTER", hud_zombs_remaining_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
 
-		CHOICE_DVARFLOATLIST_VIS( 3, "TIMER", hud_time_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
+		CHOICE_DVARFLOATLIST_VIS( 3, "@REIMAGINED_TIMER", hud_time_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
 
-		CHOICE_DVARFLOATLIST_VIS( 4, "ZONE NAMES", hud_zone_name_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
+		CHOICE_DVARFLOATLIST_VIS( 4, "@REIMAGINED_ZONE_NAMES", hud_zone_name_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
 
-		CHOICE_DVARFLOATLIST_VIS( 5, "CHARACTER NAMES", hud_playernames_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
+		CHOICE_DVARFLOATLIST_VIS( 5, "@REIMAGINED_CHAR_NAMES", hud_playernames_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_pupup") == "hud_options"))
 
 		//MAP SPECIFIC OPTIONS
 
-		POPUP_TITLE_VIS( 90 10 120 80, "MAP SPECIFIC OPTIONS", when(dvarString("ui_options_game_pupup") == "map_options") )
+		POPUP_TITLE_VIS( 90 10 120 80, "@REIMAGINED_MAP_SPECIFIC", when(dvarString("ui_options_game_pupup") == "map_options") )
 
-		CHOICE_DVARSTRINGLIST_VIS( 2, "VERRUCKT: START ROOM", asylum_start_room, { "QUICK REVIVE SIDE"; "revive"; "JUGGERNOG SIDE"; "jug" }, ;, when(dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 2, "@REIMAGINED_ZOMBIE_ASYLUM_SPAWN", asylum_start_room, { "@REIMAGINED_ZOMBIE_ASYLUM_SPAWN_QUICK_REVIVE"; "revive"; "@REIMAGINED_ZOMBIE_ASYLUM_SPAWN_ARMOR_VEST"; "jug" }, ;, when(dvarString("ui_options_game_pupup") == "map_options"))
 
 		CHOICE_DVARSTRINGLIST_VIS( 3, "@REIMAGINED_ZOMBIE_PENTAGON_DISABLE_WINDOW_1", zombie_pentagon_disabled_window1, {
 			"@MPUI_RANDOM_CAPS"; "random";
@@ -338,7 +338,7 @@
 			"@REIMAGINED_ZOMBIE_PENTAGON_DISABLE_WINDOW_HALLWAY_E"; "hallway_e"
 		}, ;, when(dvarString("zombie_pentagon_disabled_window1") == "hallway_w" && dvarString("ui_options_game_pupup") == "map_options"))
 
-		CHOICE_DVARSTRINGLIST_VIS( 5, "NO MAN'S LAND: START PERK", nml_start_perk, { "JUGGERNOG"; "jug"; "SPEED COLA"; "speed" }, ;, when(dvarString("ui_options_game_pupup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 5, "@REIMAGINED_ZOMBIE_MOON_NML_PERK", nml_start_perk, { "@REIMAGINED_ARMOR_VEST_CAPS"; "jug"; "@REIMAGINED_SLEIGHT_OF_HANDS_CAPS"; "speed" }, ;, when(dvarString("ui_options_game_pupup") == "map_options"))
 
 		//INITIAL BOX LOCATIONS
 
