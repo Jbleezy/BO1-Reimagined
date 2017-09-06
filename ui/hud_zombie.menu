@@ -6,6 +6,46 @@
 #define HUD_FOREGROUND_ALPHA 0.75
 #define DPAD_ICON_ALPHA 0.65
 
+// Wardog: Start - Define common items
+#define WDG_TIMER_TEXT_EX(nameArg, xArg, yArg, textArg, timerDvarArg, visArg, fontArg, textSizeArg, exArgs) \
+	itemDef \
+	{ \
+		name				nameArg \
+		type				ITEM_TYPE_TEXT \
+		rect 				xArg yArg 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_TOP \
+		exp					rect Y(yArg + ((FPS_ENABLED) * 18)) \
+		exp 				rect X(xArg - GetTextWidth(timerDvarArg, fontArg, textSizeArg)) \
+		forecolor			1 1 1 1 \
+		textscale			textSizeArg \
+		textstyle			ITEM_TEXTSTYLE_SHADOWED \
+		textfont			fontArg \
+		textalign			ITEM_ALIGN_TOP_RIGHT \
+		exp 				text(LocString(textArg)) \
+		visible				when(visArg) \
+		decoration \
+		exArgs \
+	} \
+	itemDef \
+	{ \
+		name				nameArg \
+		type				ITEM_TYPE_TEXT \
+		rect 				xArg yArg 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_TOP \
+		exp					rect Y(yArg + ((FPS_ENABLED) * 18)) \
+		forecolor			1 1 1 1 \
+		textscale			textSizeArg \
+		textstyle			ITEM_TEXTSTYLE_SHADOWED \
+		textfont			fontArg \
+		textalign			ITEM_ALIGN_TOP_RIGHT \
+		exp 				text(timerDvarArg) \
+		visible				when(visArg) \
+		decoration \
+		exArgs \
+	}
+
+#define WDG_TIMER_TEXT_VIS(nameArg, xArg, yArg, textArg, timerDvarArg, visArg) WDG_TIMER_TEXT_EX(nameArg, xArg, yArg, textArg, timerDvarArg, visArg, UI_FONT_NORMAL, TEXTSIZE_SMALL, ;)
+#define WDG_TIMER_TEXT(nameArg, xArg, yArg, textArg, timerDvarArg) WDG_TIMER_TEXT_VIS(nameArg, xArg, yArg, textArg, timerDvarArg, visArg, 1)
+// Wardog: End
+
 {
 	assetGlobalDef
 	{
@@ -13,12 +53,12 @@
 		fadeCycle		1					// how often fade happens in milliseconds
 		fadeAmount		0.1					// amount to adjust alpha per cycle
 	}
-	
+
 	#define WEAPINFO_X -97
 	#define WEAPINFO_Y -64
 
 	#define DPAD_BASE_SIZE_HALF_Y	-10
-	
+
 	#define DPAD_BG_WIDTH			92
 	#define DPAD_BG_WIDTH_DOUBLED	(DPAD_BG_WIDTH*2)
 	#define DPAD_BG_HEIGHT			92
@@ -39,7 +79,7 @@
 		#define BG_X_START		(WEAPINFO_X-90)
 		#define BG_Y_START		(WEAPINFO_Y+6)
 
-		// background		
+		// background
 		/*itemDef
 		{
 			type			ITEM_TYPE_OWNERDRAW
@@ -61,7 +101,7 @@
 			visible 		1
 			decoration
 		}
-		
+
 		itemDef
 		{
 			type			ITEM_TYPE_OWNERDRAW
@@ -118,10 +158,10 @@
 			background		"white"
 			ownerdraw		CG_PLAYER_WEAPON_BACKGROUND
 			forecolor		AMMO_COLOR 0.4
-			visible			when( isdualwield() ) 
+			visible			when( isdualwield() )
 			decoration
 		}
-		
+
 		itemDef
 		{
 			name			"clipLeft"
@@ -208,10 +248,10 @@
 			visible			when(!dvarBool("ui_show_mule_wep_color"))
 			decoration
 		}
-	
+
 		itemDef
 		{
-			name			"lowammowarning"	
+			name			"lowammowarning"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			rect			-100 -8 200 100 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_CENTER
 			textfont		UI_FONT_DEFAULT
@@ -225,7 +265,7 @@
 			decoration
 		}
 
-		
+
 		#define FADE_IN_COLOR_WHITE 1 1 1 1 // color to fade in to (RGBA)
 		#define FADE_OUT_COLOR_WHITE 1 1 1 0 // color to fade out to (RGBA)
 		#define FADE_IN_COLOR_RED .6 0 0 1 // color to fade in to (RGBA)
@@ -246,7 +286,7 @@
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_BOTTOM_LEFT
-			exp text 			(dvarString("zone_name"))
+			exp text 			(dvarString("zone_name")) // Does not need to be localized as GSC / CSC does it for use
 			visible				when( dvarBool( "hud_zone_name_on" ) )
 			decoration
 
@@ -272,13 +312,18 @@
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_LEFT
-			exp text 			("Zombies Remaining: " + dvarString("zombs_remaining"))
+			// Wardog: Start - Change to using a localized string
+			// exp text 			("Zombies Remaining: " + dvarString("zombs_remaining"))
+			exp 				text(LocString("REIMAGINED_ZOMBIES_REMAINING", DvarInt("zombs_remaining")))
+			// Wardog: End
 			visible				when( dvarBool( "hud_zombs_remaining_on" ) && !dvarBool( "in_nml" ) )
 			decoration
 		}
 
 		#define FPS_ENABLED dvarInt( cg_drawFPS ) == 1
 
+		// Wardog: Start - Change Total time to use 2 itemDef's
+		/*
 		itemDef
 		{
 			name				"hud_time"
@@ -294,12 +339,18 @@
 			visible				when( dvarBool( "hud_time_on" ) )
 			decoration
 		}
+		*/
+
+		WDG_TIMER_TEXT_VIS("hud_time", -4, 2, "REIMAGINED_TIME", DvarString("total_time"), DvarBool("hud_time_on"))
+		// Wardog: End
 
 		#undef FADE_IN_TIME // time in milliseconds to fade in for
 		#undef FADE_OUT_TIME
 		#define FADE_IN_TIME 1000 // time in milliseconds to fade in for
-		#define FADE_OUT_TIME 1000 // time in milliseconds to fade out for	
+		#define FADE_OUT_TIME 1000 // time in milliseconds to fade out for
 
+		// Wardog: Start - Change to use 2 itemDef's
+		/*
 		itemDef
 		{
 			name				"hud_round_time"
@@ -326,7 +377,29 @@
 				forecolor 		FADE_OUT_COLOR_WHITE
 			}
 		}
+		*/
 
+#ifdef WDG_TIMERT_TEXT_FADE_ARG
+	#undef WDG_TIMERT_TEXT_FADE_ARG
+#endif
+
+#define WDG_TIMERT_TEXT_FADE_ARG \
+	state \
+	{ \
+		name			"fadein" \
+		forecolor 		FADE_IN_COLOR_WHITE \
+	} \
+	state \
+	{ \
+		name 			"fadeout" \
+		forecolor 		FADE_OUT_COLOR_WHITE \
+	}
+
+		WDG_TIMER_TEXT_EX("hud_round_time", -4, 14, "REIMAGINED_ROUND_TIME", DvarString("round_time"), DvarBool("hud_time_on"), UI_FONT_NORMAL, TEXTSIZE_SMALL, WDG_TIMERT_TEXT_FADE_ARG)
+		// Wardog: End
+
+		// Wardog: Start - Change to use 2 itemDef's
+		/*
 		itemDef
 		{
 			name				"hud_round_total_time"
@@ -353,6 +426,29 @@
 				forecolor 		FADE_OUT_COLOR_WHITE
 			}
 		}
+		*/
+
+// Uncomment if you want to change how this fades
+/*
+#ifdef WDG_TIMERT_TEXT_FADE_ARG
+	#undef WDG_TIMERT_TEXT_FADE_ARG
+#endif
+
+#define WDG_TIMERT_TEXT_FADE_ARG \
+	state \
+	{ \
+		name			"fadein" \
+		forecolor 		FADE_IN_COLOR_WHITE \
+	} \
+	state \
+	{ \
+		name 			"fadeout" \
+		forecolor 		FADE_OUT_COLOR_WHITE \
+	}
+*/
+
+		WDG_TIMER_TEXT_EX("hud_round_total_time", -4, 26, "REIMAGINED_TOTAL_TIME", DvarString("round_total_time"), DvarBool("hud_time_on"), UI_FONT_NORMAL, TEXTSIZE_SMALL, WDG_TIMERT_TEXT_FADE_ARG)
+		// Wardog: End
 
 		itemDef
 		{
@@ -364,7 +460,7 @@
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_CENTER
-			exp text 			(dvarString("zm_gamemode_name"))
+			exp text 			(dvarString("zm_gamemode_name")) // Does not need to be localized as GSC / CSC does it for use
 			visible				1
 			decoration
 
@@ -390,7 +486,7 @@
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_CENTER
-			exp text 			(dvarString("sidequest_time"))
+			exp text 			(dvarString("sidequest_time")) // Does not need to be localized as GSC / CSC does it for use
 			visible				1
 			decoration
 
@@ -410,7 +506,7 @@
 		// please update with new flamethrower status icon
 		itemDef
 		{
-			name			"heatinfo"	
+			name			"heatinfo"
 			type			ITEM_TYPE_OWNERDRAW
 			rect			(WEAPINFO_X +116) (WEAPINFO_Y +15) 80 40
 			forecolor		1 1 1 1
@@ -420,14 +516,14 @@
 		}
 		#endif
 	}
-	
+
 	menuDef
 	{
 		name			"fueltankinfo"
 		rect			0 0 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_BOTTOM
 		fullScreen		0
 		visible			1
-		
+
 		itemDef
 		{
 			name			"heaticon"
@@ -466,11 +562,11 @@
  	   	rect			0 0 DPAD_BASE_SIZE DPAD_BASE_SIZE HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_BOTTOM
  	   	fullScreen		0
 		visible			when( dvarBool( #"ammoCounterHide" ) == 0 && dvarBool( #"hud_missionFailed" ) == 0 && dvarBool( #"actionSlotsHide" ) == 0 && (dvarString( #"createfx" ) != "on") && (dvarint( #"zombiemode" ) == 1 && dvarint( #"zombietron" ) == 0) && !dvarInt( #"splitscreen" ) );
-		
+
 		// DPAD BACKGROUND
 		itemDef
 		{
-			type			ITEM_TYPE_OWNERDRAW			
+			type			ITEM_TYPE_OWNERDRAW
             rect			DPAD_BG_X_START DPAD_BG_Y_START DPAD_BG_WIDTH DPAD_BG_HEIGHT
 			background		"hud_faction_back_light"
 			ownerdraw		CG_PLAYER_WEAPON_BACKGROUND
@@ -481,7 +577,7 @@
 
 		itemDef
         {
-			type			ITEM_TYPE_OWNERDRAW			
+			type			ITEM_TYPE_OWNERDRAW
             rect			DPAD_BG_X_START DPAD_BG_Y_START DPAD_BG_WIDTH DPAD_BG_HEIGHT
 			background		"hud_dpad_outer_frame"
 			ownerdraw		CG_PLAYER_WEAPON_BACKGROUND
@@ -489,10 +585,10 @@
 			visible			1
 			decoration
         }
-		
+
 		itemDef
         {
-			type			ITEM_TYPE_OWNERDRAW			
+			type			ITEM_TYPE_OWNERDRAW
             rect			DPAD_BG_X_START DPAD_BG_Y_START DPAD_BG_WIDTH DPAD_BG_HEIGHT
 			background		"hud_dpad_outer_frame_rim"
 			ownerdraw		CG_PLAYER_WEAPON_BACKGROUND
@@ -500,14 +596,14 @@
 			visible			1
 			decoration
         }
-		
+
 		// DPAD ITEM ICONS
 		itemDef // Up
         {
 			name			"slot1"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			rect			(DPAD_BG_X_START+(DPAD_BG_WIDTH/2)-(DPAD_BASE_SIZE/2)) (DPAD_BG_Y_START+5) DPAD_BASE_SIZE DPAD_BASE_SIZE
-			ownerdraw		CG_PLAYER_ACTIONSLOT_1		
+			ownerdraw		CG_PLAYER_ACTIONSLOT_1
 			forecolor		1 1 1 1
 			visible			1
 			decoration
@@ -521,7 +617,7 @@
 			name			"slot2"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			rect			(DPAD_BG_X_START+DPAD_BASE_SIZE+8) (DPAD_BG_Y_START+65) DPAD_BASE_SIZE_HALF DPAD_BASE_SIZE_HALF
-			ownerdraw		CG_PLAYER_ACTIONSLOT_2		
+			ownerdraw		CG_PLAYER_ACTIONSLOT_2
 			forecolor		1 1 1 1
 			visible			1
 			decoration
@@ -548,7 +644,7 @@
         {
             name			"slot4"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
-            rect			(DPAD_BG_X_START+DPAD_BG_WIDTH-DPAD_BASE_SIZE-5) (DPAD_BG_Y_START+(DPAD_BG_HEIGHT/2)-(DPAD_BASE_SIZE/2)) DPAD_BASE_SIZE DPAD_BASE_SIZE 
+            rect			(DPAD_BG_X_START+DPAD_BG_WIDTH-DPAD_BASE_SIZE-5) (DPAD_BG_Y_START+(DPAD_BG_HEIGHT/2)-(DPAD_BASE_SIZE/2)) DPAD_BASE_SIZE DPAD_BASE_SIZE
 			ownerdraw		CG_PLAYER_ACTIONSLOT_4
 			forecolor		1 1 1 1
 			visible			1
@@ -559,7 +655,7 @@
 			textfont		UI_FONT_NORMAL
         }
 
-#ifdef CONSOLE		
+#ifdef CONSOLE
 #define DPAD_ENABLED 1
 #else
 #define DPAD_ENABLED dvarbool( gpad_enabled ) == 1
@@ -569,7 +665,7 @@
 		itemDef
         {
 			type			ITEM_TYPE_OWNERDRAW
-			ownerdraw		CG_PLAYER_WEAPON_BACKGROUND		
+			ownerdraw		CG_PLAYER_WEAPON_BACKGROUND
 #ifdef PS3
 			background		"hud_dpad_ps3"
 #else
@@ -580,11 +676,11 @@
 			visible			when( DPAD_ENABLED )
 			decoration
         }
-		
+
 		itemDef
         {
 			type			ITEM_TYPE_OWNERDRAW
-			ownerdraw		CG_PLAYER_WEAPON_BACKGROUND		
+			ownerdraw		CG_PLAYER_WEAPON_BACKGROUND
 			background		"hud_dpad_overlay_x"
             rect			DPAD_BG_X_START DPAD_BG_Y_START DPAD_BG_WIDTH DPAD_BG_HEIGHT
             forecolor		1 1 1 0.5
@@ -595,7 +691,7 @@
 		itemDef
         {
 			type			ITEM_TYPE_OWNERDRAW
-			ownerdraw		CG_PLAYER_WEAPON_BACKGROUND		
+			ownerdraw		CG_PLAYER_WEAPON_BACKGROUND
 			background		"hud_dpad_overlay_circle"
             rect			DPAD_BG_X_START DPAD_BG_Y_START DPAD_BG_WIDTH DPAD_BG_HEIGHT
             forecolor		1 1 1 0.5
@@ -608,10 +704,10 @@
 		//RIGHT
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+20) (DPAD_BG_Y_START+33) (-26) 26  
+			rect			(DPAD_BG_X_START+20) (DPAD_BG_Y_START+33) (-26) 26
 			type			ITEM_TYPE_OWNERDRAW
 			ownerdraw		CG_PLAYER_ACTIONSLOT_ARROW_3
-			rect			(DPAD_BG_X_START+45) (DPAD_BG_Y_START+33) (-26) 26  
+			rect			(DPAD_BG_X_START+45) (DPAD_BG_Y_START+33) (-26) 26
 			background		"hud_frame_arrow_right"
 			forecolor		1 1 1 0.3
 			visible 		when( DPAD_ENABLED )
@@ -619,7 +715,7 @@
 		}
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+20) (DPAD_BG_Y_START+31) (-26) 26  
+			rect			(DPAD_BG_X_START+20) (DPAD_BG_Y_START+31) (-26) 26
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			ownerdraw		CG_PLAYER_ACTIONSLOT_BIND_3
 			exp text		( "[" + KeyBinding( "+actionslot 3" ) + "]" );
@@ -637,10 +733,10 @@
 		//LEFT
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+33) 26 26  
+			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+33) 26 26
 			type			ITEM_TYPE_OWNERDRAW
 			ownerdraw		CG_PLAYER_ACTIONSLOT_ARROW_4
-			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+33) 26 26  
+			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+33) 26 26
 			background		"hud_frame_arrow_right"
 			forecolor		1 1 1 0.3
 			visible 		when( DPAD_ENABLED )
@@ -648,7 +744,7 @@
 		}
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+31) 26 26  
+			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+31) 26 26
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			ownerdraw		CG_PLAYER_ACTIONSLOT_BIND_4
 			exp text		( "[" + KeyBinding( "+actionslot 4" ) + "]" );
@@ -666,10 +762,10 @@
 		//BOTTOM
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 (-26)  
+			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 (-26)
 			type			ITEM_TYPE_OWNERDRAW
 			ownerdraw		CG_PLAYER_ACTIONSLOT_ARROW_1
-			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 (-26)  
+			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 (-26)
 			background		"hud_frame_arrow"
 			forecolor		1 1 1 0.3
 			visible 		when( DPAD_ENABLED )
@@ -677,7 +773,7 @@
 		}
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+51) (DPAD_BG_Y_START+20) 26 26  
+			rect			(DPAD_BG_X_START+51) (DPAD_BG_Y_START+20) 26 26
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			ownerdraw		CG_PLAYER_ACTIONSLOT_BIND_1
 			exp text		( "[" + KeyBinding( "+actionslot 1" ) + "]" );
@@ -695,10 +791,10 @@
 		//TOP
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 26  
+			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 26
 			type			ITEM_TYPE_OWNERDRAW
 			ownerdraw		CG_PLAYER_ACTIONSLOT_ARROW_2
-			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 26  
+			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 26
 			background		"hud_frame_arrow"
 			forecolor		1 1 1 0.3
 			visible 		when( DPAD_ENABLED )
@@ -706,7 +802,7 @@
 		}
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+51) (DPAD_BG_Y_START+42) 26 26  
+			rect			(DPAD_BG_X_START+51) (DPAD_BG_Y_START+42) 26 26
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			ownerdraw		CG_PLAYER_ACTIONSLOT_BIND_2
 			exp text		( "[" + KeyBinding( "+actionslot 2" ) + "]" );
@@ -728,7 +824,7 @@
 		rect			-103 -102 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_BOTTOM
 		fullScreen		0
 		visible when 	( dvarBool( #"hud_missionFailed" ) == 0 && (dvarint( #"zombiemode" ) == 1 && dvarint( #"zombietron" ) == 0) && !dvarInt( #"splitscreen" ) );
-		
+
 		itemDef
 		{
 			name			"playerscores"
@@ -751,7 +847,7 @@
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_RIGHT
 			forecolor		1 1 1 .8
-			exp text		( dvarString( "hud_player_zm_name_white" ) )
+			exp text		( dvarString( "hud_player_zm_name_white" ) ) // Does not need to be localized as GSC / CSC does it for use
 			visible			when( dvarBool( "hud_player_zm_name_on_white" ) == 1 && dvarBool( "cl_paused" ) == 0 && dvarBool("hud_playernames_on") );
 			decoration
 		}
@@ -766,7 +862,7 @@
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_RIGHT
 			forecolor		0.486275 0.811765 0.933333 .8
-			exp text		( dvarString( "hud_player_zm_name_blue" ) )
+			exp text		( dvarString( "hud_player_zm_name_blue" ) ) // Does not need to be localized as GSC / CSC does it for use
 			visible			when( dvarBool( "hud_player_zm_name_on_blue" ) == 1 && dvarBool( "cl_paused" ) == 0 && dvarBool("hud_playernames_on") );
 			decoration
 		}
@@ -781,7 +877,7 @@
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_RIGHT
 			forecolor		0.964706 0.792157 0.313726 .8
-			exp text		( dvarString( "hud_player_zm_name_yellow" ) )
+			exp text		( dvarString( "hud_player_zm_name_yellow" ) ) // Does not need to be localized as GSC / CSC does it for use
 			visible			when( dvarBool( "hud_player_zm_name_on_yellow" ) == 1 && dvarBool( "cl_paused" ) == 0 && dvarBool("hud_playernames_on") );
 			decoration
 		}
@@ -796,7 +892,7 @@
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_RIGHT
 			forecolor		0.513726 0.92549 0.5333331 .8
-			exp text		( dvarString( "hud_player_zm_name_green" ) )
+			exp text		( dvarString( "hud_player_zm_name_green" ) ) // Does not need to be localized as GSC / CSC does it for use
 			visible			when( dvarBool( "hud_player_zm_name_on_green" ) == 1 && dvarBool( "cl_paused" ) == 0 && dvarBool("hud_playernames_on") );
 			decoration
 		}
@@ -816,6 +912,6 @@
 			rect			0 0 200 30
 			ownerdraw		CG_ZOMBIETRON_SCORES
 			visible			1
-		}		
-	}	
+		}
+	}
 }

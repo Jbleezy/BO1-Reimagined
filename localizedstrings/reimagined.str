@@ -68,12 +68,12 @@ REFERENCE          	ZOMBIES_REMAINING
 LANG_ENGLISH       	"Zombies Remaining: &&1"
 
 REFERENCE          	TIME
-LANG_ENGLISH       	"Time: &&1"
+LANG_ENGLISH       	"Time: "
 
 REFERENCE          	ROUND_TIME
-LANG_ENGLISH       	"Round Time: &&1"
+LANG_ENGLISH       	"Round Time: "
 
 REFERENCE          	TOTAL_TIME
-LANG_ENGLISH       	"Total Time: &&1"
+LANG_ENGLISH       	"Total Time: "
 
 ENDMARKER
