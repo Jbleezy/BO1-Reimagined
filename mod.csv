@@ -128,6 +128,7 @@ menufile,ui/hud_zombie.menu
 //WEAPONS
 weapon,sp/m16_zm
 weapon,sp/m16_gl_upgraded_zm
+weapon,sp/gl_m16_upgraded_zm
 weapon,sp/famas_zm
 weapon,sp/famas_upgraded_zm
 weapon,sp/spectre_zm
@@ -172,6 +173,7 @@ weapon,sp/combat_bowie_knife_zm
 weapon,sp/combat_sickle_knife_zm
 weapon,sp/rottweil72_upgraded_zm
 weapon,sp/zombie_bullet_crouch
+weapon,sp/mk_aug_upgraded_zm
 
 //SOUNDS
 sound,new_weapons

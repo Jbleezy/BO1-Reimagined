@@ -273,7 +273,7 @@
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_LEFT
 			exp text 			("Zombies Remaining: " + dvarString("zombs_remaining"))
-			visible				when( dvarBool( "hud_zombs_remaining_on" ) )
+			visible				when( dvarBool( "hud_zombs_remaining_on" ) && !dvarBool( "in_nml" ) )
 			decoration
 		}
 

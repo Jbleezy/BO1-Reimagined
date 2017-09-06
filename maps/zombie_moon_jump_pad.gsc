@@ -110,8 +110,8 @@ moon_low_gravity_velocity( ent_start_point, struct_end_point )
 	fling_this_way = undefined;
 	
 	world_gravity = GetDvarInt( "bg_gravity" ); // 800;
-	gravity_pulls = 13.3 * -1; // this is gravity divided by the amount of frames in a second (800/60).
-	top_velocity_sq = 900 * 900;
+	//gravity_pulls = 13.3 * -1; // this is gravity divided by the amount of frames in a second (800/60).
+	//top_velocity_sq = 900 * 900;
 	forward_scaling = 1.0;
 	
 	end_spot = struct_end_point.origin;
@@ -235,9 +235,9 @@ moon_vertical_jump( ent_start_point, struct_end_point )
 	fling_this_way = undefined;
 	
 	world_gravity = GetDvarInt( "bg_gravity" ); // 800;
-	gravity_pulls = 13.3 * -1; // this is gravity divided by the amount of frames in a second (800/60).
-	top_velocity_sq = 900 * 900;
-	forward_scaling = 0.9;
+	//gravity_pulls = 13.3 * -1; // this is gravity divided by the amount of frames in a second (800/60).
+	//top_velocity_sq = 900 * 900;
+	//forward_scaling = 0.9;
 	//end_random_scale = ( RandomFloatRange( -1, 1 ), RandomFloatRange( -1, 1 ), 0 );
 	
 	//vel_random = ( RandomIntRange( 2, 6 ), RandomIntRange( 2, 6 ), 0 );

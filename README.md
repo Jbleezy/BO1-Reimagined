@@ -112,6 +112,9 @@
 ### Ak74u
 * Upgraded: fixed fire sound
 
+### AUG
+* Upgraded: added name of weapon attachment
+
 ### Ballistic Knife
 * Knives pick up automatically when close to them
 
@@ -160,6 +163,10 @@
 
 ### M16
 * Unupgraded: Increased stock ammo from 120 to 150
+* Upgraded: decreased grenade launcher attchment explosion radius by 36%
+* Upgraded: increased grenade launcher attchment max damage from 400 to 1500
+* Upgraded: increased grenade launcher attchment min damage from 75 to 500
+* Upgraded: added name of weapon attachment
 
 ### M1911
 * Upgraded: impact damage - 2500, max explosion damage - 2500, min explosion damage - 1000
@@ -267,6 +274,7 @@
 
 #### P.E.S.
 * If a player has the P.E.S. suit on while taking a different piece of equipment, the player only loses their helmet when taking the equipment (keep the rest of the suit)
+* Fixed a bug where players were able to get no weapon in their hand by pressing the gas mask button repeatedly
 
 #### Semtex
 * Now cost 250 points to buy (previously costed 130 points after first buy)
@@ -580,7 +588,7 @@
 * Fixed a bug that caused the amount of zombies on round 1 to be the amount of zombies that should be on round 2
 * Teleporter gate doesn't start going down until power is on
 * When Tunnel 6 or Tunnel 11 are breached from an excavator, the areas with doors closed to the excavator will not get breached until the doors are opened
-* Jump pad in Receiving Bay now only pushes the player upwards
+* Jump pad in Receiving Bay now only pushes players upwards
 * Excavator sounds no longer linked to FPS
 * Teleporter sounds no longer linked to FPS
  
@@ -639,6 +647,8 @@
 * Fix weapon order being changed
 * Verruckt: fix zombie pathing at speed slightly more
 * Change all strings to localized strings
+* Add NML round number in place of round number
+* Check things with QED weapon powerups
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -649,8 +659,6 @@
 * Ascension: double tap obtainable from free perk powerup?
 * Shangri-La: should mud pit sidequest step need the radio to be activated to work?
 * Moon: should teleporter gate start going down before power is on?
-* Should Skullcrusher grenade launcher be named "Grenade Launcher"?
-* Should shotgun attachment on upgraded AUG have its name changed?
 * Should zombies not double swipe if player doesnt have jug?
 * Should there be a zombie spawn delay?
 

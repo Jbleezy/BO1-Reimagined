@@ -43,4 +43,37 @@ LANG_ENGLISH       	"Why are you trying to activate the trap before the bridge i
 REFERENCE          	DOOR_CLOSED
 LANG_ENGLISH       	"The door must be opened"
 
+REFERENCE          	AK47_UPGRADED
+LANG_ENGLISH       	"The Red Mist"
+
+REFERENCE          	PSG1_UPGRADED
+LANG_ENGLISH       	"Psycho Sexy Genius 115"
+
+REFERENCE          	PPSH_UPGRADED
+LANG_ENGLISH       	"The Reaper"
+
+REFERENCE          	STONER63_UPGRADED
+LANG_ENGLISH       	"Stoned420"
+
+REFERENCE          	COMBAT_KNIFE
+LANG_ENGLISH       	"Combat Knife"
+
+REFERENCE          	BOWIE_KNIFE
+LANG_ENGLISH       	"Bowie Knife"
+
+REFERENCE          	SICKLE_KNIFE
+LANG_ENGLISH       	"Sickle"
+
+REFERENCE          	ZOMBIES_REMAINING
+LANG_ENGLISH       	"Zombies Remaining: &&1"
+
+REFERENCE          	TIME
+LANG_ENGLISH       	"Time: &&1"
+
+REFERENCE          	ROUND_TIME
+LANG_ENGLISH       	"Round Time: &&1"
+
+REFERENCE          	TOTAL_TIME
+LANG_ENGLISH       	"Total Time: &&1"
+
 ENDMARKER

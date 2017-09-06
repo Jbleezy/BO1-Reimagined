@@ -4588,6 +4588,8 @@ do_zombie_rise()
 		spots = GetStructArray("zombie_rise", "targetname");
 	}
 
+	spot = undefined;
+
 	if( spots.size < 1 )
 	{
 		return;
@@ -4655,6 +4657,14 @@ do_zombie_rise()
 		anim_org = anim_org + (0, 0, -45);	// start the animation 45 units below the ground
 	}
 
+	anim_ang = spot.angles;
+	target_org = get_desired_origin();
+	if (IsDefined(target_org))
+	{
+		anim_ang = VectorToAngles(target_org - self.origin);
+	}
+
+	//classic maps need the anchor apparently, or else they fall out the map
 	if(IsSubStr(level.script, "zombie_cod5"))
 	{
 		if( !isDefined( spot.angles ) )
@@ -4669,7 +4679,7 @@ do_zombie_rise()
 		self linkto(self.anchor);
 		self.anchor MoveTo(anim_org, .05);
 		self.anchor waittill("movedone");
-		target_org = maps\_zombiemode_spawner::get_desired_origin();
+		target_org = get_desired_origin();
 		if (IsDefined(target_org))
 		{
 			anim_ang = VectorToAngles(target_org - self.origin);
@@ -4692,7 +4702,7 @@ do_zombie_rise()
 		self.zombie_rise_version = 1;
 	}
 
-	self AnimScripted("rise", anim_org, spot.angles, self get_rise_anim());
+	self AnimScripted("rise", anim_org, anim_ang, self get_rise_anim());
 	self animscripts\zombie_shared::DoNoteTracks("rise", ::handle_rise_notetracks, undefined, spot);
 
 	self notify("rise_anim_finished");

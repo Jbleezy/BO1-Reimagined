@@ -7426,16 +7426,24 @@ zombies_remaining_hud()
 		players = get_players();
 		if(flag("enter_nml"))
 		{
-			if(GetDvar("zombs_remaining") != "")
+			if(!GetDvar("in_nml"))
 			{
 				for(i=0;i<players.size;i++)
 				{
-					players[i] SetClientDvar("zombs_remaining", "");
+					players[i] SetClientDvar("in_nml", true);
 				}
 			}
 		}
 		else
 		{
+			if(GetDvar("in_nml"))
+			{
+				for(i=0;i<players.size;i++)
+				{
+					players[i] SetClientDvar("in_nml", false);
+				}
+			}
+
 			zombs = level.zombie_total + get_enemy_count();
 			if(zombs == 0)
 			{
@@ -8237,15 +8245,15 @@ give_weapons_test()
 	//wep = "freezegun_zm";
 	//wep = "thundergun_zm";
 	//wep = "sniper_explosive_zm";
-	wep = "microwavegundw_zm";
+	wep = "ak47_zm";
 	self GiveWeapon(wep);
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
 	self SwitchToWeapon(wep);
 
-	/*wait 5;
+	wait 5;
 
-	while(1)
+	/*while(1)
 	{
 		level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", self.origin, true );
 
