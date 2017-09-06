@@ -258,31 +258,52 @@
 
 		//INITIAL BOX LOCATIONS
 
-		POPUP_TITLE_VIS( 90 10 120 80, "INITIAL BOX LOCATIONS", when(dvarString("ui_options_game_pupup") == "initial_box_locations") )
+		POPUP_TITLE_VIS( 90 10 120 80, "@REIMAGINED_INITIAL_MAGICBOX_CAPS", when(dvarString("ui_options_game_pupup") == "initial_box_locations") )
 
-		CHOICE_DVARSTRINGLIST_VIS( 1, "@MENU_ZOMBIE_THEATER_CAPS", zombie_theater_initial_box_location,
-			{ "@MPUI_RANDOM_CAPS"; "random"; "CREMATORIUM"; "crematorium"; "VIP ROOM"; "start"; "ALLEYWAY"; "alleyway"; "DINING ROOM"; "dining"; "CONTROL ROOM"; "control"; "DRESSING ROOM"; "dressing"; "STAGE"; "stage"; "THEATER"; "theater" },
-			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
+		CHOICE_DVARSTRINGLIST_VIS( 1, "@MENU_ZOMBIE_THEATER_CAPS", zombie_theater_initial_box_location, {
+			"@MPUI_RANDOM_CAPS"; "random";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_THEATER_CREMATORIUM"; "crematorium";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_THEATER_START"; "start";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_THEATER_ALLEYWAY"; "alleyway";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_THEATER_DINING"; "dining";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_THEATER_CONTROL"; "control";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_THEATER_DRESSING"; "dressing";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_THEATER_STAGE"; "stage";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_THEATER_THEATER"; "theater"
+		}, ;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
-		CHOICE_DVARSTRINGLIST_VIS( 2, "@MENU_ZOMBIE_PENTAGON_CAPS", zombie_pentagon_initial_box_location,
-			{ "@MPUI_RANDOM_CAPS"; "random"; "BOWIE ROOM"; "start_chest3"; "CLAYMORE ROOM"; "start_chest2"; "GRENADE ROOM"; "start_chest" },
-			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
+		CHOICE_DVARSTRINGLIST_VIS( 2, "@MENU_ZOMBIE_PENTAGON_CAPS", zombie_pentagon_initial_box_location, {
+			"@MPUI_RANDOM_CAPS"; "random";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_PENTAGON_START3"; "start_chest3";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_PENTAGON_START2"; "start_chest2";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_PENTAGON_START"; "start_chest"
+		}, ;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
-		CHOICE_DVARSTRINGLIST_VIS( 3, "@MENU_ZOMBIE_COAST_CAPS", zombie_coast_initial_box_location,
-			{ "@MPUI_RANDOM_CAPS"; "random"; "RESIDENCE"; "residence"; "SHIPHOUSE"; "shiphouse"; "SHIP"; "start"; "LAGOON"; "lagoon"; "LIGHTHOUSE"; "lighthouse" },
-			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
+		CHOICE_DVARSTRINGLIST_VIS( 3, "@MENU_ZOMBIE_COAST_CAPS", zombie_coast_initial_box_location, {
+			"@MPUI_RANDOM_CAPS"; "random";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_COAST_RESIDENCE"; "residence";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_COAST_SHIPHOUSE"; "shiphouse";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_COAST_START"; "start";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_COAST_LAGOON"; "lagoon";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_COAST_LIGHTHOUSE"; "lighthouse"
+		}, ;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
-		CHOICE_DVARSTRINGLIST_VIS( 4, "@MENU_ZOMBIE_TEMPLE_CAPS", zombie_temple_initial_box_location,
-			{ "@MPUI_RANDOM_CAPS"; "random"; "CAVES"; "caves1"; "WATERFALL"; "bridge" },
-			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
+		CHOICE_DVARSTRINGLIST_VIS( 4, "@MENU_ZOMBIE_TEMPLE_CAPS", zombie_temple_initial_box_location, {
+			"@MPUI_RANDOM_CAPS"; "random";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_TEMPLE_CAVES1"; "caves1";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_TEMPLE_BRIDGE"; "bridge"
+		}, ;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
-		CHOICE_DVARSTRINGLIST_VIS( 5, "@MENU_ZOMBIE_MOON_CAPS", zombie_moon_initial_box_location,
-			{ "@MPUI_RANDOM_CAPS"; "random"; "POWER AREA"; "start"; "BIODOME"; "forest"; "AK74U AREA"; "tower" },
-			;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
+		CHOICE_DVARSTRINGLIST_VIS( 5, "@MENU_ZOMBIE_MOON_CAPS", zombie_moon_initial_box_location, {
+			"@MPUI_RANDOM_CAPS"; "random";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_MOON_START"; "start";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_MOON_FOREST"; "forest";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_MOON_TOWER"; "tower"
+		}, ;, when(dvarString("ui_options_game_pupup") == "initial_box_locations"))
 
 		#undef CHOICE_TEXT_OFFSET_X
 		#define CHOICE_TEXT_OFFSET_X		-58
 
-		CHOICE_BUTTON_VIS( 6, "OKAY", close self, 1 )
+		CHOICE_BUTTON_VIS( 6, "@MENU_OK_CAPS", close self, 1 )
 	}
 }
