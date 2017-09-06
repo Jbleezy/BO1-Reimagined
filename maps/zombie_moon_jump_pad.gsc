@@ -238,15 +238,15 @@ moon_vertical_jump( ent_start_point, struct_end_point )
 	gravity_pulls = 13.3 * -1; // this is gravity divided by the amount of frames in a second (800/60).
 	top_velocity_sq = 900 * 900;
 	forward_scaling = 0.9;
-	end_random_scale = ( RandomFloatRange( -1, 1 ), RandomFloatRange( -1, 1 ), 0 );
+	//end_random_scale = ( RandomFloatRange( -1, 1 ), RandomFloatRange( -1, 1 ), 0 );
 	
-	vel_random = ( RandomIntRange( 2, 6 ), RandomIntRange( 2, 6 ), 0 );
+	//vel_random = ( RandomIntRange( 2, 6 ), RandomIntRange( 2, 6 ), 0 );
 	
 	// distance
 	pad_dist = Distance( start_point.origin, end_point.origin );
 
 	// velocity from all dimensions
-	jump_velocity = end_point.origin - start_point.origin;
+	//jump_velocity = end_point.origin - start_point.origin;
 	
 	// get the z distance only
 	z_dist = end_point.origin[2] - start_point.origin[2];
@@ -279,14 +279,14 @@ moon_vertical_jump( ent_start_point, struct_end_point )
 	}
 	
 	// velocity
-	x = jump_velocity[0] * forward_scaling / jump_time;
-	y = jump_velocity[1] * forward_scaling / jump_time;
+	//x = jump_velocity[0] * forward_scaling / jump_time;
+	//y = jump_velocity[1] * forward_scaling / jump_time;
 	z = z_velocity / jump_time;
 	
-	fling_vel = ( x, y, z ) + vel_random;
+	//fling_vel = ( x, y, z ) + vel_random;
 	
 	// final vector
-	fling_this_way = ( x, y, z );
+	fling_this_way = ( 0, 0, z );
 	
 	jump_info = [];
 	jump_info[0] = fling_this_way;

@@ -4079,7 +4079,7 @@ round_think()
 {
 	for( ;; )
 	{
-		//level.round_number = 100;
+		level.round_number = 100;
 		level.zombie_vars["zombie_spawn_delay"] = .08;
 		level.zombie_move_speed = 100;
 
@@ -8236,20 +8236,21 @@ give_weapons_test()
 {
 	//wep = "freezegun_zm";
 	//wep = "thundergun_zm";
-	wep = "sniper_explosive_zm";
+	//wep = "sniper_explosive_zm";
+	wep = "microwavegundw_zm";
 	self GiveWeapon(wep);
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
 	self SwitchToWeapon(wep);
 
-	wait 5;
+	/*wait 5;
 
 	while(1)
 	{
 		level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", self.origin, true );
 
 		wait 30;
-	}
+	}*/
 }
 
 //removes idle sway on sniper scopes

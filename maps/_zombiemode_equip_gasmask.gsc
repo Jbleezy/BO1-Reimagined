@@ -118,10 +118,20 @@ gasmask_activation_watcher_thread()
 	while(1)
 	{
 		self waittill_either("equip_gasmask_zm_activate", "equip_gasmask_zm_deactivate");
+
+		has_fastswitch = self HasPerk("specialty_fastswitch");
+		if(has_fastswitch)
+		{
+			self UnSetPerk("specialty_fastswitch");
+		}
 		
 		if(self maps\_zombiemode_equipment::is_equipment_active("equip_gasmask_zm"))
 		{
 			self increment_is_drinking();
+
+			self TakeWeapon("equip_gasmask_zm");
+			self GiveWeapon("equip_gasmask_zm");
+			self SwitchToWeapon("equip_gasmask_zm");
 
 			// clear the actionslot during the anim to prevent the player breaking the anims by spamming the dpad 
 			self SetActionSlot( 1, "" );
@@ -141,6 +151,9 @@ gasmask_activation_watcher_thread()
 
 			//wait(2.1);
 			clientnotify( "gmsk2" );
+
+			wait .05;
+
 			self waittill( "weapon_change_complete" );
 
 			// Start overlay on client.
@@ -152,6 +165,10 @@ gasmask_activation_watcher_thread()
 		else
 		{
 			self increment_is_drinking();
+
+			self TakeWeapon("equip_gasmask_zm");
+			self GiveWeapon("lower_equip_gasmask_zm");
+			self SwitchToWeapon("lower_equip_gasmask_zm");
 
 			// clear the actionslot during the anim to prevent the player breaking the anims by spamming the dpad 
 			self SetActionSlot( 1, "" );
@@ -169,9 +186,6 @@ gasmask_activation_watcher_thread()
 				self [[level.zombiemode_gasmask_change_player_headmodel]]( ent_num, false );
 			}
 
-			self TakeWeapon("equip_gasmask_zm");
-			self GiveWeapon("lower_equip_gasmask_zm");
-			self SwitchToWeapon("lower_equip_gasmask_zm");
 			wait(0.05);
 			self clearclientflag(level._CF_PLAYER_GASMASK_OVERLAY);
 			self waittill( "weapon_change_complete" );
@@ -225,6 +239,11 @@ gasmask_activation_watcher_thread()
 		if ( !self maps\_laststand::player_is_in_laststand() && !is_true( self.intermission ) )
 		{
 			self decrement_is_drinking();
+
+			if(has_fastswitch)
+			{
+				self SetPerk("specialty_fastswitch");
+			}
 		}
 
 		self notify("equipment_select_response_done");

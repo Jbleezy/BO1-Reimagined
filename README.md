@@ -23,7 +23,7 @@
 * Pack-a-Punch camo now displays on Mustang & Sally when downed in solo
 * Fixed a bug where two or more players could trigger a door that has multiple triggers at the same time and both pay to open the door
 * Chracters no longer make hurt sounds if you have Flopper and an explosion happens that would have hurt you
-* Having too many weapons penalty has been changed to only take the weapon that the player shouldnt have (previously took all weapons and points)
+* Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
 * If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
 * Players can now dolphin dive again right away after just dolphin diving
 * Players can now move after dolphin diving quicker
@@ -580,6 +580,7 @@
 * Fixed a bug that caused the amount of zombies on round 1 to be the amount of zombies that should be on round 2
 * Teleporter gate doesn't start going down until power is on
 * When Tunnel 6 or Tunnel 11 are breached from an excavator, the areas with doors closed to the excavator will not get breached until the doors are opened
+* Jump pad in Receiving Bay now only pushes the player upwards
 * Excavator sounds no longer linked to FPS
 * Teleporter sounds no longer linked to FPS
  
