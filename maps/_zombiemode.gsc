@@ -8044,39 +8044,15 @@ character_names_on_hud()
 	players = get_players();
 	for ( j = 0; j < players.size; j++ )
 	{
-		name = undefined;
-		if(level.script == "zombie_pentagon")
-		{
-			if(players[j].entity_num == 0)
-				name = "Kennedy";
-			else if(players[j].entity_num == 1)
-				name = "McNamara";
-			else if(players[j].entity_num == 2)
-				name = "Nixon";
-			else if(players[j].entity_num == 3)
-				name = "Castro";
-		}
-		else if(level.script == "zombie_coast")
-		{
-			if(players[j].entity_num == 0)
-				name = "Sarah";
-			else if(players[j].entity_num == 1)
-				name = "Robert";
-			else if(players[j].entity_num == 2)
-				name = "Danny";
-			else if(players[j].entity_num == 3)
-				name = "Michael";
-		}
+		// Allow custom maps to override this logic
+		if(isdefined(level._zombiemode_get_player_name_string))
+			name = players[j] [[level._zombiemode_get_player_name_string]](players[j].entity_num);
 		else
 		{
-			if(players[j].entity_num == 0)
-				name = "Dempsey";
-			else if(players[j].entity_num == 1)
-				name = "Nikolai";
-			else if(players[j].entity_num == 2)
-				name = "Takeo";
-			else if(players[j].entity_num == 3)
-				name = "Richtofen";
+			if(level.script == "zombie_pentagon" || level.script == "zombie_coast")
+				name = "REIMAGINED_" + level.script + "_player_name_" + players[j].entity_num;
+			else
+				name = "REIMAGINED_ZOMBIE_THEATER_player_name_" + players[j].entity_num; // Commonly use Kino mames
 		}
 
 		if(IsDefined(name))
