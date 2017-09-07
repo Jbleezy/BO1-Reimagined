@@ -6,15 +6,14 @@
 #define HUD_FOREGROUND_ALPHA 0.75
 #define DPAD_ICON_ALPHA 0.65
 
-// Wardog: Start - Define common items
-#define WDG_TIMER_TEXT_EX(nameArg, xArg, yArg, textArg, timerDvarArg, visArg, fontArg, textSizeArg, exArgs) \
+#define TIMER_TEXT_EX(nameArg, xArg, yArg, textArg, dvarArg, visArg, fontArg, textSizeArg, exArgs) \
 	itemDef \
 	{ \
 		name				nameArg \
 		type				ITEM_TYPE_TEXT \
 		rect 				xArg yArg 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_TOP \
 		exp					rect Y(yArg + ((FPS_ENABLED) * 18)) \
-		exp 				rect X(xArg - GetTextWidth(timerDvarArg, fontArg, textSizeArg)) \
+		exp 				rect X(xArg - GetTextWidth(dvarArg, fontArg, textSizeArg)) \
 		forecolor			1 1 1 1 \
 		textscale			textSizeArg \
 		textstyle			ITEM_TEXTSTYLE_SHADOWED \
@@ -36,15 +35,50 @@
 		textstyle			ITEM_TEXTSTYLE_SHADOWED \
 		textfont			fontArg \
 		textalign			ITEM_ALIGN_TOP_RIGHT \
-		exp 				text(timerDvarArg) \
+		exp 				text(dvarArg) \
 		visible				when(visArg) \
 		decoration \
 		exArgs \
 	}
 
-#define WDG_TIMER_TEXT_VIS(nameArg, xArg, yArg, textArg, timerDvarArg, visArg) WDG_TIMER_TEXT_EX(nameArg, xArg, yArg, textArg, timerDvarArg, visArg, UI_FONT_NORMAL, TEXTSIZE_SMALL, ;)
-#define WDG_TIMER_TEXT(nameArg, xArg, yArg, textArg, timerDvarArg) WDG_TIMER_TEXT_VIS(nameArg, xArg, yArg, textArg, timerDvarArg, visArg, 1)
-// Wardog: End
+#define ZOMBIE_COUNTER_TEXT_EX(nameArg, xArg, yArg, textArg, dvarArg, visArg, fontArg, textSizeArg, exArgs) \
+	itemDef \
+	{ \
+		name				nameArg \
+		type				ITEM_TYPE_TEXT \
+		rect 				xArg yArg 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_TOP \
+		forecolor			1 1 1 1 \
+		textscale			textSizeArg \
+		textstyle			ITEM_TEXTSTYLE_SHADOWED \
+		textfont			fontArg \
+		textalign			ITEM_ALIGN_TOP_LEFT \
+		exp 				text(LocString(textArg)) \
+		visible				when(visArg) \
+		decoration \
+		exArgs \
+	} \
+	itemDef \
+	{ \
+		name				nameArg \
+		type				ITEM_TYPE_TEXT \
+		rect 				xArg yArg 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_TOP \
+		exp 				rect X(xArg + GetTextWidth(LocString(textArg), fontArg, textSizeArg)) \
+		forecolor			1 1 1 1 \
+		textscale			textSizeArg \
+		textstyle			ITEM_TEXTSTYLE_SHADOWED \
+		textfont			fontArg \
+		textalign			ITEM_ALIGN_TOP_LEFT \
+		exp 				text(dvarArg) \
+		visible				when(visArg) \
+		decoration \
+		exArgs \
+	}
+
+#define TIMER_TEXT_VIS(nameArg, xArg, yArg, textArg, dvarArg, visArg) TIMER_TEXT_EX(nameArg, xArg, yArg, textArg, dvarArg, visArg, UI_FONT_NORMAL, TEXTSIZE_SMALL, ;)
+#define TIMER_TEXT(nameArg, xArg, yArg, textArg, dvarArg) TIMER_TEXT_VIS(nameArg, xArg, yArg, textArg, dvarArg, visArg, 1)
+
+#define ZOMBIE_COUNTER_TEXT_VIS(nameArg, xArg, yArg, textArg, dvarArg, visArg) ZOMBIE_COUNTER_TEXT_EX(nameArg, xArg, yArg, textArg, dvarArg, visArg, UI_FONT_NORMAL, TEXTSIZE_SMALL, ;)
+#define ZOMBIE_COUNTER_TEXT(nameArg, xArg, yArg, textArg, dvarArg) ZOMBIE_COUNTER_TEXT_VIS(nameArg, xArg, yArg, textArg, dvarArg, visArg, 1)
 
 {
 	assetGlobalDef
@@ -305,7 +339,7 @@
 			}
 		}
 
-		itemDef
+		/*itemDef
 		{
 			name				"hud_zombs_remaining"
 			type				ITEM_TYPE_TEXT
@@ -321,7 +355,9 @@
 			// Wardog: End
 			visible				when( dvarBool( "hud_zombs_remaining_on" ) && !dvarBool( "in_nml" ) )
 			decoration
-		}
+		}*/
+
+		ZOMBIE_COUNTER_TEXT_VIS("hud_zombs_remaining", 4, 2, "REIMAGINED_ZOMBIES_REMAINING", DvarString("zombs_remaining"), dvarBool( "hud_zombs_remaining_on" ) && !dvarBool( "in_nml" ))
 
 		#define FPS_ENABLED dvarInt( cg_drawFPS ) == 1
 
@@ -344,7 +380,7 @@
 		}
 		*/
 
-		WDG_TIMER_TEXT_VIS("hud_time", -4, 2, "REIMAGINED_TIME", DvarString("total_time"), DvarBool("hud_time_on"))
+		TIMER_TEXT_VIS("hud_time", -4, 2, "REIMAGINED_TIME", DvarString("total_time"), DvarBool("hud_time_on"))
 		// Wardog: End
 
 		#undef FADE_IN_TIME // time in milliseconds to fade in for
@@ -382,11 +418,11 @@
 		}
 		*/
 
-#ifdef WDG_TIMERT_TEXT_FADE_ARG
-	#undef WDG_TIMERT_TEXT_FADE_ARG
+#ifdef TIMERT_TEXT_FADE_ARG
+	#undef TIMERT_TEXT_FADE_ARG
 #endif
 
-#define WDG_TIMERT_TEXT_FADE_ARG \
+#define TIMERT_TEXT_FADE_ARG \
 	state \
 	{ \
 		name			"fadein" \
@@ -398,7 +434,7 @@
 		forecolor 		FADE_OUT_COLOR_WHITE \
 	}
 
-		WDG_TIMER_TEXT_EX("hud_round_time", -4, 14, "REIMAGINED_ROUND_TIME", DvarString("round_time"), DvarBool("hud_time_on"), UI_FONT_NORMAL, TEXTSIZE_SMALL, WDG_TIMERT_TEXT_FADE_ARG)
+		TIMER_TEXT_EX("hud_round_time", -4, 14, "REIMAGINED_ROUND_TIME", DvarString("round_time"), DvarBool("hud_time_on"), UI_FONT_NORMAL, TEXTSIZE_SMALL, TIMERT_TEXT_FADE_ARG)
 		// Wardog: End
 
 		// Wardog: Start - Change to use 2 itemDef's
@@ -433,11 +469,11 @@
 
 // Uncomment if you want to change how this fades
 /*
-#ifdef WDG_TIMERT_TEXT_FADE_ARG
-	#undef WDG_TIMERT_TEXT_FADE_ARG
+#ifdef TIMERT_TEXT_FADE_ARG
+	#undef TIMERT_TEXT_FADE_ARG
 #endif
 
-#define WDG_TIMERT_TEXT_FADE_ARG \
+#define TIMERT_TEXT_FADE_ARG \
 	state \
 	{ \
 		name			"fadein" \
@@ -450,7 +486,7 @@
 	}
 */
 
-		WDG_TIMER_TEXT_EX("hud_round_total_time", -4, 26, "REIMAGINED_TOTAL_TIME", DvarString("round_total_time"), DvarBool("hud_time_on"), UI_FONT_NORMAL, TEXTSIZE_SMALL, WDG_TIMERT_TEXT_FADE_ARG)
+		TIMER_TEXT_EX("hud_round_total_time", -4, 26, "REIMAGINED_TOTAL_TIME", DvarString("round_total_time"), DvarBool("hud_time_on"), UI_FONT_NORMAL, TEXTSIZE_SMALL, TIMERT_TEXT_FADE_ARG)
 		// Wardog: End
 
 		itemDef

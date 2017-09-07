@@ -2342,7 +2342,7 @@ toggle_fire_sale_on()
 			if(show_firesale_box)
 			{
 				level.chests[i].zombie_cost = 10;
-				level.chests[i] set_hint_string( level.chests[i] , "powerup_fire_sale_cost" );
+				level.chests[i] SetHintString(&"REIMAGINED_MYSTERY_BOX", level.chests[i].zombie_cost);
 
 				if( level.chest_index != i )
 				{
@@ -2374,7 +2374,8 @@ toggle_fire_sale_on()
 				else
 				{
 					level.chests[i].zombie_cost = level.chests[i].old_cost;
-					level.chests[i] set_hint_string( level.chests[i] , "default_treasure_chest_" + level.chests[i].zombie_cost );
+					//level.chests[i] set_hint_string( level.chests[i] , "default_treasure_chest_" + level.chests[i].zombie_cost );
+					level.chests[i] SetHintString(&"REIMAGINED_MYSTERY_BOX", level.chests[i].zombie_cost);
 				}
 			}
 		}
@@ -2392,7 +2393,8 @@ fire_sale_weapon_wait()
 	{
 		wait_network_frame();
 	}
-	self set_hint_string( self , "default_treasure_chest_" + self.zombie_cost );
+	//self set_hint_string( self , "default_treasure_chest_" + self.zombie_cost );
+	self SetHintString(&"REIMAGINED_MYSTERY_BOX", self.zombie_cost);
 }
 
 //

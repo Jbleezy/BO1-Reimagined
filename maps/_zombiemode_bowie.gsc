@@ -29,6 +29,8 @@ bowie_init()
 
 bowie_think(cost)
 {
+	self.melee_wallbuy_name = "bowie_knife_zm";
+	self thread maps\_zombiemode_weapons::decide_hide_show_hint();
 
 	self.first_time_triggered = false;
 

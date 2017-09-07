@@ -999,10 +999,17 @@ electric_trap_dialog()
 }
 
 
-hint_string( string )
+hint_string( string, i )
 {
-	self SetHintString( string );
-	self SetCursorHint( "HINT_NOICON" );
+	if(IsDefined(i))
+	{
+		self SetHintString( string, i );
+	}
+	else
+	{
+		self SetHintString( string );
+	}
+	//self SetCursorHint( "HINT_NOICON" );
 
 }
 

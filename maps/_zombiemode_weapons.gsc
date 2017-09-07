@@ -1125,7 +1125,7 @@ treasure_chest_think()
 		self set_hint_string( self, "reimagined_treasure_chest_" + self.zombie_cost );
 	}
 	*/
-	self SetHintString(&"REIMAGINED_MAGICBOX", self.zombie_cost);
+	self SetHintString(&"REIMAGINED_MYSTERY_BOX", self.zombie_cost);
 	// Wardog: End
 	self setCursorHint( "HINT_NOICON" );
 
@@ -1569,6 +1569,7 @@ decide_hide_show_hint( endon_notify )
 		use_choke = true;
 	}
 
+	dist = 256 * 256;
 
 	while( true )
 	{
@@ -1593,9 +1594,12 @@ decide_hide_show_hint( endon_notify )
 			players = get_players();
 			for( i = 0; i < players.size; i++ )
 			{
-				if(players[i] != self.chest_user)
+				if(DistanceSquared( players[i].origin, self.origin ) < dist)
 				{
-					self SetInvisibleToPlayer( players[i], true );
+					if(players[i] != self.chest_user)
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
 				}
 			}
 		}
@@ -1604,47 +1608,64 @@ decide_hide_show_hint( endon_notify )
 			players = get_players();
 			for( i = 0; i < players.size; i++ )
 			{
-				current_weapon = players[i] GetCurrentWeapon();
-				primaryWeapons = players[i] GetWeaponsListPrimaries();
-				weapon_type = WeaponType( self.zombie_weapon_upgrade );
-				has_weapon = players[i] HasWeapon(self.zombie_weapon_upgrade);
-				if(weapon_type != "grenade")
+				if(DistanceSquared( players[i].origin, self.origin ) < dist)
 				{
-					has_weapon_upgrade = has_upgrade(self.zombie_weapon_upgrade);
-				}
-				else
-				{
-					has_weapon_upgrade = false;
-				}
-				player_ammo = undefined;
-				max_ammo = undefined;
-				if(has_weapon)
-				{
-					player_ammo = players[i] GetAmmoCount(self.zombie_weapon_upgrade);
-					max_ammo = WeaponMaxAmmo(self.zombie_weapon_upgrade);
-					if(weapon_type != "grenade")
+					current_weapon = players[i] GetCurrentWeapon();
+					primaryWeapons = players[i] GetWeaponsListPrimaries();
+					weapon_type = WeaponType( self.zombie_weapon_upgrade );
+					has_weapon = players[i] HasWeapon(self.zombie_weapon_upgrade);
+					pap_triggers = GetEntArray("zombie_vending_upgrade", "targetname");
+
+					if(weapon_type != "grenade" && pap_triggers.size > 0)
 					{
-						max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
+						has_weapon_upgrade = has_upgrade(self.zombie_weapon_upgrade);
 					}
-				}
-				else if(has_weapon_upgrade)
-				{
-					player_ammo = players[i] GetAmmoCount(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
-					max_ammo = WeaponMaxAmmo(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name) + WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
-				}
+					else
+					{
+						has_weapon_upgrade = false;
+					}
+					player_ammo = undefined;
+					max_ammo = undefined;
+					if(has_weapon)
+					{
+						player_ammo = players[i] GetAmmoCount(self.zombie_weapon_upgrade);
+						max_ammo = WeaponMaxAmmo(self.zombie_weapon_upgrade);
+						if(weapon_type != "grenade")
+						{
+							max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
+						}
+					}
+					else if(has_weapon_upgrade)
+					{
+						player_ammo = players[i] GetAmmoCount(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
+						max_ammo = WeaponMaxAmmo(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name) + WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
+					}
 
 
-				if(has_weapon && player_ammo == max_ammo)
-				{
-					self SetInvisibleToPlayer( players[i], true );
-				}
-				else if(weapon_type != "grenade" && has_weapon_upgrade && player_ammo == max_ammo)
-				{
-					self SetInvisibleToPlayer( players[i], true );
-				}
-				else if(is_melee_weapon(current_weapon))
-				{
-					if(primaryWeapons.size == 0 || players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade))
+					if(has_weapon && player_ammo == max_ammo)
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
+					else if(weapon_type != "grenade" && has_weapon_upgrade && player_ammo == max_ammo)
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
+					else if(is_melee_weapon(current_weapon))
+					{
+						if(primaryWeapons.size == 0 || players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade))
+						{
+							self SetInvisibleToPlayer( players[i], false );
+						}
+						else
+						{
+							self SetInvisibleToPlayer( players[i], true );
+						}
+					}
+					else if(is_placeable_mine(current_weapon) && players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade))
+					{
+						self SetInvisibleToPlayer( players[i], false );
+					}
+					else if( players[i] can_buy_weapon() )
 					{
 						self SetInvisibleToPlayer( players[i], false );
 					}
@@ -1653,18 +1674,6 @@ decide_hide_show_hint( endon_notify )
 						self SetInvisibleToPlayer( players[i], true );
 					}
 				}
-				else if(is_placeable_mine(current_weapon) && players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade))
-				{
-					self SetInvisibleToPlayer( players[i], false );
-				}
-				else if( players[i] can_buy_weapon() )
-				{
-					self SetInvisibleToPlayer( players[i], false );
-				}
-				else
-				{
-					self SetInvisibleToPlayer( players[i], true );
-				}
 			}
 		}
 		else if(IsDefined(self.box_rerespun)) //box when its been hacked twice (powerup form)
@@ -1672,20 +1681,71 @@ decide_hide_show_hint( endon_notify )
 			players = get_players();
 			for( i = 0; i < players.size; i++ )
 			{
-				current_weapon = players[i] GetCurrentWeapon();
-				primaryWeapons = players[i] GetWeaponsListPrimaries();
+				if(DistanceSquared( players[i].origin, self.origin ) < dist)
+				{
+					current_weapon = players[i] GetCurrentWeapon();
+					primaryWeapons = players[i] GetWeaponsListPrimaries();
 
-				if(is_melee_weapon(current_weapon) && primaryWeapons.size > 0)
-				{
-					self SetInvisibleToPlayer( players[i], true );
+					if(is_melee_weapon(current_weapon) && primaryWeapons.size > 0)
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
+					else if( players[i] can_buy_weapon())
+					{
+						self SetInvisibleToPlayer( players[i], false );
+					}
+					else
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
 				}
-				else if( players[i] can_buy_weapon())
+			}
+		}
+		else if(IsDefined(self.placeable_mine_name)) //mines
+		{
+			players = get_players();
+			for( i = 0; i < players.size; i++ )
+			{
+				if(DistanceSquared( players[i].origin, self.origin ) < dist)
 				{
-					self SetInvisibleToPlayer( players[i], false );
+					if( players[i] is_player_placeable_mine( self.placeable_mine_name ) )
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
+					else if( players[i] can_buy_weapon())
+					{
+						self SetInvisibleToPlayer( players[i], false );
+					}
+					else
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
 				}
-				else
+			}
+		}
+		else if(IsDefined(self.melee_wallbuy_name)) //melee wallbuys
+		{
+			players = get_players();
+			for( i = 0; i < players.size; i++ )
+			{
+				if(DistanceSquared( players[i].origin, self.origin ) < dist)
 				{
-					self SetInvisibleToPlayer( players[i], true );
+					if( players[i] HasWeapon( self.melee_wallbuy_name ) )
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
+					else if( players[i] isSwitchingWeapons() )
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
+					else if( players[i] can_buy_weapon())
+					{
+						self SetInvisibleToPlayer( players[i], false );
+					}
+					else
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
 				}
 			}
 		}
@@ -1694,23 +1754,26 @@ decide_hide_show_hint( endon_notify )
 			players = get_players();
 			for( i = 0; i < players.size; i++ )
 			{
-				current_weapon = players[i] GetCurrentWeapon();
+				if(DistanceSquared( players[i].origin, self.origin ) < dist)
+				{
+					current_weapon = players[i] GetCurrentWeapon();
 
-				if(is_placeable_mine(current_weapon))
-				{
-					self SetInvisibleToPlayer( players[i], false );
-				}
-				else if( IsDefined( players[i].is_drinking ) && players[i] is_drinking() && !players[i] has_powerup_weapon() )
-				{
-					self SetInvisibleToPlayer( players[i], false );
-				}
-				else if( players[i] can_buy_weapon())
-				{
-					self SetInvisibleToPlayer( players[i], false );
-				}
-				else
-				{
-					self SetInvisibleToPlayer( players[i], true );
+					if(is_placeable_mine(current_weapon))
+					{
+						self SetInvisibleToPlayer( players[i], false );
+					}
+					else if( IsDefined( players[i].is_drinking ) && players[i] is_drinking() && !players[i] has_powerup_weapon() )
+					{
+						self SetInvisibleToPlayer( players[i], false );
+					}
+					else if( players[i] can_buy_weapon())
+					{
+						self SetInvisibleToPlayer( players[i], false );
+					}
+					else
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
 				}
 			}
 		}
@@ -1976,7 +2039,8 @@ fire_sale_fix()
 		self thread show_chest();
 		self thread hide_rubble();
 		self.zombie_cost = 10;
-		self set_hint_string( self , "reimagined_random_weapon_fire_sale_cost" );
+		//self set_hint_string( self , "reimagined_random_weapon_fire_sale_cost" );
+		self SetHintString(&"REIMAGINED_MYSTERY_BOX", self.zombie_cost);
 
 		wait_network_frame();
 
@@ -1994,7 +2058,8 @@ fire_sale_fix()
 		self thread show_rubble();
 
 		self.zombie_cost = self.old_cost;
-		self set_hint_string( self , "reimagined_treasure_chest_" + self.zombie_cost );
+		//self set_hint_string( self , "reimagined_treasure_chest_" + self.zombie_cost );
+		self SetHintString(&"REIMAGINED_MYSTERY_BOX", self.zombie_cost);
 	}
 }
 
@@ -2281,7 +2346,7 @@ get_left_hand_weapon_model_name( name )
 	switch ( name )
 	{
 		case  "microwavegundw_zm":
-			return GetWeaponModel( "microwavegunlh_zm" );
+			//return GetWeaponModel( "microwavegunlh_zm" );
 		case  "microwavegundw_upgraded_zm":
 			return GetWeaponModel( "microwavegunlh_upgraded_zm" );
 		default:

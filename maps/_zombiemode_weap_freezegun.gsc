@@ -336,13 +336,26 @@ freezegun_do_damage( upgraded, player, dist_ratio )
 	}
 
 	//minimum damage
-	if(!upgraded && (damage < 1000 || self.animname == "thief_zombie"))
+	if(!upgraded && damage < 1000)
+	{
+		damage = 500;
+	}
+	else if(upgraded && damage < 1000)
 	{
 		damage = 1000;
 	}
-	else if(upgraded && (damage < 2000 || self.animname == "thief_zombie"))
+
+	//thief damage
+	if(self.animname == "thief_zombie")
 	{
-		damage = 2000;
+		if(!upgraded)
+		{
+			damage = 1000;
+		}
+		else
+		{
+			damage = 2000;
+		}
 	}
 
 	self freezegun_debug_print( damage, (0, 1, 0) );

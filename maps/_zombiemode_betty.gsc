@@ -19,16 +19,21 @@ init()
 
 	array_thread(trigs,::buy_bouncing_betties);
 	level thread give_betties_after_rounds();
+
+	PrecacheString(&"REIMAGINED_BETTY_PURCHASE");
+	PrecacheString(&"REIMAGINED_BETTY_PICKUP");
 }
 
 buy_bouncing_betties()
 {
 	self.zombie_cost = 1000;
 	self UseTriggerRequireLookAt();
-	self sethintstring( &"ZOMBIE_BETTY_PURCHASE" );
+	self sethintstring( &"REIMAGINED_BETTY_PURCHASE" );
 	self setCursorHint( "HINT_NOICON" );
 
-	level thread set_betty_visible();
+	//level thread set_betty_visible();
+	self.placeable_mine_name = "mine_bouncing_betty";
+	self thread maps\_zombiemode_weapons::decide_hide_show_hint();
 	self.betties_triggered = false;
 
 	while(1)
@@ -313,7 +318,7 @@ pickup_betty()
 		}
 	}
 
-	self.trigger SetHintString("Hold ^3[{+activate}]^7 to Pick Up Bouncing Betty");
+	self.trigger SetHintString(&"REIMAGINED_BETTY_PICKUP");
 	self.trigger setCursorHint( "HINT_NOICON" );
 
 	if(!IsDefined(self.owner.already_picking_up))

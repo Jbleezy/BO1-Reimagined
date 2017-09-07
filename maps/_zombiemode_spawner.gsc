@@ -4664,8 +4664,8 @@ do_zombie_rise()
 		anim_ang = VectorToAngles(target_org - self.origin);
 	}
 
-	//classic maps need the anchor apparently, or else they fall out the map
-	if(IsSubStr(level.script, "zombie_cod5"))
+	//not needed anymore (most likely)
+	/*if(IsSubStr(level.script, "zombie_cod5"))
 	{
 		if( !isDefined( spot.angles ) )
 		{
@@ -4688,7 +4688,7 @@ do_zombie_rise()
 		}
 		self unlink();
 		self.anchor delete();
-	}
+	}*/
 
 	spot thread zombie_rise_fx(self);
 

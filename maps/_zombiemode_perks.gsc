@@ -368,56 +368,61 @@ vending_machine_trigger_think()
 {
 	self endon("death");
 
+	dist = 128 * 128;
+
 	while(1)
 	{
 		players = get_players();
-		for(i = 0; i < players.size; i ++)
+		for(i = 0; i < players.size; i++)
 		{
-			current_weapon = players[i] getCurrentWeapon();
-			if(current_weapon == "microwavegun_zm")
+			if(DistanceSquared( players[i].origin, self.origin ) < dist)
 			{
-				current_weapon = "microwavegundw_zm";
-			}
-			primaryWeapons = players[i] GetWeaponsListPrimaries();
-			if ( players[i] hacker_active() )
-			{
-				self SetInvisibleToPlayer( players[i], true );
-			}
-			else if( !players[i] maps\_zombiemode_weapons::can_buy_weapon() || players[i] maps\_laststand::player_is_in_laststand() || is_true( players[i].intermission ) || players[i] isThrowingGrenade() )
-			{
-				self SetInvisibleToPlayer( players[i], true );
-			}
-			else if( is_true(level.pap_moving)) //can't use the pap machine while it's being lowered or raised
-			{
-				self SetInvisibleToPlayer( players[i], true );
-			}
-			else if( players[i] isSwitchingWeapons() )
-	 		{
-	 			self SetInvisibleToPlayer( players[i], true );
-	 		}
-	 		else if( flag("pack_machine_in_use") && IsDefined(self.user) && self.user != players[i] )
-	 		{
-	 			self SetInvisibleToPlayer( players[i], true );
-	 		}
-			else if( flag("pack_machine_in_use") && is_melee_weapon(current_weapon) && primaryWeapons.size > 0 )
-			{
-				self SetInvisibleToPlayer( players[i], true );
-			}
-			else if(!flag("pack_machine_in_use") && is_melee_weapon(current_weapon))
-			{
-				self SetInvisibleToPlayer( players[i], true );
-			}
-			else if ( !flag("pack_machine_in_use") && !IsDefined( level.zombie_include_weapons[current_weapon] ) )
-			{
-				self SetInvisibleToPlayer( players[i], true );
-			}
-			else if ( !flag("pack_machine_in_use") && players[i] maps\_zombiemode_weapons::is_weapon_upgraded( current_weapon ) )
-			{
-				self SetInvisibleToPlayer( players[i], true );
-			}
-			else
-			{
-				self SetInvisibleToPlayer( players[i], false );
+				current_weapon = players[i] getCurrentWeapon();
+				if(current_weapon == "microwavegun_zm")
+				{
+					current_weapon = "microwavegundw_zm";
+				}
+				primaryWeapons = players[i] GetWeaponsListPrimaries();
+				if ( players[i] hacker_active() )
+				{
+					self SetInvisibleToPlayer( players[i], true );
+				}
+				else if( !players[i] maps\_zombiemode_weapons::can_buy_weapon() || players[i] maps\_laststand::player_is_in_laststand() || is_true( players[i].intermission ) || players[i] isThrowingGrenade() )
+				{
+					self SetInvisibleToPlayer( players[i], true );
+				}
+				else if( is_true(level.pap_moving)) //can't use the pap machine while it's being lowered or raised
+				{
+					self SetInvisibleToPlayer( players[i], true );
+				}
+				else if( players[i] isSwitchingWeapons() )
+		 		{
+		 			self SetInvisibleToPlayer( players[i], true );
+		 		}
+		 		else if( flag("pack_machine_in_use") && IsDefined(self.user) && self.user != players[i] )
+		 		{
+		 			self SetInvisibleToPlayer( players[i], true );
+		 		}
+				else if( flag("pack_machine_in_use") && is_melee_weapon(current_weapon) && primaryWeapons.size > 0 )
+				{
+					self SetInvisibleToPlayer( players[i], true );
+				}
+				else if(!flag("pack_machine_in_use") && is_melee_weapon(current_weapon))
+				{
+					self SetInvisibleToPlayer( players[i], true );
+				}
+				else if ( !flag("pack_machine_in_use") && !IsDefined( level.zombie_include_weapons[current_weapon] ) )
+				{
+					self SetInvisibleToPlayer( players[i], true );
+				}
+				else if ( !flag("pack_machine_in_use") && players[i] maps\_zombiemode_weapons::is_weapon_upgraded( current_weapon ) )
+				{
+					self SetInvisibleToPlayer( players[i], true );
+				}
+				else
+				{
+					self SetInvisibleToPlayer( players[i], false );
+				}
 			}
 		}
 		wait(0.05);
@@ -463,7 +468,7 @@ vending_weapon_upgrade()
 		plr = "zmb_vox_plr_" + index + "_";
 		current_weapon = player getCurrentWeapon();
 
-		if ( "microwavegun_zm" == current_weapon )
+		if ( current_weapon == "microwavegun_zm" )
 		{
 			current_weapon = "microwavegundw_zm";
 		}

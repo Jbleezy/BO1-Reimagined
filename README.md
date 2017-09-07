@@ -227,7 +227,7 @@
 * Enemies will only be able to do slow hits after taking damage from the Winter's Howl
 * Enemies crumple immediately after dying
 * Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
-* Minimum damage: 1000 unupgraded, 2000 upgraded
+* Minimum damage: 500 unupgraded, 1000 upgraded
 * Damage to thief: 1000 unupgraded, 2000 upgraded
 
 #### Wunderwaffe
@@ -316,6 +316,7 @@
 * Box weapons will not appear again in a row while floating up (unless it is the final weapon)
 * Box will now cycle through all locations before going to a previous location again
 * Box has a different hintstring for picking up a weapon if the weapon is a tactical grenade
+* Hintstring now says "Mystery Box" instead of "Random Weapon"
 
 ## Perks
 * Perks now become active as soon as the player starts to put away the perk bottle
@@ -628,7 +629,6 @@
 * Fix kino round skip bug (might be fixed)
 * Add collision boxes near invincibilty spots on maps
 * Shang: while a weapon is in pack a punch, don't push the players out
-* Disable bowie/sickle hintstrings whenever not usable
 * Fix low grav with increased FPS
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Make it easier to tell how many grenades you have on HUD
@@ -640,13 +640,11 @@
 * Make Shang power switches do things when only one is turned on
 * Add meat powerup to grief
 * Add EMP grenades to grief
-* Make placeable mines not buyable when drinking
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
 * Make trap hintstrings show time remaining for active and cooldown (use add_zombie_hint())
 * Remove marks on background of Deadshot perk emblem
 * Fix weapon order being changed
 * Verruckt: fix zombie pathing at speed slightly more
-* Change all strings to localized strings
 * Add NML round number in place of round number
 * Check things with QED weapon powerups
 

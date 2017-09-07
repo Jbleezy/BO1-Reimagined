@@ -42,7 +42,7 @@ init_no_mans_land()
 	/* Teleporter Message - Shared text by all teleporters */
 	/*******************************************************/
 
-	init_teleporter_message();
+	//init_teleporter_message();
 	level thread init_supersprint_anims();
 
 	maps\_zombiemode_zone_manager::zone_init( "nml_zone" );

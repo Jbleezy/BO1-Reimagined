@@ -68,16 +68,16 @@ teleporter_function( name )
 
 				if( num_players_inside == 0 )
 				{
-					set_teleporter_message( &"NULL_EMPTY" );
+					//set_teleporter_message( &"NULL_EMPTY" );
 				}
 				else if ( num_players_inside < num_players )
 				{
 					//set_teleporter_message( "Teleporter Waiting for Players" );
-					set_teleporter_message( &"ZOMBIE_PARIS_TRANSPORTER_WAITING" );
+					//set_teleporter_message( &"ZOMBIE_PARIS_TRANSPORTER_WAITING" );
 				}
 				else
 				{
-					set_teleporter_message( &"ZOMBIE_PARIS_TRANSPORTER_ACTIVATED" );
+					//set_teleporter_message( &"ZOMBIE_PARIS_TRANSPORTER_ACTIVATED" );
 
 					// Set teleport start time
 					teleport_time = gettime();
@@ -106,7 +106,7 @@ teleporter_function( name )
 				num_players_inside = num_players_touching_volume( teleporter );
 				if ( num_players_inside < num_players )
 				{
-					set_teleporter_message( &"ZOMBIE_PARIS_TRANSPORTER_ABORTED"  );
+					//set_teleporter_message( &"ZOMBIE_PARIS_TRANSPORTER_ABORTED"  );
 					teleporter_ending( teleporter, 1 );
 					teleport_state = "Waiting for Players";
 					//AUDIO: Triggering some sfx
@@ -144,7 +144,7 @@ teleporter_function( name )
 
 						// Set next Teleporter State
 						teleport_state = "Recharging";
-						set_teleporter_message( &"NULL_EMPTY" );
+						//set_teleporter_message( &"NULL_EMPTY" );
 						teleport_time = gettime() + 5000;
 
 						// give dogs 30 seconds to start spawning.

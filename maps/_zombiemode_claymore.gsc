@@ -34,7 +34,9 @@ buy_claymores()
 	self sethintstring( &"ZOMBIE_CLAYMORE_PURCHASE" );
 	self setCursorHint( "HINT_NOICON" );
 
-	level thread set_claymore_visible();
+	//level thread set_claymore_visible();
+	self.placeable_mine_name = "claymore_zm";
+	self thread maps\_zombiemode_weapons::decide_hide_show_hint();
 	self.claymores_triggered = false;
 
 	while(1)

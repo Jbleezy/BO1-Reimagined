@@ -68,7 +68,9 @@ buy_spikemores()
 	self sethintstring( &"ZOMBIE_TEMPLE_SPIKEMORE_PURCHASE" );
 	self setCursorHint( "HINT_NOICON" );
 
-	level thread set_spikemore_visible();
+	//level thread set_spikemore_visible();
+	self.placeable_mine_name = "spikemore_zm";
+	self thread maps\_zombiemode_weapons::decide_hide_show_hint();
 	self.spikemores_triggered = false;
 
 	while(1)
