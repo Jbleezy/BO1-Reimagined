@@ -10,6 +10,9 @@ a rough prototype for now, needs a bit more polish
 ------------------------------------*/
 init()
 {
+	PrecacheString(&"REIMAGINED_BETTY_PURCHASE");
+	PrecacheString(&"REIMAGINED_BETTY_PICKUP");
+	
 	trigs = getentarray("betty_purchase","targetname");
 	for(i=0; i<trigs.size; i++)
 	{
@@ -19,9 +22,6 @@ init()
 
 	array_thread(trigs,::buy_bouncing_betties);
 	level thread give_betties_after_rounds();
-
-	PrecacheString(&"REIMAGINED_BETTY_PURCHASE");
-	PrecacheString(&"REIMAGINED_BETTY_PICKUP");
 }
 
 buy_bouncing_betties()

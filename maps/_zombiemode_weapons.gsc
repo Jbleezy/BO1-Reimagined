@@ -2346,7 +2346,7 @@ get_left_hand_weapon_model_name( name )
 	switch ( name )
 	{
 		case  "microwavegundw_zm":
-			//return GetWeaponModel( "microwavegunlh_zm" );
+			return GetWeaponModel( "microwavegunlh_zm" );
 		case  "microwavegundw_upgraded_zm":
 			return GetWeaponModel( "microwavegunlh_upgraded_zm" );
 		default:
