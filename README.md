@@ -324,7 +324,8 @@
 * Multiple people can now buy the same perk at the same time
 * Perk order will no longer be changed when losing a perk
 * Removed blur effect that previously happened after buying a perk
-* Fixed a bug where the perk machine rattle sound would still play on Quick Revive after the machine is gone in solo
+* All perk machines on all maps now make a sound when bumping into them
+* Fixed a bug where the Quick Revive perk machine sounds would still play after the machine is gone in solo
 
 ### Quick Revive
 * Hintstring now says "Quick Revive" in solo and coop
@@ -647,7 +648,6 @@
 * Fix weapon order being changed
 * Add NML round number in place of round number
 * Check things with QED weapon powerups
-* Get perk bump triggers working on all maps
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

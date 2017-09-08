@@ -122,9 +122,7 @@ activate_vending_machine(machine, origin, entity)
 	        level notify( "specialty_armorvest_power_on" );
 	        clientnotify("jugg_on");
 			entity maps\_zombiemode_perks::perk_fx("jugger_light");
-			// Wardog: Start - Fix script_String being for wrong perks
 			send_message_to_csc("zombiemode_perks", "specialty_armorvest|spawn_bump|" + vector_to_string(origin, ","));
-			// Wardog: End
            break;
 
 	   case "zombie_vending_doubletap_on":
@@ -132,9 +130,7 @@ activate_vending_machine(machine, origin, entity)
 	        level notify( "specialty_rof_power_on" );
 	        clientnotify("doubletap_on");
 			entity maps\_zombiemode_perks::perk_fx("doubletap_light");
-			// Wardog: Start - Fix script_String being for wrong perks
 			send_message_to_csc("zombiemode_perks", "specialty_rof|spawn_bump|" + vector_to_string(origin, ","));
-			// Wardog: End
 	        break;
 
 	   case "zombie_vending_revive_on":
@@ -142,9 +138,7 @@ activate_vending_machine(machine, origin, entity)
 	        level notify( "specialty_quickrevive_power_on" );
 	        clientnotify("revive_on");
 			entity maps\_zombiemode_perks::perk_fx("revive_light");
-			// Wardog: Start - Fix script_String being for wrong perks
 			send_message_to_csc("zombiemode_perks", "specialty_quickrevive|spawn_bump|" + vector_to_string(origin, ","));
-			// Wardog: End
            break;
 
        case "zombie_vending_sleight_on":
@@ -152,9 +146,7 @@ activate_vending_machine(machine, origin, entity)
 	        level notify( "specialty_fastreload_power_on" );
 	        clientnotify("fast_reload_on");
 			entity maps\_zombiemode_perks::perk_fx("sleight_light");
-			// Wardog: Start - Fix script_String being for wrong perks
 			send_message_to_csc("zombiemode_perks", "specialty_fastreload|spawn_bump|" + vector_to_string(origin, ","));
-			// Wardog: End
            break;
    }
 

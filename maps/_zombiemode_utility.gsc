@@ -7,12 +7,9 @@ init_utility()
 
 //	level thread hudelem_count();
 
-// Wardog: Start - Infinate client systems
-	registerClientSys("wardog_client_systems");
-// Wardog: End
+	registerClientSys("client_systems");
 }
 
-// Wardog: Start - Infinate client systems
 vector_to_string(origin, splitter)
 {
 	if(!isdefined(splitter))
@@ -25,18 +22,17 @@ send_message_to_csc(name, message)
 	csc_message = name + ":" + message;
 
 	if(isdefined(self) && IsPlayer(self))
-		setClientSysState("wardog_client_systems", csc_message, self);
+		setClientSysState("client_systems", csc_message, self);
 	else
 	{
 		players = get_players();
 
 		for(i = 0; i < players.size; i++)
 		{
-			setClientSysState("wardog_client_systems", csc_message, players[i]);
+			setClientSysState("client_systems", csc_message, players[i]);
 		}
 	}
 }
-// Wardog: End
 
 
 // self is Ai and chunk is selected piece

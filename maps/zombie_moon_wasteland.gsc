@@ -830,33 +830,19 @@ perk_machines_hide( cola, jug, moving )
 	if( cola )
 	{
 		level.speed_cola_ents[0] hide();
-		// Wardog: Start - Delete old bump trigger
-		level send_message_to_csc("zombiemode_perks", "specialty_fastreload|delete_bump");
-		// Wardog: End
 	}
 	else
 	{
 		level.speed_cola_ents[0] show();
-		// Wardog: Start - Spawn new bump trigger
-		str_origin = vector_to_string(level.jugg_ents[0].origin, ",");
-		level send_message_to_csc("zombiemode_perks", "specialty_fastreload|spawn_bump|" + str_origin);
-		// Wardog: End
 	}
 
 	if( jug )
 	{
 		level.jugg_ents[0] hide();
-		// Wardog: Start - Delete old bump trigger
-		level send_message_to_csc("zombiemode_perks", "specialty_armorvest|delete_bump");
-		// Wardog: End
 	}
 	else
 	{
 		level.jugg_ents[0] show();
-		// Wardog: Start - Spawn new bump trigger
-		str_origin = vector_to_string(level.jugg_ents[0].origin, ",");
-		level send_message_to_csc("zombiemode_perks", "specialty_armorvest|spawn_bump|" + str_origin);
-		// Wardog: End
 	}
 
 	if(moving)
@@ -885,6 +871,9 @@ perk_machines_hide( cola, jug, moving )
 			{
 				hackable = level.jugg_ents[1].hackable;
 			}
+
+			str_origin = vector_to_string(level.jugg_ents[0].origin, ",");
+			level send_message_to_csc("zombiemode_perks", "specialty_armorvest|spawn_bump|" + str_origin);
 		}
 		else
 		{
@@ -894,6 +883,9 @@ perk_machines_hide( cola, jug, moving )
 			{
 				hackable = level.speed_cola_ents[1].hackable;
 			}
+
+			str_origin = vector_to_string(level.jugg_ents[0].origin, ",");
+			level send_message_to_csc("zombiemode_perks", "specialty_fastreload|spawn_bump|" + str_origin);
 		}
 
 		maps\_zombiemode_equip_hacker::register_pooled_hackable_struct(hackable, maps\_zombiemode_hackables_perks::perk_hack, maps\_zombiemode_hackables_perks::perk_hack_qualifier);
@@ -929,6 +921,9 @@ perk_machine_arrival_update()
 	// Flash an effect to the perk machines destination
 	ent = level.speed_cola_ents[0];
 	level thread perk_arrive_fx( ent.origin );
+
+	level send_message_to_csc("zombiemode_perks", "specialty_armorvest|delete_bump");
+	level send_message_to_csc("zombiemode_perks", "specialty_fastreload|delete_bump");
 
 	//while( 1 )
 	{

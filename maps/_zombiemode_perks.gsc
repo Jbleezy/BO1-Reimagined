@@ -943,9 +943,9 @@ revive_solo_fx(machine_clip)
 
     level clientNotify( "drb" );
 
-	// Wardog: Start - Delete perk hum
 	vending_triggers = GetEntArray("zombie_vending", "targetname");
 
+	//remove machine sounds
 	for(i = 0; i < vending_triggers.size; i++)
 	{
 		if(!isdefined(vending_triggers[i].script_noteworthy))
@@ -959,7 +959,6 @@ revive_solo_fx(machine_clip)
 		vending_triggers[i].perk_hum_ent Delete();
 		vending_triggers[i].perk_hum_ent = undefined;
 	}
-	// Wardog: End
 
 	//self setmodel("zombie_vending_revive");
 	self.fx Unlink();
@@ -971,6 +970,7 @@ revive_solo_fx(machine_clip)
 	machine_clip ConnectPaths();
 	machine_clip Delete();
 
+	//remove bump trigger
 	level send_message_to_csc("zombiemode_perks", "specialty_quickrevive|delete_bump");
 }
 
@@ -1277,9 +1277,7 @@ vending_trigger_think()
 	perk_hum = spawn("script_origin", self.origin);
 	perk_hum playloopsound("zmb_perks_machine_loop");
 
-	// Wardog: Start - Save perk hum, to be able to delete for revive
 	self.perk_hum_ent = perk_hum;
-	// Wardog: End
 
 	self thread check_player_has_perk(perk);
 

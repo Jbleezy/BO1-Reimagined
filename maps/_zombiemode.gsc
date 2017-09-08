@@ -344,6 +344,16 @@ init_additionalprimaryweapon_machine_locations()
 			break;
 		}
 	}
+	else
+	{
+		level thread remove_mule_kick_bump_trig();
+	}
+}
+
+remove_mule_kick_bump_trig()
+{
+	flag_wait("all_players_connected");
+	level send_message_to_csc("zombiemode_perks", "specialty_additionalprimaryweapon|delete_bump");
 }
 
 /*------------------------------------
@@ -8290,14 +8300,4 @@ set_gamemode_name()
 	wait_network_frame();
 
 	SetDvar("zm_gamemode_name", level.gamemode);
-
-	// FIXME: Find a better place for this, needs to be called after everything has init'ed
-
-	if(GetDvarInt("mule_kick_enabled"))
-		return;
-
-	wait 5;
-
-	// Delete the bump
-	level send_message_to_csc("zombiemode_perks", "specialty_additionalprimaryweapon|delete_bump");
 }

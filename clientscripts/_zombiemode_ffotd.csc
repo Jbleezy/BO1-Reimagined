@@ -12,7 +12,7 @@ main_start()
 	}
 
 	// registerSystem("hud", ::hud);
-	registerSystem("wardog_client_systems", ::_wardog_client_systems_message_handler);
+	registerSystem("client_systems", ::client_systems_message_handler);
 	register_client_system("hud_anim_handler", ::hud_message_handler);
 }
 
@@ -151,19 +151,19 @@ hud_message_handler(clientnum, state)
 // Infinate client systems
 register_client_system(name, func)
 {
-	if(!isdefined(level._wardog_client_systems))
-		level._wardog_client_systems = [];
+	if(!isdefined(level.client_systems))
+		level.client_systems = [];
 	if(isdefined(func))
-		level._wardog_client_systems[name] = func;
+		level.client_systems[name] = func;
 }
 
-_wardog_client_systems_message_handler(clientnum, state, oldState)
+client_systems_message_handler(clientnum, state, oldState)
 {
 	tokens = StrTok(state, ":");
 
 	name = tokens[0];
 	message = tokens[1];
 
-	if(isdefined(level._wardog_client_systems) && isdefined(level._wardog_client_systems[name]))
-		level thread [[level._wardog_client_systems[name]]](clientnum, message);
+	if(isdefined(level.client_systems) && isdefined(level.client_systems[name]))
+		level thread [[level.client_systems[name]]](clientnum, message);
 }
