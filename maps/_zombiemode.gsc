@@ -7662,7 +7662,7 @@ sidequest_hud()
 		for(i=0;i<players.size;i++)
 		{
 			players[i] SetClientDvar("sidequest_time", text);
-			players[i] setClientSysState("hud_anim_handler", "hud_sidequest_time_in");
+			players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_in");
 		}
 
 		wait 5;
