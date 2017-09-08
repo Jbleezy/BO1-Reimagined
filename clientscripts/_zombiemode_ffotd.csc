@@ -11,12 +11,15 @@ main_start()
 		players[i] thread fog_setting();
 	}
 
-	registerSystem("hud", ::hud);
+	// registerSystem("hud", ::hud);
+	registerSystem("wardog_client_systems", ::_wardog_client_systems_message_handler);
+	register_client_system("hud_anim_handler", ::hud_message_handler);
 }
 
 
 main_end()
 {
+	clientscripts\_zombiemode_perks::init();
 }
 
 set_fov()
@@ -83,17 +86,7 @@ fog_setting()
 	}
 }
 
-real_wait_time(time_ms)
-{
-	start_time = GetRealTime();
-
-	while(GetRealTime() - start_time <= time_ms)
-	{
-		realwait(.1);
-	}
-}
-
-hud(clientnum, state, oldState)
+hud_message_handler(clientnum, state)
 {
 	MENU_NAME = "weaponinfo_zombie"; // MUST MATCH MENU FILE DEFINES
 
@@ -153,4 +146,24 @@ hud(clientnum, state, oldState)
 		FADE_OUT_TIME = 1000; // MUST MATCH MENU FILE DEFINES
 		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadeout", FADE_OUT_TIME);
 	}
+}
+
+// Infinate client systems
+register_client_system(name, func)
+{
+	if(!isdefined(level._wardog_client_systems))
+		level._wardog_client_systems = [];
+	if(isdefined(func))
+		level._wardog_client_systems[name] = func;
+}
+
+_wardog_client_systems_message_handler(clientnum, state, oldState)
+{
+	tokens = StrTok(state, ":");
+
+	name = tokens[0];
+	message = tokens[1];
+
+	if(isdefined(level._wardog_client_systems) && isdefined(level._wardog_client_systems[name]))
+		level thread [[level._wardog_client_systems[name]]](clientnum, message);
 }

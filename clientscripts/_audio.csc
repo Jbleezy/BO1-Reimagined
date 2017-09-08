@@ -32,12 +32,12 @@ init_after_save_restore()
 snd_snapshot_init()
 {
 	level._sndActiveSnapshot = "default";
-	
+
 	if(!isdefined(level._sndNextSnapshot))
 	{
 		level._sndNextSnapshot = "default";
 	}
-	
+
 	setgroupsnapshot( level._sndActiveSnapshot );
 
 	thread snd_snapshot_think();
@@ -58,7 +58,7 @@ snd_set_snapshot( state )
 	level._sndNextSnapshot = state;
 
 	println( "snd snapshot debug: set state '"+state+"'" );
-	
+
 	level notify( "new_bus" );
 }
 
@@ -72,12 +72,12 @@ snd_snapshot_think()
 		{
 			level waittill( "new_bus" );
 		}
-		
+
 		if( level._sndActiveSnapshot == level._sndNextSnapshot ) //got same one twice, ignore
 		{
 			continue;
 		}
-		
+
 		assert( IsDefined( level._sndNextSnapshot ) );
 		assert( IsDefined( level._sndActiveSnapshot ) );
 
@@ -94,14 +94,14 @@ snd_snapshot_level_fadein()
 	level endon( "end_duplicate_fadein" );
 
 	for(;;)
-	{	    
+	{
 //		PrintLn( "fade_tst: setting value to 1.0" );
 		SetLevelFadeSnapshot( "fadein", 1.0 ); //"fadein"
-        
+
 		waitforclient( 0 );
-		
+
 		wait( 0.5 );
-        
+
 		snapshot_value = 1.0;
 		while( snapshot_value > 0.0 )
 		{
@@ -110,15 +110,15 @@ snd_snapshot_level_fadein()
 //			PrintLn( "fade_tst: value " + snapshot_value );
 			wait( 0.02 );
 		}
-        
+
 //		PrintLn( "fade_tst final: value " + snapshot_value + " setting to 0.0" );
 		SetLevelFadeSnapshot( "fadein", 0.0 );
-		
+
 		if( level.zombiemode == true )
 		{
 		    return;
 		}
-		
+
 		player = getlocalplayer(0);
 		player waittill("respawn");
 	}
@@ -136,14 +136,14 @@ soundRandom_Thread( localClientNum, randSound )
 	{
 		randSound.script_wait_max = 3;
 	}
-	
+
 	/#
 	if( getdvarint( #"debug_audio" ) > 0 )
 	{
 			println( "*** Client : SR ( " + randSound.script_wait_min + " - " + randSound.script_wait_max + ")" );
 	}
 	#/
-	
+
 	while( 1 )
 	{
 		wait( RandomFloatRange( randSound.script_wait_min, randSound.script_wait_max ) );
@@ -170,7 +170,7 @@ soundRandom_Thread( localClientNum, randSound )
 startSoundRandoms( localClientNum )
 {
 	randoms = GetStructArray( "random", "script_label" );
-	
+
 	if( IsDefined( randoms ) && randoms.size > 0 )
 	{
 		println( "*** Client : Initialising random sounds - " + randoms.size + " emitters." );
@@ -192,37 +192,37 @@ soundLoopThink()
 	{
 		return;
 	}
-	
+
 	if( !IsDefined( self.origin ) )
 	{
 		return;
 	}
 
 	level endon( "save_restore" );
-	
+
 	//println("starting loop loop");
-	
+
 	notifyName = "";
 	assert( IsDefined( notifyName ) );
-	
+
 	if( IsDefined( self.script_string ) )
 	{
 		notifyName = self.script_string;
 	}
 	assert( IsDefined( notifyName ) );
-	
+
 	started = true;
-	
+
 	if( IsDefined( self.script_int) )
 	{
 		started = self.script_int != 0;
 	}
-	
+
 	if( started )
 	{
 		soundloopemitter( self.script_sound, self.origin );
 	}
-	
+
 	if( notifyName != "" )
 	{
 		println( "starting loop notify" );
@@ -253,38 +253,38 @@ soundLineThink()
 {
 	level endon("save_restore");
 	//println("starting line line");
-	
+
 	if( !IsDefined( self.target) )
 	{
 		return;
 	}
-	
+
 	target = getstruct( self.target, "targetname" );
-	
+
 	if( !IsDefined( target) )
 	{
 		return;
 	}
-	
+
 	notifyName = "";
-	
+
 	if( IsDefined( self.script_string ) )
 	{
 		notifyName = self.script_string;
 	}
-	
+
 	started = true;
-	
+
 	if( IsDefined( self.script_int) )
 	{
 		started = self.script_int != 0;
 	}
-	
+
 	if( started )
 	{
 		soundLineEmitter( self.script_sound, self.origin, target.origin );
 	}
-	
+
 	if( notifyName != "" )
 	{
 		println( "starting line notify" );
@@ -314,7 +314,7 @@ soundLineThink()
 startSoundLoops()
 {
 	loopers = GetStructArray( "looper", "script_label" );
-	
+
 	if( IsDefined( loopers ) && loopers.size > 0 )
 	{
 		delay = 0;
@@ -328,7 +328,7 @@ startSoundLoops()
 			{
 				wait( 0.01 );
 			}
-		}		
+		}
 	}
 	else
 	{
@@ -340,7 +340,7 @@ startSoundLoops()
 startLineEmitters()
 {
 	lineEmitters = GetStructArray( "line_emitter", "script_label" );
-	
+
 	if( IsDefined( lineEmitters ) && lineEmitters.size > 0 )
 	{
 		delay = 0;
@@ -367,7 +367,7 @@ startLineEmitters()
 init_audio_step_triggers()
 {
 	waitforclient( 0 ); // wait until the first snapshot has arrived
-	
+
 	trigs = GetEntArray( 0, "audio_step_trigger","targetname" );
 
 	println( "Client : " + trigs.size + " audio_step_triggers." );
@@ -388,7 +388,7 @@ audio_step_trigger( trig )
 trig_enter_audio_step_trigger( trigPlayer )
 {
 	//iprintlnbold("enter");
-	
+
 	if( !IsDefined( trigPlayer.movementtype ) )
 	{
 		trigPlayer.movementtype = "null";
@@ -426,16 +426,10 @@ bump_trigger_start()
 {
 	//wait (.1);
 	bump_trigs = GetEntArray( 0, "audio_bump_trigger", "targetname" );
-	set = false;
-	
+
 	for( i = 0; i < bump_trigs.size; i++)
 	{
-		bump_trigs[i] thread thread_bump_trigger();	
-		if(bump_trigs[i].script_sound == "perks_rattle" && !set)
-		{
-			set = true;
-			bump_trigs[i] thread delete_on_notify();
-		}
+		bump_trigs[i] thread thread_bump_trigger();
 	}
 }
 
@@ -454,13 +448,7 @@ thread_bump_trigger()
 		self waittill ( "trigger", trigPlayer );
 
 		self thread trigger_thread( trigPlayer, ::trig_enter_bump, ::trig_leave_bump );
-	}	
-}
-
-delete_on_notify()
-{
-	level waittill("del_bump_trig");
-	self Delete();
+	}
 }
 
 trig_enter_bump( ent )
@@ -506,12 +494,12 @@ start_player_health_snapshot()
 	{
 	    return;
 	}
-	
+
 	//PrintLn( "health_tst audio_init" );
 	level endon( "save_restore" );
 	wait( 1 );
-	
-	max_health = GetLocalClientMaxHealth( 0 ); 
+
+	max_health = GetLocalClientMaxHealth( 0 );
 	last_health = 0;
 
 	health_snapshot = "pain_heavy_occlude";//"pain_light_occlude";
@@ -529,7 +517,7 @@ start_player_health_snapshot()
 		wait ( 0.05 );
 
 		health = GetLocalClientHealth( 0 );
-        
+
         if( health > 70 )
         {
             health_scale = 0;
@@ -587,21 +575,21 @@ get_vol_from_speed( player )
 	min_vol = .1;
 
 	speed = player getspeed();
-	
-	// hack for ai until getspeed returns correct speed	
+
+	// hack for ai until getspeed returns correct speed
 	if(speed == 0 )
 	{
 		// iprintlnbold( "AI override" );
 		speed = 175;
-	}	
-	
+	}
+
 	//Ayers - Added in specifically to override low footstep volume during tunnel sequence in Creek
 	//Can be used to keep volume up artificially during any sequence
-	if( IsDefined( level.footstep_vol_override ) )  
+	if( IsDefined( level.footstep_vol_override ) )
 	{
 		min_vol = .5;
 	}
-	
+
 	// make sure we are not getting negative vaules. may be unneeded
 	abs_speed = absolute_value( int( speed ) );
 	volume = scale_speed( min_speed, max_speed, min_vol, max_vol, abs_speed );
@@ -657,7 +645,7 @@ playloopat( localClientNum, aliasname, origin, fade )
 
 	fake_ent = spawnfakeent( localClientNum );
 	setfakeentorg( localClientNum, fake_ent, origin );
-	playloopsound( localClientNum, fake_ent, aliasname, fade ); 
+	playloopsound( localClientNum, fake_ent, aliasname, fade );
 	return fake_ent;
 }
 
@@ -702,11 +690,11 @@ debug_line_emitter()
 {
 	while( 1 )
 	{
-		/# 
+		/#
 		if( getdvarint( #"debug_audio" ) > 0 )
 		{
 			line( self.start, self.end, (0, 1, 0) );
-			
+
 			print3d( self.start, "START", (0.0, 0.8, 0.0), 1, 3, 1 );
 			print3d( self.end, "END", (0.0, 0.8, 0.0), 1, 3, 1 );
 			print3d( self.origin, self.script_sound, (0.0, 0.8, 0.0), 1, 3, 1 );
@@ -719,11 +707,11 @@ debug_line_emitter()
 move_sound_along_line()
 {
 	closest_dist = undefined;
-	
+
 	/#
 	self thread debug_line_emitter();
 	#/
-	
+
 	while( 1 )
 	{
 		self closest_point_on_line_to_point( getlocalclientpos( 0 ), self.start, self.end );
@@ -734,7 +722,7 @@ move_sound_along_line()
 		}
 
 		//Update the sound based on distance to the point
-		closest_dist = DistanceSquared( getlocalclientpos( 0 ), self.origin );	
+		closest_dist = DistanceSquared( getlocalclientpos( 0 ), self.origin );
 
 		if( closest_dist > 1024 * 1024 )
 		{
@@ -757,7 +745,7 @@ line_sound_player()
 	{
 		self.fake_ent = spawnfakeent( self.localClientNum );
 		setfakeentorg( self.localClientNum, self.fake_ent, self.origin );
-		playloopsound( self.localClientNum, self.fake_ent, self.script_sound ); 
+		playloopsound( self.localClientNum, self.fake_ent, self.script_sound );
 	}
 	else
 	{
@@ -790,9 +778,9 @@ sound_movie_snapshot_start()
 	{
 		level waittill ("pms");
 		wait(0.3);
-		snd_set_snapshot ("alloff_except_voice_music");	
-		
-	}	
+		snd_set_snapshot ("alloff_except_voice_music");
+
+	}
 }
 sound_movie_snapshot_alloff_but_mid_start()
 {
@@ -801,17 +789,17 @@ sound_movie_snapshot_alloff_but_mid_start()
 		level waittill ("pmsao");
 		wait(0.2);
 //ECKERT - Trigger the special alloff except for MID here
-		snd_set_snapshot ("flashback_duck");	
-		
-	}	
+		snd_set_snapshot ("flashback_duck");
+
+	}
 }
 sound_movie_snapshot_stop()
 {
 	while(1)
 	{
 		level waittill ("pmo");
-		snd_set_snapshot ("default");	
-		
-	}	
-	
+		snd_set_snapshot ("default");
+
+	}
+
 }
