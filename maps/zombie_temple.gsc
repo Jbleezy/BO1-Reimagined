@@ -718,6 +718,11 @@ init_random_perk_machines()
 			machine_model setModel(randMachine.model);
 			machine_model.targetname = randMachine.target;
 			machine_model.script_string = randMachine.script_string;
+
+			// Wardog: Start - Fix script_String being for wrong perks
+			// Call this inside of `if` to make sure we have a origin to spawn at
+			level thread spawn_shang_bump_trigger(machine.script_noteworthy, machine_model.origin);
+			// Wardog: End
 		}
 
 		if(isDefined(clip))
@@ -726,6 +731,19 @@ init_random_perk_machines()
 		}
 	}
 }
+
+// Wardog: Start - Fix script_String being for wrong perks
+// Must spawn after players connect lel, since we need to send a message to csc
+spawn_shang_bump_trigger(perk, origin)
+{
+	flag_wait("all_players_connected");
+
+	str_origin = vector_to_string(origin, ",");
+
+	level send_message_to_csc("zombiemode_perks", perk + "|spawn_bump|" + str_origin);
+}
+// Wardog: End
+
 _rand_perk_index(randMachines, name)
 {
 	for(i=0;i<randMachines.size;i++)

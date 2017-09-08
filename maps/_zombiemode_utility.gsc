@@ -1,4 +1,4 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
 
 init_utility()
@@ -6,7 +6,37 @@ init_utility()
 //	level thread edge_fog_start();
 
 //	level thread hudelem_count();
+
+// Wardog: Start - Infinate client systems
+	registerClientSys("wardog_client_systems");
+// Wardog: End
 }
+
+// Wardog: Start - Infinate client systems
+vector_to_string(origin, splitter)
+{
+	if(!isdefined(splitter))
+		splitter = ",";
+	return origin[0] + splitter + origin[1] + splitter + origin[2];
+}
+
+send_message_to_csc(name, message)
+{
+	csc_message = name + ":" + message;
+
+	if(isdefined(self) && IsPlayer(self))
+		setClientSysState("wardog_client_systems", csc_message, self);
+	else
+	{
+		players = get_players();
+
+		for(i = 0; i < players.size; i++)
+		{
+			setClientSysState("wardog_client_systems", csc_message, players[i]);
+		}
+	}
+}
+// Wardog: End
 
 
 // self is Ai and chunk is selected piece

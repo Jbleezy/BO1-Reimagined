@@ -1,4 +1,4 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
 
@@ -943,6 +943,24 @@ revive_solo_fx(machine_clip)
 
     level clientNotify( "drb" );
 
+	// Wardog: Start - Delete perk hum
+	vending_triggers = GetEntArray("zombie_vending", "targetname");
+
+	for(i = 0; i < vending_triggers.size; i++)
+	{
+		if(!isdefined(vending_triggers[i].script_noteworthy))
+			continue;
+		if(vending_triggers[i].script_noteworthy != "specialty_quickrevive")
+			continue;
+		if(!isdefined(vending_triggers[i].perk_hum_ent))
+			continue;
+
+		vending_triggers[i].perk_hum_ent StopLoopSound();
+		vending_triggers[i].perk_hum_ent Delete();
+		vending_triggers[i].perk_hum_ent = undefined;
+	}
+	// Wardog: End
+
 	//self setmodel("zombie_vending_revive");
 	self.fx Unlink();
 	self.fx delete();
@@ -952,6 +970,8 @@ revive_solo_fx(machine_clip)
 	machine_clip trigger_off();
 	machine_clip ConnectPaths();
 	machine_clip Delete();
+
+	level send_message_to_csc("zombiemode_perks", "specialty_quickrevive|delete_bump");
 }
 
 // Jugger-nog / Juggernaut
@@ -1256,6 +1276,10 @@ vending_trigger_think()
 
 	perk_hum = spawn("script_origin", self.origin);
 	perk_hum playloopsound("zmb_perks_machine_loop");
+
+	// Wardog: Start - Save perk hum, to be able to delete for revive
+	self.perk_hum_ent = perk_hum;
+	// Wardog: End
 
 	self thread check_player_has_perk(perk);
 

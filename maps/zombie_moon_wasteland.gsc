@@ -830,19 +830,33 @@ perk_machines_hide( cola, jug, moving )
 	if( cola )
 	{
 		level.speed_cola_ents[0] hide();
+		// Wardog: Start - Delete old bump trigger
+		level send_message_to_csc("zombiemode_perks", "specialty_fastreload|delete_bump");
+		// Wardog: End
 	}
 	else
 	{
 		level.speed_cola_ents[0] show();
+		// Wardog: Start - Spawn new bump trigger
+		str_origin = vector_to_string(level.jugg_ents[0].origin, ",");
+		level send_message_to_csc("zombiemode_perks", "specialty_fastreload|spawn_bump|" + str_origin);
+		// Wardog: End
 	}
 
 	if( jug )
 	{
 		level.jugg_ents[0] hide();
+		// Wardog: Start - Delete old bump trigger
+		level send_message_to_csc("zombiemode_perks", "specialty_armorvest|delete_bump");
+		// Wardog: End
 	}
 	else
 	{
 		level.jugg_ents[0] show();
+		// Wardog: Start - Spawn new bump trigger
+		str_origin = vector_to_string(level.jugg_ents[0].origin, ",");
+		level send_message_to_csc("zombiemode_perks", "specialty_armorvest|spawn_bump|" + str_origin);
+		// Wardog: End
 	}
 
 	if(moving)

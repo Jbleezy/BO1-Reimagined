@@ -106,7 +106,8 @@ rawfile,maps/zombie_moon_gravity.gsc
 rawfile,maps/zombie_moon_teleporter.gsc
 
 //CLIENTSCRIPTS
-//rawfile,clientscripts/_audio.csc
+rawfile,clientscripts/_zombiemode_perks.csc
+rawfile,clientscripts/_audio.csc
 rawfile,clientscripts/_explosive_bolt.csc
 rawfile,clientscripts/_sticky_grenade.csc
 rawfile,clientscripts/_zombiemode_ffotd.csc

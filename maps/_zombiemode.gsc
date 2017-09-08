@@ -186,7 +186,8 @@ main()
 
 	level thread maps\_zombiemode_ffotd::main_end();
 
-	registerClientSys("hud");
+	// No longer needed, uses inf client systems
+	// registerClientSys("hud");
 
 	set_gamemode();
 
@@ -4229,7 +4230,7 @@ round_think()
 {
 	for( ;; )
 	{
-		level.round_number = 100;
+		// level.round_number = 100;
 		level.zombie_vars["zombie_spawn_delay"] = .08;
 		level.zombie_move_speed = 100;
 
@@ -7432,8 +7433,8 @@ round_time_loop()
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		setClientSysState("hud", "hud_round_time_out", players[i]);
-		setClientSysState("hud", "hud_round_total_time_out", players[i]);
+		players[i] send_message_to_csc("hud_anim_handler", "hud_round_time_out");
+		players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_out");
 	}
 
 	flag_wait( "begin_spawning" );
@@ -7449,7 +7450,7 @@ round_time_loop()
 		players = get_players();
 		for(i=0;i<players.size;i++)
 		{
-			setClientSysState("hud", "hud_round_time_in", players[i]);
+			players[i] send_message_to_csc("hud_anim_handler", "hud_round_time_in");
 		}
 
 		level thread round_time();
@@ -7482,7 +7483,7 @@ round_time_loop()
 		for(i=0;i<players.size;i++)
 		{
 			players[i] SetClientDvar("round_total_time", round_total_time);
-			setClientSysState("hud", "hud_round_total_time_in", players[i]);
+			players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_in");
 		}
 
 		level waittill("between_round_over");
@@ -7490,8 +7491,8 @@ round_time_loop()
 		players = get_players();
 		for(i=0;i<players.size;i++)
 		{
-			setClientSysState("hud", "hud_round_time_out", players[i]);
-			setClientSysState("hud", "hud_round_total_time_out", players[i]);
+			players[i] send_message_to_csc("hud_anim_handler", "hud_round_time_out");
+			players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_out");
 		}
 
 		level waittill( "start_of_round" );
@@ -7628,7 +7629,7 @@ sidequest_hud()
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		setClientSysState("hud", "hud_sidequest_time_out", players[i]);
+		players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_out");
 	}
 
 	if(level.script == "zombie_cod5_factory")
@@ -7661,14 +7662,14 @@ sidequest_hud()
 		for(i=0;i<players.size;i++)
 		{
 			players[i] SetClientDvar("sidequest_time", text);
-			setClientSysState("hud", "hud_sidequest_time_in", players[i]);
+			players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_in");
 		}
 
 		wait 5;
 		players = get_players();
 		for(i=0;i<players.size;i++)
 		{
-			setClientSysState("hud", "hud_sidequest_time_out", players[i]);
+			players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_out");
 		}
 
 		flag_wait("be2");
@@ -7680,13 +7681,13 @@ sidequest_hud()
 	for(i=0;i<players.size;i++)
 	{
 		players[i] SetClientDvar("sidequest_time", text);
-		setClientSysState("hud", "hud_sidequest_time_in", players[i]);
+		players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_in");
 	}
 	wait 5;
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		setClientSysState("hud", "hud_sidequest_time_out", players[i]);
+		players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_out");
 	}
 }
 
@@ -7708,9 +7709,9 @@ zone_hud()
 		}
 		current_name = name;
 
-		setClientSysState("hud", "hud_zone_name_out", self);
+		self send_message_to_csc("hud_anim_handler", "hud_zone_name_out");
 		self SetClientDvar("zone_name", name);
-		setClientSysState("hud", "hud_zone_name_in", self);
+		self send_message_to_csc("hud_anim_handler", "hud_zone_name_in");
 	}
 }
 
@@ -8289,4 +8290,14 @@ set_gamemode_name()
 	wait_network_frame();
 
 	SetDvar("zm_gamemode_name", level.gamemode);
+
+	// FIXME: Find a better place for this, needs to be called after everything has init'ed
+
+	if(GetDvarInt("mule_kick_enabled"))
+		return;
+
+	wait 5;
+
+	// Delete the bump
+	level send_message_to_csc("zombiemode_perks", "specialty_additionalprimaryweapon|delete_bump");
 }
