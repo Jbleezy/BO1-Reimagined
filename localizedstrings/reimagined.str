@@ -48,6 +48,9 @@ LANG_ENGLISH       	"Why are you trying to activate the trap before the bridge i
 REFERENCE          	DOOR_CLOSED
 LANG_ENGLISH       	"The door must be opened"
 
+REFERENCE          	PERK_QUICKREVIVE
+LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to buy Quick Revive [Cost: &&1]"
+
 //WEAPONS
 
 REFERENCE          	AK47_UPGRADED

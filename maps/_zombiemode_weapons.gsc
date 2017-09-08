@@ -1594,9 +1594,59 @@ decide_hide_show_hint( endon_notify )
 			players = get_players();
 			for( i = 0; i < players.size; i++ )
 			{
+				if(players[i] != self.chest_user)
+				{
+					self SetInvisibleToPlayer( players[i], true );
+				}
+			}
+		}
+		else if(IsDefined(self.placeable_mine_name)) //mines
+		{
+			players = get_players();
+			for( i = 0; i < players.size; i++ )
+			{
 				if(DistanceSquared( players[i].origin, self.origin ) < dist)
 				{
-					if(players[i] != self.chest_user)
+					current_weapon = players[i] GetCurrentWeapon();
+					if( players[i] is_player_placeable_mine( self.placeable_mine_name ) )
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
+					else if( players[i] can_buy_weapon())
+					{
+						self SetInvisibleToPlayer( players[i], false );
+					}
+					else if( is_melee_weapon(current_weapon) )
+					{
+						self SetInvisibleToPlayer( players[i], false );
+					}
+					else
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
+				}
+			}
+		}
+		else if(IsDefined(self.melee_wallbuy_name)) //melee wallbuys
+		{
+			players = get_players();
+			for( i = 0; i < players.size; i++ )
+			{
+				if(DistanceSquared( players[i].origin, self.origin ) < dist)
+				{
+					if( players[i] HasWeapon( self.melee_wallbuy_name ) )
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
+					else if( players[i] isSwitchingWeapons() )
+					{
+						self SetInvisibleToPlayer( players[i], true );
+					}
+					else if( players[i] can_buy_weapon())
+					{
+						self SetInvisibleToPlayer( players[i], false );
+					}
+					else
 					{
 						self SetInvisibleToPlayer( players[i], true );
 					}
@@ -1687,54 +1737,6 @@ decide_hide_show_hint( endon_notify )
 					primaryWeapons = players[i] GetWeaponsListPrimaries();
 
 					if(is_melee_weapon(current_weapon) && primaryWeapons.size > 0)
-					{
-						self SetInvisibleToPlayer( players[i], true );
-					}
-					else if( players[i] can_buy_weapon())
-					{
-						self SetInvisibleToPlayer( players[i], false );
-					}
-					else
-					{
-						self SetInvisibleToPlayer( players[i], true );
-					}
-				}
-			}
-		}
-		else if(IsDefined(self.placeable_mine_name)) //mines
-		{
-			players = get_players();
-			for( i = 0; i < players.size; i++ )
-			{
-				if(DistanceSquared( players[i].origin, self.origin ) < dist)
-				{
-					if( players[i] is_player_placeable_mine( self.placeable_mine_name ) )
-					{
-						self SetInvisibleToPlayer( players[i], true );
-					}
-					else if( players[i] can_buy_weapon())
-					{
-						self SetInvisibleToPlayer( players[i], false );
-					}
-					else
-					{
-						self SetInvisibleToPlayer( players[i], true );
-					}
-				}
-			}
-		}
-		else if(IsDefined(self.melee_wallbuy_name)) //melee wallbuys
-		{
-			players = get_players();
-			for( i = 0; i < players.size; i++ )
-			{
-				if(DistanceSquared( players[i].origin, self.origin ) < dist)
-				{
-					if( players[i] HasWeapon( self.melee_wallbuy_name ) )
-					{
-						self SetInvisibleToPlayer( players[i], true );
-					}
-					else if( players[i] isSwitchingWeapons() )
 					{
 						self SetInvisibleToPlayer( players[i], true );
 					}

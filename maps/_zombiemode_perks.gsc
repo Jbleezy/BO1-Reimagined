@@ -63,6 +63,7 @@ init()
 
 	array_thread( vending_triggers, ::vending_trigger_think );
 	array_thread( vending_triggers, ::electric_perks_dialog );
+	//array_thread( vending_triggers, ::bump_trigger_think );
 
 	level thread turn_doubletap_on();
 	if ( is_true( level.zombiemode_using_marathon_perk ) )
@@ -249,7 +250,8 @@ default_vending_precaching()
 		PrecacheString( &"ZOMBIE_PERK_ADDITIONALWEAPONPERK" );
 	}
 	PrecacheString( &"ZOMBIE_PERK_JUGGERNAUT" );
-	PrecacheString( &"ZOMBIE_PERK_QUICKREVIVE" );
+	//PrecacheString( &"ZOMBIE_PERK_QUICKREVIVE" );
+	PrecacheString( &"REIMAGINED_PERK_QUICKREVIVE" );
 	PrecacheString( &"ZOMBIE_PERK_FASTRELOAD" );
 	PrecacheString( &"ZOMBIE_PERK_PACKAPUNCH" );
 
@@ -1274,7 +1276,7 @@ vending_trigger_think()
 		{
 			self SetHintString( &"ZOMBIE_PERK_QUICKREVIVE", cost );
 		}*/
-		self SetHintString("Hold ^3[{+activate}]^7 to buy Quick Revive [Cost: &&1]", cost);
+		self SetHintString(&"REIMAGINED_PERK_QUICKREVIVE", cost);
 		break;
 
 	case "specialty_fastreload_upgrade":
@@ -2493,6 +2495,37 @@ move_faster_while_ads(perk_str)
 			self SetMoveSpeedScale(1);
 		}
 
+		wait_network_frame();
+	}
+}
+
+bump_trigger_think()
+{
+	self endon("death");
+
+	flag_wait("all_players_connected");
+
+	while(1)
+	{
+		players = get_players();
+		for( i = 0; i < players.size; i++ )
+		{
+			if(!IsDefined(players[i].bump_active))
+			{
+				players[i].bump_active = false;
+			}
+
+			if(players[i] IsTouching(self) && !players[i].bump_active)
+			{
+				players[i].bump_active = true;
+				players[i] PlayLocalSound("fly_bump_bottle");
+				players[i].current_touching_perk = self;
+			}
+			else if(IsDefined(players[i].current_touching_perk) && !players[i] IsTouching(players[i].current_touching_perk) && players[i].bump_active)
+			{
+				players[i].bump_active = false;
+			}
+		}
 		wait_network_frame();
 	}
 }

@@ -324,6 +324,7 @@
 * Multiple people can now buy the same perk at the same time
 * Perk order will no longer be changed when losing a perk
 * Removed blur effect that previously happened after buying a perk
+* Fixed a bug where the perk machine rattle sound would still play on Quick Revive after the machine is gone in solo
 
 ### Quick Revive
 * Hintstring now says "Quick Revive" in solo and coop
@@ -615,8 +616,8 @@
 * Fix barrel textures on Der Riese? (Haven't had it happen again)
 * Find a way to be able to shoot through more than 3 zombies
 * Add all other gamemodes
-* Figure out bug that causes cosmonaut to delete himself occasionally
-* Make zombies go after monkeys instantly
+* Figure out bug that causes cosmonaut to delete himself occasionally (might be fixed)
+* Make zombies go after monkey bombs instantly
 * Make it so betties can only be triggered by zombies with line of sight from bettys position
 * Fix mule kick weapon being changed from paping
 * Deadshot: add faster ADS move speed (using WeaponClass(current_weapon))
@@ -644,9 +645,9 @@
 * Make trap hintstrings show time remaining for active and cooldown (use add_zombie_hint())
 * Remove marks on background of Deadshot perk emblem
 * Fix weapon order being changed
-* Verruckt: fix zombie pathing at speed slightly more
 * Add NML round number in place of round number
 * Check things with QED weapon powerups
+* Get perk bump triggers working on all maps
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

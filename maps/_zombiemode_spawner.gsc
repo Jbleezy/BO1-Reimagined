@@ -617,9 +617,40 @@ zombie_goto_entrance( node, endon_bad_path )
 
 	self.got_to_entrance = false;
 
-	self.goalradius = 32 + RandomInt(97);
+	self.behind_barrier = true;
 
-	self SetGoalPos( node.origin );
+	zombs = GetAiSpeciesArray( "axis", "all" );
+	zombs_behind_window = -3; //dont count zombs tearing down barrier
+	for(i=0;i<zombs.size;i++)
+	{
+		if(zombs[i] != self && zombs[i].first_node == self.first_node && IsDefined(zombs[i].behind_barrier) && zombs[i].behind_barrier)
+		{
+			zombs_behind_window++;
+		}
+	}
+
+	if(zombs_behind_window < 0)
+	{
+		zombs_behind_window = 0;
+	}
+	radius = int(zombs_behind_window / 3);
+
+	self.goalradius = 32 + RandomIntRange(radius * 15, (radius + 1) * 15);
+	//self.goalradius = 32 + RandomInt(97);
+
+	angles = AnglesToRight(node.angles);
+	origin = node.origin;
+
+	if(zombs_behind_window % 3 == 1) //right
+	{
+		origin += angles * 32;
+	}
+	else if(zombs_behind_window % 3 == 2) //left
+	{
+		origin -= angles * 32;
+	}
+
+	self SetGoalPos( origin );
 	self waittill( "goal" );
 	self.got_to_entrance = true;
 
@@ -628,6 +659,8 @@ zombie_goto_entrance( node, endon_bad_path )
 	// Guy should get to goal and tear into building until all barrier chunks are gone
 	// They go into this function and do everything they and then comeback once all the barriers are removed
 	self tear_into_building();
+
+	self.behind_barrier = false;
 
 	self reset_attack_spot();
 

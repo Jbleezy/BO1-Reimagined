@@ -722,8 +722,7 @@ init_strings()
 	add_zombie_hint( "undefined", &"ZOMBIE_UNDEFINED" );
 
 	// Random Treasure Chest
-	add_zombie_hint( "default_treasure_chest_950", &"ZOMBIE_RANDOM_WEAPON_950" );
-	// add_zombie_hint( "reimagined_treasure_chest_950", &"REIMAGINED_RANDOM_WEAPON_950" );
+	//add_zombie_hint( "default_treasure_chest_950", &"ZOMBIE_RANDOM_WEAPON_950" );
 
 	// Barrier Pieces
 	add_zombie_hint( "default_buy_barrier_piece_10", &"ZOMBIE_BUTTON_BUY_BACK_BARRIER_10" );
@@ -776,8 +775,7 @@ init_strings()
 	add_zombie_hint( "default_buy_area_2000", &"ZOMBIE_BUTTON_BUY_OPEN_AREA_2000" );
 
 	// POWER UPS
-	add_zombie_hint( "powerup_fire_sale_cost", &"ZOMBIE_FIRE_SALE_COST" );
-	// add_zombie_hint( "reimagined_random_weapon_fire_sale_cost", &"REIMAGINED_RANDOM_WEAPON_FIRE_SALE_COST" );
+	//add_zombie_hint( "powerup_fire_sale_cost", &"ZOMBIE_FIRE_SALE_COST" );
 }
 
 init_sounds()
@@ -4231,7 +4229,7 @@ round_think()
 {
 	for( ;; )
 	{
-		//level.round_number = 100;
+		level.round_number = 100;
 		level.zombie_vars["zombie_spawn_delay"] = .08;
 		level.zombie_move_speed = 100;
 

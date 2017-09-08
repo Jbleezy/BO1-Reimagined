@@ -1893,7 +1893,7 @@ fix_zombie_pathing()
 			{
 				continue;
 			}
-			if(int(DistanceSquared(bad_spot, zombs[i].origin)) < 32*32)
+			if(int(DistanceSquared(bad_spot, zombs[i].origin)) < 24*24)
 			{
 				zombs[i].recalculating = true;
 				zombs[i] thread recalculate_pathing(good_spot);
