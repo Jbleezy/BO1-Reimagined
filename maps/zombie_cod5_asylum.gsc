@@ -806,18 +806,18 @@ electric_trap_move_switch(parent)
 		north_zapper_light_red();
 		//machine = getent("zap_machine_north","targetname");
 
-		while(IsDefined(self.moving) && self.moving)
-		{
-			wait_network_frame();
-		}
+		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(-180);
 
-		tswitch rotatepitch(-180,.5);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
+
+		if(extra_time > 0)
+		{
+			wait(extra_time);
+		}
+
 		self notify("switch_activated");
 		self waittill("available");
-
-		self.moving = true;
 
 		tswitch rotatepitch(180,.5);
 
@@ -825,33 +825,30 @@ electric_trap_move_switch(parent)
 		north_zapper_light_green();
 
 		tswitch waittill("rotatedone");
-		self.moving = false;
 	}
 	else
 	{
 		south_zapper_light_red();
 
-		while(IsDefined(self.moving) && self.moving)
-		{
-			wait_network_frame();
-		}
+		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
 
-		tswitch rotatepitch(180,.5);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
+
+		if(extra_time > 0)
+		{
+			wait(extra_time);
+		}
+
 		self notify("switch_activated");
 		self waittill("available");
-
-		self.moving = true;
 
 		tswitch rotatepitch(-180,.5);
 
 		south_zapper_light_green();
 
 		tswitch waittill("rotatedone");
-		self.moving = false;
 	}
-
 }
 
 activate_electric_trap(who)

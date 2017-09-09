@@ -321,7 +321,7 @@ trap_use_think( trap )
 
 			if ( trap._trap_switches.size )
 			{
-				trap thread trap_move_switches();
+				trap thread trap_move_switches(who);
 				//need to play a 'woosh' sound here, like a gas furnace starting up
 				trap waittill("switch_activated");
 			}
@@ -452,44 +452,53 @@ trap_set_string( string, param1, param2 )
 // It's a throw switch
 //	self should be the trap entity
 //*****************************************************************************
-trap_move_switches()
+trap_move_switches(activator)
 {
 	if( level.mutators["mutator_noTraps"] )
 	{
 		return;
 	}
 
-	if(IsDefined(self._trap_switches[0].rotating) && self._trap_switches[0].rotating)
-	{
-		self._trap_switches[0] waittill( "rotatedone" );
-		wait_network_frame();
-	}
-
 	self trap_lights_red();
+	closest = undefined;
+	distance = 0;
 	for ( i=0; i<self._trap_switches.size; i++ )
 	{
-		// Rotate switch model "on"
-		self._trap_switches[i] rotatepitch( 180, .5 );
-		self._trap_switches[i] playsound( "amb_sparks_l_b" );
+		if(i == 0)
+		{
+			closest = self._trap_switches[i];
+			distance = DistanceSquared(self._trap_switches[i].origin, activator.origin);
+		}
+		else if(DistanceSquared(self._trap_switches[i].origin, activator.origin) < distance)
+		{
+			closest = self._trap_switches[i];
+			distance = DistanceSquared(self._trap_switches[i].origin, activator.origin);
+		}
 	}
 
-	self._trap_switches[0].rotating = true;
-	self._trap_switches[0] waittill( "rotatedone" );
-	self._trap_switches[0].rotating = false;
+	// Rotate switch model "on"
+	//self._trap_switches[i] rotatepitch( 180, .5 );
+	extra_time = closest move_trap_handle(180);
+	closest playsound( "amb_sparks_l_b" );
+
+	closest waittill( "rotatedone" );
+	if(extra_time > 0)
+	{
+		wait(extra_time);
+	}
 
 	// When "available" notify hit, bring back the level
 	self notify( "switch_activated" );
 
 	self waittill( "available" );
-	for ( i=0; i<self._trap_switches.size; i++ )
+	/*for ( i=0; i<self._trap_switches.size; i++ )
 	{
 		// Rotate switch model "off"
 		self._trap_switches[i] rotatepitch( -180, .5 );
-	}
-	self._trap_switches[0].rotating = true;
-	self._trap_switches[0] waittill( "rotatedone" );
+	}*/
 	self trap_lights_green();
-	self._trap_switches[0].rotating = false;
+	closest rotatepitch( -180, .5 );
+	closest waittill( "rotatedone" );
 }
 
 
@@ -1232,4 +1241,31 @@ trap_model_type_init()
 			break;
 	}
 
+}
+
+//move trap handle based on its current position so it ends up at the correct spot
+move_trap_handle(end_angle)
+{
+	angle = self.angles[0];
+
+	if(angle < -180)
+	{
+		angle += 360;
+	}
+	else if(angle > 180)
+	{
+		angle -= 360;
+	}
+
+	percent = (angle + 180) / 180;
+	time = .5 * percent;
+	if(time < .05)
+	{
+		time = .05;
+	}
+	extra_time = .5 - time;
+
+	self rotatepitch(end_angle - angle, time);
+
+	return extra_time;
 }

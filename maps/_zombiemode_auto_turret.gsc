@@ -152,23 +152,23 @@ activate_move_handle()
 {
 	if(IsDefined(self.handle))
 	{
-		if(IsDefined(self.handle.rotating) && self.handle.rotating)
-			self.handle waittill( "rotatedone" );
-
 		// Rotate switch model
-		self.handle rotatepitch( 160, .5 );
+		iprintln(self.handle.angles[0]);
+		//self.handle rotatepitch( 160, .5 );
+		extra_time = self.handle thread maps\_zombiemode_traps::move_trap_handle(85);
 		//self.handle playsound( "amb_sparks_l_b" );
-		self.handle.rotating = true;
 		self.handle waittill( "rotatedone" );
-		self.handle.rotating = false;
+		iprintln(self.handle.angles[0]);
+		if(extra_time > 0)
+		{
+			wait(extra_time);
+		}
 
 		self notify( "switch_activated" );
 		self waittill( "turret_deactivated" );
 
 		self.handle rotatepitch( -160, .5 );
-		self.handle.rotating = true;
 		self.handle waittill( "rotatedone" );
-		self.handle.rotating = false;
 	}
 }
 

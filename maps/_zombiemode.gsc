@@ -4242,7 +4242,11 @@ round_think()
 {
 	for( ;; )
 	{
-		//level.round_number = 100;
+		if(!IsDefined(level.test_variable))
+		{
+			level.test_variable = true;
+			level.round_number = 20;
+		}
 		level.zombie_vars["zombie_spawn_delay"] = .08;
 		level.zombie_move_speed = 100;
 
@@ -7913,6 +7917,9 @@ give_weapons_test()
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
 	self SwitchToWeapon(wep);
+
+	wait 1;
+	//flag_clear("spawn_zombies");
 
 	/*wait 5;
 

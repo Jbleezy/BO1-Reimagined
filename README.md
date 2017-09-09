@@ -21,7 +21,6 @@
 * Fixed a bug where players were able to damage themselves by meleeing and leaning at the same time
 * Fixed a bug where downed players were able to occasionally damage alive players
 * Pack-a-Punch camo now displays on Mustang & Sally when downed in solo
-* Fixed a bug where two or more players could trigger a door that has multiple triggers at the same time and both pay to open the door
 * Chracters no longer make hurt sounds if you have Flopper and an explosion happens that would have hurt you
 * Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
 * If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
@@ -376,15 +375,14 @@
 * Powerup can now drop while one is already active
 
 ## Traps
-* All traps now count kills for the player who activated the trap
-* Fixed trap handles being moved to the wrong spot and trap lights staying green when the trap was activated as soon as it become available again
-* All traps kill instantly
+* All trap kills now count as kills for the player who activated the trap
+* All traps now kill instantly
+* Fixed trap handles being moved to the wrong spot and trap lights staying green if a trap was activated while the trap handle was still moving up
+* All trap triggers now display active and cooldown hintstrings
 
 ### Electric Traps (All Maps)
 * Stun duration reduced from 2.5 seconds to 1.5 seconds (now matches the duration of the electricity being on screen)
-
-### Electric Traps (Classic Maps)
-* Now display active and cooldown hintstrings
+* Only the trap handle that was activated moves down now
 
 ### Electric Traps (Shi No Numa)
 * Cooldown time reduced from 90 seconds to 25 seconds (same as Verruckt and Der Riese)
@@ -407,11 +405,7 @@
 * Traps now show a hintstring when the power is on but the door is closed for them
 
 ### Teleporters (Der Riese)
-* Teleporter now kills zombies on any round
-* Removed delay between kills
-
-### Teleporter (Kino Der Toten)
-* Removed delay between kills
+* Teleporters now kill zombies on any round
 
 ### Turrets (Kino Der Toten and Ascension)
 * No longer deal damage to players
@@ -447,12 +441,17 @@
 
 ### Spikes (Shangri-La)
 * Deal 50 damage to players
-* Kills zombies
+* 50% change of Killing a zombie
 * Spikes will not activate if the player is jumping over them
+
+### Waterfall Trap (Shangri-La)
+* Now kills zombies
+* Displays a hintstring when active
 
 ## Blockers
 ### Doors
 * Doors now push any players out that are touching them after they have fully opened
+* Fixed a bug where two or more players could trigger a door that has multiple triggers at the same time and both pay to open the door
 
 ## Barriers
 * No longer have to hold use button in order to rebuild barriers, only press
@@ -462,7 +461,7 @@
 * Zombies will no longer get stuck behind a barrier when there are many zombies behind one barrier
 
 ## Zombies
-* Fixed a bug that caused zombies to bleedout unintentionally when zombies stay near the same spot for over 30 seconds
+* Fixed a bug where zombies would bleed out when they shouldn't have
 * Zombies can no longer be alive and headless
 * Special rounds work on the powerup system (1st time after initial special round is random, then next special round is on the round that the previous one wasn't, then repeat)
 * Max health: 1 million
@@ -648,6 +647,9 @@
 * Fix weapon order being changed
 * Add NML round number in place of round number
 * Check things with QED weapon powerups
+* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in
+* Lunar Lander: kills zombies
+* Lunar lander: remove explosion fx from death
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

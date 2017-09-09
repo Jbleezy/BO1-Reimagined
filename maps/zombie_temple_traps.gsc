@@ -12,6 +12,7 @@
 //------------------------------------------------
 init_temple_traps()
 {
+	PrecacheString(&"REIMAGINED_WATER_TRAP_ACTIVE");
 	level thread spear_trap_init();
 	level thread waterfall_trap_init();
 	level thread init_maze_trap();
@@ -178,8 +179,12 @@ spear_trap_slow(activator, trap)
 	}
 	else if(self.animname == "zombie")
 	{
-		activator.kills++;
-		self thread spear_kill();
+		//spikes was op, now only 50% chance to kill
+		if(randomint(100) < 50)
+		{
+			activator.kills++;
+			self thread spear_kill();
+		}
 		painAnims = [];
 		painAnims[0] = %ai_zombie_taunts_5b;
 		painAnims[1] = %ai_zombie_taunts_5c;
@@ -469,10 +474,9 @@ waterfall_trap_think()
 
 
 				//"animate" the switch
+				self.useTrigger SetHintString(&"REIMAGINED_WATER_TRAP_ACTIVE");
 				self thread temple_trap_move_switch();
 				self waittill( "switch_activated" );
-
-				self.useTrigger SetHintString("");
 
 				//Activate Waterfall FX
 				waterfall_trap_on();
@@ -483,13 +487,13 @@ waterfall_trap_think()
 				//Added for sidequest
 				who.used_waterfall = false;
 
-				//Activate Damage Trigger
-				array_thread(self.trap_damage, ::waterfall_trap_damage);
-
 				activeTime = 5.5;
 
 				//Water on screen triggers
 				array_thread(self.water_drop_trigs, ::waterfall_screen_fx, activeTime);
+
+				//Activate Damage Trigger
+				array_thread(self.trap_damage, ::waterfall_trap_damage, who);
 
 				//Screen shake
 				self thread waterfall_screen_shake(activeTime);
@@ -585,13 +589,15 @@ waterfall_trap_fx()
 }
 */
 
-waterfall_trap_damage()
+waterfall_trap_damage(activator)
 {
 	self endon("trap_off");
 
 	fwd = AnglesToForward(self.angles);
 
 	zombies_knocked_down = [];
+
+	wait 1;
 
 	while(1)
 	{
@@ -618,8 +624,8 @@ waterfall_trap_damage()
 			if(!ent_in_array(who,zombies_knocked_down)) //make sure this only gets called on the zombies once
 			{
 				zombies_knocked_down[zombies_knocked_down.size] = who;
-				wait_network_frame();
-				who thread zombie_waterfall_knockdown();
+				//wait_network_frame();
+				who thread zombie_waterfall_knockdown(activator);
 			}
 		}
 	}
@@ -627,7 +633,6 @@ waterfall_trap_damage()
 
 waterfall_trap_player(fwd,time)
 {
-	wait(1);
 	vel = self GetVelocity();
 	self SetVelocity(vel + fwd * 60.0);
 
@@ -645,7 +650,7 @@ waterfall_trap_player(fwd,time)
 
 waterfall_trap_monkey(magnitude, dir)
 {
-	wait(1);
+	//wait(1);
 	self StartRagdoll();
 	self launchragdoll(dir * magnitude);
 	wait_network_frame();
@@ -1928,12 +1933,17 @@ cell_get_previous()
 /*------------------------------------
 knock the zombies down w/the water trap
 ------------------------------------*/
-zombie_waterfall_knockdown()
+zombie_waterfall_knockdown(activator)
 {
 	self endon("death");
 
 	self.lander_knockdown = 1;
-	wait(1.25);
+	//wait(1.25);
+
+	if(self.animname == "zombie")
+	{
+		activator.kills++;
+	}
 
 	if ( IsDefined( self.thundergun_knockdown_func ) )
 	{
@@ -1945,7 +1955,18 @@ override_thundergun_damage_func(player,gib)
 {
 	dmg_point = getstruct("waterfall_dmg_point","script_noteworthy");
 	self.thundergun_handle_pain_notetracks = ::handle_knockdown_pain_notetracks;
-	self DoDamage( 1, dmg_point.origin );
+	if(self.animname == "zombie")
+	{
+		if( self.has_legs )
+		{
+			self.deathanim = random( level._zombie_knockdowns[self.animname]["front"]["has_legs"] );
+		}
+		self DoDamage( level.zombie_health + 1000, dmg_point.origin );
+	}
+	else
+	{
+		self DoDamage( 1, dmg_point.origin );
+	}
 }
 
 handle_knockdown_pain_notetracks( note )

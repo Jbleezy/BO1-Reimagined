@@ -946,7 +946,7 @@ kill_with_fire(damageType, attacker)
 			self thread zombie_flame_watch();
 			self playsound("evt_zombie_ignite");
 			self thread animscripts\zombie_death::flame_death_fx();
-			wait( randomfloat(1.25) );
+			//wait( randomfloat(1.25) );
 		}
 	}
 

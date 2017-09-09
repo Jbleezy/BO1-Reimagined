@@ -163,22 +163,18 @@ electric_trap_move_switch(parent)
 		//north_zapper_light_red();
 		//machine = getent("zap_machine_north","targetname");
 
-		while(IsDefined(self.moving) && self.moving)
-		{
-			wait_network_frame();
-		}
-
-		tswitch rotatepitch(180,.5);
+		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
+		if(extra_time > 0)
+		{
+			wait(extra_time);
+		}
 		self notify("switch_activated");
 		self waittill("available");
 
-		self.moving = true;
 		tswitch rotatepitch(-180,.5);
 		tswitch waittill("rotatedone");
-		self.moving = false;
-
 		//turn the light back green once the trap is available again
 		//north_zapper_light_green();
 	}
@@ -186,43 +182,36 @@ electric_trap_move_switch(parent)
 	{
 		//south_zapper_light_red();
 
-		while(IsDefined(self.moving) && self.moving)
-		{
-			wait_network_frame();
-		}
-
-		tswitch rotatepitch(180,.5);
+		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
 		self notify("switch_activated");
+		if(extra_time > 0)
+		{
+			wait(extra_time);
+		}
 		self waittill("available");
 
-		self.moving = true;
 		tswitch rotatepitch(-180,.5);
 		tswitch waittill("rotatedone");
-		self.moving = false;
-
 		//south_zapper_light_green();
 	}
 	else if(tswitch.script_linkname == "112")
 	{
 		//south_zapper_light_red();
 
-		while(IsDefined(self.moving) && self.moving)
-		{
-			wait_network_frame();
-		}
-
-		tswitch rotatepitch(180,.5);
+		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
 		self notify("switch_activated");
+		if(extra_time > 0)
+		{
+			wait(extra_time);
+		}
 		self waittill("available");
 
-		self.moving = true;
 		tswitch rotatepitch(-180,.5);
 		tswitch waittill("rotatedone");
-		self.moving = false;
 
 		//south_zapper_light_green();
 	}
@@ -230,21 +219,18 @@ electric_trap_move_switch(parent)
 	{
 		//south_zapper_light_red();
 
-		while(IsDefined(self.moving) && self.moving)
-		{
-			wait_network_frame();
-		}
-
-		tswitch rotatepitch(180,.5);
+		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
+		if(extra_time > 0)
+		{
+			wait(extra_time);
+		}
 		self notify("switch_activated");
 		self waittill("available");
 
-		self.moving = true;
 		tswitch rotatepitch(-180,.5);
 		tswitch waittill("rotatedone");
-		self.moving = false;
 
 		//south_zapper_light_green();
 	}

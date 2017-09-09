@@ -225,7 +225,16 @@ zip_line_stopsound()
 
 recallZipSwitch(dir)
 {
-	self.lever rotatepitch( dir, .5 );
+	if(dir < 0)
+	{
+		self.lever rotatepitch( dir, .5 );
+		extra_time = 0;
+	}
+	else
+	{
+		extra_time = self.lever thread maps\_zombiemode_traps::move_trap_handle(dir);
+	}
+
 	org = getent("zip_line_switch","targetname");
 	if(IsDefined(org))
 	{
@@ -234,6 +243,10 @@ recallZipSwitch(dir)
 	}
 
 	self.lever waittill ("rotatedone");
+	if(extra_time > 0)
+	{
+		wait(extra_time);
+	}
 
 	self notify ("recallLeverDone");
 }

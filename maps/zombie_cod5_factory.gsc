@@ -1186,25 +1186,22 @@ electric_trap_move_switch(parent)
 		break;
 	}
 
-	while(IsDefined(self.moving) && self.moving)
-	{
-		wait_network_frame();
-	}
-
 	//turn the light above the door red
 	zapper_light_red( light_name );
-	tswitch rotatepitch(180,.5);
+	extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
 	tswitch playsound("amb_sparks_l_b");
 	tswitch waittill("rotatedone");
+	if(extra_time > 0)
+	{
+		wait(extra_time);
+	}
 
 	self notify("switch_activated");
 	self waittill("available");
-	self.moving = true;
 	tswitch rotatepitch(-180,.5);
 	//turn the light back green once the trap is available again
 	zapper_light_green( light_name );
 	tswitch waittill("rotatedone");
-	self.moving = false;
 }
 
 activate_electric_trap(who)

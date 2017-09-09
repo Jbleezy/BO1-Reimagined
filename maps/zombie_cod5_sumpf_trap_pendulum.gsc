@@ -34,20 +34,21 @@ initPendulumTrap ()
 
 moveLeverDown()
 {
-	if(IsDefined(self.lever.rotating) && self.lever.rotating)
-		self.lever waittill ("rotatedone");
-
 	soundent_left = getent("switch_left","targetname");
 	soundent_right = getent("switch_right","targetname");
-	self.lever rotatepitch(180,.5);
+
+	extra_time = self.lever thread maps\_zombiemode_traps::move_trap_handle(180);
+
 	soundent_left playsound("switch");
 	soundent_right playsound("switch");
-	self.lever.rotating = true;
+
 	self.lever waittill ("rotatedone");
-	self.lever.rotating = false;
+	if(extra_time > 0)
+	{
+		wait(extra_time);
+	}
 
 	self notify ("leverDown");
-
 }
 
 moveLeverUp()
@@ -60,9 +61,7 @@ moveLeverUp()
 	soundent_left playsound("switch");
 	soundent_right playsound("switch");
 
-	self.lever.rotating = true;
 	self.lever waittill ("rotatedone");
-	self.lever.rotating = false;
 
 	self notify ("leverUp");
 }
