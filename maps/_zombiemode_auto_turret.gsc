@@ -158,7 +158,6 @@ activate_move_handle()
 		extra_time = self.handle thread maps\_zombiemode_traps::move_trap_handle(85);
 		//self.handle playsound( "amb_sparks_l_b" );
 		self.handle waittill( "rotatedone" );
-		iprintln(self.handle.angles[0]);
 		if(extra_time > 0)
 		{
 			wait(extra_time);

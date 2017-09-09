@@ -54,6 +54,15 @@ LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to buy Quick Revive [Cost: &&1]"
 REFERENCE          	WATER_TRAP_ACTIVE
 LANG_ENGLISH       	"The reservoir is active"
 
+REFERENCE          	LANDER_INACTIVE
+LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to activate lander station"
+
+REFERENCE          	LANDER_CALL
+LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to call lander to position"
+
+REFERENCE          	LANDER_IN_USE
+LANG_ENGLISH       	"The lander is currently in use"
+
 //WEAPONS
 
 REFERENCE          	AK47_UPGRADED

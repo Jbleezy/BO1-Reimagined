@@ -54,6 +54,10 @@ init()
 	init_call_boxes();
 	level thread lander_poi_init();
 
+	PrecacheString(&"REIMAGINED_LANDER_CALL");
+	PrecacheString(&"REIMAGINED_LANDER_INACTIVE");
+	PrecacheString(&"REIMAGINED_LANDER_IN_USE");
+
 	flag_wait( "all_players_spawned" );
 
 	setup_initial_lander_states();
@@ -338,7 +342,7 @@ call_box_think()
 
 	if(	lander.station != self.script_noteworthy)
 	{
-		self sethintstring( &"ZOMBIE_COSMODROME_LANDER_INACTIVE" );
+		self sethintstring( &"REIMAGINED_LANDER_INACTIVE" );
 	}
 	else
 	{
@@ -410,7 +414,7 @@ call_box_think()
 				 	break;
 			}
 
-			self thread lander_take_off(call_destination);
+			self thread lander_take_off(call_destination, who);
 		}
 		wait( .05 );
 	}
@@ -595,7 +599,7 @@ lander_buy_think()
 				 	break;
 			}
 
-			self lander_take_off(call_box.destination);
+			self lander_take_off(call_box.destination, who);
 		}
 		else // Not enough money
 		{
@@ -616,7 +620,7 @@ enable_callboxes()
 		if ( call_boxes[j].script_noteworthy != lander.station )
 		{
 			call_boxes[j] trigger_on();
-			call_boxes[j] sethintstring( &"ZOMBIE_COSMODROME_LANDER_CALL" );
+			call_boxes[j] sethintstring( &"REIMAGINED_LANDER_CALL" );
 		}
 		else
 		{
@@ -716,7 +720,7 @@ lander_intro_think()
 }
 
 
-lander_take_off(dest)
+lander_take_off(dest, activator)
 {
 	//disable_zip_buys( "take_off" );
 	flag_clear("lander_grounded");
@@ -727,12 +731,14 @@ lander_take_off(dest)
 	//turn off lights on lander bases
 	lander_lights_red();
 
-	//cooldown
-	level notify("LU",lander.riders,self);
+	level notify("LS", self); //lander start
 
 	wait .25;
 
-	lander thread lock_players(dest);
+	lander thread lock_players(dest, activator);
+
+	//cooldown
+	level notify("LU",lander.riders);
 
 	// depart station for checking path
 	lander.depart_station = lander.station;
@@ -771,7 +777,11 @@ lander_take_off(dest)
 	station = getstruct(lander.station, "targetname");
 	hub = getstruct( station.target , "targetname" );
 
-	flag_clear("spawn_zombies");
+	players = get_players();
+	if(lander.riders == players.size)
+	{
+		flag_clear("spawn_zombies");
+	}
 
 	level thread lander_engine_fx();
 
@@ -856,7 +866,7 @@ lander_take_off(dest)
 
 	lander clearclientflag(9);
 
-	lander_goto_dest();
+	lander_goto_dest(activator);
 
 }
 
@@ -879,21 +889,21 @@ lander_hover_idle()
 //---------------------------------------------------------------------------
 // If player gets in the way of the lander while landing
 //---------------------------------------------------------------------------
-player_blocking_lander()
-{
+player_blocking_lander(activator)
+{//
 	players = getplayers();
 	lander = getent( "lander", "targetname" );
 	rider_trigger = getent( lander.station + "_riders", "targetname" );
-	crumb = getstruct( rider_trigger.target, "targetname" );
+	//crumb = getstruct( rider_trigger.target, "targetname" );
 
-	for ( i = 0; i < players.size; i++ )
+	/*for ( i = 0; i < players.size; i++ )
 	{
 		if (rider_trigger isTouching( players[i] ) )
 		{
-			players[i] setOrigin( crumb.origin + (RandomIntRange(-20,20), RandomIntRange(-20,20), 0) );
+			//players[i] setOrigin( crumb.origin + (RandomIntRange(-20,20), RandomIntRange(-20,20), 0) );
 			//players[i] DoDamage(players[i].health + 10000, players[i].origin);
 		}
-	}
+	}*/
 
 	// kill zombies on the pad
 	zombies = getaispeciesarray( "axis" );
@@ -903,8 +913,8 @@ player_blocking_lander()
 		{
 			if ( rider_trigger isTouching( zombies[i] ) )
 			{
-				level.zombie_total++;
-				playsoundatposition( "nuked", zombies[i].origin );
+				zombies[i] zombie_burst(activator);
+				/*playsoundatposition( "nuked", zombies[i].origin );
 				PlayFX(level._effect[ "zomb_gib" ]	, zombies[i].origin);
 
 				if ( isDefined( zombies[i].lander_death ) )
@@ -912,7 +922,7 @@ player_blocking_lander()
 					zombies[i] [[ zombies[i].lander_death ]]();
 				}
 
-				zombies[i] Delete();
+				zombies[i] Delete();*/
 			}
 		}
 	}
@@ -923,7 +933,7 @@ player_blocking_lander()
 //---------------------------------------------------------------------------
 // finds the closest spots for players to link to
 //---------------------------------------------------------------------------
-lock_players(destination)
+lock_players(destination, activator)
 {
 	lander = getent( "lander", "targetname" );
 	lander.riders = 0;
@@ -942,7 +952,7 @@ lock_players(destination)
 	crumb = getstruct( rider_trigger.target, "targetname" );
 
 
-	lander thread takeoff_nuke( undefined, 80 ,1 ,rider_trigger);
+	lander thread takeoff_nuke( undefined, 80 ,1 ,rider_trigger, activator);
 	lander thread takeoff_knockdown(81,250);
 
 	players = getplayers();
@@ -1181,7 +1191,7 @@ unlock_players()
 //---------------------------------------------------------------------------
 // takes player to the final destination
 //---------------------------------------------------------------------------
-lander_goto_dest()
+lander_goto_dest(activator)
 {
 	level endon("intermission");
 
@@ -1281,7 +1291,7 @@ lander_goto_dest()
 	lander.anchor thread lander_landing_wobble(movetime);
 
 	//if player in the way of lander landing, put in last stand or kill.
-	level	thread player_blocking_lander();
+	level thread player_blocking_lander(activator);
 
 	lander.anchor waittill( "movedone" );
 
@@ -1299,7 +1309,11 @@ lander_goto_dest()
 	flag_clear("lander_landing");
 	ClientNotify("LG");
 
-	flag_set("spawn_zombies");
+	players = get_players();
+	if(lander.riders == players.size)
+	{
+		flag_set("spawn_zombies");
+	}
 
 	open_lander_gate();
 	unlock_players();
@@ -1357,7 +1371,7 @@ lander_engine_fx()
 
 // kill anything near the takeoff spot
 //	self is the location you want to clear
-takeoff_nuke( max_zombies, range,delay ,trig)
+takeoff_nuke( max_zombies, range, delay ,trig, activator)
 {
 	if(isDefined(delay))
 	{
@@ -1374,20 +1388,20 @@ takeoff_nuke( max_zombies, range,delay ,trig)
 		{
 			continue;
 		}
-		zombies[i] thread zombie_burst();
+		zombies[i] thread zombie_burst(activator);
 	}
 
 	//clean up the dead corpses
-	wait(.5);
-	lander_clean_up_corpses(spot,250);
+	//wait(.5);
+	//lander_clean_up_corpses(spot,250);
 }
 
-zombie_burst()
+zombie_burst(activator)
 {
 	self endon("death");
 
-	wait (randomfloatrange(0.2, 0.3));
-	level.zombie_total++;
+	//wait (randomfloatrange(0.2, 0.3));
+	/*level.zombie_total++;
 	playsoundatposition( "nuked", self.origin );
 	PlayFX(level._effect[ "zomb_gib" ]	, self.origin);
 
@@ -1396,7 +1410,14 @@ zombie_burst()
 		self [[ self.lander_death ]]();
 	}
 
-	self Delete();
+	self Delete();*/
+	if( self.has_legs )
+	{
+		self.deathanim = random( level._zombie_knockdowns[self.animname]["front"]["has_legs"] );
+	}
+	activator.kills++;
+	self thread lander_remove_corpses();
+	self DoDamage(level.zombie_health + 1000, self.origin);
 }
 
 
@@ -1423,7 +1444,7 @@ zombie_knockdown()
 {
 	self endon("death");
 
-	wait (randomfloatrange(0.2, 0.3));
+	//wait (randomfloatrange(0.2, 0.3));
 
 	self.lander_knockdown = 1;
 
@@ -1454,7 +1475,8 @@ lander_clean_up_corpses(spot,range)
 }
 lander_remove_corpses()
 {
-	wait(randomfloatrange(0.05,.25));
+	//wait(randomfloatrange(0.05,.25));
+	wait .75;
 	if(!isDefined(self))
 	{
 		return;
@@ -1594,7 +1616,7 @@ lander_cooldown_think()
 
 	while(1)
 	{
-		level waittill("LU",riders,trig);
+		level waittill("LS", trig); //lander start
 
 		flag_set("lander_inuse");
 
@@ -1615,10 +1637,12 @@ lander_cooldown_think()
 			}
 			else
 			{
-				lander_callboxes[i] sethintstring( &"ZOMBIE_COSMODROME_LANDER_IN_USE" );
+				lander_callboxes[i] sethintstring( &"REIMAGINED_LANDER_IN_USE" );
 				lander_callboxes[i] setcursorhint( "HINT_NOICON" );
 			}
 		}
+
+		level waittill("LU",riders);
 
 		//wait for the lander to not be in use anymore
 		while(level.lander_in_use)
@@ -1636,7 +1660,7 @@ lander_cooldown_think()
 			cooldown = 30;
 			str = &"ZOMBIE_COSMODROME_LANDER_REFUEL";
 
-			for(i=0;i<lander_callboxes.size;i++)
+		for(i=0;i<lander_callboxes.size;i++)
 	    {
 	        lander_callboxes[i] PlaySound( "vox_ann_lander_cooldown" );
 	    }
@@ -1694,7 +1718,7 @@ lander_cooldown_think()
 		{
 			if(lander_callboxes[i].script_noteworthy != lander.station)
 			{
-				lander_callboxes[i] sethintstring( &"ZOMBIE_COSMODROME_LANDER_CALL" );
+				lander_callboxes[i] sethintstring( &"REIMAGINED_LANDER_CALL" );
 			}
 			else
 			{

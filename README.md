@@ -426,8 +426,10 @@
 * Fixed teleporters showing they were ready to use again too early after teleporting through them
 
 ### Lunar Lander (Ascension)
-* Added a short delay for the lander to activate after triggering it (so you can activate a lander without having to ride it without having to lean)
-* Lander station no longer kills players if it moves down while they are standing on it
+* Added a short delay for the lander to activate after triggering it (so you can activate the lander without having to ride it)
+* Lander station no longer kills or moves players if the lander station moves down while the player is standing on it
+* Kills from the lunar lander now count as actual kills
+* Zombies now have better death animation when killed by the lunar lander
 
 ### Centrifuge (Ascension)
 * Cooldown time has been doubled
@@ -437,7 +439,7 @@
 * The player that is closest to a zombie that is killed from the Centrifuge gets the kill
 
 ### Flinger (Call of the Dead)
-* Zombies flung now count as kills
+* Zombies flung now count as actual kills
 
 ### Spikes (Shangri-La)
 * Deal 50 damage to players
@@ -648,8 +650,9 @@
 * Add NML round number in place of round number
 * Check things with QED weapon powerups
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in
-* Lunar Lander: kills zombies
-* Lunar lander: remove explosion fx from death
+* Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)
+* Test if grenade hintstrings go away correctly on older version of game_mod
+* Make shang minecart kill zombies
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -657,7 +660,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 
 ## MAYBE:
-* Ascension: double tap obtainable from free perk powerup?
+* Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
 * Shangri-La: should mud pit sidequest step need the radio to be activated to work?
 * Moon: should teleporter gate start going down before power is on?
 * Should zombies not double swipe if player doesnt have jug?
