@@ -735,6 +735,8 @@ init_random_perk_machines()
 // Must spawn after players connect lel, since we need to send a message to csc
 spawn_shang_bump_trigger(perk, origin)
 {
+	wait_network_frame(); //wait for flag to be inited
+
 	flag_wait("all_players_connected");
 
 	str_origin = vector_to_string(origin, ",");

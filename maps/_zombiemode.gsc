@@ -352,6 +352,7 @@ init_additionalprimaryweapon_machine_locations()
 
 remove_mule_kick_bump_trig()
 {
+	wait_network_frame(); //wait for flag to be inited
 	flag_wait("all_players_connected");
 	level send_message_to_csc("zombiemode_perks", "specialty_additionalprimaryweapon|delete_bump");
 }
@@ -3513,6 +3514,7 @@ round_spawning()
 //	while( level.zombie_total > 0 )
 	while( 1 )
 	{
+
 		while( level.zombie_total <= 0 )
 		{
 			wait( 0.1 );
@@ -4240,7 +4242,7 @@ round_think()
 {
 	for( ;; )
 	{
-		// level.round_number = 100;
+		//level.round_number = 100;
 		level.zombie_vars["zombie_spawn_delay"] = .08;
 		level.zombie_move_speed = 100;
 

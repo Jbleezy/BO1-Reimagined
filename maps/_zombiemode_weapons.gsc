@@ -1691,18 +1691,13 @@ decide_hide_show_hint( endon_notify )
 						max_ammo = WeaponMaxAmmo(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name) + WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
 					}
 
-
-					if(has_weapon && player_ammo == max_ammo)
-					{
-						self SetInvisibleToPlayer( players[i], true );
-					}
-					else if(weapon_type != "grenade" && has_weapon_upgrade && player_ammo == max_ammo)
+					if((has_weapon || has_weapon_upgrade) && player_ammo == max_ammo)
 					{
 						self SetInvisibleToPlayer( players[i], true );
 					}
 					else if(is_melee_weapon(current_weapon))
 					{
-						if(primaryWeapons.size == 0 || players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade))
+						if(primaryWeapons.size == 0 || players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade) || weapon_type == "grenade")
 						{
 							self SetInvisibleToPlayer( players[i], false );
 						}
@@ -1711,7 +1706,7 @@ decide_hide_show_hint( endon_notify )
 							self SetInvisibleToPlayer( players[i], true );
 						}
 					}
-					else if(is_placeable_mine(current_weapon) && players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade))
+					else if(is_placeable_mine(current_weapon) && (players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade) || weapon_type == "grenade"))
 					{
 						self SetInvisibleToPlayer( players[i], false );
 					}

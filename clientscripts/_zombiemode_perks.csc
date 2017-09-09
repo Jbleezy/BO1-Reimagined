@@ -117,8 +117,10 @@ spawn_new_bump_triggers()
 {
 	perks = [];
 
+	mapname = ToLower(GetDvar("mapname"));
+
 	// level.script does not exist in csc
-	switch(ToLower(GetDvar("mapname")))
+	switch(mapname)
 	{
 		case "zombie_theater":
 			perks["specialty_armorvest"] = (-328, -491, 47);
@@ -215,6 +217,20 @@ spawn_new_bump_triggers()
 		{
 			perk = keys[i];
 			origin = perks[perk];
+
+			//check if mule kick is enabled
+			//this won't work because we need to check the host value of the dvar "mule_kick_enabled" for each player, moved to gsc
+			/*if(perk == "specialty_additionalprimaryweapon")
+			{
+				if(mapname == "zombie_cod5_prototype")
+				{
+					continue;
+				}
+				else if(mapname != "zombie_moon" && !GetDvarInt("mule_kick_enabled"))
+				{
+					continue;
+				}
+			}*/
 
 			assert(isdefined(origin));
 

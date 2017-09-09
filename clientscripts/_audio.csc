@@ -435,7 +435,7 @@ bump_trigger_start()
 
 thread_bump_trigger()
 {
-	self endon("entity_shutdown");
+	//self endon("entity_shutdown");
 	//iprintlnbold ("Found a trigger!");
 	self thread bump_trigger_listener();
 	if( !IsDefined( self.script_activated ) ) //Sets a flag to turn the trigger on or off
