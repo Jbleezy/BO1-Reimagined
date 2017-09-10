@@ -1469,6 +1469,7 @@ watch_slow_trigger_exit(player)
 	{
 		player allowSprint(false);
 		player allowProne(false);
+		player.move_speed = .35;
 		player SetMoveSpeedScale( 0.35 );
 		player clientnotify( "sle" );//notify to override footstep audio
 		//player setvelocity((0,0,0));
@@ -1489,6 +1490,7 @@ watch_slow_trigger_exit(player)
 		player allowJump(true);
 		player allowSprint(true);
 		player allowProne(true);
+		player.move_speed = 1;
 		player SetMoveSpeedScale( 1.0 );
 		player clientnotify( "sll" );//notify to override footstep audio
 	}

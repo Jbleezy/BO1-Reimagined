@@ -337,8 +337,9 @@
 * 1.5x bullet damage (stacks with Deadshot)
 
 ### Deadshot
-* 2x headshot damage (stacks with Double Tap)
 * Increased cost from 1000 to 1500
+* 2x headshot damage (stacks with Double Tap)
+* Move at normal speed when aiming
 
 ### Mule Kick
 * Removed from Nacht Der Untoten
@@ -627,7 +628,6 @@
 * Make zombies go after monkey bombs instantly
 * Make it so betties can only be triggered by zombies with line of sight from bettys position
 * Fix mule kick weapon being changed from paping
-* Deadshot: add faster ADS move speed (using WeaponClass(current_weapon))
 * Add line of sight check for windows breaking on Moon
 * Fix bug where thief round voice line round start and visual fx starts but its a normal round
 * Fix mule kick weapon highlight text not working if player got perk from shang easter egg
@@ -656,6 +656,7 @@
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)
 * Test if grenade hintstrings go away correctly on older version of game_mod
+* See if ice block effect on zombies after being killed with Freezegun looks better
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

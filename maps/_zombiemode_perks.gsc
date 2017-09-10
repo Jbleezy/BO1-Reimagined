@@ -1590,7 +1590,7 @@ give_perk( perk, bought )
 	{
 		self SetClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
 		perk_str = perk + "_stop";
-		//self thread move_faster_while_ads(perk_str);
+		self thread move_faster_while_ads(perk_str);
 	}
 	else if( perk == "specialty_deadshot_upgrade" )
 	{
@@ -1858,6 +1858,7 @@ perk_think( perk )
 
 		case "specialty_deadshot":
 			self ClearClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
+			self SetMoveSpeedScale(self.move_speed);
 			break;
 
 		case "specialty_deadshot_upgrade":
@@ -2498,56 +2499,82 @@ wait_for_weapon_switch_stop(perk_str)
 
 move_faster_while_ads(perk_str)
 {
+	self endon("disconnect");
 	self endon("fake_death");
 	self endon("death");
 	self endon("player_downed");
 	self endon(perk_str);
 
 	set = false;
+	if(!IsDefined(self.move_speed))
+	{
+		self.move_speed = 1;
+	}
+	previous_ads = 0;
+
 	while(1)
 	{
-		if(isADS(self) && (!set))
+		current_ads = self PlayerADS();
+		if(previous_ads > current_ads)
+		{
+			if(set)
+			{
+				set = false;
+				self SetMoveSpeedScale(self.move_speed);
+			}
+		}
+		else if(current_ads > 0)
 		{
 			set = true;
-			self SetMoveSpeedScale(1.5);
-		}
-		else if(!isADS(self) && set)
-		{
-			set = false;
-			self SetMoveSpeedScale(1);
-		}
-
-		wait_network_frame();
-	}
-}
-
-bump_trigger_think()
-{
-	self endon("death");
-
-	flag_wait("all_players_connected");
-
-	while(1)
-	{
-		players = get_players();
-		for( i = 0; i < players.size; i++ )
-		{
-			if(!IsDefined(players[i].bump_active))
+			wep = self GetCurrentWeapon();
+			class = WeaponClass(wep);
+			if(class == "pistol" || class == "smg")
 			{
-				players[i].bump_active = false;
+				if(IsSubStr(wep, "ppsh") || IsSubStr(wep, "mp40") || IsSubStr(wep, "ray_gun"))
+				{
+					self SetMoveSpeedScale(self.move_speed * 2.5);
+				}
+				else
+				{
+					self SetMoveSpeedScale(self.move_speed * 1.25);
+				}
 			}
-
-			if(players[i] IsTouching(self) && !players[i].bump_active)
+			else if(class == "spread")
 			{
-				players[i].bump_active = true;
-				players[i] PlayLocalSound("fly_bump_bottle");
-				players[i].current_touching_perk = self;
+				if(IsSubStr(wep, "ithaca"))
+				{
+					self SetMoveSpeedScale(self.move_speed * 1.25);
+				}
+				else
+				{
+					self SetMoveSpeedScale(self.move_speed * 2.5);
+				}
 			}
-			else if(IsDefined(players[i].current_touching_perk) && !players[i] IsTouching(players[i].current_touching_perk) && players[i].bump_active)
+			else if(class == "rocketlauncher" || class == "grenade")
 			{
-				players[i].bump_active = false;
+				self SetMoveSpeedScale(self.move_speed * 2);
+			}
+			else if(class == "mg")
+			{
+				self SetMoveSpeedScale(self.move_speed * 2.2);
+			}
+			else if(class == "rifle")
+			{
+				if(IsSubStr(wep, "sniper_explosive"))
+				{
+					self SetMoveSpeedScale(self.move_speed * 2.25);
+				}
+				else if(IsSubStr(wep, "humangun") || IsSubStr(wep, "shrink_ray") || IsSubStr(wep, "microwavegun"))
+				{
+					self SetMoveSpeedScale(self.move_speed * 2.5);
+				}
+				else
+				{
+					self SetMoveSpeedScale(self.move_speed * 2.4);
+				}
 			}
 		}
+		previous_ads = current_ads;
 		wait_network_frame();
 	}
 }

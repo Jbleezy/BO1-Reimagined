@@ -7912,7 +7912,7 @@ give_weapons_test()
 	//wep = "freezegun_zm";
 	//wep = "thundergun_zm";
 	//wep = "sngiper_explosive_zm";
-	wep = "microwavegundw_zm";
+	wep = "shrink_ray_zm";
 	self GiveWeapon(wep);
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
