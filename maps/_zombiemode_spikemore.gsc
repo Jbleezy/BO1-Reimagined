@@ -310,7 +310,7 @@ spikemore_detonation()
 		self.owner.mines = [];
 	self.owner.mines = array_add( self.owner.mines, self );
 
-	if( self.owner.mines.size > 20 )
+	if( self.owner.mines.size > 30 )
 	{
 		self.owner.mines[0] _spikemore_SmallSpearActivate();
 		self.owner.mines = array_remove_nokeys( self.owner.mines, self.owner.mines[0] );

@@ -176,8 +176,6 @@ default_vending_precaching()
 	PrecacheItem( "zombie_perk_bottle_sleight" );
 	PrecacheItem( "zombie_knuckle_crack" );
 
-	PrecacheShader( "specialty_doubletap_zombies" );
-
 	if ( is_true( level.zombiemode_using_marathon_perk ) )
 	{
 		PrecacheItem( "zombie_perk_bottle_marathon" );
@@ -205,6 +203,7 @@ default_vending_precaching()
 	PrecacheShader( "specialty_juggernaut_zombies" );
 	PrecacheShader( "specialty_quickrevive_zombies" );
 	PrecacheShader( "specialty_fastreload_zombies" );
+	PrecacheShader( "specialty_doubletap_zombies" );
 	PrecacheShader( "specialty_juggernaut_zombies_pro" );
 	PrecacheShader( "specialty_quickrevive_zombies_pro" );
 	PrecacheShader( "specialty_fastreload_zombies_pro" );
@@ -214,7 +213,6 @@ default_vending_precaching()
 	PrecacheShader( "minimap_icon_revive" );
 	PrecacheShader( "minimap_icon_reload" );
 
-	PrecacheModel("zombie_vending_doubletap_on");
 	if ( is_true( level.zombiemode_using_marathon_perk ) )
 	{
 		PrecacheModel("zombie_vending_marathon_on");
@@ -234,6 +232,7 @@ default_vending_precaching()
 	PreCacheModel("zombie_vending_jugg_on");
 	PrecacheModel("zombie_vending_revive_on");
 	PrecacheModel("zombie_vending_sleight_on");
+	PrecacheModel("zombie_vending_doubletap_on");
 	PrecacheModel("zombie_vending_packapunch_on");
 
 	PrecacheString( &"ZOMBIE_PERK_DOUBLETAP" );

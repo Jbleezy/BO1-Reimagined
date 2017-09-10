@@ -157,22 +157,27 @@ betty_think()
 		self.owner.mines = [];
 	self.owner.mines = array_add( self.owner.mines, self );
 
-	if( self.owner.mines.size > 20 )
+	if( self.owner.mines.size > 30 )
 	{
-		self.owner.mines[0].trigger notify("trigger");
+		self.owner.mines[0].too_many_mines_explode = true;
+		self.owner.mines[0].trigger notify("trigger_touch");
 		self.owner.mines = array_remove_nokeys( self.owner.mines, self.owner.mines[0] );
 	}
 
 	self waittill_not_moving();
 
-	trigger = spawn("trigger_radius",self.origin,9,80,64);//9
+	trigger = spawn("trigger_radius_use",self.origin,9,80,64);//9
+	trigger thread make_radius_trigger();
 	self.trigger = trigger;
 
 	wait(1);
 
 	while(1)
 	{
-		trigger waittill( "trigger", ent );
+		trigger waittill( "trigger_touch", ent );
+
+		if(IsDefined(self.too_many_mines_explode) && self.too_many_mines_explode)
+			break;
 
 		if ( isdefined( self.owner ) && ent == self.owner )
 			continue;
@@ -183,7 +188,10 @@ betty_think()
 		break;
 	}
 
-	self.activated = true;
+	if ( isdefined( trigger ) )
+	{
+		trigger delete();
+	}
 	self playsound("betty_activated");
 	wait(.1);
 	fake_model = spawn("script_model",self.origin);
@@ -207,10 +215,6 @@ betty_think()
 		self detonate( undefined );
 	}
 
-	if ( isdefined( trigger ) )
-	{
-		trigger delete();
-	}
 	if ( isdefined( fake_model ) )
 	{
 		fake_model delete();
@@ -300,7 +304,6 @@ show_betty_hint(string)
 pickup_betty()
 {
 	self endon("death");
-	self endon("picked_up");
 
 	//self waittill_not_moving();
 
@@ -308,6 +311,11 @@ pickup_betty()
 	{
 		wait .05;
 	}
+
+	self.trigger endon("death");
+
+	self.trigger SetHintString(&"REIMAGINED_BETTY_PICKUP");
+	self.trigger setCursorHint( "HINT_NOICON" );
 
 	players = get_players();
 	for(i=0;i<players.size;i++)
@@ -318,70 +326,34 @@ pickup_betty()
 		}
 	}
 
-	self.trigger SetHintString(&"REIMAGINED_BETTY_PICKUP");
-	self.trigger setCursorHint( "HINT_NOICON" );
+	self thread trigger_hintstring_think();
 
-	if(!IsDefined(self.owner.already_picking_up))
-	{
-		self.owner.already_picking_up = false;
-	}
+	self.trigger waittill("trigger", who);
 
-	//fix being able to pick up 2 betties at the same time
+	self thread give_betty();
+}
+
+trigger_hintstring_think()
+{
+	self.trigger endon("death");
+
 	while(1)
 	{
-		if(IsDefined(self.activated) && self.activated)
+		if(self.owner maps\_laststand::player_is_in_laststand() || self.owner.sessionstate == "spectator" || self.owner GetWeaponAmmoClip("mine_bouncing_betty") == 2)
 		{
-			self.trigger SetInvisibleToPlayer(self.owner);
-			return;
-		}
-		if(self.owner.already_picking_up && !self.owner UseButtonPressed())
-		{
-			self.owner.already_picking_up = false;
-		}
-		if(self.owner maps\_laststand::player_is_in_laststand() || self.owner GetWeaponAmmoClip("mine_bouncing_betty") == 2)
-		{
-			self.trigger SetInvisibleToPlayer(self.owner);
-			wait .05;
-			continue;
-		}
-
-		/*closest = self.owner.mines[0];
-		distance = DistanceSquared(self.owner.origin, self.owner.mines[0].origin);
-		for(i=1;i<self.owner.mines.size;i++)
-		{
-			if(DistanceSquared(self.owner.origin[2], self.owner.mines[i].origin[2]) > 64*64 || Distance2D(self.owner.origin, self.owner.mines[i].origin) > 64)
-			{
-				continue;
-			}
-			new_distance = DistanceSquared(self.owner.origin, self.owner.mines[i].origin);
-			if(new_distance < distance)
-			{
-				distance = new_distance;
-				closest = self.owner.mines[i];
-			}
-		}*/
-
-		if(abs(self.owner.origin[2] - self.origin[2]) <= 16 && Distance2D(self.owner.origin, self.origin) <= 64)
-		{
-			self.trigger SetVisibleToPlayer(self.owner);
-			if(self.owner UseButtonPressed() && !self.owner.already_picking_up)//&& self == closest
-			{
-				self.owner.already_picking_up = true;
-				self give_betty();
-			}
+			self.trigger SetInvisibleToPlayer(self.owner, true);
 		}
 		else
 		{
-			self.trigger SetInvisibleToPlayer(self.owner);
+			self.trigger SetInvisibleToPlayer(self.owner, false);
 		}
+
 		wait .05;
 	}
 }
 
 give_betty()
 {
-	wait .05;
-
 	if ( !self.owner hasweapon( "mine_bouncing_betty" ) )
 	{
 		self.owner thread bouncing_betty_watch();
@@ -407,68 +379,42 @@ give_betty()
 	}
 
 	self delete();
-
-	self notify("picked_up");
 }
 
-make_radius_trigger(trigger_radius_use)
-{
-	trigger_radius_use thread _make_radius_trigger();
-}
-
-// main logic
-_make_radius_trigger()
+//make sure this only gets notified if the betty should for sure explode
+make_radius_trigger()
 {
 	self endon("death");
 
-	for(;;)
+	while(1)
 	{
 		wait .05;
-
-		players = get_players();
-		for(i = 0; i < players.size; i++)
-		{
-			if(players[i] IsTouching(self))
-			{
-				self notify("trigger_touch", players[i]);
-				//wait_network_frame(); // wait to ensure 2 players dont trigger at same time
-			}
-		}
 
 		zombs = GetAiSpeciesArray( "axis", "all" );
 		for (i = 0; i < zombs.size; i++)
 		{
-			if(!isdefined(zombies[i]))
+			if(!isdefined(zombs[i]))
 				continue;
-			if(!IsAlive(zombies[i]))
+			if(!IsAlive(zombs[i]))
 				continue;
-			
+
 			if(zombs[i] IsTouching(self))
 			{
 				self notify("trigger_touch", zombs[i]);
-				//wait_network_frame(); // wait to ensure 2 players dont trigger at same time
 			}
 		}
-	}
-}
 
-// wait for use button pressed
-wait_for_trigger()
-{
-	for(;;)
-	{
-		trigger waittill("trigger", player);
+		players = get_players();
+		for(i = 0; i < players.size; i++)
+		{
+			if(players[i] == self.owner)
+				continue;
 
-		// button pressed
-	}
-}
-
-wait_for_trigger_touch()
-{
-	for(;;)
-	{
-		trigger waittill("trigger_touch", player);
-
-		// player touched trigger
+			if(players[i] IsTouching(self))
+			{
+				self notify("trigger_touch", players[i]);
+			}
+			//TODO: check for grief team
+		}
 	}
 }

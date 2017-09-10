@@ -34,8 +34,8 @@
 ## HUD
 * HUD items now have some distance away from the edge of the screen
 * Damage marker time set to 3 seconds
-* Game time displayed on the top right of the HUD in white text
-* Round time displayed on the top right of the HUD in red text
+* Game time displayed on the top right of the HUD
+* Round time displayed on the top right of the HUD
 * Game time and round time displayed at the end of each round on the top center of the HUD
 * Zombies remaining displayed on the top left of the HUD
 * Character names displayed next to player's points on the HUD
@@ -44,13 +44,13 @@
 * Removed bloodsplat on D-pad
 * Fixed attachments on D-pad being highlighted incorrectly
 * Sidequest completion time displayed on top center of the HUD
-* Score highlights now only show one positive highlight and one negative highlight per person at a time
+* Score highlights now only show one positive highlight and one negative highlight per player at a time
 * Negative highlight score HUD color is now slightly brighter
 * Yellow insta kill shows on HUD during insta kill rounds
 
 ## Settings
 * Removed popup menu when changing graphic content to unrestricted
-* Option to change FOV (65-90 in intervals of 5)
+* Option to change FOV (65-120 in intervals of 5)
 * Option to show FPS on HUD
 * Option to disable character dialog (host only)
 * Option to enable/disable Mule Kick on Verruckt through Shangri-La (host only, always disabled on Nacht, always enabled on Moon)
@@ -95,7 +95,7 @@
 #### Stoner63
 * Upgraded name: Stoned420
 * Assault rifle/LMG hybrid weapon
-* 90% movement speed (Assault rifle movement speed in 95% and LMG movement speed is 87.5%)
+* 90% movement speed (in between LMG and assault rifle movement speed)
 * 60 rounds per clip unupgraded, 90 rounds per clip upgraded
 
 
@@ -653,7 +653,12 @@
 * Add NML round number in place of round number
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)
-* Make betty pickup use trigger_radius_use
+* Gun Game: add increment weapon powerup, powerup model is the weapon they will receive, powerup is hidden and ungrabbable to all other players
+* Gun Game: add upgrade weapon powerup, powerup model is solo bonfire sale, for 30 seconds you get upgraded version of current weapon even when incrementing weapons
+* Add fast ADS to Speed Cola (when it becomes possible through game_mod)
+* Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
+* Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
+* Try to make barriers work with trigger_radius_use
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
