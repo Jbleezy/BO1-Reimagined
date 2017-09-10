@@ -346,10 +346,10 @@ napalm_zombie_spawn( animname_set )
 	closest = GetClosest(self.origin, GetPlayers());
 	angles = VectorToAngles(closest.origin - self.origin);
 
-	anchor = Spawn("script_origin", self.origin);
+	/*anchor = Spawn("script_origin", self.origin);
 	anchor.angles = angles;
 	self linkto(anchor);
-	self Hide();
+	self Hide();*/
 
 	self.a.disablepain = true;
 
@@ -358,14 +358,14 @@ napalm_zombie_spawn( animname_set )
 
 	anim_org = self.origin + (0, 0, -45);	// start the animation 45 units below the ground
 
-	anchor MoveTo(anim_org, 0.05);
+	/*anchor MoveTo(anim_org, 0.05);
 	anchor waittill("movedone");
 
 	anchor RotateTo(angles, 0.05);
 	anchor waittill("rotatedone");
 
 	self Unlink();
-	anchor Delete();
+	anchor Delete();*/
 
 	self thread maps\_zombiemode_spawner::hide_pop();
 
@@ -384,7 +384,7 @@ napalm_zombie_spawn( animname_set )
 	speed = "run";
 	spawn_anim = random(level._zombie_rise_anims["zombie"][1][speed]);
 	time = getanimlength(spawn_anim);
-	self animscripted("napalm_spawn", self.origin, self.angles, spawn_anim, "normal");
+	self animscripted("napalm_spawn", anim_org, angles, spawn_anim, "normal");
 	wait( time );
 
 	self.rising = false;

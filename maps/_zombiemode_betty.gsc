@@ -410,3 +410,65 @@ give_betty()
 
 	self notify("picked_up");
 }
+
+make_radius_trigger(trigger_radius_use)
+{
+	trigger_radius_use thread _make_radius_trigger();
+}
+
+// main logic
+_make_radius_trigger()
+{
+	self endon("death");
+
+	for(;;)
+	{
+		wait .05;
+
+		players = get_players();
+		for(i = 0; i < players.size; i++)
+		{
+			if(players[i] IsTouching(self))
+			{
+				self notify("trigger_touch", players[i]);
+				//wait_network_frame(); // wait to ensure 2 players dont trigger at same time
+			}
+		}
+
+		zombs = GetAiSpeciesArray( "axis", "all" );
+		for (i = 0; i < zombs.size; i++)
+		{
+			if(!isdefined(zombies[i]))
+				continue;
+			if(!IsAlive(zombies[i]))
+				continue;
+			
+			if(zombs[i] IsTouching(self))
+			{
+				self notify("trigger_touch", zombs[i]);
+				//wait_network_frame(); // wait to ensure 2 players dont trigger at same time
+			}
+		}
+	}
+}
+
+// wait for use button pressed
+wait_for_trigger()
+{
+	for(;;)
+	{
+		trigger waittill("trigger", player);
+
+		// button pressed
+	}
+}
+
+wait_for_trigger_touch()
+{
+	for(;;)
+	{
+		trigger waittill("trigger_touch", player);
+
+		// player touched trigger
+	}
+}

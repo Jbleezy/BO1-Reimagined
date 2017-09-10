@@ -1129,11 +1129,20 @@ powerup_setup( powerup_override )
 			self.worldgundw LinkTo( self, "tag_weapon", offsetdw, (0, 0, 0) );
 		}
 
-		trigger = spawn( "trigger_radius", self.origin - (0,0,40), 0, 64, 72 );
+		trigger = spawn( "trigger_radius_use", self.origin - (0,0,40), 0, 64, 72 );
 		trigger enablelinkto();
 		trigger linkto( self );
 		trigger SetCursorHint( "HINT_NOICON" );
-		trigger sethintstring( &"ZOMBIE_TRADE_WEAPONS" );
+		if(is_tactical_grenade(self.weapon))
+		{
+			trigger sethintstring( &"REIMAGINED_TRADE_EQUIPMENT" );
+		}
+		else
+		{
+			trigger sethintstring( &"ZOMBIE_TRADE_WEAPONS" );
+		}
+		trigger thread random_weapon_powerup_hintstring_think(self.weapon);
+		trigger thread random_weapon_powerup_think(self);
 		self thread powerup_weapon_trigger_cleanup(trigger);
 	}
 	else if(powerup == "tesla")
@@ -1167,6 +1176,51 @@ powerup_setup( powerup_override )
 	self PlayLoopSound("zmb_spawn_powerup_loop");
 }
 
+random_weapon_powerup_think(powerup)
+{
+	self endon("death");
+
+	while(1)
+	{
+		self waittill("trigger", who);
+		if( level random_weapon_powerup(powerup, who) )
+		{
+			break;
+		}
+	}
+}
+
+random_weapon_powerup_hintstring_think(powerup_weapon)
+{
+	self endon("death");
+
+	while(1)
+	{
+		players = get_players();
+		for ( i = 0; i < players.size; i++ )
+		{
+			current_weapon = players[i] GetCurrentWeapon();
+			primaryWeapons = players[i] GetWeaponsListPrimaries();
+			if(players[i] HasWeapon(powerup_weapon))
+			{
+				self SetInvisibleToPlayer( players[i], false );
+			}
+			else if(is_melee_weapon(current_weapon) && primaryWeapons.size > 0)
+			{
+				self SetInvisibleToPlayer( players[i], true );
+			}
+			else if(players[i] maps\_zombiemode_weapons::can_buy_weapon())
+			{
+				self SetInvisibleToPlayer( players[i], false );
+			}
+			else
+			{
+				self SetInvisibleToPlayer( players[i], true );
+			}
+		}
+		wait_network_frame();
+	}
+}
 
 //
 //	Get the special teleporter drop
@@ -1400,9 +1454,6 @@ powerup_grab()
 				continue;
 			}
 
-			if(self.powerup_name == "random_weapon" && !players[i] UseButtonPressed())
-				continue;
-
 			if(self.powerup_name == "minigum" && IsDefined(players[i].has_tesla) && players[i].has_tesla)
 				continue;
 
@@ -1496,12 +1547,21 @@ powerup_grab()
 						break;
 
 					case "random_weapon":
-						if ( !level random_weapon_powerup( self, players[i] ) )
+						//done in its own function because it has a use trigger
+						/*if ( !level random_weapon_powerup( self, players[i] ) )
+						{
+							continue;
+						}*/
+						// players[i] thread powerup_vo( "random_weapon" ); // TODO: Audio should uncomment this once the sounds have been set up
+						//break;
+						if(is_true(self.weapon_powerup_grabbed))
+						{
+							break;
+						}
+						else
 						{
 							continue;
 						}
-						// players[i] thread powerup_vo( "random_weapon" ); // TODO: Audio should uncomment this once the sounds have been set up
-						break;
 
 					case "bonus_points_player":
 						level thread bonus_points_player_powerup( self, players[i] );
@@ -2587,7 +2647,7 @@ random_weapon_powerup( item, player )
 		return false;
 	}
 
-	if ( is_true( player.random_weapon_powerup_throttle ) || player IsSwitchingWeapons() || player is_drinking() )
+	if ( is_true( player.random_weapon_powerup_throttle ) || player is_drinking() || !player UseButtonPressed() )
 	{
 		return false;
 	}
@@ -2634,6 +2694,7 @@ random_weapon_powerup( item, player )
 	}
 
 	player thread maps\_zombiemode_weapons::weapon_give( weapon_string );
+	item.weapon_powerup_grabbed = true;
 	return true;
 }
 

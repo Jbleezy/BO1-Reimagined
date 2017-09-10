@@ -221,13 +221,13 @@
 * 50 points for each kill
 
 #### Winter's Howl
+* Minimum damage: 500 unupgraded, 1000 upgraded
+* Damage to thief: 1000 unupgraded, 2000 upgraded
 * Each shot slows down the enemy's move speed
 * Kills enemies when they are at their slowest move speed (3 shots to kill sprinting enemies)
 * Enemies will only be able to do slow hits after taking damage from the Winter's Howl
-* Enemies crumple immediately after dying
 * Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
-* Minimum damage: 500 unupgraded, 1000 upgraded
-* Damage to thief: 1000 unupgraded, 2000 upgraded
+* Enemies that die from the Winter's Howl will now crumple away faster after being frozen
 
 #### Wunderwaffe
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
@@ -651,10 +651,9 @@
 * Remove marks on background of Deadshot perk emblem
 * Fix weapon order being changed
 * Add NML round number in place of round number
-* Check things with QED weapon powerups
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)
-* See if ice block effect on zombies after being killed with Freezegun looks better
+* Make betty pickup use trigger_radius_use
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

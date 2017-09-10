@@ -4245,10 +4245,10 @@ round_think()
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
-			level.round_number = 20;
-			level.zombie_vars["zombie_spawn_delay"] = 1;
+			level.round_number = 100;
+			level.zombie_vars["zombie_spawn_delay"] = .08;
+			level.zombie_move_speed = 100;
 		}
-		level.zombie_move_speed = 100;
 
 		//////////////////////////////////////////
 		//designed by prod DT#36173
@@ -7909,14 +7909,15 @@ increase_revive_radius()
 
 give_weapons_test()
 {
-	//wep = "freezegun_zm";
+	wep = "freezegun_zm";
 	//wep = "thundergun_zm";
 	//wep = "sngiper_explosive_zm";
-	wep = "shrink_ray_zm";
+	//wep = "shrink_ray_zm";
 	self GiveWeapon(wep);
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
 	self SwitchToWeapon(wep);
+	self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
 	/*wait 5;
 
