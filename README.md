@@ -197,7 +197,7 @@
 
 ### Wonder Weapons
 #### Baby Gun
-* Fixed a bug that caused the g_spawn error to happen when shrinking enemies and allowing them to regrow multiple times throughout a game
+* Fixed a bug that caused an error to happen when shrinking enemies and allowing them to regrow many times throughout a game
 
 #### Scavenger
 * Damages an enemy on impact
@@ -429,7 +429,7 @@
 * Added a short delay for the lander to activate after triggering it (so you can activate the lander without having to ride it)
 * Lander station no longer kills or moves players if the lander station moves down while the player is standing on it
 * Kills from the lunar lander now count as actual kills
-* Zombies now have better death animation when killed by the lunar lander
+* Zombies now have a better death animation when killed by the lunar lander
 
 ### Centrifuge (Ascension)
 * Cooldown time has been doubled
@@ -449,6 +449,9 @@
 ### Waterfall Trap (Shangri-La)
 * Now kills zombies
 * Displays a hintstring when active
+
+### Minecart (Shangri-La)
+* Kills from the minecart now count as actual kills
 
 ## Blockers
 ### Doors
@@ -538,7 +541,8 @@
 * Players will no longer get stuck on curbs
 
 ### Kino Der Toten
-* Teleporting no longer takes you to special rooms unless both radios on the map have been activated
+* Players no longer get teleported to special rooms unless both radios on the map have been activated
+* Players no longer get teleported out of the Pack-a-Punch room if there is a weapon currently in the Pack-a-Punch machine
 
 ### Five
 * Trap pieces are already in place
@@ -570,6 +574,7 @@
 * Sidequest melee stones step: Increased melee range for stones
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
 * Fixed a bug where players could clip through the wall behind Pack-a-Punch during the sidequest
+* While a weapon is in Pack-a-Punch, players will not be pushed off the stairs
 
 ### Moon
 * No Man's Land now spawns 24 zombies instead of 20 zombies
@@ -631,7 +636,6 @@
 * Fix Ascension monkey pathing (might be fixed)
 * Fix kino round skip bug (might be fixed)
 * Add collision boxes near invincibilty spots on maps
-* Shang: while a weapon is in pack a punch, don't push the players out
 * Fix low grav with increased FPS
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Make it easier to tell how many grenades you have on HUD
@@ -649,10 +653,9 @@
 * Fix weapon order being changed
 * Add NML round number in place of round number
 * Check things with QED weapon powerups
-* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in
+* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)
 * Test if grenade hintstrings go away correctly on older version of game_mod
-* Make shang minecart kill zombies
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -675,6 +678,7 @@
 * Shi No Numa Flogger double trap activation
 
 ## GAME_MOD TODO:
+* Allow changing to 65 FOV
 * Fix grenades giving more ammo than they should
 * Fix being able to buy grenades when you already have max amount
 * Make friends list alphabetical order

@@ -153,7 +153,6 @@ activate_move_handle()
 	if(IsDefined(self.handle))
 	{
 		// Rotate switch model
-		iprintln(self.handle.angles[0]);
 		//self.handle rotatepitch( 160, .5 );
 		extra_time = self.handle thread maps\_zombiemode_traps::move_trap_handle(85);
 		//self.handle playsound( "amb_sparks_l_b" );

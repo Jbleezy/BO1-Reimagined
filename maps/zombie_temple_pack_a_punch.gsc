@@ -878,11 +878,16 @@ _wait_for_pap_reset()
 
 	fx_time_offset = 0.5;
 	wait(level.pap_active_time - fx_time_offset );
+
+	flag_waitopen("pack_machine_in_use");
+	level.pap_moving = true;
 	level start_pap_fx();
 	level thread _pap_fx_timer();
 	wait fx_time_offset;
 
 	_find_ents_to_flush();
+	wait 1;
+	level.pap_moving = false;
 }
 
 _pap_force_reset()
@@ -899,6 +904,7 @@ _pap_force_reset()
 	wait fx_time_offset;
 
 	_find_ents_to_flush();
+	level.pap_moving = false;
 }
 
 _pap_fx_timer()
@@ -932,6 +938,7 @@ _pack_a_punch_timer_sounds()
 	self playsound("evt_pap_timer_countdown");
 
 	wait pap_timer_length;
+	flag_waitopen("pack_machine_in_use");
 
 	self stoploopsound();
 	self playsound("evt_pap_timer_stop");
@@ -1302,6 +1309,8 @@ _move_visual_timer()
 	self _travel_path(speed, reverseSpin);
 
 	returnTime = 4.0;
+	flag_waitopen("pack_machine_in_use");
+
 	speed = self.pathLength / returnTime;
 	self _travel_path_reverse(speed, reverseSpin);
 	self.origin = self.path[0].origin;
