@@ -1684,6 +1684,10 @@ decide_hide_show_hint( endon_notify )
 						{
 							max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
 						}
+						else if(GetDvar("gm_version") == "1.1.0" && weapon_type == "grenade")
+						{
+							max_ammo = 4;
+						}
 					}
 					else if(has_weapon_upgrade)
 					{

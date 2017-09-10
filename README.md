@@ -643,7 +643,6 @@
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
 * See if pausing in coop is possible
 * Remove blur when paused ingame
-* Remove perk machine bang sound when hitting the perk on Quick Revive after Quick Revive is gone on solo
 * Make Shang power switches do things when only one is turned on
 * Add meat powerup to grief
 * Add EMP grenades to grief
@@ -655,7 +654,6 @@
 * Check things with QED weapon powerups
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)
-* Test if grenade hintstrings go away correctly on older version of game_mod
 * See if ice block effect on zombies after being killed with Freezegun looks better
 
 ## TESTING:
@@ -679,7 +677,7 @@
 * Shi No Numa Flogger double trap activation
 
 ## GAME_MOD TODO:
-* Allow changing to 65 FOV
+* Allow changing FOV to 65
 * Fix grenades giving more ammo than they should
 * Fix being able to buy grenades when you already have max amount
 * Make friends list alphabetical order
@@ -691,6 +689,7 @@
 * Fix COTD outro showing on all maps after loading COTD in a session
 * Get actionslot 2 highlighting to work
 * Fix demigod
+* Make online version of the scoreboard show in solo
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer

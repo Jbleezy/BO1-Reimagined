@@ -726,7 +726,7 @@ _napalm_damage_zombies(zombies)
 		}
 
 		zombies[i] DoDamage( zombies[i].health + 666, damageOrigin);
-		wait_network_frame();
+		//wait_network_frame();
 	}
 
 }
