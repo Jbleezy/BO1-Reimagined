@@ -34,18 +34,18 @@
 ## HUD
 * HUD items now have some distance away from the edge of the screen
 * Damage marker time set to 3 seconds
+* Zombie counter displayed on the top left of the HUD
 * Game time displayed on the top right of the HUD
 * Round time displayed on the top right of the HUD
 * Game time and round time displayed at the end of each round on the top center of the HUD
-* Zombies remaining displayed on the top left of the HUD
+* Sidequest completion time displayed on top center of the HUD
 * Character names displayed next to player's points on the HUD
 * Current zone displayed above round number on the HUD
 * Removed Reload, No Ammo, and Low Ammo HUD messages
 * Removed bloodsplat on D-pad
 * Fixed attachments on D-pad being highlighted incorrectly
-* Sidequest completion time displayed on top center of the HUD
-* Score highlights now only show one positive highlight and one negative highlight per player at a time
-* Negative highlight score HUD color is now slightly brighter
+* Score highlights now only show one positive amount and one negative amount per player at a time
+* Negative score color is now slightly brighter
 * Yellow insta kill shows on HUD during insta kill rounds
 
 ## Settings
@@ -91,6 +91,8 @@
 
 #### PSG1
 * Upgraded name: Psycho Sexy Genius 115
+* Replaces the Dragunov
+* 10 rounds per clip unupgraded and upgraded
 
 #### Stoner63
 * Upgraded name: Stoned420
@@ -105,7 +107,7 @@
 
 ### Snipers
 * Removed idle sway
-* Increased ADS FOV to 30
+* Increased ADS FOV from 15 to 30
 * Variable zoom scopes now only have one scope option
 
 ### Ak74u
@@ -192,8 +194,8 @@
 * Fixed animation bug when switching weapons with the clip being empty
 
 ### Spectre
-* Unupgraded: increased stock ammo from 120  to 240
-* Upgraded: increased stock ammo
+* Unupgraded: increased stock ammo from 120 to 240
+* Upgraded: increased stock ammo from 225 360
 
 ### Wonder Weapons
 #### Baby Gun
@@ -234,7 +236,7 @@
 * Upgraded: can now kill 24 zombies
 
 ### Equipment
-* Limit of 20 mines placed at a time per player
+* Limit of 30 mines placed at a time per player
 
 #### Bouncing Betty
 * Can now explode after being placed for 1 second (previously 2 seconds)
@@ -276,7 +278,7 @@
 * Fixed a bug where players were able to get no weapon in their hand by pressing the gas mask button repeatedly
 
 #### Semtex
-* Now cost 250 points to buy (previously costed 130 points after first buy)
+* Now always cost 250 points to buy (previously costed 130 points after first buy)
 * Semtex beeping rate no longer changes depending on your FPS
 
 #### Stielhandgranate
@@ -285,7 +287,7 @@
 #### QED
 * Free perk effect now only gives the perk to the player who threw the QED
 * 100% chance of giving perk when thrown near a perk machine
-* 100% chance of opening door when thrown near a door
+* 100% chance of opening a door when thrown near a door
 * 100% chance of upgrading current weapon when thrown near Pack-a-Punch machine
 * Revive player effect now only revives players near where the QED was thrown
 * 100% chance of reviving player when thrown near downed player
@@ -300,12 +302,12 @@
 ## Wallbuys
 * Can now purchase ammo if stock ammo is full but clip ammo is not full
 * Upgraded ammo cost reduced from 4500 points to 2500 points
-* Multiple people can now buy Bowie Knife/Sickle at the same time
+* Multiple players can now buy the Bowie Knife or Sickle at the same time
 * Claymores, Bouncing Betties, and Spikemores now all require the player to be looking at the wallbuy to be able to buy them
 
 ## Mystery Box
 * Re-hitting the box is now faster (only 1 second delay between box hits)
-* When box moves, it will instantly appear at its new location instead of waiting 8 seconds
+* When the box moves, it will instantly appear at its new location instead of waiting 8 seconds
 * Wall weapons are in the box on classic maps
 * Box now cycles through weapons for its whole duration while opening
 * Every player now sees the same weapons in the box when the weapons are floating up
@@ -314,15 +316,16 @@
 * All weapons have the same probability to be obtained in the box
 * Box weapons will not appear again in a row while floating up (unless it is the final weapon)
 * Box will now cycle through all locations before going to a previous location again
-* Box has a different hintstring for picking up a weapon if the weapon is a tactical grenade
+* Box has a different hintstring for taking tactical grenades
 * Hintstring now says "Mystery Box" instead of "Random Weapon"
 
 ## Perks
 * Perks now become active as soon as the player starts to put away the perk bottle
 * Added gloss to all perk bottles
-* Multiple people can now buy the same perk at the same time
-* Perk order will no longer be changed when losing a perk
+* Multiple players can now buy the same perk at the same time
+* Perks now fade in on the HUD when obtained
 * Removed blur effect that previously happened after buying a perk
+* Perk order will no longer be changed when losing a perk
 * All perk machines on all maps now make a sound when bumping into them
 * Fixed a bug where the Quick Revive perk machine sounds would still play after the machine is gone in solo
 
@@ -368,10 +371,10 @@
 * Now obtainable on round 1 on Kino Der Toten and Shangri-La
 * Kills all zombies instantly
 * Enemies killed by a Nuke no longer drop powerups
-* Zombies killed from Nuke count as kills for the person who grabbed the Nuke
+* Zombies killed from a Nuke count as kills for the player who grabbed the Nuke
 
 ### Wunderwaffe
-* Floating powerup icon now shows Wunderwaffe weapon model
+* Powerup model now shows Wunderwaffe weapon model
 * Switch weapons to end powerup duration
 * Powerup can now drop while one is already active
 
@@ -413,18 +416,6 @@
 * Deal 500 damage or 1/3 of zombie's health, whichever one is more
 * Turrets now lockon to a new target quicker
 * Turrets now target the zombie that is closest to the turret
-
-### Elevators (Five)
-* Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1 second
-* Hintstring for elevators will now not show up until the elvator becomes usable again
-* Added .2 second delay for the top elevator to activate after it has been triggered if there is a player blocking it so the elevator can move without the player having to ride it
-* If the power is on, all zombies will now go through teleporters if all players on a floor use an elevator or down
-* If the power is off, all zombies will now respawn if all players on a floor use an elevator or down
-
-### Teleporters (Five)
-* Teleporting no longer takes players' weapons away temporarily
-* Teleporting no longer freezes players' controls
-* Fixed teleporters showing they were ready to use again too early after teleporting through them
 
 ### Lunar Lander (Ascension)
 * Added a short delay for the lander to activate after triggering it (so you can activate the lander without having to ride it)
@@ -469,7 +460,7 @@
 ## Zombies
 * Fixed a bug where zombies would bleed out when they shouldn't have
 * Zombies can no longer be alive and headless
-* Special rounds work on the powerup system (1st time after initial special round is random, then next special round is on the round that the previous one wasn't, then repeat)
+* Special rounds: 1st time after initial special round is random, then next special round is on the round that the previous one wasn't, then repeat
 * Max health: 1 million
 * Fixed a bug that caused ceiling spawns to be able to be disabled
 * Fixed a bug that caused spawning risers to collide with players at their initial spawn locations
@@ -495,7 +486,7 @@
 
 ### Director
 * Always drops Wunderwaffe regardless of whether or not you have completed the sidequest
-* Upgraded assault rifles no longer deal extra non-headshot damage to the Director
+* Upgraded assault rifles no longer deal extra damage to the Director
 * Max health is now 250,000 no matter how many players are in the match
 * Only slows down players close to him when shot at while calm
 
@@ -516,7 +507,7 @@
 * Damaging a shrieker will now always give points
 
 ### Cosmonaut
-* Fixed a bug where the Cosmonaut would get stuck in place when spawning in while a player was on jump pads
+* Fixed a bug where the Cosmonaut would get stuck in place when spawning in while a player was on the jump pads
 * Cosmonaut no longer teleports players that activate a jump pad between the time of being grabbed and when they would have been teleported
 * Fixed a bug where the Cosmonaut would move faster than intended after throwing a Gersch device once the Pack-a-Punch gates had been hacked
 * Now kills any zombies near him when he explodes
@@ -550,6 +541,18 @@
 * Barriers in the spawn room no longer reset
 * Pack-a-punch machine will stay available for as long as the defcon room is active
 
+#### Elevators
+* Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1 second
+* Hintstring for elevators will now not show up until the elvator becomes usable again
+* Added .2 second delay for the top elevator to activate after it has been triggered if there is a player blocking it so the elevator can move without the player having to ride it
+* If the power is on, all zombies will now go through teleporters if all players on a floor use an elevator or down
+* If the power is off, all zombies will now respawn if all players on a floor use an elevator or down
+
+#### Teleporters
+* Teleporting no longer takes players' weapons away temporarily
+* Teleporting no longer freezes players' controls
+* Fixed teleporters showing they were ready to use again too early after teleporting through them
+
 ### Ascension
 * Sidequest completable with 1-4 players
 * Monkey round sidequest step: buttons no longer have to be pressed at the same time, only on the same monkey round
@@ -569,7 +572,7 @@
 * Eclipse mode activatable with 1-4 players
 * Sidequest completable with 1-4 players
 * Sidequest stepping stone step: stones stay down until a new stone on the same side has been stepped on
-* Only 1 person now required for waterslide sidequest step
+* Only 1 player now required for waterslide sidequest step
 * Sidequest reward: all players get permament perks
 * Sidequest no longer recompletable in a match
 * Sidequest melee stones step: Increased melee range for stones
@@ -639,7 +642,7 @@
 * Fix low grav with increased FPS
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Make it easier to tell how many grenades you have on HUD
-* Remove collision from ai while theyre spawning(ai SetPlayerCollision(0);)
+* Remove collision from dogs while theyre spawning(dog SetPlayerCollision(0);)
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
 * See if pausing in coop is possible
 * Remove blur when paused ingame
@@ -659,6 +662,9 @@
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Try to make barriers work with trigger_radius_use
+* Fix type 100 stock ammo to be a multiple of its clip size (change the ammo it receives in GSC due to not having weapon file)
+* Fix stielhandgranata impact damage
+* Decrease crossbow explosion radius to 256, increase damage
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
