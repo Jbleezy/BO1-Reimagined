@@ -114,7 +114,7 @@
 * Upgraded: fixed fire sound
 
 ### AUG
-* Upgraded: added name of weapon attachment
+* Upgraded: added name of weapon attachment on HUD
 
 ### Ballistic Knife
 * Knives pick up automatically when close to them
@@ -153,21 +153,21 @@
 * Upgraded: reduced hipfire spread, reduced recoil
 
 ### Kar98k
-* Unupgraded: increased damage to 500, increased headshot damage to 1000
-* Upgraded: increased damage 3000, increased headshot damage to 6000
+* Unupgraded: increased damage from 170 to 500, increased headshot damage from 350 to 1000
+* Upgraded: increased damage to 3000, increased headshot damage to 6000
 
 ### Kar98k Scoped
-* Increased damage to 1000, increased headshot damage to 4000
+* Increased damage from 675 to 1000, increased headshot damage from 3000 to 4000
 
 ### L96A1
 * Unupgraded: now has variable zoom scope
 
 ### M16
 * Unupgraded: Increased stock ammo from 120 to 150
-* Upgraded: decreased grenade launcher attchment explosion radius by 36%
-* Upgraded: increased grenade launcher attchment max damage from 400 to 1500
-* Upgraded: increased grenade launcher attchment min damage from 75 to 500
-* Upgraded: added name of weapon attachment
+* Upgraded: decreased grenade launcher explosion radius by 36%
+* Upgraded: increased grenade launcher max damage from 400 to 1500
+* Upgraded: increased grenade launcher min damage from 75 to 500
+* Upgraded: added name of weapon attachment on HUD
 
 ### M1911
 * Upgraded: impact damage - 2500, max explosion damage - 2500, min explosion damage - 1000
@@ -304,6 +304,7 @@
 * Upgraded ammo cost reduced from 4500 points to 2500 points
 * Multiple players can now buy the Bowie Knife or Sickle at the same time
 * Claymores, Bouncing Betties, and Spikemores now all require the player to be looking at the wallbuy to be able to buy them
+* Sniper cabinet: weapon ammo now costs exactly 25% the cost of the weapon
 
 ## Mystery Box
 * Re-hitting the box is now faster (only 1 second delay between box hits)
@@ -515,10 +516,10 @@
 
 ## Maps
 ### Nacht Der Untoten
-* Character dialog removed
+* Removed Character dialog
 
 ### Verruckt
-* Character dialog removed
+* Removed Character dialog
 * Removed intro text
 * Fixed zombie pathing near Speed Cola
 
@@ -554,41 +555,41 @@
 * Fixed teleporters showing they were ready to use again too early after teleporting through them
 
 ### Ascension
-* Sidequest completable with 1-4 players
-* Monkey round sidequest step: buttons no longer have to be pressed at the same time, only on the same monkey round
-* Lunar lander sidequest step: First use centrifuge lander, then use Stamin-Up lander, then use PHD Flopper lander, and last use Speed Cola lander
-* Lunar lander sideuqest step - HITSAM easter egg now only requiers the letters SAM (was not enough room to fit HITSAM)
+
+#### Sidequest
+* Completable with 1-4 players
+* Monkey round step: buttons no longer have to be pressed at the same time, only on the same monkey round
+* Lunar lander step: First use centrifuge lander, then use Stamin-Up lander, then use PHD Flopper lander, and last use Speed Cola lander
+* Lunar lander step - HITSAM easter egg now only requiers the letters SAM (was not enough room to fit HITSAM)
 
 ### Call of the Dead
 * Removed zombie spawn delay at the beginning of a match
+
+#### Sidequest
+* Steps in solo are the same as in coop
+* Fuse spawns before starting the sidequest
+* Bottle no longer breaks when it hits the ground
+* Human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health times the amount of players)
 * Wunderwaffe powerup from sidequest stays on the until picked up
-* Sidequest: human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health times the amount of players)
-* Sidequest: fuse spawns before starting the sidequest
-* Sidequest: steps in solo are the same as in coop
-* Sidequest: bottle no longer breaks when it hits the ground
 
 ### Shangri-La
 * Pack-a-Punch stones do not have to be stepped on at the same time
 * Eclipse mode activatable with 1-4 players
-* Sidequest completable with 1-4 players
-* Sidequest stepping stone step: stones stay down until a new stone on the same side has been stepped on
-* Only 1 player now required for waterslide sidequest step
-* Sidequest reward: all players get permament perks
-* Sidequest no longer recompletable in a match
-* Sidequest melee stones step: Increased melee range for stones
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
-* Fixed a bug where players could clip through the wall behind Pack-a-Punch during the sidequest
 * While a weapon is in Pack-a-Punch, players will not be pushed off the stairs
 
+#### Sidequest
+* Completable with 1-4 players
+* Stepping stone step: stones stay down until a new stone on the same side has been stepped on
+* Only 1 player now required for waterslide step
+* Reward: all players get permament perks
+* No longer recompletable in a match
+* Melee stones step: Increased melee range for stones
+* Fixed a bug where players could clip through the wall behind Pack-a-Punch during the sidequest
+
 ### Moon
-* No Man's Land now spawns 24 zombies instead of 20 zombies
-* No Man's Land now displays a more accurate time of how long you survived
 * Added Fire Sale, Max Ammo, and Perk Bottle to jump pad powerup cycle
 * Removed the forced jumping in low gravity
-* Full sidequest completable in solo
-* Full sidequest completable without Richtofen
-* Sidequest part 1 reward - 90 second Death Machines for the rest of the match
-* Full sidequest reward - permament perks (Quick Revive goes away when downed in solo, can be rebought with all perks)
 * Excavators will not reactivate for places that have already been breached
 * Fixed the invisible digger glitch
 * Gersches and QEDs no longer break windows
@@ -604,6 +605,18 @@
 * Jump pad in Receiving Bay now only pushes players upwards
 * Excavator sounds no longer linked to FPS
 * Teleporter sounds no longer linked to FPS
+
+#### No Man's Land
+* Current No Man's Land round displayed in black where the round number normally is
+* Now spawns 24 zombies instead of 20 zombies
+* Now displays a more accurate time of how long you survived
+* Insta kill rounds can now occur on No Man's Land (except for the initital time you spawn in so players can't exploit No Man's Land insta kill rounds to get more kills)
+
+#### Sidequest
+* Full sidequest completable in solo
+* Full sidequest completable without Richtofen
+* Part 1 reward - 90 second Death Machines for the rest of the match
+* Full reward - permament perks (Quick Revive goes away when downed in solo, can be rebought with all perks)
 
 ## TODO:
 * Fix alive players movement being stopped when other players spawn in (caused from .sessionstate)
@@ -653,7 +666,6 @@
 * Make trap hintstrings show time remaining for active and cooldown (use add_zombie_hint())
 * Remove marks on background of Deadshot perk emblem
 * Fix weapon order being changed
-* Add NML round number in place of round number
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)
 * Gun Game: add increment weapon powerup, powerup model is the weapon they will receive, powerup is hidden and ungrabbable to all other players
@@ -662,9 +674,10 @@
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Try to make barriers work with trigger_radius_use
-* Fix type 100 stock ammo to be a multiple of its clip size (change the ammo it receives in GSC due to not having weapon file)
+* Change type 100 stock ammo to 180 unupgraded, 240 upgraded (from weapon file)
 * Fix stielhandgranata impact damage
 * Decrease crossbow explosion radius to 256, increase damage
+* Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be while
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

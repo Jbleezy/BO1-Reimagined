@@ -865,92 +865,96 @@ moon_round_think_func()
 
     if(level.moon_startmap == true)
     {
+    	level thread maps\_zombiemode::chalk_one_up(1);
     	level.moon_startmap = false;
-			level thread maps\_zombiemode::play_level_start_vox_delayed();
-			wait(3); // time that would have been for round text and init spawning.
+		level thread maps\_zombiemode::play_level_start_vox_delayed();
+		wait(3); // time that would have been for round text and init spawning.
     }
-    else
+    else if(!flag("enter_nml"))
     {
-			maps\_zombiemode::chalk_one_up();
-		}
+		maps\_zombiemode::chalk_one_up();
+	}
 
-		maps\_zombiemode_powerups::powerup_round_start();
+	maps\_zombiemode_powerups::powerup_round_start();
 
-		players = get_players();
-		array_thread( players, maps\_zombiemode_blockers::rebuild_barrier_reward_reset );
+	players = get_players();
+	array_thread( players, maps\_zombiemode_blockers::rebuild_barrier_reward_reset );
 
-		// only give grenades when not returning from NML.
-		if(!flag("teleporter_used") || level.first_round == true)
+	// only give grenades when not returning from NML.
+	if(!flag("teleporter_used") || level.first_round == true)
+	{
+		level thread maps\_zombiemode::award_grenades_for_survivors();
+	}
+
+	bbPrint( "zombie_rounds: round %d player_count %d", level.round_number, players.size );
+
+	level.round_start_time = GetTime();
+	level thread [[level.round_spawn_func]]();
+
+	level notify( "start_of_round" );
+
+	// returning from earth: restore the zombie total if there were zombies remaining when you left
+	if(flag("teleporter_used"))
+	{
+		flag_clear("teleporter_used");
+		if ( level.prev_round_zombies != 0)
 		{
-			level thread maps\_zombiemode::award_grenades_for_survivors();
+			level.zombie_total = level.prev_round_zombies;
 		}
+	}
 
-		bbPrint( "zombie_rounds: round %d player_count %d", level.round_number, players.size );
+	[[level.round_wait_func]]();
 
-		level.round_start_time = GetTime();
-		level thread [[level.round_spawn_func]]();
+	level.first_round = false;
+	level notify( "end_of_round" );
+	flag_set("between_rounds");
 
-		level notify( "start_of_round" );
+	UploadStats();
 
-		// returning from earth: restore the zombie total if there were zombies remaining when you left
-		if(flag("teleporter_used"))
+	if(!flag("teleporter_used"))
+	{
+		level thread maps\_zombiemode_audio::change_zombie_music( "round_end" );
+
+		if ( 1 != players.size )
 		{
-			flag_clear("teleporter_used");
-			if ( level.prev_round_zombies != 0)
-			{
-				level.zombie_total = level.prev_round_zombies;
-			}
+			level thread maps\_zombiemode::spectators_respawn();
 		}
+	}
 
-		[[level.round_wait_func]]();
-
-		level.first_round = false;
-		level notify( "end_of_round" );
-		flag_set("between_rounds");
-
-		UploadStats();
-
-		if(!flag("teleporter_used"))
-		{
-			level thread maps\_zombiemode_audio::change_zombie_music( "round_end" );
-
-			if ( 1 != players.size )
-			{
-				level thread maps\_zombiemode::spectators_respawn();
-			}
-		}
-
+	if(!flag("enter_nml"))
+	{
 		level maps\_zombiemode::chalk_round_over();
+	}
 
-		// here's the difficulty increase over time area
-		timer = level.zombie_vars["zombie_spawn_delay"];
-		if ( timer > 0.08 )
-		{
-			level.zombie_vars["zombie_spawn_delay"] = timer * 0.95;
-		}
-		else if ( timer < 0.08 )
-		{
-			level.zombie_vars["zombie_spawn_delay"] = 0.08;
-		}
+	// here's the difficulty increase over time area
+	timer = level.zombie_vars["zombie_spawn_delay"];
+	if ( timer > 0.08 )
+	{
+		level.zombie_vars["zombie_spawn_delay"] = timer * 0.95;
+	}
+	else if ( timer < 0.08 )
+	{
+		level.zombie_vars["zombie_spawn_delay"] = 0.08;
+	}
 
-		level.zombie_move_speed = level.round_number * level.zombie_vars["zombie_move_speed_multiplier"];
+	level.zombie_move_speed = level.round_number * level.zombie_vars["zombie_move_speed_multiplier"];
 
-		// DCS 062811: if used teleporter to advance round stay at old round number.
-		if(flag("teleporter_used"))
+	// DCS 062811: if used teleporter to advance round stay at old round number.
+	if(flag("teleporter_used"))
+	{
+		// restore the zombie total if there were zombies remaining when you left
+		if ( level.prev_round_zombies != 0 && !flag("enter_nml") )
 		{
-			// restore the zombie total if there were zombies remaining when you left
-			if ( level.prev_round_zombies != 0 && !flag("enter_nml") )
-			{
-				level.round_number = level.nml_last_round;
-			}
+			level.round_number = level.nml_last_round;
 		}
-		else
-		{
-			level.round_number++;
-		}
+	}
+	else
+	{
+		level.round_number++;
+	}
 
-		level notify( "between_round_over" );
-		flag_clear("between_rounds");
+	level notify( "between_round_over" );
+	flag_clear("between_rounds");
 
 	}
 }

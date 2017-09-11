@@ -71,6 +71,8 @@ add_zombie_weapon( weapon_name, upgrade_name, hint, cost, weaponVO, weaponVOresp
 	{
 		if(weapon_name == "sticky_grenade_zm")
 			ammo_cost = cost;
+		else if(weapon_name == "kar98k_scoped_zombie")
+			ammo_cost = int( cost * 0.25 );
 		else
 			ammo_cost = round_up_to_ten( int( cost * 0.5 ) );
 	}

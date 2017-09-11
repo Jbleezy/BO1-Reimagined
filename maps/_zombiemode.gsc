@@ -269,25 +269,25 @@ zombiemode_melee_miss()
 
 init_additionalprimaryweapon_machine_locations()
 {
-	if(Tolower(GetDvar("mapname")) == "zombie_moon")
+	if(Tolower(GetDvar("mapname")) == "zombie_moon") //moon - always enabled
 	{
 		level.zombie_additionalprimaryweapon_machine_origin = (1480.8, 3450, -65);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 180, 0);
 	}
-	else if(GetDvarInt("mule_kick_enabled"))
+	else if(GetDvarInt("mule_kick_enabled") && Tolower(GetDvar("mapname")) != "zombie_cod5_prototype") //nacht - always disabled
 	{
 		switch ( Tolower( GetDvar( #"mapname" ) ) )
 		{
-		/*case "zombie_cod5_prototype": // always disabled
+		case "zombie_cod5_prototype":
 			level.zombie_additionalprimaryweapon_machine_origin = (-160, -528, 1);
 			level.zombie_additionalprimaryweapon_machine_angles = (0, 0, 0);
 			level.zombie_additionalprimaryweapon_machine_clip_origin = (-162, -517, 17);
 			level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 0, 0);
 			break;
-		case "zombie_moon": // always enabled
+		case "zombie_moon": 
 			level.zombie_additionalprimaryweapon_machine_origin = (1480.8, 3450, -65);
 			level.zombie_additionalprimaryweapon_machine_angles = (0, 180, 0);
-			break;*/
+			break;
 		case "zombie_theater":
 			level.zombie_additionalprimaryweapon_machine_origin = (1172.4, -359.7, 320);
 			level.zombie_additionalprimaryweapon_machine_angles = (0, 90, 0);
@@ -3974,50 +3974,59 @@ wait_until_first_player()
 
 //
 //	Set the current round number hud display
-chalk_one_up()
+chalk_one_up(override_round_number)
 {
 	huds = [];
 	huds[0] = level.chalk_hud1;
 	huds[1] = level.chalk_hud2;
 
-	// Hud1 shader
-	if( level.round_number >= 1 && level.round_number <= 5 )
+	round_number = level.round_number;
+	if(IsDefined(override_round_number))
 	{
-		huds[0] SetShader( "hud_chalk_" + level.round_number, 64, 64 );
-	}
-	else if ( level.round_number >= 5 && level.round_number <= 10 )
-	{
-		huds[0] SetShader( "hud_chalk_5", 64, 64 );
+		round_number = override_round_number;
 	}
 
-	// Hud2 shader
-	if( level.round_number > 5 && level.round_number <= 10 )
+	if(!IsDefined(override_round_number) || round_number == 1)
 	{
-		huds[1] SetShader( "hud_chalk_" + ( level.round_number - 5 ), 64, 64 );
-	}
+		// Hud1 shader
+		if( round_number >= 1 && round_number <= 5 )
+		{
+			huds[0] SetShader( "hud_chalk_" + round_number, 64, 64 );
+		}
+		else if ( round_number >= 5 && round_number <= 10 )
+		{
+			huds[0] SetShader( "hud_chalk_5", 64, 64 );
+		}
 
-	// Display value
-	if ( IsDefined( level.chalk_override ) )
-	{
-		huds[0] SetText( level.chalk_override );
-		huds[1] SetText( " " );
-	}
-	else if( level.round_number <= 5 )
-	{
-		huds[1] SetText( " " );
-	}
-	else if( level.round_number > 10 )
-	{
-		huds[0].fontscale = 32;
-		huds[0] SetValue( level.round_number );
-		huds[1] SetText( " " );
+		// Hud2 shader
+		if( round_number > 5 && round_number <= 10 )
+		{
+			huds[1] SetShader( "hud_chalk_" + ( round_number - 5 ), 64, 64 );
+		}
+
+		// Display value
+		if ( IsDefined( level.chalk_override ) )
+		{
+			huds[0] SetText( level.chalk_override );
+			huds[1] SetText( " " );
+		}
+		else if( round_number <= 5 )
+		{
+			huds[1] SetText( " " );
+		}
+		else if( round_number > 10 )
+		{
+			huds[0].fontscale = 32;
+			huds[0] SetValue( round_number );
+			huds[1] SetText( " " );
+		}
 	}
 
 	if(!IsDefined(level.doground_nomusic))
 	{
 		level.doground_nomusic = 0;
 	}
-	if( level.first_round )
+	if( level.first_round && !IsDefined(override_round_number) )
 	{
 		intro = true;
 		if( isdefined( level._custom_intro_vox ) )
@@ -4035,7 +4044,7 @@ chalk_one_up()
 	}
 
 	//Round Number Specific Lines
-	if( level.round_number == 5 || level.round_number == 10 || level.round_number == 20 || level.round_number == 35 || level.round_number == 50 )
+	if( !IsDefined(override_round_number) && level.round_number == 5 || level.round_number == 10 || level.round_number == 20 || level.round_number == 35 || level.round_number == 50 )
 	{
 	    players = getplayers();
 	    rand = RandomIntRange(0,players.size);
@@ -4045,6 +4054,39 @@ chalk_one_up()
 	round = undefined;
 	if( intro )
 	{
+		// Hud1 shader
+		if( round_number >= 1 && round_number <= 5 )
+		{
+			huds[0] SetShader( "hud_chalk_" + round_number, 64, 64 );
+		}
+		else if ( round_number >= 5 && round_number <= 10 )
+		{
+			huds[0] SetShader( "hud_chalk_5", 64, 64 );
+		}
+
+		// Hud2 shader
+		if( round_number > 5 && round_number <= 10 )
+		{
+			huds[1] SetShader( "hud_chalk_" + ( round_number - 5 ), 64, 64 );
+		}
+
+		// Display value
+		if ( IsDefined( level.chalk_override ) )
+		{
+			huds[0] SetText( level.chalk_override );
+			huds[1] SetText( " " );
+		}
+		else if( round_number <= 5 )
+		{
+			huds[1] SetText( " " );
+		}
+		else if( round_number > 10 )
+		{
+			huds[0].fontscale = 32;
+			huds[0] SetValue( round_number );
+			huds[1] SetText( " " );
+		}
+
 		// Create "ROUND" hud text
 		round = create_simple_hud();
 		round.alignX = "center";
@@ -4084,7 +4126,7 @@ chalk_one_up()
 		huds[0].color = ( 0.21, 0, 0 );
 		wait(2);
 	}
-	else
+	else if(!IsDefined(override_round_number))
 	{
 		for ( i=0; i<huds.size; i++ )
 		{
@@ -4101,7 +4143,14 @@ chalk_one_up()
 //
 	for ( i=0; i<huds.size; i++ )
 	{
-		huds[i] FadeOverTime( 2 );
+		if(IsDefined(override_round_number))
+		{
+			huds[i] FadeOverTime( .5 );
+		}
+		else
+		{
+			huds[i] FadeOverTime( 2 );
+		}
 		huds[i].alpha = 1;
 	}
 
@@ -4138,17 +4187,67 @@ chalk_one_up()
 	// Okay now wait just a bit to let the number set in
 	if ( !intro )
 	{
-		wait( 2 );
+		if(IsDefined(override_round_number))
+		{
+			wait( .5 );
+		}
+		else
+		{
+			wait( 2 );
+		}
 
 		for ( i=0; i<huds.size; i++ )
 		{
 			huds[i] FadeOverTime( 1 );
-			huds[i].color = ( 0.21, 0, 0 );
-			if(level.round_number >= 163 && level.round_number % 2 == 1 && !flag("dog_round") && !flag("thief_round") && !flag("monkey_round"))
+			if(IsDefined(override_round_number))
+			{
+				huds[i].color = ( 0, 0, 0 );
+			}
+			else
+			{
+				huds[i].color = ( 0.21, 0, 0 );
+			}
+			if(round_number >= 163 && round_number % 2 == 1 && !flag("dog_round") && !flag("thief_round") && !flag("monkey_round"))
 			{
 				//starting on round 163, odd rounds that are not special rounds are insta kill rounds
 				flag_set("insta_kill_round");
 			}
+		}
+	}
+
+	if(IsDefined(override_round_number))
+	{
+		// Hud1 shader
+		if( round_number >= 1 && round_number <= 5 )
+		{
+			huds[0] SetShader( "hud_chalk_" + round_number, 64, 64 );
+		}
+		else if ( round_number >= 5 && round_number <= 10 )
+		{
+			huds[0] SetShader( "hud_chalk_5", 64, 64 );
+		}
+
+		// Hud2 shader
+		if( round_number > 5 && round_number <= 10 )
+		{
+			huds[1] SetShader( "hud_chalk_" + ( round_number - 5 ), 64, 64 );
+		}
+
+		// Display value
+		if ( IsDefined( level.chalk_override ) )
+		{
+			huds[0] SetText( level.chalk_override );
+			huds[1] SetText( " " );
+		}
+		else if( round_number <= 5 )
+		{
+			huds[1] SetText( " " );
+		}
+		else if( round_number > 10 )
+		{
+			huds[0].fontscale = 32;
+			huds[0] SetValue( round_number );
+			huds[1] SetText( " " );
 		}
 	}
 
@@ -4372,9 +4471,14 @@ award_grenades_for_survivors()
 ai_calculate_health( round_number )
 {
 	//odd rounds starting on 163 are insta kill rounds
-	if(level.round_number >= 163)
+	if(round_number >= 163)
 	{
-		if(level.round_number % 2 == 1)
+		//don't let players exploit NML
+		if(IsDefined(level.ever_been_on_the_moon) && !level.ever_been_on_the_moon)
+		{
+			level.zombie_health = 1000000;
+		}
+		else if(round_number % 2 == 1)
 		{
 			level.zombie_health = 150;
 		}
