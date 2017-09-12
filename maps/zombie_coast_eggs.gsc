@@ -2594,6 +2594,8 @@ capricorn()
 	// SCRIPT: AWARD THE ACHIEVEMENT AND STUFF
 	level notify( "coast_easter_egg_achieved" );
 
+	level.upgraded_tesla_reward = true;
+
 	level thread consequences_will_never_be_the_same();
 
 }

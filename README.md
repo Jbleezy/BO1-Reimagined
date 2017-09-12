@@ -569,8 +569,9 @@
 * Steps in solo are the same as in coop
 * Fuse spawns before starting the sidequest
 * Bottle no longer breaks when it hits the ground
-* Human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health times the amount of players)
-* Wunderwaffe powerup from sidequest stays on the until picked up
+* Human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health multiplied the amount of players)
+* Reward: upgraded Wunderwaffe from every Wunderwaffe powerup for the rest of the game
+* Wunderwaffe powerup from sidequest stays on the map until picked up
 
 ### Shangri-La
 * Pack-a-Punch stones do not have to be stepped on at the same time
@@ -681,10 +682,10 @@
 * Perfect trap switch movement
 * Disable easter eggs on all versus gamemodes
 * Add kar98k upgraded previous damage on README
-* COTD sidequest reward: upgraded Wunderwaffe from every Wunderwaffe powerup for the rest of the game
 * Get COTD version of the Wunderwaffe on Shi No Numa and Der Riese
 * Give upgraded Wunderwaffe gold camo on Der Riese, but regular pap camo on COTD
 * Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
+* Check what happens when player tries to grab upgraded waffe powerup while unupgraded waffe powerup is active
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
