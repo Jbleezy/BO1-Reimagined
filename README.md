@@ -195,7 +195,7 @@
 
 ### Spectre
 * Unupgraded: increased stock ammo from 120 to 240
-* Upgraded: increased stock ammo from 225 360
+* Upgraded: increased stock ammo from 225 to 360
 
 ### Wonder Weapons
 #### Baby Gun
@@ -216,11 +216,11 @@
 * Unupgraded: permamently makes the Director calm when shot at him
 * Enemies that are shot will now target the closest enemy to them
 * Enemy's heads will explode if they get too close to a human enemy
-* Human enemy lasts for 10 second unupgraded, 15 seconds upgraded
+* Human enemy lasts for 10 seconds unupgraded, 15 seconds upgraded
 * Owner of VR-11 gets 50% of any points that the player who they shot earns for its duration (previously 75%)
 
 #### Wave Gun
-* 50 points for each kill
+* Gives 50 points for each kill
 
 #### Winter's Howl
 * Minimum damage: 500 unupgraded, 1000 upgraded
@@ -677,7 +677,14 @@
 * Change type 100 stock ammo to 180 unupgraded, 240 upgraded (from weapon file)
 * Fix stielhandgranata impact damage
 * Decrease crossbow explosion radius to 256, increase damage
-* Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be while
+* Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
+* Perfect trap switch movement
+* Disable easter eggs on all versus gamemodes
+* Add kar98k upgraded previous damage on README
+* COTD sidequest reward: upgraded Wunderwaffe from every Wunderwaffe powerup for the rest of the game
+* Get COTD version of the Wunderwaffe on Shi No Numa and Der Riese
+* Give upgraded Wunderwaffe gold camo on Der Riese, but regular pap camo on COTD
+* Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -713,6 +720,7 @@
 * Get actionslot 2 highlighting to work
 * Fix demigod
 * Make online version of the scoreboard show in solo
+* Get brightness to work without having to be in fullscreen
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
@@ -725,3 +733,10 @@
 * **_WECoyote99_** - tester
 * **_Pure_** - tester
 * **_donnellyian1995_** - tester
+
+mtl_vacuum_tube_filament_inside
+mtl_vacuum_tube_filament_outside
+mtl_vacuum_tube_glass
+mtl_lightning_chamber_main
+mtl_lightning_chamber_glass
+mtl_tesla_metal

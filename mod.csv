@@ -181,6 +181,8 @@ weapon,sp/combat_sickle_knife_zm
 weapon,sp/rottweil72_upgraded_zm
 weapon,sp/zombie_bullet_crouch
 weapon,sp/mk_aug_upgraded_zm
+//weapon,sp/tesla_gun_zm
+//weapon,sp/tesla_gun_upgraded_zm
 
 //SOUNDS
 sound,new_weapons
@@ -214,6 +216,23 @@ xmodel,zombie_3rd_perk_bottle_nuke
 xmodel,zombie_3rd_perk_bottle_revive
 xmodel,zombie_3rd_perk_bottle_sleight
 xmodel,zombie_3rd_perk_bottle_three_gun
+
+//XANIMS
+//xanim,viewmodel_tesla_ads_down
+//xanim,viewmodel_tesla_ads_fire
+//xanim,viewmodel_tesla_ads_up
+//xanim,viewmodel_tesla_d2p_in
+//xanim,viewmodel_tesla_d2p_out
+//xanim,viewmodel_tesla_d2p_loop
+//xanim,viewmodel_tesla_fire
+//xanim,viewmodel_tesla_first_raise
+//xanim,viewmodel_tesla_idle
+//xanim,viewmodel_tesla_pullout
+//xanim,viewmodel_tesla_pullout_fast
+//xanim,viewmodel_tesla_reload
+//xanim,viewmodel_tesla_sprint_in
+//xanim,viewmodel_tesla_sprint_loop
+//xanim,viewmodel_tesla_sprint_out
 
 //CHARACTERS
 rawfile,character/c_ger_richtofen_dlc5.gsc

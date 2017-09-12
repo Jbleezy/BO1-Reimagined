@@ -8013,15 +8013,20 @@ increase_revive_radius()
 
 give_weapons_test()
 {
-	wep = "freezegun_zm";
+	wait 2;
+	//wep = "freezegun_zm";
 	//wep = "thundergun_zm";
-	//wep = "sngiper_explosive_zm";
+	//wep = "sniper_explosive_upgraded_zm";
+	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
-	self GiveWeapon(wep);
+	wep = "tesla_gun_upgraded_zm";
+	//wep = "ray_gun_upgraded_zm";
+	//self GiveWeapon(wep);
+	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
 	self SwitchToWeapon(wep);
-	self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
+	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
 	/*wait 5;
 
