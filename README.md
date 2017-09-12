@@ -154,7 +154,7 @@
 
 ### Kar98k
 * Unupgraded: increased damage from 170 to 500, increased headshot damage from 350 to 1000
-* Upgraded: increased damage to 3000, increased headshot damage to 6000
+* Upgraded: increased damage from 1200 to 3000, increased headshot damage from 2000 to 6000
 
 ### Kar98k Scoped
 * Increased damage from 675 to 1000, increased headshot damage from 3000 to 4000
@@ -680,11 +680,12 @@
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Perfect trap switch movement
 * Disable easter eggs on all versus gamemodes
-* Add kar98k upgraded previous damage on README
 * Get COTD version of the Wunderwaffe on Shi No Numa and Der Riese
 * Give upgraded Wunderwaffe gold camo on Der Riese, but regular pap camo on COTD
 * Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
 * Make not taking a weapon from the box put it back into the list of current weapons you can obtain
+* Fix zombie pathing on Five going to different floots
+* Make betties place correctly on Der Riese bridge
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

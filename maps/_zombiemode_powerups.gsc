@@ -1524,18 +1524,12 @@ powerup_grab()
 						break;
 
 					case "fire_sale":
-						for(j=0;j<players.size;j++)
-						{
-							players[j] thread start_fire_sale( self );
-						}
+						level thread start_fire_sale( self );
 						players[i] thread powerup_vo("firesale");
 						break;
 
 					case "bonfire_sale":
-						for(j=0;j<players.size;j++)
-						{
-							players[j] thread start_bonfire_sale( self );
-						}
+						level thread start_bonfire_sale( self );
 						players[i] thread powerup_vo("firesale");
 						break;
 
@@ -1679,95 +1673,121 @@ start_revive_all( item )
 
 start_fire_sale( item )
 {
-	self notify ("powerup fire sale");
-	self endon ("powerup fire sale");
-	self endon ("disconnect");
+	level notify ("powerup fire sale");
+	level endon ("powerup fire sale");
+	
+	level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["fire_sale_short"] );
 
 	players = get_players();
-	if(self == players[0])
-		level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["fire_sale_short"] );
-
-	if(self.zombie_vars["zombie_powerup_fire_sale_on"])
+	if(level.zombie_vars["zombie_powerup_fire_sale_on"])
 	{
-		self.zombie_vars["zombie_powerup_fire_sale_time"] += 30;
+		level.zombie_vars["zombie_powerup_fire_sale_time"] += 30;
+		for(i = 0; i < players.size; i++)
+		{
+			players[i].zombie_vars["zombie_powerup_fire_sale_time"] += 30;
+		}
 	}
 	else
 	{
-		self.zombie_vars["zombie_powerup_fire_sale_time"] = 30;
+		level.zombie_vars["zombie_powerup_fire_sale_time"] = 30;
+		for(i = 0; i < players.size; i++)
+		{
+			players[i].zombie_vars["zombie_powerup_fire_sale_time"] = 30;
+		}
 	}
-
-	self.zombie_vars["zombie_powerup_fire_sale_on"] = true;
+    
 	level.zombie_vars["zombie_powerup_fire_sale_on"] = true;
-	if(self == players[0])
-		level thread toggle_fire_sale_on();
-	//level.zombie_vars["zombie_powerup_fire_sale_time"] = 30;
+	for(i = 0; i < players.size; i++)
+	{
+		players[i].zombie_vars["zombie_powerup_fire_sale_on"] = true;
+	}
+	level thread toggle_fire_sale_on();
 
-	while ( self.zombie_vars["zombie_powerup_fire_sale_time"] > 0)
+	while ( level.zombie_vars["zombie_powerup_fire_sale_time"] > 0)
 	{
 		wait(0.1);
-		self.zombie_vars["zombie_powerup_fire_sale_time"] -= 0.1;
+		level.zombie_vars["zombie_powerup_fire_sale_time"] -= 0.1;
+		players = get_players();
+		for(i = 0; i < players.size; i++)
+		{
+			players[i].zombie_vars["zombie_powerup_fire_sale_time"] -= 0.1;
+		}
 	}
 
-	self.zombie_vars["zombie_powerup_fire_sale_on"] = false;
 	level.zombie_vars["zombie_powerup_fire_sale_on"] = false;
-	players = get_players();
-	if(self == players[0])
-		level notify ( "fire_sale_off" );
-
+	for(i = 0; i < players.size; i++)
+	{
+		players[i].zombie_vars["zombie_powerup_fire_sale_on"] = false;
+	}
+	level notify ( "fire_sale_off" );
 }
-
 
 start_bonfire_sale( item )
 {
-	self notify ("powerup bonfire sale");
-	self endon ("powerup bonfire sale");
-	self endon ("disconnect");
+	level notify ("powerup bonfire sale");
+	level endon ("powerup bonfire sale");
+	
+	temp_ent = spawn("script_origin", (0,0,0));
+	temp_ent playloopsound ("zmb_double_point_loop");
+	level thread delete_on_bonfire_sale(temp_ent);
 
-	temp_ent = undefined;
 	players = get_players();
-	if(self == players[0])
+	if(level.zombie_vars["zombie_powerup_bonfire_sale_on"])
 	{
-		temp_ent = spawn("script_origin", (0,0,0));
-		temp_ent playloopsound ("zmb_double_point_loop");
-		self thread delete_on_bonfire_sale(temp_ent);
-	}
-
-	if(self.zombie_vars["zombie_powerup_bonfire_sale_on"])
-	{
-		self.zombie_vars["zombie_powerup_bonfire_sale_time"] += 30;
+		level.zombie_vars["zombie_powerup_bonfire_sale_time"] += 30;
+		for(i = 0; i < players.size; i++)
+		{
+			players[i].zombie_vars["zombie_powerup_bonfire_sale_time"] += 30;
+		}
 	}
 	else
 	{
-		self.zombie_vars["zombie_powerup_bonfire_sale_time"] = 30;
+		level.zombie_vars["zombie_powerup_bonfire_sale_time"] = 30;
+		for(i = 0; i < players.size; i++)
+		{
+			players[i].zombie_vars["zombie_powerup_bonfire_sale_time"] = 30;
+		}
 	}
 
-	self.zombie_vars["zombie_powerup_bonfire_sale_on"] = true;
 	level.zombie_vars["zombie_powerup_bonfire_sale_on"] = true;
-	if(self == players[0])
-		level thread toggle_bonfire_sale_on();
-	//level.zombie_vars["zombie_powerup_bonfire_sale_time"] = 30;
+	for(i = 0; i < players.size; i++)
+	{
+		players[i].zombie_vars["zombie_powerup_bonfire_sale_on"] = true;
+	}
+	level thread toggle_bonfire_sale_on();
 
-	while ( self.zombie_vars["zombie_powerup_bonfire_sale_time"] > 0)
+	while ( level.zombie_vars["zombie_powerup_bonfire_sale_time"] > 0)
 	{
 		wait(0.1);
-		self.zombie_vars["zombie_powerup_bonfire_sale_time"] -= 0.1;
+		level.zombie_vars["zombie_powerup_bonfire_sale_time"] -= 0.1;
+		players = get_players();
+		for(i = 0; i < players.size; i++)
+		{
+			players[i].zombie_vars["zombie_powerup_bonfire_sale_time"] -= 0.1;
+		}
 	}
 
-	self.zombie_vars["zombie_powerup_bonfire_sale_on"] = false;
 	level.zombie_vars["zombie_powerup_bonfire_sale_on"] = false;
-	players = get_players();
-	if(self == players[0])
-		level notify ( "bonfire_sale_off" );
-
-	self playsound("zmb_points_loop_off");
-
+	for(i = 0; i < players.size; i++)
+	{
+		players[i].zombie_vars["zombie_powerup_bonfire_sale_on"] = false;
+	}
+	level notify ( "bonfire_sale_off" );
+	
+	for (i = 0; i < players.size; i++)
+	{
+		players[i] playsound("zmb_points_loop_off");
+	}
+	
 	if(IsDefined(temp_ent))
 		temp_ent Delete();
 }
 
 delete_on_bonfire_sale(temp_ent)
 {
-	self waittill_any("powerup bonfire sale", "disconnect");
+	level endon("bonfire_sale_off");
+
+	self waittill("powerup bonfire sale");
 
 	if(IsDefined(temp_ent))
 		temp_ent Delete();

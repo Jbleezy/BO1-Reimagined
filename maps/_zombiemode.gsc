@@ -5538,6 +5538,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	//neck, head, and healmet shots all deal the same damage
 	if(meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET")
 	{
+		iprintln(final_damage);
 		switch(weapon)
 		{
 		//REGULAR WEAPONS
