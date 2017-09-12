@@ -335,16 +335,6 @@ freezegun_do_damage( upgraded, player, dist_ratio )
 		damage = level.zombie_health + 1000;
 	}
 
-	//minimum damage
-	if(!upgraded && damage < 1000)
-	{
-		damage = 500;
-	}
-	else if(upgraded && damage < 1000)
-	{
-		damage = 1000;
-	}
-
 	//thief damage
 	if(self.animname == "thief_zombie")
 	{
@@ -355,6 +345,18 @@ freezegun_do_damage( upgraded, player, dist_ratio )
 		else
 		{
 			damage = 2000;
+		}
+	}
+	else
+	{
+		//minimum damage
+		if(!upgraded && damage < 500)
+		{
+			damage = 500;
+		}
+		else if(upgraded && damage < 1000)
+		{
+			damage = 1000;
 		}
 	}
 

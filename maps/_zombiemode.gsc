@@ -4341,13 +4341,13 @@ round_think()
 {
 	for( ;; )
 	{
-		if(!IsDefined(level.test_variable))
+		/*if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
 			level.round_number = 100;
 			level.zombie_vars["zombie_spawn_delay"] = .08;
 			level.zombie_move_speed = 100;
-		}
+		}*/
 
 		//////////////////////////////////////////
 		//designed by prod DT#36173
@@ -8013,13 +8013,12 @@ increase_revive_radius()
 
 give_weapons_test()
 {
-	wait 2;
-	//wep = "freezegun_zm";
+	wep = "freezegun_zm";
 	//wep = "thundergun_zm";
 	//wep = "sniper_explosive_upgraded_zm";
 	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
-	wep = "tesla_gun_upgraded_zm";
+	//wep = "tesla_gun_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
 	//self GiveWeapon(wep);
 	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
@@ -8027,6 +8026,15 @@ give_weapons_test()
 	wait_network_frame();
 	self SwitchToWeapon(wep);
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
+
+	/*wait 5;
+	origin = self.origin;
+	wait 5;
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );
+	origin = self.origin;
+	wait 5;
+	level.upgraded_tesla_reward = true;
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );*/
 
 	/*wait 5;
 

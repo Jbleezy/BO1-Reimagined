@@ -461,7 +461,7 @@
 ## Zombies
 * Fixed a bug where zombies would bleed out when they shouldn't have
 * Zombies can no longer be alive and headless
-* Special rounds: 1st time after initial special round is random, then next special round is on the round that the previous one wasn't, then repeat
+* 4 round and 5 round special rounds will happen more equally now
 * Max health: 1 million
 * Fixed a bug that caused ceiling spawns to be able to be disabled
 * Fixed a bug that caused spawning risers to collide with players at their initial spawn locations
@@ -646,7 +646,6 @@
 * Make it so betties can only be triggered by zombies with line of sight from bettys position
 * Fix mule kick weapon being changed from paping
 * Add line of sight check for windows breaking on Moon
-* Fix bug where thief round voice line round start and visual fx starts but its a normal round
 * Fix mule kick weapon highlight text not working if player got perk from shang easter egg
 * Make insta kill powerups work in high rounds (might be fixed)
 * Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge (might be fixed)
@@ -685,7 +684,7 @@
 * Get COTD version of the Wunderwaffe on Shi No Numa and Der Riese
 * Give upgraded Wunderwaffe gold camo on Der Riese, but regular pap camo on COTD
 * Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
-* Check what happens when player tries to grab upgraded waffe powerup while unupgraded waffe powerup is active
+* Make not taking a weapon from the box put it back into the list of current weapons you can obtain
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

@@ -1157,6 +1157,7 @@ powerup_setup( powerup_override )
 		}
 
 		self.base_weapon = self.weapon;
+		struct.weapon = self.weapon;
 
 		self SetModel( GetWeaponModel( self.weapon ) );
 		self useweaponhidetags( self.weapon );
@@ -1461,7 +1462,12 @@ powerup_grab()
 				continue;
 			}
 
+			//no picking up death machine if waffe is active
 			if(self.powerup_name == "minigum" && IsDefined(players[i].has_tesla) && players[i].has_tesla)
+				continue;
+
+			//no picking up unupgraded waffe if upgraded waffe is active
+			if(self.powerup_name == "tesla" && IsDefined(players[i].has_tesla) && players[i].has_tesla && players[i] GetCurrentWeapon() == "tesla_gun_upgraded_zm" && self.weapon == "tesla_gun_zm")
 				continue;
 
 			if ( DistanceSquared( players[i].origin, self.origin ) < range_squared )
@@ -1549,7 +1555,7 @@ powerup_grab()
 						break;
 
 					case "tesla":
-						level thread tesla_weapon_powerup( players[i] );
+						level thread tesla_weapon_powerup( players[i], self );
 						players[i] thread powerup_vo( "tesla" ); // TODO: Audio should uncomment this once the sounds have been set up
 						break;
 
@@ -3022,31 +3028,24 @@ minigun_watch_gunner_downed()
 //		players[p].zombie_vars[ "zombie_powerup_tesla_on" ] = false; // tesla
 //		players[p].zombie_vars[ "zombie_powerup_tesla_time" ] = 0;
 //******************************************************************************
-tesla_weapon_powerup( ent_player, time )
+tesla_weapon_powerup( ent_player, powerup, time )
 {
 	ent_player endon( "disconnect" );
 	ent_player endon( "death" );
 	ent_player endon( "player_downed" );
+
+	weapon = powerup.weapon;
 
 	if ( !IsDefined( time ) )
 	{
 		time = 11; // no blink
 	}
 
-	if(IsDefined(level.upgraded_tesla_reward) && level.upgraded_tesla_reward)
-	{
-		wep = "tesla_gun_upgraded_zm";
-	}
-	else
-	{
-		wep = "tesla_gun_zm";
-	}
-
 	// Just replenish the time if it's already active
-	if ( ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] &&
-		 (wep == ent_player GetCurrentWeapon() || (IsDefined(ent_player.has_tesla) && ent_player.has_tesla) ))
+	if ( ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] && (weapon == ent_player GetCurrentWeapon() && (IsDefined(ent_player.has_tesla) && ent_player.has_tesla) ))
 	{
-		ent_player GiveMaxAmmo( wep );
+		ent_player GiveMaxAmmo( weapon );
+
 		if ( ent_player.zombie_vars[ "zombie_powerup_tesla_time" ] < time )
 		{
 			ent_player.zombie_vars[ "zombie_powerup_tesla_time" ] = time;
@@ -3068,32 +3067,28 @@ tesla_weapon_powerup( ent_player, time )
 	ent_player._zombie_gun_before_tesla = ent_player GetCurrentWeapon();
 
 	// give player a minigun
-	ent_player GiveWeapon( wep );
-	ent_player GiveMaxAmmo( wep );
-	ent_player SwitchToWeapon( wep );
+	ent_player GiveWeapon( weapon );
+	ent_player GiveMaxAmmo( weapon );
+	ent_player SwitchToWeapon( weapon );
+
+	if(weapon == "tesla_gun_upgraded_zm" && ent_player HasWeapon("tesla_gun_zm"))
+	{
+		ent_player TakeWeapon("tesla_gun_zm");
+	}
 
 	ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] = true;
 
-	level thread tesla_weapon_powerup_countdown( ent_player, "tesla_time_over", time );
-	level thread tesla_weapon_powerup_replace( ent_player, "tesla_time_over" );
-	level thread tesla_weapon_powerup_weapon_change( ent_player, "tesla_time_over" );
+	level thread tesla_weapon_powerup_countdown( ent_player, "tesla_time_over", weapon, time );
+	level thread tesla_weapon_powerup_replace( ent_player, "tesla_time_over", weapon );
+	level thread tesla_weapon_powerup_weapon_change( ent_player, "tesla_time_over", weapon );
 }
 
-tesla_weapon_powerup_countdown( ent_player, str_gun_return_notify, time )
+tesla_weapon_powerup_countdown( ent_player, str_gun_return_notify, weapon, time )
 {
 	ent_player endon( "death" );
 	ent_player endon( "player_downed" );
 	ent_player endon( str_gun_return_notify );
 	ent_player endon( "replace_weapon_powerup" );
-
-	if(IsDefined(level.upgraded_tesla_reward) && level.upgraded_tesla_reward)
-	{
-		wep = "tesla_gun_upgraded_zm";
-	}
-	else
-	{
-		wep = "tesla_gun_zm";
-	}
 
 	//AUDIO: Starting powerup loop on ONLY this player
 	setClientSysState( "levelNotify", "minis", ent_player );
@@ -3103,9 +3098,9 @@ tesla_weapon_powerup_countdown( ent_player, str_gun_return_notify, time )
 	{
 		ent_player waittill_any( "weapon_fired", "reload", "zmb_max_ammo" );
 
-		if ( !ent_player GetWeaponAmmoStock( wep ) )
+		if ( !ent_player GetWeaponAmmoStock( weapon ) )
 		{
-			clip_count = ent_player GetWeaponAmmoClip( wep );
+			clip_count = ent_player GetWeaponAmmoClip( weapon );
 
 			if ( !clip_count )
 			{
@@ -3129,12 +3124,12 @@ tesla_weapon_powerup_countdown( ent_player, str_gun_return_notify, time )
 	//AUDIO: Ending powerup loop on ONLY this player
 	setClientSysState( "levelNotify", "minie", ent_player ); // TODO: need a new sound for the tesla
 
-	level thread tesla_weapon_powerup_remove( ent_player, str_gun_return_notify );
+	level thread tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon );
 
 }
 
 
-tesla_weapon_powerup_replace( ent_player, str_gun_return_notify )
+tesla_weapon_powerup_replace( ent_player, str_gun_return_notify, weapon )
 {
 	ent_player endon( "death" );
 	ent_player endon( "disconnect" );
@@ -3143,16 +3138,7 @@ tesla_weapon_powerup_replace( ent_player, str_gun_return_notify )
 
 	ent_player waittill( "replace_weapon_powerup" );
 
-	if(IsDefined(level.upgraded_tesla_reward) && level.upgraded_tesla_reward)
-	{
-		wep = "tesla_gun_upgraded_zm";
-	}
-	else
-	{
-		wep = "tesla_gun_zm";
-	}
-
-	ent_player TakeWeapon( wep );
+	ent_player TakeWeapon( weapon );
 
 	ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] = false;
 
@@ -3162,22 +3148,12 @@ tesla_weapon_powerup_replace( ent_player, str_gun_return_notify )
 }
 
 
-tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
+tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon, weapon_swap )
 {
 	ent_player endon( "death" );
 	ent_player endon( "player_downed" );
 
-	// take the minigun back
-	if(IsDefined(level.upgraded_tesla_reward) && level.upgraded_tesla_reward)
-	{
-		wep = "tesla_gun_upgraded_zm";
-	}
-	else
-	{
-		wep = "tesla_gun_zm";
-	}
-
-	ent_player TakeWeapon( wep );
+	ent_player TakeWeapon( weapon );
 
 	ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] = false;
 	ent_player._show_solo_hud = false;
@@ -3229,7 +3205,7 @@ tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
 
 }
 
-tesla_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
+tesla_weapon_powerup_weapon_change( ent_player, str_gun_return_notify, weapon )
 {
 	ent_player endon( "death" );
 	ent_player endon( "disconnect" );
@@ -3237,29 +3213,20 @@ tesla_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
 	ent_player endon( str_gun_return_notify );
 	ent_player endon( "replace_weapon_powerup" );
 
-	if(IsDefined(level.upgraded_tesla_reward) && level.upgraded_tesla_reward)
-	{
-		wep = "tesla_gun_upgraded_zm";
-	}
-	else
-	{
-		wep = "tesla_gun_zm";
-	}
-
 	//ent_player thread get_player_weapon(str_gun_return_notify);
 	ent_player DisableWeaponCycling();
-	while(ent_player GetCurrentWeapon() != wep)
+	while(ent_player GetCurrentWeapon() != weapon)
 	{
 		wait .05;
 	}
 
 	ent_player EnableWeaponCycling();
-	while(ent_player GetCurrentWeapon() == wep)
+	while(ent_player GetCurrentWeapon() == weapon)
 	{
 		wait .05;
 	}
 
-	level thread tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, true );
+	level thread tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon, true );
 }
 
 tesla_weapon_powerup_off()
@@ -3274,22 +3241,13 @@ tesla_watch_gunner_downed()
 		return;
 	}
 
-	if(IsDefined(level.upgraded_tesla_reward) && level.upgraded_tesla_reward)
-	{
-		wep = "tesla_gun_upgraded_zm";
-	}
-	else
-	{
-		wep = "tesla_gun_zm";
-	}
-
 	primaryWeapons = self GetWeaponsListPrimaries();
 
 	for( i = 0; i < primaryWeapons.size; i++ )
 	{
-		if( primaryWeapons[i] == wep )
+		if( primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_upgraded_zm")
 		{
-			self TakeWeapon( wep );
+			self TakeWeapon( primaryWeapons[i] );
 		}
 	}
 

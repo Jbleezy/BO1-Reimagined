@@ -281,7 +281,7 @@ init_thief_zombie_anims()
 	level._zombie_melee["thief_zombie"][1] 				= %ai_zombie_tech_grab;
 	level._zombie_melee["thief_zombie"][2] 				= %ai_zombie_tech_grab;
 	level._zombie_melee["thief_zombie"][3] 				= %ai_zombie_tech_grab;
-	level._zombie_melee["thief_zombie"][3] 				= %ai_zombie_tech_grab;
+	//level._zombie_melee["thief_zombie"][3] 				= %ai_zombie_tech_grab;
 
 	//level._zombie_walk_melee["thief_zombie"][0]			= %ai_zombie_boss_walk_headhit;
 
@@ -435,7 +435,19 @@ thief_round_tracker()
 	level.next_thief_round = level.round_number + randomintrange( 1, 4 );
 	level.prev_thief_round = level.next_thief_round;
 
-	level.prev_thief_round_amount = undefined;
+	amount = level.next_thief_round - level.round_number;
+	if(amount == 1)
+	{
+		level.prev_thief_round_amount = 4;
+	}
+	else if(amount == 2)
+	{
+		level.prev_thief_round_amount = randomintrange( 4, 6 );
+	}
+	else
+	{
+		level.prev_thief_round_amount = 5;
+	}
 
 	while ( 1 )
 	{
@@ -474,8 +486,8 @@ thief_round_tracker()
 				}
 			}
 
-			level.prev_thief_round = level.next_thief_round;
-			level.next_thief_round = level.round_number + randomintrange( 4, 6 );
+			//level.prev_thief_round = level.next_thief_round;
+			//level.next_thief_round = level.round_number + randomintrange( 4, 6 );
 		}
 		else if ( level.prev_thief_round == level.round_number )
 		{
