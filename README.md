@@ -234,6 +234,7 @@
 #### Wunderwaffe
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
 * Upgraded: can now kill 24 zombies
+* Fixed sprinting, diving, and reload cancelling animations on classic maps
 
 ### Equipment
 * Limit of 30 mines placed at a time per player
@@ -680,12 +681,13 @@
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Perfect trap switch movement
 * Disable easter eggs on all versus gamemodes
-* Get COTD version of the Wunderwaffe on Shi No Numa and Der Riese
 * Give upgraded Wunderwaffe gold camo on Der Riese, but regular pap camo on COTD
 * Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
 * Make not taking a weapon from the box put it back into the list of current weapons you can obtain
-* Fix zombie pathing on Five going to different floots
+* Fix zombie pathing on Five going to different floors
 * Make betties place correctly on Der Riese bridge
+* Make box not reset player weapons until after they have hit the box again after their last hit
+* Fix fx inside top of Wunderwaffe on COTD
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -734,10 +736,3 @@
 * **_WECoyote99_** - tester
 * **_Pure_** - tester
 * **_donnellyian1995_** - tester
-
-mtl_vacuum_tube_filament_inside
-mtl_vacuum_tube_filament_outside
-mtl_vacuum_tube_glass
-mtl_lightning_chamber_main
-mtl_lightning_chamber_glass
-mtl_tesla_metal

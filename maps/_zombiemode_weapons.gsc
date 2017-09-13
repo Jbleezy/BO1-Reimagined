@@ -2141,7 +2141,17 @@ treasure_chest_timeout()
 	self.chest_origin endon( "box_hacked_respin" );
 	self.chest_origin endon( "box_hacked_rerespin" );
 
+	player = self.chest_user;
+	weapon = self.chest_origin.weapon_string;
+
 	wait( 12 );
+
+	iprintln(weapon);
+	
+	if(IsDefined(player.already_got_weapons) && is_in_array(player.already_got_weapons, weapon))
+	{
+		player.already_got_weapons = array_remove(player.already_got_weapons, weapon);
+	}
 	self notify( "trigger", level );
 }
 

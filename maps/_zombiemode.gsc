@@ -5538,7 +5538,6 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	//neck, head, and healmet shots all deal the same damage
 	if(meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET")
 	{
-		iprintln(final_damage);
 		switch(weapon)
 		{
 		//REGULAR WEAPONS
@@ -8014,18 +8013,19 @@ increase_revive_radius()
 
 give_weapons_test()
 {
-	wep = "freezegun_zm";
+	//wep = "freezegun_zm";
 	//wep = "thundergun_zm";
 	//wep = "sniper_explosive_upgraded_zm";
 	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
 	//wep = "tesla_gun_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
-	//self GiveWeapon(wep);
-	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
+
+	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
-	self SwitchToWeapon(wep);
+	self SwitchToWeapon(wep);*/
+	
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
 	/*wait 5;
