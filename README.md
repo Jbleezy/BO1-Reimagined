@@ -660,7 +660,6 @@
 * Make it easier to tell how many grenades you have on HUD
 * Remove collision from dogs while theyre spawning(dog SetPlayerCollision(0);)
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
-* See if pausing in coop is possible
 * Remove blur when paused ingame
 * Make Shang power switches do things when only one is turned on
 * Add meat powerup to grief
@@ -689,12 +688,16 @@
 * Make betties place correctly on Der Riese bridge
 * Fix fx inside top of Wunderwaffe on COTD
 * Try adding 1st person mode to DOA
+* Fix glitch where game freezes for a couple seconds very rarely, something to do with when zombies come through windows?
+* Fix Freeze Gun reload add time
+* Add flame death to molotovs
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * See if player_burstFireCoolDown dvar works per player on coop
+* See if pausing in coop is possible (Try changing dvars onlinegame or sv_paused)
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

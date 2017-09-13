@@ -8032,6 +8032,9 @@ give_weapons_test()
 
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
+	self giveweapon( "molotov_zm" );
+	self set_player_tactical_grenade( "molotov_zm" );
+
 	/*wait 5;
 	origin = self.origin;
 	wait 5;
