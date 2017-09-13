@@ -1586,6 +1586,12 @@ give_perk( perk, bought )
 		//self SetPerk("specialty_fastinteract"); //fast grenade throw?
 	}
 
+	//increase burst fire rate with double tap also
+	if(perk == "specialty_rof")
+	{
+		self SetClientDvar("player_burstFireCoolDown", .14);
+	}
+
 	// WW (02-03-11): Deadshot csc call
 	if( perk == "specialty_deadshot" )
 	{
@@ -1848,6 +1854,10 @@ perk_think( perk )
 			//self UnsetPerk("specialty_fastads");
 			self UnsetPerk("specialty_fastswitch");
 			//self UnsetPerk("specialty_fastinteract"); //fast grenade throw?
+			break;
+
+		case "specialty_rof":
+			self SetClientDvar("player_burstFireCoolDown", .2);
 			break;
 
 		case "specialty_additionalprimaryweapon":

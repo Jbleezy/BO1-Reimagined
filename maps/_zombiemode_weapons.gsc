@@ -2145,8 +2145,6 @@ treasure_chest_timeout()
 	weapon = self.chest_origin.weapon_string;
 
 	wait( 12 );
-
-	iprintln(weapon);
 	
 	if(IsDefined(player.already_got_weapons) && is_in_array(player.already_got_weapons, weapon))
 	{
@@ -2309,13 +2307,16 @@ treasure_chest_ChooseWeightedRandomWeapon( player, final_wep, empty )
 		}
 	}
 
+	//just getting the new list of weapons a player can get from another call
 	if(IsDefined(empty) && empty)
 	{
 		return filtered;
 	}
 
-	if(IsDefined(player) && ((isdefined(final_wep) && final_wep && filtered.size == 1) || filtered.size == 0))
+	//reset the weapons a player can get if no weapons available or if the last time the player hit the box there was one weapon left and that player took it
+	if(IsDefined(player) && (filtered.size == 0 || (IsDefined(player.last_weapon) && is_in_array(player.already_got_weapons, player.last_weapon))))
 	{
+		player.last_weapon = undefined;
 		player.already_got_weapons = [];
 		if(filtered.size == 0)
 			filtered = treasure_chest_ChooseWeightedRandomWeapon( player, undefined, true );
@@ -2329,6 +2330,12 @@ treasure_chest_ChooseWeightedRandomWeapon( player, final_wep, empty )
 	{
 		filtered = array_remove( filtered, wep );
 		wep = filtered[RandomInt( filtered.size )];
+	}
+
+	if(IsDefined(final_wep) && final_wep && filtered.size == 1)
+	{
+		//save last weapon of rotation to see if we should show the last weapon again on next hit
+		player.last_weapon = wep;
 	}
 
 	self.previous_floating_weapon = wep;

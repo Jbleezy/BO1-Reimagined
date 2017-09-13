@@ -315,6 +315,7 @@
 * Every player now sees the same weapons in the box when the weapons are floating up
 * Can only see weapons floating up that the player can currently obtain
 * Players will now get every weapon they can from the box before getting duplicates
+* If a player does not grab a weapon from the box, then it will be put back into the list of weapons the player can get
 * All weapons have the same probability to be obtained in the box
 * Box weapons will not appear again in a row while floating up (unless it is the final weapon)
 * Box will now cycle through all locations before going to a previous location again
@@ -340,6 +341,7 @@
 
 ### Double Tap
 * 1.5x bullet damage (stacks with Deadshot)
+* Time between burst fire shots reduced by 30%
 
 ### Deadshot
 * Increased cost from 1000 to 1500
@@ -356,7 +358,7 @@
 * Powerups on HUD now fade in and out when they are about to end instead of blinking
 * Powerups on the ground now last for 30 seconds (previously 26.5 seconds)
 * An effect now plays when a powerup spawns if it is the last powerup of a powerup cycle
-* Grabbing a powerup that is already active will add 30 seconds to its time instead of resetting its time to 30 seconds
+* Grabbing a powerup that is already active will add to its current remaining time inctead of resetting its remaining time
 
 ### Carpenter
 * Removed
@@ -683,16 +685,16 @@
 * Disable easter eggs on all versus gamemodes
 * Give upgraded Wunderwaffe gold camo on Der Riese, but regular pap camo on COTD
 * Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
-* Make not taking a weapon from the box put it back into the list of current weapons you can obtain
 * Fix zombie pathing on Five going to different floors
 * Make betties place correctly on Der Riese bridge
-* Make box not reset player weapons until after they have hit the box again after their last hit
 * Fix fx inside top of Wunderwaffe on COTD
+* Try adding 1st person mode to DOA
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
+* See if player_burstFireCoolDown dvar works per player on coop
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
@@ -700,6 +702,7 @@
 * Moon: should teleporter gate start going down before power is on?
 * Should zombies not double swipe if player doesnt have jug?
 * Should there be a zombie spawn delay?
+* Kiparis as box weapon?
 
 ## 'BUGS' THAT ARE NOT BEING FIXED:
 * Insta kill rounds

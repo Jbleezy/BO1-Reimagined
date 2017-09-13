@@ -1620,7 +1620,8 @@ difficulty_init()
 #/
 	for ( p=0; p<players.size; p++ )
 	{
-		players[p].score = 500000;
+		//players[p].score = 500000;
+		players[p].score = 500;
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
 	}
@@ -1762,6 +1763,9 @@ onPlayerConnect_clientDvars()
 	// Enabling the FPS counter in ship for now
 	//self setclientdvar( "cg_drawfps", "1" );
 	self setClientDvar("cg_drawFriendlyFireCrosshair", "1");
+
+	//increase game_mod's default double tap fire rate
+	self SetClientDvar("perk_weapRateMultiplier", .7);
 
 	//self setClientDvar("cg_weaponCycleDelay", "100"); //added in menu options
 
@@ -8025,7 +8029,7 @@ give_weapons_test()
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
 	self SwitchToWeapon(wep);*/
-	
+
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
 	/*wait 5;
