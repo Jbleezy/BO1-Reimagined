@@ -6,8 +6,8 @@
 [Donate](https://www.paypal.me/Jbleezy/10)
 
 ## General
-* Zombies now only have a spawn delay when a full horde is spawned in
-* Zombies spawn delay reduced to 2 seconds
+* Zombies now only have an additonal spawn delay when a full horde is spawned in
+* Zombies additional spawn delay time reduced to 1 second (previously 1.2 seconds)
 * 1 second of immunity to zombies after getting revived (solo and coop)
 * Insta kill rounds (Rounds where zombies have round 1 health) start at round 163 and happen every odd round thereafter
 * All players are attracted equally
@@ -208,8 +208,8 @@
 * ADS disabled while reloading
 
 #### Thundergun
-* No longer does any damage to any enemies that are knocked down and not killed
 * Gives 50 points for each kill
+* No longer does any damage to any enemies that are knocked down and not killed
 
 #### VR-11
 * Removed explosion effect from shooting the same enemy multiple times
@@ -231,6 +231,8 @@
 * Enemies will only be able to do slow hits after taking damage from the Winter's Howl
 * Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
 * Enemies that die from the Winter's Howl will now crumple away faster after being frozen
+* Ammo now gets added to the clip at the same time that it does in the reload animation
+* Decreased first raise time by 50%
 
 #### Wunderwaffe
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
@@ -699,7 +701,6 @@
 * Fix fx inside top of Wunderwaffe on COTD
 * Try adding 1st person mode to DOA
 * Fix glitch where game freezes for a couple seconds very rarely, something to do with when zombies come through windows?
-* Fix Freeze Gun reload add time
 * Add flame death to molotovs
 * QED: 100% chance of random weapon powerup if thrown near a wall weapon or box location
 * QED: 100% chance of random powerup if thrown near a powerup

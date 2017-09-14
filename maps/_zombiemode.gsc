@@ -3533,7 +3533,7 @@ round_spawning()
 			{
 				wait .1;
 			}
-			wait 2;
+			wait 1;
 		}
 
 		//iprintln("spawn");
@@ -8031,12 +8031,12 @@ increase_revive_radius()
 
 give_weapons_test()
 {
-	//wep = "freezegun_zm";
+	wep = "freezegun_upgraded_zm";
 	//wep = "thundergun_zm";
 	//wep = "sniper_explosive_upgraded_zm";
 	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
-	wep = "tesla_gun_new_upgraded_zm";
+	//wep = "tesla_gun_new_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
 
 	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );

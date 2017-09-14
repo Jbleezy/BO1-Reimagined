@@ -277,7 +277,7 @@ temple_round_spawning()
 			{
 				wait .1;
 			}
-			wait 2;
+			wait 1;
 		}
 
 		// added ability to pause zombie spawning
