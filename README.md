@@ -6,7 +6,8 @@
 [Donate](https://www.paypal.me/Jbleezy/10)
 
 ## General
-* Zombies now spawn in faster after killing full hordes
+* Zombies now only have a spawn delay when a full horde is spawned in
+* Zombies spawn delay reduced to 2 seconds
 * 1 second of immunity to zombies after getting revived (solo and coop)
 * Insta kill rounds (Rounds where zombies have round 1 health) start at round 163 and happen every odd round thereafter
 * All players are attracted equally
@@ -179,7 +180,7 @@
 
 ### Olympia
 * Unupgraded: deals 1.5x more damage
-* Upgraded: bullets now get added to the clip at the same time that they do in the reload animation
+* Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
 
 ### PM63
 * Unupgraded: increased stock ammo from 100 to 120
@@ -234,7 +235,14 @@
 #### Wunderwaffe
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
 * Upgraded: can now kill 24 zombies
+* Upgraded: decreased time between kills by 50%
+* Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
+* Upgraded: gold camo on Der Riese, regular camo on Call of the Dead
+* Upgraded: gold camo is now shinier
 * Fixed sprinting, diving, and reload cancelling animations on classic maps
+* Decreased self damage radius by 42% unupgraded, 57% upgraded
+* Increased zombie damage radius by 45% unupgraded, 7% upgraded
+* Both unupgraded and upgraded now have the same zombie damage radius and self damage radius
 
 ### Equipment
 * Limit of 30 mines placed at a time per player
@@ -358,7 +366,7 @@
 * Powerups on HUD now fade in and out when they are about to end instead of blinking
 * Powerups on the ground now last for 30 seconds (previously 26.5 seconds)
 * An effect now plays when a powerup spawns if it is the last powerup of a powerup cycle
-* Grabbing a powerup that is already active will add to its current remaining time inctead of resetting its remaining time
+* Grabbing a powerup that is already active will add to its current remaining time instead of resetting its remaining time
 
 ### Carpenter
 * Removed
@@ -493,6 +501,7 @@
 * Upgraded assault rifles no longer deal extra damage to the Director
 * Max health is now 250,000 no matter how many players are in the match
 * Only slows down players close to him when shot at while calm
+* Fixed a bug that caused the Director to not be able to slow you down anymore if you knifed a zombie on an insta kill
 
 ### Monkeys (Shangri-La)
 * No longer count as kills
@@ -539,6 +548,7 @@
 ### Kino Der Toten
 * Players no longer get teleported to special rooms unless both radios on the map have been activated
 * Players no longer get teleported out of the Pack-a-Punch room if there is a weapon currently in the Pack-a-Punch machine
+* Box lights now blink correctly with higher FPS
 
 ### Five
 * Trap pieces are already in place
@@ -691,6 +701,22 @@
 * Fix glitch where game freezes for a couple seconds very rarely, something to do with when zombies come through windows?
 * Fix Freeze Gun reload add time
 * Add flame death to molotovs
+* QED: 100% chance of random weapon powerup if thrown near a wall weapon or box location
+* QED: 100% chance of random powerup if thrown near a powerup
+* Shang spikes: if a player is off the ground at any time during its .4 activation startup time, then the spikes don't activate
+* Make timers text all line up with eachother
+* Make insta kill round HUD not show first time on NML
+* Add 1 second spawn delay when full horde is spawned in
+* Add game_mod as a submodule on github
+* Add fade when changing round number color to black on NML
+* Freeze Gun: make zombies crumple away instantly if they dropped a powerup
+* Check if zombies eyes fx should be deleting on death
+* Get WaW weapon files of classic map weapons working
+* Get animator to make correct anims for classic map weapons
+* Wunderwaffe: make the closest zombie from the bolt be the first one that gets zapped
+* Fix Wunderwaffe not arcing after first kill
+* COTD sidequest: make bottle drop slower instead of not breaking
+* Check how long the spawn delay is without Reimagined
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -706,6 +732,7 @@
 * Should zombies not double swipe if player doesnt have jug?
 * Should there be a zombie spawn delay?
 * Kiparis as box weapon?
+* Should NML have insta kill rounds?
 
 ## 'BUGS' THAT ARE NOT BEING FIXED:
 * Insta kill rounds

@@ -129,4 +129,4 @@ a0,b1,c2,d3,e4,f5,g6,f7,g8,h9
 61,weapon,ppsh,cammo_gunmetal,cammo_gunplastic,mtl_rus_smg_ppsh41,,,,
 62,weapon,shrink_ray,,,mtl_t5_weapon_shrink_ray,,,,
 63,weapon,microwavegundw,,,mtl_raygun_moon_front,mtl_raygun_moon_rear,,,
-64,weapon,tesla_gun,,,mtl_tesla_metal,,,,
+64,weapon,tesla_gun,,,mtl_tesla_metal,mtl_vacuum_tube,,,

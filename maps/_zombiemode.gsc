@@ -1620,8 +1620,8 @@ difficulty_init()
 #/
 	for ( p=0; p<players.size; p++ )
 	{
-		//players[p].score = 500000;
-		players[p].score = 500;
+		players[p].score = 500000;
+		//players[p].score = 500;
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
 	}
@@ -1766,6 +1766,9 @@ onPlayerConnect_clientDvars()
 
 	//increase game_mod's default double tap fire rate
 	self SetClientDvar("perk_weapRateMultiplier", .7);
+
+	//reset dvar that changes when double tap is bought
+	self SetClientDvar("player_burstFireCooldown", .2);
 
 	//self setClientDvar("cg_weaponCycleDelay", "100"); //added in menu options
 
@@ -3530,7 +3533,7 @@ round_spawning()
 			{
 				wait .1;
 			}
-			//wait 1;
+			wait 2;
 		}
 
 		//iprintln("spawn");
@@ -4345,13 +4348,13 @@ round_think()
 {
 	for( ;; )
 	{
-		/*if(!IsDefined(level.test_variable))
+		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
-			level.round_number = 100;
+			level.round_number = 163;
 			level.zombie_vars["zombie_spawn_delay"] = .08;
 			level.zombie_move_speed = 100;
-		}*/
+		}
 
 		//////////////////////////////////////////
 		//designed by prod DT#36173
@@ -5084,14 +5087,25 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 	{
 		if(IsPlayer(eAttacker) && eAttacker == self)
 		{
+			//fix for being able to damage yourself if you meleed while leaning
 			if(sMeansofdeath == "MOD_MELEE")
 			{
-				return 0; //fix for being able to damage yourself if you meleed while leaning
+				return 0;
+			}
+
+			//dont do damage to self from tesla if bolt was more than 64 units away (didnt change in weapon file because that also changed the radius zombies could take damage from tesla which was not wanted)
+			if((IsDefined(sWeapon) && (sWeapon == "tesla_gun_zm" || sWeapon == "tesla_gun_upgraded_zm" || sWeapon == "tesla_gun_new_upgraded_zm")) && (sMeansOfDeath == "MOD_PROJECTILE" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH"))
+			{
+				if(IsDefined(eInflictor) && DistanceSquared(eInflictor.origin, self.origin) > 64*64)
+				{
+					return 0;
+				}
 			}
 		}
+		//fix for downed players being able to damage alive players
 		if(IsPlayer(eAttacker) && eAttacker != self)
 		{
-			return 0; //fix for downed players being able to damage alive players
+			return 0;
 		}
 		//tracking player damage
 		if(is_true(eAttacker.is_zombie))
@@ -5500,7 +5514,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	if((level.zombie_vars["zombie_insta_kill"] || is_true( attacker.personal_instakill)) && (self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie"))
 	{
 		//insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
-		no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
+		no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "tesla_gun_new_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
 
 		if(!is_in_array(no_insta_kill_on_weps, weapon))
 		{
@@ -8022,18 +8036,18 @@ give_weapons_test()
 	//wep = "sniper_explosive_upgraded_zm";
 	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
-	//wep = "tesla_gun_upgraded_zm";
+	wep = "tesla_gun_new_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
 
-	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
+	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
-	self SwitchToWeapon(wep);*/
+	self SwitchToWeapon(wep);
 
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
-	self giveweapon( "molotov_zm" );
-	self set_player_tactical_grenade( "molotov_zm" );
+	//self giveweapon( "molotov_zm" );
+	//self set_player_tactical_grenade( "molotov_zm" );
 
 	/*wait 5;
 	origin = self.origin;

@@ -255,8 +255,8 @@ zombie_unlock_all()
 custom_add_weapons()
 {
  	maps\_zombiemode_weapons::add_zombie_weapon( "humangun_zm",				"humangun_upgraded_zm",					&"ZOMBIE_WEAPON_HUMANGUN", 				10,		"human",			"",		undefined );
-	maps\_zombiemode_weapons::add_zombie_weapon( "sniper_explosive_zm",		"sniper_explosive_upgraded_zm",			&"ZOMBIE_WEAPON_SNIPER_EXPLOSIVE",		2500,	"ubersniper",	"",		undefined );
-	//maps\_zombiemode_weapons::add_zombie_weapon( "tesla_gun_zm",		"tesla_gun_upgraded_zm",			&"ZOMBIE_WEAPON_SNIPER_EXPLOSIVE",		2500,	"rifle",	"",		undefined );
+	maps\_zombiemode_weapons::add_zombie_weapon( "sniper_explosive_zm",		"sniper_explosive_upgraded_zm",			&"ZOMBIE_WEAPON_SNIPER_EXPLOSIVE",		2500,	"ubersniper",		"",		undefined );
+	maps\_zombiemode_weapons::add_zombie_weapon( "tesla_gun_zm",			"tesla_gun_new_upgraded_zm",			&"ZOMBIE_WEAPON_TESLA", 				10,		"tesla",			"",		undefined );
 }
 
 coast_spawn_init_delay(director)
@@ -487,7 +487,7 @@ include_weapons()
 	include_weapon( "sniper_explosive_zm", true );
 	include_weapon( "sniper_explosive_upgraded_zm", false );
 	include_weapon( "tesla_gun_zm", false );
-	include_weapon( "tesla_gun_upgraded_zm", false );
+	include_weapon( "tesla_gun_new_upgraded_zm", false );
 	include_weapon( "zombie_nesting_dolls", true, false );
 
 	include_weapon( "knife_ballistic_zm", true );

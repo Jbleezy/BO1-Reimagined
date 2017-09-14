@@ -801,7 +801,7 @@ director_watch_damage()
 
 	//if ( isdefined( level.director_should_drop_special_powerup ) && [[level.director_should_drop_special_powerup]]() )
 	//{
-		level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", self.origin );
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", self.origin );
 	/*}
 	else
 	{

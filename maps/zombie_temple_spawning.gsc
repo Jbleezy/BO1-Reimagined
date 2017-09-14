@@ -266,9 +266,18 @@ temple_round_spawning()
 	old_spawn = undefined;
 	while( 1 )
 	{
-		while( get_enemy_count() >= level.zombie_ai_limit || level.zombie_total <= 0 )
+		while( level.zombie_total <= 0 )
 		{
 			wait( 0.1 );
+		}
+
+		if(get_enemy_count() >= level.zombie_ai_limit)
+		{
+			while(get_enemy_count() >= level.zombie_ai_limit)
+			{
+				wait .1;
+			}
+			wait 2;
 		}
 
 		// added ability to pause zombie spawning

@@ -123,6 +123,7 @@ rawfile,clientscripts/zombie_coast_player_zipline.csc
 rawfile,clientscripts/zombie_moon.csc
 rawfile,clientscripts/zombie_moon_amb.csc
 rawfile,clientscripts/zombie_theater.csc
+rawfile,clientscripts/_zombiemode_weap_tesla.csc
 
 //ANIMSCRIPTS
 rawfile,animscripts/zombie_melee.gsc
@@ -184,11 +185,12 @@ weapon,sp/zombie_bullet_crouch
 weapon,sp/mk_aug_upgraded_zm
 weapon,sp/tesla_gun_zm
 weapon,sp/tesla_gun_upgraded_zm
+weapon,sp/tesla_gun_new_upgraded_zm
 //weapon,sp/zombie_stg44
 //weapon,sp/zombie_stg44_upgraded
 
 //SOUNDS
-sound,new_weapons
+sound,reimagined
 
 //CAMOS
 stringtable,weaponoptions.csv
@@ -219,6 +221,7 @@ xmodel,zombie_3rd_perk_bottle_nuke
 xmodel,zombie_3rd_perk_bottle_revive
 xmodel,zombie_3rd_perk_bottle_sleight
 xmodel,zombie_3rd_perk_bottle_three_gun
+xmodel,viewmodel_zombie_tesla_up
 
 //XANIMS
 xanim,viewmodel_tesla_d2p_in
