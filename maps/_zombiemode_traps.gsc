@@ -1248,7 +1248,16 @@ move_trap_handle(end_angle)
 {
 	angle = self.angles[0];
 
-	if(angle < -180)
+	//round up angle, some trap handles are slightly off
+	if(angle - int(self.angles[0]) >= .5)
+	{
+		angle += 1;
+	}
+
+	angle = int(angle) % 360;
+
+	//bind angle between -180 and 180
+	if(angle <= -180)
 	{
 		angle += 360;
 	}
@@ -1257,15 +1266,65 @@ move_trap_handle(end_angle)
 		angle -= 360;
 	}
 
-	percent = (angle + 180) / 180;
+	percent = 1 - (angle / 180);
 	time = .5 * percent;
 	if(time < .05)
 	{
 		time = .05;
 	}
 	extra_time = .5 - time;
+	self RotatePitch(end_angle * percent, time);
 
-	self rotatepitch(end_angle - angle, time);
-
+	//return extra time so trap still ativates at same time
 	return extra_time;
+}
+
+move_turret_trap_handle(end_angle, start_angle)
+{
+	angle = self.angles[0];
+
+	//round up angle, some trap handles are slightly off
+	if(angle - int(self.angles[0]) >= .5)
+	{
+		angle += 1;
+	}
+
+	angle = int(angle);
+
+	//bind angle between -180 and 180
+	if(angle <= -180)
+	{
+		angle += 360;
+	}
+	else if(angle > 180)
+	{
+		angle -= 360;
+	}
+
+	//subtract the offset, must start at 0
+	angle -= start_angle;
+
+	percent = 1 - (angle / 160);
+	time = .5 * percent;
+	if(time < .05)
+	{
+		time = .05;
+	}
+	extra_time = .5 - time;
+	self RotatePitch(160 * percent, time);
+
+	//return extra time so trap still ativates at same time
+	return extra_time;
+}
+
+print_pitch()
+{
+	self endon("rotatedone");
+
+	while(1)
+	{
+		iprintln(self.angles[0]);
+
+		wait .05;
+	}
 }

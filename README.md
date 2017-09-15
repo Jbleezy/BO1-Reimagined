@@ -725,7 +725,7 @@
 * Make sure powerups that are added later in a match are added in randomly on the remaining powerups of the current cycle
 * NML: make amount of zombies that spawn in the beginning consistent
 * Moon: fix sliding sound keep playing when off object
-* Perfect trap switch movement
+* Shino Zipline: make so trap switch only moves down if zipline is activated by trap switch
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

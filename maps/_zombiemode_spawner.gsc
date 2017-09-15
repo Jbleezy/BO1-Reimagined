@@ -3601,7 +3601,6 @@ zombie_death_animscript()
 	{
 		self thread dragons_breath_flame_death_fx();
 	}
-	iprintln(self.damagemod);
 	if( self.damagemod == "MOD_BURNED" || ( self.damageWeapon == "molotov_zm" && (self.damagemod == "MOD_GRENADE" || self.damagemod == "MOD_GRENADE_SPLASH" ) ) )
 	{
 		self thread animscripts\zombie_death::flame_death_fx();
