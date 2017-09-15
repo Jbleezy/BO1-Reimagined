@@ -935,7 +935,14 @@ tear_into_building()
 			//Print3d(self.origin+(0,0,70), "Hey I am waiting to attack, play random " );
 			//Print3d(self.origin+(0,0,70), "Hey I am waiting to attack", ( 1, 0.8, 0.5), 1, 1, 5);
 			//IPrintLnBold( "Hey I am waiting to attack " );
-			self do_a_taunt();
+			if(self.has_legs)
+			{
+				self do_a_taunt();
+			}
+			else
+			{
+				wait_network_frame();
+			}
 			//wait( 1 );
 			continue;
 		}
@@ -3106,6 +3113,10 @@ zombie_gib_on_damage()
 			if( refs.size )
 			{
 				self.a.gib_ref = animscripts\zombie_death::get_random( refs );
+				if( (type == "MOD_PROJECTILE" || type == "MOD_PROJECTILE_SPLASH") && (self.damageweapon == "ray_gun_zm" || self.damageweapon == "ray_gun_upgraded_zm") && self.has_legs )
+				{
+					self.a.gib_ref = "no_legs";
+				}
 
 				// Don't stand if a leg is gone
 				if( ( self.a.gib_ref == "no_legs" || self.a.gib_ref == "right_leg" || self.a.gib_ref == "left_leg" ) && self.health > 0 )
@@ -3266,6 +3277,15 @@ zombie_should_gib( amount, attacker, type )
 		if( WeaponIsGasWeapon( self.weapon ) )
 		{
 			return false;
+		}
+	}
+
+	//ray gun - always gib
+	if( type == "MOD_PROJECTILE" || type == "MOD_PROJECTILE_SPLASH" )
+	{
+		if(self.damageweapon == "ray_gun_zm" || self.damageweapon == "ray_gun_upgraded_zm")
+		{
+			return true;
 		}
 	}
 
@@ -3581,7 +3601,8 @@ zombie_death_animscript()
 	{
 		self thread dragons_breath_flame_death_fx();
 	}
-	if( self.damagemod == "MOD_BURNED" )
+	iprintln(self.damagemod);
+	if( self.damagemod == "MOD_BURNED" || ( self.damageWeapon == "molotov_zm" && (self.damagemod == "MOD_GRENADE" || self.damagemod == "MOD_GRENADE_SPLASH" ) ) )
 	{
 		self thread animscripts\zombie_death::flame_death_fx();
 	}

@@ -265,7 +265,9 @@ Init_Moon_NML_Round( target_round )
 
 	if(flag("enter_nml"))
 	{
+		level.chalk_hud1 FadeOverTime(.5);
 		level.chalk_hud1.color = ( 0, 0, 0 );
+		level.chalk_hud2 FadeOverTime(.5);
 		level.chalk_hud2.color = ( 0, 0, 0 );
 	}
 
@@ -1046,6 +1048,7 @@ nml_ramp_up_zombies()
 
 	// start at round level entered no mans land
 	level.nml_timer = level.nml_last_round;
+	level.nml_timer = 160;
 
 	while(flag("enter_nml"))
 	{

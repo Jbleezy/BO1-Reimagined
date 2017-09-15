@@ -442,9 +442,9 @@ solo_power_up_hud( Shader, PowerUp_Hud, PowerUp_timer, PowerUp_Var )
 				PowerUp_Hud FadeOverTime( 0.2 );
 			PowerUp_Hud.alpha = 1;
 			PowerUp_Hud setshader(Shader, 32, 32);
-			if(Shader == "specialty_instakill_zombies" && flag("insta_kill_round"))
+			if(Shader == "specialty_instakill_zombies" && !flag("insta_kill_round"))
 			{
-				PowerUp_Hud FadeOverTime( 0 );
+				PowerUp_Hud FadeOverTime( 0.5 );
 				PowerUp_Hud.color = (1,1,1);
 			}
 			if(!is_in_array(self.active_powerup_hud, PowerUp_Hud))

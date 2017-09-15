@@ -464,17 +464,24 @@ humangun_delayed_kill(player, human_zombie)
 	self.humangun_delayed_kill_active = true;
 	self notify( "stop_find_flesh" );
 	self notify( "zombie_acquire_enemy" );
-	self SetLookAt(human_zombie.origin, .25);
-	self OrientMode("face enemy");
+	//self SetLookAt(human_zombie.origin, .25);
+	self OrientMode("face direction", human_zombie.origin);
 	self.ignoreall = true;
-	self SetGoalPos(self.origin);
+	//self SetGoalPos(self.origin);
+	if(self.has_legs)
+	{
+		animes = array_remove_index(level._zombie_board_taunt[self.animname], 5);
+		anime = random(animes);
+		self thread maps\_zombiemode_audio::do_zombies_playvocals( "taunt", self.animname );
+		self animscripted("zombie_taunt", self.origin, self.angles, anime, "normal", undefined, 1, 0.4 );
+	}
 	wait( 0.5 + RandomFloat( 1.5 ) );
 	if(IsDefined(self))
 	{
 		self.no_powerups = true;
 		self maps\_zombiemode_spawner::zombie_head_gib();
 		self DoDamage( level.zombie_health + 1000, self.origin, player );
-		self.water_damage = false;
+		self.water_damage = false; //wasnt working right in the water
 	}
 }
 
@@ -703,7 +710,8 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	self thread audio_wait_for_death();
 	self thread audio_human_screams();
 
-	self.health = 10000000;
+	self.magic_bullet_shield = true;
+	self BloodImpact( "hero" );
 
 	if ( !is_true( self.completed_emerging_into_playable_area ) )
 	{
@@ -745,6 +753,8 @@ humangun_zombie_1st_hit_response( upgraded, player )
 		self.animname = "human_zombie";
 		maps\_zombiemode_spawner::set_zombie_run_cycle( "sprint" );
 
+		self.goalradius = 64;
+
 		// send ai to a point
 		//self SetGoalPos( self humangun_zombie_get_destination_point_origin() );
 		self thread humangun_zombie_get_closest_zombie_loop();
@@ -770,6 +780,7 @@ humangun_zombie_1st_hit_response( upgraded, player )
 			self waittill_any_or_timeout( time, "death", "goal" );
 		if ( isalive( self ) && !IsDefined( level._humangun_escape_override ) )
 		{
+			self.magic_bullet_shield = false;
 			self DoDamage( self.health + 100, self.origin );
 		}
 	}
@@ -804,8 +815,6 @@ humangun_zombie_get_closest_zombie_loop()
 	self endon("death");
 	while(1)
 	{
-		self.health = 10000000;
-
 		zombies = GetAiSpeciesArray( "axis", "all" );
 		playable_area = getentarray("player_volume","script_noteworthy");
 		distance = 10000*10000;
@@ -861,8 +870,7 @@ humangun_zombie_get_closest_zombie_loop()
 			{
 				continue;
 			}
-
-			new_distance = DistanceSquared(zombies[i].origin, self.origin);
+			new_distance = self get_path_length_to_enemy( zombies[i] ); //used path length instead of distance to stop zombies going towards zombies on a different floor over zombies closer to them
 			if(new_distance < distance)
 			{
 				distance = new_distance;
@@ -882,7 +890,11 @@ humangun_zombie_get_closest_zombie_loop()
 		{
 			self SetGoalEntity(closest_zomb);
 		}
-		wait( RandomFloat( 1.0 ) );
+		self waittill_any("goal", "bad_path");
+		react_anim = random( level._zombie_humangun_react["zombie"] );
+		self animscripted( "zombie_react", self.origin, self.angles, react_anim, "normal", undefined, 1, 0.4 );
+		wait( getanimlength( react_anim ) );
+		//wait( RandomFloat( 1.0 ) );
 	}
 }
 

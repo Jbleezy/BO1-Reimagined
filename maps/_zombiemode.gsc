@@ -4214,10 +4214,18 @@ chalk_one_up(override_round_number)
 			{
 				huds[i].color = ( 0.21, 0, 0 );
 			}
+			//set yellow insta kill on hud
 			if(round_number >= 163 && round_number % 2 == 1 && !flag("dog_round") && !flag("thief_round") && !flag("monkey_round"))
 			{
 				//starting on round 163, odd rounds that are not special rounds are insta kill rounds
-				flag_set("insta_kill_round");
+				if((IsDefined(level.ever_been_on_the_moon) && level.ever_been_on_the_moon) || !IsDefined(level.ever_been_on_the_moon))
+				{
+					flag_set("insta_kill_round");
+				}
+			}
+			else if(flag("insta_kill_round") && flag("enter_nml"))
+			{
+				flag_clear("insta_kill_round"); //special clear for NML
 			}
 		}
 	}
@@ -4351,7 +4359,7 @@ round_think()
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
-			level.round_number = 163;
+			level.round_number = 20;
 			level.zombie_vars["zombie_spawn_delay"] = .08;
 			level.zombie_move_speed = 100;
 		}
@@ -5511,7 +5519,13 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		}
 	}
 
-	if((level.zombie_vars["zombie_insta_kill"] || is_true( attacker.personal_instakill)) && (self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie"))
+	//ray gun: make crawler first hit
+	if(self.has_legs && self.health > final_damage && (weapon == "ray_gun_zm" || weapon == "ray_gun_upgraded_zm") && (meansofdeath == "MOD_PROJECTILE" || meansofdeath == "MOD_PROJECTILE_SPLASH"))
+	{
+		self maps\_zombiemode_spawner::make_crawler();
+	}
+
+	if((level.zombie_vars["zombie_insta_kill"] || is_true( attacker.personal_instakill)) && (self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie" && !self.magic_bullet_shield))
 	{
 		//insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
 		no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "tesla_gun_new_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
@@ -5546,7 +5560,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			final_damage = 3000;
 	}
 
-	if(is_lethal_grenade(weapon) && (meansofdeath == "MOD_GRENADE_SPLASH" || meansofdeath == "MOD_GRENADE_SPLASH"))
+	if(is_lethal_grenade(weapon) && (meansofdeath == "MOD_GRENADE" || meansofdeath == "MOD_GRENADE_SPLASH"))
 	{
 		final_damage += 150 + (level.round_number * 10);
 	}
@@ -8051,10 +8065,10 @@ increase_revive_radius()
 
 give_weapons_test()
 {
-	wep = "freezegun_upgraded_zm";
+	//wep = "freezegun_upgraded_zm";
 	//wep = "thundergun_zm";
 	//wep = "sniper_explosive_upgraded_zm";
-	//wep = "humangun_upgraded_zm";
+	wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
 	//wep = "tesla_gun_new_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
@@ -8066,8 +8080,8 @@ give_weapons_test()
 
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
-	//self giveweapon( "molotov_zm" );
-	//self set_player_tactical_grenade( "molotov_zm" );
+	self giveweapon( "molotov_zm" );
+	self set_player_tactical_grenade( "molotov_zm" );
 
 	/*wait 5;
 	origin = self.origin;

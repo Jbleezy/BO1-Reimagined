@@ -191,10 +191,6 @@
 * Upgraded: increased stock ammo from 225 to 250
 * Upgraded: reduced hipfire spread, reduced recoil
 
-### Ray Gun
-* Unupgraded: impact damage - 2500, max explosion damage - 2500, min explosion damage - 1250
-* Upgraded: impact damage - 3000, max explosion damage - 3000, min explosion damage - 1250
-
 ### RPK
 * Fixed animation bug when switching weapons with the clip being empty
 
@@ -203,29 +199,26 @@
 * Upgraded: increased stock ammo from 225 to 360
 
 ### Wonder Weapons
-#### Baby Gun
-* Fixed a bug that caused an error to happen when shrinking enemies and allowing them to regrow many times throughout a game
+### Ray Gun
+* Unupgraded: impact damage - 2500, max explosion damage - 2500, min explosion damage - 1250
+* Upgraded: impact damage - 3000, max explosion damage - 3000, min explosion damage - 1250
+* Always makes crawlers on first damage on an enemy
 
-#### Scavenger
-* Damages an enemy on impact
-* Explosion deals infinite damage
-* ADS disabled while reloading
+#### Wunderwaffe
+* Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
+* Upgraded: can now kill 24 zombies
+* Upgraded: decreased time between kills by 50%
+* Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
+* Upgraded: gold camo on Der Riese, regular camo on Call of the Dead
+* Upgraded: gold camo is now shinier
+* Fixed sprinting, diving, and reload cancelling animations on classic maps
+* Decreased self damage radius
+* Increased zombie damage radius
+* Both unupgraded and upgraded now have the same zombie damage radius and self damage radius
 
 #### Thundergun
 * Gives 50 points for each kill
 * No longer does any damage to any enemies that are knocked down and not killed
-
-#### VR-11
-* Removed explosion effect from shooting the same enemy multiple times
-* Shooting the Director while he is calm will no longer make him angry
-* Unupgraded: permamently makes the Director calm when shot at him
-* Enemies that are shot will now target the closest enemy to them
-* Enemy's heads will explode if they get too close to a human enemy
-* Human enemy lasts for 10 seconds unupgraded, 15 seconds upgraded
-* Owner of VR-11 gets 50% of any points that the player who they shot earns for its duration (previously 75%)
-
-#### Wave Gun
-* Gives 50 points for each kill
 
 #### Winter's Howl
 * Minimum damage: 500 unupgraded, 1000 upgraded
@@ -239,17 +232,25 @@
 * Decreased first raise time by 50%
 * Upgraded camo now displays on more of the weapon
 
-#### Wunderwaffe
-* Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
-* Upgraded: can now kill 24 zombies
-* Upgraded: decreased time between kills by 50%
-* Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
-* Upgraded: gold camo on Der Riese, regular camo on Call of the Dead
-* Upgraded: gold camo is now shinier
-* Fixed sprinting, diving, and reload cancelling animations on classic maps
-* Decreased self damage radius
-* Increased zombie damage radius
-* Both unupgraded and upgraded now have the same zombie damage radius and self damage radius
+#### Scavenger
+* Damages an enemy on impact
+* Explosion deals infinite damage
+* ADS disabled while reloading
+
+#### VR-11
+* Removed explosion effect from shooting the same enemy multiple times
+* Shooting the Director while he is calm will no longer make him angry
+* Unupgraded: permamently makes the Director calm when shot at him
+* Human zombies now target the closest zombie to them
+* Zombies' heads will explode if they get too close to a human enemy
+* Human enemy lasts for 10 seconds unupgraded, 15 seconds upgraded
+* Owner of VR-11 gets 50% of any points that the player who they shot earns for its duration (previously 75%)
+
+#### Baby Gun
+* Fixed a bug that caused an error to happen when shrinking enemies and allowing them to regrow many times throughout a game
+
+#### Wave Gun
+* Gives 50 points for each kill
 
 ### Equipment
 * Limit of 30 mines placed at a time per player
@@ -697,21 +698,17 @@
 * Fix stielhandgranata impact damage
 * Decrease crossbow explosion radius to 256, increase damage
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
-* Perfect trap switch movement
 * Disable easter eggs on all versus gamemodes
-* Give upgraded Wunderwaffe gold camo on Der Riese, but regular pap camo on COTD
 * Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
 * Fix zombie pathing on Five going to different floors
 * Make betties place correctly on Der Riese bridge
 * Fix fx inside top of Wunderwaffe on COTD
 * Try adding 1st person mode to DOA
 * Fix glitch where game freezes for a couple seconds very rarely, something to do with making crawlers in a window possibly?
-* Add flame death to molotovs
 * QED: 100% chance of random weapon powerup if thrown near a wall weapon or box location
 * QED: 100% chance of random powerup if thrown near a powerup
 * Shang spikes: if a player is off the ground at any time during its .4 activation startup time, then the spikes don't activate
 * Make timers text all line up with eachother
-* Make insta kill round HUD not show first time on NML
 * Add 1 second spawn delay when full horde is spawned in
 * Add game_mod as a submodule on github
 * Add fade when changing round number color to black on NML
@@ -724,13 +721,11 @@
 * COTD sidequest: make bottle drop slower instead of not breaking
 * Search & Rezurrect gamemode: must kill the remaining horde to win the round
 * Upgraded Kar98k: 50 round clip, no reserve ammo
-* Ray Gun: always makes a crawlers first hit enemy was not killed
-* VR11: make zombies always turn to face the direction of the human zombie before death
-* VR11: enable magic bullet shield on human zombie
 * Make sure powerup cycle resets when last currently obtainable powerup of a cycle spawns
 * Make sure powerups that are added later in a match are added in randomly on the remaining powerups of the current cycle
 * NML: make amount of zombies that spawn in the beginning consistent
-
+* Moon: fix sliding sound keep playing when off object
+* Perfect trap switch movement
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
