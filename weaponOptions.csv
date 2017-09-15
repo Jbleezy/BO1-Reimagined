@@ -119,7 +119,7 @@ a0,b1,c2,d3,e4,f5,g6,f7,g8,h9
 52,weapon,uzi,cammo_gunmetal,cammo_gunplastic,,,,,
 53,weapon,wa2000,cammo_wood_tile_red,cammo_gunplastic,,,,,
 ,,,,,,,,,
-54,weapon,freezegun,,,mtl_zombie_freeze_gun_body,,,,
+54,weapon,freezegun,,,mtl_zombie_freeze_gun_body,mtl_zombie_freeze_gun_body_plastic,,,
 55,weapon,ray_gun,gold,gold,mtl_ray_gun,,,,
 56,weapon,thundergun,,,mtl_t5_weapon_thundergun,,,,
 57,weapon,mp40,,,mtl_weapon_mp_mp40,,,,

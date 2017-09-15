@@ -7,7 +7,7 @@
 
 ## General
 * Zombies now only have an additonal spawn delay when a full horde is spawned in
-* Zombies additional spawn delay time reduced to 1 second (previously 1.2 seconds)
+* Additional spawn delay time reduced from 1.2 seconds to 1 second
 * 1 second of immunity to zombies after getting revived (solo and coop)
 * Insta kill rounds (Rounds where zombies have round 1 health) start at round 163 and happen every odd round thereafter
 * All players are attracted equally
@@ -31,6 +31,9 @@
 * Any hintstring that previously showed "Press & hold" or "Press" at the beginning has been changed to show "Hold"
 * Power hintstrings on classic maps have been changed to show the same hintstring on non classic maps
 * Hintstrings now don't show if the current action isn't available for the player
+* Intermission time decreased from 15 seconds to 10 seconds
+* Maps now auto restart in coop after intermission
+* Maps now auto restart correctly (box gets randomized again)
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
@@ -63,6 +66,7 @@
 * Fog option
 * Weapon cycle delay option
 * Options to enable/disable timer, zombie counter, zone names, and character names
+* Option for random map rotation on versus gamemodes
 
 ## Weapons
 * All bullet damage (except for shotguns) will now deal full damage through multiple enemies and thin walls
@@ -233,6 +237,7 @@
 * Enemies that die from the Winter's Howl will now crumple away faster after being frozen
 * Ammo now gets added to the clip at the same time that it does in the reload animation
 * Decreased first raise time by 50%
+* Upgraded camo now displays on more of the weapon
 
 #### Wunderwaffe
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
@@ -242,8 +247,8 @@
 * Upgraded: gold camo on Der Riese, regular camo on Call of the Dead
 * Upgraded: gold camo is now shinier
 * Fixed sprinting, diving, and reload cancelling animations on classic maps
-* Decreased self damage radius by 42% unupgraded, 57% upgraded
-* Increased zombie damage radius by 45% unupgraded, 7% upgraded
+* Decreased self damage radius
+* Increased zombie damage radius
 * Both unupgraded and upgraded now have the same zombie damage radius and self damage radius
 
 ### Equipment
@@ -382,7 +387,7 @@
 * Powerup can now drop while one is already active
 
 ### Nuke
-* Now obtainable on round 1 on Kino Der Toten and Shangri-La
+* Now obtainable on round 1 on all maps
 * Kills all zombies instantly
 * Enemies killed by a Nuke no longer drop powerups
 * Zombies killed from a Nuke count as kills for the player who grabbed the Nuke
@@ -700,7 +705,7 @@
 * Make betties place correctly on Der Riese bridge
 * Fix fx inside top of Wunderwaffe on COTD
 * Try adding 1st person mode to DOA
-* Fix glitch where game freezes for a couple seconds very rarely, something to do with when zombies come through windows?
+* Fix glitch where game freezes for a couple seconds very rarely, something to do with making crawlers in a window possibly?
 * Add flame death to molotovs
 * QED: 100% chance of random weapon powerup if thrown near a wall weapon or box location
 * QED: 100% chance of random powerup if thrown near a powerup
@@ -717,7 +722,15 @@
 * Wunderwaffe: make the closest zombie from the bolt be the first one that gets zapped
 * Fix Wunderwaffe not arcing after first kill
 * COTD sidequest: make bottle drop slower instead of not breaking
-* Check how long the spawn delay is without Reimagined
+* Search & Rezurrect gamemode: must kill the remaining horde to win the round
+* Upgraded Kar98k: 50 round clip, no reserve ammo
+* Ray Gun: always makes a crawlers first hit enemy was not killed
+* VR11: make zombies always turn to face the direction of the human zombie before death
+* VR11: enable magic bullet shield on human zombie
+* Make sure powerup cycle resets when last currently obtainable powerup of a cycle spawns
+* Make sure powerups that are added later in a match are added in randomly on the remaining powerups of the current cycle
+* NML: make amount of zombies that spawn in the beginning consistent
+
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -725,6 +738,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * See if player_burstFireCoolDown dvar works per player on coop
 * See if pausing in coop is possible (Try changing dvars onlinegame or sv_paused)
+* See if map_restart() and ChangeLevel() work in coop
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

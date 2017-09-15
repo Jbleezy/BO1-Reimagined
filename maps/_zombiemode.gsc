@@ -6089,7 +6089,8 @@ end_game()
 	//play_sound_at_pos( "end_of_game", ( 0, 0, 0 ) );
 	wait( 2 );
 	intermission();
-	wait( level.zombie_vars["zombie_intermission_time"] );
+	//wait( level.zombie_vars["zombie_intermission_time"] );
+	wait 10;
 
 	level notify( "stop_intermission" );
 	array_thread( get_players(), ::player_exit_level );
@@ -6128,13 +6129,32 @@ end_game()
 		game_over[j] Destroy();
 	}
 
-	if ( level.onlineGame || level.systemLink )
+	/*if ( level.onlineGame || level.systemLink )
 	{
 		ExitLevel( false );
 	}
 	else
 	{
 		MissionFailed();
+	}*/
+
+	if(GetDvar("zm_gamemode") != "survival" && GetDvar("map_rotation") == "random")
+	{
+		map_names = array("zombie_cod5_prototype", "zombie_cod5_asylum", "zombie_cod5_sumpf", "zombie_cod5_factory", "zombie_theater", "zombie_pentagon", "zombie_cosmodrome", "zombie_coast", "zombie_temple", "zombie_moon");
+		map_name = random(map_names);
+		if(map_name == level.script)
+		{
+			Map_Restart();
+		}
+		else
+		{
+			ChangeLevel(map_name);
+		}
+	}
+	else
+	{
+		//MissionFailed();
+		Map_Restart();
 	}
 
 	// Let's not exit the function
