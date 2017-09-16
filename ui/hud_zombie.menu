@@ -320,10 +320,9 @@
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_BOTTOM_LEFT
-			// Wardog: Start - Change to use localized strings
+			//change to use localized strings
 			// exp text 			(dvarString("zone_name"))
 			exp					text(LocString(ToUpper(DvarString("zone_name"))))
-			// Wardog: End
 			visible				when( dvarBool( "hud_zone_name_on" ) )
 			decoration
 
@@ -349,10 +348,9 @@
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_LEFT
-			// Wardog: Start - Change to using a localized string
+			//Change to using a localized string
 			// exp text 			("Zombies Remaining: " + dvarString("zombs_remaining"))
 			exp 				text(LocString("REIMAGINED_ZOMBIES_REMAINING", DvarInt("zombs_remaining")))
-			// Wardog: End
 			visible				when( dvarBool( "hud_zombs_remaining_on" ) && !dvarBool( "in_nml" ) )
 			decoration
 		}*/
@@ -361,7 +359,7 @@
 
 		#define FPS_ENABLED dvarInt( cg_drawFPS ) == 1
 
-		// Wardog: Start - Change Total time to use 2 itemDef's
+		//Change Total time to use 2 itemDef's
 		/*
 		itemDef
 		{
@@ -381,14 +379,13 @@
 		*/
 
 		TIMER_TEXT_VIS("hud_time", -4, 2, "REIMAGINED_TIME", DvarString("total_time"), DvarBool("hud_time_on"))
-		// Wardog: End
 
 		#undef FADE_IN_TIME // time in milliseconds to fade in for
 		#undef FADE_OUT_TIME
 		#define FADE_IN_TIME 1000 // time in milliseconds to fade in for
 		#define FADE_OUT_TIME 1000 // time in milliseconds to fade out for
 
-		// Wardog: Start - Change to use 2 itemDef's
+		//Change to use 2 itemDef's
 		/*
 		itemDef
 		{
@@ -435,9 +432,8 @@
 	}
 
 		TIMER_TEXT_EX("hud_round_time", -4, 14, "REIMAGINED_ROUND_TIME", DvarString("round_time"), DvarBool("hud_time_on"), UI_FONT_NORMAL, TEXTSIZE_SMALL, TIMERT_TEXT_FADE_ARG)
-		// Wardog: End
 
-		// Wardog: Start - Change to use 2 itemDef's
+		//Change to use 2 itemDef's
 		/*
 		itemDef
 		{
@@ -487,7 +483,6 @@
 */
 
 		TIMER_TEXT_EX("hud_round_total_time", -4, 26, "REIMAGINED_TOTAL_TIME", DvarString("round_total_time"), DvarBool("hud_time_on"), UI_FONT_NORMAL, TEXTSIZE_SMALL, TIMERT_TEXT_FADE_ARG)
-		// Wardog: End
 
 		itemDef
 		{
@@ -499,10 +494,9 @@
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_CENTER
-			// Wardog: Start - Change to use localized string
+			// Change to use localized string
 			// exp text 			(dvarString("zm_gamemode_name"))
 			exp					text(LocString(ToUpper("REIMAGINED_GAMEMODE_" + DvarString("zm_gamemode_name"))))
-			// Wardog: End
 			visible				1
 			decoration
 

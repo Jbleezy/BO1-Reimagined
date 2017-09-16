@@ -253,18 +253,18 @@ Power_up_hud( Shader, PowerUp_Hud, X_Position, PowerUp_timer, PowerUp_Var )
 		if(self.zombie_vars[PowerUp_timer] < 5)
 		{
 			wait(0.1);
-			PowerUp_Hud FadeOverTime( 0.05 );
+			PowerUp_Hud FadeOverTime( 0.1 );
 			PowerUp_Hud.alpha = 0;
 			wait(0.1);
-			PowerUp_Hud FadeOverTime( 0.05 );
+			PowerUp_Hud FadeOverTime( 0.1 );
 		}
 		else if(self.zombie_vars[PowerUp_timer] < 10)
 		{
 			wait(0.2);
-			PowerUp_Hud FadeOverTime( 0.09 );
+			PowerUp_Hud FadeOverTime( 0.2 );
 			PowerUp_Hud.alpha = 0;
-			wait(0.18);
-			PowerUp_Hud FadeOverTime( 0.09 );
+			wait(0.2);
+			PowerUp_Hud FadeOverTime( 0.2 );
 		}
 
 		if( self.zombie_vars[PowerUp_Var] == true )
@@ -285,6 +285,12 @@ Power_up_hud( Shader, PowerUp_Hud, X_Position, PowerUp_timer, PowerUp_Var )
 				}
 			}
 			//PowerUp_Hud.x = X_Position;
+			if(self.zombie_vars[PowerUp_timer] < 5)
+				PowerUp_Hud FadeOverTime( 0.05 );
+			else if(self.zombie_vars[PowerUp_timer] < 10)
+				PowerUp_Hud FadeOverTime( 0.1 );
+			else
+				PowerUp_Hud FadeOverTime( 0.5 );
 			PowerUp_Hud.alpha = 1;
 			PowerUp_Hud setshader(Shader, 32, 32);
 			PowerUp_Hud.color = (1,1,1);
@@ -312,6 +318,7 @@ Power_up_hud( Shader, PowerUp_Hud, X_Position, PowerUp_timer, PowerUp_Var )
 		}
 		else
 		{
+			PowerUp_Hud FadeOverTime( 0.1 );
 			PowerUp_Hud.alpha = 0;
 			PowerUp_Hud.x = 0;
 			if(is_in_array(self.active_powerup_hud, PowerUp_Hud))
@@ -418,28 +425,26 @@ solo_power_up_hud( Shader, PowerUp_Hud, PowerUp_timer, PowerUp_Var )
 		if(self.zombie_vars[PowerUp_timer] < 5 ) //&& ( IsDefined( self._show_solo_hud ) && self._show_solo_hud == true )
 		{
 			wait(0.1);
-			PowerUp_Hud FadeOverTime( 0.05 );
+			PowerUp_Hud FadeOverTime( 0.1 );
 			PowerUp_Hud.alpha = 0;
 			wait(0.1);
 		}
 		else if(self.zombie_vars[PowerUp_timer] < 10 ) //&& ( IsDefined( self._show_solo_hud ) && self._show_solo_hud == true )
 		{
 			wait(0.2);
-			PowerUp_Hud FadeOverTime( 0.1 );
+			PowerUp_Hud FadeOverTime( 0.2 );
 			PowerUp_Hud.alpha = 0;
-			wait(0.18);
+			wait(0.2);
 		}
 
 		if( self.zombie_vars[PowerUp_Var] == true ) //&& ( IsDefined( self._show_solo_hud ) && self._show_solo_hud == true )
 		{
 			if(self.zombie_vars[PowerUp_timer] < 5)
 				PowerUp_Hud FadeOverTime( 0.05 );
-			else if(self.zombie_vars[PowerUp_timer] < 10)
+			else if(self.zombie_vars[PowerUp_timer] < 5)
 				PowerUp_Hud FadeOverTime( 0.1 );
-			else if(self.zombie_vars[PowerUp_timer] > 30)
-				PowerUp_Hud FadeOverTime( 0 );
 			else
-				PowerUp_Hud FadeOverTime( 0.2 );
+				PowerUp_Hud FadeOverTime( 0.5 );
 			PowerUp_Hud.alpha = 1;
 			PowerUp_Hud setshader(Shader, 32, 32);
 			if(Shader == "specialty_instakill_zombies" && !flag("insta_kill_round"))
@@ -492,6 +497,7 @@ solo_power_up_hud( Shader, PowerUp_Hud, PowerUp_timer, PowerUp_Var )
 		}
 		else
 		{
+			PowerUp_Hud FadeOverTime( 0.1 );
 			PowerUp_Hud.alpha = 0;
 			PowerUp_Hud.x = 0;
 			if(is_in_array(self.active_powerup_hud, PowerUp_Hud))

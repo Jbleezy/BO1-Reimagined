@@ -475,7 +475,7 @@ humangun_delayed_kill(player, human_zombie)
 		self thread maps\_zombiemode_audio::do_zombies_playvocals( "taunt", self.animname );
 		self animscripted("zombie_taunt", self.origin, self.angles, anime, "normal", undefined, 1, 0.4 );
 	}
-	wait( 0.5 + RandomFloat( 1.5 ) );
+	wait( RandomFloatRange( .5, 2 ) );
 	if(IsDefined(self))
 	{
 		self.no_powerups = true;
@@ -893,8 +893,14 @@ humangun_zombie_get_closest_zombie_loop()
 		self waittill_any("goal", "bad_path");
 		react_anim = random( level._zombie_humangun_react["zombie"] );
 		self animscripted( "zombie_react", self.origin, self.angles, react_anim, "normal", undefined, 1, 0.4 );
-		wait( getanimlength( react_anim ) );
-		//wait( RandomFloat( 1.0 ) );
+		if(IsDefined(closest_zomb))
+		{
+			closest_zomb waittill_notify_or_timeout( "death", getanimlength( react_anim ) );
+		}
+		else
+		{
+			wait getanimlength( react_anim );
+		}
 	}
 }
 

@@ -1718,6 +1718,7 @@ give_back_mule_weapon()
 	unupgrade_name = self.weapon_taken_by_losing_additionalprimaryweapon[0];
 	if(maps\_zombiemode_weapons::is_weapon_upgraded(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
 	{
+		//removes "_upgraded" from weapon name
 		unupgrade_name = GetSubStr(unupgrade_name, 0, unupgrade_name.size - 12) + GetSubStr(unupgrade_name, unupgrade_name.size - 3);
 	}
 

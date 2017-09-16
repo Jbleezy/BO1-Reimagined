@@ -1782,20 +1782,12 @@ onPlayerConnect_clientDvars()
 
 	//self SetClientDvar("sv_cheats", 0); //uncomment on release
 
+	//dtp buffs
 	self SetClientDvars("dtp_post_move_pause", 0,
 		"dtp_exhaustion_window", 100,
 		"dtp_startup_delay", 100);
 
 	//self SetClientDvar("perk_weapSwitchMultiplier", ".5");
-
-	/*if(level.gamemode == "survival")
-	{
-		self SetClientDvar("hud_time_center_offset", 0);
-	}
-	else
-	{
-		self SetClientDvar("hud_time_center_offset", 12);
-	}*/
 
 	//self SetClientDvar("cg_drawpaused", 0);
 
@@ -4356,11 +4348,12 @@ round_think()
 {
 	for( ;; )
 	{
+		//level.test_variable = true;
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
 			level.round_number = 20;
-			level.zombie_vars["zombie_spawn_delay"] = .08;
+			level.zombie_vars["zombie_spawn_delay"] = 1;
 			level.zombie_move_speed = 100;
 		}
 
@@ -5520,7 +5513,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	}
 
 	//ray gun: make crawler first hit
-	if(self.has_legs && self.health > final_damage && (weapon == "ray_gun_zm" || weapon == "ray_gun_upgraded_zm") && (meansofdeath == "MOD_PROJECTILE" || meansofdeath == "MOD_PROJECTILE_SPLASH"))
+	if((self.animname == "zombie" || self.animname == "quad_zombie") && self.has_legs && self.health > final_damage && (weapon == "ray_gun_zm" || weapon == "ray_gun_upgraded_zm") && (meansofdeath == "MOD_PROJECTILE" || meansofdeath == "MOD_PROJECTILE_SPLASH"))
 	{
 		self maps\_zombiemode_spawner::make_crawler();
 	}
@@ -7628,6 +7621,7 @@ round_time_loop()
 		level thread round_time();
 
 		//end round timer when last enemy of round is killed
+		//TODO - make sure works with thief rounds
 		if(flag( "dog_round" ))
 		{
 			level waittill( "last_dog_down" );
@@ -7684,6 +7678,44 @@ round_time()
 	while(1)
 	{
 		time = to_mins_short(level.round_time);
+
+		//TODO - add spaces in front of round_total_time if "total_time" dvar is above 10 mins, 1 hour, 10 hours
+		if(IsDefined(level.total_time))
+		{
+			if(level.total_time >= 36000) //10 hours
+			{
+				if(level.round_time < 600)
+				{
+					time = "00:0" + time;
+				}
+				else if(level.round_time < 3600)
+				{
+					time = "00:" + time;
+				}
+				else if(level.round_time < 36000)
+				{
+					time = "0" + time;
+				}
+			}
+			else if(level.total_time >= 3600) //1 hour
+			{
+				if(level.round_time < 600)
+				{
+					time = "0:0" + time;
+				}
+				else if(level.round_time < 3600)
+				{
+					time = "0:" + time;
+				}
+			}
+			else if(level.total_time >= 600) //10 mins
+			{
+				if(level.round_time < 600)
+				{
+					time = "0" + time;
+				}
+			}
+		}
 
 		players = get_players();
 		for(i=0;i<players.size;i++)
@@ -7918,13 +7950,6 @@ choose_zone_name(zone, current_name)
 			name = "REIMAGINED_ZOMBIE_COD5_PROTOTYPE_CORNER";
 		}
 	}
-	else if(level.script == "zombie_cod5_asylum")
-	{
-		if(!IsDefined(zone))
-		{
-			name = "REIMAGINED_ZOMBIE_COD5_ASYLUM_SOUTH_UPSTAIRS_ZONE";
-		}
-	}
 	else if(level.script == "zombie_cosmodrome")
 	{
 		if(IsDefined(self.lander) && self.lander)
@@ -8068,9 +8093,9 @@ give_weapons_test()
 	//wep = "freezegun_upgraded_zm";
 	//wep = "thundergun_zm";
 	//wep = "sniper_explosive_upgraded_zm";
-	wep = "humangun_upgraded_zm";
+	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
-	//wep = "tesla_gun_new_upgraded_zm";
+	wep = "tesla_gun_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
 
 	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );

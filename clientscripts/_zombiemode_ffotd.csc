@@ -33,17 +33,20 @@ set_fov()
 			wait .05;
 			continue;
 		}
-		if(GetDvarInt("cg_fov_settings") == GetDvarInt("cg_fov"))
-		{
-			wait .05;
-			continue;
-		}
+
 		if((IsDefined(self.is_ziplining) && self.is_ziplining))
 		{
 			wait .05;
 			continue;
 		}
-		fov = GetDvarInt("cg_fov_settings");
+
+		fov = GetDvarFloat("cg_fov_settings");
+		if(fov == GetDvarFloat("cg_fov"))
+		{
+			wait .05;
+			continue;
+		}
+		
 		SetClientDvar("cg_fov", fov);
 		wait .05;
 	}

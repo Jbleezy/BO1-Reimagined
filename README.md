@@ -693,7 +693,6 @@
 * Add fast ADS to Speed Cola (when it becomes possible through game_mod)
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
-* Try to make barriers work with trigger_radius_use
 * Change type 100 stock ammo to 180 unupgraded, 240 upgraded (from weapon file)
 * Fix stielhandgranata impact damage
 * Decrease crossbow explosion radius to 256, increase damage
@@ -709,9 +708,7 @@
 * QED: 100% chance of random powerup if thrown near a powerup
 * Shang spikes: if a player is off the ground at any time during its .4 activation startup time, then the spikes don't activate
 * Make timers text all line up with eachother
-* Add 1 second spawn delay when full horde is spawned in
 * Add game_mod as a submodule on github
-* Add fade when changing round number color to black on NML
 * Freeze Gun: make zombies crumple away instantly if they dropped a powerup
 * Check if zombies eyes fx should be deleting on death
 * Get WaW weapon files of classic map weapons working
@@ -726,14 +723,19 @@
 * NML: make amount of zombies that spawn in the beginning consistent
 * Moon: fix sliding sound keep playing when off object
 * Shino Zipline: make so trap switch only moves down if zipline is activated by trap switch
+* NML: disable insta kill rounds completely
+* Make turrets better
+* QED: make QED not give perk if perk isn't on
+* Fix bug where zombies can spawn in zones that aren't open when the player isn't in that zone
+* Mule Kick: add jingle
+* Ray Gun: make sure ray gun isnt glitching out other ai types
+* Muke Kick: fix Wunderwaffe powerup being able to saved as 3rd weapon if you only have 2 weps (because it is included)
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-* See if player_burstFireCoolDown dvar works per player on coop
-* See if pausing in coop is possible (Try changing dvars onlinegame or sv_paused)
-* See if map_restart() and ChangeLevel() work in coop
+* See if ChangeLevel() works in coop
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
@@ -744,13 +746,17 @@
 * Kiparis as box weapon?
 * Should NML have insta kill rounds?
 
-## 'BUGS' THAT ARE NOT BEING FIXED:
+## BUGS THAT ARE STAYING (IT's A FEATURE, NOT A BUG):
 * Insta kill rounds
 * Powerup limit per round reset by teleporting on Moon
 * Damaging a zombie resets its hit animation
 * Dogs on No Man's Land have 150 health for 1.5 seconds after spawning in
 * Trapping the cosmonaut via excavator
 * Shi No Numa Flogger double trap activation
+
+## FEATURES THAT WILL NOT BE ADDED
+* Additional perk machines on maps
+* No more new weapons
 
 ## GAME_MOD TODO:
 * Allow changing FOV to 65
@@ -773,7 +779,7 @@
 * **_lilrifa_** - menu scripting help
 * **_MasadaDRM_** - weapons and sound help
 * **_xSanchez78_** - client scripting help, localized string help
-* **_Kody_** -  tester
+* **_Kody_** -  Wunderwaffe gold camo, tester
 * **_FleshCrunch_** - tester
 * **_Ph3Nix_** - tester
 * **_WECoyote99_** - tester

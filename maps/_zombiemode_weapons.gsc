@@ -296,7 +296,7 @@ init_weapons()
  	add_zombie_weapon( "knife_ballistic_sickle_zm",	"knife_ballistic_sickle_upgraded_zm",	&"ZOMBIE_WEAPON_KNIFE_BALLISTIC",		10,		"sickle",	"",		undefined );
 
  	add_zombie_weapon( "freezegun_zm",				"freezegun_upgraded_zm",				&"ZOMBIE_WEAPON_FREEZEGUN", 			10,		"freezegun",		"",		undefined );
- 	
+
  	add_zombie_weapon( "zombie_black_hole_bomb",		undefined,								&"ZOMBIE_WEAPON_SATCHEL_2000", 			2000,	"gersh",			"",		undefined );
  	add_zombie_weapon( "zombie_nesting_dolls",		undefined,								&"ZOMBIE_WEAPON_NESTING_DOLLS", 		2000,	"dolls",	"",		undefined );
 
@@ -3764,6 +3764,7 @@ ammo_give( weapon )
 	return false;
 }
 
+//include new weapons
 init_includes()
 {
 	include_weapon("ak47_zm");
@@ -3771,10 +3772,13 @@ init_includes()
  	include_weapon("psg1_zm");
  	include_weapon("ppsh_zm");
 
- 	include_weapon("ak47_ft_upgraded_zm", false);
- 	include_weapon("stoner63_upgraded_zm", false);
- 	include_weapon("psg1_upgraded_zm", false);
- 	include_weapon("ppsh_upgraded_zm", false);
+ 	if(!(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.script == "zombie_cod5_sumpf"))
+ 	{
+ 		include_weapon("ak47_ft_upgraded_zm", false);
+	 	include_weapon("stoner63_upgraded_zm", false);
+	 	include_weapon("psg1_upgraded_zm", false);
+	 	include_weapon("ppsh_upgraded_zm", false);
+ 	}
 
  	if(IsSubStr(level.script, "zombie_cod5"))
  	{
@@ -3787,7 +3791,7 @@ init_includes()
  	{
  		include_weapon("combat_sickle_knife_zm", false);
  	}
- 	else
+ 	else if(level.script == "zombie_cod5_factory" || level.script == "zombie_theater" || level.script == "zombie_pentagon" || level.script == "zombie_temple" || level.script == "zombie_moon")
  	{
  		include_weapon("combat_bowie_knife_zm", false);
  	}

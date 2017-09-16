@@ -486,8 +486,8 @@ include_weapons()
 	include_weapon( "humangun_upgraded_zm", false );
 	include_weapon( "sniper_explosive_zm", true );
 	include_weapon( "sniper_explosive_upgraded_zm", false );
-	include_weapon( "tesla_gun_zm", false );
-	include_weapon( "tesla_gun_new_upgraded_zm", false );
+	//include_weapon( "tesla_gun_zm", false );
+	//include_weapon( "tesla_gun_new_upgraded_zm", false );
 	include_weapon( "zombie_nesting_dolls", true, false );
 
 	include_weapon( "knife_ballistic_zm", true );
