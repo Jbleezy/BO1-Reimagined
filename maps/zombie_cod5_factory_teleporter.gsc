@@ -235,7 +235,7 @@ teleport_pad_think( index )
 				teleporter_wire_wait( index );
 
 //				trigger teleport_trigger_invisible( true );
-				trigger thread player_teleporting( index, user );
+				trigger thread player_teleporting( index, user, true );
 			}
 			else
 			{
@@ -342,8 +342,11 @@ teleport_pad_active_think( index )
 //-------------------------------------------------------------------------------
 // handles moving the players and fx, etc...moved out so it can be threaded
 //-------------------------------------------------------------------------------
-player_teleporting( index, user )
+player_teleporting( index, user, first_time )
 {
+	if(!IsDefined(first_time))
+		first_time = false;
+
 	time_since_last_teleport = GetTime() - level.teleport_time;
 
 	// begin the teleport
@@ -391,7 +394,7 @@ player_teleporting( index, user )
 	ss = getstruct( "teleporter_powerup", "targetname" );
 	if ( IsDefined( ss ) )
 	{
-		ss thread maps\_zombiemode_powerups::special_powerup_drop(ss.origin);
+		ss thread maps\_zombiemode_powerups::special_powerup_drop(ss.origin, first_time, true);
 	}
 
 	// Special for teleporting too much.  The Dogs attack!

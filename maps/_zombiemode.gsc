@@ -8572,10 +8572,28 @@ is_reloading_check()
 	{
 		self waittill("reload_start");
 
+		/*weapon = self GetCurrentWeapon();
+        reload_time = WeaponReloadTime(weapon);
+        if(self HasPerk("specialty_fastreload"))
+       		reload_time *= GetDvarFloat("perk_weapReloadMultipler");
+
+       	self thread reload_complete_notify(reload_time);*/
+
 		self.is_reloading = true;
 
 		self waittill_any("reload", "melee", "sprint", "switch_weapons");
 
 		self.is_reloading = false;
 	}
+}
+
+reload_complete_notify(reload_time)
+{
+	self endon("melee");
+	self endon("sprint");
+	self endon("switch_weapons");
+
+	wait reload_time;
+
+	self notify("reload_complete");
 }

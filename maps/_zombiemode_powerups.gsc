@@ -1026,7 +1026,7 @@ quantum_bomb_random_bonus_or_lose_points_powerup_result( position )
 
 //
 //	Special power up drop - done outside of the powerup system.
-special_powerup_drop(drop_point)
+special_powerup_drop(drop_point, first_time, permament)
 {
 // 	if( level.powerup_drop_count == level.zombie_vars["zombie_powerup_drop_max_per_round"] )
 // 	{
@@ -1038,6 +1038,12 @@ special_powerup_drop(drop_point)
 	{
 		return;
 	}
+
+	if(!IsDefined(first_time))
+		first_time = false;
+
+	if(!IsDefined(permament))
+		permament = false;
 
 	powerup = spawn ("script_model", drop_point + (0,0,40));
 
@@ -1060,7 +1066,7 @@ special_powerup_drop(drop_point)
 		return;
 	}
 
-	powerup special_drop_setup();
+	powerup special_drop_setup(first_time, permament);
 }
 
 
@@ -1240,12 +1246,12 @@ random_weapon_powerup_hintstring_think(powerup_weapon)
 
 //
 //	Get the special teleporter drop
-special_drop_setup()
+special_drop_setup(first_time, permament)
 {
 	powerup = undefined;
 	is_powerup = true;
 	// Always give something at lower rounds or if a player is in last stand mode.
-	if ( level.round_number <= 10 )
+	if ( level.round_number <= 10 || first_time )
 	{
 		powerup = get_valid_powerup();
 	}
@@ -1351,10 +1357,29 @@ special_drop_setup()
 
 		self powerup_setup( powerup );
 
-		self thread powerup_timeout();
+		if(!permament)
+			self thread powerup_timeout();
+		else
+		{
+			level notify("new_special_powerup");
+			self thread powerup_timeout_on_next_powerup();
+		}	
 		self thread powerup_wobble();
 		self thread powerup_grab();
 	}
+}
+
+powerup_timeout_on_next_powerup()
+{
+	level waittill("new_special_powerup");
+
+	self notify( "powerup_timedout" );
+
+	if ( isdefined( self.worldgundw ) )
+	{
+		self.worldgundw delete();
+	}
+	self delete();
 }
 
 powerup_zombie_grab_trigger_cleanup( trigger )

@@ -228,8 +228,6 @@
 * Enemies will only be able to do slow hits after taking damage from the Winter's Howl
 * Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
 * Enemies that die from the Winter's Howl will now crumple away faster after being frozen
-* Ammo now gets added to the clip at the same time that it does in the reload animation
-* Decreased first raise time by 50%
 * Upgraded camo now displays on more of the weapon
 
 #### Scavenger
@@ -432,6 +430,8 @@
 
 ### Teleporters (Der Riese)
 * Teleporters now kill zombies on any round
+* Guranteed teleporter powerup when first linking teleporter
+* Powerup spawned from teleporters stays on the map until picked up or a new teleporter powerup spawns
 
 ### Turrets (Kino Der Toten and Ascension)
 * No longer deal damage to players
@@ -590,6 +590,7 @@
 #### Sidequest
 * Steps in solo are the same as in coop
 * Fuse spawns before starting the sidequest
+* Increased generators' damage hitbox
 * Bottle no longer breaks when it hits the ground
 * Human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health multiplied the amount of players)
 * Reward: upgraded Wunderwaffe from every Wunderwaffe powerup for the rest of the game
@@ -704,7 +705,6 @@
 * Make betties place correctly on Der Riese bridge
 * Fix fx inside top of Wunderwaffe on COTD
 * Try adding 1st person mode to DOA
-* Fix glitch where game freezes for a couple seconds very rarely, something to do with making crawlers in a window possibly?
 * Shang spikes: if a player is off the ground at any time during its .4 activation startup time, then the spikes don't activate
 * Make total timer and round timer text line up update whenever itself or the timer changes
 * Add game_mod as a submodule on github
@@ -721,12 +721,12 @@
 * NML: make amount of zombies that spawn in the beginning consistent
 * Moon: fix sliding sound keep playing when off object
 * Shino Zipline: make so trap switch only moves down if zipline is activated by trap switch
-* NML: disable insta kill rounds completely
 * Make turrets better
 * Mule Kick: add jingle
 * Ray Gun: make sure ray gun isnt glitching out other AI types
 * QED: make random weapon powerup not spawn any weapons that any player has
-* COTD sidequest: make generators easier to explode
+* Freezegun: Ammo now gets added to the clip at the same time that it does in the reload animation (added in weapon file but weapon file doesnt work with COTD)
+* Freezegun: Decreased first raise time by 50% (added in weapon file but weapon file doesnt work with COTD)
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -776,9 +776,14 @@
 * **_lilrifa_** - menu scripting help
 * **_MasadaDRM_** - weapons and sound help
 * **_xSanchez78_** - client scripting help, localized string help
-* **_Kody_** -  Wunderwaffe gold camo, tester
-* **_FleshCrunch_** - tester
-* **_Ph3Nix_** - tester
-* **_WECoyote99_** - tester
-* **_Pure_** - tester
-* **_donnellyian1995_** - tester
+* **_Kody_** -  Wunderwaffe gold camo
+* **_SE2Dev_** -  LinkerMod
+* **_Nukem_** -  LinkerMod
+* **_DTZxPorter_** -  Wraith
+
+## TESTERS:
+* **_FleshCrunch_**
+* **_Ph3Nix_**
+* **_WECoyote99_**
+* **_Pure_**
+* **_donnellyian1995_**
