@@ -2551,8 +2551,17 @@ move_faster_while_ads(perk_str)
 				self SetMoveSpeedScale(self.move_speed);
 			}
 		}
-		else if(current_ads > 0)
+		else if(current_ads == 1)
 		{
+			/*if(self.is_reloading)
+			{
+				while(self.is_reloading)
+				{
+					wait_network_frame();
+				}
+				wait 1;
+			}*/
+
 			set = true;
 			wep = self GetCurrentWeapon();
 			class = WeaponClass(wep);

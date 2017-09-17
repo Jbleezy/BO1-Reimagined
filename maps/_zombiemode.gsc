@@ -1730,6 +1730,11 @@ onPlayerConnect()
 
 		// DCS 090910: now that player can destroy some barricades before set.
 		player thread maps\_zombiemode_blockers::rebuild_barrier_reward_reset();
+
+		player thread melee_notify();
+		player thread sprint_notify();
+		player thread switch_weapons_notify();
+		player thread is_reloading_check();
 	}
 }
 
@@ -1764,8 +1769,9 @@ onPlayerConnect_clientDvars()
 	//self setclientdvar( "cg_drawfps", "1" );
 	self setClientDvar("cg_drawFriendlyFireCrosshair", "1");
 
-	//increase game_mod's default double tap fire rate
+	//increase game_mod's default perk multipliers
 	self SetClientDvar("perk_weapRateMultiplier", .7);
+	self SetClientDvar("perk_sprintRecoveryMultiplier", .5);
 
 	//reset dvar that changes when double tap is bought
 	self SetClientDvar("player_burstFireCooldown", .2);
@@ -8508,4 +8514,68 @@ set_gamemode_name()
 	wait_network_frame();
 
 	SetDvar("zm_gamemode_name", level.gamemode);
+}
+
+melee_notify()
+{
+	self endon("disconnect");
+
+	while(1)
+	{
+		if(self MeleeButtonPressed() && self IsMeleeing())
+		{
+			self notify("melee");
+			while(self IsMeleeing())
+				wait_network_frame();
+		}
+		wait_network_frame();
+	}
+}
+
+sprint_notify()
+{
+	self endon("disconnect");
+
+	while(1)
+	{
+		if(self IsSprinting())
+		{
+			self notify("sprint");
+			while(self IsSprinting())
+				wait_network_frame();
+		}
+		wait_network_frame();
+	}
+}
+
+switch_weapons_notify()
+{
+	self endon("disconnect");
+
+	while(1)
+	{
+		while(!self IsSwitchingWeapons())
+			wait_network_frame();
+		self notify("switch_weapons");
+		while(self IsSwitchingWeapons())
+			wait_network_frame();
+	}
+}
+
+is_reloading_check()
+{
+	self endon("disconnect");
+
+	self.is_reloading = false;
+
+	while(1)
+	{
+		self waittill("reload_start");
+
+		self.is_reloading = true;
+
+		self waittill_any("reload", "melee", "sprint", "switch_weapons");
+
+		self.is_reloading = false;
+	}
 }

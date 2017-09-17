@@ -46,7 +46,7 @@ set_fov()
 			wait .05;
 			continue;
 		}
-		
+
 		SetClientDvar("cg_fov", fov);
 		wait .05;
 	}

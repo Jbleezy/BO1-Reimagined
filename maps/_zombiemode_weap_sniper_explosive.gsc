@@ -183,10 +183,6 @@ disable_ads_while_reloading()
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	self thread melee_notify();
-	self thread sprint_notify();
-	self thread switch_weapons_notify();
-
 	while(1)
 	{
 		currentweapon = self GetCurrentWeapon();
@@ -196,60 +192,13 @@ disable_ads_while_reloading()
 			currentweapon = self GetCurrentWeapon();
 			if((currentweapon == "sniper_explosive_zm") || (currentweapon == "sniper_explosive_upgraded_zm"))
 			{
+				wait_network_frame();
 				self AllowADS(false);
-				self waittill_any("reload", "switch_weapons", "melee", "sprint");
+				while(self.is_reloading)
+					wait_network_frame();
 				self AllowADS(true);
 			}
 		}
 		wait .05;
-	}
-}
-
-melee_notify()
-{
-	self endon( "death" );
-	self endon( "disconnect" );
-
-	while(1)
-	{
-		if(self MeleeButtonPressed() && self IsMeleeing())
-		{
-			self notify("melee");
-			while(self IsMeleeing())
-				wait_network_frame();
-		}
-		wait_network_frame();
-	}
-}
-
-sprint_notify()
-{
-	self endon( "death" );
-	self endon( "disconnect" );
-
-	while(1)
-	{
-		if(self IsSprinting())
-		{
-			self notify("sprint");
-			while(self IsSprinting())
-				wait_network_frame();
-		}
-		wait_network_frame();
-	}
-}
-
-switch_weapons_notify()
-{
-	self endon( "death" );
-	self endon( "disconnect" );
-
-	while(1)
-	{
-		while(!self IsSwitchingWeapons())
-			wait_network_frame();
-		self notify("switch_weapons");
-		while(self IsSwitchingWeapons())
-			wait_network_frame();
 	}
 }

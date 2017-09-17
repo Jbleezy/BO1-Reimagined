@@ -310,10 +310,9 @@
 * 100% chance of hacking an exacavtor when thrown near the panel
 * 100% chance of random weapon powerup if thrown near a wall weapon
 * 100% chance of random powerup when throw near a powerup
-* If thrown outside the map, the player who threw the QED gets teleported
+* If thrown outside the map, the player who threw the QED gets teleported to a random location on the map
 * Free perk now only gives the perk to the player who threw the QED
 * Revive player effect now only revives players near where the QED was thrown
-* Removed player teleport effect
 * Removed red powerup spawn effect
 * Removed unupgrade current weapon effect
 * All other effects have a 25% chance of being put on the selected list
@@ -715,7 +714,6 @@
 * Get animator to make correct anims for classic map weapons
 * Wunderwaffe: make the closest zombie from the bolt be the first one that gets zapped
 * Fix Wunderwaffe not arcing after first kill
-* COTD sidequest: make bottle drop slower instead of not breaking
 * Search & Rezurrect gamemode: must kill the remaining horde to win the round
 * Upgraded Kar98k: 50 round clip, no reserve ammo
 * Make sure powerup cycle resets when last currently obtainable powerup of a cycle spawns
@@ -728,6 +726,7 @@
 * Mule Kick: add jingle
 * Ray Gun: make sure ray gun isnt glitching out other AI types
 * QED: make random weapon powerup not spawn any weapons that any player has
+* COTD sidequest: make generators easier to explode
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
