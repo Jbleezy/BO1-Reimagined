@@ -576,7 +576,7 @@ init_strings()
 	PrecacheString( &"REIMAGINED_WEAPONCOSTAMMO" );
 	PrecacheString( &"REIMAGINED_WEAPONCOSTAMMO_UPGRADE" );
 	PrecacheString( &"REIMAGINED_WEAPONCOSTAMMO_UPGRADE_HACKED" );
-	PrecacheString(&"REIMAGINED_MYSTERY_BOX");
+	PrecacheString( &"REIMAGINED_MYSTERY_BOX" );
 
 	switch(ToLower(GetDvar(#"mapname")))
 	{
@@ -2411,6 +2411,11 @@ take_additionalprimaryweapon()
 	primaryWeapons = self GetWeaponsListPrimaries();
 	for ( i = 0; i < primaryWeapons.size; i++ )
 	{
+		if((primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_new_upgraded_zm") && IsDefined(self.has_tesla) && self.has_tesla)
+		{
+			continue;
+		}
+
 		if ( maps\_zombiemode_weapons::is_weapon_included( primaryWeapons[i] ) || maps\_zombiemode_weapons::is_weapon_upgraded( primaryWeapons[i] ) )
 		{
 			primary_weapons_that_can_be_taken[primary_weapons_that_can_be_taken.size] = primaryWeapons[i];
@@ -5921,10 +5926,10 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		}
 
 		//monkeys no longer count as kills
-		if(level.script == "zombie_temple" && self.animname == "monkey_zombie")
+		/*if(level.script == "zombie_temple" && self.animname == "monkey_zombie")
 		{
 			attacker.kills--;
-		}
+		}*/
 	}
 
 	if(sWeapon == "zombie_bullet_crouch" && sMeansofdeath == "MOD_RIFLE_BULLET")
@@ -8095,7 +8100,7 @@ give_weapons_test()
 	//wep = "sniper_explosive_upgraded_zm";
 	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
-	wep = "tesla_gun_upgraded_zm";
+	wep = "tesla_gun_new_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
 
 	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
@@ -8103,17 +8108,15 @@ give_weapons_test()
 	wait_network_frame();
 	self SwitchToWeapon(wep);
 
-	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
+	self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
 	self giveweapon( "molotov_zm" );
 	self set_player_tactical_grenade( "molotov_zm" );
 
-	/*wait 5;
+
+	/*wait 1;
 	origin = self.origin;
-	wait 5;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );
-	origin = self.origin;
-	wait 5;
+	wait 10;
 	level.upgraded_tesla_reward = true;
 	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );*/
 

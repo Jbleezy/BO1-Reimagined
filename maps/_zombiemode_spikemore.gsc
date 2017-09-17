@@ -310,7 +310,9 @@ spikemore_detonation()
 		self.owner.mines = [];
 	self.owner.mines = array_add( self.owner.mines, self );
 
-	if( self.owner.mines.size > 30 )
+	amount = 120 / get_players().size;
+
+	if( self.owner.mines.size > amount )
 	{
 		self.owner.mines[0] _spikemore_SmallSpearActivate();
 		self.owner.mines = array_remove_nokeys( self.owner.mines, self.owner.mines[0] );
@@ -331,6 +333,10 @@ spikemore_detonation()
 
 		if ( ent damageConeTrace(self.origin, self) > 0 )
 		{
+			if(is_in_array(self.owner.mines,self))
+			{
+				self.owner.mines = array_remove_nokeys(self.owner.mines,self);
+			}
 			self _spikemore_SmallSpearActivate();
 			return;
 		}
@@ -341,10 +347,6 @@ delete_spikemores_on_death(ent)
 {
 	self waittill("death");
 	// stupid getarraykeys in array_remove reversing the order - nate
-	if(is_in_array(self.owner.mines,self))
-	{
-		self.owner.mines = array_remove_nokeys(self.owner.mines,self);
-	}
 	wait .05;
 	if ( isdefined( ent ) )
 		ent delete();

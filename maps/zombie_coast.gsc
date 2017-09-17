@@ -256,7 +256,7 @@ custom_add_weapons()
 {
  	maps\_zombiemode_weapons::add_zombie_weapon( "humangun_zm",				"humangun_upgraded_zm",					&"ZOMBIE_WEAPON_HUMANGUN", 				10,		"human",			"",		undefined );
 	maps\_zombiemode_weapons::add_zombie_weapon( "sniper_explosive_zm",		"sniper_explosive_upgraded_zm",			&"ZOMBIE_WEAPON_SNIPER_EXPLOSIVE",		2500,	"ubersniper",		"",		undefined );
-	maps\_zombiemode_weapons::add_zombie_weapon( "tesla_gun_zm",			"tesla_gun_new_upgraded_zm",			&"ZOMBIE_WEAPON_TESLA", 				10,		"tesla",			"",		undefined );
+	maps\_zombiemode_weapons::add_zombie_weapon( "tesla_gun_zm",			"tesla_gun_new_upgraded_zm",			&"ZOMBIE_WEAPON_TESLA", 				10,		"tesla",			"",		undefined, true ); //true - adds weapon without including it
 }
 
 coast_spawn_init_delay(director)
@@ -481,7 +481,6 @@ include_weapons()
 	include_weapon( "crossbow_explosive_zm" );
 	include_weapon( "crossbow_explosive_upgraded_zm", false );
 
-	// these are not available yet until their functionality is more complete
 	include_weapon( "humangun_zm", true, false );
 	include_weapon( "humangun_upgraded_zm", false );
 	include_weapon( "sniper_explosive_zm", true );
@@ -499,7 +498,7 @@ include_weapons()
 
 	// limited weapons
 	maps\_zombiemode_weapons::add_limited_weapon( "m1911_zm", 0 );
-//	maps\_zombiemode_weapons::add_limited_weapon( "tesla_gun_zm", 1 );
+	//maps\_zombiemode_weapons::add_limited_weapon( "tesla_gun_zm", 1 );
 	maps\_zombiemode_weapons::add_limited_weapon( "humangun_zm", 1 );
 	maps\_zombiemode_weapons::add_limited_weapon( "sniper_explosive_zm", 1 );
 	maps\_zombiemode_weapons::add_limited_weapon( "crossbow_explosive_zm", 1 );
@@ -606,6 +605,7 @@ include_powerups()
 
 	// WW (03-14-11): Added Tesla
 	PreCacheItem( "tesla_gun_zm" );
+	PrecacheItem( "tesla_gun_new_upgraded_zm" );
 	include_powerup( "tesla" );
 
 	include_powerup( "free_perk" );

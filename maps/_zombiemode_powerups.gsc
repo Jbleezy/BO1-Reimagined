@@ -55,6 +55,8 @@ init()
 		return;
 	}
 
+	level.powerups = [];
+
 	init_powerups();
 
 	thread watch_for_drop();
@@ -159,10 +161,10 @@ init_powerups()
 
 	if ( isdefined( level.quantum_bomb_register_result_func ) )
 	{
-		[[level.quantum_bomb_register_result_func]]( "random_powerup", ::quantum_bomb_random_powerup_result, 25, level.quantum_bomb_in_playable_area_validation_func );
+		[[level.quantum_bomb_register_result_func]]( "random_powerup", ::quantum_bomb_random_powerup_result, 80, ::quantum_bomb_random_powerup_validation );
 		//[[level.quantum_bomb_register_result_func]]( "random_zombie_grab_powerup", ::quantum_bomb_random_zombie_grab_powerup_result, 5, level.quantum_bomb_in_playable_area_validation_func );
-		[[level.quantum_bomb_register_result_func]]( "random_weapon_powerup", ::quantum_bomb_random_weapon_powerup_result, 25, level.quantum_bomb_in_playable_area_validation_func );
-		[[level.quantum_bomb_register_result_func]]( "random_bonus_or_lose_points_powerup", ::quantum_bomb_random_bonus_or_lose_points_powerup_result, 25, level.quantum_bomb_in_playable_area_validation_func );
+		[[level.quantum_bomb_register_result_func]]( "random_weapon_powerup", ::quantum_bomb_random_weapon_powerup_result, 100, ::quantum_bomb_random_weapon_powerup_validation );
+		[[level.quantum_bomb_register_result_func]]( "random_bonus_or_lose_points_powerup", ::quantum_bomb_random_bonus_or_lose_points_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
 	}
 }
 
@@ -1155,7 +1157,7 @@ powerup_setup( powerup_override )
 	{
 		if(IsDefined(level.upgraded_tesla_reward) && level.upgraded_tesla_reward)
 		{
-			self.weapon = "tesla_gun_upgraded_zm";
+			self.weapon = "tesla_gun_new_upgraded_zm";
 		}
 		else
 		{
@@ -1462,8 +1464,7 @@ powerup_grab()
 			// Don't let them grab the minigun, tesla, or random weapon if they're downed or reviving
 			//	due to weapon switching issues.
 			if ( (self.powerup_name == "minigun" || self.powerup_name == "tesla" || self.powerup_name == "random_weapon") &&
-				( players[i] maps\_laststand::player_is_in_laststand() ||
-				  ( players[i] UseButtonPressed() && players[i] in_revive_trigger() ) ) )
+				( players[i] maps\_laststand::player_is_in_laststand() || players[i] in_revive_trigger() ) )
 			{
 				continue;
 			}
@@ -1473,10 +1474,11 @@ powerup_grab()
 				continue;
 
 			//no picking up unupgraded waffe if upgraded waffe is active
-			if(self.powerup_name == "tesla" && IsDefined(players[i].has_tesla) && players[i].has_tesla && players[i] GetCurrentWeapon() == "tesla_gun_upgraded_zm" && self.weapon == "tesla_gun_zm")
+			if(self.powerup_name == "tesla" && IsDefined(players[i].has_tesla) && players[i].has_tesla && players[i] GetCurrentWeapon() == "tesla_gun_new_upgraded_zm" && self.weapon == "tesla_gun_zm")
 				continue;
 
-			if ( DistanceSquared( players[i].origin, self.origin ) < range_squared )
+			if ( (self.powerup_name != "random_weapon" && DistanceSquared( players[i].origin, self.origin ) < range_squared) || 
+				(self.powerup_name == "random_weapon" && is_true(self.weapon_powerup_grabbed)) )
 			{
 				if( IsDefined( level.zombie_powerup_grab_func ) )
 				{
@@ -1559,22 +1561,15 @@ powerup_grab()
 						players[i] thread powerup_vo( "tesla" ); // TODO: Audio should uncomment this once the sounds have been set up
 						break;
 
+					//done in its own function because it has a use trigger
 					case "random_weapon":
-						//done in its own function because it has a use trigger
 						/*if ( !level random_weapon_powerup( self, players[i] ) )
 						{
 							continue;
-						}*/
-						// players[i] thread powerup_vo( "random_weapon" ); // TODO: Audio should uncomment this once the sounds have been set up
-						//break;
-						if(is_true(self.weapon_powerup_grabbed))
-						{
-							break;
 						}
-						else
-						{
-							continue;
-						}
+						players[i] thread powerup_vo( "random_weapon" );*/ // TODO: Audio should uncomment this once the sounds have been set up
+						break;
+						
 
 					case "bonus_points_player":
 						level thread bonus_points_player_powerup( self, players[i] );
@@ -1967,6 +1962,8 @@ powerup_timeout()
 {
 	self endon( "powerup_grabbed" );
 	self endon( "death" );
+
+	level.powerups[level.powerups.size] = self;
 
 	wait 15;
 
@@ -3093,11 +3090,11 @@ tesla_weapon_powerup( ent_player, powerup, time )
 	ent_player._zombie_gun_before_tesla = ent_player GetCurrentWeapon();
 
 	// give player a minigun
-	ent_player GiveWeapon( weapon );
+	ent_player GiveWeapon( weapon, 0, ent_player maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( weapon ) );
 	ent_player GiveMaxAmmo( weapon );
 	ent_player SwitchToWeapon( weapon );
 
-	if(weapon == "tesla_gun_upgraded_zm" && ent_player HasWeapon("tesla_gun_zm"))
+	if(weapon == "tesla_gun_new_upgraded_zm" && ent_player HasWeapon("tesla_gun_zm"))
 	{
 		ent_player TakeWeapon("tesla_gun_zm");
 	}
@@ -3271,7 +3268,7 @@ tesla_watch_gunner_downed()
 
 	for( i = 0; i < primaryWeapons.size; i++ )
 	{
-		if( primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_upgraded_zm")
+		if( primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_new_upgraded_zm")
 		{
 			self TakeWeapon( primaryWeapons[i] );
 		}
@@ -3612,4 +3609,45 @@ powerup_weapon_trigger_cleanup(trigger)
 	self waittill_any( "powerup_timedout", "powerup_grabbed", "hacked" );
 
 	trigger delete();
+}
+
+quantum_bomb_random_powerup_validation(position)
+{
+	if(![[level.quantum_bomb_in_playable_area_validation_func]](position))
+	{
+		return false;
+	}
+
+	level.powerups = array_removeUndefined(level.powerups);
+
+	range_squared = 180 * 180;
+	for(i=0;i<level.powerups.size;i++)
+	{
+		if(DistanceSquared(level.powerups[i].origin, position) < range_squared)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+quantum_bomb_random_weapon_powerup_validation(position)
+{
+	if(![[level.quantum_bomb_in_playable_area_validation_func]](position))
+	{
+		return false;
+	}
+
+	range_squared = 180 * 180;
+
+	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" );
+	for(i = 0; i < weapon_spawns.size; i++)
+	{
+		if(DistanceSquared(weapon_spawns[i].origin, position) < range_squared)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

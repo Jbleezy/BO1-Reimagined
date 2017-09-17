@@ -127,11 +127,6 @@ betty_death_think()
 {
 	self waittill("death");
 
-	if(is_in_array(self.owner.mines,self))
-	{
-		self.owner.mines = array_remove_nokeys(self.owner.mines,self);
-	}
-
 	if(isDefined(self.trigger))
 	{
 		self.trigger delete();
@@ -157,7 +152,10 @@ betty_think()
 		self.owner.mines = [];
 	self.owner.mines = array_add( self.owner.mines, self );
 
-	if( self.owner.mines.size > 30 )
+	amount = 120 / get_players().size;
+	iprintln(self.owner.mines.size);
+
+	if( self.owner.mines.size > amount )
 	{
 		self.owner.mines[0].too_many_mines_explode = true;
 		self.owner.mines[0].trigger notify("trigger_touch");
@@ -186,6 +184,11 @@ betty_think()
 			continue;
 
 		break;
+	}
+
+	if(is_in_array(self.owner.mines,self))
+	{
+		self.owner.mines = array_remove_nokeys(self.owner.mines,self);
 	}
 
 	if ( isdefined( trigger ) )

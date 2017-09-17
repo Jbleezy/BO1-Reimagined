@@ -2357,6 +2357,13 @@ quantum_bomb_give_nearest_perk_validation( position )
 	range_squared = 180 * 180; // 15 feet
 	for ( i = 0; i < vending_triggers.size; i++ )
 	{
+		//dont give perk if perk isnt on
+		perk = vending_triggers[i].script_noteworthy;
+		if(!flag( "power_on" ) && perk != "specialty_fastreload" && perk != "specialty_armorvest" && (!(flag( "solo_game" ) && perk == "specialty_quickrevive")))
+		{
+			continue;
+		}
+
 		if ( DistanceSquared( vending_triggers[i].origin, position ) < range_squared )
 		{
 			perk = vending_triggers[i].script_noteworthy;
@@ -2436,6 +2443,11 @@ additional_weapon_indicator(perk, perk_str)
 		primaryWeapons = self GetWeaponsListPrimaries();
 		for ( i = 0; i < primaryWeapons.size; i++ )
 		{
+			if((primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_new_upgraded_zm") && IsDefined(self.has_tesla) && self.has_tesla)
+			{
+				continue;
+			}
+
 			if ( maps\_zombiemode_weapons::is_weapon_included( primaryWeapons[i] ) || maps\_zombiemode_weapons::is_weapon_upgraded( primaryWeapons[i] ) )
 			{
 				primary_weapons_that_can_be_taken[primary_weapons_that_can_be_taken.size] = primaryWeapons[i];

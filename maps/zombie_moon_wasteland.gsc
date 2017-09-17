@@ -1048,7 +1048,6 @@ nml_ramp_up_zombies()
 
 	// start at round level entered no mans land
 	level.nml_timer = level.nml_last_round;
-	level.nml_timer = 160;
 
 	while(flag("enter_nml"))
 	{

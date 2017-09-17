@@ -280,7 +280,9 @@ claymore_detonation()
 		self.owner.mines = [];
 	self.owner.mines = array_add( self.owner.mines, self );
 
-	if( self.owner.mines.size > 30 )
+	amount = 120 / get_players().size;
+
+	if( self.owner.mines.size > amount )
 	{
 		self.owner.mines[0] detonate( self.owner );
 		self.owner.mines = array_remove_nokeys( self.owner.mines, self.owner.mines[0] );
@@ -301,6 +303,10 @@ claymore_detonation()
 
 		if ( ent damageConeTrace(self.origin, self) > 0 )
 		{
+			if(is_in_array(self.owner.mines,self))
+			{
+				self.owner.mines = array_remove_nokeys(self.owner.mines,self);
+			}
 			self playsound ("claymore_activated_SP");
 			wait 0.4;
 			if ( isdefined( self.owner ) )
@@ -318,10 +324,6 @@ delete_claymores_on_death(ent)
 	self waittill("death");
 	// stupid getarraykeys in array_remove reversing the order - nate
 	//level.claymores = array_remove_nokeys( level.claymores, self );
-	if(is_in_array(self.owner.mines,self))
-	{
-		self.owner.mines = array_remove_nokeys(self.owner.mines,self);
-	}
 	wait .05;
 	if ( isdefined( ent ) )
 		ent delete();

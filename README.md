@@ -253,7 +253,7 @@
 * Gives 50 points for each kill
 
 ### Equipment
-* Limit of 30 mines placed at a time per player
+* Limit of 120 mines placed on the map at once (each player can place equal amount of mines in coop)
 
 #### Bouncing Betty
 * Can now explode after being placed for 1 second (previously 2 seconds)
@@ -302,14 +302,17 @@
 * Now deals damage on impact
 
 #### QED
-* Free perk effect now only gives the perk to the player who threw the QED
-* 100% chance of giving perk when thrown near a perk machine
+* 100% chance of giving perk when thrown near a perk machine that is powered on
 * 100% chance of opening a door when thrown near a door
 * 100% chance of upgrading current weapon when thrown near Pack-a-Punch machine
-* Revive player effect now only revives players near where the QED was thrown
 * 100% chance of reviving player when thrown near downed player
 * 100% of fling effect when thrown near Cosmonaut
 * 100% chance of hacking an exacavtor when thrown near the panel
+* 100% chance of random weapon powerup if thrown near a wall weapon
+* 100% chance of random powerup when throw near a powerup
+* If thrown outside the map, the player who threw the QED gets teleported
+* Free perk now only gives the perk to the player who threw the QED
+* Revive player effect now only revives players near where the QED was thrown
 * Removed player teleport effect
 * Removed red powerup spawn effect
 * Removed unupgrade current weapon effect
@@ -512,7 +515,6 @@
 * Fixed a bug that caused the Director to not be able to slow you down anymore if you knifed a zombie on an insta kill
 
 ### Monkeys (Shangri-La)
-* No longer count as kills
 * Keep attempting to spawn until they successfully spawn during the whole duration while a powerup is active on the ground
 * Now always cycle through Nukes and Fire Sales
 * The powerup that a Monkey picks up no longer has to initially be a Max Ammo for Perk Bottle to be cycled through (still has to be picked up as a Max Ammo)
@@ -704,10 +706,8 @@
 * Fix fx inside top of Wunderwaffe on COTD
 * Try adding 1st person mode to DOA
 * Fix glitch where game freezes for a couple seconds very rarely, something to do with making crawlers in a window possibly?
-* QED: 100% chance of random weapon powerup if thrown near a wall weapon or box location
-* QED: 100% chance of random powerup if thrown near a powerup
 * Shang spikes: if a player is off the ground at any time during its .4 activation startup time, then the spikes don't activate
-* Make timers text all line up with eachother
+* Make total timer and round timer text line up update whenever itself or the timer changes
 * Add game_mod as a submodule on github
 * Freeze Gun: make zombies crumple away instantly if they dropped a powerup
 * Check if zombies eyes fx should be deleting on death
@@ -725,11 +725,9 @@
 * Shino Zipline: make so trap switch only moves down if zipline is activated by trap switch
 * NML: disable insta kill rounds completely
 * Make turrets better
-* QED: make QED not give perk if perk isn't on
-* Fix bug where zombies can spawn in zones that aren't open when the player isn't in that zone
 * Mule Kick: add jingle
-* Ray Gun: make sure ray gun isnt glitching out other ai types
-* Muke Kick: fix Wunderwaffe powerup being able to saved as 3rd weapon if you only have 2 weps (because it is included)
+* Ray Gun: make sure ray gun isnt glitching out other AI types
+* QED: make random weapon powerup not spawn any weapons that any player has
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
