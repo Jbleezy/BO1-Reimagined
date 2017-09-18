@@ -78,7 +78,7 @@ spear_trap_think()
 		touching = true;
 		for(i=1;i<=2;i++)
 		{
-			if(!who IsTouching(self))
+			if(!who IsTouching(self) || !who IsOnGround())
 			{
 				touching = false;
 				break;

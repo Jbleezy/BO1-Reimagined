@@ -2418,7 +2418,29 @@ take_additionalprimaryweapon()
 		return weapon_to_take;
 	}
 
-	primary_weapons_that_can_be_taken = [];
+	//check to see if any weapon slots are empty
+	count = 0;
+	for(i=0;i<self.weapon_slots.size;i++)
+	{
+		if(self.weapon_slots[i] != "none")
+		{
+			count++;
+		}
+	}
+	if( count < 3 )
+	{
+		return weapon_to_take;
+	}
+
+	weapon_to_take[0] = self.weapon_slots[self.weapon_slots.size - 1];
+	weapon_to_take[1] = self GetWeaponAmmoClip(weapon_to_take[0]);
+	weapon_to_take[2] = self GetWeaponAmmoStock(weapon_to_take[0]);
+
+	self TakeWeapon( weapon_to_take[0] );
+
+	return weapon_to_take;
+
+	/*primary_weapons_that_can_be_taken = [];
 
 	primaryWeapons = self GetWeaponsListPrimaries();
 	for ( i = 0; i < primaryWeapons.size; i++ )
@@ -2453,7 +2475,7 @@ take_additionalprimaryweapon()
 		self TakeWeapon( weapon_to_take[0] );
 	}
 
-	return weapon_to_take;
+	return weapon_to_take;*/
 }
 
 store_additionalprimaryweapon(weapon)
@@ -7812,16 +7834,26 @@ move_round_timer_thread()
 
 zombies_remaining_hud()
 {
+	if(!(level.gamemode == "survival" || level.gamemode == "grief" || level.gamemode == "ffa"))
+	{
+		players = get_players();
+		for(i=0;i<players.size;i++)
+		{
+			players[i] SetClientDvar("hud_zombs_remaining_on_game", false);
+		}
+		return;
+	}
+
 	while(1)
 	{
 		players = get_players();
 		if(flag("enter_nml"))
 		{
-			if(!GetDvar("in_nml"))
+			if(!GetDvar("hud_zombs_remaining_on_game"))
 			{
 				for(i=0;i<players.size;i++)
 				{
-					players[i] SetClientDvar("in_nml", true);
+					players[i] SetClientDvar("hud_zombs_remaining_on_game", false);
 				}
 			}
 		}
@@ -7849,11 +7881,11 @@ zombies_remaining_hud()
 				}
 			}
 
-			if(GetDvar("in_nml"))
+			if(GetDvar("hud_zombs_remaining_on_game"))
 			{
 				for(i=0;i<players.size;i++)
 				{
-					players[i] SetClientDvar("in_nml", false);
+					players[i] SetClientDvar("hud_zombs_remaining_on_game", true);
 				}
 			}
 		}
@@ -8143,6 +8175,8 @@ give_weapons_test()
 
 	self giveweapon( "molotov_zm" );
 	self set_player_tactical_grenade( "molotov_zm" );
+
+	level thread maps\_zombiemode_grief::turn_power_on();
 
 
 	/*wait 1;

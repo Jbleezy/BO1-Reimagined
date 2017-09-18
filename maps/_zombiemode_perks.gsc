@@ -1716,6 +1716,7 @@ give_perk( perk, bought )
 give_back_mule_weapon()
 {
 	unupgrade_name = self.weapon_taken_by_losing_additionalprimaryweapon[0];
+	iprintln(unupgrade_name);
 	if(maps\_zombiemode_weapons::is_weapon_upgraded(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
 	{
 		//removes "_upgraded" from weapon name
@@ -2435,6 +2436,8 @@ additional_weapon_indicator(perk, perk_str)
 	self endon(perk_str);
 
 	indicated = false;
+	self.weapon_slots = [];
+
 	while(1)
 	{
 		additional_wep = undefined;
@@ -2454,8 +2457,55 @@ additional_weapon_indicator(perk, perk_str)
 			}
 		}
 
-		if ( primary_weapons_that_can_be_taken.size >= 3 )
-			additional_wep = primary_weapons_that_can_be_taken[primary_weapons_that_can_be_taken.size - 1];
+		if(!IsDefined(self.weapon_slots))
+		{
+			self.weapon_slots = primary_weapons_that_can_be_taken;
+		}
+
+		//remove any weps player no longer has
+		for(i=0;i<self.weapon_slots.size;i++)
+		{
+			if(!self HasWeapon(self.weapon_slots[i]))
+			{
+				self.weapon_slots[i] = "none";
+			}
+		}
+
+		//add any new weps
+		for(j=0;j<primary_weapons_that_can_be_taken.size;j++)
+		{
+			if(!is_in_array(self.weapon_slots, primary_weapons_that_can_be_taken[j]))
+			{
+				undefined_wep_slot = false;
+				for(i=0;i<self.weapon_slots.size;i++)
+				{
+					if(self.weapon_slots[i] == "none")
+					{
+						self.weapon_slots[i] = primary_weapons_that_can_be_taken[j];
+						undefined_wep_slot = true;
+						break;
+					}
+				}
+
+				if(!undefined_wep_slot)
+				{
+					self.weapon_slots[self.weapon_slots.size] = primary_weapons_that_can_be_taken[j];
+				}
+			}
+		}
+
+		//check to see if any weapon slots are empty
+		count = 0;
+		for(i=0;i<self.weapon_slots.size;i++)
+		{
+			if(self.weapon_slots[i] != "none")
+			{
+				count++;
+			}
+		}
+
+		if ( count >= 3 )
+			additional_wep = self.weapon_slots[self.weapon_slots.size - 1];
 
 		current_wep = self GetCurrentWeapon();
 

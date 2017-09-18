@@ -369,6 +369,7 @@
 
 ### Mule Kick
 * Removed from Nacht Der Untoten
+* Third weapon slot will now always be the correct weapon
 * Name of weapon that will be lost when downed is shown in yellow text
 * Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, or if the player already has the weapon, or if the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon)
 
@@ -731,7 +732,6 @@
 * Figure out bug that causes cosmonaut to delete himself occasionally (might be fixed)
 * Make zombies go after monkey bombs instantly
 * Make it so betties can only be triggered by zombies with line of sight from bettys position
-* Fix mule kick weapon being changed from paping
 * Add line of sight check for windows breaking on Moon
 * Fix mule kick weapon highlight text not working if player got perk from shang easter egg
 * Make insta kill powerups work in high rounds (might be fixed)
@@ -751,7 +751,6 @@
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
 * Make trap hintstrings show time remaining for active and cooldown (try using add_zombie_hint())
 * Remove marks on background of Deadshot perk shader
-* Fix weapon order being changed
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)
 * Gun Game: add increment weapon powerup, powerup model is the weapon they will receive, powerup is hidden and ungrabbable to all other players
@@ -768,8 +767,6 @@
 * Fix zombie pathing on Five going to different floors
 * Make betties place correctly on Der Riese bridge
 * Fix fx inside top of Wunderwaffe on COTD
-* Try adding 1st person mode to DOA
-* Shang spikes: if a player is off the ground at any time during its .4 activation startup time, then the spikes don't activate
 * Make total timer and round timer text line up update whenever itself or the timer changes
 * Add game_mod as a submodule on github
 * Freeze Gun: make zombies crumple away instantly if they dropped a powerup
@@ -788,6 +785,8 @@
 * Mule Kick: add jingle
 * Freezegun: Ammo now gets added to the clip at the same time that it does in the reload animation (added in weapon file but weapon file doesnt work with COTD)
 * Freezegun: Decreased first raise time by 50% (added in weapon file but weapon file doesnt work with COTD)
+* Remove survival options from versus gamemodes
+* Try adding 1st person mode to DOA
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

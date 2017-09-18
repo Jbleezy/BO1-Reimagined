@@ -355,7 +355,7 @@
 			decoration
 		}*/
 
-		ZOMBIE_COUNTER_TEXT_VIS("hud_zombs_remaining", 4, 2, "REIMAGINED_ZOMBIES_REMAINING", DvarString("zombs_remaining"), dvarBool( "hud_zombs_remaining_on" ) && !dvarBool( "in_nml" ))
+		ZOMBIE_COUNTER_TEXT_VIS("hud_zombs_remaining", 4, 2, "REIMAGINED_ZOMBIES_REMAINING", DvarString("zombs_remaining"), (dvarBool( "hud_zombs_remaining_on" ) && dvarBool( "hud_zombs_remaining_on_game") ))
 
 		#define FPS_ENABLED dvarInt( cg_drawFPS ) == 1
 
