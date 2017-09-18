@@ -659,6 +659,11 @@
 * Upgraded weapons slow players down 50% longer (or maybe slightly slower instead)
 * Ballistic knife, bowie knife, and sickle push players farther
 * Powerups have negative effects towards the team that did not grab the powerup
+* Mystery Box always initially spawns randomly on maps that the box can spawn randomly
+* Mystery Box can initially spawn in the start room on maps that the box can spawn randomly
+* Mystery Box can initially spawn anywhere on Five
+* Five: all 6 barriers in the start room are enabled
+* Mule Kick disabled on all maps except Moon
 
 #### Grief
 * Win by surviving a round while all the enemies are dead
@@ -794,6 +799,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * See if ChangeLevel() works in coop
 * Ray Gun: make sure ray gun isnt glitching out other AI types
+* See if turrets are still making damage markers in coop
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

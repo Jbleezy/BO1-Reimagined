@@ -245,6 +245,7 @@ main( bScriptgened,bCSVgened,bsgenabled )
 #/
 	PrecacheModel( "tag_origin" );
 	PrecacheModel( "tag_origin_animate" );
+
 	PrecacheShellShock( "level_end" );
 	PrecacheShellShock( "default" );
 	PrecacheShellShock( "flashbang" );
@@ -945,7 +946,15 @@ onPlayerSpawned()
 				self player_set_viewmodel( self.zm_random_char );
 			}
 			self player_set_viewmodel();*/
-			self player_set_viewmodel( self.zm_random_char );
+			if(level.gamemode == "survival")
+			{
+				self player_set_viewmodel( self.zm_random_char );
+			}
+			else
+			{
+				self maps\_zombiemode_grief::set_grief_viewmodel();
+				self maps\_zombiemode_grief::set_grief_model();
+			}
 		}
 
 		self maps\_art::setdefaultdepthoffield();

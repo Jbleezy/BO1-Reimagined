@@ -226,6 +226,10 @@ xmodel,zombie_3rd_perk_bottle_revive
 xmodel,zombie_3rd_perk_bottle_sleight
 xmodel,zombie_3rd_perk_bottle_three_gun
 xmodel,viewmodel_zombie_tesla_up
+xmodel,bo2_c_zom_hazmat_viewhands
+xmodel,bo2_c_zom_suit_viewhands
+xmodel,bo2_c_zom_player_cdc_fb
+xmodel,bo2_c_zom_player_cia_fb
 
 //XANIMS
 xanim,viewmodel_tesla_d2p_in

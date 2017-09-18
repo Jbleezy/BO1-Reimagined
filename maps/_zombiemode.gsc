@@ -276,7 +276,7 @@ init_additionalprimaryweapon_machine_locations()
 		level.zombie_additionalprimaryweapon_machine_origin = (1480.8, 3450, -65);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 180, 0);
 	}
-	else if(GetDvarInt("mule_kick_enabled") && Tolower(GetDvar("mapname")) != "zombie_cod5_prototype") //nacht - always disabled
+	else if(level.gamemode == "survival" && GetDvarInt("mule_kick_enabled") && Tolower(GetDvar("mapname")) != "zombie_cod5_prototype") //nacht - always disabled
 	{
 		switch ( Tolower( GetDvar( #"mapname" ) ) )
 		{
@@ -556,6 +556,14 @@ precache_models()
 	precachemodel("zombie_revive");
 
 	PrecacheModel( "zombie_z_money_icon" );
+
+	if(level.gamemode != "survival")
+	{
+		precacheModel("bo2_c_zom_hazmat_viewhands");
+		precacheModel("bo2_c_zom_player_cdc_fb");
+		precacheModel("bo2_c_zom_suit_viewhands");
+		precacheModel("bo2_c_zom_player_cia_fb");
+	}
 }
 
 init_shellshocks()

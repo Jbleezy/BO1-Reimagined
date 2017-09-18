@@ -63,7 +63,14 @@ main()
 	level thread maps\_zombiemode_zone_manager::manage_zones( init_zones );
 
 	// DCS: check to setup random spawing per zone.
-	level.random_spawners = true;
+	if(level.gamemode == "survival")
+	{
+		level.random_spawners = true;
+	}
+	else
+	{
+		level.random_spawners = false;
+	}
 
 	// Init traps
 	level maps\zombie_pentagon_traps::init_traps();

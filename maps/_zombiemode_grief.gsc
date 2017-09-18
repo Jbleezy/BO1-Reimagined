@@ -14,6 +14,8 @@ init()
 	level thread turn_power_on();
 
 	level thread open_doors();
+
+	level thread disable_special_rounds();
 }
 
 post_all_players_connected()
@@ -68,6 +70,43 @@ setup_grief_logo()
 			players[i] SetClientDvar("cia_logo_on", 1);
 		}
 	}
+}
+
+disable_special_rounds()
+{
+	if(level.script == "zombie_cod5_sumpf" || level.script == "zombie_cod5_factory" || level.script == "zombie_theater")
+	{
+		level thread disable_dog_rounds();
+	}
+	else if(level.script == "zombie_pentagon")
+	{
+		level thread disable_thief_rounds();
+	}
+	else if(level.script == "zombie_cosmodrome")
+	{
+		level thread disable_monkey_rounds();
+	}
+}
+
+disable_dog_rounds()
+{
+	flag_wait( "all_players_connected" );
+	level.next_dog_round = 0;
+}
+
+disable_thief_rounds()
+{
+	flag_wait( "power_on" );
+	wait_network_frame();
+	level.prev_thief_round = 0;
+	level.next_thief_round = 999;
+}
+
+disable_monkey_rounds()
+{
+	flag_wait( "perk_bought" );
+	wait_network_frame();
+	level.next_monkey_round = 0;
 }
 
 disable_character_dialog()
@@ -477,6 +516,33 @@ round_restart(same_round)
 	flag_set( "spawn_zombies");
 }
 
+set_grief_viewmodel()
+{
+	if(self.vsteam == "cdc")
+	{
+		self SetViewModel("bo2_c_zom_hazmat_viewhands");
+	}
+	else if(self.vsteam == "cia")
+	{
+		self SetViewModel("bo2_c_zom_suit_viewhands");
+	}
+}
+
+set_grief_model()
+{
+	self DetachAll();
+	if(self.vsteam == "cdc")
+	{
+		self setModel("bo2_c_zom_player_cdc_fb");
+	}
+	else if(self.vsteam == "cia")
+	{
+		self setModel( "bo2_c_zom_player_cia_fb" );
+	}
+	self.voice = "american";
+	self.skeleton = "base";
+}
+
 grief_player_model()
 {
 	wait_network_frame();
@@ -863,27 +929,6 @@ remove_ee_songs()
 			level.meteor_counter = -1;
 			break;
 	}
-}
-
-remove_dog_rounds()
-{
-	flag_wait( "all_players_connected" );
-	level.next_dog_round = 0;
-}
-
-remove_thief_rounds()
-{
-	flag_wait( "power_on" );
-	wait_network_frame();
-	level.prev_thief_round = 0;
-	level.next_thief_round = 999;
-}
-
-remove_monkey_rounds()
-{
-	flag_wait( "perk_bought" );
-	wait_network_frame();
-	level.next_monkey_round = 0;
 }
 
 remove_init_spawn_delay()

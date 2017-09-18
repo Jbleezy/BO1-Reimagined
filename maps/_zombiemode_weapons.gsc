@@ -885,65 +885,103 @@ init_starting_chest_location()
 	for( i = 0; i < level.chests.size; i++ )
 	{
 		//set the initial box location from settings on maps that are random
-		if((level.script == "zombie_theater" || level.script == "zombie_pentagon" || level.script == "zombie_coast" || level.script == "zombie_temple" || level.script == "zombie_moon") && GetDvar(level.script + "_initial_box_location") != "random")
+		if(level.gamemode == "survival")
 		{
-			if(level.script == "zombie_pentagon")
+			if((level.script == "zombie_theater" || level.script == "zombie_pentagon" || level.script == "zombie_coast" || level.script == "zombie_temple" || level.script == "zombie_moon") && GetDvar(level.script + "_initial_box_location") != "random")
 			{
-				if(level.chests[i].script_noteworthy == GetDvar(level.script + "_initial_box_location"))
+				if(level.script == "zombie_pentagon")
+				{
+					if(level.chests[i].script_noteworthy == GetDvar(level.script + "_initial_box_location"))
+					{
+						level.chest_index = i;
+						level.chests[level.chest_index] hide_rubble();
+						level.chests[level.chest_index].hidden = false;
+					}
+					else
+					{
+						level.chests[i] hide_chest();
+					}
+				}
+				else
+				{
+					if(IsSubStr(level.chests[i].script_noteworthy, GetDvar(level.script + "_initial_box_location")))
+					{
+						level.chest_index = i;
+						level.chests[level.chest_index] hide_rubble();
+						level.chests[level.chest_index].hidden = false;
+					}
+					else
+					{
+						level.chests[i] hide_chest();
+					}
+				}
+			}
+			else if( isdefined( level.random_pandora_box_start ) && level.random_pandora_box_start == true )
+			{
+				if ( ( start_chest_found || (IsDefined( level.chests[i].start_exclude ) && level.chests[i].start_exclude == 1) ) )
+				{
+					level.chests[i] hide_chest();
+				}
+				else
 				{
 					level.chest_index = i;
 					level.chests[level.chest_index] hide_rubble();
 					level.chests[level.chest_index].hidden = false;
+					start_chest_found = true;
 				}
-				else
-				{
-					level.chests[i] hide_chest();
-				}
-			}
-			else
-			{
-				if(IsSubStr(level.chests[i].script_noteworthy, GetDvar(level.script + "_initial_box_location")))
-				{
-					level.chest_index = i;
-					level.chests[level.chest_index] hide_rubble();
-					level.chests[level.chest_index].hidden = false;
-				}
-				else
-				{
-					level.chests[i] hide_chest();
-				}
-			}
-		}
-		else if( isdefined( level.random_pandora_box_start ) && level.random_pandora_box_start == true )
-		{
-			if ( start_chest_found || (IsDefined( level.chests[i].start_exclude ) && level.chests[i].start_exclude == 1) )
-			{
-				level.chests[i] hide_chest();
-			}
-			else
-			{
-				level.chest_index = i;
-				level.chests[level.chest_index] hide_rubble();
-				level.chests[level.chest_index].hidden = false;
-				start_chest_found = true;
-			}
 
+			}
+			else
+			{
+				// Semi-random implementation (not completely random).  The list is randomized
+				//	prior to getting here.
+				// Pick from any box marked as the "start_chest"
+				if ( start_chest_found || !IsDefined(level.chests[i].script_noteworthy ) || ( !IsSubStr( level.chests[i].script_noteworthy, "start_chest" ) ) )
+				{
+					level.chests[i] hide_chest();
+				}
+				else
+				{
+					level.chest_index = i;
+					level.chests[level.chest_index] hide_rubble();
+					level.chests[level.chest_index].hidden = false;
+					start_chest_found = true;
+				}
+			}
 		}
 		else
 		{
-			// Semi-random implementation (not completely random).  The list is randomized
-			//	prior to getting here.
-			// Pick from any box marked as the "start_chest"
-			if ( start_chest_found || !IsDefined(level.chests[i].script_noteworthy ) || ( !IsSubStr( level.chests[i].script_noteworthy, "start_chest" ) ) )
+			if( ( isdefined( level.random_pandora_box_start ) && level.random_pandora_box_start == true ) || level.script == "zombie_pentagon" )
 			{
-				level.chests[i] hide_chest();
+				if ( start_chest_found )
+				{
+					level.chests[i] hide_chest();
+				}
+				else
+				{
+					level.chest_index = i;
+					level.chests[level.chest_index] hide_rubble();
+					level.chests[level.chest_index].hidden = false;
+					start_chest_found = true;
+				}
+
 			}
 			else
 			{
-				level.chest_index = i;
-				level.chests[level.chest_index] hide_rubble();
-				level.chests[level.chest_index].hidden = false;
-				start_chest_found = true;
+				// Semi-random implementation (not completely random).  The list is randomized
+				//	prior to getting here.
+				// Pick from any box marked as the "start_chest"
+				if ( start_chest_found || !IsDefined(level.chests[i].script_noteworthy ) || ( !IsSubStr( level.chests[i].script_noteworthy, "start_chest" ) ) )
+				{
+					level.chests[i] hide_chest();
+				}
+				else
+				{
+					level.chest_index = i;
+					level.chests[level.chest_index] hide_rubble();
+					level.chests[level.chest_index].hidden = false;
+					start_chest_found = true;
+				}
 			}
 		}
 	}
