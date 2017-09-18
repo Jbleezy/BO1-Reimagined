@@ -4700,6 +4700,8 @@ do_zombie_rise()
 
 	level thread zombie_rise_death(self, spot);
 
+	iprintln("got here");
+
 	anim_org = spot.origin;
 	if (self.zombie_rise_version == 2)
 	{
@@ -4717,9 +4719,10 @@ do_zombie_rise()
 		anim_ang = VectorToAngles(target_org - self.origin);
 	}
 
-	//not needed anymore (most likely)
-	/*if(IsSubStr(level.script, "zombie_cod5"))
+	//shi no numa still needs this for some reason... something to do with the water?
+	if(level.script == "zombie_cod5_sumpf")
 	{
+		self SetPlayerCollision(0);
 		if( !isDefined( spot.angles ) )
 		{
 			spot.angles = (0, 0, 0);
@@ -4741,7 +4744,8 @@ do_zombie_rise()
 		}
 		self unlink();
 		self.anchor delete();
-	}*/
+		self SetPlayerCollision(1);
+	}
 
 	spot thread zombie_rise_fx(self);
 

@@ -2,6 +2,18 @@
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
 
+init()
+{
+	if(level.gamemode == "survival")
+	{
+		return;
+	}
+
+	level thread turn_power_on();
+
+	level thread open_doors();
+}
+
 disable_character_dialog()
 {
 	while(1)
@@ -347,7 +359,7 @@ round_restart(same_round)
 	if( !IsDefined( level.custom_spawnPlayer ) )
 	{
 		// Custom spawn call for when they respawn from spectator
-		level.custom_spawnPlayer = ::spectator_respawn;
+		level.custom_spawnPlayer = maps\_zombiemode::spectator_respawn;
 	}
 	for(i=0;i<players.size;i++)
 	{
@@ -373,11 +385,11 @@ round_restart(same_round)
 			}
 		}
 	}
-	level thread award_grenades_for_survivors(); //get 2 extra grenades when you spawn back in
-	if(level.script == "zombie_pentagon")
+	level thread maps\_zombiemode::award_grenades_for_survivors(); //get 2 extra grenades when you spawn back in
+	/*if(level.script == "zombie_pentagon")
 		level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_defcon_reset" );
 	else
-		level thread play_sound_2d( "sam_nospawn" );
+		level thread play_sound_2d( "sam_nospawn" );*/
 	level.round_restart = false;
 	level notify( "round_restarted" );
 	if(level.gamemode == "snr")

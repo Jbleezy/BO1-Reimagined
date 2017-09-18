@@ -332,7 +332,7 @@ zipThink()
 								zipBuyTrigger[i] trigger_on();
 								zipBuyTrigger[i] sethintstring(&"ZOMBIE_TRAP_ACTIVE");
 
-								zipBuyTrigger[i] thread recallZipSwitch (180);
+								//zipBuyTrigger[i] thread recallZipSwitch (180);
 								//zipBuyTrigger[i] trigger_off();
 							}
 						}
@@ -342,11 +342,11 @@ zipThink()
 						play_sound_at_pos( "purchase", who.origin );
 
 						//if we used the trigger on the electric switch, we need to move the handle
-						/*if (IsDefined(self.script_noteworthy) && self.script_noteworthy == "static")
+						if (IsDefined(self.script_noteworthy) && self.script_noteworthy == "static")
 						{
 							self thread recallZipSwitch (180);
 							//self waittill ("recallLeverDone");
-						}*/
+						}
 
 						//set the score
 						who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
@@ -399,11 +399,11 @@ zipThink()
 						wait (waittime);
 
 						//if we used the electric switch, flip it back up after the cool down
-						/*if (IsDefined(self.script_noteworthy) && self.script_noteworthy == "static")
+						if (IsDefined(self.script_noteworthy) && self.script_noteworthy == "static")
 						{
 							self thread recallZipSwitch (-180);
 							//self waittill ("recallLeverDone");
-						}*/
+						}
 
 						for (i=0; i<zipBuyTrigger.size; i++)
 						{
@@ -422,7 +422,7 @@ zipThink()
 								zipBuyTrigger[i] trigger_on();
 								zipBuyTrigger[i] sethintstring(&"REIMAGINED_ZIPLINE_USE", self.zombie_cost);
 
-								zipBuyTrigger[i] thread recallZipSwitch (-180);
+								//zipBuyTrigger[i] thread recallZipSwitch (-180);
 							}
 							//zipBuyTrigger[i] trigger_on();
 						}

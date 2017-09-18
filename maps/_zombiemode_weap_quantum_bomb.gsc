@@ -226,6 +226,7 @@ quantum_bomb_select_result( position )
 		}
 	}
 
+	//guaranteed results (in order of priority)
 	forced_results = array("auto_revive", "give_nearest_perk", "open_nearest_door", "pack_or_unpack_current_weapon", "remove_digger", "random_weapon_powerup", "random_powerup", "random_bonus_or_lose_points_powerup", "player_teleport" );
 
 	for ( i = 0; i < forced_results.size; i++ )

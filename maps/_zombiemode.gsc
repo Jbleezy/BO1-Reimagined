@@ -9,6 +9,8 @@
 
 main()
 {
+	set_gamemode();
+	
 	level.player_too_many_weapons_monitor = true;
 	level.player_too_many_weapons_monitor_func = ::player_too_many_weapons_monitor;
 	level._dontInitNotifyMessage = 1;
@@ -189,7 +191,7 @@ main()
 	// No longer needed, uses inf client systems
 	// registerClientSys("hud");
 
-	set_gamemode();
+	maps\_zombiemode_grief::init();
 
 	level thread box_weapon_changes();
 

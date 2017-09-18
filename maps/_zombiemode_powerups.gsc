@@ -1126,6 +1126,7 @@ powerup_setup( powerup_override )
 
 		if ( IsDefined( level.zombie_weapons[self.weapon].upgrade_name ) && !RandomInt( 4 ) ) // 25% chance
 		{
+			self.unupgrade_weapon = self.weapon;
 			self.weapon = level.zombie_weapons[self.weapon].upgrade_name;
 		}
 
@@ -2713,6 +2714,14 @@ random_weapon_powerup( item, player )
 		return false;
 	}
 
+	weapon_unupgraded_string = undefined;
+
+	//store the unupgraded name
+	if(IsDefined(item.unupgrade_weapon))
+	{
+		weapon_unupgraded_string = item.unupgrade_weapon;
+	}
+
 	current_weapon = player GetCurrentWeapon();
 	current_weapon_type = WeaponInventoryType( current_weapon );
 	if ( !is_tactical_grenade( item.weapon ) )
@@ -2754,7 +2763,7 @@ random_weapon_powerup( item, player )
 		}
 	}
 
-	player thread maps\_zombiemode_weapons::weapon_give( weapon_string );
+	player thread maps\_zombiemode_weapons::weapon_give( weapon_string, weapon_unupgraded_string );
 	item.weapon_powerup_grabbed = true;
 	return true;
 }

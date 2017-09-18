@@ -261,7 +261,6 @@
 * Added placing sound
 
 #### Hacker
-* Speed Cola no longer speeds up hack time
 * Removed points reward given between rounds
 * Hacking a Max Ammo gives a Perk Bottle
 * Hacking a powerup will reset its timer
@@ -311,6 +310,7 @@
 * If thrown outside the map, the player who threw the QED gets teleported to a random location on the map
 * Free perk now only gives the perk to the player who threw the QED
 * Revive player effect now only revives players near where the QED was thrown
+* Random weapon powerup now gives player max ammo on a weapon if they already have the weapon
 * Removed red powerup spawn effect
 * Removed unupgrade current weapon effect
 * All other effects have a 25% chance of being put on the selected list
@@ -354,6 +354,8 @@
 
 ### Speed Cola
 * Switch weapons twice as fast
+* No longer increases board repair speed
+* No longer decreases Hacker hack time
 
 ### Double Tap
 * 1.5x bullet damage (stacks with Deadshot)
@@ -474,7 +476,6 @@
 
 ## Barriers
 * No longer have to hold use button in order to rebuild barriers, only press
-* Speed Cola no longer increases speed of board repairs
 * Fixed a bug where zombies would get stuck in a barrier if a board was repaired as the zombie was beginning to go over the barrier
 * All zombies behind a barrer will now taunt correctly
 * Zombies will no longer get stuck behind a barrier when there are many zombies behind one barrier
@@ -720,11 +721,8 @@
 * Make sure powerups that are added later in a match are added in randomly on the remaining powerups of the current cycle
 * NML: make amount of zombies that spawn in the beginning consistent
 * Moon: fix sliding sound keep playing when off object
-* Shino Zipline: make so trap switch only moves down if zipline is activated by trap switch
 * Make turrets better
 * Mule Kick: add jingle
-* Ray Gun: make sure ray gun isnt glitching out other AI types
-* QED: make random weapon powerup not spawn any weapons that any player has
 * Freezegun: Ammo now gets added to the clip at the same time that it does in the reload animation (added in weapon file but weapon file doesnt work with COTD)
 * Freezegun: Decreased first raise time by 50% (added in weapon file but weapon file doesnt work with COTD)
 
@@ -733,6 +731,7 @@
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * See if ChangeLevel() works in coop
+* Ray Gun: make sure ray gun isnt glitching out other AI types
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
@@ -743,7 +742,7 @@
 * Kiparis as box weapon?
 * Should NML have insta kill rounds?
 
-## BUGS THAT ARE STAYING (IT's A FEATURE, NOT A BUG):
+## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG):
 * Insta kill rounds
 * Powerup limit per round reset by teleporting on Moon
 * Damaging a zombie resets its hit animation

@@ -1323,6 +1323,12 @@ treasure_chest_think()
 
 				if( grabber == user && is_player_valid( user ) && !user is_drinking() && !is_placeable_mine( current_weapon ) && !is_equipment( current_weapon ) && "syrette_sp" != current_weapon)
 				{
+					//don't let player take weapon from box if they have the upgraded verison of the weapon
+					if(grabber has_upgrade(self.chest_origin.weapon_string))
+					{
+						continue;
+					}
+
 					bbPrint( "zombie_uses: playername %s playerscore %d teamscore %d round %d cost %d name %s x %f y %f z %f type magic_accept",
 						user.playername, user.score, level.team_pool[ user.team_num ].score, level.round_number, self.zombie_cost, self.chest_origin.weapon_string, self.origin );
 					self notify( "user_grabbed_weapon" );
@@ -2926,7 +2932,7 @@ treasure_chest_give_weapon( weapon_string )
 	current_weapon = undefined;
 	weapon_limit = 2;
 
-	if( self HasWeapon( weapon_string ) )
+	if( self has_weapon_or_upgrade( weapon_string ) )
 	{
 		if ( issubstr( weapon_string, "knife_ballistic_" ) )
 		{
@@ -3521,16 +3527,45 @@ get_pack_a_punch_weapon_options( weapon )
 	return self.pack_a_punch_weapon_options[weapon];
 }
 
-weapon_give( weapon, is_upgrade )
+weapon_give( weapon, weapon_unupgraded )
 {
 	primaryWeapons = self GetWeaponsListPrimaries();
 	current_weapon = undefined;
 	weapon_limit = 2;
 
 	//if is not an upgraded perk purchase
-	if( !IsDefined( is_upgrade ) )
+	/*if( !IsDefined( is_upgrade ) )
 	{
 		is_upgrade = false;
+	}*/
+
+	//just give ammo if player has weapon or unupgraded or upgraded version of weapon
+	//if weapon is upgraded, then weapon_unupgraded is defined
+	if(IsDefined(weapon_unupgraded))
+	{
+		if(self HasWeapon(weapon_unupgraded))
+		{
+			self GiveMaxAmmo(weapon_unupgraded);
+			return;
+		}
+		else if(self HasWeapon(level.zombie_weapons[weapon_unupgraded].upgrade_name))
+		{
+			self GiveMaxAmmo(level.zombie_weapons[weapon_unupgraded].upgrade_name);
+			return;
+		}
+	}
+	else
+	{
+		if(self HasWeapon(weapon))
+		{
+			self GiveMaxAmmo(weapon);
+			return;
+		}
+		else if(self HasWeapon(level.zombie_weapons[weapon].upgrade_name))
+		{
+			self GiveMaxAmmo(level.zombie_weapons[weapon].upgrade_name);
+			return;
+		}
 	}
 
  	if ( self HasPerk( "specialty_additionalprimaryweapon" ) )
