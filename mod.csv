@@ -202,6 +202,8 @@ fx,reimagined/fx_zombie_powerup_last
 
 //MATERIALS
 //material,specialty_ads_zombies
+material,cdc_logo
+material,cia_logo
 
 //XMODELS
 xmodel,weapon_rus_ppsh_smg

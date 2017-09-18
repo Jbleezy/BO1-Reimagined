@@ -410,7 +410,7 @@ set_run_speed()
 	rand = randomintrange( level.zombie_move_speed, level.zombie_move_speed + 35 );
 
 //	self thread print_run_speed( rand );
-	if( rand <= 35 )
+	if( rand <= 35 && level.gamemode == "survival" )
 	{
 		self.zombie_move_speed = "walk";
 	}
@@ -4699,8 +4699,6 @@ do_zombie_rise()
 	self.anchor delete();*/
 
 	level thread zombie_rise_death(self, spot);
-
-	iprintln("got here");
 
 	anim_org = spot.origin;
 	if (self.zombie_rise_version == 2)

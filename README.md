@@ -66,7 +66,8 @@
 * Fog option
 * Weapon cycle delay option
 * Options to enable/disable timer, zombie counter, zone names, and character names
-* Option for random map rotation on versus gamemodes
+* Option to choose which gamemode you want to play, including random which includes every gamemode except survival
+* Option for random map rotation on versus gamemodes (automatically loads new map after intermission screen)
 
 ## Weapons
 * All bullet damage (except for shotguns) will now deal full damage through multiple enemies and thin walls
@@ -643,6 +644,68 @@
 * Part 1 reward - 90 second Death Machines for the rest of the match
 * Full reward - permament perks (Quick Revive goes away when downed in solo, can be rebought with all perks)
 
+## Gamemodes
+
+### Survival
+* Standard gameplay
+
+### Versus
+* Competitive gameplay
+* Power is already on
+* No walking zombies
+* Shoot players to slow them down
+* Knife players to push them
+* Upgraded weapons slow players down 50% longer (or maybe slightly slower instead)
+* Ballistic knife, bowie knife, and sickle push players farther
+* Powerups have negative effects towards the team that did not grab the powerup
+
+#### Grief
+* Win by surviving a round while all the enemies are dead
+
+#### Free-for-all Grief
+* Win by surviving a round while all the enemies are dead
+* Players bleed out instantly unless they have Quick Revive
+
+#### Search & Rezurrect
+* Round based gamemode
+* Each player starts with 10,000 points
+* Each player will get 5,000 points at the beginning of a new round if they have less than 5,000 points
+* Unlimited zombies
+* Win a round killing the remainder of the zombies spawned on the map after all enemies have downed
+* If both teams die on a round, neither team will get a point
+* Win the game by winning 3 rounds
+
+#### King of the Hill
+* Unlimited zombies
+* Gain points by controlling an area of the map without any enemies contesting the area
+* Win the game by reaching the score limit
+
+#### Capture
+* Unlimited zombies
+* Gain points by capturing the enemy team's meat
+* 2 rounds (switch side after the first round)
+* Win the game by having the most points at the end of the game
+* First round ends if a team scores 3 points
+
+#### Race
+* Unlimited zombies
+* No Man's Land style round progression
+* First team to 250 kills wins
+
+#### Gun Game
+* Unlimited zombies
+* Win the game the game by progressing through all the weapons
+* Zombies will drop a gun increment powerup after a certain amount of kills
+* Only the player who killed the zombie can grab and see the gun increment powerup
+
+#### Turned
+* Unlimited zombies
+* Every player starts off not infected
+* When a player dies, they become infected
+* Infected player must attempt to infect the uninfected player
+* Win by being a survivor after the time limit or get all players infected
+* Unlimited zombies
+
 ## TODO:
 * Fix alive players movement being stopped when other players spawn in (caused from .sessionstate)
 * Fix projectiles disappearing
@@ -686,8 +749,8 @@
 * Add meat powerup to grief
 * Add EMP grenades to grief
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
-* Make trap hintstrings show time remaining for active and cooldown (use add_zombie_hint())
-* Remove marks on background of Deadshot perk emblem
+* Make trap hintstrings show time remaining for active and cooldown (try using add_zombie_hint())
+* Remove marks on background of Deadshot perk shader
 * Fix weapon order being changed
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)

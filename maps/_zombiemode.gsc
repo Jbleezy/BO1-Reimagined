@@ -10,7 +10,7 @@
 main()
 {
 	set_gamemode();
-	
+
 	level.player_too_many_weapons_monitor = true;
 	level.player_too_many_weapons_monitor_func = ::player_too_many_weapons_monitor;
 	level._dontInitNotifyMessage = 1;
@@ -1794,6 +1794,10 @@ onPlayerConnect_clientDvars()
 	self SetClientDvars("dtp_post_move_pause", 0,
 		"dtp_exhaustion_window", 100,
 		"dtp_startup_delay", 100);
+
+	//reset grief dvars
+	self SetClientDvars("cia_logo_on", 0,
+		"cdc_logo_on", 0);
 
 	//self SetClientDvar("perk_weapSwitchMultiplier", ".5");
 
@@ -3902,6 +3906,11 @@ create_chalk_hud( x )
 		x = 0;
 	}
 
+	if(level.gamemode != "survival")
+	{
+		x += 64;
+	}
+
 	hud = create_simple_hud();
 	hud.alignX = "left";
 	hud.alignY = "bottom";
@@ -4183,7 +4192,12 @@ chalk_one_up(override_round_number)
 		huds[0].horzAlign = "user_left";
 		//		huds[0].x = 0;
 		huds[0].y = -4;
-		huds[0].x = 4;
+		x = 4;
+		if(level.gamemode != "survival")
+		{
+			x += 64;
+		}
+		huds[0].x = x;
 		wait( 2 );
 
 		round destroy_hud();
@@ -4361,7 +4375,7 @@ round_think()
 {
 	for( ;; )
 	{
-		//level.test_variable = true;
+		level.test_variable = true;
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
@@ -7615,6 +7629,11 @@ round_time_loop()
 		players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_out");
 	}
 
+	if(!(level.gamemode == "survival" || level.gamemode == "grief" || level.gamemode == "ffa"))
+	{
+		return;
+	}
+
 	flag_wait( "begin_spawning" );
 
 	if(level.script == "zombie_moon")
@@ -7656,13 +7675,16 @@ round_time_loop()
 
 		level notify("stop_round_time");
 
-		round_total_time = to_mins_short(level.total_time);
-
-		players = get_players();
-		for(i=0;i<players.size;i++)
+		if(level.gamemode == "survival")
 		{
-			players[i] SetClientDvar("round_total_time", round_total_time);
-			players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_in");
+			round_total_time = to_mins_short(level.total_time);
+
+			players = get_players();
+			for(i=0;i<players.size;i++)
+			{
+				players[i] SetClientDvar("round_total_time", round_total_time);
+				players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_in");
+			}
 		}
 
 		level waittill("between_round_over");
@@ -7671,7 +7693,8 @@ round_time_loop()
 		for(i=0;i<players.size;i++)
 		{
 			players[i] send_message_to_csc("hud_anim_handler", "hud_round_time_out");
-			players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_out");
+			if(level.gamemode == "survival")
+				players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_out");
 		}
 
 		level waittill( "start_of_round" );

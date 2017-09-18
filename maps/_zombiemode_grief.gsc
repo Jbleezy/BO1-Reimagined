@@ -9,9 +9,65 @@ init()
 		return;
 	}
 
+	level thread post_all_players_connected();
+
 	level thread turn_power_on();
 
 	level thread open_doors();
+}
+
+post_all_players_connected()
+{
+	flag_wait("all_players_connected");
+
+	setup_grief_teams();
+
+	setup_grief_logo();
+}
+
+setup_grief_teams()
+{
+	players = get_players();
+	array = array("cdc", "cia");
+	array = array_randomize(array);
+	for(i=0;i<players.size;i++)
+	{
+		if(level.gamemode == "ffa" || level.gamemode == "gg" || level.gamemode == "turned")
+		{
+			if(!IsDefined(level.random_team_name))
+			{
+				level.random_team_name = random(array);
+			}
+			players[i].vsteam = level.random_team_name;
+		}
+		else
+		{
+			if(i / players.size < .5)
+			{
+				players[i].vsteam = array[0];
+			}
+			else
+			{
+				players[i].vsteam = array[1];
+			}
+		}
+	}
+}
+
+setup_grief_logo()
+{
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		if(players[i].vsteam == "cdc")
+		{
+			players[i] SetClientDvar("cdc_logo_on", 1);
+		}
+		else if(players[i].vsteam == "cia")
+		{
+			players[i] SetClientDvar("cia_logo_on", 1);
+		}
+	}
 }
 
 disable_character_dialog()
@@ -203,17 +259,37 @@ push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/b
 {
 	if(self.push_wait == false)
 	{
+		amount = 0;
 		self.push_wait = true;
-		if( self getstance() == "prone" )
-			self.push_wait = true;
-		else if((eAttacker._bowie_zm_equipped || eAttacker._sickle_zm_equipped || sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm") && self GetStance() == "crouch")
-			self setVelocity( vector_multiply(vectorNormalize( self.origin - eAttacker.origin ), 200 ) );
+		if( self GetStance() == "prone" )
+		{
+			wait .75;
+			self.push_wait = false;
+			return;
+		}
 		else if(eAttacker._bowie_zm_equipped || eAttacker._sickle_zm_equipped || sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm")
-			self setVelocity( vector_multiply(vectorNormalize( self.origin - eAttacker.origin ), 450 ) );
-		else if(self GetStance() == "crouch")
-			self setVelocity( vector_multiply(vectorNormalize( self.origin - eAttacker.origin ), 100 ) );
+		{
+			if(self GetStance() == "crouch")
+			{
+				amount = 150;
+			}
+			else
+			{
+				amount = 450;
+			}
+		}
 		else
-			self setVelocity( vector_multiply(vectorNormalize( self.origin - eAttacker.origin ), 300 ) );
+		{
+			if(self GetStance() == "crouch")
+			{
+				amount = 100;
+			}
+			else
+			{
+				amount = 300;	
+			}
+		}
+		self SetVelocity( VectorNormalize( self.origin - eAttacker.origin ) * (amount, amount, amount) );
 		wait .75;
 		self.push_wait = false;
 	}
@@ -404,7 +480,7 @@ round_restart(same_round)
 grief_player_model()
 {
 	wait_network_frame();
-	if(level.gamemode == "ffa")
+	if(level.gamemode == "ffa" || level.gamemode == "gg" || level.gamemode == "turned")
 	{
 		if(!IsDefined(level.random_model))
 			level.random_model = RandomInt(2);
@@ -825,23 +901,6 @@ remove_intro_text()
 	level.intro_hud[0] destroy();
 	level.intro_hud[1] destroy();
 	level.intro_hud[2] destroy();
-}
-
-setup_grief_teams()
-{
-	players = get_players();
-	for(i=0;i<players.size;i++)
-	{
-		if(level.gamemode == "ffa")
-			players[i].vsteam = i;
-		else
-		{
-			if(i / players.size < .5)
-				players[i].vsteam = 0;
-			else
-				players[i].vsteam = 1;
-		}
-	}
 }
 
 get_number_of_valid_enemy_players()
