@@ -4515,20 +4515,18 @@ award_grenades_for_survivors()
 			{
 				players[i] GiveWeapon( lethal_grenade );
 				players[i] SetWeaponAmmoClip( lethal_grenade, 0 );
-			}
-
-			if ( players[i] GetFractionMaxAmmo( lethal_grenade ) < .25 )
-			{
-				players[i] SetWeaponAmmoClip( lethal_grenade, 2 );
-			}
-			else if (players[i] GetFractionMaxAmmo( lethal_grenade ) < .5 )
-			{
-				players[i] SetWeaponAmmoClip( lethal_grenade, 3 );
+				ammo_clip = 0;
 			}
 			else
 			{
-				players[i] SetWeaponAmmoClip( lethal_grenade, 4 );
+				ammo_clip = players[i] GetWeaponAmmoClip(lethal_grenade);
 			}
+			ammo_clip += 2;
+			if(ammo_clip > 4)
+			{
+				ammo_clip = 4;
+			}
+			players[i] SetWeaponAmmoClip( lethal_grenade, ammo_clip );
 		}
 	}
 }
@@ -8179,10 +8177,10 @@ give_weapons_test()
 	wait_network_frame();
 	self SwitchToWeapon(wep);
 
-	self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
+	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
-	self giveweapon( "molotov_zm" );
-	self set_player_tactical_grenade( "molotov_zm" );
+	//self giveweapon( "molotov_zm" );
+	//self set_player_tactical_grenade( "molotov_zm" );
 
 	level thread maps\_zombiemode_grief::turn_power_on();
 

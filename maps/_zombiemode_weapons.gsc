@@ -3599,7 +3599,7 @@ weapon_give( weapon, weapon_unupgraded )
 			self GiveMaxAmmo(weapon);
 			return;
 		}
-		else if(self HasWeapon(level.zombie_weapons[weapon].upgrade_name))
+		else if(IsDefined(level.zombie_weapons[weapon].upgrade_name) && self HasWeapon(level.zombie_weapons[weapon].upgrade_name))
 		{
 			self GiveMaxAmmo(level.zombie_weapons[weapon].upgrade_name);
 			return;

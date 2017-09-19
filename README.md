@@ -733,22 +733,14 @@
 * Turn off Der Riese easter egg song noises after they have been activated
 * Fix barrel textures on Der Riese? (Haven't had it happen again)
 * Find a way to be able to shoot through more than 3 zombies
-* Add all other gamemodes
 * Figure out bug that causes cosmonaut to delete himself occasionally (might be fixed)
-* Make zombies go after monkey bombs instantly
-* Make it so betties can only be triggered by zombies with line of sight from bettys position
-* Add line of sight check for windows breaking on Moon
 * Fix mule kick weapon highlight text not working if player got perk from shang easter egg
 * Make insta kill powerups work in high rounds (might be fixed)
 * Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge (might be fixed)
 * Fix Ascension monkey pathing (might be fixed)
 * Fix kino round skip bug (might be fixed)
-* Add collision boxes near invincibilty spots on maps
 * Fix low grav with increased FPS
-* Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Make it easier to tell how many grenades you have on HUD
-* Remove collision from dogs while theyre spawning(dog SetPlayerCollision(0);)
-* Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
 * Remove blur when paused ingame
 * Make Shang power switches do things when only one is turned on
 * Add meat powerup to grief
@@ -764,7 +756,6 @@
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Change type 100 stock ammo to 180 unupgraded, 240 upgraded (from weapon file)
-* Fix stielhandgranata impact damage
 * Decrease crossbow explosion radius to 256, increase damage
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Disable easter eggs on all versus gamemodes
@@ -787,11 +778,18 @@
 * NML: make amount of zombies that spawn in the beginning consistent
 * Moon: fix sliding sound keep playing when off object
 * Make turrets better
-* Mule Kick: add jingle
 * Freezegun: Ammo now gets added to the clip at the same time that it does in the reload animation (added in weapon file but weapon file doesnt work with COTD)
 * Freezegun: Decreased first raise time by 50% (added in weapon file but weapon file doesnt work with COTD)
-* Remove survival options from versus gamemodes
 * Try adding 1st person mode to DOA
+* Remove collision from dogs while theyre spawning(dog SetPlayerCollision(0);)
+* Fix stielhandgranate impact damage
+* Mule Kick: add jingle
+* Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
+* Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
+* Add collision boxes near invincibilty spots on maps
+* Make zombies go after monkey bombs instantly
+* Make it so betties can only be triggered by zombies with line of sight from bettys position
+* Add line of sight check for windows breaking on Moon
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -843,10 +841,11 @@
 * **_lilrifa_** - menu scripting help
 * **_MasadaDRM_** - weapons and sound help
 * **_xSanchez78_** - client scripting help, localized string help
-* **_Kody_** -  Wunderwaffe gold camo
+* **_Kody_** -  Wunderwaffe gold camo, fixed CIA player viewmodel
 * **_SE2Dev_** -  LinkerMod
 * **_Nukem_** -  LinkerMod
 * **_DTZxPorter_** -  Wraith
+* **_Treyarch_** - Assets, source code (although some of it's bad), and an amazing base game
 
 ## TESTERS:
 * **_FleshCrunch_**
