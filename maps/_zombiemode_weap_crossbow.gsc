@@ -311,4 +311,6 @@ monkey_bolt_on_back( monkey_bolt, player_who_fired, player_with_back_bolt )
 			player_with_back_bolt giveachievement_wrapper( "SP_ZOM_SILVERBACK" );
 		}
 	}
+
+	level notify("attractor_positions_generated");
 }

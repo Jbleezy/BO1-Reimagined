@@ -27,7 +27,7 @@ main()
 	level.calc_closest_player_using_paths = true;
 	level.zombie_melee_in_water = true;
 	level.put_timed_out_zombies_back_in_queue = true;
-	level.use_alternate_poi_positioning = true;
+	level.use_alternate_poi_positioning = false;
 
 	//for tracking stats
 	level.zombies_timeout_spawn = 0;
@@ -1630,8 +1630,8 @@ difficulty_init()
 #/
 	for ( p=0; p<players.size; p++ )
 	{
-		players[p].score = 500000;
-		//players[p].score = 500;
+		//players[p].score = 500000;
+		players[p].score = 500;
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
 	}
@@ -1917,6 +1917,8 @@ onPlayerSpawned()
 		self thread set_melee_actionslot();
 
 		self thread no_weapon_watcher();
+
+		self thread disable_grenades_watcher();
 
 		if( isdefined( self.initialized ) )
 		{
@@ -4409,8 +4411,8 @@ round_think()
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
-			level.round_number = 20;
-			level.zombie_vars["zombie_spawn_delay"] = 1;
+			level.round_number = 100;
+			level.zombie_vars["zombie_spawn_delay"] = .08;
 			level.zombie_move_speed = 100;
 		}
 
@@ -5158,10 +5160,17 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 				}
 			}
 		}
-		//fix for downed players being able to damage alive players
 		if(IsPlayer(eAttacker) && eAttacker != self)
 		{
-			return 0;
+			if(level.gamemode != "survival")
+			{
+				self maps\_zombiemode_grief::grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc);
+			}
+			else
+			{
+				//fix for downed players being able to damage alive players
+				return 0;
+			}
 		}
 		//tracking player damage
 		if(is_true(eAttacker.is_zombie))
@@ -8169,20 +8178,26 @@ give_weapons_test()
 	//wep = "sniper_explosive_upgraded_zm";
 	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
-	wep = "tesla_gun_new_upgraded_zm";
+	//wep = "tesla_gun_new_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
 
-	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
+	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
-	self SwitchToWeapon(wep);
+	self SwitchToWeapon(wep);*/
 
-	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
+	self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
+
+	//self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
+
+	//self thread maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
+
+	//self thread maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
 
 	//self giveweapon( "molotov_zm" );
 	//self set_player_tactical_grenade( "molotov_zm" );
 
-	level thread maps\_zombiemode_grief::turn_power_on();
+	//level thread maps\_zombiemode_grief::turn_power_on();
 
 
 	/*wait 1;
@@ -8661,4 +8676,27 @@ reload_complete_notify(reload_time)
 	wait reload_time;
 
 	self notify("reload_complete");
+}
+
+disable_grenades_watcher()
+{
+	self endon("death");
+	self endon("disconnect");
+
+	flag_wait("all_players_spawned");
+
+	while(1)
+	{
+		if(self IsThrowingGrenade())
+		{
+			self DisableOffhandWeapons();
+			while(self IsThrowingGrenade())
+			{
+				//iprintln("throwing nade");
+				wait_network_frame();
+			}
+			self EnableOffhandWeapons();
+		}
+		wait_network_frame();
+	}
 }

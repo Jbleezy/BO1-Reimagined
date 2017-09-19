@@ -1094,12 +1094,16 @@ do_a_taunt()
 		return false;
 	}
 
+	self.is_taunting = true;
+
 	self.old_origin = self.origin;
 	if(GetDvar( #"zombie_taunt_freq") == "")
 	{
 		setdvar("zombie_taunt_freq","5");
 	}
 	freq = GetDvarInt( #"zombie_taunt_freq");
+
+	freq = 100;
 
 	if( freq >= randomint(100) )
 	{
@@ -1110,6 +1114,8 @@ do_a_taunt()
 		wait(getanimlength(anime));
 		self ForceTeleport(self.old_origin);
 	}
+
+	self.is_taunting = false;
 }
 
 /*------------------------------------
@@ -4230,11 +4236,9 @@ find_flesh()
 		//PI_CHANGE_END
 
 		self thread attractors_generated_listener();
-		self.zombie_path_timer = GetTime() + ( RandomFloatRange( 1, 3 ) * 1000 );// + path_timer_extension;
-		while( GetTime() < self.zombie_path_timer )
-		{
-			wait( 0.1 );
-		}
+		rand_float = RandomFloatRange( 1, 3 );
+		self.zombie_path_timer = GetTime() + ( rand_float * 1000 );// + path_timer_extension;
+		level waittill_notify_or_timeout("attractor_positions_generated", rand_float);
 		self notify( "path_timer_done" );
 
 		self zombie_history( "find flesh -> bottom of loop" );
@@ -4479,6 +4483,8 @@ zombie_follow_enemy()
 
 	level endon( "intermission" );
 
+	already_at_override = false;
+
 	while( 1 )
 	{
 		if( isDefined( self.enemyoverride ) && isDefined( self.enemyoverride[1] ) )
@@ -4492,10 +4498,44 @@ zombie_follow_enemy()
 				self OrientMode( "face point", self.enemyoverride[1].origin );
 			}
 			self.ignoreall = true;
-			self SetGoalPos( self.enemyoverride[0] );
+
+			//Little hack for now to make sure zombies don't taunt if it's a gersch
+			zomb_pois = getEntArray( "zombie_poi", "script_noteworthy" );
+			nearby_attract_func = false;
+			for(i=0;i<zomb_pois.size;i++)
+			{
+				if( IsDefined(zomb_pois[i].arrival_attract_func) && distanceSquared( self.origin, zomb_pois[i].origin ) < 192*192 )
+				{
+					nearby_attract_func = true;
+					break;
+				}
+			}
+
+			if( distanceSquared( self.origin, self.enemyoverride[0] ) < 128*128 && !nearby_attract_func )
+			{
+				if(!already_at_override)
+				{
+					self SetGoalPos( self.enemyoverride[0] );
+					self OrientMode( "face point", self.enemyoverride[1].origin );
+					wait(.5 + RandomFloat(.5));
+				}
+				already_at_override = true;
+				self do_a_taunt();
+			}
+			else
+			{
+				self SetGoalPos( self.enemyoverride[0] );
+			}
 		}
 		else if( IsDefined( self.favoriteenemy ) )
 		{
+			if(IsDefined(self.is_taunting) && self.is_taunting)
+			{
+				self StopAnimScripted();
+			}
+
+			already_at_override = false;
+
 			self.ignoreall = false;
 			self OrientMode( "face default" );
 			self SetGoalPos( self.favoriteenemy.origin );

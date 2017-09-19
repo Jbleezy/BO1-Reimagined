@@ -34,6 +34,7 @@
 * Intermission time decreased from 15 seconds to 10 seconds
 * Maps now auto restart in coop after intermission
 * Maps now auto restart correctly (box gets randomized again)
+* Zombies will now taunt when near a Monkey Bomb or an upgraded crossbow bolt
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
@@ -253,6 +254,7 @@
 
 ### Equipment
 * Limit of 120 mines placed on the map at once (each player can place equal amount of mines in coop)
+* Fixed a bug where a tactical grenade wouldn't work if it was thrown before a previously thrown tactical grenade had activated
 
 #### Bouncing Betty
 * Can now explode after being placed for 1 second (previously 2 seconds)
@@ -260,6 +262,10 @@
 
 #### Claymore
 * Added placing sound
+
+#### Gersch Device
+* Zombies now get attracted towards Gersch Devices immediately
+* Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
 
 #### Hacker
 * Removed points reward given between rounds
@@ -787,9 +793,9 @@
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Add collision boxes near invincibilty spots on maps
-* Make zombies go after monkey bombs instantly
 * Make it so betties can only be triggered by zombies with line of sight from bettys position
 * Add line of sight check for windows breaking on Moon
+* Fix Der Riese trap lights not turning red when active
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

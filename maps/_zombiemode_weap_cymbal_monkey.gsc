@@ -23,9 +23,9 @@ player_give_cymbal_monkey()
 #using_animtree( "zombie_cymbal_monkey" );
 player_handle_cymbal_monkey()
 {
-	self notify( "starting_monkey_watch" );
+	//self notify( "starting_monkey_watch" );
 	self endon( "disconnect" );
-	self endon( "starting_monkey_watch" );
+	//self endon( "starting_monkey_watch" );
 
 	// Min distance to attract positions
 	attract_dist_diff = level.monkey_attract_dist_diff;
@@ -46,76 +46,73 @@ player_handle_cymbal_monkey()
 		max_attract_dist = 1536;
 	}
 
-	while( true )
+	grenade = get_thrown_monkey();
+	self thread player_handle_cymbal_monkey();
+	if( IsDefined( grenade ) )
 	{
-		grenade = get_thrown_monkey();
-		if( IsDefined( grenade ) )
+		if( self maps\_laststand::player_is_in_laststand() )
 		{
-			if( self maps\_laststand::player_is_in_laststand() )
+			grenade delete();
+			return;
+		}
+		grenade hide();
+		model = spawn( "script_model", grenade.origin );
+		model SetModel( "weapon_zombie_monkey_bomb" );
+		model UseAnimTree( #animtree );
+		model linkTo( grenade );
+		model.angles = grenade.angles;
+
+		info = spawnStruct();
+		info.sound_attractors = [];
+		grenade thread monitor_zombie_groans( info );
+		velocitySq = 10000*10000;
+		oldPos = grenade.origin;
+		grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000 );
+		grenade.attract_to_origin = true;
+
+		while( velocitySq != 0 )
+		{
+			wait( 0.05 );
+
+			if( !isDefined( grenade ) )
 			{
-				grenade delete();
-				continue;
+				return;
 			}
-			grenade hide();
-			model = spawn( "script_model", grenade.origin );
-			model SetModel( "weapon_zombie_monkey_bomb" );
-			model UseAnimTree( #animtree );
-			model linkTo( grenade );
+
+			velocitySq = distanceSquared( grenade.origin, oldPos );
+			oldPos = grenade.origin;
+		}
+		if( isDefined( grenade ) )
+		{
+			model SetAnim( %o_monkey_bomb );
+			model thread monkey_cleanup( grenade );
+
+			model unlink();
+			model.origin = grenade.origin;
 			model.angles = grenade.angles;
 
-			info = spawnStruct();
-			info.sound_attractors = [];
-			grenade thread monitor_zombie_groans( info );
-			velocitySq = 10000*10000;
-			oldPos = grenade.origin;
-			grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000 );
-			grenade.attract_to_origin = true;
+			grenade resetmissiledetonationtime();
+			PlayFxOnTag( level._effect["monkey_glow"], model, "origin_animate_jnt" );
 
-			while( velocitySq != 0 )
+			valid_poi = check_point_in_active_zone( grenade.origin );
+
+			if( !valid_poi )
 			{
-				wait( 0.05 );
-
-				if( !isDefined( grenade ) )
-				{
-					break;
-				}
-
-				velocitySq = distanceSquared( grenade.origin, oldPos );
-				oldPos = grenade.origin;
+				valid_poi = check_point_in_playable_area( grenade.origin );
 			}
-			if( isDefined( grenade ) )
+
+			if(valid_poi)
 			{
-				model SetAnim( %o_monkey_bomb );
-				model thread monkey_cleanup( grenade );
-
-				model unlink();
-				model.origin = grenade.origin;
-				model.angles = grenade.angles;
-
-				grenade resetmissiledetonationtime();
-				PlayFxOnTag( level._effect["monkey_glow"], model, "origin_animate_jnt" );
-
-				valid_poi = check_point_in_active_zone( grenade.origin );
-
-				if( !valid_poi )
-				{
-					valid_poi = check_point_in_playable_area( grenade.origin );
-				}
-
-				if(valid_poi)
-				{
-					grenade thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
-					grenade thread wait_for_attractor_positions_complete();
-				}
-				else
-				{
-					self.script_noteworthy = undefined;
-				}
-
-				grenade thread do_monkey_sound( model, info );
+				grenade thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
+				grenade thread wait_for_attractor_positions_complete();
 			}
+			else
+			{
+				self.script_noteworthy = undefined;
+			}
+
+			grenade thread do_monkey_sound( model, info );
 		}
-		wait( 0.05 );
 	}
 }
 
@@ -178,6 +175,8 @@ do_monkey_sound( model, info )
 	{
 		thread play_sam_furnace();
 	}
+
+	level notify("attractor_positions_generated");
 }
 
 play_delayed_explode_vox()

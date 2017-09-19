@@ -252,32 +252,29 @@ player_give_quantum_bomb()
 
 player_handle_quantum_bomb()
 {
-	self notify( "starting_quantum_bomb" );
+	//self notify( "starting_quantum_bomb" );
 	self endon( "disconnect" );
-	self endon( "starting_quantum_bomb" );
+	//self endon( "starting_quantum_bomb" );
 	level endon( "end_game" );
 
 	// anything to set up before watching for the toss
 
-	while( true )
+	grenade = self get_thrown_quantum_bomb();
+	self thread player_handle_quantum_bomb();
+	if( IsDefined( grenade ) )
 	{
-		grenade = self get_thrown_quantum_bomb();
-		if( IsDefined( grenade ) )
+		if( self maps\_laststand::player_is_in_laststand() )
 		{
-			if( self maps\_laststand::player_is_in_laststand() )
-			{
-				grenade delete();
-				continue;
-			}
-
-			grenade waittill( "explode", position );
-			playsoundatposition( "wpn_quantum_exp", position );
-			result = self quantum_bomb_select_result( position );
-			//self thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "quant_good" );
-			self thread [[result.result_func]]( position );
-			quantum_bomb_debug_print_bold( "quantum_bomb exploded at " + position + ", result: '" + result.name + "'.\n" );
+			grenade delete();
+			return;
 		}
-		wait( 0.05 );
+
+		grenade waittill( "explode", position );
+		playsoundatposition( "wpn_quantum_exp", position );
+		result = self quantum_bomb_select_result( position );
+		//self thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "quant_good" );
+		self thread [[result.result_func]]( position );
+		quantum_bomb_debug_print_bold( "quantum_bomb exploded at " + position + ", result: '" + result.name + "'.\n" );
 	}
 }
 

@@ -120,25 +120,21 @@ player_give_nesting_dolls()
 #using_animtree( "zombie_cymbal_monkey" ); // WW: A new animtree or should we just use generic human's throw?
 player_handle_nesting_dolls()
 {
-	self notify( "starting_nesting_dolls" );
+	//self notify( "starting_nesting_dolls" );
 	self endon( "disconnect" );
-	self endon( "starting_nesting_dolls" );
+	//self endon( "starting_nesting_dolls" );
 
-	while( true )
+	grenade = get_thrown_nesting_dolls();
+	self thread player_handle_nesting_dolls();
+	if( IsDefined( grenade ) )
 	{
-		grenade = get_thrown_nesting_dolls();
-		if( IsDefined( grenade ) )
+		if( self maps\_laststand::player_is_in_laststand() )
 		{
-			if( self maps\_laststand::player_is_in_laststand() )
-			{
-				grenade delete();
-				continue;
-			}
-
-			self thread doll_spawner_cluster( grenade );
+			grenade delete();
+			return;
 		}
 
-		wait( 0.05 );
+		self thread doll_spawner_cluster( grenade );
 	}
 }
 
@@ -170,10 +166,10 @@ doll_spawner( start_grenade )
 		start_grenade thread doll_behavior_explode_when_stopped( self, self.doll_id, 0 );
 	}
 
+	start_grenade waittill( "spawn_doll", origin, angles );
+
 	while( num_dolls < max_dolls )
 	{
-		self waittill( "spawn_doll", origin, angles );
-
 		grenade_vel = self get_launch_velocity( origin, 2000 );
 		if ( grenade_vel == ( 0, 0, 0 ) )
 		{
@@ -187,6 +183,8 @@ doll_spawner( start_grenade )
 		//self thread nesting_dolls_tesla_nearby_zombies( grenade );
 
 		num_dolls++;
+
+		grenade waittill( "spawn_doll", origin, angles );
 	}
 }
 
@@ -218,10 +216,11 @@ doll_spawner_cluster( start_grenade )
 		start_grenade thread doll_behavior_explode_when_stopped( self, self.doll_id, 0 );
 	}
 
-	self waittill( "spawn_doll", origin, angles );
+	start_grenade waittill( "spawn_doll", origin, angles );
 
 	while( num_dolls < max_dolls )
 	{
+
 		// get a velocity
 		grenade_vel = self get_cluster_launch_velocity( angles, num_dolls );
 
@@ -430,7 +429,7 @@ doll_behavior_explode_when_stopped( parent, doll_id, index )
 		self.doll_model.angles = self.angles;
 
 		// spawn a new doll
-		parent notify( "spawn_doll", self.origin, self.angles );
+		self notify( "spawn_doll", self.origin, self.angles );
 
 		// spin the damage thread
 		self thread doll_do_damage( self.origin, parent, doll_id, index );

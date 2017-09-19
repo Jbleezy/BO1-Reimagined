@@ -20,7 +20,6 @@ a0,b1,c2,d3,e4,f5,g6,f7,g8,h9
 17,camo,t5_weapon_nesting_bomb_nikolai_c,t5_weapon_nesting_bomb_nikolai_c,t5_weapon_nesting_bomb_nikolai_c,t5_weapon_nesting_bomb_nikolai_c,t5_weapon_nesting_bomb_nikolai_c,,,
 18,camo,t5_weapon_nesting_bomb_takeo_c,t5_weapon_nesting_bomb_takeo_c,t5_weapon_nesting_bomb_takeo_c,t5_weapon_nesting_bomb_takeo_c,t5_weapon_nesting_bomb_takeo_c,,,
 19,camo,t5_weapon_nesting_bomb_richtofen_c,t5_weapon_nesting_bomb_richtofen_c,t5_weapon_nesting_bomb_richtofen_c,t5_weapon_nesting_bomb_richtofen_c,t5_weapon_nesting_bomb_richtofen_c,,,
-20,camo,real_gold,this is a fake camo to reserve the real_gold weapon,,,,,,
 ,,,,,,,,,
 0,lens,255 255 255,~-gmtl_weapon_reflex_lens_c,~-gmtl_weapon_acog_lens_c,,,,,
 1,lens,255 0 0,~-gmtl_weapon_reflex_lens_red_c,weapon_acog_lens_red_c,,,,,

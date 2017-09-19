@@ -60,9 +60,9 @@ player_give_black_hole_bomb()
 #using_animtree( "zombie_cymbal_monkey" ); // WW: A new animtree or should we just use generic human's throw?
 player_handle_black_hole_bomb()
 {
-	self notify( "starting_black_hole_bomb" );
+	//self notify( "starting_black_hole_bomb" );
 	self endon( "disconnect" );
-	self endon( "starting_black_hole_bomb" );
+	//self endon( "starting_black_hole_bomb" );
 
 	// Min distance to attract positions
 	attract_dist_diff = level.black_hole_attract_dist_diff;
@@ -83,94 +83,89 @@ player_handle_black_hole_bomb()
 		max_attract_dist = 2056; // WW: controls the pull distance
 	}
 
-	while( true )
+	grenade = get_thrown_black_hole_bomb();
+
+	self thread player_handle_black_hole_bomb();
+
+	if( IsDefined( grenade ) )
 	{
-		grenade = get_thrown_black_hole_bomb();
-		if( IsDefined( grenade ) )
+		if( self maps\_laststand::player_is_in_laststand() || is_true( self.intermission ) )
 		{
-			if( self maps\_laststand::player_is_in_laststand() || is_true( self.intermission ) )
-			{
-				grenade delete();
-				continue;
-			}
-			grenade hide();
-			model = spawn( "script_model", grenade.origin );
-			model SetModel( "t5_bh_bomb_world" );
-			model linkTo( grenade );
-			model.angles = grenade.angles;
+			grenade delete();
+			return;
+		}
+		grenade hide();
+		model = spawn( "script_model", grenade.origin );
+		model SetModel( "t5_bh_bomb_world" );
+		model linkTo( grenade );
+		model.angles = grenade.angles;
 
-			info = spawnStruct();
-			info.sound_attractors = [];
-			grenade thread monitor_zombie_groans( info ); // WW: this might need to change
-			velocitySq = 10000*10000;
+		info = spawnStruct();
+		info.sound_attractors = [];
+		grenade thread monitor_zombie_groans( info ); // WW: this might need to change
+		velocitySq = 10000*10000;
+		oldPos = grenade.origin;
+
+		while( velocitySq != 0 )
+		{
+			wait( 0.05 );
+
+			if( !isDefined( grenade ) )
+			{
+				return;
+			}
+
+			velocitySq = distanceSquared( grenade.origin, oldPos );
 			oldPos = grenade.origin;
+		}
+		if( isDefined( grenade ) )
+		{
+			model unlink();
+			model.origin = grenade.origin;
+			model.angles = grenade.angles;
+			model._black_hole_bomb_player = self; // saves who threw the grenade, used to assign the damage when zombies die
+			model.targetname = "zm_bhb";
+			model._new_ground_trace = true;
 
-			while( velocitySq != 0 )
+			grenade resetmissiledetonationtime();
+
+			if ( IsDefined( level.black_hole_bomb_loc_check_func ) )
 			{
-				wait( 0.05 );
-
-				if( !isDefined( grenade ) )
+				if ( [[ level.black_hole_bomb_loc_check_func ]]( grenade, model, info ) )
 				{
-					break;
+					return;
 				}
-
-				velocitySq = distanceSquared( grenade.origin, oldPos );
-				oldPos = grenade.origin;
 			}
-			if( isDefined( grenade ) )
+
+			if ( IsDefined( level._blackhole_bomb_valid_area_check ) )
 			{
-				model unlink();
-				model.origin = grenade.origin;
-				model.angles = grenade.angles;
-				model._black_hole_bomb_player = self; // saves who threw the grenade, used to assign the damage when zombies die
-				model.targetname = "zm_bhb";
-				model._new_ground_trace = true;
-
-				grenade resetmissiledetonationtime();
-
-				if ( IsDefined( level.black_hole_bomb_loc_check_func ) )
+				if ( [[ level._blackhole_bomb_valid_area_check ]]( grenade, model, self ) )
 				{
-					if ( [[ level.black_hole_bomb_loc_check_func ]]( grenade, model, info ) )
-					{
-						continue;
-					}
+					return;
+				}
+			}
+
+			valid_poi = check_point_in_active_zone( grenade.origin );
+			// ww: There used to be a second check here for check_point_in_playable_area which was from the cymbal monkey.
+			// This second check was removed because the black hole bomb has a reaction if it is tossed somewhere that can't
+			// be accessed. Something similar could be done for the cymbal monkey as well.
+
+
+			if(valid_poi)
+			{
+				self thread black_hole_bomb_kill_counter( model );
+				level thread black_hole_bomb_cleanup( grenade, model );
+
+				if( IsDefined( level._black_hole_bomb_poi_override ) ) // allows pois to be ignored immediately by ai
+				{
+					model thread [[level._black_hole_bomb_poi_override]]();
 				}
 
-				if ( IsDefined( level._blackhole_bomb_valid_area_check ) )
-				{
-					if ( [[ level._blackhole_bomb_valid_area_check ]]( grenade, model, self ) )
-					{
-						continue;
-					}
-				}
-
-				valid_poi = check_point_in_active_zone( grenade.origin );
-				// ww: There used to be a second check here for check_point_in_playable_area which was from the cymbal monkey.
-				// This second check was removed because the black hole bomb has a reaction if it is tossed somewhere that can't
-				// be accessed. Something similar could be done for the cymbal monkey as well.
-
-
-				if(valid_poi)
-				{
-					self thread black_hole_bomb_kill_counter( model );
-					level thread black_hole_bomb_cleanup( grenade, model );
-
-					if( IsDefined( level._black_hole_bomb_poi_override ) ) // allows pois to be ignored immediately by ai
-					{
-						model thread [[level._black_hole_bomb_poi_override]]();
-					}
-
-					model create_zombie_point_of_interest( max_attract_dist, num_attractors, 0, true, level.black_hole_bomb_poi_initial_attract_func, level.black_hole_bomb_poi_arrival_attract_func );
-					model SetClientFlag( level._SCRIPTMOVER_CLIENT_FLAG_BLACKHOLE );
-					grenade thread do_black_hole_bomb_sound( model, info ); // WW: This might not work if it is based on the model
-					level thread black_hole_bomb_teleport_init( grenade );
-					grenade.is_valid = true;
-				}
-				else
-				{
-					self.script_noteworthy = undefined;
-					level thread black_hole_bomb_stolen_by_sam( self, model );
-				}
+				model create_zombie_point_of_interest( max_attract_dist, num_attractors, 0, true, level.black_hole_bomb_poi_initial_attract_func, level.black_hole_bomb_poi_arrival_attract_func );
+				model SetClientFlag( level._SCRIPTMOVER_CLIENT_FLAG_BLACKHOLE );
+				grenade thread do_black_hole_bomb_sound( model, info ); // WW: This might not work if it is based on the model
+				level thread black_hole_bomb_teleport_init( grenade );
+				grenade.is_valid = true;
 			}
 			else
 			{
@@ -178,7 +173,11 @@ player_handle_black_hole_bomb()
 				level thread black_hole_bomb_stolen_by_sam( self, model );
 			}
 		}
-		wait( 0.05 );
+		else
+		{
+			self.script_noteworthy = undefined;
+			level thread black_hole_bomb_stolen_by_sam( self, model );
+		}
 	}
 }
 
@@ -213,6 +212,8 @@ black_hole_bomb_cleanup( parent, model )
 	}
 
 	level thread black_hole_bomb_corpse_collect( grenade_org );
+
+	level notify("attractor_positions_generated");
 }
 
 black_hole_bomb_corpse_collect( vec_origin )
@@ -250,6 +251,8 @@ do_black_hole_bomb_sound( model, info )
 //	sound_ent = spawn ("script_origin", self.origin);
 
 	fakeorigin = self.origin;
+
+	level notify("attractor_positions_generated");
 
 	self waittill( "explode", position );
 
@@ -660,6 +663,11 @@ black_hole_bomb_arrival_attract_func( ent_poi )
 
 	// once goal hits the ai is at their poi and should die
 	self waittill( "goal" );
+
+	/*if(!IsDefined(ent_poi))
+	{
+		return;
+	}*/
 
 	if( IsDefined( self._bhb_horizon_death ) )
 	{
