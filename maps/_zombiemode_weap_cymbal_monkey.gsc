@@ -67,7 +67,7 @@ player_handle_cymbal_monkey()
 		grenade thread monitor_zombie_groans( info );
 		velocitySq = 10000*10000;
 		oldPos = grenade.origin;
-		grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000 );
+		grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 0 );
 		grenade.attract_to_origin = true;
 
 		while( velocitySq != 0 )
@@ -138,6 +138,8 @@ monkey_cleanup( parent )
 
 do_monkey_sound( model, info )
 {
+	level notify("find_new_flesh");
+
 	monk_scream_vox = false;
 
 	if( isdefined(level.monk_scream_trig) && self IsTouching( level.monk_scream_trig))
@@ -176,7 +178,7 @@ do_monkey_sound( model, info )
 		thread play_sam_furnace();
 	}
 
-	level notify("attractor_positions_generated");
+	level notify("find_new_flesh");
 }
 
 play_delayed_explode_vox()

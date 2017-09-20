@@ -231,6 +231,8 @@
 * Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
 * Enemies that die from the Winter's Howl will now crumple away faster after being frozen
 * Upgraded camo now displays on more of the weapon
+* Ammo now gets added to the clip at the same time that it does in the reload animation
+* Decreased first raise time by 50%
 
 #### Scavenger
 * Damages an enemy on impact
@@ -255,6 +257,7 @@
 ### Equipment
 * Limit of 120 mines placed on the map at once (each player can place equal amount of mines in coop)
 * Fixed a bug where a tactical grenade wouldn't work if it was thrown before a previously thrown tactical grenade had activated
+* Grenades now cannot be thrown faster than intended when throwing a grenade right after after throwing one
 
 #### Bouncing Betty
 * Can now explode after being placed for 1 second (previously 2 seconds)
@@ -771,7 +774,6 @@
 * Fix fx inside top of Wunderwaffe on COTD
 * Make total timer and round timer text line up update whenever itself or the timer changes
 * Add game_mod as a submodule on github
-* Freeze Gun: make zombies crumple away instantly if they dropped a powerup
 * Check if zombies eyes fx should be deleting on death
 * Get WaW weapon files of classic map weapons working
 * Get animator to make correct anims for classic map weapons
@@ -784,8 +786,6 @@
 * NML: make amount of zombies that spawn in the beginning consistent
 * Moon: fix sliding sound keep playing when off object
 * Make turrets better
-* Freezegun: Ammo now gets added to the clip at the same time that it does in the reload animation (added in weapon file but weapon file doesnt work with COTD)
-* Freezegun: Decreased first raise time by 50% (added in weapon file but weapon file doesnt work with COTD)
 * Try adding 1st person mode to DOA
 * Remove collision from dogs while theyre spawning(dog SetPlayerCollision(0);)
 * Fix stielhandgranate impact damage

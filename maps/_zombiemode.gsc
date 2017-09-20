@@ -1630,8 +1630,8 @@ difficulty_init()
 #/
 	for ( p=0; p<players.size; p++ )
 	{
-		//players[p].score = 500000;
-		players[p].score = 500;
+		players[p].score = 500000;
+		//players[p].score = 500;
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
 	}
@@ -1804,10 +1804,7 @@ onPlayerConnect_clientDvars()
 		"dtp_startup_delay", 100);
 
 	//reset grief dvars
-	self SetClientDvars("cia_logo_on", 0,
-		"cdc_logo_on", 0);
-
-	//self SetClientDvar("perk_weapSwitchMultiplier", ".5");
+	self SetClientDvar("vs_logo_on", 0);
 
 	//self SetClientDvar("cg_drawpaused", 0);
 
@@ -4407,7 +4404,7 @@ round_think()
 {
 	for( ;; )
 	{
-		level.test_variable = true;
+		//level.test_variable = true;
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
@@ -8180,15 +8177,16 @@ give_weapons_test()
 	//wep = "shrink_ray_zm";
 	//wep = "tesla_gun_new_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
+	wep = "crossbow_explosive_zm";
 
-	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
+	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
-	self SwitchToWeapon(wep);*/
+	self SwitchToWeapon(wep);
 
-	self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
+	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
-	//self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
+	self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
 
 	//self thread maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
 
@@ -8197,7 +8195,7 @@ give_weapons_test()
 	//self giveweapon( "molotov_zm" );
 	//self set_player_tactical_grenade( "molotov_zm" );
 
-	//level thread maps\_zombiemode_grief::turn_power_on();
+	level thread maps\_zombiemode_grief::turn_power_on();
 
 
 	/*wait 1;

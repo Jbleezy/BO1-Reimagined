@@ -295,6 +295,8 @@ monkey_bolt_on_back( monkey_bolt, player_who_fired, player_with_back_bolt )
 		level._bolt_on_back = 0;
 	}
 
+	level notify("attractor_positions_generated");
+
 	monkey_bolt waittill( "explode" );
 
 	wait( 0.2 );

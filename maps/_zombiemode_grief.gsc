@@ -61,14 +61,8 @@ setup_grief_logo()
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		if(players[i].vsteam == "cdc")
-		{
-			players[i] SetClientDvar("cdc_logo_on", 1);
-		}
-		else if(players[i].vsteam == "cia")
-		{
-			players[i] SetClientDvar("cia_logo_on", 1);
-		}
+		players[i] SetClientDvar("vs_logo", players[i].vsteam + "_logo");
+		players[i] SetClientDvar("vs_logo_on", 1);
 	}
 }
 

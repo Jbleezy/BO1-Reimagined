@@ -1094,6 +1094,11 @@ do_a_taunt()
 		return false;
 	}
 
+	if(!IsDefined(level._zombie_board_taunt[self.animname]))
+	{
+		return;
+	}
+
 	self.is_taunting = true;
 
 	self.old_origin = self.origin;
@@ -4516,7 +4521,7 @@ zombie_follow_enemy()
 				if(!already_at_override)
 				{
 					self SetGoalPos( self.enemyoverride[0] );
-					self OrientMode( "face point", self.enemyoverride[1].origin );
+					self OrientMode( "face point", self.enemyoverride[0].origin );
 					wait(.5 + RandomFloat(.5));
 				}
 				already_at_override = true;

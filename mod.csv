@@ -188,8 +188,8 @@ weapon,sp/tesla_gun_upgraded_zm
 weapon,sp/tesla_gun_new_upgraded_zm
 //weapon,sp/zombie_stg44
 //weapon,sp/zombie_stg44_upgraded
-//weapon,sp/freezegun_zm
-//weapon,sp/freezegun_upgraded_zm
+weapon,sp/freezegun_zm
+weapon,sp/freezegun_upgraded_zm
 
 //SOUNDS
 sound,reimagined
@@ -247,3 +247,6 @@ rawfile,character/c_usa_dempsey_dlc5.gsc
 
 //STRINGS
 localize,reimagined
+
+//IGNORE FILES THAT ARE ALREADY LOADED IN THE BASE GAME
+ignore,ignorefiles
