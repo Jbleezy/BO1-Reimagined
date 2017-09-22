@@ -185,7 +185,7 @@ betty_think()
 		if( level.gamemode == "survival" && isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != "axis" )
 			continue;
 
-		if( level.gamemode != "survival" && ent.vsteam == self.vsteam )
+		if( level.gamemode != "survival" && IsPlayer(ent) && ent.vsteam == self.owner.vsteam )
 			continue;
 
 		break;

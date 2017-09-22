@@ -97,6 +97,8 @@ main()
 	// Initialize the zone manager above any scripts that make use of zone info
 	maps\_zombiemode_zone_manager::init();
 
+	maps\_zombiemode_grief::init();
+
 	// Call the other zombiemode scripts
 	maps\_zombiemode_audio::audio_init();
 	maps\_zombiemode_claymore::init();
@@ -190,8 +192,6 @@ main()
 
 	// No longer needed, uses inf client systems
 	// registerClientSys("hud");
-
-	maps\_zombiemode_grief::init();
 
 	level thread box_weapon_changes();
 
@@ -4423,7 +4423,7 @@ round_think()
 {
 	for( ;; )
 	{
-		//level.test_variable = true;
+		level.test_variable = true;
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
@@ -5922,6 +5922,11 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		final_damage = int(final_damage * 1.5);
 	if(attacker HasPerk("specialty_deadshot") && (meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET") && (sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck"))
 		final_damage = int(final_damage * 2);
+
+	if(is_true(attacker.half_damage))
+	{
+		final_damage = int(final_damage / 2);
+	}
 
 	//iprintln(weapon);
 	//iprintln(final_damage);
@@ -8267,7 +8272,8 @@ spectator_test()
 		if(self.sessionstate != "spectator")
 			continue;
 
-		self iprintln("spectator client: " + self.spectatorclient GetEntityNumber());
+		iprintln("spectator client ent number: " + self.spectatorclient GetEntityNumber());
+		iprintln("spectator client: " + self.spectatorclient);
 	}
 }
 

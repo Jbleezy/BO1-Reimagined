@@ -11,6 +11,8 @@ init()
 
 	init_fx();
 
+	level thread include_powerups();
+
 	level thread post_all_players_connected();
 
 	level thread turn_power_on();
@@ -23,8 +25,20 @@ init()
 init_fx()
 {
 	level._effect["grief_shock"] = LoadFX("grief/fx_grief_shock");
-	level._effect["powerup_on_red"] = loadfx( "grief/fx_zombie_powerup_on_red" );
-	level._effect["powerup_grabbed_red"] = loadfx( "grief/fx_zombie_powerup_red_grab" );
+}
+
+include_powerups()
+{
+	include_powerup("grief_empty_clip");
+	include_powerup("grief_lose_points");
+	include_powerup("grief_half_points");
+	include_powerup("grief_half_damage");
+	include_powerup("grief_slow_down");
+	include_powerup("meat");
+	wait_network_frame();
+	level.zombie_powerup_array = [];
+	level.zombie_powerup_array = array("fire_sale", "grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_slow_down", "meat");
+	maps\_zombiemode_powerups::randomize_powerups();
 }
 
 post_all_players_connected()
@@ -314,6 +328,11 @@ slowdown(weapon, mod, eAttacker, loc)
 		self.move_speed = 1;
 	}
 
+	if(!IsDefined(self.slowdown_wait))
+	{
+		self.slowdown_wait = false;
+	}
+
 	if(self.slowdown_wait == false)
 	{
 		if(weapon == "mine_bouncing_betty" && self getstance() == "prone")
@@ -325,7 +344,7 @@ slowdown(weapon, mod, eAttacker, loc)
 			PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
 			self AllowSprint(false);
 			self setblur( 1, .1 );
-			
+
 			if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon) || weapon == "zombie_bullet_crouch" || is_placeable_mine(weapon) || is_tactical_grenade(weapon) || weapon == "sniper_explosive_zm" || ( eAttacker HasPerk( "specialty_flakjacket" ) && eAttacker.divetoprone == 1 && mod == "MOD_GRENADE_SPLASH"))
 			{
 				self setMoveSpeedScale( self.move_speed * .2 );	
@@ -1429,9 +1448,4 @@ reduce_survive_zombie_amount()
 		}
 		wait 1;
 	}
-}
-
-choose_gamemode()
-{
-	self OpenMenu();
 }

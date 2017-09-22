@@ -22,7 +22,7 @@ player_add_points( event, mod, hit_location ,is_dog)
 
 	player_points = 0;
 	team_points = 0;
-	multiplier = get_points_multiplier();
+	multiplier = self get_points_multiplier();
 
 	switch( event )
 	{
@@ -81,7 +81,7 @@ player_add_points( event, mod, hit_location ,is_dog)
 			break;
 
 		case "damage_ads":
-			player_points = Int( level.zombie_vars["zombie_score_damage_normal"] * 1.25 );
+			player_points = level.zombie_vars["zombie_score_damage_normal"];
 			break;
 
 		case "rebuild_board":
@@ -115,8 +115,10 @@ player_add_points( event, mod, hit_location ,is_dog)
 			break;
 	}
 
-	player_points = multiplier * round_up_score( player_points, 5 );
-	team_points = multiplier * round_up_score( team_points, 5 );
+	//player_points = multiplier * round_up_score( player_points, 5 );
+	//team_points = multiplier * round_up_score( team_points, 5 );
+	player_points = int(multiplier * player_points);
+	team_points = int(multiplier * team_points);
 
 	if ( isdefined( self.point_split_receiver ) && (event == "death" || event == "ballistic_knife_death") )
 	{
@@ -141,7 +143,7 @@ player_add_points( event, mod, hit_location ,is_dog)
 
 get_points_multiplier()
 {
-	multiplier = level.zombie_vars["zombie_point_scalar"];
+	multiplier = self.zombie_vars["zombie_point_scalar"];
 
 	if( level.mutators["mutator_doubleMoney"] )
 	{
