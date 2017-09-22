@@ -199,6 +199,9 @@ stringtable,weaponoptions.csv
 
 //FX
 fx,reimagined/fx_zombie_powerup_last
+fx,grief/fx_grief_shock
+fx,grief/fx_zombie_powerup_on_red
+fx,grief/fx_zombie_powerup_red_grab
 
 //MATERIALS
 //material,specialty_ads_zombies

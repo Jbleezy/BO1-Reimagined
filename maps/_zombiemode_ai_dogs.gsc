@@ -303,6 +303,7 @@ dog_spawn_fx( ai, ent )
 
 	wait( 0.1 ); // dog should come out running after this wait
 	ai show();
+	ai SetPlayerCollision(1);
 	ai.ignoreme = false; // don't let attack dogs give chase until the wolf is visible
 	ai notify( "visible" );
 }
@@ -642,6 +643,7 @@ dog_init()
 
 	self thread maps\_zombiemode::round_spawn_failsafe();
 	self hide();
+	self SetPlayerCollision(0);
 	self thread magic_bullet_shield();
 	self dog_fx_eye_glow();
 	self dog_fx_trail();
@@ -916,7 +918,7 @@ special_dog_spawn( spawners, num_to_spawn )
 				spawn_point thread dog_spawn_fx( ai );
 				//					level.zombie_total--;
 				count++;
-				//flag_set( "dog_clips" );
+				flag_set( "dog_clips" );
 			}
 		}
 		else
@@ -932,7 +934,7 @@ special_dog_spawn( spawners, num_to_spawn )
 					spawn_loc thread dog_spawn_fx( ai, spawn_loc );
 //					level.zombie_total--;
 					count++;
-					//flag_set( "dog_clips" );
+					flag_set( "dog_clips" );
 				}
 			}
 			else
@@ -947,7 +949,7 @@ special_dog_spawn( spawners, num_to_spawn )
 					spawn_point thread dog_spawn_fx( ai );
 //					level.zombie_total--;
 					count++;
-					//flag_set( "dog_clips" );
+					flag_set( "dog_clips" );
 				}
 			}
 		}

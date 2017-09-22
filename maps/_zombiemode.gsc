@@ -588,6 +588,9 @@ init_strings()
 	PrecacheString( &"REIMAGINED_WEAPONCOSTAMMO_UPGRADE_HACKED" );
 	PrecacheString( &"REIMAGINED_MYSTERY_BOX" );
 
+	PrecacheString( &"REIMAGINED_YOU_WIN" );
+	PrecacheString( &"REIMAGINED_YOU_LOSE" );
+
 	switch(ToLower(GetDvar(#"mapname")))
 	{
 		case "zombie_theater":
@@ -1765,7 +1768,6 @@ onPlayerConnect_clientDvars()
 		"cg_drawSpectatorMessages", "0",
 		"ui_hud_hardcore", "0",
 		"playerPushAmount", "1",
-		"g_friendlyFireDist", "0",
 		"g_deadchat", "1",
 		"cg_friendlyNameFadeOut", "1",
 		"player_backSpeedScale", "1",
@@ -1789,7 +1791,7 @@ onPlayerConnect_clientDvars()
 	//self setClientDvar("cg_weaponCycleDelay", "100"); //added in menu options
 
 	//TODO: check if I need both of these
-	self setClientDvar( "aim_lockon_pitch_strength", 0 );
+	self setClientDvar( "aim_lockon_pitch_strength", 100 );
 	self setClientDvar( "aim_automelee_enabled", 0 );
 
 	self SetClientDvar("r_zombieNameAllowDevList", 0); //disable dev names on cosmonaut
@@ -1797,6 +1799,8 @@ onPlayerConnect_clientDvars()
 	self SetClientDvar("cg_drawFPSLabels", 0); //makes FPS area in corner smaller
 
 	//self SetClientDvar("sv_cheats", 0); //uncomment on release
+
+	self SetClientDvar("g_friendlyFireDist", 0);
 
 	//dtp buffs
 	self SetClientDvars("dtp_post_move_pause", 0,
@@ -1831,7 +1835,14 @@ checkForAllDead()
 
 	if( count==0 )
 	{
-		level notify( "end_game" );
+		if(level.gamemode == "survival")
+		{
+			level notify( "end_game" );
+		}
+		else
+		{
+			level thread maps\_zombiemode_grief::round_restart();
+		}
 	}
 }
 
@@ -1917,6 +1928,8 @@ onPlayerSpawned()
 
 		self thread disable_grenades_watcher();
 
+		self thread disable_melee_watcher();
+
 		if( isdefined( self.initialized ) )
 		{
 			if( self.initialized == false )
@@ -1958,6 +1971,7 @@ onPlayerSpawned()
 				//self thread player_health_watcher();
 				//self thread points_cap();
 				self thread give_weapons_test();
+				self thread spectator_test();
 				//self thread button_pressed_test();
 				//self thread velocity_test();
 
@@ -3504,47 +3518,7 @@ round_spawning()
 		players[i].zombification_time = 0;
 	}
 
-	max = level.zombie_vars["zombie_max_ai"];
-
-	multiplier = level.round_number / 5;
-	if( multiplier < 1 )
-	{
-		multiplier = 1;
-	}
-
-	// After round 10, exponentially have more AI attack the player
-	if( level.round_number >= 10 )
-	{
-		multiplier *= level.round_number * 0.15;
-	}
-
-	player_num = get_players().size;
-
-	if( player_num == 1 )
-	{
-		max += int( ( 0.5 * level.zombie_vars["zombie_ai_per_player"] ) * multiplier );
-	}
-	else
-	{
-		max += int( ( ( player_num - 1 ) * level.zombie_vars["zombie_ai_per_player"] ) * multiplier );
-	}
-
-	if( !isDefined( level.max_zombie_func ) )
-	{
-		level.max_zombie_func = ::default_max_zombie_func;
-	}
-
-	// Now set the total for the new round, except when it's already been set by the
-	//	kill counter.
-	if ( !(IsDefined( level.kill_counter_hud ) && level.zombie_total > 0) )
-	{
-		level.zombie_total = [[ level.max_zombie_func ]]( max );
-	}
-
-	if ( IsDefined( level.zombie_total_set_func ) )
-	{
-		level thread [[ level.zombie_total_set_func ]]();
-	}
+	ai_calculate_amount();
 
 	if ( level.round_number < 10 )
 	{
@@ -3666,6 +3640,51 @@ round_spawning()
 
 		wait( level.zombie_vars["zombie_spawn_delay"] );
 		wait_network_frame();
+	}
+}
+
+ai_calculate_amount()
+{
+	max = level.zombie_vars["zombie_max_ai"];
+
+	multiplier = level.round_number / 5;
+	if( multiplier < 1 )
+	{
+		multiplier = 1;
+	}
+
+	// After round 10, exponentially have more AI attack the player
+	if( level.round_number >= 10 )
+	{
+		multiplier *= level.round_number * 0.15;
+	}
+
+	player_num = get_players().size;
+
+	if( player_num == 1 )
+	{
+		max += int( ( 0.5 * level.zombie_vars["zombie_ai_per_player"] ) * multiplier );
+	}
+	else
+	{
+		max += int( ( ( player_num - 1 ) * level.zombie_vars["zombie_ai_per_player"] ) * multiplier );
+	}
+
+	if( !isDefined( level.max_zombie_func ) )
+	{
+		level.max_zombie_func = ::default_max_zombie_func;
+	}
+
+	// Now set the total for the new round, except when it's already been set by the
+	//	kill counter.
+	if ( !(IsDefined( level.kill_counter_hud ) && level.zombie_total > 0) )
+	{
+		level.zombie_total = [[ level.max_zombie_func ]]( max );
+	}
+
+	if ( IsDefined( level.zombie_total_set_func ) )
+	{
+		level thread [[ level.zombie_total_set_func ]]();
 	}
 }
 
@@ -4452,6 +4471,18 @@ round_think()
 		if(flag("insta_kill_round"))
 		{
 			flag_clear("insta_kill_round");
+		}
+
+		if(level.gamemode != "survival")
+		{
+			for(i=0;i<players.size;i++)
+			{
+				if(players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0 && players.size > 1)
+				{
+					level notify("end_game");
+					return;
+				}
+			}
 		}
 
 		level thread maps\_zombiemode_audio::change_zombie_music( "round_end" );
@@ -5303,6 +5334,11 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		level waittill( "forever" );
 	}
 
+	if(level.gamemode != "survival")
+	{
+		self maps\_zombiemode_grief::store_player_weapons();
+	}
+
 	count = 0;
 	for( i = 0; i < players.size; i++ )
 	{
@@ -5323,7 +5359,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 	//}
 	//else
 	//{
-	if ( players.size == 1 && flag( "solo_game" ) )
+	if ( players.size == 1 && flag( "solo_game" ) && level.gamemode == "survival" )
 	{
 		if ( self.lives == 0 )
 		{
@@ -5339,7 +5375,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 	solo_death = ( players.size == 1 && flag( "solo_game" ) && self.lives == 0 ); // there is only one player AND the flag is set AND self.lives equals 0
 	non_solo_death = ( players.size > 1 || ( players.size == 1 && !flag( "solo_game" ) ) ); // the player size is greater than one OR ( players.size equals 1 AND solo flag isn't set )
 
-	if ( solo_death || non_solo_death ) // if only one player on their last life or any game that started with more than one player
+	if ( (solo_death || non_solo_death) ) // if only one player on their last life or any game that started with more than one player
 	{
 		self thread maps\_laststand::PlayerLastStand( eInflictor, eAttacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime );
 		self player_fake_death();
@@ -5347,33 +5383,21 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 
 	if( count == players.size )
 	{
-		//if ( !maps\_zombiemode_solo::solo_has_lives() )
-		//{
-
-		if ( players.size == 1 && flag( "solo_game" ) )
+		if ( players.size == 1 && flag( "solo_game" ) && self.lives > 0 )
 		{
-			if ( self.lives == 0 ) // && !self maps\_laststand::player_is_in_laststand()
-			{
-
-				level notify("pre_end_game");
-				wait_network_frame();
-
-				level notify( "end_game" );
-			}
-			else
-			{
-				self thread wait_and_revive();
-				return finalDamage;
-			}
+			self thread wait_and_revive();
+			return finalDamage;
 		}
-		else
+		else if(level.gamemode == "survival")
 		{
 			level notify("pre_end_game");
 			wait_network_frame();
-
 			level notify( "end_game" );
 		}
-		//}
+		else
+		{
+			level thread maps\_zombiemode_grief::round_restart();
+		}
 
 		return 0;	// MM (09/16/09) Need to return something
 	}
@@ -6059,6 +6083,9 @@ end_game()
 		players[i].zombie_vars["zombie_powerup_insta_kill_time"] = 0;
 		players[i].zombie_vars["zombie_powerup_fire_sale_time"] = 0;
 		players[i].zombie_vars["zombie_powerup_point_doubler_time"] = 0;
+
+		players[i] EnableInvulnerability();
+		players[i] FreezeControls(true);
 	}
 
 	StopAllRumbles();
@@ -6108,8 +6135,18 @@ end_game()
 			survived[i].y += 40;
 		}
 
-		//OLD COUNT METHOD
-		if( level.round_number < 2 )
+		if(level.gamemode != "survival")
+		{
+			if(players[i] maps\_zombiemode_grief::is_team_valid())
+			{
+				survived[i] SetText( &"REIMAGINED_YOU_WIN" );
+			}
+			else
+			{
+				survived[i] SetText( &"REIMAGINED_YOU_LOSE" );
+			}
+		}
+		else if( level.round_number < 2 )
 		{
 			if( level.script == "zombie_moon" )
 			{
@@ -6285,6 +6322,8 @@ player_fake_death()
 	self AllowProne( true );
 	self AllowStand( false );
 	self AllowCrouch( false );
+
+	self SetStance("prone");
 
 	self.ignoreme = true;
 	self EnableInvulnerability();
@@ -7872,7 +7911,7 @@ zombies_remaining_hud()
 		else
 		{
 			zombs = level.zombie_total + get_enemy_count();
-			if(zombs == 0)
+			if(zombs == 0 || is_true(level.round_restart))
 			{
 				if(GetDvar("zombs_remaining") != "")
 				{
@@ -8175,9 +8214,9 @@ give_weapons_test()
 	//wep = "sniper_explosive_upgraded_zm";
 	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
-	//wep = "tesla_gun_new_upgraded_zm";
+	wep = "tesla_gun_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
-	wep = "crossbow_explosive_zm";
+	//wep = "crossbow_explosive_zm";
 
 	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
@@ -8186,16 +8225,18 @@ give_weapons_test()
 
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
-	self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
+	//self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
 
 	//self thread maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
 
 	//self thread maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
 
-	//self giveweapon( "molotov_zm" );
-	//self set_player_tactical_grenade( "molotov_zm" );
+	self giveweapon( "molotov_zm" );
+	self set_player_tactical_grenade( "molotov_zm" );
 
 	level thread maps\_zombiemode_grief::turn_power_on();
+
+	//wait 5;
 
 
 	/*wait 1;
@@ -8212,6 +8253,22 @@ give_weapons_test()
 
 		wait 40;
 	}*/
+}
+
+spectator_test()
+{
+	self endon("disconnect");
+	self endon("death");
+
+	while(1)
+	{
+		wait 1;
+
+		if(self.sessionstate != "spectator")
+			continue;
+
+		self iprintln("spectator client: " + self.spectatorclient GetEntityNumber());
+	}
 }
 
 //removes idle sway on sniper scopes
@@ -8396,9 +8453,18 @@ button_pressed_test()
 
 set_melee_actionslot()
 {
-	self GiveWeapon("combat_knife_zm");
-	wait_network_frame();
-	self SetActionSlot(2, "weapon", "combat_knife_zm");
+	wep = undefined;
+	melee = self get_player_melee_weapon();
+	if(IsDefined(melee))
+	{
+		wep = "combat_" + melee;
+	}
+
+	if(IsDefined(wep))
+	{
+		self GiveWeapon(wep);
+		self SetActionSlot(2, "weapon", wep);
+	}
 }
 
 //gives player knife in hand when they have no weapon
@@ -8600,13 +8666,16 @@ melee_notify()
 
 	while(1)
 	{
-		if(self MeleeButtonPressed() && self IsMeleeing())
+		if(self IsMeleeing())
 		{
 			self notify("melee");
 			while(self IsMeleeing())
 				wait_network_frame();
 		}
-		wait_network_frame();
+		else
+		{
+			wait_network_frame();
+		}
 	}
 }
 
@@ -8690,11 +8759,47 @@ disable_grenades_watcher()
 			self DisableOffhandWeapons();
 			while(self IsThrowingGrenade())
 			{
-				//iprintln("throwing nade");
 				wait_network_frame();
 			}
 			self EnableOffhandWeapons();
 		}
 		wait_network_frame();
+	}
+}
+
+disable_melee_watcher()
+{
+	self endon("death");
+	self endon("disconnect");
+
+	flag_wait("all_players_spawned");
+
+	while(1)
+	{
+		self waittill("melee");
+
+		current_wep = self GetCurrentWeapon();
+		if(self GetCurrentWeaponClipAmmo() == 0 && WeaponClipSize(current_wep) >= 1)
+		{
+			self DisableWeaponCycling();
+			while(self IsMeleeing())
+			{
+				wait_network_frame();
+			}
+			self EnableWeaponCycling();
+		}
+		else if(self AttackButtonPressed())
+		{
+			self AllowMelee(false);
+			wait 1;
+			self AllowMelee(true);
+		}
+		else
+		{
+			while(self IsMeleeing())
+			{
+				wait_network_frame();
+			}
+		}
 	}
 }

@@ -378,8 +378,8 @@ Laststand_Bleedout( delay )
 
 	while ( self.bleedout_time > Int( delay * 0.5 ) )
 	{
-		self.bleedout_time -= 1;
-		wait( 1 );
+		self.bleedout_time -= .5;
+		wait( .5 );
 	}
 
 	if ( GetDvar( #"zombiemode" ) == "1" )
@@ -393,8 +393,8 @@ Laststand_Bleedout( delay )
 
 	while ( self.bleedout_time > 0 )
 	{
-		self.bleedout_time -= 1;
-		wait( 1 );
+		self.bleedout_time -= .5;
+		wait( .5 );
 	}
 
 	//CODER_MOD: TOMMYK 07/13/2008

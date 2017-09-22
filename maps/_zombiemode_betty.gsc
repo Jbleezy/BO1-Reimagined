@@ -153,7 +153,6 @@ betty_think()
 	self.owner.mines = array_add( self.owner.mines, self );
 
 	amount = 120 / get_players().size;
-	iprintln(self.owner.mines.size);
 
 	if( self.owner.mines.size > amount )
 	{
@@ -177,10 +176,16 @@ betty_think()
 		if(IsDefined(self.too_many_mines_explode) && self.too_many_mines_explode)
 			break;
 
+		if(!BulletTracePassed(trigger.origin + (0, 0, 30), ent.origin + (0, 0, 30), false, undefined))
+			continue;
+
 		if ( isdefined( self.owner ) && ent == self.owner )
 			continue;
 
-		if( isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != "axis" )
+		if( level.gamemode == "survival" && isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != "axis" )
+			continue;
+
+		if( level.gamemode != "survival" && ent.vsteam == self.vsteam )
 			continue;
 
 		break;

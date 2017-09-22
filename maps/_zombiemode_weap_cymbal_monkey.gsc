@@ -138,7 +138,7 @@ monkey_cleanup( parent )
 
 do_monkey_sound( model, info )
 {
-	level notify("find_new_flesh");
+	level notify("attractor_positions_generated");
 
 	monk_scream_vox = false;
 
@@ -178,7 +178,7 @@ do_monkey_sound( model, info )
 		thread play_sam_furnace();
 	}
 
-	level notify("find_new_flesh");
+	level notify("attractor_positions_generated");
 }
 
 play_delayed_explode_vox()

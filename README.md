@@ -497,7 +497,7 @@
 * 4 round and 5 round special rounds will happen more equally now
 * Max health: 1 million
 * Fixed a bug that caused ceiling spawns to be able to be disabled
-* Fixed a bug that caused spawning risers to collide with players at their initial spawn locations
+* Fixed a bug that caused spawning zombies to be able to collide with players when they were still invisible to the player
 * Zombies can now gib when damaged from the Bowie Knife or Sickle
 * Fixed certain zombie swipes that damaged players at incorrect times
 
@@ -796,6 +796,9 @@
 * Make it so betties can only be triggered by zombies with line of sight from bettys position
 * Add line of sight check for windows breaking on Moon
 * Fix Der Riese trap lights not turning red when active
+* Show player's perks of when you are spectating (player.spectatorclient)
+* Make ray gun take legs off nova crawlers
+* Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -804,6 +807,7 @@
 * See if ChangeLevel() works in coop
 * Ray Gun: make sure ray gun isnt glitching out other AI types
 * See if turrets are still making damage markers in coop
+* see if player.spectatorclient works to get who player is spectating (should probably match up with GetEntityNumber())
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

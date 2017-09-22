@@ -9,6 +9,8 @@ init()
 		return;
 	}
 
+	init_fx();
+
 	level thread post_all_players_connected();
 
 	level thread turn_power_on();
@@ -18,6 +20,13 @@ init()
 	level thread disable_special_rounds();
 }
 
+init_fx()
+{
+	level._effect["grief_shock"] = LoadFX("grief/fx_grief_shock");
+	level._effect["powerup_on_red"] = loadfx( "grief/fx_zombie_powerup_on_red" );
+	level._effect["powerup_grabbed_red"] = loadfx( "grief/fx_zombie_powerup_red_grab" );
+}
+
 post_all_players_connected()
 {
 	flag_wait("all_players_connected");
@@ -25,6 +34,37 @@ post_all_players_connected()
 	setup_grief_teams();
 
 	setup_grief_logo();
+
+	if(level.gamemode == "ffa")
+	{
+		players = get_players();
+		for(i=0;i<players.size;i++)
+		{
+			players[i] thread instant_bleedouts();
+		}
+	}
+}
+
+instant_bleedouts()
+{
+	while(1)
+	{
+		self waittill("player_downed");
+		self.bleedout_time = 0;
+	}
+}
+
+is_team_valid()
+{
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		if(players[i].vsteam == self.vsteam && is_player_valid(players[i]))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 setup_grief_teams()
@@ -36,11 +76,11 @@ setup_grief_teams()
 	{
 		if(level.gamemode == "ffa" || level.gamemode == "gg" || level.gamemode == "turned")
 		{
-			if(!IsDefined(level.random_team_name))
+			if(!IsDefined(level.vsteam))
 			{
-				level.random_team_name = random(array);
+				level.vsteam = random(array);
 			}
-			players[i].vsteam = level.random_team_name;
+			players[i].vsteam = "ffa" + (i + 1);
 		}
 		else
 		{
@@ -61,7 +101,14 @@ setup_grief_logo()
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		players[i] SetClientDvar("vs_logo", players[i].vsteam + "_logo");
+		if(IsDefined(level.vsteam))
+		{
+			players[i] SetClientDvar("vs_logo", level.vsteam + "_logo");
+		}
+		else
+		{
+			players[i] SetClientDvar("vs_logo", players[i].vsteam + "_logo");
+		}
 		players[i] SetClientDvar("vs_logo_on", 1);
 	}
 }
@@ -113,14 +160,16 @@ disable_character_dialog()
 	}
 }
 
-laststand_take_player_weapons()
+store_player_weapons()
 {
 	//iprintln(self, " taking weapons");
 	self.weaponInventory = self GetWeaponsList();
 	self.lastActiveWeapon = self GetCurrentWeapon();
 	self SetLastStandPrevWeap( self.lastActiveWeapon );
+	self.melee = self get_player_melee_weapon();
+	self.lethal = self get_player_lethal_grenade();
+	self.tac = self get_player_tactical_grenade();
 	self.mine = self get_player_placeable_mine();
-	self.nade = self get_player_lethal_grenade();
 	
 	
 	self.hadpistol = false;
@@ -151,7 +200,7 @@ laststand_take_player_weapons()
 	}
 }
 
-laststand_giveback_player_weapons()
+giveback_player_weapons()
 {	
 	for( i = 0; i < self.weaponInventory.size; i++ )
 	{
@@ -179,7 +228,7 @@ laststand_giveback_player_weapons()
 		}
 		else
 		{
-			self GiveWeapon( weapon, 0, self.pack_a_punch_weapon_options[weapon] );
+			self GiveWeapon( weapon, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( weapon ) );
 		}
 		self SetWeaponAmmoClip( weapon, self.weaponAmmo[weapon]["clip"] );
 
@@ -200,6 +249,16 @@ laststand_giveback_player_weapons()
 		}
 	}
 
+	self set_player_melee_weapon(self.melee);
+	self maps\_zombiemode::set_melee_actionslot();
+	
+	self set_player_lethal_grenade(self.lethal);
+
+	if(IsDefined(self.tac))
+	{
+		self set_player_tactical_grenade(self.tac);
+	}
+
 	if(IsDefined(self.mine))
 	{
 		self giveweapon(self.mine);
@@ -207,8 +266,6 @@ laststand_giveback_player_weapons()
 		self setactionslot(4,"weapon",self.mine);
 		self setweaponammoclip(self.mine,2);
 	}
-	
-	self set_player_lethal_grenade(self.nade);
 }
 
 grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
@@ -227,23 +284,23 @@ grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 		//nades
 		if(sMeansOfDeath == "MOD_GRENADE_SPLASH" && (sWeapon == "frag_grenade_zm" || sWeapon == "sticky_grenade_zm" || sWeapon == "stielhandgranate"))
 		{
-			if(self.health > 25)
-				self DoDamage( 80, eInflictor.origin );
-			else
-				radiusdamage(self.origin,10,self.health + 100,self.health + 100);
+			//if(self.health > 25)
+			self DoDamage( 80, eInflictor.origin );
+			//else
+			//	radiusdamage(self.origin,10,self.health + 100,self.health + 100);
 		}
 		//claymores, spikemores, betties, dolls, scavenger, and flops
 		else if((sMeansOfDeath == "MOD_GRENADE_SPLASH" && (is_placeable_mine( sWeapon ) || is_tactical_grenade( sWeapon ) || sWeapon == "sniper_explosive_zm" || sWeapon == "sniper_explosive_zm")) || ( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" ))
 		{
-			if(self.health > 50)
-			{
-				if( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" )
-					self DoDamage( 160, eAttacker.origin );//for flops, the origin of the player must be used
-				else
-					self DoDamage( 160, eInflictor.origin );
-			}
+			//if(self.health > 50)
+			//{
+			if( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" )
+				self DoDamage( 80, eAttacker.origin );//for flops, the origin of the player must be used
 			else
-				radiusdamage(self.origin,10,self.health + 100,self.health + 100);
+				self DoDamage( 80, eInflictor.origin );
+			//}
+			//else
+			//	radiusdamage(self.origin,10,self.health + 100,self.health + 100);
 		}
 	}
 	eAttacker thread grief_points(self, sWeapon, sMeansOfDeath);
@@ -252,6 +309,11 @@ grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 
 slowdown(weapon, mod, eAttacker, loc)
 {
+	if(!IsDefined(self.move_speed))
+	{
+		self.move_speed = 1;
+	}
+
 	if(self.slowdown_wait == false)
 	{
 		if(weapon == "mine_bouncing_betty" && self getstance() == "prone")
@@ -259,30 +321,27 @@ slowdown(weapon, mod, eAttacker, loc)
 		else
 		{
 			self.slowdown_wait = true;
+
+			PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
+			self AllowSprint(false);
+			self setblur( 1, .1 );
+			
 			if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon) || weapon == "zombie_bullet_crouch" || is_placeable_mine(weapon) || is_tactical_grenade(weapon) || weapon == "sniper_explosive_zm" || ( eAttacker HasPerk( "specialty_flakjacket" ) && eAttacker.divetoprone == 1 && mod == "MOD_GRENADE_SPLASH"))
 			{
-				PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
-				self setMoveSpeedScale( .3 );
-				self AllowSprint(false);
-				self setblur( 1, .1 );
-				wait( 1.125 );//.75 * 1.5
-				self setMoveSpeedScale( 1 );
-				if(!self.is_drinking)
-					self AllowSprint(true);
-				self setblur( 0, .2 );
+				self setMoveSpeedScale( self.move_speed * .2 );	
 			}
 			else
 			{
-				PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
-				self setMoveSpeedScale( .3 );
-				self AllowSprint(false);
-				self setblur( 1, .1 );
-				wait( .75 );
-				self setMoveSpeedScale( 1 );
-				if(!self.is_drinking)
-					self AllowSprint(true);
-				self setblur( 0, .2 );
+				self setMoveSpeedScale( self.move_speed * .3 );
 			}
+
+			wait( .75 );//.75 * 1.5 = 1.125
+
+			self setMoveSpeedScale( 1 );
+			if(!self.is_drinking)
+				self AllowSprint(true);
+			self setblur( 0, .2 );
+
 			self.slowdown_wait = false;
 		}
 	}
@@ -377,7 +436,7 @@ grief_msg(i)
 	enemies_alive = players[i] get_number_of_valid_enemy_players();
 	if(!is_player_valid(players[i]))
 		enemies_alive -= 1;
-	if(players[i].hud_setup)
+	if(!IsDefined(players[i].hud_setup))
 	{
 		players[i].hud_setup = false;
 		survived = [];
@@ -445,43 +504,47 @@ grief_msg_fade_away(text)
 
 round_restart(same_round)
 {
+	level.round_restart = true;
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		players[i].bleedout_time = 0;
+	}
 	flag_clear( "spawn_zombies");
 	wait(1);
-	level.round_restart = true;
 	zombs = getaispeciesarray("axis");
 	for(i=0;i<zombs.size;i++)
 	{
 		if(zombs[i].animname == "zombie" || zombs[i].animname == "zombie_dog" || zombs[i].animname == "quad_zombie")
 			zombs[i] DoDamage( zombs[i].health + 2000, (0,0,0) );
-		else
-			zombs[i] DoDamage( 0, (0,0,0) );
 	}
 	max = level.zombie_vars["zombie_max_ai"];
-	level.zombie_total = [[ level.max_zombie_func ]]( max );
-	level.powerup_drop_count = 0; //restarts the amount of powerups you can earn this round
-	players = get_players();
+	//level.zombie_total = [[ level.max_zombie_func ]]( max );
 
-	for(i=0;i<players.size;i++)
-	{
-		players[i].sessionstate = "spectator";
-	}
+	//reset the amount of zombies in a round
+	maps\_zombiemode::ai_calculate_amount();
+
+	level.powerup_drop_count = 0; //restarts the amount of powerups you can earn this round
 	if( !IsDefined( level.custom_spawnPlayer ) )
 	{
 		// Custom spawn call for when they respawn from spectator
 		level.custom_spawnPlayer = maps\_zombiemode::spectator_respawn;
 	}
+	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
 		players[i] [[level.spawnPlayer]]();
 	}
-	wait_network_frame();//needed for correct weapon switch
+	wait_network_frame();
+	//wait_network_frame();//needed for correct weapon switch
 	for(i=0;i<players.size;i++)
 	{
+		//players[i] [[level.spawnPlayer]]();
 		players[i] notify( "round_restarted" );
 		players[i].rebuild_barrier_reward = 0;
 		players[i] DoDamage( 0, (0,0,0) );//fix for health not being correct
 		players[i] TakeAllWeapons();
-		players[i] laststand_giveback_player_weapons();
+		players[i] giveback_player_weapons();
 		players[i].is_drinking = false;
 		if(level.gamemode != "snr")
 			players[i] thread grief_msg(i);
@@ -512,112 +575,57 @@ round_restart(same_round)
 
 set_grief_viewmodel()
 {
-	if(self.vsteam == "cdc")
+	if(IsDefined(level.vsteam))
 	{
-		self SetViewModel("bo2_c_zom_hazmat_viewhands");
+		if(level.vsteam == "cdc")
+		{
+			self SetViewModel("bo2_c_zom_hazmat_viewhands");
+		}
+		else if(level.vsteam == "cia")
+		{
+			self SetViewModel("bo2_c_zom_suit_viewhands");
+		}
 	}
-	else if(self.vsteam == "cia")
+	else
 	{
-		self SetViewModel("bo2_c_zom_suit_viewhands");
+		if(self.vsteam == "cdc")
+		{
+			self SetViewModel("bo2_c_zom_hazmat_viewhands");
+		}
+		else if(self.vsteam == "cia")
+		{
+			self SetViewModel("bo2_c_zom_suit_viewhands");
+		}
 	}
 }
 
 set_grief_model()
 {
 	self DetachAll();
-	if(self.vsteam == "cdc")
+	if(IsDefined(level.vsteam))
 	{
-		self setModel("bo2_c_zom_player_cdc_fb");
-	}
-	else if(self.vsteam == "cia")
-	{
-		self setModel( "bo2_c_zom_player_cia_fb" );
-	}
-	self.voice = "american";
-	self.skeleton = "base";
-}
-
-grief_player_model()
-{
-	wait_network_frame();
-	if(level.gamemode == "ffa" || level.gamemode == "gg" || level.gamemode == "turned")
-	{
-		if(!IsDefined(level.random_model))
-			level.random_model = RandomInt(2);
-		if(level.random_model == 0)
+		if(level.vsteam == "cdc")
 		{
-			self DetachAll();
-			if(level.script == "zombie_moon")
-			{
-				self setModel( "c_zom_moon_pressure_suit_body_player" );
-				self SetViewModel( "viewmodel_zom_pressure_suit_arms" );
-				self Attach( "c_zom_moon_pressure_suit_helm", "", true );
-			}
-			else
-			{
-				self setModel("bo2_c_zom_player_cia_fb");
-				self SetViewModel("bo2_c_zom_suit_viewhands");
-			}
-			self.skeleton = "base";
-			if(!IsDefined(self.added_grief_logo))
-			{
-				self.added_grief_logo = true;
-				self add_grief_logo("cia_logo");
-			}
-			self.griefteamname = "cia";
-		}
-		else
-		{
-			self DetachAll();
 			self setModel("bo2_c_zom_player_cdc_fb");
-			self SetViewModel("bo2_c_zom_hazmat_viewhands");
-			self.skeleton = "base";
-			if(!IsDefined(self.added_grief_logo))
-			{
-				self.added_grief_logo = true;
-				self add_grief_logo("cdc_logo");
-			}
-			self.griefteamname = "cdc";
+		}
+		else if(level.vsteam == "cia")
+		{
+			self setModel( "bo2_c_zom_player_cia_fb" );
 		}
 	}
 	else
 	{
-		if(self.vsteam == 1)
+		if(self.vsteam == "cdc")
 		{
-			self DetachAll();
-			if(level.script == "zombie_moon")
-			{
-				self setModel( "c_zom_moon_pressure_suit_body_player" );
-				self SetViewModel( "viewmodel_zom_pressure_suit_arms" );
-				self Attach( "c_zom_moon_pressure_suit_helm", "", true );
-			}
-			else
-			{
-				self setModel("bo2_c_zom_player_cia_fb");
-				self SetViewModel("bo2_c_zom_suit_viewhands");
-			}
-			self.skeleton = "base";
-			if(!IsDefined(self.added_grief_logo))
-			{
-				self.added_grief_logo = true;
-				self add_grief_logo("cia_logo");
-			}
-			self.griefteamname = "cia";
-		}
-		else
-		{
-			self DetachAll();
 			self setModel("bo2_c_zom_player_cdc_fb");
-			self SetViewModel("bo2_c_zom_hazmat_viewhands");
-			self.skeleton = "base";
-			if(!IsDefined(self.added_grief_logo))
-			{
-				self.added_grief_logo = true;
-				self add_grief_logo("cdc_logo");
-			}
-			self.griefteamname = "cdc";
+		}
+		else if(self.vsteam == "cia")
+		{
+			self setModel( "bo2_c_zom_player_cia_fb" );
 		}
 	}
+	self.voice = "american";
+	self.skeleton = "base";
 }
 
 stop_shellshock_when_spectating()
@@ -925,26 +933,8 @@ remove_ee_songs()
 	}
 }
 
-remove_init_spawn_delay()
-{
-	flag_wait( "begin_spawning" );
-	wait_network_frame();
-	flag_set( "spawn_zombies");
-}
-
-remove_intro_text()
-{
-	flag_wait( "all_players_connected" );
-	wait(2);
-	wait_network_frame();
-	level.intro_hud[0] destroy();
-	level.intro_hud[1] destroy();
-	level.intro_hud[2] destroy();
-}
-
 get_number_of_valid_enemy_players()
 {
-
 	players = get_players();
 	num_player_valid = 0;
 	for( i = 0 ; i < players.size; i++ )
@@ -1197,22 +1187,6 @@ snr_round_restart_watcher()
 					round_restart();
 				}
 			}
-		}
-		wait .05;
-	}
-}
-
-snr_store_players_weapons()
-{
-	level endon("end_game");
-	flag_wait( "all_players_spawned" );
-	while(1)
-	{
-		players = get_players();
-		for( i = 0 ; i < players.size; i++ )
-		{
-			if(is_player_valid(players[i]) && !players[i].is_drinking && !level.round_restart && !players[i] HasWeapon("syrette_sp"))
-				players[i] laststand_take_player_weapons();
 		}
 		wait .05;
 	}

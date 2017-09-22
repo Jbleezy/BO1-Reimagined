@@ -4241,9 +4241,11 @@ find_flesh()
 		//PI_CHANGE_END
 
 		self thread attractors_generated_listener();
+
 		rand_float = RandomFloatRange( 1, 3 );
 		self.zombie_path_timer = GetTime() + ( rand_float * 1000 );// + path_timer_extension;
 		level waittill_notify_or_timeout("attractor_positions_generated", rand_float);
+		
 		self notify( "path_timer_done" );
 
 		self zombie_history( "find flesh -> bottom of loop" );

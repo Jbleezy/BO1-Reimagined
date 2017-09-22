@@ -295,7 +295,10 @@ claymore_detonation()
 		if ( isdefined( self.owner ) && ent == self.owner )
 			continue;
 
-		if( isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != playerTeamToAllow )
+		if( level.gamemode == "survival" && isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != playerTeamToAllow )
+			continue;
+			
+		if( level.gamemode != "survival" && ent.vsteam == self.vsteam )
 			continue;
 
 		if ( !ent shouldAffectWeaponObject( self ) )
