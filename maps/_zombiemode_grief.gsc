@@ -284,8 +284,14 @@ giveback_player_weapons()
 
 grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 {
+	iprintln(sMeansOfDeath);
+	iprintln(iDamage);
 	if(sWeapon == "mine_bouncing_betty" && self getstance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
 		return;
+
+	if(sMeansOfDeath == "MOD_SUICIDE")
+		return;
+
 	self thread slowdown(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
 	if(sMeansOfDeath == "MOD_MELEE" || sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm" || sWeapon == "knife_ballistic_bowie_zm" || sWeapon == "knife_ballistic_bowie_upgraded_zm")
 	{
@@ -323,11 +329,6 @@ grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 
 slowdown(weapon, mod, eAttacker, loc)
 {
-	if(!IsDefined(self.move_speed))
-	{
-		self.move_speed = 1;
-	}
-
 	if(!IsDefined(self.slowdown_wait))
 	{
 		self.slowdown_wait = false;

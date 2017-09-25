@@ -692,37 +692,22 @@ move_zombies_elevator(going_up)
 		}
 		else
 		{
-			if(IsDefined(current_floor) && current_floor == 1 && flag("power_on"))
+			if(IsDefined(current_floor) && current_floor == 1 && flag("power_on") && level.gamemode == "survival")
 			{
 				zombies[i] thread send_zombies_out(level.portal_top);
 			}
-			else if(IsDefined(current_floor) && current_floor == 2 && flag("power_on"))
+			else if(IsDefined(current_floor) && current_floor == 2 && flag("power_on") && level.gamemode == "survival")
 			{
 				zombies[i] thread send_zombies_out(level.portal_mid);
 			}
-			else if(IsDefined(current_floor) && current_floor == 3 && flag("power_on"))
+			else if(IsDefined(current_floor) && current_floor == 3 && flag("power_on") && level.gamemode == "survival")
 			{
 				zombies[i] thread send_zombies_out(level.portal_power);
 			}
 			else
 			{
-				move_speed = undefined;
-				if(IsDefined(self.zombie_move_speed))
-				{
-					move_speed = self.zombie_move_speed;
-				}
-
-				PlayFX(level._effect["transporter_start"], zombies[i].origin);
-
 				level.zombie_total++;
-				if(IsDefined(zombies[i].fx_quad_trail))
-				{
-					zombies[i].fx_quad_trail Delete();
-				}
-				zombies[i] maps\_zombiemode_spawner::reset_attack_spot();
-
-				zombies[i] notify("zombie_delete");
-				zombies[i] Delete();
+				zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
 			}
 		}
 		//or go ahead and delete if still behind tear.

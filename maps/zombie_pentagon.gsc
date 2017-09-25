@@ -371,7 +371,6 @@ wait_for_power()
 	stop_exploder(2000);
 	exploder(2001);
 
-	level thread regular_portal_fx_on();
 	level thread maps\zombie_pentagon::change_pentagon_vision();
 
 	master_switch rotateroll(-90,.3);
@@ -397,7 +396,11 @@ wait_for_power()
 	clientnotify("ZPO");	 // Zombie Power On.
 
 	//get the teleporter ready
-	maps\zombie_pentagon_teleporter::teleporter_init();
+	if(level.gamemode == "survival")
+	{
+		level thread regular_portal_fx_on();
+		maps\zombie_pentagon_teleporter::teleporter_init();
+	}
 
 	master_switch waittill("rotatedone");
 	playfx(level._effect["switch_sparks"] ,getstruct("elec_switch_fx","targetname").origin);

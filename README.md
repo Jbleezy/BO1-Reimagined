@@ -801,6 +801,7 @@
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
 * Decrease PPSH first raise time
 * Fix perk gloss (might be fixed)
+* Grief: make suiciding with a grenade not deal extra damage to enemy players
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

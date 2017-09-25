@@ -77,10 +77,67 @@ pack_hideaway_init()
 			parts[i] LinkTo(hideaway);
 		}
 	}
-	while(true)
-	{
-		flag_wait("open_pack_hideaway");
 
+	if(level.gamemode == "survival")
+	{
+		while(true)
+		{
+			flag_wait("open_pack_hideaway");
+
+			level.pap_moving = true;
+			hideaway NotSolid();
+			hideaway RotateYaw(180, 2.5);
+			hideaway PlaySound( "evt_packapunch_revolve_start" );
+			hideaway PlayLoopSound( "evt_packapunch_revolve_loop" );
+			hideaway waittill("rotatedone");
+			level.pap_moving = false;
+			level.punch_trigger SetVisibleToAll();
+			level.punch_trigger trigger_on();
+
+			hideaway StopLoopSound( 1 );
+		    hideaway PlaySound( "evt_packapunch_revolve_end" );
+
+			level.punch_sign Unlink();
+
+			// time given for everyone to pack if they want.
+			//level waittill("defcon_reset");
+			wait(40); // additional time after countdown
+
+			while(!is_packroom_clear())
+			{
+				wait_network_frame();
+			}
+
+			if(flag("pack_machine_in_use"))
+			{
+				while(flag("pack_machine_in_use"))
+				{
+					wait(0.1);
+				}
+			}
+			level.punch_sign LinkTo( level.punch_machine );
+			level.punch_trigger trigger_off();
+
+			players = get_players();
+			for ( i = 0; i < players.size; i++ )
+			{
+				level.punch_trigger SetInvisibleToPlayer(players[i]);
+			}
+
+			level.pap_moving = true;
+			hideaway RotateYaw(180, 2.5);
+			hideaway PlaySound( "evt_packapunch_revolve_start" );
+			hideaway PlayLoopSound( "evt_packapunch_revolve_loop" );
+			flag_clear("open_pack_hideaway");
+			wait_network_frame();
+			hideaway waittill("rotatedone");
+			level.pap_moving = false;
+			hideaway StopLoopSound( 1 );
+		    hideaway PlaySound( "evt_packapunch_revolve_end" );
+		}
+	}
+	else
+	{
 		level.pap_moving = true;
 		hideaway NotSolid();
 		hideaway RotateYaw(180, 2.5);
@@ -95,42 +152,6 @@ pack_hideaway_init()
 	    hideaway PlaySound( "evt_packapunch_revolve_end" );
 
 		level.punch_sign Unlink();
-
-		// time given for everyone to pack if they want.
-		//level waittill("defcon_reset");
-		wait(40); // additional time after countdown
-
-		while(!is_packroom_clear())
-		{
-			wait_network_frame();
-		}
-
-		if(flag("pack_machine_in_use"))
-		{
-			while(flag("pack_machine_in_use"))
-			{
-				wait(0.1);
-			}
-		}
-		level.punch_sign LinkTo( level.punch_machine );
-		level.punch_trigger trigger_off();
-
-		players = get_players();
-		for ( i = 0; i < players.size; i++ )
-		{
-			level.punch_trigger SetInvisibleToPlayer(players[i]);
-		}
-
-		level.pap_moving = true;
-		hideaway RotateYaw(180, 2.5);
-		hideaway PlaySound( "evt_packapunch_revolve_start" );
-		hideaway PlayLoopSound( "evt_packapunch_revolve_loop" );
-		flag_clear("open_pack_hideaway");
-		wait_network_frame();
-		hideaway waittill("rotatedone");
-		level.pap_moving = false;
-		hideaway StopLoopSound( 1 );
-	    hideaway PlaySound( "evt_packapunch_revolve_end" );
 	}
 }
 //-------------------------------------------------------------------------------
@@ -138,6 +159,12 @@ pack_hideaway_init()
 //-------------------------------------------------------------------------------
 pack_door_init()
 {
+	if(level.gamemode != "survival")
+	{
+		level thread pack_door_grief_init();
+		return;
+	}
+
 	trigger = GetEnt("pack_room_door","targetname");
 	doors = GetEntArray(trigger.target, "targetname");
 	pack_door_slam = GetEnt("slam_pack_door","targetname");
@@ -145,8 +172,8 @@ pack_door_init()
 
 	while(true)
 	{
-		trigger sethintstring( &"ZOMBIE_PENTAGON_PACK_ROOM_DOOR" );
 		trigger setcursorhint( "HINT_NOICON" );
+		trigger sethintstring( &"ZOMBIE_PENTAGON_PACK_ROOM_DOOR" );
 		level waittill_any("defcon_reset", "player_in_pack");
 
 		players = get_players();
@@ -209,6 +236,42 @@ pack_door_init()
 		}
 		wait_network_frame();
 	}
+}
+
+pack_door_grief_init()
+{
+	trigger = GetEnt("pack_room_door","targetname");
+	doors = GetEntArray(trigger.target, "targetname");
+
+	trigger setcursorhint( "HINT_NOICON" );
+	trigger.zombie_cost = 1500;
+	trigger set_hint_string( trigger, "default_buy_door_" + trigger.zombie_cost );
+
+	while(1)
+	{
+		if( trigger maps\_zombiemode_blockers::door_buy() )
+			break;
+	}
+
+	trigger sethintstring( "" );
+
+	for ( i = 0; i < doors.size; i++ )
+	{
+		doors[i].start_angles = doors[i].angles;
+
+		if(isDefined(doors[i].script_angles))
+		{
+			doors[i] NotSolid();
+			doors[i] RotateTo( doors[i].script_angles, 1.0 );
+			play_sound_at_pos( "door_rotate_open", doors[i].origin );
+			doors[i] thread pack_door_solid_thread();
+		}
+	}
+
+	flag_set("war_room_entry");
+
+	//open pack door
+	level thread pack_hideaway_init();
 }
 
 //-------------------------------------------------------------------------------
@@ -752,11 +815,11 @@ open_portal_rooms()
 	power_room_screen MoveZ(116, 1.5);
 	power_room_screen ConnectPaths();
 
-  jfk_room_screen PlaySound( "evt_teleporter_door_long" );
+  	jfk_room_screen PlaySound( "evt_teleporter_door_long" );
 	jfk_room_screen MoveZ(150, 2.0);
 	jfk_room_screen ConnectPaths();
 
-  war_room_screen_north PlaySound( "evt_teleporter_door_short" );
+  	war_room_screen_north PlaySound( "evt_teleporter_door_short" );
 	level thread war_room_portal_door();
 
 	war_room_screen_north MoveZ(-122, 1.5);
@@ -966,8 +1029,11 @@ defcon_sign_setup()
 
 	while(true)
 	{
-		self SetHintString( &"ZOMBIE_PENTAGON_DEFCON_SWITCH" );
-		self waittill( "trigger", user );
+		if(level.gamemode == "survival")
+		{
+			self SetHintString( &"ZOMBIE_PENTAGON_DEFCON_SWITCH" );
+			self waittill( "trigger", user );
+		}
 		self SetHintString( "" );
 
 		if(IsDefined(self.lights))
@@ -990,10 +1056,10 @@ defcon_sign_setup()
 		{
 			level.defcon_level++;
 
-			if( level.zombie_vars["zombie_powerup_bonfire_sale_on"] == false )
+			if( level.zombie_vars["zombie_powerup_bonfire_sale_on"] == false && level.gamemode == "survival" )
 			{
 			    level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_defcon", level.defcon_level );
-      }
+      		}
 
 			level thread defcon_sign_lights();
 
@@ -1003,23 +1069,25 @@ defcon_sign_setup()
 			//link all portals to pack-a-punch room.
 			level.defcon_level = 5;
 
-			if( level.zombie_vars["zombie_powerup_bonfire_sale_on"] == false || !flag("bonfire_reset"))
-			{
-			    level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_defcon", level.defcon_level );
-			}
-
 			level thread defcon_sign_lights();
 
-
-			//IPrintLnBold("all portals to pack room");
-			flag_set("defcon_active");
-
-			if( level.zombie_vars["zombie_powerup_bonfire_sale_on"] == false || !flag("bonfire_reset"))
+			if( level.gamemode == "survival" )
 			{
-			    level thread play_defcon5_alarms();
-			}
+				if( level.zombie_vars["zombie_powerup_bonfire_sale_on"] == false || !flag("bonfire_reset"))
+				{
+				    level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_defcon", level.defcon_level );
+				}
 
-			level thread pack_portal_fx_on();
+				//IPrintLnBold("all portals to pack room");
+				flag_set("defcon_active");
+
+				if( level.zombie_vars["zombie_powerup_bonfire_sale_on"] == false || !flag("bonfire_reset"))
+				{
+				    level thread play_defcon5_alarms();
+				}
+
+				level thread pack_portal_fx_on();
+			}
 		}
 		level waittill("pack_room_reset");
 
@@ -1293,10 +1361,10 @@ check_if_empty_floors()
 			{
 				zombies[i] thread send_zombies_out(level.portal_top);
 			}
-			else if(num_floor1 == num_floor1_laststand && players.size > 1 && !flag("power_on"))
+			if(num_floor1 == num_floor1_laststand && players.size > 1)
 			{
-				PlayFX(level._effect["transporter_start"], zombies[i].origin);
-				zombies[i] thread cleanup_unoccupied_floor();
+				level.zombie_total++;
+				zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
 			}
 			else if(num_floor1 == 0)
 			{
@@ -1306,7 +1374,8 @@ check_if_empty_floors()
 				}
 				else
 				{
-					zombies[i] thread cleanup_unoccupied_floor();
+					level.zombie_total++;
+					zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
 				}
 			}
 			else
@@ -1320,10 +1389,10 @@ check_if_empty_floors()
 			{
 				zombies[i] thread send_zombies_out(level.portal_mid);
 			}
-			else if(num_floor2 == num_floor2_laststand && players.size > 1 && !flag("power_on"))
+			else if(num_floor2 == num_floor2_laststand && players.size > 1)
 			{
-				PlayFX(level._effect["transporter_start"], zombies[i].origin);
-				zombies[i] thread cleanup_unoccupied_floor();
+				level.zombie_total++;
+				zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
 			}
 			else if(num_floor2 == 0)
 			{
@@ -1333,7 +1402,8 @@ check_if_empty_floors()
 				}
 				else
 				{
-					zombies[i] thread cleanup_unoccupied_floor();
+					level.zombie_total++;
+					zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
 				}
 			}
 			else
@@ -1347,10 +1417,10 @@ check_if_empty_floors()
 			{
 				zombies[i] thread send_zombies_out(level.portal_power);
 			}
-			else if(num_floor3 == num_floor3_laststand && players.size > 1 && !flag("power_on"))
+			else if(num_floor3 == num_floor3_laststand && players.size > 1)
 			{
-				PlayFX(level._effect["transporter_start"], zombies[i].origin);
-				zombies[i] thread cleanup_unoccupied_floor();
+				level.zombie_total++;
+				zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
 			}
 			else if(num_floor3 == 0)
 			{
@@ -1360,7 +1430,8 @@ check_if_empty_floors()
 				}
 				else
 				{
-					zombies[i] thread cleanup_unoccupied_floor();
+					level.zombie_total++;
+					zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
 				}
 			}
 			else

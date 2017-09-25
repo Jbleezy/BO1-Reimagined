@@ -1930,6 +1930,8 @@ onPlayerSpawned()
 
 		self thread disable_melee_watcher();
 
+		self.move_speed = 1;
+
 		if( isdefined( self.initialized ) )
 		{
 			if( self.initialized == false )
@@ -5310,6 +5312,9 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 	//iprintln("i: " + iDamage);
 	//iprintln("final: " + finalDamage);
 
+	//iprintln(sMeansOfDeath);
+	//iprintln(finalDamage);
+
 	if( iDamage < self.health )
 	{
 		if ( IsDefined( eAttacker ) )
@@ -8239,7 +8244,7 @@ give_weapons_test()
 	self giveweapon( "molotov_zm" );
 	self set_player_tactical_grenade( "molotov_zm" );
 
-	level thread maps\_zombiemode_grief::turn_power_on();
+	//level thread maps\_zombiemode_grief::turn_power_on();
 
 	//wait 5;
 

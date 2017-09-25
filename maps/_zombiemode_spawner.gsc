@@ -65,24 +65,33 @@ track_players_intersection_tracker()
 					}
 				}
 
-				playerI_origin = players[i].origin;
-				playerJ_origin = players[j].origin;
-
 				//Check height first
-				if ( abs(playerI_origin[2] - playerJ_origin[2] ) > 75 )
+				if ( abs(players[i].origin[2] - players[j].origin[2] ) > 75 )
 					continue;
 
 				//Check 2d distance
-				distance_apart = distance2d( playerI_origin, playerJ_origin );
+				distance_apart = distance2d( players[i].origin, players[j].origin );
 				//IPrintLnBold( "player=", i, ",", j, "distance_apart=", distance_apart );
 
 				if ( abs(distance_apart) > 18 )
 					continue;
 
-				if(playerI_origin[2] > playerJ_origin[2])
+				if(players[i].origin[2] > players[j].origin[2])
+				{
+					if(level.gamemode != "survival")
+					{
+						players[j] dodamage( 1000, (0, 0, 0) );
+					}
 					players[i] random_push();
+				}
 				else
+				{
+					if(level.gamemode != "survival")
+					{
+						players[i] dodamage( 1000, (0, 0, 0) );
+					}
 					players[j] random_push();
+				}
 
 				/*if(playerI_origin[2] > playerJ_origin[2])
 					players[i] thread push_off_top_player(players[j]);
@@ -4245,7 +4254,7 @@ find_flesh()
 		rand_float = RandomFloatRange( 1, 3 );
 		self.zombie_path_timer = GetTime() + ( rand_float * 1000 );// + path_timer_extension;
 		level waittill_notify_or_timeout("attractor_positions_generated", rand_float);
-		
+
 		self notify( "path_timer_done" );
 
 		self zombie_history( "find flesh -> bottom of loop" );

@@ -50,10 +50,10 @@ teleporter_init()
 		setClientSysState( "levelNotify", "pack_clock_start", players[i] );
 	}
 
-	if( !IsSplitscreen() )
+	/*if( !IsSplitscreen() )
 	{
 		level.teleport_ae_funcs[level.teleport_ae_funcs.size] = maps\zombie_theater_teleporter::teleport_aftereffect_fov;
-	}
+	}*/
 	level.teleport_ae_funcs[level.teleport_ae_funcs.size] = maps\zombie_theater_teleporter::teleport_aftereffect_shellshock;
 	level.teleport_ae_funcs[level.teleport_ae_funcs.size] = maps\zombie_theater_teleporter::teleport_aftereffect_shellshock_electric;
 	level.teleport_ae_funcs[level.teleport_ae_funcs.size] = maps\zombie_theater_teleporter::teleport_aftereffect_bw_vision;
@@ -146,8 +146,11 @@ teleport_link_think()
 	{
 		if ( !flag( "core_linked" ) )
 		{
-			core sethintstring( &"ZOMBIE_THEATER_LINK_CORE" );
-			core waittill( "trigger", user );
+			if(level.gamemode == "survival")
+			{
+				core sethintstring( &"ZOMBIE_THEATER_LINK_CORE" );
+				core waittill( "trigger", user );
+			}
 
             core PlaySound( "evt_teleporter_activate_start" );
 
@@ -196,10 +199,13 @@ teleport_pad_think()
 	{
 		if ( !flag( "teleporter_linked" ) && flag( "core_linked" ) )
 		{
-			pad waittill( "trigger", user );
 			pad sethintstring( "" );
 
-            pad PlaySound( "evt_teleporter_activate_finish" );
+			if(level.gamemode == "survival")
+			{
+				pad waittill( "trigger", user );
+            	pad PlaySound( "evt_teleporter_activate_finish" );
+			}
 
 			flag_set( "teleporter_linked" );
 

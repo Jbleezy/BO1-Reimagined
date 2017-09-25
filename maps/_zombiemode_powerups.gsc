@@ -40,12 +40,9 @@ init()
 	level._effect["powerup_grabbed"] 				= loadfx( "misc/fx_zombie_powerup_grab" );
 	level._effect["powerup_grabbed_wave"] 			= loadfx( "misc/fx_zombie_powerup_wave" );
 
-	level._effect["powerup_on_red"] 				= loadfx( "grief/fx_zombie_powerup_on_red" );
-	level._effect["powerup_grabbed_red"] 			= loadfx( "grief/fx_zombie_powerup_red_grab" );
-	level._effect["powerup_grabbed_wave_red"] 		= loadfx( "grief/fx_zombie_powerup_red_wave" );
-	//level._effect["powerup_on_red"] 				= loadfx( "misc/fx_zombie_powerup_on_red" );
-	//level._effect["powerup_grabbed_red"] 			= loadfx( "misc/fx_zombie_powerup_red_grab" );
-	//level._effect["powerup_grabbed_wave_red"] 	= loadfx( "misc/fx_zombie_powerup_red_wave" );
+	level._effect["powerup_on_red"] 				= loadfx( "misc/fx_zombie_powerup_on_red" );
+	level._effect["powerup_grabbed_red"] 			= loadfx( "misc/fx_zombie_powerup_red_grab" );
+	level._effect["powerup_grabbed_wave_red"] 		= loadfx( "misc/fx_zombie_powerup_red_wave" );
 
 	level._effect["powerup_on_solo"]				= LoadFX( "misc/fx_zombie_powerup_solo_on" );
 	level._effect["powerup_grabbed_solo"]			= LoadFX( "misc/fx_zombie_powerup_solo_grab" );
@@ -338,49 +335,36 @@ power_up_hud( Shader, PowerUp_Hud, PowerUp_timer, PowerUp_Var, red )
 
 		if( self.zombie_vars[PowerUp_Var] == true ) //&& ( IsDefined( self._show_solo_hud ) && self._show_solo_hud == true )
 		{
-			if(Shader == "specialty_instakill_zombies" && !flag("insta_kill_round"))
-			{
-				PowerUp_Hud.color = (1,1,1);
-			}
 			if(red)
 			{
 				PowerUp_Hud.color = (.6,0,0);
 			}
-			if(self.zombie_vars[PowerUp_timer] < 5)
-				PowerUp_Hud FadeOverTime( 0.05 );
-			else if(self.zombie_vars[PowerUp_timer] < 5)
-				PowerUp_Hud FadeOverTime( 0.1 );
-			else
-				PowerUp_Hud FadeOverTime( 0.5 );
-			PowerUp_Hud.alpha = 1;
-			PowerUp_Hud setshader(Shader, 32, 32);
-			if(!is_in_array(self.active_powerup_hud, PowerUp_Hud))
+			else if(Shader == "specialty_instakill_zombies" && !flag("insta_kill_round"))
 			{
-				self.active_powerup_hud[self.active_powerup_hud.size] = PowerUp_Hud;
-				for(i=0;i<self.active_powerup_hud.size;i++)
+				if(flag("insta_kill_round"))
 				{
-					if(self.active_powerup_hud.size % 2 == 1) //odd
+					if(self.zombie_vars[PowerUp_timer] != 30)
 					{
-						self.active_powerup_hud[i] thread hud_move_over_time(((int(self.active_powerup_hud.size / 2)) * -40) + (i * 40));
+						self.zombie_vars[PowerUp_timer] = 30;
 					}
-					else //even
-					{
-						self.active_powerup_hud[i] thread hud_move_over_time(((int(self.active_powerup_hud.size / 2)) * -20) + (i * 40));
-					}
+					PowerUp_Hud.color = (1,1,0);
+				}
+				else
+				{
+					PowerUp_Hud.color = (1,1,1);
 				}
 			}
-		}
-		else if(Shader == "specialty_instakill_zombies" && flag("insta_kill_round"))
-		{
-			if(self.zombie_vars[PowerUp_timer] != 30)
-			{
-				self.zombie_vars[PowerUp_timer] = 30;
-			}
-			PowerUp_Hud FadeOverTime( 0.5 );
+
+			if(self.zombie_vars[PowerUp_timer] < 5)
+				PowerUp_Hud FadeOverTime( 0.1 );
+			else if(self.zombie_vars[PowerUp_timer] < 10)
+				PowerUp_Hud FadeOverTime( 0.2 );
+			else
+				PowerUp_Hud FadeOverTime( 0.5 );
+
 			PowerUp_Hud.alpha = 1;
 			PowerUp_Hud setshader(Shader, 32, 32);
-			PowerUp_Hud FadeOverTime( 0 );
-			PowerUp_Hud.color = (1,1,0);
+
 			if(!is_in_array(self.active_powerup_hud, PowerUp_Hud))
 			{
 				self.active_powerup_hud[self.active_powerup_hud.size] = PowerUp_Hud;
@@ -792,7 +776,7 @@ powerup_drop(drop_point)
 	if(level.last_powerup)
 	{
 		//iprintln("last powerup");
-		playfx( level._effect["powerup_last"], powerup.origin );
+		playfx( level._effect["powerup_grabbed"], powerup.origin );
 		level.last_powerup = false;
 	}
 
