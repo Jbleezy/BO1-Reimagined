@@ -8459,15 +8459,10 @@ button_pressed_test()
 
 set_melee_actionslot()
 {
-	wep = undefined;
 	melee = self get_player_melee_weapon();
 	if(IsDefined(melee))
 	{
 		wep = "combat_" + melee;
-	}
-
-	if(IsDefined(wep))
-	{
 		self GiveWeapon(wep);
 		self SetActionSlot(2, "weapon", wep);
 	}

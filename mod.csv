@@ -202,6 +202,7 @@ fx,reimagined/fx_zombie_powerup_last
 fx,grief/fx_grief_shock
 fx,grief/fx_zombie_powerup_on_red
 fx,grief/fx_zombie_powerup_red_grab
+fx,grief/fx_zombie_powerup_red_wave
 
 //MATERIALS
 //material,specialty_ads_zombies

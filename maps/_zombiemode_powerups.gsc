@@ -42,16 +42,18 @@ init()
 
 	level._effect["powerup_on_red"] 				= loadfx( "grief/fx_zombie_powerup_on_red" );
 	level._effect["powerup_grabbed_red"] 			= loadfx( "grief/fx_zombie_powerup_red_grab" );
+	level._effect["powerup_grabbed_wave_red"] 		= loadfx( "grief/fx_zombie_powerup_red_wave" );
 	//level._effect["powerup_on_red"] 				= loadfx( "misc/fx_zombie_powerup_on_red" );
 	//level._effect["powerup_grabbed_red"] 			= loadfx( "misc/fx_zombie_powerup_red_grab" );
+	//level._effect["powerup_grabbed_wave_red"] 	= loadfx( "misc/fx_zombie_powerup_red_wave" );
 
-	level._effect["powerup_grabbed_wave_red"] 		= loadfx( "misc/fx_zombie_powerup_red_wave" );
 	level._effect["powerup_on_solo"]				= LoadFX( "misc/fx_zombie_powerup_solo_on" );
 	level._effect["powerup_grabbed_solo"]			= LoadFX( "misc/fx_zombie_powerup_solo_grab" );
 	level._effect["powerup_grabbed_wave_solo"] 		= loadfx( "misc/fx_zombie_powerup_solo_wave" );
 	level._effect["powerup_on_caution"]				= LoadFX( "misc/fx_zombie_powerup_caution_on" );
 	level._effect["powerup_grabbed_caution"]		= LoadFX( "misc/fx_zombie_powerup_caution_grab" );
 	level._effect["powerup_grabbed_wave_caution"] 	= loadfx( "misc/fx_zombie_powerup_caution_wave" );
+
 	level._effect["powerup_last"] 					= loadfx( "reimagined/fx_zombie_powerup_last" );
 
 	if( level.mutators["mutator_noPowerups"] )

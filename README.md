@@ -799,7 +799,8 @@
 * Show player's perks of when you are spectating (player.spectatorclient)
 * Make ray gun take legs off nova crawlers
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
-* Add powerup wave fx
+* Decrease PPSH first raise time
+* Fix perk gloss (might be fixed)
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
