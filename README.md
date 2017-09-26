@@ -796,21 +796,23 @@
 * Make it so betties can only be triggered by zombies with line of sight from bettys position
 * Add line of sight check for windows breaking on Moon
 * Fix Der Riese trap lights not turning red when active (can't get it to happen again)
-* Show player's perks of when you are spectating (player.spectatorclient)
+* Show player's perks of when you are spectating (player.spectatorclient?)
 * Make ray gun take legs off nova crawlers
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
-* Decrease PPSH first raise time
 * Fix perk gloss (might be fixed)
 * Grief: make suiciding with a grenade not deal extra damage to enemy players
+* Grief: fire sale make traps cost 10 points
+* Grief: make enemy mines destructible
+* Fix players besides host not always getting combat knife on respawn
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-* See if ChangeLevel() works in coop
 * Ray Gun: make sure ray gun isnt glitching out other AI types
 * See if turrets are still making damage markers in coop
-* see if player.spectatorclient works to get who player is spectating (should probably match up with GetEntityNumber())
+* See if suiciding with a grenade still deals extra damage to enemy players in grief
+* See if powerdowns are working
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

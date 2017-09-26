@@ -196,6 +196,8 @@ main()
 	level thread box_weapon_changes();
 
 	level thread increase_revive_radius();
+
+	level thread test_changes();
 }
 
 post_all_players_connected()
@@ -1973,7 +1975,6 @@ onPlayerSpawned()
 				//self thread player_health_watcher();
 				//self thread points_cap();
 				self thread give_weapons_test();
-				self thread spectator_test();
 				//self thread button_pressed_test();
 				//self thread velocity_test();
 
@@ -3327,6 +3328,8 @@ check_for_valid_spawn_near_team( revivee )
 
 	players = get_players();
 	spawn_points = getstructarray("player_respawn_point", "targetname");
+	initial_spawn_points = getstructarray( "initial_spawn_points", "targetname" );
+	spawn_points = array_combine(spawn_points, initial_spawn_points);
 	closest_group = undefined;
 	closest_distance = 100000000;
 	backup_group = undefined;
@@ -3337,63 +3340,151 @@ check_for_valid_spawn_near_team( revivee )
 
 	// Look for the closest group that is within the specified ideal distances
 	//	If we can't find one within a valid area, use the closest unlocked group.
-	for( i = 0; i < players.size; i++ )
+	if(level.gamemode == "survival")
 	{
-		if( is_player_valid( players[i] ) )
+		for( i = 0; i < players.size; i++ )
 		{
-			for( j = 0 ; j < spawn_points.size; j++ )
+			if( is_player_valid( players[i] ) )
 			{
-				if( isdefined(spawn_points[i].script_int) )
-					ideal_distance = spawn_points[i].script_int;
-				else
-					ideal_distance = 1000;
-
-				if ( spawn_points[j].locked == false )
+				for( j = 0 ; j < spawn_points.size; j++ )
 				{
-					distance = DistanceSquared( players[i].origin, spawn_points[j].origin );
-					if( distance < ( ideal_distance * ideal_distance ) )
-					{
-						if ( distance < closest_distance )
-						{
-							closest_distance = distance;
-							closest_group = j;
-						}
-					}
+					if( isdefined(spawn_points[i].script_int) )
+						ideal_distance = spawn_points[i].script_int;
 					else
+						ideal_distance = 1000;
+
+					if ( spawn_points[j].locked == false )
 					{
-						if ( distance < backup_distance )
+						distance = DistanceSquared( players[i].origin, spawn_points[j].origin );
+						if( distance < ( ideal_distance * ideal_distance ) )
 						{
-							backup_group = j;
-							backup_distance = distance;
+							if ( distance < closest_distance )
+							{
+								closest_distance = distance;
+								closest_group = j;
+							}
+						}
+						else
+						{
+							if ( distance < backup_distance )
+							{
+								backup_group = j;
+								backup_distance = distance;
+							}
 						}
 					}
 				}
 			}
-		}
-		//	If we don't have a closest_group, let's use the backup
-		if ( !IsDefined( closest_group ) )
-		{
-			closest_group = backup_group;
-		}
-
-		if ( IsDefined( closest_group ) )
-		{
-			spawn_array = getstructarray( spawn_points[closest_group].target, "targetname" );
-
-			for( k = 0; k < spawn_array.size; k++ )
+			//	If we don't have a closest_group, let's use the backup
+			if ( !IsDefined( closest_group ) )
 			{
-				if( spawn_array[k].script_int == (revivee.entity_num + 1) )
-				{
-					return spawn_array[k].origin;
-				}
+				closest_group = backup_group;
 			}
 
-			return spawn_array[0].origin;
+			if ( IsDefined( closest_group ) )
+			{
+				spawn_array = getstructarray( spawn_points[closest_group].target, "targetname" );
+
+				for( k = 0; k < spawn_array.size; k++ )
+				{
+					if( spawn_array[k].script_int == (revivee.entity_num + 1) )
+					{
+						return spawn_array[k].origin;
+					}
+				}
+
+				return spawn_array[0].origin;
+			}
+		}
+	}
+	else
+	{
+		for( i = 0; i < players.size; i++ )
+		{
+			if( is_player_valid( players[i] ) && players[i].vsteam == revivee.vsteam )
+			{
+				for( j = 0 ; j < spawn_points.size; j++ )
+				{
+					if( isdefined(spawn_points[i].script_int) )
+						ideal_distance = spawn_points[i].script_int;
+					else
+						ideal_distance = 1000;
+
+					if ( spawn_points[j].locked == false )
+					{
+						distance = DistanceSquared( players[i].origin, spawn_points[j].origin );
+						if( distance < ( ideal_distance * ideal_distance ) )
+						{
+							if ( distance < closest_distance )
+							{
+								closest_distance = distance;
+								closest_group = j;
+							}
+						}
+						else
+						{
+							if ( distance < backup_distance )
+							{
+								backup_group = j;
+								backup_distance = distance;
+							}
+						}
+					}
+				}
+			}
+			//	If we don't have a closest_group, let's use the backup
+			if ( !IsDefined( closest_group ) )
+			{
+				closest_group = backup_group;
+			}
+
+			if ( IsDefined( closest_group ) )
+			{
+				spawn_array = getstructarray( spawn_points[closest_group].target, "targetname" );
+
+				for( k = 0; k < spawn_array.size; k++ )
+				{
+					if( spawn_array[k].script_int == (revivee.entity_num + 1) )
+					{
+						return spawn_array[k].origin;
+					}
+				}
+
+				return spawn_array[0].origin;
+			}
+			else
+			{
+				spawn_points = array_randomize(spawn_points);
+				chosen_group = undefined;
+
+				for( j = 0 ; j < spawn_points.size; j++ )
+				{
+					if(spawn_points[j].locked == false)
+					{
+						chosen_group = j;
+						break;
+					}
+				}
+
+				if(IsDefined(chosen_group))
+				{
+					spawn_array = getstructarray( spawn_points[chosen_group].target, "targetname" );
+
+					for( k = 0; k < spawn_array.size; k++ )
+					{
+						if( spawn_array[k].script_int == (revivee.entity_num + 1) )
+						{
+							return spawn_array[k].origin;
+						}
+					}
+
+					return spawn_array[0].origin;
+				}
+			}
 		}
 	}
 
 	return undefined;
-
 }
 
 
@@ -5194,13 +5285,9 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		{
 			if(level.gamemode != "survival")
 			{
-				self maps\_zombiemode_grief::grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc);
+				self thread maps\_zombiemode_grief::grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc);
 			}
-			else
-			{
-				//fix for downed players being able to damage alive players
-				return 0;
-			}
+			return 0;
 		}
 		//tracking player damage
 		if(is_true(eAttacker.is_zombie))
@@ -5382,8 +5469,11 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 
 	if ( (solo_death || non_solo_death) ) // if only one player on their last life or any game that started with more than one player
 	{
-		self thread maps\_laststand::PlayerLastStand( eInflictor, eAttacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime );
-		self player_fake_death();
+		if(level.gamemode == "survival")
+		{
+			self thread maps\_laststand::PlayerLastStand( eInflictor, eAttacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime );
+			self player_fake_death();
+		}
 	}
 
 	if( count == players.size )
@@ -5402,6 +5492,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		else
 		{
 			level thread maps\_zombiemode_grief::round_restart();
+			return finalDamage;
 		}
 
 		return 0;	// MM (09/16/09) Need to return something
@@ -6257,7 +6348,7 @@ end_game()
 	{
 		map_names = array("zombie_cod5_prototype", "zombie_cod5_asylum", "zombie_cod5_sumpf", "zombie_cod5_factory", "zombie_theater", "zombie_pentagon", "zombie_cosmodrome", "zombie_coast", "zombie_temple", "zombie_moon");
 		map_name = random(map_names);
-		if(map_name == level.script)
+		if(map_name == level.script || GetDvar("gm_version") == "1.1.0")
 		{
 			Map_Restart();
 		}
@@ -8265,23 +8356,6 @@ give_weapons_test()
 	}*/
 }
 
-spectator_test()
-{
-	self endon("disconnect");
-	self endon("death");
-
-	while(1)
-	{
-		wait 1;
-
-		if(self.sessionstate != "spectator")
-			continue;
-
-		iprintln("spectator client ent number: " + self.spectatorclient GetEntityNumber());
-		iprintln("spectator client: " + self.spectatorclient);
-	}
-}
-
 //removes idle sway on sniper scopes
 remove_idle_sway()
 {
@@ -8807,5 +8881,20 @@ disable_melee_watcher()
 				wait_network_frame();
 			}
 		}
+	}
+}
+
+test_changes()
+{
+	flag_wait("all_players_spawned");
+
+	wait 2;
+
+	players = get_players();
+
+	for(i=0;i<players.size;i++)
+	{
+		iprintln(players[i].vsteam);
+		wait 1;
 	}
 }

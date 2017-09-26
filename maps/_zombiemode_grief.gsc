@@ -20,6 +20,8 @@ init()
 	level thread open_doors();
 
 	level thread disable_special_rounds();
+
+	level thread disable_box_weapons();
 }
 
 init_fx()
@@ -55,6 +57,7 @@ post_all_players_connected()
 		for(i=0;i<players.size;i++)
 		{
 			players[i] thread instant_bleedouts();
+			players[i] thread take_tac_nades_when_used();
 		}
 	}
 }
@@ -289,9 +292,6 @@ grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 	if(sWeapon == "mine_bouncing_betty" && self getstance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
 		return;
 
-	if(sMeansOfDeath == "MOD_SUICIDE")
-		return;
-
 	self thread slowdown(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
 	if(sMeansOfDeath == "MOD_MELEE" || sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm" || sWeapon == "knife_ballistic_bowie_zm" || sWeapon == "knife_ballistic_bowie_upgraded_zm")
 	{
@@ -323,8 +323,8 @@ grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 			//	radiusdamage(self.origin,10,self.health + 100,self.health + 100);
 		}
 	}
+
 	eAttacker thread grief_points(self, sWeapon, sMeansOfDeath);
-	iDamage = 0;
 }
 
 slowdown(weapon, mod, eAttacker, loc)
@@ -566,6 +566,7 @@ round_restart(same_round)
 		players[i] TakeAllWeapons();
 		players[i] giveback_player_weapons();
 		players[i].is_drinking = false;
+		players[i] SetStance("stand");
 		if(level.gamemode != "snr")
 			players[i] thread grief_msg(i);
 		if(level.gamemode == "snr")
@@ -697,11 +698,11 @@ player_weapons_watcher()//gives player m1911 if they have no weapons; takes away
 take_tac_nades_when_used()
 {
 	self endon( "disconnect" );
-	self endon( "death" );
+	//self endon( "death" );
 	while(1)
 	{
 		tac_nade = self get_player_tactical_grenade();
-		if(self GetFractionMaxAmmo(tac_nade) == 0)
+		if(IsDefined(tac_nade) && self GetFractionMaxAmmo(tac_nade) == 0)
 		{
 			self TakeWeapon(tac_nade);
 		}
@@ -709,76 +710,20 @@ take_tac_nades_when_used()
 	}
 }
 
-grief_box_weapons()
+//disable certain box weapons
+disable_box_weapons()
 {
+	//wait for guns to be registered
+	wait_network_frame();
+
 	if(IsDefined(level.zombie_weapons["zombie_cymbal_monkey"]))
 		level.zombie_weapons["zombie_cymbal_monkey"].is_in_box = false;
-	if(IsDefined(level.zombie_weapons["thundergun_zm"]))
-		level.zombie_weapons["thundergun_zm"].is_in_box = false;
+
 	if(IsDefined(level.zombie_weapons["crossbow_explosive_zm"]))
 		level.zombie_weapons["crossbow_explosive_zm"].is_in_box = false;
+
 	if(IsDefined(level.zombie_weapons["zombie_black_hole_bomb"]))
 		level.zombie_weapons["zombie_black_hole_bomb"].is_in_box = false;
-	if(IsDefined(level.zombie_weapons["humangun_zm"]))
-		level.zombie_weapons["humangun_zm"].is_in_box = false;
-	if(IsDefined(level.zombie_weapons["microwavegundw_zm"]))
-		level.zombie_weapons["microwavegundw_zm"].is_in_box = false;
-	if(level.script == "zombie_cod5_prototype")
-	{
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel_sawed"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
-		level.zombie_weapons["zombie_bar"].is_in_box = true;
-		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
-		level.zombie_weapons["zombie_m1carbine"].is_in_box = true;
-	}
-	if(level.script == "zombie_cod5_asylum")
-	{
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel_sawed"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
-		level.zombie_weapons["zombie_bar"].is_in_box = true;
-		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
-		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
-		level.zombie_weapons["zombie_m1garand"].is_in_box = true;
-		level.zombie_weapons["mp40_zm"].is_in_box = true;
-		level.zombie_weapons["zombie_stg44"].is_in_box = true;
-	}
-	if(level.script == "zombie_cod5_sumpf")
-	{
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel_sawed"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
-		level.zombie_weapons["zombie_bar"].is_in_box = true;
-		level.zombie_weapons["zombie_type99_rifle"].is_in_box = true;
-		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
-		level.zombie_weapons["zombie_m1carbine"].is_in_box = true;
-		level.zombie_weapons["zombie_m1garand"].is_in_box = true;
-		level.zombie_weapons["mp40_zm"].is_in_box = true;
-		level.zombie_weapons["zombie_stg44"].is_in_box = true;
-		level.zombie_weapons["zombie_type100_smg"].is_in_box = true;
-	}
-	if(level.script == "zombie_cod5_factory")
-	{
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel_sawed"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
-		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
-		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
-		level.zombie_weapons["zombie_m1carbine"].is_in_box = true;
-		level.zombie_weapons["mp40_zm"].is_in_box = true;
-		level.zombie_weapons["zombie_stg44"].is_in_box = true;
-		level.zombie_weapons["zombie_type100_smg"].is_in_box = true;
-		level.zombie_weapons["zombie_fg42"].is_in_box = true;
-	}
-	if(level.script == "zombie_coast")
-	{
-		level.zombie_weapons["tesla_gun_zm"].is_in_box = true;
-	}
 }
 
 turn_power_on()

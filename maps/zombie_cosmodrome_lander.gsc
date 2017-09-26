@@ -306,7 +306,14 @@ move_gate( pos, lower, time )
 init_buy()
 {
 	trigger = GetEnt( "zip_buy", "script_noteworthy" );
-	trigger thread lander_buy_think();
+	if(level.gamemode == "survival")
+	{
+		trigger thread lander_buy_think();
+	}
+	else
+	{
+		trigger disable_trigger();
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -320,8 +327,15 @@ init_call_boxes()
 
 	for ( i = 0; i < trigger.size; i++ )
 	{
-		trigger[i] thread call_box_think();
-		self.destination = "lander_station5";
+		if(level.gamemode == "survival")
+		{
+			trigger[i] thread call_box_think();
+			self.destination = "lander_station5";
+		}
+		else
+		{
+			trigger[i] disable_trigger();
+		}
 	}
 }
 
@@ -705,6 +719,45 @@ new_lander_intro()
 	unlock_players();
 
     level thread force_wait_for_gersh_line();
+}
+
+skip_new_lander_intro()
+{
+	//level.intro_lander = true;
+//	wait( 0.3 );
+
+	wait_network_frame();
+
+	level thread lander_intro_think();
+	lander = getent( "lander", "targetname" );
+	north_pos = GetEnt( "zipline_door_n_pos", "script_noteworthy" );
+	south_pos = GetEnt( "zipline_door_s_pos", "script_noteworthy" );
+
+	lander.og_angles = lander.angles;
+	north_pos.og_angles = north_pos.angles;
+	south_pos.og_angles = south_pos.angles;
+
+	thread close_lander_gate( 0.05 );
+
+	lander = getent( "lander", "targetname" );
+
+	lander_struct = getstruct( "lander_station5", "targetname" );
+	spot1 = lander_struct.origin;
+
+	lander.anchor moveto( spot1, .05 );
+	level notify("lander_launched");
+	ClientNotify("LL");
+
+	lander.anchor waittill( "movedone" );
+	level.intro_lander = false;
+
+	//DCS: connecting/disconnecting paths so zombies can get around the console correctly.
+	lander DisconnectPaths();
+
+	flag_set("lander_grounded");
+	clientnotify("LG");
+
+	open_lander_gate();
 }
 
 

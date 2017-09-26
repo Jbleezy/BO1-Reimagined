@@ -569,20 +569,23 @@ centrifuge_init()
 
 	flag_wait( "all_players_connected" );
 
-	// warning lights on
-	centrifuge_trap SetClientFlag( level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_LIGHTS );
+	if(level.gamemode == "survival")
+	{
+		// warning lights on
+		centrifuge_trap SetClientFlag( level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_LIGHTS );
 
-	// Now power down
+		// Now power down
 
-	wait(4);
-	centrifuge_trap RotateYaw( 720, 10.0, 0.0, 4.5 );
-    //centrifuge_trap playloopsound( "zmb_cent_mach_loop", .6 );
-	centrifuge_trap waittill( "rotatedone" );
-	//centrifuge_trap stoploopsound( 2 );
-	centrifuge_trap playsound( "zmb_cent_end" );
+		wait(4);
+		centrifuge_trap RotateYaw( 720, 10.0, 0.0, 4.5 );
+	    //centrifuge_trap playloopsound( "zmb_cent_mach_loop", .6 );
+		centrifuge_trap waittill( "rotatedone" );
+		//centrifuge_trap stoploopsound( 2 );
+		centrifuge_trap playsound( "zmb_cent_end" );
 
-	// warning lights off
-	centrifuge_trap ClearClientFlag( level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_LIGHTS );
+		// warning lights off
+		centrifuge_trap ClearClientFlag( level._SCRIPTMOVER_COSMODROME_CLIENT_FLAG_CENTRIFUGE_LIGHTS );
+	}
 
 	level thread centrifuge_random();
 

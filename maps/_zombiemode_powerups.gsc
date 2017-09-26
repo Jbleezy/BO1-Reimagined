@@ -51,8 +51,6 @@ init()
 	level._effect["powerup_grabbed_caution"]		= LoadFX( "misc/fx_zombie_powerup_caution_grab" );
 	level._effect["powerup_grabbed_wave_caution"] 	= loadfx( "misc/fx_zombie_powerup_caution_wave" );
 
-	level._effect["powerup_last"] 					= loadfx( "reimagined/fx_zombie_powerup_last" );
-
 	if( level.mutators["mutator_noPowerups"] )
 	{
 		return;
@@ -3726,7 +3724,7 @@ powerup_hint_move_hud()
 
 grief_empty_clip_powerup( item )
 {
-	if ( !self maps\_laststand::player_is_in_laststand() && !(self.sessionstate == "spectator") )
+	if ( !self maps\_laststand::player_is_in_laststand() && self.sessionstate != "spectator" )
 	{
 		weapon = self GetCurrentWeapon();
 		self SetWeaponAmmoClip( weapon, 0 );
@@ -3736,7 +3734,7 @@ grief_empty_clip_powerup( item )
 
 grief_lose_points_powerup( item, points )
 {
-	if ( !self maps\_laststand::player_is_in_laststand() && !(self.sessionstate == "spectator") )
+	if ( !self maps\_laststand::player_is_in_laststand() && self.sessionstate != "spectator" )
 	{
 		if ( 0 > (self.score - points) )
 		{

@@ -56,9 +56,11 @@ rawfile,maps/zombie_pentagon_elevators.gsc
 
 //ASCENSION
 rawfile,maps/_zombiemode_ai_monkey.gsc
+rawfile,maps/zombie_cosmodrome.gsc
 rawfile,maps/zombie_cosmodrome_lander.gsc
 rawfile,maps/zombie_cosmodrome_traps.gsc
 rawfile,maps/zombie_cosmodrome_eggs.gsc
+rawfile,maps/zombie_cosmodrome_pack_a_punch.gsc
 
 //COTD
 rawfile,maps/zombie_coast.gsc
@@ -198,7 +200,6 @@ sound,reimagined
 stringtable,weaponoptions.csv
 
 //FX
-fx,reimagined/fx_zombie_powerup_last
 fx,grief/fx_grief_shock
 fx,misc/fx_zombie_powerup_on_red
 fx,misc/fx_zombie_powerup_red_grab
