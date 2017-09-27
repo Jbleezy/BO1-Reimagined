@@ -197,7 +197,7 @@ main()
 
 	level thread increase_revive_radius();
 
-	level thread test_changes();
+	//level thread test_changes();
 }
 
 post_all_players_connected()
@@ -589,9 +589,6 @@ init_strings()
 	PrecacheString( &"REIMAGINED_WEAPONCOSTAMMO_UPGRADE" );
 	PrecacheString( &"REIMAGINED_WEAPONCOSTAMMO_UPGRADE_HACKED" );
 	PrecacheString( &"REIMAGINED_MYSTERY_BOX" );
-
-	PrecacheString( &"REIMAGINED_YOU_WIN" );
-	PrecacheString( &"REIMAGINED_YOU_LOSE" );
 
 	switch(ToLower(GetDvar(#"mapname")))
 	{
@@ -1174,7 +1171,9 @@ init_flags()
 	flag_init( "end_round_wait" );
 	flag_init( "wait_and_revive" );
 	flag_init("instant_revive");
+
 	flag_init("insta_kill_round");
+	flag_init("round_restarting");
 }
 
 // Client flags registered here should be for global zombie systems, and should
@@ -1875,9 +1874,10 @@ onPlayerSpawned()
 
 		self waittill( "spawned_player" );
 
-		if((IsDefined(level.round_restart) && !level.round_restart) || !isDefined(level.round_restart))
+		if(!flag("round_restarting"))
 		{
 			self thread give_starting_weapon("m1911_zm");
+			self thread set_melee_actionslot();
 		}
 
 		self freezecontrols( false );
@@ -1923,8 +1923,6 @@ onPlayerSpawned()
 		self thread stielhandgranate_impact_damage();
 
 		self thread revive_grace_period();
-
-		self thread set_melee_actionslot();
 
 		self thread no_weapon_watcher();
 
@@ -8012,7 +8010,7 @@ zombies_remaining_hud()
 		else
 		{
 			zombs = level.zombie_total + get_enemy_count();
-			if(zombs == 0 || is_true(level.round_restart))
+			if(zombs == 0 || flag("round_restarting"))
 			{
 				if(GetDvar("zombs_remaining") != "")
 				{
@@ -8538,6 +8536,7 @@ button_pressed_test()
 
 set_melee_actionslot()
 {
+	wait_network_frame();
 	melee = self get_player_melee_weapon();
 	if(IsDefined(melee))
 	{

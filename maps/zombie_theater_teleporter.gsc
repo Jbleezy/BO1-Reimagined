@@ -273,13 +273,26 @@ player_teleporting( index, user )
 	//DCS: Add return trigger system here.
 	//level thread movie_graveyard_return();
 	//level waittill("return_from_graveyard");
-	wait(30);
+	//wait(30);
+
+	level waittill_notify_or_timeout("round_restarted", 30);
 
 	// DCS: extracam shut down.
 	level.extracam_screen Hide();
 	clientnotify("camera_stop");
 
-	if ( randomint( 100 ) > 24 && !IsDefined( level.eeroomsinuse ) && level.radio_egg_counter == 2 ) // ww: chaning the frequency to 75%
+	if(flag("round_restarting"))
+	{
+		players = get_players();
+		for(i=0;i<players.size;i++)
+		{
+			players[i].inteleportation = false;
+		}
+		level.eeroomsinuse = undefined;
+		return;
+	}
+
+	if ( randomint( 100 ) > 24 && !IsDefined( level.eeroomsinuse ) && level.radio_egg_counter == 2 && level.gamemode == "survival" ) // ww: chaning the frequency to 75%
 	{
 		loc = "eerooms";
 		level.eeroomsinuse = true;

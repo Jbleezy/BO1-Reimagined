@@ -11,6 +11,8 @@ init()
 
 	init_fx();
 
+	init_strings();
+
 	level thread include_powerups();
 
 	level thread post_all_players_connected();
@@ -27,6 +29,17 @@ init()
 init_fx()
 {
 	level._effect["grief_shock"] = LoadFX("grief/fx_grief_shock");
+}
+
+init_strings()
+{
+	PrecacheString( &"REIMAGINED_YOU_WIN" );
+	PrecacheString( &"REIMAGINED_YOU_LOSE" );
+
+	PrecacheString( &"REIMAGINED_ANOTHER_CHANCE" );
+	PrecacheString( &"REIMAGINED_ENEMY_DOWN" );
+	PrecacheString( &"REIMAGINED_ALL_ENEMIES_DOWN" );
+	PrecacheString( &"REIMAGINED_SURVIVE_TO_WIN" );
 }
 
 include_powerups()
@@ -51,10 +64,12 @@ post_all_players_connected()
 
 	setup_grief_logo();
 
-	if(level.gamemode == "ffa")
+	players = get_players();
+	for(i=0;i<players.size;i++)
 	{
-		players = get_players();
-		for(i=0;i<players.size;i++)
+		players[i] setup_grief_msg();
+
+		if(level.gamemode == "ffa")
 		{
 			players[i] thread instant_bleedouts();
 			players[i] thread take_tac_nades_when_used();
@@ -64,6 +79,8 @@ post_all_players_connected()
 
 instant_bleedouts()
 {
+	self endon( "disconnect" );
+
 	while(1)
 	{
 		self waittill("player_downed");
@@ -179,10 +196,9 @@ disable_character_dialog()
 
 store_player_weapons()
 {
-	//iprintln(self, " taking weapons");
 	self.weaponInventory = self GetWeaponsList();
-	self.lastActiveWeapon = self GetCurrentWeapon();
-	self SetLastStandPrevWeap( self.lastActiveWeapon );
+	self.lastActiveStoredWeap = self GetCurrentWeapon();
+	self SetLastStandPrevWeap( self.lastActiveStoredWeap );
 	self.melee = self get_player_melee_weapon();
 	self.lethal = self get_player_lethal_grenade();
 	self.tac = self get_player_tactical_grenade();
@@ -207,8 +223,13 @@ store_player_weapons()
 		case "zombie_perk_bottle_nuke":
 		case "zombie_perk_bottle_deadshot":
 		case "zombie_perk_bottle_additionalprimaryweapon":
+
+		case "zombie_knuckle_crack":
+
+		case "zombie_bowie_flourish":
+		case "zombie_sickle_flourish":
 			self TakeWeapon( weapon );
-			self.lastActiveWeapon = "none";
+			self.lastActiveStoredWeap = "none";
 			continue;
 		}
 
@@ -236,6 +257,11 @@ giveback_player_weapons()
 		case "zombie_perk_bottle_nuke":
 		case "zombie_perk_bottle_deadshot":
 		case "zombie_perk_bottle_additionalprimaryweapon":
+
+		case "zombie_knuckle_crack":
+
+		case "zombie_bowie_flourish":
+		case "zombie_sickle_flourish":
 			continue;
 		}
 
@@ -252,22 +278,9 @@ giveback_player_weapons()
 		if ( WeaponType( weapon ) != "grenade" )
 			self SetWeaponAmmoStock( weapon, self.weaponAmmo[weapon]["stock"] );
 	}
-	
-	if( self.lastActiveWeapon != "none" && self.lastActiveWeapon != "mortar_round" && self.lastActiveWeapon != "mine_bouncing_betty" && self.lastActiveWeapon != "claymore_zm" )
-	{
-		self SwitchToWeapon( self.lastActiveWeapon );
-	}
-	else
-	{
-		primaryWeapons = self GetWeaponsListPrimaries();
-		if( IsDefined( primaryWeapons ) && primaryWeapons.size > 0 )
-		{
-			self SwitchToWeapon( primaryWeapons[0] );
-		}
-	}
 
 	self set_player_melee_weapon(self.melee);
-	self maps\_zombiemode::set_melee_actionslot();
+	self thread maps\_zombiemode::set_melee_actionslot();
 	
 	self set_player_lethal_grenade(self.lethal);
 
@@ -283,12 +296,28 @@ giveback_player_weapons()
 		self setactionslot(4,"weapon",self.mine);
 		self setweaponammoclip(self.mine,2);
 	}
+
+	if( self.lastActiveStoredWeap != "none" && self.lastActiveStoredWeap != "mortar_round" && self.lastActiveStoredWeap != "mine_bouncing_betty" && self.lastActiveStoredWeap != "claymore_zm" )
+	{
+		self SwitchToWeapon( self.lastActiveStoredWeap );
+	}
+	else
+	{
+		primaryWeapons = self GetWeaponsListPrimaries();
+		if( IsDefined( primaryWeapons ) && primaryWeapons.size > 0 )
+		{
+			self SwitchToWeapon( primaryWeapons[0] );
+		}
+		else
+		{
+			//TODO - switch to combat knife
+			//self SwitchToWeapon( primaryWeapons[0] );
+		}
+	}
 }
 
 grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 {
-	iprintln(sMeansOfDeath);
-	iprintln(iDamage);
 	if(sWeapon == "mine_bouncing_betty" && self getstance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
 		return;
 
@@ -449,89 +478,99 @@ grief_bleedout_points(dead_player)
 	}
 }
 
-grief_msg(i)
+setup_grief_msg()
 {
-	players = get_players();
-	players_alive = get_number_of_valid_players();
-	enemies_alive = players[i] get_number_of_valid_enemy_players();
-	if(!is_player_valid(players[i]))
-		enemies_alive -= 1;
-	if(!IsDefined(players[i].hud_setup))
-	{
-		players[i].hud_setup = false;
-		survived = [];
-		survived[i] = NewClientHudElem( players[i] );
-		survived[i].alignX = "center";
-		survived[i].alignY = "middle";
-		survived[i].horzAlign = "center";
-		survived[i].vertAlign = "middle";
-		survived[i].y -= 100;
-		survived[i].foreground = true;
-		survived[i].fontScale = 2;
-		survived[i].alpha = 0;
-		survived[i].color = ( 1.0, 1.0, 1.0 );
-		all_down = [];
-		all_down[i] = NewClientHudElem( players[i] );
-		all_down[i].alignX = "center";
-		all_down[i].alignY = "middle";
-		all_down[i].horzAlign = "center";
-		all_down[i].vertAlign = "middle";
-		all_down[i].y -= 75;
-		all_down[i].foreground = true;
-		all_down[i].fontScale = 2;
-		all_down[i].alpha = 0;
-		all_down[i].color = ( 1.0, 1.0, 1.0 );
-		players[i].grief_hud1 = survived[i];
-		players[i].grief_hud2 = all_down[i];
-	}
+	self.grief_hud1 = NewClientHudElem( self );
+	self.grief_hud1.alignX = "center";
+	self.grief_hud1.alignY = "middle";
+	self.grief_hud1.horzAlign = "center";
+	self.grief_hud1.vertAlign = "middle";
+	self.grief_hud1.y -= 100;
+	self.grief_hud1.foreground = true;
+	self.grief_hud1.fontScale = 2;
+	self.grief_hud1.alpha = 0;
+	self.grief_hud1.color = ( 1.0, 1.0, 1.0 );
 
-	if(level.round_restart)
+	self.grief_hud2 = NewClientHudElem( self );
+	self.grief_hud2.alignX = "center";
+	self.grief_hud2.alignY = "middle";
+	self.grief_hud2.horzAlign = "center";
+	self.grief_hud2.vertAlign = "middle";
+	self.grief_hud2.y -= 75;
+	self.grief_hud2.foreground = true;
+	self.grief_hud2.fontScale = 2;
+	self.grief_hud2.alpha = 0;
+	self.grief_hud2.color = ( 1.0, 1.0, 1.0 );
+}
+
+grief_msg()
+{
+	self notify("grief_msg");
+	self endon("grief_msg");
+
+	players_alive = get_number_of_valid_players();
+	enemies_alive = self get_number_of_valid_enemy_players();
+	if(!is_player_valid(self))
+		enemies_alive -= 1;
+
+	self.grief_hud1.alpha = 0;
+	self.grief_hud2.alpha = 0;
+
+	if(flag("round_restarting"))
 	{
-		players[i].grief_hud1 SetText( "You have been given another chance" );
-		players[i].grief_hud1 FadeOverTime( 1 );
-		players[i].grief_hud1.alpha = 1;
-		thread grief_msg_fade_away(players[i].grief_hud1);
+		self.grief_hud1 SetText( &"REIMAGINED_ANOTHER_CHANCE" );
+		self.grief_hud1 FadeOverTime( 1 );
+		self.grief_hud1.alpha = 1;
+		self thread grief_msg_fade_away(self.grief_hud1);
 	}
 	else if (enemies_alive >= 1)
 	{
-		players[i].grief_hud1 SetText( "Enemy Down! ["+enemies_alive+" Remaining]" );
-		players[i].grief_hud1 FadeOverTime( 1 );
-		players[i].grief_hud1.alpha = 1;
-		thread grief_msg_fade_away(players[i].grief_hud1);
+		self.grief_hud1 SetText( &"REIMAGINED_ENEMY_DOWN", enemies_alive );
+		self.grief_hud1 FadeOverTime( 1 );
+		self.grief_hud1.alpha = 1;
+		self thread grief_msg_fade_away(self.grief_hud1);
 	}
 	else if (enemies_alive == 0 && players_alive >= 1)
 	{
-		players[i].grief_hud1 SetText( "All Enemies Down!" );
-		players[i].grief_hud1 FadeOverTime( 1 );
-		players[i].grief_hud1.alpha = 1;
-		thread grief_msg_fade_away(players[i].grief_hud1);
+		self.grief_hud1 SetText( &"REIMAGINED_ALL_ENEMIES_DOWN" );
+		self.grief_hud1 FadeOverTime( 1 );
+		self.grief_hud1.alpha = 1;
+		self thread grief_msg_fade_away(self.grief_hud1);
 		wait(2.5);
-		players[i].grief_hud2 SetText( "Survive to Win!" );
-		players[i].grief_hud2 FadeOverTime( 1 );
-		players[i].grief_hud2.alpha = 1;
-		thread grief_msg_fade_away(players[i].grief_hud2);
+		self.grief_hud2 SetText( &"REIMAGINED_SURVIVE_TO_WIN" );
+		self.grief_hud2 FadeOverTime( 1 );
+		self.grief_hud2.alpha = 1;
+		self thread grief_msg_fade_away(self.grief_hud2);
 	}	
 }
 
 grief_msg_fade_away(text)
 {
+	self endon("grief_msg");
+
 	wait( 3.0 );
 
 	text FadeOverTime( 1 );
 	text.alpha = 0;
-	text delete();
+	//text delete();
 }
 
 round_restart(same_round)
 {
-	level.round_restart = true;
+	flag_set("round_restarting");
+	flag_clear( "spawn_zombies");
+
+	wait_network_frame();
+	level notify( "round_restarted" );
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
 		players[i].bleedout_time = 0;
 	}
-	flag_clear( "spawn_zombies");
+
 	wait(1);
+
 	zombs = getaispeciesarray("axis");
 	for(i=0;i<zombs.size;i++)
 	{
@@ -568,7 +607,7 @@ round_restart(same_round)
 		players[i].is_drinking = false;
 		players[i] SetStance("stand");
 		if(level.gamemode != "snr")
-			players[i] thread grief_msg(i);
+			players[i] thread grief_msg();
 		if(level.gamemode == "snr")
 		{
 			if(players[i].score < 5000)
@@ -583,15 +622,15 @@ round_restart(same_round)
 		level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_defcon_reset" );
 	else
 		level thread play_sound_2d( "sam_nospawn" );*/
-	level.round_restart = false;
-	level notify( "round_restarted" );
 	if(level.gamemode == "snr")
 	{
 		if(!isdefined(same_round))
 			level.snr_round++;
 		chalk_one_up_snr();
 	}
+
 	flag_set( "spawn_zombies");
+	flag_clear("round_restarting");
 }
 
 set_grief_viewmodel()
@@ -836,17 +875,6 @@ clear_debris()
 	}
 	self delete();
 	level notify ("junk purchased");
-}
-
-setup_bleedout_time()
-{
-	flag_wait( "all_players_spawned" );
-	if(level.gamemode == "ffa")
-		SetDvar( "player_lastStandBleedoutTime", "1" );
-	else if(level.gamemode == "race")
-		SetDvar( "player_lastStandBleedoutTime", "15" );
-	else
-		SetDvar( "player_lastStandBleedoutTime", "45" );
 }
 
 remove_ee_songs()

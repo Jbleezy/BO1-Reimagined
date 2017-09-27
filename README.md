@@ -497,12 +497,13 @@
 * 4 round and 5 round special rounds will happen more equally now
 * Max health: 1 million
 * Fixed a bug that caused ceiling spawns to be able to be disabled
-* Fixed a bug that caused spawning zombies to be able to collide with players when they were still invisible to the player
+* Fixed a bug that caused spawning zombies to be able to collide with players while they were still invisible to the player
 * Zombies can now gib when damaged from the Bowie Knife or Sickle
 * Fixed certain zombie swipes that damaged players at incorrect times
 
 ### Dogs
 * No longer gain additional points for kills from dogs when killing dogs with wonder weapons
+* Fixed a bug that caused spawning dogs to be able to collide with players while they were still invisible to the player
 
 ### Nova Crawlers
 * The player who kills a Nova Crawler gets the kills for any zombies killed from the explosion of the Nova Crawler
@@ -787,7 +788,6 @@
 * Moon: fix sliding sound keep playing when off object
 * Make turrets better
 * Try adding 1st person mode to DOA
-* Remove collision from dogs while theyre spawning(dog SetPlayerCollision(0);)
 * Fix stielhandgranate impact damage
 * Mule Kick: add jingle
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
@@ -800,10 +800,13 @@
 * Make ray gun take legs off nova crawlers
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
 * Fix perk gloss (might be fixed)
-* Grief: make suiciding with a grenade not deal extra damage to enemy players
-* Grief: fire sale make traps cost 10 points
-* Grief: make enemy mines destructible
-* Fix players besides host not always getting combat knife on respawn
+
+## GRIEF TODO:
+* Fire Sale make traps cost 10 points
+* Make enemy mines destructible
+* Remove half points sound (plays for all players)
+* Fix players always getting combat knife in hand on round restart
+* Fix players not always respawning on round restart (seems to happen when last player dies from hodling grenade)
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -811,8 +814,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Ray Gun: make sure ray gun isnt glitching out other AI types
 * See if turrets are still making damage markers in coop
-* See if suiciding with a grenade still deals extra damage to enemy players in grief
-* See if powerdowns are working
+* See if players are getting combat knife on spawn in coop
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
