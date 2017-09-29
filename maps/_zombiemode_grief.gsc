@@ -9,9 +9,7 @@ init()
 		return;
 	}
 
-	init_fx();
-
-	init_strings();
+	grief_precache();
 
 	level thread include_powerups();
 
@@ -26,12 +24,7 @@ init()
 	level thread disable_box_weapons();
 }
 
-init_fx()
-{
-	level._effect["grief_shock"] = LoadFX("grief/fx_grief_shock");
-}
-
-init_strings()
+grief_precache()
 {
 	PrecacheString( &"REIMAGINED_YOU_WIN" );
 	PrecacheString( &"REIMAGINED_YOU_LOSE" );
@@ -40,6 +33,16 @@ init_strings()
 	PrecacheString( &"REIMAGINED_ENEMY_DOWN" );
 	PrecacheString( &"REIMAGINED_ALL_ENEMIES_DOWN" );
 	PrecacheString( &"REIMAGINED_SURVIVE_TO_WIN" );
+
+	level._effect["grief_shock"] = LoadFX("grief/fx_grief_shock");
+
+	PrecacheShader("waypoint_cia");
+	PrecacheShader("waypoint_cdc");
+
+	precacheModel("bo2_c_zom_hazmat_viewhands");
+	precacheModel("bo2_c_zom_player_cdc_fb");
+	precacheModel("bo2_c_zom_suit_viewhands");
+	precacheModel("bo2_c_zom_player_cia_fb");
 }
 
 include_powerups()
@@ -197,13 +200,18 @@ disable_character_dialog()
 store_player_weapons()
 {
 	self.weaponInventory = self GetWeaponsList();
+
 	self.lastActiveStoredWeap = self GetCurrentWeapon();
+	if(self.lastActiveStoredWeap == "microwavegun_zm")
+	{
+		self.lastActiveStoredWeap = "microwavegundw_zm";
+	}
 	self SetLastStandPrevWeap( self.lastActiveStoredWeap );
+
 	self.melee = self get_player_melee_weapon();
 	self.lethal = self get_player_lethal_grenade();
 	self.tac = self get_player_tactical_grenade();
 	self.mine = self get_player_placeable_mine();
-	
 	
 	self.hadpistol = false;
 	for( i = 0; i < self.weaponInventory.size; i++ )
@@ -235,6 +243,21 @@ store_player_weapons()
 
 		self.weaponAmmo[weapon]["clip"] = self GetWeaponAmmoClip( weapon );
 		self.weaponAmmo[weapon]["stock"] = self GetWeaponAmmoStock( weapon );
+
+		self.weaponAmmo[weapon]["clip_dual_wield"] = undefined;
+		dual_wield_name = WeaponDualWieldWeaponName( weapon );
+		if ( dual_wield_name != "none" )
+		{
+			self.weaponAmmo[dual_wield_name]["clip"] = self GetWeaponAmmoClip( dual_wield_name );
+		}
+
+		//dont store the weapon attachment name as the last active weapon or can't switch to it
+		wep_prefix = GetSubStr(weapon, 0, 3);
+		alt_wep = WeaponAltWeaponName(weapon);
+		if(alt_wep != "none" && (wep_prefix == "gl_" || wep_prefix == "mk_" || wep_prefix == "ft_"))
+		{
+			self.lastActiveStoredWeap = alt_wep;
+		}
 	}
 }
 
@@ -276,7 +299,15 @@ giveback_player_weapons()
 		self SetWeaponAmmoClip( weapon, self.weaponAmmo[weapon]["clip"] );
 
 		if ( WeaponType( weapon ) != "grenade" )
+		{
 			self SetWeaponAmmoStock( weapon, self.weaponAmmo[weapon]["stock"] );
+
+			dual_wield_name = WeaponDualWieldWeaponName( weapon );
+			if ( dual_wield_name != "none" && IsDefined(self.weaponAmmo[dual_wield_name]["clip"]) )
+			{
+				self SetWeaponAmmoClip( dual_wield_name, self.weaponAmmo[dual_wield_name]["clip"] );
+			}
+		}
 	}
 
 	self set_player_melee_weapon(self.melee);
@@ -297,7 +328,8 @@ giveback_player_weapons()
 		self setweaponammoclip(self.mine,2);
 	}
 
-	if( self.lastActiveStoredWeap != "none" && self.lastActiveStoredWeap != "mortar_round" && self.lastActiveStoredWeap != "mine_bouncing_betty" && self.lastActiveStoredWeap != "claymore_zm" )
+	if( self.lastActiveStoredWeap != "none" && self.lastActiveStoredWeap != "mine_bouncing_betty" && self.lastActiveStoredWeap != "claymore_zm" && self.lastActiveStoredWeap != "spikemore_zm" 
+		&& self.lastActiveStoredWeap != "combat_knife_zm" && self.lastActiveStoredWeap != "combat_bowie_knife_zm" && self.lastActiveStoredWeap != "combat_sickle_knife_zm" )
 	{
 		self SwitchToWeapon( self.lastActiveStoredWeap );
 	}
@@ -310,9 +342,20 @@ giveback_player_weapons()
 		}
 		else
 		{
-			//TODO - switch to combat knife
-			//self SwitchToWeapon( primaryWeapons[0] );
+			self thread switch_to_combat_knife();
 		}
+	}
+}
+
+switch_to_combat_knife()
+{
+	wait_network_frame();
+
+	melee = self get_player_melee_weapon();
+	if(IsDefined(melee))
+	{
+		wep = "combat_" + melee;
+		self SwitchToWeapon(wep);
 	}
 }
 
@@ -560,6 +603,7 @@ round_restart(same_round)
 	flag_set("round_restarting");
 	flag_clear( "spawn_zombies");
 
+	//let player who just downed get last stand stuff initialized first
 	wait_network_frame();
 	level notify( "round_restarted" );
 
@@ -577,13 +621,11 @@ round_restart(same_round)
 		if(zombs[i].animname == "zombie" || zombs[i].animname == "zombie_dog" || zombs[i].animname == "quad_zombie")
 			zombs[i] DoDamage( zombs[i].health + 2000, (0,0,0) );
 	}
-	max = level.zombie_vars["zombie_max_ai"];
-	//level.zombie_total = [[ level.max_zombie_func ]]( max );
 
-	//reset the amount of zombies in a round
-	maps\_zombiemode::ai_calculate_amount();
+	maps\_zombiemode::ai_calculate_amount(); //reset the amount of zombies in a round
 
 	level.powerup_drop_count = 0; //restarts the amount of powerups you can earn this round
+
 	if( !IsDefined( level.custom_spawnPlayer ) )
 	{
 		// Custom spawn call for when they respawn from spectator
@@ -594,11 +636,11 @@ round_restart(same_round)
 	{
 		players[i] [[level.spawnPlayer]]();
 	}
-	wait_network_frame();
-	//wait_network_frame();//needed for correct weapon switch
+
+	wait_network_frame();//needed for stored weapons to work correctly and round_restarting flag was being cleared too soon
+
 	for(i=0;i<players.size;i++)
 	{
-		//players[i] [[level.spawnPlayer]]();
 		players[i] notify( "round_restarted" );
 		players[i].rebuild_barrier_reward = 0;
 		players[i] DoDamage( 0, (0,0,0) );//fix for health not being correct
@@ -617,11 +659,14 @@ round_restart(same_round)
 			}
 		}
 	}
+
 	level thread maps\_zombiemode::award_grenades_for_survivors(); //get 2 extra grenades when you spawn back in
+
 	/*if(level.script == "zombie_pentagon")
 		level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_defcon_reset" );
 	else
 		level thread play_sound_2d( "sam_nospawn" );*/
+
 	if(level.gamemode == "snr")
 	{
 		if(!isdefined(same_round))
@@ -1335,7 +1380,7 @@ revive_grace_period()
 	}
 }
 
-grief_revive_icon()
+/*grief_revive_icon()
 {
 	self.waypointYel = newHudElem();
 	self.waypointYel SetTargetEnt(self);
@@ -1354,23 +1399,6 @@ grief_revive_icon()
 	self.waypointWhi setWaypoint( true, "waypoint_" + self.griefteamname );
 	self.waypointWhi.color = ( 1, 1, 1 );
 	self thread grief_revive_icon_hide_show_think();
-}
-
-fade_over_time(time)
-{
-	self endon( "player_revived" );
-	self endon( "bled_out" );
-	self endon( "round_restarted" );
-	frames = time * 5;
-	g_diff = .7 / frames;
-	b_diff = .1 / frames;
-	for(i=0;i<frames;i++)
-	{
-		g_color = .7 - (g_diff * i);
-		b_color = .1 - (b_diff * i);
-		self.waypointYel.color = (1, g_color, b_color);
-		wait .2;
-	}
 }
 
 grief_revive_icon_hide_show_think()
@@ -1402,7 +1430,7 @@ remove_grief_revive_icon()
 		if(isdefined(self.waypointWhi))
 			self.waypointWhi destroy_hud();
 	}
-}
+}*/
 
 reduce_survive_zombie_amount()
 {
@@ -1422,4 +1450,100 @@ reduce_survive_zombie_amount()
 		}
 		wait 1;
 	}
+}
+
+revive_icon()
+{
+	//waypoint = "waypoint_survival";
+	if(IsDefined(level.vsteam))
+	{
+		waypoint = "waypoint_" + level.vsteam;
+	}
+	else
+	{
+		waypoint = "waypoint_" + self.vsteam;
+	}
+
+	iprintln(waypoint);
+
+	self.waypointYel = newHudElem();
+	self.waypointYel SetTargetEnt(self);
+	//self.waypointYel.x = self.origin[0];
+	//self.waypointYel.y = self.origin[1];
+	//self.waypointYel.z = self.origin[2];
+	self.waypointYel.sort = 100;
+	self.waypointYel.alpha = 1;
+	self.waypointYel setWaypoint( true, waypoint );
+	self.waypointYel.color = ( 1, .7, .1 );
+
+	self.waypointWhi = newHudElem();
+	self.waypointWhi SetTargetEnt(self);
+	//self.waypointWhi.x = self.origin[0];
+	//self.waypointWhi.y = self.origin[1];
+	//self.waypointWhi.z = self.origin[2];
+	self.waypointWhi.sort = 101;
+	self.waypointWhi.alpha = 0;
+	self.waypointWhi setWaypoint( true, waypoint );
+	self.waypointWhi.color = ( 1, 1, 1 );
+
+	time = int(GetDvar("player_lastStandBleedoutTime"));
+	self thread revive_icon_fade_over_time(time);
+	//self.waypointYel fadeovertime( time );// / 1.25
+	//self.waypointYel.color = ( 1, 0, 0 );
+
+	self thread revive_icon_hide_show_think();
+
+	self thread destroy_revive_icon();
+}
+
+revive_icon_fade_over_time(time)
+{
+	self endon( "disconnect" );
+	self endon( "player_revived" );
+	self endon( "bled_out" );
+	self endon( "round_restarting" );
+
+	frames = time * 20;
+	g_diff = .7 / frames;
+	b_diff = .1 / frames;
+	for(i=0;i<frames;i++)
+	{
+		g_color = .7 - (g_diff * i);
+		b_color = .1 - (b_diff * i);
+		self.waypointYel.color = (1, g_color, b_color);
+		wait .05;
+	}
+}
+
+revive_icon_hide_show_think()
+{
+	self endon( "disconnect" );
+	self endon( "player_revived" );
+	self endon( "bled_out" );
+	self endon( "round_restarting" );
+
+	while( 1 )
+	{
+		if( isDefined( self.revivetrigger ) && isDefined( self.revivetrigger.beingRevived ) && self.revivetrigger.beingRevived )
+		{
+			self.waypointWhi.alpha = 1;
+		}
+		else
+		{
+			self.waypointWhi.alpha = 0;
+		}
+
+		wait 0.05;
+	}
+}
+
+destroy_revive_icon()
+{
+	self endon( "disconnect" );
+
+	self waittill_any("player_revived","bled_out","round_restarting");
+	if(isdefined(self.waypointYel))
+		self.waypointYel destroy_hud();
+	if(isdefined(self.waypointWhi))
+		self.waypointWhi destroy_hud();
 }

@@ -800,13 +800,15 @@
 * Make ray gun take legs off nova crawlers
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
 * Fix perk gloss (might be fixed)
+* Possibly reduce Der Riese & Kino teleporter kill radius (since they both got buffed)
+* Fix red screens not working after respawn
 
 ## GRIEF TODO:
 * Fire Sale make traps cost 10 points
 * Make enemy mines destructible
 * Remove half points sound (plays for all players)
-* Fix players always getting combat knife in hand on round restart
 * Fix players not always respawning on round restart (seems to happen when last player dies from hodling grenade)
+* Kino: fix players teleporting to pack on spawn if round restart happens when they are teleporting
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -815,6 +817,7 @@
 * Ray Gun: make sure ray gun isnt glitching out other AI types
 * See if turrets are still making damage markers in coop
 * See if players are getting combat knife on spawn in coop
+* Test revive changes
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

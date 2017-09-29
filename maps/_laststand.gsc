@@ -457,8 +457,6 @@ revive_trigger_think()
 
 	while ( 1 )
 	{
-		wait ( 0.1 );
-
 		//assert( DistanceSquared( self.origin, self.revivetrigger.origin ) <= 25 );
 		//drawcylinder( self.revivetrigger.origin, 32, 32 );
 
@@ -470,7 +468,7 @@ revive_trigger_think()
 		{
 			//PI CHANGES - revive should work in deep water for nazi_zombie_sumpf
 			d = 0;
-					d = self depthinwater();
+			d = self depthinwater();
 
 			if ( players[i] can_revive( self ) || d > 20)
 			//END PI CHANGES
@@ -481,6 +479,7 @@ revive_trigger_think()
 				// (making sure to prioritize against any other hints from nearby objects),
 				// or we need a new combined radius+lookat trigger type.
 				self.revivetrigger setHintString( &"GAME_BUTTON_TO_REVIVE_PLAYER" );
+				//self.revivetrigger SetInvisibleToPlayer( players[i], false );
 				break;
 			}
 		}
@@ -523,6 +522,8 @@ revive_trigger_think()
 				return;
 			}
 		}
+
+		wait ( 0.1 );
 	}
 }
 
@@ -561,7 +562,6 @@ revive_give_back_weapons( gun )
 	}
 }
 
-
 can_revive( revivee )
 {
 	if ( !isAlive( self ) )
@@ -590,6 +590,11 @@ can_revive( revivee )
 	}
 
 	if ( !self IsTouching( revivee.revivetrigger ) )
+	{
+		return false;
+	}
+
+	if(level.gamemode != "survival" && revivee.vsteam != self.vsteam)
 	{
 		return false;
 	}
@@ -836,6 +841,11 @@ remote_revive( reviver )
 		return;
 	}
 
+	if(level.gamemode != "survival" && self.vsteam != reviver.vsteam)
+	{
+		return;
+	}
+
 	// ww: achievement change, no damage in rounds now revive
 	reviver giveachievement_wrapper( "SP_ZOM_NODAMAGE" );
 
@@ -960,6 +970,11 @@ revive_hud_think()
 					{
 						continue;
 					}
+				}
+
+				if( level.gamemode != "survival" && players[i].vsteam != playerToRevive.vsteam ) 
+				{
+					continue;
 				}
 
 				players[i] thread fadeReviveMessageOver( playerToRevive, 3.0 );

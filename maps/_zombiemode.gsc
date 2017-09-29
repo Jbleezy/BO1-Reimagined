@@ -197,7 +197,7 @@ main()
 
 	level thread increase_revive_radius();
 
-	//level thread test_changes();
+	level thread test_changes();
 }
 
 post_all_players_connected()
@@ -558,14 +558,6 @@ precache_models()
 	precachemodel("zombie_revive");
 
 	PrecacheModel( "zombie_z_money_icon" );
-
-	if(level.gamemode != "survival")
-	{
-		precacheModel("bo2_c_zom_hazmat_viewhands");
-		precacheModel("bo2_c_zom_player_cdc_fb");
-		precacheModel("bo2_c_zom_suit_viewhands");
-		precacheModel("bo2_c_zom_player_cia_fb");
-	}
 }
 
 init_shellshocks()
@@ -2521,6 +2513,10 @@ player_laststand( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, s
 {
 	// Grab the perks, we'll give them back to the player if he's revived
 	//self.laststand_perks = maps\_zombiekmode_deathcard::deathcard_save_perks( self );
+	if(level.gamemode != "survival")
+	{
+		self thread maps\_zombiemode_grief::revive_icon();
+	}
 
  	if ( self HasPerk( "specialty_additionalprimaryweapon" ) )
  	{
@@ -7784,6 +7780,8 @@ total_time()
 			players[i] SetClientDvar("total_time", time);
 		}
 
+		//TODO - set round time and round total time whenever total time is set (which is here) so that the extra zeroes get added right away
+
 		wait 1;
 
 		level.total_time++;
@@ -7887,7 +7885,6 @@ round_time()
 	{
 		time = to_mins_short(level.round_time);
 
-		//TODO - add spaces in front of round_total_time if "total_time" dvar is above 10 mins, 1 hour, 10 hours
 		if(IsDefined(level.total_time))
 		{
 			if(level.total_time >= 36000) //10 hours
@@ -8334,9 +8331,6 @@ give_weapons_test()
 	self set_player_tactical_grenade( "molotov_zm" );
 
 	//level thread maps\_zombiemode_grief::turn_power_on();
-
-	//wait 5;
-
 
 	/*wait 1;
 	origin = self.origin;
@@ -8888,12 +8882,4 @@ test_changes()
 	flag_wait("all_players_spawned");
 
 	wait 2;
-
-	players = get_players();
-
-	for(i=0;i<players.size;i++)
-	{
-		iprintln(players[i].vsteam);
-		wait 1;
-	}
 }

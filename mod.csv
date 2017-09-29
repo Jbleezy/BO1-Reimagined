@@ -209,6 +209,9 @@ fx,misc/fx_zombie_powerup_red_wave
 //material,specialty_ads_zombies
 material,cdc_logo
 material,cia_logo
+material,waypoint_cdc
+material,waypoint_cia
+//material,waypoint_survival
 
 //XMODELS
 xmodel,weapon_rus_ppsh_smg
