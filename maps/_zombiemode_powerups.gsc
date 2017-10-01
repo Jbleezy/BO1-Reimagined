@@ -1369,6 +1369,12 @@ powerup_grab()
 
 		for (i = 0; i < players.size; i++)
 		{
+			//spectators should not be able to pick up powerups, this should be obvious treyarch
+			if(players[i].sessionstate == "spectator")
+			{
+				continue;
+			}
+
 			// Don't let them grab the minigun, tesla, or random weapon if they're downed or reviving
 			//	due to weapon switching issues.
 			if ( (self.powerup_name == "minigun" || self.powerup_name == "tesla" || self.powerup_name == "random_weapon") &&

@@ -529,6 +529,8 @@ precache_shaders()
 	PrecacheShader( "zom_icon_community_pot_strip" );
 
 	precacheshader("zom_icon_player_life");
+
+	PrecacheShader("waypoint_second_chance");
 }
 
 precache_models()
@@ -1817,6 +1819,27 @@ onPlayerConnect_clientDvars()
 checkForAllDead()
 {
 	players = get_players();
+
+	if(level.gamemode != "survival")
+	{
+		team = players[0].vsteam;
+		all_same_team = true;
+
+		for( i = 1; i < players.size; i++ )
+		{
+			if( players[i].vsteam != team )
+			{
+				all_same_team = false;
+				break;
+			}
+		}
+
+		if(all_same_team)
+		{
+			level notify( "end_game" );
+		}
+	}
+
 	count = 0;
 	for( i = 0; i < players.size; i++ )
 	{
@@ -1872,7 +1895,7 @@ onPlayerSpawned()
 			self thread set_melee_actionslot();
 		}
 
-		self freezecontrols( false );
+		self freezecontrols( true );
 
 		self init_player_offhand_weapons();
 
@@ -1972,8 +1995,19 @@ onPlayerSpawned()
 
 				self thread zone_hud();
 			}
+			else
+			{
+				self thread unfreeze_controls_after_frame();
+			}
 		}
 	}
+}
+
+//unfreeze after a frame so players cant become "frozen" when spawning in if they are holding attack button
+unfreeze_controls_after_frame()
+{
+	wait_network_frame();
+	self FreezeControls( false );
 }
 
 give_starting_weapon(wep)
@@ -2513,10 +2547,8 @@ player_laststand( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, s
 {
 	// Grab the perks, we'll give them back to the player if he's revived
 	//self.laststand_perks = maps\_zombiekmode_deathcard::deathcard_save_perks( self );
-	if(level.gamemode != "survival")
-	{
-		self thread maps\_zombiemode_grief::revive_icon();
-	}
+
+	self thread revive_waypoint();
 
  	if ( self HasPerk( "specialty_additionalprimaryweapon" ) )
  	{
@@ -2683,6 +2715,10 @@ spawnSpectator()
 	self.hasSpawned = true;
 	self.spawnTime = GetTime();
 	self.afk = false;
+
+	self SetElectrified(0);
+	self SetBurn(0);
+	self SetBlur(0);
 
 	println( "*************************Zombie Spectator***" );
 	self detachAll();
@@ -3264,7 +3300,7 @@ spectator_respawn()
 	}
 
 	// Penalize the player when we respawn, since he 'died'
-	self maps\_zombiemode_score::player_reduce_points( "died" );
+	//self maps\_zombiemode_score::player_reduce_points( "died" );
 
 	//DCS: make bowie & claymore trigger available again.
 	bowie_triggers = GetEntArray( "bowie_upgrade", "targetname" );
@@ -4862,6 +4898,11 @@ can_revive( reviver )
 zombify_player()
 {
 	self maps\_zombiemode_score::player_died_penalty();
+
+	if(level.gamemode != "survival")
+	{
+		level thread maps\_zombiemode_grief::grief_bleedout_points(self);
+	}
 
 	bbPrint( "zombie_playerdeaths: round %d playername %s deathtype died x %f y %f z %f", level.round_number, self.playername, self.origin );
 
@@ -8330,6 +8371,11 @@ give_weapons_test()
 	self giveweapon( "molotov_zm" );
 	self set_player_tactical_grenade( "molotov_zm" );
 
+	wait 5;
+
+	//self setelectrified(1.25);
+	//self thread maps\_hud_message::hintMessage( "Test" );
+
 	//level thread maps\_zombiemode_grief::turn_power_on();
 
 	/*wait 1;
@@ -8882,4 +8928,95 @@ test_changes()
 	flag_wait("all_players_spawned");
 
 	wait 2;
+}
+
+revive_waypoint()
+{
+	waypoint = "waypoint_second_chance";
+	if(level.gamemode != "survival")
+	{
+		if(IsDefined(level.vsteam))
+		{
+			waypoint = "waypoint_" + level.vsteam;
+		}
+		else
+		{
+			waypoint = "waypoint_" + self.vsteam;
+		}
+	}
+
+	self.reviveWaypoint = newHudElem();
+	self.reviveWaypoint SetTargetEnt(self);
+	//self.reviveWaypoint.x = self.origin[0];
+	//self.reviveWaypoint.y = self.origin[1];
+	//self.reviveWaypoint.z = self.origin[2];
+	self.reviveWaypoint.sort = 20;
+	self.reviveWaypoint.alpha = 1;
+	self.reviveWaypoint setWaypoint( true, waypoint );
+	self.reviveWaypoint.color = ( 1, .7, .1 );
+
+	time = int(GetDvar("player_lastStandBleedoutTime"));
+	self thread revive_waypoint_color_think(time);
+
+	self thread destroy_revive_waypoint();
+}
+
+revive_waypoint_color_think(time)
+{
+	self endon( "_zombie_game_over" );
+	self endon( "disconnect" );
+	self endon( "player_revived" );
+	self endon( "bled_out" );
+	self endon( "round_restarting" );
+
+	start_time = GetTime();
+	time_ms = time * 1000;
+
+	while(1)
+	{
+		current_time = GetTime();
+
+		if( isDefined( self.revivetrigger ) && isDefined( self.revivetrigger.beingRevived ) && self.revivetrigger.beingRevived )
+		{
+			self.reviveWaypoint.color = (1,1,1);
+		}
+		else
+		{
+			g_diff = ((current_time - start_time) / time_ms) * .7;
+			b_diff = ((current_time - start_time) / time_ms) * .1;
+
+			g_color = .7 - g_diff;
+			b_color = .1 - b_diff;
+			self.reviveWaypoint.color = (1, g_color, b_color);
+		}
+
+		self waittill_notify_or_timeout("update_revive_waypoint", .05);
+	}
+
+	/*frames = time * 20;
+	g_diff = .7 / frames;
+	b_diff = .1 / frames;
+	for(i=0;i<frames;i++)
+	{
+		//if(self UseButtonPressed())
+		if( isDefined( self.revivetrigger ) && isDefined( self.revivetrigger.beingRevived ) && self.revivetrigger.beingRevived )
+		{
+			self.reviveWaypoint.color = (1,1,1);
+		}
+		else
+		{
+			g_color = .7 - (g_diff * i);
+			b_color = .1 - (b_diff * i);
+			self.reviveWaypoint.color = (1, g_color, b_color);
+		}
+		wait .05;
+	}*/
+}
+
+destroy_revive_waypoint()
+{
+	self waittill_any("player_revived", "bled_out", "round_restarting", "disconnect", "_zombie_game_over");
+
+	if(isdefined(self.reviveWaypoint))
+		self.reviveWaypoint destroy_hud();
 }

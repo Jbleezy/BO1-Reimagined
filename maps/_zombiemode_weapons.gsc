@@ -1451,7 +1451,6 @@ decide_hide_show_chest_hint( endon_notify )
 
 	while( true )
 	{
-		iprintln("this is used");
 		players = get_players();
 		for( i = 0; i < players.size; i++ )
 		{
@@ -1649,7 +1648,7 @@ decide_hide_show_hint( endon_notify )
 			players = get_players();
 			for( i = 0; i < players.size; i++ )
 			{
-				if(players[i] != self.chest_user)
+				if(players[i] != self.chest_user && players[i].sessionstate != "spectator")
 				{
 					self SetInvisibleToPlayer( players[i], true );
 				}

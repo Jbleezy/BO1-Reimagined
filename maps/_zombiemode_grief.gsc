@@ -72,10 +72,11 @@ post_all_players_connected()
 	{
 		players[i] setup_grief_msg();
 
+		players[i] thread take_tac_nades_when_used();
+
 		if(level.gamemode == "ffa")
 		{
 			players[i] thread instant_bleedouts();
-			players[i] thread take_tac_nades_when_used();
 		}
 	}
 }
@@ -364,39 +365,37 @@ grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 	if(sWeapon == "mine_bouncing_betty" && self getstance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
 		return;
 
-	self thread slowdown(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
-	if(sMeansOfDeath == "MOD_MELEE" || sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm" || sWeapon == "knife_ballistic_bowie_zm" || sWeapon == "knife_ballistic_bowie_upgraded_zm")
+	//only nades, mines, flops, and scavenger do actual damage
+	//TODO - add molotov damage
+	if(!self HasPerk( "specialty_flakjacket" ))
 	{
-		self thread push(eAttacker, sWeapon, sMeansOfDeath);
-		//eAttacker thread grief_points(self);
-		//return;
-	}
-	else if(!self HasPerk( "specialty_flakjacket" ))
-	{
-		//nades
 		if(sMeansOfDeath == "MOD_GRENADE_SPLASH" && (sWeapon == "frag_grenade_zm" || sWeapon == "sticky_grenade_zm" || sWeapon == "stielhandgranate"))
 		{
+			//nades
 			//if(self.health > 25)
 			self DoDamage( 80, eInflictor.origin );
 			//else
 			//	radiusdamage(self.origin,10,self.health + 100,self.health + 100);
 		}
-		//claymores, spikemores, betties, dolls, scavenger, and flops
-		else if((sMeansOfDeath == "MOD_GRENADE_SPLASH" && (is_placeable_mine( sWeapon ) || is_tactical_grenade( sWeapon ) || sWeapon == "sniper_explosive_zm" || sWeapon == "sniper_explosive_zm")) || ( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" ))
+		else if( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" )
 		{
-			//if(self.health > 50)
-			//{
-			if( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" )
-				self DoDamage( 80, eAttacker.origin );//for flops, the origin of the player must be used
-			else
-				self DoDamage( 80, eInflictor.origin );
-			//}
-			//else
-			//	radiusdamage(self.origin,10,self.health + 100,self.health + 100);
+			//flops
+			self DoDamage( 80, eAttacker.origin );//for flops, the origin of the player must be used
+		}
+		else if((sMeansOfDeath == "MOD_GRENADE_SPLASH" && (is_placeable_mine( sWeapon ) || is_tactical_grenade( sWeapon ) || sWeapon == "sniper_explosive_zm" || sWeapon == "sniper_explosive_zm")))
+		{
+			//claymores, spikemores, betties, dolls, and scavenger
+			self DoDamage( 80, eInflictor.origin );
 		}
 	}
 
-	eAttacker thread grief_points(self, sWeapon, sMeansOfDeath);
+	self thread slowdown(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
+
+	if(sMeansOfDeath == "MOD_MELEE" 
+		|| sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm" || sWeapon == "knife_ballistic_bowie_zm" || sWeapon == "knife_ballistic_bowie_upgraded_zm")
+	{
+		self thread push(eAttacker, sWeapon, sMeansOfDeath);
+	}
 }
 
 slowdown(weapon, mod, eAttacker, loc)
@@ -413,6 +412,8 @@ slowdown(weapon, mod, eAttacker, loc)
 		else
 		{
 			self.slowdown_wait = true;
+
+			eAttacker thread grief_damage_points(self, weapon, mod);
 
 			PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
 			self AllowSprint(false);
@@ -479,7 +480,7 @@ push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/b
 	}
 }
 
-grief_points(gotgriefed, weapon, mod)
+grief_damage_points(gotgriefed, weapon, mod)
 {
 	if(gotgriefed.health < gotgriefed.maxhealth && is_player_valid(self))
 	{
@@ -490,17 +491,49 @@ grief_points(gotgriefed, weapon, mod)
 
 grief_downed_points(gotgriefed)
 {
-	self notify("monitor downed points");
-	self endon("monitor downed points");
-	while(gotgriefed.health < gotgriefed.maxhealth && is_player_valid(self))
+	//self notify("monitor downed points");
+	//self endon("monitor downed points");
+	gotgriefed endon( "player_downed" );
+
+	if(!IsDefined(gotgriefed.vs_attackers))
+	{
+		gotgriefed.vs_attackers = [];
+	}
+
+	if(is_in_array(gotgriefed.vs_attackers, self))
+	{
+		return;
+	}
+
+	gotgriefed.vs_attackers = array_add(gotgriefed.vs_attackers, self);
+
+	while(gotgriefed.health < gotgriefed.maxhealth || gotgriefed.slowdown_wait)
 	{
 		wait_network_frame();
 	}
-	if(!is_player_valid(gotgriefed) && is_player_valid(self))
+
+	gotgriefed.vs_attackers = array_remove_nokeys(gotgriefed.vs_attackers, self);
+
+	/*while(gotgriefed.health < gotgriefed.maxhealth)
+	{
+		if(!is_player_valid(gotgriefed))
+		{
+			if(is_player_valid(self))
+			{
+				points = round_up_to_ten(int(gotgriefed.score * .05));
+				self maps\_zombiemode_score::add_to_player_score( points );
+			}
+			return;
+		}
+
+		wait_network_frame();
+	}*/
+
+	/*if(!is_player_valid(gotgriefed) && is_player_valid(self))
 	{
 		points = round_up_to_ten(int(gotgriefed.score * .05));
 		self maps\_zombiemode_score::add_to_player_score( points );
-	}
+	}*/
 }
 
 grief_bleedout_points(dead_player)
@@ -513,11 +546,11 @@ grief_bleedout_points(dead_player)
 			points = round_up_to_ten(int(players[i].score * .1));
 			players[i] maps\_zombiemode_score::add_to_player_score( points );
 		}
-		else if(is_player_valid(players[i]) && players[i].vsteam == dead_player.vsteam)
+		/*else if(is_player_valid(players[i]) && players[i].vsteam == dead_player.vsteam)
 		{
 			points = round_up_to_ten(int(players[i].score * .1));
 			players[i] maps\_zombiemode_score::minus_to_player_score( points );
-		}
+		}*/
 	}
 }
 
@@ -1450,100 +1483,4 @@ reduce_survive_zombie_amount()
 		}
 		wait 1;
 	}
-}
-
-revive_icon()
-{
-	//waypoint = "waypoint_survival";
-	if(IsDefined(level.vsteam))
-	{
-		waypoint = "waypoint_" + level.vsteam;
-	}
-	else
-	{
-		waypoint = "waypoint_" + self.vsteam;
-	}
-
-	iprintln(waypoint);
-
-	self.waypointYel = newHudElem();
-	self.waypointYel SetTargetEnt(self);
-	//self.waypointYel.x = self.origin[0];
-	//self.waypointYel.y = self.origin[1];
-	//self.waypointYel.z = self.origin[2];
-	self.waypointYel.sort = 100;
-	self.waypointYel.alpha = 1;
-	self.waypointYel setWaypoint( true, waypoint );
-	self.waypointYel.color = ( 1, .7, .1 );
-
-	self.waypointWhi = newHudElem();
-	self.waypointWhi SetTargetEnt(self);
-	//self.waypointWhi.x = self.origin[0];
-	//self.waypointWhi.y = self.origin[1];
-	//self.waypointWhi.z = self.origin[2];
-	self.waypointWhi.sort = 101;
-	self.waypointWhi.alpha = 0;
-	self.waypointWhi setWaypoint( true, waypoint );
-	self.waypointWhi.color = ( 1, 1, 1 );
-
-	time = int(GetDvar("player_lastStandBleedoutTime"));
-	self thread revive_icon_fade_over_time(time);
-	//self.waypointYel fadeovertime( time );// / 1.25
-	//self.waypointYel.color = ( 1, 0, 0 );
-
-	self thread revive_icon_hide_show_think();
-
-	self thread destroy_revive_icon();
-}
-
-revive_icon_fade_over_time(time)
-{
-	self endon( "disconnect" );
-	self endon( "player_revived" );
-	self endon( "bled_out" );
-	self endon( "round_restarting" );
-
-	frames = time * 20;
-	g_diff = .7 / frames;
-	b_diff = .1 / frames;
-	for(i=0;i<frames;i++)
-	{
-		g_color = .7 - (g_diff * i);
-		b_color = .1 - (b_diff * i);
-		self.waypointYel.color = (1, g_color, b_color);
-		wait .05;
-	}
-}
-
-revive_icon_hide_show_think()
-{
-	self endon( "disconnect" );
-	self endon( "player_revived" );
-	self endon( "bled_out" );
-	self endon( "round_restarting" );
-
-	while( 1 )
-	{
-		if( isDefined( self.revivetrigger ) && isDefined( self.revivetrigger.beingRevived ) && self.revivetrigger.beingRevived )
-		{
-			self.waypointWhi.alpha = 1;
-		}
-		else
-		{
-			self.waypointWhi.alpha = 0;
-		}
-
-		wait 0.05;
-	}
-}
-
-destroy_revive_icon()
-{
-	self endon( "disconnect" );
-
-	self waittill_any("player_revived","bled_out","round_restarting");
-	if(isdefined(self.waypointYel))
-		self.waypointYel destroy_hud();
-	if(isdefined(self.waypointWhi))
-		self.waypointWhi destroy_hud();
 }

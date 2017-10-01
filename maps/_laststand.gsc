@@ -433,7 +433,8 @@ revive_trigger_spawn()
 	radius = GetDvarInt( #"revive_trigger_radius" );
 
 	self.revivetrigger = spawn( "trigger_radius", self.origin, 0, radius, radius );
-	self.revivetrigger setHintString( "" ); // only show the hint string if the triggerer is facing me
+	//self.revivetrigger setHintString( "" ); // only show the hint string if the triggerer is facing me
+	self.revivetrigger setHintString( &"GAME_BUTTON_TO_REVIVE_PLAYER" );
 	self.revivetrigger setCursorHint( "HINT_NOICON" );
 
 	self.revivetrigger EnableLinkTo();
@@ -462,7 +463,7 @@ revive_trigger_think()
 
 		players = get_players();
 
-		self.revivetrigger setHintString( "" );
+		//self.revivetrigger setHintString( "" );
 
 		for ( i = 0; i < players.size; i++ )
 		{
@@ -470,7 +471,11 @@ revive_trigger_think()
 			d = 0;
 			d = self depthinwater();
 
-			if ( players[i] can_revive( self ) || d > 20)
+			if(level.gamemode != "survival" && players[i].vsteam != self.vsteam)
+			{
+				self.revivetrigger SetInvisibleToPlayer( players[i], true );
+			}
+			else if ( players[i] can_revive( self ) || d > 20)
 			//END PI CHANGES
 			{
 				// TODO: This will turn on the trigger hint for every player within
@@ -478,9 +483,13 @@ revive_trigger_think()
 				// are facing away. Either we have to display the hints manually here
 				// (making sure to prioritize against any other hints from nearby objects),
 				// or we need a new combined radius+lookat trigger type.
-				self.revivetrigger setHintString( &"GAME_BUTTON_TO_REVIVE_PLAYER" );
-				//self.revivetrigger SetInvisibleToPlayer( players[i], false );
-				break;
+				//self.revivetrigger setHintString( &"GAME_BUTTON_TO_REVIVE_PLAYER" );
+				//break;
+				self.revivetrigger SetInvisibleToPlayer( players[i], false );
+			}
+			else
+			{
+				self.revivetrigger SetInvisibleToPlayer( players[i], true );
 			}
 		}
 
@@ -521,16 +530,22 @@ revive_trigger_think()
 				self thread revive_success( reviver );
 				return;
 			}
+			else
+			{
+				break;
+			}
 		}
 
-		wait ( 0.1 );
+		self notify("update_revive_waypoint");
+
+		wait ( 0.05 );
 	}
 }
 
 revive_give_back_weapons( gun )
 {
 	syrette_in_hand = false;
-	if(self GetCurrentWeapon() == "syrette_sp")
+	if(self GetCurrentWeapon() == "syrette_sp" && !self IsSwitchingWeapons())
 	{
 		syrette_in_hand = true;
 	}
@@ -682,6 +697,8 @@ revive_do_revive( playerBeingRevived, reviverGun )
 	playerBeingRevived.revivetrigger.beingRevived = 1;
 	playerBeingRevived.revive_hud setText( &"GAME_PLAYER_IS_REVIVING_YOU", self );
 	playerBeingRevived revive_hud_show_n_fade( 3.0 );
+
+	playerBeingRevived notify("update_revive_waypoint");
 
 	playerBeingRevived.revivetrigger setHintString( "" );
 

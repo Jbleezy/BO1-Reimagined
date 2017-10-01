@@ -221,6 +221,7 @@ auto_turret_activate()
 
 	self.turret SetMode( "auto_nonai" );
 	self.turret thread maps\_mgturret::burst_fire_unmanned();
+	self thread auto_turret_attack_think(self.owner);
 	self.turret_active = true;
 
 	self.turret_fx = Spawn( "script_model", self.turret.origin );
@@ -257,5 +258,58 @@ auto_turret_update_timeout()
 	{
 		wait( 1 );
 		self.curr_time--;
+	}
+}
+
+auto_turret_attack_think(owner)
+{
+	self endon( "turret_deactivated" );
+	for( ;; )
+	{
+		self.turret ClearTargetEntity();
+		dist = 1024;
+		target = undefined;
+
+		if(level.gamemode != "survival")
+		{
+			players = get_players();
+			for( i = 0; i < players.size; i++ )
+			{
+				if(players[i].vsteam == owner.vsteam)
+				{
+					continue;
+				}
+				if(distance(players[i].origin, self.turret.origin) < dist  && is_player_valid(players[i]))//attack the closest player
+				{
+					dist = distance(players[i].origin, self.turret.origin);
+					target = players[i];
+				} 
+			}
+
+			if(IsDefined(target))
+			{
+				self.turret SetTurretTeam( "axis" );
+				self.turret SetTargetEntity( target );
+			}
+		}
+		else if(!IsDefined(target)) //if no closeby enemy player, attack the zombies
+		{
+			zombs = getaispeciesarray("axis");
+			for(i=0;i<zombs.size;i++)
+			{
+				if(IsAlive(zombs[i]) && distance(zombs[i].origin, self.turret.origin) < dist)
+				{
+					dist = distance(zombs[i].origin, self.turret.origin);
+					target = zombs[i];
+				}
+			}
+
+			if(IsDefined(target))
+			{
+				self.turret SetTurretTeam( "allies" );
+				self.turret SetTargetEntity( target );
+			}
+		}
+		wait .05;
 	}
 }

@@ -758,6 +758,9 @@ trap_damage(activator)
 		// Is player standing in the electricity?
 		if( isplayer(ent) )
 		{
+			if(ent.sessionstate == "spectator")
+				continue;
+
 			switch ( self._trap_type )
 			{
 			case "electric":

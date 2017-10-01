@@ -467,6 +467,8 @@ teleport_pad_player_fx( players )
 //-------------------------------------------------------------------------------
 teleport_players(players_in_proj_room, loc, user)
 {
+	//level endon("round_restarting");
+
 	player_radius = 16;
 	dest_room = [];
 	all_players = get_players();

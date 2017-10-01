@@ -418,7 +418,15 @@ player_died_penalty()
 	players = get_players();
 	for( i = 0; i < players.size; i++ )
 	{
-		if( players[i] != self && !players[i].is_zombie )
+		if(level.gamemode != "survival" && players[i].vsteam != self.vsteam)
+		{
+			if(is_player_valid(players[i]))
+			{
+				points = round_up_to_ten(int(players[i].score * .1));
+				players[i] maps\_zombiemode_score::add_to_player_score( points );
+			}
+		}
+		else if( players[i] != self && !players[i].is_zombie )
 		{
 			players[i] player_reduce_points( "no_revive_penalty" );
 		}
@@ -433,7 +441,25 @@ player_downed_penalty()
 {
 	self player_reduce_points( "downed" );
 
+	if(level.gamemode != "survival")
+	{
+		if(IsDefined(self.vs_attackers) && self.vs_attackers.size > 0)
+		{
+			percent = level.zombie_vars["penalty_downed"];
+			points = (self.score * percent) / self.vs_attackers.size;
+			points = round_up_to_ten( int( points ) );
 
+			for(i=0;i<self.vs_attackers.size;i++)
+			{
+				if(is_player_valid(self.vs_attackers[i]))
+				{
+					self.vs_attackers[i] add_to_player_score(points);
+				}
+			}
+
+			self.vs_attackers = [];
+		}
+	}
 }
 
 

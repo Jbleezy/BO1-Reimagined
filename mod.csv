@@ -2,7 +2,7 @@
 rawfile,maps/_ballistic_knife.gsc
 rawfile,maps/_callbackglobal.gsc
 rawfile,maps/_gameskill.gsc
-rawfile,maps/_mgturret.gsc
+rawfile,maps/_laststand.gsc
 rawfile,maps/_zombiemode.gsc
 rawfile,maps/_zombiemode_auto_turret.gsc
 rawfile,maps/_zombiemode_blockers.gsc
@@ -211,7 +211,8 @@ material,cdc_logo
 material,cia_logo
 material,waypoint_cdc
 material,waypoint_cia
-//material,waypoint_survival
+material,waypoint_revive
+material,waypoint_second_chance
 
 //XMODELS
 xmodel,weapon_rus_ppsh_smg

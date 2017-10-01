@@ -35,6 +35,7 @@
 * Maps now auto restart in coop after intermission
 * Maps now auto restart correctly (box gets randomized again)
 * Zombies will now taunt when near a Monkey Bomb or an upgraded crossbow bolt
+* Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the shoot button while spawning in
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
@@ -388,6 +389,7 @@
 * Powerups on the ground now last for 30 seconds (previously 26.5 seconds)
 * An effect now plays when a powerup spawns if it is the last powerup of a powerup cycle
 * Grabbing a powerup that is already active will add to its current remaining time instead of resetting its remaining time
+* Powerups will now not be grabbed automatically if spawned near where a player died at
 
 ### Carpenter
 * Removed
@@ -674,6 +676,10 @@
 * Mystery Box can initially spawn anywhere on Five
 * Five: all 6 barriers in the start room are enabled
 * Mule Kick disabled on all maps except Moon
+* Turrets attack players (won't attack the team that activated the turret)
+* Players gain 10 points for slowing down a player if they are below full health
+* If an enemy player assisted in getting a player down, the player will gain 5% of the player's points who downed
+* When a enemy player bleeds out, players gain 10% of their current points
 
 #### Grief
 * Win by surviving a round while all the enemies are dead
@@ -802,6 +808,8 @@
 * Fix perk gloss (might be fixed)
 * Possibly reduce Der Riese & Kino teleporter kill radius (since they both got buffed)
 * Fix red screens not working after respawn
+* Change timer from adding extra 0's to extra spaces
+* Fix having no weapon in hand if you start revive someone then immediately stop
 
 ## GRIEF TODO:
 * Fire Sale make traps cost 10 points
@@ -809,6 +817,7 @@
 * Remove half points sound (plays for all players)
 * Fix players not always respawning on round restart (seems to happen when last player dies from hodling grenade)
 * Kino: fix players teleporting to pack on spawn if round restart happens when they are teleporting
+* Kino: redo teleporter cancel code
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -816,8 +825,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Ray Gun: make sure ray gun isnt glitching out other AI types
 * See if turrets are still making damage markers in coop
-* See if players are getting combat knife on spawn in coop
-* Test revive changes
+* Test if spectators can't pick up powerups
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
@@ -855,6 +863,7 @@
 * Fix demigod
 * Make online version of the scoreboard show in solo
 * Get brightness to work without having to be in fullscreen
+* Add LAN
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
