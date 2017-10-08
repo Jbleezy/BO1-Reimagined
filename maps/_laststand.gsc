@@ -516,6 +516,8 @@ revive_trigger_think()
 			reviver SwitchToWeapon( "syrette_sp" );
 			reviver SetWeaponAmmoStock( "syrette_sp", 1 );
 
+			reviver thread wait_for_weapon_switch();
+
 			//CODER_MOD: TOMMY K
 			revive_success = reviver revive_do_revive( self, gun );
 
@@ -542,10 +544,33 @@ revive_trigger_think()
 	}
 }
 
+//wait until switched weapon to know player fully has syrette so we know for sure to switch weapons or not in revive_give_back_weapons()
+wait_for_weapon_switch()
+{
+	self endon("taking_syrette");
+
+	self.switched_to_syrette = false;
+
+	while(1)
+	{
+		wait_network_frame();
+
+		if(self GetCurrentWeapon() == "syrette_sp")
+			break;
+
+		if(!self IsSwitchingWeapons())
+			break;
+	}
+
+	self.switched_to_syrette = true;
+}
+
 revive_give_back_weapons( gun )
 {
+	self notify("taking_syrette");
+
 	syrette_in_hand = false;
-	if(self GetCurrentWeapon() == "syrette_sp" && !self IsSwitchingWeapons())
+	if(self GetCurrentWeapon() == "syrette_sp" || !self.switched_to_syrette)
 	{
 		syrette_in_hand = true;
 	}

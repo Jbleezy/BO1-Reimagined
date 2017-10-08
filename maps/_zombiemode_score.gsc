@@ -446,7 +446,7 @@ player_downed_penalty()
 		if(IsDefined(self.vs_attackers) && self.vs_attackers.size > 0)
 		{
 			percent = level.zombie_vars["penalty_downed"];
-			points = (self.score * percent) / self.vs_attackers.size;
+			points = (self.score * percent); // / self.vs_attackers.size
 			points = round_up_to_ten( int( points ) );
 
 			for(i=0;i<self.vs_attackers.size;i++)

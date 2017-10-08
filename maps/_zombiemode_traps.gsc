@@ -758,8 +758,8 @@ trap_damage(activator)
 		// Is player standing in the electricity?
 		if( isplayer(ent) )
 		{
-			if(ent.sessionstate == "spectator")
-				continue;
+			//if(!is_player_valid(ent) || flag("round_restarting"))
+			//	continue;
 
 			switch ( self._trap_type )
 			{
@@ -843,7 +843,7 @@ player_elec_damage()
 		level.elec_loop = 0;
 	}
 
-	if( !isDefined(self.is_burning) && !self maps\_laststand::player_is_in_laststand() )
+	if( !isDefined(self.is_burning) && !self maps\_laststand::player_is_in_laststand() && self.sessionstate != "spectator" )
 	{
 		self.is_burning = 1;
 		self setelectrified(1.25);
@@ -884,7 +884,7 @@ player_fire_damage()
 	self endon("death");
 	self endon("disconnect");
 
-	if( !isDefined(self.is_burning) && !self maps\_laststand::player_is_in_laststand() )
+	if( !isDefined(self.is_burning) && !self maps\_laststand::player_is_in_laststand() && self.sessionstate != "spectator" )
 	{
 		self.is_burning = 1;
 		self setburn(1.25);

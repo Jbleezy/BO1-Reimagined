@@ -36,6 +36,7 @@
 * Maps now auto restart correctly (box gets randomized again)
 * Zombies will now taunt when near a Monkey Bomb or an upgraded crossbow bolt
 * Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the shoot button while spawning in
+* Round now ends immediately when last zombie is killed (previously up to a one second delay)
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
@@ -418,6 +419,7 @@
 * All traps now kill instantly
 * Fixed trap handles being moved to the wrong spot and trap lights staying green if a trap was activated while the trap handle was still moving up
 * All trap triggers now display active and cooldown hintstrings
+* Fixed traps showing damage fx when player is spectating if the player bled out in a trap and the trap is active
 
 ### Electric Traps (All Maps)
 * Stun duration reduced from 2.5 seconds to 1.5 seconds (now matches the duration of the electricity being on screen)
@@ -680,6 +682,7 @@
 * Players gain 10 points for slowing down a player if they are below full health
 * If an enemy player assisted in getting a player down, the player will gain 5% of the player's points who downed
 * When a enemy player bleeds out, players gain 10% of their current points
+* COTD: director spawns 2 random powerdowns
 
 #### Grief
 * Win by surviving a round while all the enemies are dead
@@ -803,13 +806,9 @@
 * Add line of sight check for windows breaking on Moon
 * Fix Der Riese trap lights not turning red when active (can't get it to happen again)
 * Show player's perks of when you are spectating (player.spectatorclient?)
-* Make ray gun take legs off nova crawlers
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
-* Fix perk gloss (might be fixed)
-* Possibly reduce Der Riese & Kino teleporter kill radius (since they both got buffed)
 * Fix red screens not working after respawn
 * Change timer from adding extra 0's to extra spaces
-* Fix having no weapon in hand if you start revive someone then immediately stop
 
 ## GRIEF TODO:
 * Fire Sale make traps cost 10 points
@@ -818,14 +817,18 @@
 * Fix players not always respawning on round restart (seems to happen when last player dies from hodling grenade)
 * Kino: fix players teleporting to pack on spawn if round restart happens when they are teleporting
 * Kino: redo teleporter cancel code
+* Fix players spawning in being downed occasionally on a round restart if they downed from a trap
+* Have Kody do the same thing for the CDC player model that he did for the CIA player model
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-* Ray Gun: make sure ray gun isnt glitching out other AI types
 * See if turrets are still making damage markers in coop
 * Test if spectators can't pick up powerups
+* Grief: test if players are downing when spawning in still
+* Grief: test if turret is still attacking team of player that activated turret
+* Test if timers are correclty updating the spacing when total time changes to 10 mins, 1 hour, and 10 hours
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

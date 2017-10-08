@@ -264,11 +264,13 @@ auto_turret_update_timeout()
 auto_turret_attack_think(owner)
 {
 	self endon( "turret_deactivated" );
-	for( ;; )
+	while(1)
 	{
-		self.turret ClearTargetEntity();
+		//self.turret ClearTargetEntity();
 		dist = 1024;
-		target = undefined;
+		//target = undefined;
+		targets = [];
+		//self.turret.manual_targets chooses a random element from an array, but we want to target the closest entity, so always replace targets[0] with closest entity
 
 		if(level.gamemode != "survival")
 		{
@@ -279,37 +281,50 @@ auto_turret_attack_think(owner)
 				{
 					continue;
 				}
-				if(distance(players[i].origin, self.turret.origin) < dist  && is_player_valid(players[i]))//attack the closest player
+				if(is_player_valid(players[i]) && distance(players[i].origin, self.turret.origin) < dist) //attack the closest player
 				{
 					dist = distance(players[i].origin, self.turret.origin);
-					target = players[i];
+					//target = players[i];
+					targets[0] = players[i];
 				} 
 			}
 
-			if(IsDefined(target))
+			/*if(IsDefined(targets))
 			{
 				self.turret SetTurretTeam( "axis" );
 				self.turret SetTargetEntity( target );
-			}
+			}*/
+			self.turret SetTurretTeam( "axis" );
 		}
-		else if(!IsDefined(target)) //if no closeby enemy player, attack the zombies
+		if(targets.size == 0) //if no closeby enemy player, attack the zombies
 		{
 			zombs = getaispeciesarray("axis");
 			for(i=0;i<zombs.size;i++)
 			{
-				if(IsAlive(zombs[i]) && distance(zombs[i].origin, self.turret.origin) < dist)
+				if(zombs[i].health > 0 && distance(zombs[i].origin, self.turret.origin) < dist)
 				{
 					dist = distance(zombs[i].origin, self.turret.origin);
-					target = zombs[i];
+					//target = zombs[i];
+					targets[0] = zombs[i];
 				}
 			}
 
-			if(IsDefined(target))
+			/*if(IsDefined(target))
 			{
 				self.turret SetTurretTeam( "allies" );
-				self.turret SetTargetEntity( target );
-			}
+				//self.turret SetTargetEntity( target );
+			}*/
+
+			self.turret SetTurretTeam( "allies" );
 		}
+
+		if(targets.size > 0)
+		{
+			//target = random(targets);
+			//self.turret SetTargetEntity(target);
+			self.turret.manual_targets = targets;
+		}
+
 		wait .05;
 	}
 }

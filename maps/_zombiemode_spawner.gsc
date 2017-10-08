@@ -3133,7 +3133,9 @@ zombie_gib_on_damage()
 			if( refs.size )
 			{
 				self.a.gib_ref = animscripts\zombie_death::get_random( refs );
-				if( (type == "MOD_PROJECTILE" || type == "MOD_PROJECTILE_SPLASH") && (self.damageweapon == "ray_gun_zm" || self.damageweapon == "ray_gun_upgraded_zm") && self.has_legs )
+
+				//ray gun - always make crawlers
+				if( (type == "MOD_PROJECTILE" || type == "MOD_PROJECTILE_SPLASH") && (self.damageweapon == "ray_gun_zm" || self.damageweapon == "ray_gun_upgraded_zm") && self.health > 0 && self.has_legs )
 				{
 					self.a.gib_ref = "no_legs";
 				}
@@ -3220,7 +3222,7 @@ zombie_gib_on_damage()
 				}
 			}
 
-			if( self.health > 0 )
+			//if( self.health > 0 )
 			{
 				// force gibbing if the zombie is still alive
 				self thread animscripts\zombie_death::do_gib();
@@ -3301,11 +3303,14 @@ zombie_should_gib( amount, attacker, type )
 	}
 
 	//ray gun - always gib
-	if( type == "MOD_PROJECTILE" || type == "MOD_PROJECTILE_SPLASH" )
+	if(self.animname == "zombie" || self.animname == "quad_zombie")
 	{
-		if(self.damageweapon == "ray_gun_zm" || self.damageweapon == "ray_gun_upgraded_zm")
+		if( type == "MOD_PROJECTILE" || type == "MOD_PROJECTILE_SPLASH" )
 		{
-			return true;
+			if(self.damageweapon == "ray_gun_zm" || self.damageweapon == "ray_gun_upgraded_zm")
+			{
+				return true;
+			}
 		}
 	}
 

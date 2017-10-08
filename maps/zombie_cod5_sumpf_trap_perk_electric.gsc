@@ -342,7 +342,7 @@ player_elec_damage()
 		level.elec_loop = 0;
 	}
 
-	if( !isDefined(self.is_burning) && !self maps\_laststand::player_is_in_laststand() )
+	if( !isDefined(self.is_burning) && !self maps\_laststand::player_is_in_laststand() && self.sessionstate != "spectator" )
 	{
 		self.is_burning = 1;
 		self setelectrified(1.25);

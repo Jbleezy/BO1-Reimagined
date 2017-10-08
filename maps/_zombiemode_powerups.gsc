@@ -714,7 +714,7 @@ powerup_drop(drop_point)
 	// some guys randomly drop, but most of the time they check for the drop flag
 	rand_drop = randomint(100);
 
-	if (rand_drop < 2)
+	if (rand_drop > 2)
 	{
 		if (!level.zombie_vars["zombie_drop_item"])
 		{
@@ -3776,11 +3776,7 @@ grief_half_damage_powerup( drop_item )
 
 	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_half_damage_on", "zombie_powerup_half_damage_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
 
-	self.half_damage = true;
-
 	wait self.zombie_vars["zombie_powerup_half_damage_time"];
-
-	self.half_damage = false;
 }
 
 grief_slow_down_powerup( drop_item )

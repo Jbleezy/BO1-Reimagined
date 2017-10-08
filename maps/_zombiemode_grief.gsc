@@ -405,39 +405,42 @@ slowdown(weapon, mod, eAttacker, loc)
 		self.slowdown_wait = false;
 	}
 
-	if(self.slowdown_wait == false)
+	if(weapon == "mine_bouncing_betty" && self getstance() == "prone")
+		return;
+
+	eAttacker thread grief_damage_points(self);
+
+	//player is already slowed down, don't slow them down again
+	if(self.slowdown_wait)
 	{
-		if(weapon == "mine_bouncing_betty" && self getstance() == "prone")
-			return;
-		else
-		{
-			self.slowdown_wait = true;
-
-			eAttacker thread grief_damage_points(self, weapon, mod);
-
-			PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
-			self AllowSprint(false);
-			self setblur( 1, .1 );
-
-			if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon) || weapon == "zombie_bullet_crouch" || is_placeable_mine(weapon) || is_tactical_grenade(weapon) || weapon == "sniper_explosive_zm" || ( eAttacker HasPerk( "specialty_flakjacket" ) && eAttacker.divetoprone == 1 && mod == "MOD_GRENADE_SPLASH"))
-			{
-				self setMoveSpeedScale( self.move_speed * .2 );	
-			}
-			else
-			{
-				self setMoveSpeedScale( self.move_speed * .3 );
-			}
-
-			wait( .75 );//.75 * 1.5 = 1.125
-
-			self setMoveSpeedScale( 1 );
-			if(!self.is_drinking)
-				self AllowSprint(true);
-			self setblur( 0, .2 );
-
-			self.slowdown_wait = false;
-		}
+		return;
 	}
+
+	self.slowdown_wait = true;
+
+	eAttacker thread grief_downed_points(self);
+
+	PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
+	self AllowSprint(false);
+	self setblur( 1, .1 );
+
+	if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon) || is_placeable_mine(weapon) || is_tactical_grenade(weapon) || weapon == "sniper_explosive_zm" || ( eAttacker HasPerk( "specialty_flakjacket" ) && eAttacker.divetoprone == 1 && mod == "MOD_GRENADE_SPLASH"))
+	{
+		self setMoveSpeedScale( self.move_speed * .2 );	
+	}
+	else
+	{
+		self setMoveSpeedScale( self.move_speed * .3 );
+	}
+
+	wait( .75 );//.75 * 1.5 = 1.125
+
+	self setMoveSpeedScale( 1 );
+	if(!self.is_drinking)
+		self AllowSprint(true);
+	self setblur( 0, .2 );
+
+	self.slowdown_wait = false;
 }
 
 push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/ballistic, crouch, regular
@@ -480,12 +483,12 @@ push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/b
 	}
 }
 
-grief_damage_points(gotgriefed, weapon, mod)
+grief_damage_points(gotgriefed)
 {
 	if(gotgriefed.health < gotgriefed.maxhealth && is_player_valid(self))
 	{
-		self maps\_zombiemode_score::add_to_player_score( 10 );
-		self thread grief_downed_points(gotgriefed);
+		points = int(10 * self.zombie_vars["zombie_point_scalar"]);
+		self maps\_zombiemode_score::add_to_player_score( points );
 	}
 }
 

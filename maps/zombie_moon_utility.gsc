@@ -837,7 +837,7 @@ wait_for_grenade_explode( player )
 	player endon( "projectile_impact" );
 
 	self waittill( "explode", grenade_origin );
-	self thread check_for_grenade_damage_on_window( grenade_origin );
+	self thread check_for_grenade_damage_on_window( grenade_origin, self );
 }
 
 
@@ -847,11 +847,11 @@ wait_for_projectile_impact( grenade )
 	grenade endon( "explode" );
 
 	self waittill( "projectile_impact", weapon_name, position );
-	self thread check_for_grenade_damage_on_window( position );
+	self thread check_for_grenade_damage_on_window( position, self );
 }
 
 
-check_for_grenade_damage_on_window( grenade_origin )
+check_for_grenade_damage_on_window( grenade_origin, grenade )
 {
 	radiusSqToCheck = 64*64 + 200*200;
 
@@ -889,14 +889,11 @@ check_for_grenade_throw()
 	{
 		self waittill("grenade_fire", grenade, weapname);
 
-		//if ( weapname != "frag_grenade" )
-		//	continue;
-
-		if(weapname == "zombie_black_hole_bomb" || weapname == "zombie_quantum_bomb")
+		if(!is_lethal_grenade(weapname))
 			continue;
 
 		grenade thread wait_for_grenade_explode( self );
-		self thread wait_for_projectile_impact( grenade );
+		//self thread wait_for_projectile_impact( grenade );
 	}
 }
 
@@ -918,13 +915,14 @@ glass_breach_think()
 	{
 		self waittill( "damage", amount, attacker, direction, point, dmg_type, model_name, tag_name);
 
-		if( IsPlayer( attacker ) && ( dmg_type == "MOD_PROJECTILE" || dmg_type == "MOD_PROJECTILE_SPLASH" ) )
+		if( IsPlayer( attacker ) && ( dmg_type == "MOD_PROJECTILE" || dmg_type == "MOD_PROJECTILE_SPLASH" || dmg_type == "MOD_GRENADE" || dmg_type == "MOD_GRENADE_SPLASH" ) ) // && self damageConeTrace(point) > 0
 		{
 			//IPrintLnBold( "BANG GOES GLASS" );
 			if( self.damage_state == 0 ) //no damage yet
 			{
 				self glass_gets_destroyed();
 				self.damage_state = 1;
+				return;
 			}
 		}
 	}

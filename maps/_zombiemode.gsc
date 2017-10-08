@@ -4600,7 +4600,7 @@ round_think()
 		{
 			for(i=0;i<players.size;i++)
 			{
-				if(players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0 && players.size > 1)
+				if(players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0) // && players.size > 1
 				{
 					level notify("end_game");
 					return;
@@ -4872,7 +4872,7 @@ round_wait()
 			{
 				return;
 			}
-			wait( 1.0 );
+			wait( .05 );
 		}
 	}
 }
@@ -5294,6 +5294,10 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 	//turrets won't effect players
 	if(sWeapon == "zombie_bullet_crouch" && sMeansOfDeath == "MOD_RIFLE_BULLET")
 	{
+		if(level.gamemode != "survival")
+		{
+			self thread maps\_zombiemode_grief::slowdown(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
+		}
 		return 0;
 	}
 
@@ -5728,12 +5732,6 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		}
 	}
 
-	//ray gun: make crawler first hit
-	if((self.animname == "zombie" || self.animname == "quad_zombie") && self.has_legs && self.health > final_damage && (weapon == "ray_gun_zm" || weapon == "ray_gun_upgraded_zm") && (meansofdeath == "MOD_PROJECTILE" || meansofdeath == "MOD_PROJECTILE_SPLASH"))
-	{
-		self maps\_zombiemode_spawner::make_crawler();
-	}
-
 	if((level.zombie_vars["zombie_insta_kill"] || is_true( attacker.personal_instakill)) && (self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie" && !self.magic_bullet_shield))
 	{
 		//insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
@@ -6054,7 +6052,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	if(attacker HasPerk("specialty_deadshot") && (meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET") && (sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck"))
 		final_damage = int(final_damage * 2);
 
-	if(is_true(attacker.half_damage))
+	if(is_true(attacker.zombie_vars["zombie_powerup_half_damage_on"]))
 	{
 		final_damage = int(final_damage / 2);
 	}
@@ -6208,6 +6206,11 @@ end_game()
 {
 	level waittill ( "end_game" );
 
+	if(level.gamemode != "survival")
+	{
+		SetTimeScale(.5);
+	}
+
 	clientnotify( "zesn" );
 	level thread maps\_zombiemode_audio::change_zombie_music( "game_over" );
 
@@ -6221,7 +6224,10 @@ end_game()
 		players[i].zombie_vars["zombie_powerup_point_doubler_time"] = 0;
 
 		players[i] EnableInvulnerability();
-		players[i] FreezeControls(true);
+		if(level.gamemode == "survival")
+		{
+			players[i] FreezeControls(true);
+		}
 	}
 
 	StopAllRumbles();
@@ -6329,6 +6335,12 @@ end_game()
 
 	//play_sound_at_pos( "end_of_game", ( 0, 0, 0 ) );
 	wait( 2 );
+
+	if(level.gamemode != "survival")
+	{
+		SetTimeScale(1);
+	}
+
 	intermission();
 	//wait( level.zombie_vars["zombie_intermission_time"] );
 	wait 10;
@@ -7813,15 +7825,21 @@ total_time()
 	level.total_time = 0;
 	while(1)
 	{
-		time = to_mins_short(level.total_time);
+		update_time(level.total_time, "total_time");
 
-		players = get_players();
-		for(i=0;i<players.size;i++)
+		//adjust the spacing of round_time and road_total_time whenever updating total_time to 10 mins, 1 hour, or 10 hours
+		if(level.gamemode == "survival" || level.gamemode == "grief" || level.gamemode == "ffa")
 		{
-			players[i] SetClientDvar("total_time", time);
-		}
+			if(level.total_time == 600 || level.total_time == 3600 || level.total_time == 36000)
+			{
+				update_time(level.round_time, "round_time");
 
-		//TODO - set round time and round total time whenever total time is set (which is here) so that the extra zeroes get added right away
+				if(level.gamemode == "survival")
+				{
+					update_time(level.round_total_time, "round_total_time");
+				}
+			}
+		}
 
 		wait 1;
 
@@ -7888,12 +7906,13 @@ round_time_loop()
 
 		if(level.gamemode == "survival")
 		{
-			round_total_time = to_mins_short(level.total_time);
+			level.round_total_time = level.total_time;
+
+			update_time(level.round_total_time, "round_total_time");
 
 			players = get_players();
 			for(i=0;i<players.size;i++)
 			{
-				players[i] SetClientDvar("round_total_time", round_total_time);
 				players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_in");
 			}
 		}
@@ -7924,50 +7943,7 @@ round_time()
 	level.round_time = 0;
 	while(1)
 	{
-		time = to_mins_short(level.round_time);
-
-		if(IsDefined(level.total_time))
-		{
-			if(level.total_time >= 36000) //10 hours
-			{
-				if(level.round_time < 600)
-				{
-					time = "00:0" + time;
-				}
-				else if(level.round_time < 3600)
-				{
-					time = "00:" + time;
-				}
-				else if(level.round_time < 36000)
-				{
-					time = "0" + time;
-				}
-			}
-			else if(level.total_time >= 3600) //1 hour
-			{
-				if(level.round_time < 600)
-				{
-					time = "0:0" + time;
-				}
-				else if(level.round_time < 3600)
-				{
-					time = "0:" + time;
-				}
-			}
-			else if(level.total_time >= 600) //10 mins
-			{
-				if(level.round_time < 600)
-				{
-					time = "0" + time;
-				}
-			}
-		}
-
-		players = get_players();
-		for(i=0;i<players.size;i++)
-		{
-			players[i] SetClientDvar("round_time", time);
-		}
+		update_time(level.round_time, "round_time");
 
 		wait 1;
 
@@ -7975,48 +7951,51 @@ round_time()
 	}
 }
 
-//move round timer when total timer gets longer
-move_round_timer_thread()
+update_time(level_var, client_var)
 {
+	time = to_mins_short(level_var);
+
+	if(IsDefined(level.total_time) && level_var != level.total_time)
+	{
+		if(level.total_time >= 36000) //10 hours
+		{
+			if(level_var < 600)
+			{
+				time = "       " + time; //7 spaces
+			}
+			else if(level_var < 3600)
+			{
+				time = "     " + time;	//5 spaces
+			}
+			else if(level_var < 36000)
+			{
+				time = "  " + time;	//2 spaces
+			}
+		}
+		else if(level.total_time >= 3600) //1 hour
+		{
+			if(level_var < 600)
+			{
+				time = "     " + time;	//5 spaces
+			}
+			else if(level_var < 3600)
+			{
+				time = "   " + time; //2 spaces
+			}
+		}
+		else if(level.total_time >= 600) //10 mins
+		{
+			if(level_var < 600)
+			{
+				time = "  " + time; //2 spaces
+			}
+		}
+	}
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		players[i] SetClientDvar("hud_round_time_offset", 0);
-	}
-
-	level waittill( "start_of_round" );
-
-	while(level.total_time < 60 * 10)//10 mins
-	{
-		wait 1;
-	}
-
-	players = get_players();
-	for(i=0;i<players.size;i++)
-	{
-		players[i] SetClientDvar("hud_round_time_offset", 5);
-	}
-
-	while(level.total_time < 60 * 60)//1 hour
-	{
-		wait 1;
-	}
-
-	players = get_players();
-	for(i=0;i<players.size;i++)
-	{
-		players[i] SetClientDvar("hud_round_time_offset", 10);
-	}
-
-	while(level.total_time < 60 * 60 * 10)//10 hours
-	{
-		wait 1;
-	}
-
-	players = get_players();
-	for(i=0;i<players.size;i++)
-	{
-		players[i] SetClientDvar("hud_round_time_offset", 15);
+		players[i] SetClientDvar(client_var, time);
 	}
 }
 
@@ -8372,6 +8351,29 @@ give_weapons_test()
 	self set_player_tactical_grenade( "molotov_zm" );
 
 	wait 5;
+
+	/*while(1)
+	{
+		wait_network_frame();
+
+		if(!self UseButtonPressed())
+		{
+			continue;
+		}
+
+		gun = self GetCurrentWeapon();
+
+		self GiveWeapon( "syrette_sp" );
+		self SwitchToWeapon( "syrette_sp" );
+		self SetWeaponAmmoStock( "syrette_sp", 1 );
+
+		self thread maps\_laststand::wait_for_weapon_switch();
+
+		while(self UseButtonPressed())
+			wait_network_frame();
+
+		self maps\_laststand::revive_give_back_weapons( gun );
+	}*/
 
 	//self setelectrified(1.25);
 	//self thread maps\_hud_message::hintMessage( "Test" );
