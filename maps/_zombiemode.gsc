@@ -1717,6 +1717,9 @@ onPlayerConnect()
 		player thread onPlayerDisconnect();
 		player thread player_revive_monitor();
 
+		player thread onPlayerDowned();
+		player thread onPlayerDeath();
+
 		player freezecontrols( true );
 
 		player thread watchTakenDamage();
@@ -1743,6 +1746,8 @@ onPlayerConnect()
 		player thread sprint_notify();
 		player thread switch_weapons_notify();
 		player thread is_reloading_check();
+
+		player thread stielhandgranate_impact_damage();
 	}
 }
 
@@ -1870,9 +1875,89 @@ onPlayerDisconnect()
 	self checkForAllDead();
 
 	players = get_players();
-	for(j = 0; j < players.size; j++)
+	for(i = 0; i < players.size; i++)
 	{
-		players[j] thread character_names_on_hud();
+		players[i] thread character_names_on_hud();
+	}
+
+	// in grief, end the game if all current players in the game are on the same team
+	if(level.gamemode != "survival")
+	{
+		team = undefined;
+		all_players_same_team = true;
+
+		for(i = 0; i < players.size; i++)
+		{
+			if(players[i] != self)
+			{
+				if(!IsDefined(team))
+				{
+					team = players[i].vsteam;
+					continue;
+				}
+
+				if(players[i].vsteam != team)
+				{
+					all_players_same_team = false;
+					break;
+				}
+			}
+		}
+
+		if(all_players_same_team)
+		{
+			level notify("end_game");
+		}
+	}
+}
+
+onPlayerDowned()
+{
+	self endon( "disconnect" );
+
+	while(1)
+	{
+		self waittill("player_downed");
+
+		if(level.gamemode != "survival")
+		{
+			if(self maps\_zombiemode_grief::get_number_of_valid_friendly_players() == 0)
+			{
+				players = get_players();
+				for(i = 0; i < players.size; i++)
+				{
+					if(players[i].vsteam != self.vsteam)
+					{
+						players[i] thread maps\_zombiemode_grief::grief_msg();
+					}
+				}
+			}
+		}
+	}
+}
+
+onPlayerDeath()
+{
+	self endon( "disconnect" );
+
+	while(1)
+	{
+		self waittill("bled_out");
+
+		if(level.gamemode != "survival")
+		{
+			if(self maps\_zombiemode_grief::get_number_of_valid_friendly_players() > 0)
+			{
+				players = get_players();
+				for(i = 0; i < players.size; i++)
+				{
+					if(players[i].vsteam != self.vsteam)
+					{
+						players[i] thread maps\_zombiemode_grief::grief_msg();
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -1934,8 +2019,6 @@ onPlayerSpawned()
 		}
 
 		self thread remove_idle_sway();
-
-		self thread stielhandgranate_impact_damage();
 
 		self thread revive_grace_period();
 
@@ -4600,7 +4683,7 @@ round_think()
 		{
 			for(i=0;i<players.size;i++)
 			{
-				if(players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0) // && players.size > 1
+				if(players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0 && players.size > 1)
 				{
 					level notify("end_game");
 					return;
@@ -4898,11 +4981,6 @@ can_revive( reviver )
 zombify_player()
 {
 	self maps\_zombiemode_score::player_died_penalty();
-
-	if(level.gamemode != "survival")
-	{
-		level thread maps\_zombiemode_grief::grief_bleedout_points(self);
-	}
 
 	bbPrint( "zombie_playerdeaths: round %d playername %s deathtype died x %f y %f z %f", level.round_number, self.playername, self.origin );
 
@@ -5426,13 +5504,13 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 			return 0;
 		}
 
-		if(self.health > 75)
+		if(self.health > 60)
 		{
-			return 75;
+			return 60;
 		}
 
-		iDamage = 75;
-		finalDamage = 75;
+		iDamage = 60;
+		finalDamage = 60;
 	}
 
 	//iprintln("i: " + iDamage);
@@ -6206,11 +6284,6 @@ end_game()
 {
 	level waittill ( "end_game" );
 
-	if(level.gamemode != "survival")
-	{
-		SetTimeScale(.5);
-	}
-
 	clientnotify( "zesn" );
 	level thread maps\_zombiemode_audio::change_zombie_music( "game_over" );
 
@@ -6219,15 +6292,33 @@ end_game()
 	for( i = 0; i < players.size; i++ )
 	{
 		setClientSysState( "lsm", "0", players[i] );
+
+		players[i].zombie_vars["zombie_powerup_minigun_time"] = 0;
+		players[i].zombie_vars["zombie_powerup_tesla_time"] = 0;
 		players[i].zombie_vars["zombie_powerup_insta_kill_time"] = 0;
 		players[i].zombie_vars["zombie_powerup_fire_sale_time"] = 0;
 		players[i].zombie_vars["zombie_powerup_point_doubler_time"] = 0;
+		players[i].zombie_vars["zombie_powerup_bonfire_sale_time"] = 0;
+
+		players[i].zombie_vars["zombie_powerup_half_damage_time"] = 0;
+		players[i].zombie_vars["zombie_powerup_slow_down_time"] = 0;
+		players[i].zombie_vars["zombie_powerup_half_points_time"] = 0;
 
 		players[i] EnableInvulnerability();
-		if(level.gamemode == "survival")
+		players[i] FreezeControls(true);
+		/*if(level.gamemode == "survival")
 		{
 			players[i] FreezeControls(true);
-		}
+		}*/
+
+		perks = GetArrayKeys(players[i].perk_hud);
+		if(IsDefined(perks))
+		{
+			for(j=0;j<perks.size;j++)
+			{
+				players[i] maps\_zombiemode_perks::perk_hud_destroy(perks[j]);
+			}
+		}	
 	}
 
 	StopAllRumbles();
@@ -6331,15 +6422,20 @@ end_game()
 
 	UploadStats();
 
+	/*if(level.gamemode != "survival")
+	{
+		SetTimeScale(.5);
+	}*/
+
 	wait( 1 );
 
 	//play_sound_at_pos( "end_of_game", ( 0, 0, 0 ) );
 	wait( 2 );
 
-	if(level.gamemode != "survival")
+	/*if(level.gamemode != "survival")
 	{
 		SetTimeScale(1);
-	}
+	}*/
 
 	intermission();
 	//wait( level.zombie_vars["zombie_intermission_time"] );
@@ -7882,10 +7978,13 @@ round_time_loop()
 		level thread round_time();
 
 		//end round timer when last enemy of round is killed
-		//TODO - make sure works with thief rounds
 		if(flag( "dog_round" ))
 		{
 			level waittill( "last_dog_down" );
+		}
+		else if(flag( "thief_round" ))
+		{
+			flag_wait( "last_thief_down" );
 		}
 		else if(flag( "monkey_round" ))
 		{
@@ -7957,37 +8056,43 @@ update_time(level_var, client_var)
 
 	if(IsDefined(level.total_time) && level_var != level.total_time)
 	{
-		if(level.total_time >= 36000) //10 hours
+		if(level.total_time >= 36000) //10 hours (10:00:00)
 		{
 			if(level_var < 600)
 			{
-				time = "       " + time; //7 spaces
+				//time = "       " + time; //7 spaces (9:59)
+				time = "00:0" + time;
 			}
 			else if(level_var < 3600)
 			{
-				time = "     " + time;	//5 spaces
+				//time = "     " + time;	//5 spaces (59:59)
+				time = "00:" + time;
 			}
 			else if(level_var < 36000)
 			{
-				time = "  " + time;	//2 spaces
+				//time = "  " + time;	//2 spaces (9:59:59)
+				time = "0" + time;
 			}
 		}
-		else if(level.total_time >= 3600) //1 hour
+		else if(level.total_time >= 3600) //1 hour (1:00:00)
 		{
 			if(level_var < 600)
 			{
-				time = "     " + time;	//5 spaces
+				//time = "     " + time;	//5 spaces (9:59)
+				time = "0:0" + time;
 			}
 			else if(level_var < 3600)
 			{
-				time = "   " + time; //2 spaces
+				//time = "   " + time; //3 spaces (59:59)
+				time = "0:" + time;
 			}
 		}
-		else if(level.total_time >= 600) //10 mins
+		else if(level.total_time >= 600) //10 mins (10:00)
 		{
 			if(level_var < 600)
 			{
-				time = "  " + time; //2 spaces
+				//time = "  " + time; //2 spaces (9:59)
+				time = "0" + time;
 			}
 		}
 	}
@@ -8442,14 +8547,13 @@ velocity_test()
 
 stielhandgranate_impact_damage()
 {
-	self endon("death");
 	self endon("disconnect");
 
 	if(IsSubStr(level.script, "zombie_cod5"))
 	{
 		while(1)
 		{
-			self waittill ( "grenade_fire", grenade, weaponName, parent );
+			self waittill( "grenade_fire", grenade, weaponName, parent );
 			if(weaponName == "stielhandgranate")
 			{
 				grenade thread do_damage_on_impact(self);
@@ -8463,6 +8567,8 @@ do_damage_on_impact(player)
 {
 	self endon("death");
 
+	nade_already_touching = [];
+
 	while(1)
 	{
 		prev_origin = self.origin;
@@ -8473,15 +8579,10 @@ do_damage_on_impact(player)
 			zombs = GetAiSpeciesArray( "axis", "all" );
 			for (i = 0; i < zombs.size; i++)
 			{
-				if(self IsTouching(zombs[i]) && (!IsDefined(self.zombs[i].already_touching) || !self.zombs[i].already_touching))
+				if(self IsTouching(zombs[i]) && !is_in_array(nade_already_touching, zombs[i]))
 				{
 					zombs[i] DoDamage( 12, self.origin, player, 0, "impact" );
-					self.zombs[i].already_touching = true;
-					break;
-				}
-				else
-				{
-					self.zombs[i].already_touching = false;
+					nade_already_touching[nade_already_touching.size] = zombs[i];
 				}
 			}
 		}

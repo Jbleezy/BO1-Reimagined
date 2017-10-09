@@ -270,7 +270,6 @@ trap_init()
 	}
 }
 
-
 //*****************************************************************************
 //	This controls the electric traps in the level
 //		self = use trigger associated with the trap
@@ -278,6 +277,10 @@ trap_init()
 //*****************************************************************************
 trap_use_think( trap )
 {
+	if(level.gamemode != "survival")
+	{
+		trap thread update_string();
+	}
 	while(1)
 	{
 		//wait until someone uses the valve
@@ -758,8 +761,8 @@ trap_damage(activator)
 		// Is player standing in the electricity?
 		if( isplayer(ent) )
 		{
-			//if(!is_player_valid(ent) || flag("round_restarting"))
-			//	continue;
+			if(flag("round_restarting"))
+				continue;
 
 			switch ( self._trap_type )
 			{
@@ -1329,5 +1332,37 @@ print_pitch()
 		iprintln(self.angles[0]);
 
 		wait .05;
+	}
+}
+
+update_string()
+{
+	self.old_zombie_cost = self.zombie_cost;
+
+	while(1)
+	{
+		while(!level.zombie_vars["zombie_powerup_fire_sale_on"])
+		{
+			wait_network_frame();
+		}
+
+		self.zombie_cost = 10;
+
+		if(!self._trap_in_use && !self._trap_cooling_down)
+		{
+			self trap_set_string( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
+		}
+
+		while(level.zombie_vars["zombie_powerup_fire_sale_on"])
+		{
+			wait_network_frame();
+		}
+
+		self.zombie_cost = self.old_zombie_cost;
+
+		if(!self._trap_in_use && !self._trap_cooling_down)
+		{
+			self trap_set_string( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
+		}
 	}
 }

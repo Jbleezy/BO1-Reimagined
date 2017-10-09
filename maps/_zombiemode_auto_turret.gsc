@@ -85,13 +85,17 @@ auto_turret_think()
 
 	flag_wait("power_on");
 
+	if(level.gamemode != "survival")
+	{
+		self thread update_string();
+	}
 
 	for( ;; )
 	{
 		self.owner = undefined;
 
-		cost = level.auto_turret_cost;
-		self SetHintString( &"ZOMBIE_AUTO_TURRET", cost );
+		//cost = level.auto_turret_cost;
+		self SetHintString( &"ZOMBIE_AUTO_TURRET", level.auto_turret_cost );
 //		self thread add_teampot_icon();
 
 		self waittill( "trigger", player );
@@ -110,7 +114,7 @@ auto_turret_think()
 		//players = get_players();
 //		if ( (players.size == 1 && player.score < cost) ||
 //			 (players.size > 1 && level.team_pool[player.team_num].score < cost) )
-		if(player.score < cost)
+		if(player.score < level.auto_turret_cost)
 		{
 			//player iprintln( "Not enough points to buy Perk: " + perk );
 			self playsound("deny");
@@ -118,10 +122,10 @@ auto_turret_think()
 			continue;
 		}
 
-		player maps\_zombiemode_score::minus_to_player_score( cost );
+		player maps\_zombiemode_score::minus_to_player_score( level.auto_turret_cost );
 		self.owner = player;
 
-		bbPrint( "zombie_uses: playername %s playerscore %d teamscore %d round %d cost %d name %s x %f y %f z %f type autoturret", player.playername, player.score, level.team_pool[ player.team_num ].score, level.round_number, cost, self.target, self.origin );
+		bbPrint( "zombie_uses: playername %s playerscore %d teamscore %d round %d cost %d name %s x %f y %f z %f type autoturret", player.playername, player.score, level.team_pool[ player.team_num ].score, level.round_number, level.auto_turret_cost, self.target, self.origin );
 
         if( IsDefined( player ) )
 		{
@@ -221,7 +225,7 @@ auto_turret_activate()
 
 	self.turret SetMode( "auto_nonai" );
 	self.turret thread maps\_mgturret::burst_fire_unmanned();
-	self thread auto_turret_attack_think(self.owner);
+	self thread auto_turret_attack_think();
 	self.turret_active = true;
 
 	self.turret_fx = Spawn( "script_model", self.turret.origin );
@@ -261,13 +265,14 @@ auto_turret_update_timeout()
 	}
 }
 
-auto_turret_attack_think(owner)
+auto_turret_attack_think()
 {
 	self endon( "turret_deactivated" );
+
 	while(1)
 	{
 		//self.turret ClearTargetEntity();
-		dist = 1024;
+		dist = 1024 * 1024;
 		//target = undefined;
 		targets = [];
 		//self.turret.manual_targets chooses a random element from an array, but we want to target the closest entity, so always replace targets[0] with closest entity
@@ -277,13 +282,14 @@ auto_turret_attack_think(owner)
 			players = get_players();
 			for( i = 0; i < players.size; i++ )
 			{
-				if(players[i].vsteam == owner.vsteam)
+				if(players[i].vsteam == self.owner.vsteam)
 				{
 					continue;
 				}
-				if(is_player_valid(players[i]) && distance(players[i].origin, self.turret.origin) < dist) //attack the closest player
+
+				if(is_player_valid(players[i]) && BulletTracePassed(self.turret.origin + (0,0,30), players[i] GetEye(), false, undefined) && DistanceSquared(players[i].origin, self.turret.origin) < dist) //attack the closest player
 				{
-					dist = distance(players[i].origin, self.turret.origin);
+					dist = DistanceSquared(players[i].origin, self.turret.origin);
 					//target = players[i];
 					targets[0] = players[i];
 				} 
@@ -301,9 +307,9 @@ auto_turret_attack_think(owner)
 			zombs = getaispeciesarray("axis");
 			for(i=0;i<zombs.size;i++)
 			{
-				if(zombs[i].health > 0 && distance(zombs[i].origin, self.turret.origin) < dist)
+				if(zombs[i].health > 0 && BulletTracePassed(self.turret.origin + (0,0,30), zombs[i] GetEye(), false, undefined) && DistanceSquared(zombs[i].origin, self.turret.origin) < dist) 
 				{
-					dist = distance(zombs[i].origin, self.turret.origin);
+					dist = DistanceSquared(zombs[i].origin, self.turret.origin);
 					//target = zombs[i];
 					targets[0] = zombs[i];
 				}
@@ -318,6 +324,14 @@ auto_turret_attack_think(owner)
 			self.turret SetTurretTeam( "allies" );
 		}
 
+		//turret_target = self.turret GetTurretTarget();
+
+		/*if(level.gamemode != "survival" && IsDefined(turret_target) && IsPlayer(turret_target) && turret_target.vsteam == self.owner.vsteam)
+		{
+			self.turret ClearTargetEntity();
+			self.turret SetTargetEntity( targets[0] );
+		}*/
+
 		if(targets.size > 0)
 		{
 			//target = random(targets);
@@ -326,5 +340,37 @@ auto_turret_attack_think(owner)
 		}
 
 		wait .05;
+	}
+}
+
+update_string()
+{
+	level.old_auto_turret_cost = level.auto_turret_cost;
+
+	while(1)
+	{
+		while(!level.zombie_vars["zombie_powerup_fire_sale_on"])
+		{
+			wait_network_frame();
+		}
+
+		if(level.auto_turret_cost != 10)
+		{
+			level.auto_turret_cost = 10;
+		}
+
+		self SetHintString( &"ZOMBIE_AUTO_TURRET", level.auto_turret_cost );
+
+		while(level.zombie_vars["zombie_powerup_fire_sale_on"])
+		{
+			wait_network_frame();
+		}
+
+		if(level.auto_turret_cost != level.old_auto_turret_cost)
+		{
+			level.auto_turret_cost = level.old_auto_turret_cost;
+		}
+
+		self SetHintString( &"ZOMBIE_AUTO_TURRET", level.auto_turret_cost );
 	}
 }

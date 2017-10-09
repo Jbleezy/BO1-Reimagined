@@ -1993,7 +1993,7 @@ perk_hud_create( perk )
 
 perk_hud_destroy( perk )
 {
-	self.perk_hud_num = array_remove(self.perk_hud_num, perk);
+	self.perk_hud_num = array_remove_nokeys(self.perk_hud_num, perk);
 	self.perk_hud[ perk ] destroy_hud();
 	self.perk_hud[ perk ] = undefined;
 }

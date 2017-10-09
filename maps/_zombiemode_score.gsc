@@ -286,7 +286,7 @@ player_reduce_points( event, mod, hit_location )
 			break;
 
 		case "downed":
-			percent = level.zombie_vars["penalty_downed"];;
+			percent = level.zombie_vars["penalty_downed"];
 			self notify("I_am_down");
 			points = self.score * percent;
 
@@ -422,8 +422,9 @@ player_died_penalty()
 		{
 			if(is_player_valid(players[i]))
 			{
-				points = round_up_to_ten(int(players[i].score * .1));
-				players[i] maps\_zombiemode_score::add_to_player_score( points );
+				percent = level.zombie_vars["penalty_no_revive"];
+				points = round_up_to_ten( int( players[i].score * percent ) );
+				players[i] add_to_player_score( points );
 			}
 		}
 		else if( players[i] != self && !players[i].is_zombie )
@@ -446,8 +447,7 @@ player_downed_penalty()
 		if(IsDefined(self.vs_attackers) && self.vs_attackers.size > 0)
 		{
 			percent = level.zombie_vars["penalty_downed"];
-			points = (self.score * percent); // / self.vs_attackers.size
-			points = round_up_to_ten( int( points ) );
+			points = round_up_to_ten( int( self.score * percent ) );
 
 			for(i=0;i<self.vs_attackers.size;i++)
 			{

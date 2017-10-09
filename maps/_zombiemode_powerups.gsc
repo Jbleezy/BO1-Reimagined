@@ -148,7 +148,7 @@ init_powerups()
 
 	//grief powerdowns
 	add_zombie_powerup( "grief_empty_clip", "zombie_ammocan", &"REIMAGINED_CLIP_UNLOAD", false, true, false );
-	add_zombie_powerup( "grief_lose_points", "zombie_z_money_icon", &"ZOMBIE_POWERUP_LOSE_POINTS", false, true, false );
+	add_zombie_powerup( "grief_lose_points", "zombie_z_money_icon", &"REIMAGINED_LOSE_POINTS", false, true, false );
 	add_zombie_powerup( "grief_half_points", "zombie_x2_icon", &"REIMAGINED_HALF_POINTS", false, true, false );
 	add_zombie_powerup( "grief_half_damage", "zombie_skull", &"REIMAGINED_HALF_DAMAGE", false, true, false );
 	add_zombie_powerup( "grief_slow_down", "zombie_bomb", &"REIMAGINED_SLOW_DOWN", false, true, false );
@@ -1506,7 +1506,7 @@ powerup_grab()
 						break;
 
 					case "grief_lose_points":
-						points = RandomIntRange( 1, 25 ) * 100;
+						points = RandomIntRange( 5, 25 ) * 100;
 						for(j=0;j<players.size;j++)
 						{
 							if(players[j].vsteam != players[i].vsteam)
@@ -1669,6 +1669,7 @@ start_fire_sale( item )
 	}
     
 	level.zombie_vars["zombie_powerup_fire_sale_on"] = true;
+
 	for(i = 0; i < players.size; i++)
 	{
 		players[i].zombie_vars["zombie_powerup_fire_sale_on"] = true;
@@ -1687,6 +1688,7 @@ start_fire_sale( item )
 	}
 
 	level.zombie_vars["zombie_powerup_fire_sale_on"] = false;
+
 	for(i = 0; i < players.size; i++)
 	{
 		players[i].zombie_vars["zombie_powerup_fire_sale_on"] = false;
@@ -3750,6 +3752,7 @@ grief_lose_points_powerup( item, points )
 		{
 			self maps\_zombiemode_score::minus_to_player_score( points );
 		}
+		self thread powerup_hint_on_hud(item);
 	}
 }
 
@@ -3759,7 +3762,7 @@ grief_half_points_powerup( drop_item )
 	self endon ("grief powerup points scaled");
 	self endon ("disconnect");
 
-	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_half_points_on", "zombie_powerup_half_points_time", "zmb_points_loop_off", "zmb_double_point_loop" );
+	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_half_points_on", "zombie_powerup_half_points_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
 
 	self.zombie_vars["zombie_point_scalar"] = .5;
 

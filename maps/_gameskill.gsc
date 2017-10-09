@@ -275,151 +275,151 @@ setSkill( reset, skill_override )
 	level.difficultySettings[ "flashbangedInvulFactor" ][ "hardened" ] = 0;
 	level.difficultySettings[ "flashbangedInvulFactor" ][ "veteran" ]  = 0;
 
-		// level.invulTime_preShield: time player is invulnerable when hit before their health is low enough for a red overlay( should be very short )
-		add_fractional_data_point( "invulTime_preShield", 0.0, 0.7 );
-		add_fractional_data_point( "invulTime_preShield", 0.25, 0.6 ); // original easy
-		add_fractional_data_point( "invulTime_preShield", 0.75, 0.35 ); // original normal
-		add_fractional_data_point( "invulTime_preShield", 1.0, 0.3 );
-		level.difficultySettings[ "invulTime_preShield" ][ "hardened" ] = 0.1;
-		level.difficultySettings[ "invulTime_preShield" ][ "veteran" ] = 0.0;
+	// level.invulTime_preShield: time player is invulnerable when hit before their health is low enough for a red overlay( should be very short )
+	add_fractional_data_point( "invulTime_preShield", 0.0, 0.7 );
+	add_fractional_data_point( "invulTime_preShield", 0.25, 0.6 ); // original easy
+	add_fractional_data_point( "invulTime_preShield", 0.75, 0.35 ); // original normal
+	add_fractional_data_point( "invulTime_preShield", 1.0, 0.3 );
+	level.difficultySettings[ "invulTime_preShield" ][ "hardened" ] = 0.1;
+	level.difficultySettings[ "invulTime_preShield" ][ "veteran" ] = 0.0;
 
-		// level.invulTime_onShield: time player is invulnerable when hit the first time they get a red health overlay( should be reasonably long )
-		add_fractional_data_point( "invulTime_onShield", 0.0, 1.0 );
-		add_fractional_data_point( "invulTime_onShield", 0.25, 0.8 ); // original easy
-		add_fractional_data_point( "invulTime_onShield", 0.75, 0.5 ); // original normal
-		add_fractional_data_point( "invulTime_onShield", 1.0, 0.3 );
-		level.difficultySettings[ "invulTime_onShield"  ][ "hardened" ] = 0.1;
-		level.difficultySettings[ "invulTime_onShield"  ][ "veteran" ] = 0.05;
+	// level.invulTime_onShield: time player is invulnerable when hit the first time they get a red health overlay( should be reasonably long )
+	add_fractional_data_point( "invulTime_onShield", 0.0, 1.0 );
+	add_fractional_data_point( "invulTime_onShield", 0.25, 0.8 ); // original easy
+	add_fractional_data_point( "invulTime_onShield", 0.75, 0.5 ); // original normal
+	add_fractional_data_point( "invulTime_onShield", 1.0, 0.3 );
+	level.difficultySettings[ "invulTime_onShield"  ][ "hardened" ] = 0.1;
+	level.difficultySettings[ "invulTime_onShield"  ][ "veteran" ] = 0.05;
 
-		// level.invulTime_postShield: time player is invulnerable when hit after the red health overlay is already up( should be short )
-		add_fractional_data_point( "invulTime_postShield", 0.0, 0.6 );
-		add_fractional_data_point( "invulTime_postShield", 0.25, 0.5 ); // original easy
-		add_fractional_data_point( "invulTime_postShield", 0.75, 0.3 ); // original normal
-		add_fractional_data_point( "invulTime_postShield", 1.0, 0.2 );
-		level.difficultySettings[ "invulTime_postShield" ][ "hardened" ] = 0.1;
-		level.difficultySettings[ "invulTime_postShield" ][ "veteran" ] = 0.0;
+	// level.invulTime_postShield: time player is invulnerable when hit after the red health overlay is already up( should be short )
+	add_fractional_data_point( "invulTime_postShield", 0.0, 0.6 );
+	add_fractional_data_point( "invulTime_postShield", 0.25, 0.5 ); // original easy
+	add_fractional_data_point( "invulTime_postShield", 0.75, 0.3 ); // original normal
+	add_fractional_data_point( "invulTime_postShield", 1.0, 0.2 );
+	level.difficultySettings[ "invulTime_postShield" ][ "hardened" ] = 0.1;
+	level.difficultySettings[ "invulTime_postShield" ][ "veteran" ] = 0.0;
 
-		// level.playerHealth_RegularRegenDelay
-		// The delay before you regen health after getting hurt
-		add_fractional_data_point( "playerHealth_RegularRegenDelay", 0.0, 3500 );
-		add_fractional_data_point( "playerHealth_RegularRegenDelay", 0.25, 3000 ); // original easy
-		add_fractional_data_point( "playerHealth_RegularRegenDelay", 0.75, 2400 ); // original normal
-		add_fractional_data_point( "playerHealth_RegularRegenDelay", 1.0, 1500 );
-		level.difficultySettings[ "playerHealth_RegularRegenDelay" ][ "hardened" ] = 1200;
-		level.difficultySettings[ "playerHealth_RegularRegenDelay" ][ "veteran" ] = 1200;
+	// level.playerHealth_RegularRegenDelay
+	// The delay before you regen health after getting hurt
+	add_fractional_data_point( "playerHealth_RegularRegenDelay", 0.0, 3500 );
+	add_fractional_data_point( "playerHealth_RegularRegenDelay", 0.25, 3000 ); // original easy
+	add_fractional_data_point( "playerHealth_RegularRegenDelay", 0.75, 2400 ); // original normal
+	add_fractional_data_point( "playerHealth_RegularRegenDelay", 1.0, 1500 );
+	level.difficultySettings[ "playerHealth_RegularRegenDelay" ][ "hardened" ] = 1200;
+	level.difficultySettings[ "playerHealth_RegularRegenDelay" ][ "veteran" ] = 1200;
 
-		// level.worthyDamageRatio( player must recieve this much damage as a fraction of maxhealth to get invulTime. )
-		add_fractional_data_point( "worthyDamageRatio", 0.25, 0.0 ); // original easy
-		add_fractional_data_point( "worthyDamageRatio", 0.75, 0.1 ); // original normal
-		level.difficultySettings[ "worthyDamageRatio" ][ "hardened" ] = 0.1;
-		level.difficultySettings[ "worthyDamageRatio" ][ "veteran" ] = 0.1;
+	// level.worthyDamageRatio( player must recieve this much damage as a fraction of maxhealth to get invulTime. )
+	add_fractional_data_point( "worthyDamageRatio", 0.25, 0.0 ); // original easy
+	add_fractional_data_point( "worthyDamageRatio", 0.75, 0.1 ); // original normal
+	level.difficultySettings[ "worthyDamageRatio" ][ "hardened" ] = 0.1;
+	level.difficultySettings[ "worthyDamageRatio" ][ "veteran" ] = 0.1;
 
-		// level.explosiveplanttime
-		level.difficultySettings[ "explosivePlantTime" ][ "easy" ] = 10;
-		level.difficultySettings[ "explosivePlantTime" ][ "normal" ] = 10;
-		level.difficultySettings[ "explosivePlantTime" ][ "hardened" ] = 5;
-		level.difficultySettings[ "explosivePlantTime" ][ "veteran" ] = 5;
-		level.explosiveplanttime = level.difficultySettings[ "explosivePlantTime"  ][ get_skill_from_index( level.gameskill ) ];
+	// level.explosiveplanttime
+	level.difficultySettings[ "explosivePlantTime" ][ "easy" ] = 10;
+	level.difficultySettings[ "explosivePlantTime" ][ "normal" ] = 10;
+	level.difficultySettings[ "explosivePlantTime" ][ "hardened" ] = 5;
+	level.difficultySettings[ "explosivePlantTime" ][ "veteran" ] = 5;
+	level.explosiveplanttime = level.difficultySettings[ "explosivePlantTime"  ][ get_skill_from_index( level.gameskill ) ];
 
-		// anim.difficultyBasedAccuracy
-		level.difficultySettings[ "difficultyBasedAccuracy" ][ "easy" ] = 1;
-		level.difficultySettings[ "difficultyBasedAccuracy" ][ "normal" ] = 1;
-		level.difficultySettings[ "difficultyBasedAccuracy" ][ "hardened" ] = 1;
-		level.difficultySettings[ "difficultyBasedAccuracy" ][ "veteran" ] = 1.25;
-		anim.difficultyBasedAccuracy = getRatio( "difficultyBasedAccuracy", level.gameskill, level.gameskill );
+	// anim.difficultyBasedAccuracy
+	level.difficultySettings[ "difficultyBasedAccuracy" ][ "easy" ] = 1;
+	level.difficultySettings[ "difficultyBasedAccuracy" ][ "normal" ] = 1;
+	level.difficultySettings[ "difficultyBasedAccuracy" ][ "hardened" ] = 1;
+	level.difficultySettings[ "difficultyBasedAccuracy" ][ "veteran" ] = 1.25;
+	anim.difficultyBasedAccuracy = getRatio( "difficultyBasedAccuracy", level.gameskill, level.gameskill );
 
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "easy" ][0] 		= 1.0;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "easy" ][1] 		= 0.9;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "easy" ][2] 		= 0.8;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "easy" ][3] 		= 0.7;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "normal" ][0] 		= 1.0; // one player
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "normal" ][1] 		= 0.9; // two players
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "normal" ][2] 		= 0.8; // three players
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "normal" ][3] 		= 0.7; // four players
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "hardened" ][0] 	= 1.00;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "hardened" ][1] 	= 0.9;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "hardened" ][2] 	= 0.8;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "hardened" ][3] 	= 0.7;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "veteran" ][0] 		= 1.0;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "veteran" ][1] 		= 0.9;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "veteran" ][2] 		= 0.8;
-		level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "veteran" ][3] 		= 0.7;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "easy" ][0] 		= 1.0;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "easy" ][1] 		= 0.9;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "easy" ][2] 		= 0.8;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "easy" ][3] 		= 0.7;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "normal" ][0] 		= 1.0; // one player
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "normal" ][1] 		= 0.9; // two players
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "normal" ][2] 		= 0.8; // three players
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "normal" ][3] 		= 0.7; // four players
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "hardened" ][0] 	= 1.00;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "hardened" ][1] 	= 0.9;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "hardened" ][2] 	= 0.8;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "hardened" ][3] 	= 0.7;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "veteran" ][0] 		= 1.0;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "veteran" ][1] 		= 0.9;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "veteran" ][2] 		= 0.8;
+	level.difficultySettings[ "coopPlayer_deathInvulnerableTime" ][ "veteran" ][3] 		= 0.7;
 
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "easy" ][0] = 1.00;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "easy" ][1] = 0.95;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "easy" ][2] = 0.8;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "easy" ][3] = 0.75;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "normal" ][0] = 1.00; // one player
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "normal" ][1] = 0.9; // two players
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "normal" ][2] = 0.8; // three players
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "normal" ][3] = 0.7; // four players
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "hardened" ][0] = 1.00;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "hardened" ][1] = 0.85;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "hardened" ][2] = 0.7;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "hardened" ][3] = 0.65;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "veteran" ][0] = 1.00;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "veteran" ][1] = 0.8;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "veteran" ][2] = 0.6;
-		level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "veteran" ][3] = 0.5;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "easy" ][0] = 1.00;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "easy" ][1] = 0.95;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "easy" ][2] = 0.8;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "easy" ][3] = 0.75;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "normal" ][0] = 1.00; // one player
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "normal" ][1] = 0.9; // two players
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "normal" ][2] = 0.8; // three players
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "normal" ][3] = 0.7; // four players
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "hardened" ][0] = 1.00;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "hardened" ][1] = 0.85;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "hardened" ][2] = 0.7;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "hardened" ][3] = 0.65;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "veteran" ][0] = 1.00;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "veteran" ][1] = 0.8;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "veteran" ][2] = 0.6;
+	level.difficultySettings[ "coopPlayerDifficultyHealth" ][ "veteran" ][3] = 0.5;
 
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "easy" ][0] = 1;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "easy" ][1] = 1.1;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "easy" ][2] = 1.2;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "easy" ][3] = 1.3;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "normal" ][0] = 1; // one player
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "normal" ][1] = 1.1; // two players
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "normal" ][2] = 1.3; // three players
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "normal" ][3] = 1.5; // four players
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "hardened" ][0] = 1.0;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "hardened" ][1] = 1.2;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "hardened" ][2] = 1.4;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "hardened" ][3] = 1.6;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "veteran" ][0] = 1;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "veteran" ][1] = 1.3;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "veteran" ][2] = 1.6;
-		level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "veteran" ][3] = 2;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "easy" ][0] = 1;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "easy" ][1] = 1.1;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "easy" ][2] = 1.2;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "easy" ][3] = 1.3;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "normal" ][0] = 1; // one player
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "normal" ][1] = 1.1; // two players
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "normal" ][2] = 1.3; // three players
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "normal" ][3] = 1.5; // four players
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "hardened" ][0] = 1.0;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "hardened" ][1] = 1.2;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "hardened" ][2] = 1.4;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "hardened" ][3] = 1.6;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "veteran" ][0] = 1;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "veteran" ][1] = 1.3;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "veteran" ][2] = 1.6;
+	level.difficultySettings[ "coopEnemyAccuracyScalar" ][ "veteran" ][3] = 2;
 
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "easy" ][0] = 1;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "easy" ][1] = 0.9;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "easy" ][2] = 0.8;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "easy" ][3] = 0.7;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "normal" ][0] = 1; // one player
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "normal" ][1] = 0.8; // two players
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "normal" ][2] = 0.7; // three players
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "normal" ][3] = 0.6; // four players
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "hardened" ][0] = 1;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "hardened" ][1] = 0.7;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "hardened" ][2] = 0.5;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "hardened" ][3] = 0.5;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "veteran" ][0] = 1;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "veteran" ][1] = 0.7;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "veteran" ][2] = 0.5;
-		level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "veteran" ][3] = 0.4;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "easy" ][0] = 1;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "easy" ][1] = 0.9;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "easy" ][2] = 0.8;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "easy" ][3] = 0.7;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "normal" ][0] = 1; // one player
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "normal" ][1] = 0.8; // two players
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "normal" ][2] = 0.7; // three players
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "normal" ][3] = 0.6; // four players
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "hardened" ][0] = 1;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "hardened" ][1] = 0.7;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "hardened" ][2] = 0.5;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "hardened" ][3] = 0.5;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "veteran" ][0] = 1;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "veteran" ][1] = 0.7;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "veteran" ][2] = 0.5;
+	level.difficultySettings[ "coopFriendlyAccuracyScalar" ][ "veteran" ][3] = 0.4;
 
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "easy" ][0] = 1;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "easy" ][1] = 1.1;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "easy" ][2] = 1.2;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "easy" ][3] = 1.3;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "normal" ][0] = 1; // one player
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "normal" ][1] = 2; // two players
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "normal" ][2] = 3; // three players
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "normal" ][3] = 4; // four players
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "hardened" ][0] = 1.0;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "hardened" ][1] = 3;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "hardened" ][2] = 6;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "hardened" ][3] = 9;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "veteran" ][0] = 1;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "veteran" ][1] = 10;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "veteran" ][2] = 20;
-		level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "veteran" ][3] = 30;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "easy" ][0] = 1;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "easy" ][1] = 1.1;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "easy" ][2] = 1.2;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "easy" ][3] = 1.3;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "normal" ][0] = 1; // one player
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "normal" ][1] = 2; // two players
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "normal" ][2] = 3; // three players
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "normal" ][3] = 4; // four players
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "hardened" ][0] = 1.0;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "hardened" ][1] = 3;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "hardened" ][2] = 6;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "hardened" ][3] = 9;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "veteran" ][0] = 1;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "veteran" ][1] = 10;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "veteran" ][2] = 20;
+	level.difficultySettings[ "coopFriendlyThreatBiasScalar" ][ "veteran" ][3] = 30;
 
 
 
-		 // lateral accuracy modifier
-		level.difficultySettings[ "lateralAccuracyModifier" ][ "easy" ]     = 300;
-		level.difficultySettings[ "lateralAccuracyModifier" ][ "normal" ]   = 700;
-		level.difficultySettings[ "lateralAccuracyModifier" ][ "hardened" ] = 1000;
-		level.difficultySettings[ "lateralAccuracyModifier" ][ "veteran" ]  = 2500;
+	 // lateral accuracy modifier
+	level.difficultySettings[ "lateralAccuracyModifier" ][ "easy" ]     = 300;
+	level.difficultySettings[ "lateralAccuracyModifier" ][ "normal" ]   = 700;
+	level.difficultySettings[ "lateralAccuracyModifier" ][ "hardened" ] = 1000;
+	level.difficultySettings[ "lateralAccuracyModifier" ][ "veteran" ]  = 2500;
 
 
 	// in case there are no enties in the map.
@@ -468,6 +468,11 @@ setSkill( reset, skill_override )
 	/#
 	debug_replay("File: _gameskill.gsc. Function: setSkill() - COMPLETE\n");
 	#/
+
+	if ( GetDvar( "zombiemode" ) == "1" )
+	{
+		level.healthOverlayCutoff = .25;
+	}
 }
 
 get_skill_from_index( index )
@@ -1308,6 +1313,7 @@ playerHealthRegen()
 			lastinvulratio = 1;
 			playerJustGotRedFlashing = false;
 			veryHurt = false;
+			playerHadMaxHealth = true;
 			continue;
 		}
 
@@ -1869,9 +1875,16 @@ old_style_health_overlay()
 		overlay fadeOverTime( 0.5 );
 		overlay.alpha = 0;
 
+		if( self player_flag( "player_has_red_flashing_overlay" ) && (self maps\_laststand::player_is_in_laststand() || self.sessionstate == "spectator") )
+		{
+			self player_flag_clear( "player_has_red_flashing_overlay" );
+			level notify( "take_cover_done" );
+		}
+
 		// CODER_MOD
 		// Austin (5/29/07): restore these flags as player flags, these changes were clobbered during the integrate
 		self player_flag_wait( "player_has_red_flashing_overlay" );
+
 		self redFlashingOverlay( overlay );
 	}
 }
@@ -1941,7 +1954,7 @@ new_style_health_overlay()
 healthOverlay()
 {
 	self endon( "disconnect" );
-	self endon( "noHealthOverlay" );
+	//self endon( "noHealthOverlay" );
 	//self endon ("death");
 
 	if ( GetDvar( #"zombiemode" ) == "1" )
@@ -2225,8 +2238,8 @@ redFlashingOverlay( overlay )
 {
 	self endon( "hit_again" );
 	self endon( "damage" );
-	self endon ("death");
-	self endon ("disconnect");
+	self endon( "death" );
+	self endon( "disconnect" );
 
 	//prof_begin( "redFlashingOverlay" );
 

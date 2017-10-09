@@ -237,6 +237,10 @@ teleport_start_exploder( index )
 //-------------------------------------------------------------------------------
 player_teleporting( index, user )
 {
+	level endon("round_restarted");
+
+	self thread cleanup_on_round_restart();
+
 	players_in_proj_room = [];
 
 	// begin the teleport
@@ -268,29 +272,19 @@ player_teleporting( index, user )
 	players_in_proj_room = self teleport_players(players_in_proj_room, "projroom");
 
 	if (!IsDefined(players_in_proj_room) || (IsDefined(players_in_proj_room) && players_in_proj_room.size < 1))
+	{
+		level notify("teleporter_end");
 		return;
+	}
 
 	//DCS: Add return trigger system here.
 	//level thread movie_graveyard_return();
 	//level waittill("return_from_graveyard");
-	//wait(30);
-
-	level waittill_notify_or_timeout("round_restarted", 30);
+	wait(30);
 
 	// DCS: extracam shut down.
 	level.extracam_screen Hide();
 	clientnotify("camera_stop");
-
-	if(flag("round_restarting"))
-	{
-		players = get_players();
-		for(i=0;i<players.size;i++)
-		{
-			players[i].inteleportation = false;
-		}
-		level.eeroomsinuse = undefined;
-		return;
-	}
 
 	if ( randomint( 100 ) > 24 && !IsDefined( level.eeroomsinuse ) && level.radio_egg_counter == 2 && level.gamemode == "survival" ) // ww: chaning the frequency to 75%
 	{
@@ -366,6 +360,7 @@ player_teleporting( index, user )
 		self teleport_players(players_in_proj_room, loc, user);
 	}
 
+	level notify("teleporter_end");
 }
 
 //-------------------------------------------------------------------------------
@@ -467,13 +462,13 @@ teleport_pad_player_fx( players )
 //-------------------------------------------------------------------------------
 teleport_players(players_in_proj_room, loc, user)
 {
-	//level endon("round_restarting");
-
 	player_radius = 16;
 	dest_room = [];
 	all_players = get_players();
 	slot = undefined;
 	start = undefined;
+
+	level.black_box_start_set = false;
 
 	if (loc == "projroom")
 		players = all_players;
@@ -545,6 +540,8 @@ teleport_players(players_in_proj_room, loc, user)
 			players[i].teleport_origin.angles = dest_room[i].angles;
 		}
 	}
+
+	level.black_box_start_set = true;
 
 	// everybody left the pad before they actually teleported
 	if (!IsDefined(players_in_proj_room) || (IsDefined(players_in_proj_room) && players_in_proj_room.size < 1))
@@ -636,6 +633,36 @@ teleport_players(players_in_proj_room, loc, user)
 	{
 		level.eeroomsinuse = undefined;
 		exploder (302);
+	}
+}
+
+cleanup_on_round_restart()
+{
+	level endon("teleporter_end");
+
+	level waittill( "round_restarted" );
+
+	level.eeroomsinuse = undefined;
+
+	self notify( "fx_done" );
+
+	level.extracam_screen Hide();
+	clientnotify("camera_stop");
+
+	vending_weapon_upgrade_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
+	for(i=0;i<vending_weapon_upgrade_trigger.size;i++)
+	{
+		vending_weapon_upgrade_trigger[i] enable_trigger();
+	}
+
+	flag_waitopen("round_restarting");
+
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		players[i].inteleportation = false;
+		setClientSysState( "levelNotify", "black_box_end", players[i] );
+		//setClientSysState( "levelNotify", "t2bfx", players[i] );
 	}
 }
 

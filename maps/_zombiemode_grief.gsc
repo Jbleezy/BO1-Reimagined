@@ -369,6 +369,7 @@ grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 	//TODO - add molotov damage
 	if(!self HasPerk( "specialty_flakjacket" ))
 	{
+		//80 DoDamage = 25 actual damage
 		if(sMeansOfDeath == "MOD_GRENADE_SPLASH" && (sWeapon == "frag_grenade_zm" || sWeapon == "sticky_grenade_zm" || sWeapon == "stielhandgranate"))
 		{
 			//nades
@@ -684,8 +685,10 @@ round_restart(same_round)
 		players[i] giveback_player_weapons();
 		players[i].is_drinking = false;
 		players[i] SetStance("stand");
+
 		if(level.gamemode != "snr")
 			players[i] thread grief_msg();
+
 		if(level.gamemode == "snr")
 		{
 			if(players[i].score < 5000)
@@ -1014,6 +1017,18 @@ get_number_of_valid_enemy_players()
 	for( i = 0 ; i < players.size; i++ )
 	{
 		if( is_player_valid(players[i]) && players[i].vsteam != self.vsteam )
+			num_player_valid += 1;
+	}	
+	return num_player_valid;
+}
+
+get_number_of_valid_friendly_players()
+{
+	players = get_players();
+	num_player_valid = 0;
+	for( i = 0 ; i < players.size; i++ )
+	{
+		if( is_player_valid(players[i]) && players[i].vsteam == self.vsteam )
 			num_player_valid += 1;
 	}	
 	return num_player_valid;

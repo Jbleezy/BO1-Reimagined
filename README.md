@@ -35,8 +35,11 @@
 * Maps now auto restart in coop after intermission
 * Maps now auto restart correctly (box gets randomized again)
 * Zombies will now taunt when near a Monkey Bomb or an upgraded crossbow bolt
-* Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the shoot button while spawning in
+* Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the fire button while spawning in
 * Round now ends immediately when last zombie is killed (previously up to a one second delay)
+* Players can now red screen after bleeding out and respawning
+* Red screens now start at 25% health (previously 20% health)
+* Explosive self damage now deals 60 damage (previously 75 damage)
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
@@ -203,6 +206,7 @@
 * Upgraded: increased stock ammo from 225 to 360
 
 ### Wonder Weapons
+
 ### Ray Gun
 * Unupgraded: impact damage - 2500, max explosion damage - 2500, min explosion damage - 1250
 * Upgraded: impact damage - 3000, max explosion damage - 3000, min explosion damage - 1250
@@ -670,7 +674,7 @@
 * No walking zombies
 * Shoot players to slow them down
 * Knife players to push them
-* Upgraded weapons slow players down 50% longer (or maybe slightly slower instead)
+* Upgraded weapons slow players down more
 * Ballistic knife, bowie knife, and sickle push players farther
 * Powerups have negative effects towards the team that did not grab the powerup
 * Mystery Box always initially spawns randomly on maps that the box can spawn randomly
@@ -683,6 +687,15 @@
 * If an enemy player assisted in getting a player down, the player will gain 5% of the player's points who downed
 * When a enemy player bleeds out, players gain 10% of their current points
 * COTD: director spawns 2 random powerdowns
+* Removed all normal powerups except for Fire Sale
+* Fire Sale: makes traps cost 10 points
+* Powerups replaced by powerdowns: powerups that do negative effects but don't effect the team that grabs the powerup
+* Clip Unload Powerdown: unloads players' clips of the weapon they are currently holding
+* Half Damage Powerdown: players do half damage to zombies for 30 seconds
+* Half Points Powerdown: players earn half points for 30 seconds
+* Punishment Points Powerdown: players lose a random amount of points between 500 and 2500 points
+* Slow Down Powerdown: Players move slower for 30 seconds
+* Meat Powerup
 
 #### Grief
 * Win by surviving a round while all the enemies are dead
@@ -762,8 +775,6 @@
 * Make it easier to tell how many grenades you have on HUD
 * Remove blur when paused ingame
 * Make Shang power switches do things when only one is turned on
-* Add meat powerup to grief
-* Add EMP grenades to grief
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
 * Make trap hintstrings show time remaining for active and cooldown (try using add_zombie_hint())
 * Remove marks on background of Deadshot perk shader
@@ -775,14 +786,13 @@
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Change type 100 stock ammo to 180 unupgraded, 240 upgraded (from weapon file)
-* Decrease crossbow explosion radius to 256, increase damage
+* Crossbow: decrease explosion radius, increase damage
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Disable easter eggs on all versus gamemodes
 * Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
 * Fix zombie pathing on Five going to different floors
 * Make betties place correctly on Der Riese bridge
 * Fix fx inside top of Wunderwaffe on COTD
-* Make total timer and round timer text line up update whenever itself or the timer changes
 * Add game_mod as a submodule on github
 * Check if zombies eyes fx should be deleting on death
 * Get WaW weapon files of classic map weapons working
@@ -795,40 +805,36 @@
 * Make sure powerups that are added later in a match are added in randomly on the remaining powerups of the current cycle
 * NML: make amount of zombies that spawn in the beginning consistent
 * Moon: fix sliding sound keep playing when off object
-* Make turrets better
 * Try adding 1st person mode to DOA
-* Fix stielhandgranate impact damage
 * Mule Kick: add jingle
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Add collision boxes near invincibilty spots on maps
-* Make it so betties can only be triggered by zombies with line of sight from bettys position
-* Add line of sight check for windows breaking on Moon
+* Add line of sight check for windows breaking on Moon (tried fixing but wouldn't work)
 * Fix Der Riese trap lights not turning red when active (can't get it to happen again)
-* Show player's perks of when you are spectating (player.spectatorclient?)
+* Show player's perks when spectating (player.spectatorclient?)
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
-* Fix red screens not working after respawn
-* Change timer from adding extra 0's to extra spaces
 
 ## GRIEF TODO:
-* Fire Sale make traps cost 10 points
 * Make enemy mines destructible
-* Remove half points sound (plays for all players)
-* Fix players not always respawning on round restart (seems to happen when last player dies from hodling grenade)
-* Kino: fix players teleporting to pack on spawn if round restart happens when they are teleporting
-* Kino: redo teleporter cancel code
-* Fix players spawning in being downed occasionally on a round restart if they downed from a trap
-* Have Kody do the same thing for the CDC player model that he did for the CIA player model
+* Fix shotguns giving additional grief damage points (giving points for each pellet hit)
+* Add meat powerup to grief
+* Add powerup model and shader for slow down powerdown
+* Add EMP grenades to grief
+* Der Riese: add checks for round restarting during teleporting
+* Der Riese: all teleporters linked
+* Shang: PaP stairs always open
+* Shang: Geyser in first room available from start
+* Moon: spawn in first room
+* Moon: turn on power and spawn immediately at start of match
+* Add new grief damage fx
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-* See if turrets are still making damage markers in coop
-* Test if spectators can't pick up powerups
-* Grief: test if players are downing when spawning in still
+* Make sure spectators can't pick up powerups
 * Grief: test if turret is still attacking team of player that activated turret
-* Test if timers are correclty updating the spacing when total time changes to 10 mins, 1 hour, and 10 hours
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
@@ -858,7 +864,7 @@
 * Make friends list alphabetical order
 * 8 player zombies
 * Fix performance tab issues
-* Add the rest of the mp perks
+* Add the rest of the multiplayer perks
 * Fix Connecting... issue
 * Fix weapon swap on player leave
 * Fix COTD outro showing on all maps after loading COTD in a session
@@ -867,6 +873,19 @@
 * Make online version of the scoreboard show in solo
 * Get brightness to work without having to be in fullscreen
 * Add LAN
+* Make dual wield weapons use attack bind for left weapon and ADS bind for right weapon
+* Make ChangeLevel() function work in coop
+* Allow changing timescale from GetTimeScale() function when sv_cheats dvar is set to 0
+* Add GetMoveSpeedScale() function
+* Add ActionSlotOneButtonPressed() function
+* Add ActionSlotTwoButtonPressed() function
+* Add ActionSlotThreeButtonPressed() function
+* Add ActionSlotFourButtonPressed() function
+* Add JumpButtonPressed() function
+* Add ReloadButtonPressed() function
+* Add SprintButtonPressed() function
+* Add WeaponSwitchButtonPressed() function
+* Add WeaponReloadAddTime() function
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
