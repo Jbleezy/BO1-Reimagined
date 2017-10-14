@@ -770,8 +770,14 @@ check_for_egg_damage()
 	level.egg_damage_counter = level.egg_damage_counter + 1;
 //	iprintlnbold ("ouch");	
 }
+
 time_to_play()
 {
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	if(!IsDefined (level.egg_damage_counter))
 	{
 		level.egg_damage_counter = 0;		

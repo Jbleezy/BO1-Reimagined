@@ -574,6 +574,7 @@
 * Removed intro text
 * Fixed mystery box use trigger in Trench Gun room
 * Players will no longer get stuck on curbs
+* Easter egg song now plays the whole song
 
 ### Kino Der Toten
 * Players no longer get teleported to special rooms unless both radios on the map have been activated
@@ -814,9 +815,12 @@
 * Fix Der Riese trap lights not turning red when active (can't get it to happen again)
 * Show player's perks when spectating (player.spectatorclient?)
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
+* Ray gun: fix reload add time
+* Get all easter egg songs to be repeatable in a match
 
 ## GRIEF TODO:
 * Make enemy mines destructible
+* Disable easter eggs and songs on all maps
 * Fix shotguns giving additional grief damage points (giving points for each pellet hit)
 * Add meat powerup to grief
 * Add powerup model and shader for slow down powerdown
@@ -835,6 +839,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Make sure spectators can't pick up powerups
 * Grief: test if turret is still attacking team of player that activated turret
+* Grief: make sure win/lose text on intermission screen is showing up correctly
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

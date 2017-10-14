@@ -538,6 +538,7 @@
 			}
 		}
 
+		//BOTTOM LEFT LOGO
 		itemDef
 		{
 		    type                ITEM_TYPE_IMAGE
@@ -546,6 +547,54 @@
 		    exp                	material(dvarString("vs_logo"))
 		    style             	WINDOW_STYLE_SHADER
 		    visible           	when(dvarBool("vs_logo_on"))
+		    decoration
+		}
+
+		//LEFT SIDE LOGO
+		itemDef
+		{
+		    type                ITEM_TYPE_IMAGE
+		    rect              	-64 2 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+		    forecolor           1 1 1 1
+		    exp                	material(dvarString("vs_logo"))
+		    style             	WINDOW_STYLE_SHADER
+		    visible           	when(dvarBool("vs_top_logos_on"))
+		    decoration
+		}
+
+		//LEFT SIDE COUNTER
+		itemDef
+		{
+		    type                ITEM_TYPE_IMAGE
+		    rect              	-64 34 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+		    forecolor           .4 0 0 1
+		    exp                	material(dvarString("vs_counter_friendly"))
+		    style             	WINDOW_STYLE_SHADER
+		    visible           	when(dvarBool("vs_top_logos_on"))
+		    decoration
+		}
+
+		//RIGHT SIDE LOGO
+		itemDef
+		{
+		    type                ITEM_TYPE_IMAGE
+		    rect              	64 2 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+		    forecolor           1 1 1 1
+		    exp                	material(dvarString("vs_logo_enemy"))
+		    style             	WINDOW_STYLE_SHADER
+		    visible           	when(dvarBool("vs_top_logos_on"))
+		    decoration
+		}
+
+		//RIGHT SIDE COUNTER
+		itemDef
+		{
+		    type                ITEM_TYPE_IMAGE
+		    rect              	64 34 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+		    forecolor           .4 0 0 1
+		    exp                	material(dvarString("vs_counter_enemy"))
+		    style             	WINDOW_STYLE_SHADER
+		    visible           	when(dvarBool("vs_top_logos_on"))
 		    decoration
 		}
 

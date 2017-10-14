@@ -484,6 +484,11 @@ book_useage()
 	book_trig SetCursorHint( "HINT_NOICON" );
 	book_trig UseTriggerRequireLookAt();
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	if(IsDefined(book_trig))
 	{
 		maniac_l = getent("maniac_l", "targetname");
@@ -513,6 +518,11 @@ toilet_useage()
 	toilet_trig = getent("toilet", "targetname");
 	toilet_trig SetCursorHint( "HINT_NOICON" );
 	toilet_trig UseTriggerRequireLookAt();
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
 
 //	off_the_hook = spawn ("script_origin", toilet_trig.origin);
 	toilet_trig playloopsound ("phone_hook");
@@ -546,7 +556,7 @@ toilet_useage()
 	wait(1);
 	toilet_trig playsound ("toilet_flush", "sound_done");
 	toilet_trig waittill ("sound_done");
-	playsoundatposition ("zmb_cha_ching", toilet_trig.origin);
+	//playsoundatposition ("zmb_cha_ching", toilet_trig.origin);
 
 	level thread play_music_easter_egg(player);
 }
@@ -566,6 +576,8 @@ play_music_easter_egg(player)
 	wait(236);
 	level.music_override = false;
 	level thread maps\_zombiemode_audio::change_zombie_music( "wave_loop" );
+
+	level thread toilet_useage();
 }
 
 
@@ -595,6 +607,12 @@ radio_eggs()
 	{
 		level.radio_counter = 0;
 	}
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	while(level.radio_counter < 3)
 	{
 		wait(2);
@@ -615,6 +633,11 @@ superegg_one()
 	superegg_one_trig SetCursorHint( "HINT_NOICON" );
 	superegg_radio_one = getent("superegg_radio_origin_1", "targetname");
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	superegg_one_trig waittill( "trigger" );
 	level.superegg_counter = level.superegg_counter + 1;
 	superegg_radio_one playloopsound ("static_loop");
@@ -631,6 +654,11 @@ superegg_two()
 	superegg_two_trig SetCursorHint( "HINT_NOICON" );
 	superegg_radio_two = getent("superegg_radio_origin_2", "targetname");
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	superegg_two_trig waittill( "trigger" );
 	level.superegg_counter = level.superegg_counter + 1;
 	superegg_radio_two playloopsound ("static_loop");
@@ -646,6 +674,11 @@ superegg_three()
 	superegg_three_trig UseTriggerRequireLookAt();
 	superegg_three_trig SetCursorHint( "HINT_NOICON" );
 	superegg_radio_three = getent("superegg_radio_origin_3", "targetname");
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
 
 	superegg_three_trig waittill( "trigger" );
 	level.superegg_counter = level.superegg_counter + 1;
@@ -677,6 +710,12 @@ super_egg()
 	{
 		level.superegg_counter = 0;
 	}
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	while(level.superegg_counter < 3)
 	{
 		wait(2);
@@ -697,6 +736,11 @@ battle_radio()
 	battle_radio_trig SetCursorHint( "HINT_NOICON" );
 	battle_radio_origin = getent("battle_radio_origin", "targetname");
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	battle_radio_trig waittill( "trigger", player);
 	battle_radio_origin playsound ("battle_message");
 
@@ -712,6 +756,11 @@ whisper_radio()
 	whisper_radio_trig UseTriggerRequireLookAt();
 	whisper_radio_trig SetCursorHint( "HINT_NOICON" );
 	whisper_radio_origin = getent("whisper_radio_origin", "targetname");
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
 
 	whisper_radio_trig waittill( "trigger");
 	whisper_radio_origin playsound ("whisper_message");
@@ -729,6 +778,11 @@ radio_one()
 	radio_one_trig SetCursorHint( "HINT_NOICON" );
 	radio_one = getent("radio_one_origin", "targetname");
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	radio_one_trig waittill( "trigger" );
 	level.radio_counter = level.radio_counter + 1;
 	radio_one playloopsound ("static_loop");
@@ -744,6 +798,11 @@ radio_two()
 	radio_two_trig UseTriggerRequireLookAt();
 	radio_two_trig SetCursorHint( "HINT_NOICON" );
 	radio_two = getent("radio_two_origin", "targetname");
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
 
 	radio_two_trig waittill( "trigger", players);
 	level.radio_counter = level.radio_counter + 1;
@@ -763,6 +822,11 @@ radio_three()
 	radio_three_trig SetCursorHint( "HINT_NOICON" );
 	radio_three = getent("radio_three_origin", "targetname");
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	radio_three_trig waittill( "trigger", players);
 	level.radio_counter = level.radio_counter + 1;
 	radio_three playloopsound ("static_loop");
@@ -772,6 +836,11 @@ radio_three()
 
 meteor_trigger()
 {
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	//player = getplayers();
 	level endon("meteor_triggered");
 	dmgtrig = GetEnt( "meteor", "targetname" );

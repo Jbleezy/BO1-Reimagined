@@ -55,7 +55,11 @@ include_powerups()
 	include_powerup("meat");
 	wait_network_frame();
 	level.zombie_powerup_array = [];
-	level.zombie_powerup_array = array("fire_sale", "grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_slow_down", "meat");
+	level.zombie_powerup_array = array("grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_slow_down"); //, "meat"
+	if(!IsSubStr(level.script, "zombie_cod5_"))
+	{
+		level.zombie_powerup_array = add_to_array(level.zombie_powerup_array, "fire_sale");
+	}
 	maps\_zombiemode_powerups::randomize_powerups();
 }
 
@@ -851,7 +855,8 @@ disable_box_weapons()
 
 turn_power_on()
 {
-	flag_wait( "all_players_spawned" );
+	flag_wait( "all_players_connected" );
+	players = get_players();
 	switch(level.script)
 	{
 		case "zombie_theater":
@@ -862,17 +867,10 @@ turn_power_on()
 			trig notify("trigger");	
 			break;
 		case "zombie_temple":
-			left_power_switch_model = getEnt("elec_switch_left", "targetname");
-			right_power_switch_model = getEnt("elec_switch_right", "targetname");	
-			left_power_switch_model notsolid();
-			left_power_switch_model rotateroll(-90);
-			right_power_switch_model notsolid();
-			right_power_switch_model rotateroll(-90);
 			trig1 = getEnt( "power_trigger_left", "targetname" );
 			trig2 = getEnt( "power_trigger_right", "targetname" );
-			trig1 setHintString( "" );
-			trig2 setHintString( "" );
-			flag_set("power_on");
+			trig1 notify( "trigger", players[0] );
+			trig2 notify( "trigger", players[0] );
 			break;
 		case "zombie_moon":
 			flag_wait( "all_players_spawned" );
@@ -885,7 +883,6 @@ turn_power_on()
 			trig notify("trigger");
 			break;
 		case "zombie_cod5_factory":
-			wait 1;//have to wait for bridge to go up first
 			trig = getent("use_power_switch","targetname");
 			trig notify("trigger");
 			break;
@@ -923,8 +920,6 @@ open_doors()
 	{
 		zombie_doors[0] open_door();
 		zombie_doors[1] open_door();
-		zombie_doors[0] delete();
-		zombie_doors[1] delete();
 		zombie_debris[0] clear_debris();
 	}
 	if(level.script == "zombie_cosmodrome")

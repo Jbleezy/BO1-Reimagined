@@ -559,8 +559,6 @@ include_powerups()
 	include_powerup( "carpenter" );
 }
 
-
-
 /*------------------------------------
 	FIRE TRAPS
 
@@ -579,32 +577,34 @@ init_elec_trap_trigs()
 	array_thread (trap_trigs,::electric_trap_think);
 	array_thread (trap_trigs,::electric_trap_dialog);
 }
+
 toilet_useage()
 {
-
 	toilet_counter = 0;
 	toilet_trig = getent("toilet", "targetname");
 	toilet_trig SetCursorHint( "HINT_NOICON" );
 	toilet_trig UseTriggerRequireLookAt();
 
 	players = getplayers();
-	if (!IsDefined (level.music_override))
+	if(!IsDefined (level.music_override))
 	{
 		level.music_override = false;
 	}
-	while (1)
+	while(1)
 	{
-		wait(0.5);
+		//wait(0.5);
 
-		toilet_trig waittill( "trigger");
-		toilet_trig playsound ("toilet_flush", "sound_done");
-		toilet_trig waittill ("sound_done");
-		toilet_counter ++;
+		toilet_trig waittill("trigger");
+		toilet_trig playsound("toilet_flush", "sound_done");
+		toilet_trig waittill("sound_done");
 
-		if(toilet_counter == 3)
+		toilet_counter++;
+
+		if(toilet_counter == 3 && level.gamemode == "survival")
 		{
-			playsoundatposition ("zmb_cha_ching", toilet_trig.origin);
-			level thread play_music_easter_egg();
+			toilet_counter = 0;
+			//playsoundatposition ("zmb_cha_ching", toilet_trig.origin);
+			play_music_easter_egg();
 		}
 	}
 
@@ -631,21 +631,12 @@ chair_useage()
 	chair_trig SetCursorHint( "HINT_NOICON" );
 	chair_trig UseTriggerRequireLookAt();
 
-	players = getplayers();
+	//players = getplayers();
 	while (1)
 	{
-		wait(0.05);
-		for(i=0;i<players.size;i++)
-		{
-			chair_trig waittill( "trigger", players);
-			chair_counter ++;
-			if(chair_counter == 3)
-			{
-				playsoundatposition ("chair", chair_trig.origin);
-				chair_counter = 0;
-			}
-
-		}
+		chair_trig waittill("trigger");
+		playsoundatposition ("chair", chair_trig.origin);
+		wait 30;
 	}
 
 }
@@ -679,7 +670,7 @@ electric_trap_dialog()
 
 				//players[i] thread do_player_vo("vox_start", 5);
 				wait(3);
-				self notify ("warning_dialog");
+				self notify("warning_dialog");
 				//iprintlnbold("warning_given");
 			}
 		}

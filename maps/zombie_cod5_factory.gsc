@@ -460,7 +460,11 @@ bridge_init()
 	{
 		wnuen_bridge_coils[i] LinkTo( wnuen_bridge );
 	}
-	wnuen_bridge rotatepitch( 90, 1, .5, .5 );
+
+	if(level.gamemode == "survival")
+	{
+		wnuen_bridge rotatepitch( 90, 1, .5, .5 );
+	}
 
 	warehouse_bridge = getent( "warehouse_bridge", "targetname" );
 	warehouse_bridge_coils = GetEntArray( "warehouse_bridge_coils", "targetname" );
@@ -468,7 +472,11 @@ bridge_init()
 	{
 		warehouse_bridge_coils[i] LinkTo( warehouse_bridge );
 	}
-	warehouse_bridge rotatepitch( -90, 1, .5, .5 );
+
+	if(level.gamemode == "survival")
+	{
+		warehouse_bridge rotatepitch( -90, 1, .5, .5 );
+	}
 
 	bridge_audio = getstruct( "bridge_audio", "targetname" );
 
@@ -476,8 +484,11 @@ bridge_init()
 	flag_wait( "power_on" );
 
 	// lower bridge
-	wnuen_bridge rotatepitch( -90, 4, .5, 1.5 );
-	warehouse_bridge rotatepitch( 90, 4, .5, 1.5 );
+	if(level.gamemode == "survival")
+	{
+		wnuen_bridge rotatepitch( -90, 4, .5, 1.5 );
+		warehouse_bridge rotatepitch( 90, 4, .5, 1.5 );
+	}
 
 	if(isdefined( bridge_audio ) )
 		playsoundatposition( "bridge_lower", bridge_audio.origin );
@@ -488,7 +499,10 @@ bridge_init()
 	exploder( 500 );
 
 	// wait until the bridges are down.
-	wnuen_bridge waittill( "rotatedone" );
+	if(level.gamemode == "survival")
+	{
+		wnuen_bridge waittill( "rotatedone" );
+	}
 
 	flag_set( "bridge_down" );
 	if(isdefined( bridge_audio ) )
@@ -1559,6 +1573,11 @@ flytrap()
 	level thread hide_and_seek_target( "ee_perk_bear" );
 	wait_network_frame();
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	trig_control_panel = GetEnt( "trig_ee_flytrap", "targetname" );
 
 	// Wait for it to be hit by an upgraded weapon
@@ -1615,6 +1634,12 @@ hide_and_seek_target( target_name )
 
 	trig = GetEnt( "trig_"+target_name, "targetname" );
 	trig trigger_off();
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	flag_wait( "hide_and_seek" );
 
 	// Show yourself
@@ -1653,6 +1678,11 @@ phono_egg_init( trigger_name, origin_name )
 
 	phono_trig UseTriggerRequireLookAt();
 	phono_trig SetCursorHint( "HINT_NOICON" );
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
 
 	for(i=0;i<players.size;i++)
 	{
@@ -1699,6 +1729,12 @@ radio_egg_init( trigger_name, origin_name )
 
 	radio_trig UseTriggerRequireLookAt();
 	radio_trig SetCursorHint( "HINT_NOICON" );
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	radio_origin playloopsound( "radio_static" );
 
 	for(i=0;i<players.size;i++)
@@ -1722,9 +1758,13 @@ play_music_easter_egg(player)
 	    player maps\_zombiemode_audio::create_and_play_dialog( "eggs", "music_activate" );
 	}
 
-	wait(236);
+	wait(260);
 	level.music_override = false;
 	level thread maps\_zombiemode_audio::change_zombie_music( "wave_loop" );
+
+	level thread meteor_egg( "meteor_one" );
+	level thread meteor_egg( "meteor_two" );
+	level thread meteor_egg( "meteor_three" );
 }
 
 meteor_egg(trigger_name)
@@ -1733,6 +1773,12 @@ meteor_egg(trigger_name)
 
 	meteor_trig UseTriggerRequireLookAt();
 	meteor_trig SetCursorHint( "HINT_NOICON" );
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	meteor_trig PlayLoopSound( "zmb_meteor_loop" );
 
 	meteor_trig waittill( "trigger", player );
@@ -1747,6 +1793,7 @@ meteor_egg(trigger_name)
 
 	if( level.meteor_counter == 3 )
 	{
+		level.meteor_counter = 0;
 	    level thread play_music_easter_egg( player );
 	}
 }

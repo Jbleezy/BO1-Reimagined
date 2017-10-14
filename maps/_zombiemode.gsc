@@ -1628,8 +1628,8 @@ difficulty_init()
 #/
 	for ( p=0; p<players.size; p++ )
 	{
-		players[p].score = 500000;
-		//players[p].score = 500;
+		//players[p].score = 500000;
+		players[p].score = 500;
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
 	}
@@ -1825,6 +1825,7 @@ checkForAllDead()
 {
 	players = get_players();
 
+	//in grief, if all players left are on the same team then end the game
 	if(level.gamemode != "survival")
 	{
 		team = players[0].vsteam;
@@ -1841,7 +1842,9 @@ checkForAllDead()
 
 		if(all_same_team)
 		{
+			level.vs_winning_team = team;
 			level notify( "end_game" );
+			return;
 		}
 	}
 
@@ -1879,36 +1882,6 @@ onPlayerDisconnect()
 	{
 		players[i] thread character_names_on_hud();
 	}
-
-	// in grief, end the game if all current players in the game are on the same team
-	if(level.gamemode != "survival")
-	{
-		team = undefined;
-		all_players_same_team = true;
-
-		for(i = 0; i < players.size; i++)
-		{
-			if(players[i] != self)
-			{
-				if(!IsDefined(team))
-				{
-					team = players[i].vsteam;
-					continue;
-				}
-
-				if(players[i].vsteam != team)
-				{
-					all_players_same_team = false;
-					break;
-				}
-			}
-		}
-
-		if(all_players_same_team)
-		{
-			level notify("end_game");
-		}
-	}
 }
 
 onPlayerDowned()
@@ -1919,17 +1892,15 @@ onPlayerDowned()
 	{
 		self waittill("player_downed");
 
-		if(level.gamemode != "survival")
+		if(level.gamemode != "survival" && get_number_of_valid_players() > 0)
 		{
-			if(self maps\_zombiemode_grief::get_number_of_valid_friendly_players() == 0)
+			players = get_players();
+			for(i = 0; i < players.size; i++)
 			{
-				players = get_players();
-				for(i = 0; i < players.size; i++)
+				//only show grief message from a down if there are no other enemies still alive
+				if(players[i].vsteam != self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0)
 				{
-					if(players[i].vsteam != self.vsteam)
-					{
-						players[i] thread maps\_zombiemode_grief::grief_msg();
-					}
+					players[i] thread maps\_zombiemode_grief::grief_msg();
 				}
 			}
 		}
@@ -1944,17 +1915,15 @@ onPlayerDeath()
 	{
 		self waittill("bled_out");
 
-		if(level.gamemode != "survival")
+		if(level.gamemode != "survival" && get_number_of_valid_players() > 0)
 		{
-			if(self maps\_zombiemode_grief::get_number_of_valid_friendly_players() > 0)
+			players = get_players();
+			for(i = 0; i < players.size; i++)
 			{
-				players = get_players();
-				for(i = 0; i < players.size; i++)
+				//only show grief message from a bleed out if there are other enemies still alive
+				if(players[i].vsteam != self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() > 0)
 				{
-					if(players[i].vsteam != self.vsteam)
-					{
-						players[i] thread maps\_zombiemode_grief::grief_msg();
-					}
+					players[i] thread maps\_zombiemode_grief::grief_msg();
 				}
 			}
 		}
@@ -2069,7 +2038,7 @@ onPlayerSpawned()
 				self thread player_grenade_watcher();
 
 				//self thread player_health_watcher();
-				//self thread points_cap();
+				self thread points_cap();
 				self thread give_weapons_test();
 				//self thread button_pressed_test();
 				//self thread velocity_test();
@@ -4685,6 +4654,7 @@ round_think()
 			{
 				if(players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0 && players.size > 1)
 				{
+					level.vs_winning_team = players[i].vsteam;
 					level notify("end_game");
 					return;
 				}
@@ -6370,7 +6340,7 @@ end_game()
 
 		if(level.gamemode != "survival")
 		{
-			if(players[i] maps\_zombiemode_grief::is_team_valid())
+			if(players[i].vsteam == level.vs_winning_team)
 			{
 				survived[i] SetText( &"REIMAGINED_YOU_WIN" );
 			}
@@ -8396,13 +8366,14 @@ box_weapon_changes()
 	}
 }
 
+//dont let points go over 1 billion (after max 32 bit value is reached, it overflows to most negative 32 bit value)
 points_cap()
 {
 	while(1)
 	{
-		if(self.score > 1000000)
+		if(self.score > 1000000000)
 		{
-			self.score = 1000000;
+			self.score = 1000000000;
 			self maps\_zombiemode_score::set_player_score_hud();
 		}
 		wait .05;
@@ -8549,7 +8520,7 @@ stielhandgranate_impact_damage()
 {
 	self endon("disconnect");
 
-	if(IsSubStr(level.script, "zombie_cod5"))
+	if(IsSubStr(level.script, "zombie_cod5_"))
 	{
 		while(1)
 		{
@@ -8877,9 +8848,13 @@ set_gamemode()
 
 set_gamemode_name()
 {
-	wait_network_frame();
+	flag_wait("all_players_connected");
 
-	SetDvar("zm_gamemode_name", level.gamemode);
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		players[i] SetClientDvar("zm_gamemode_name", level.gamemode);
+	}
 }
 
 melee_notify()

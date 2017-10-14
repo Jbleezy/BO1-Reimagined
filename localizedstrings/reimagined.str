@@ -91,6 +91,15 @@ LANG_ENGLISH       	"Sickle"
 REFERENCE          	ZOMBIES_REMAINING
 LANG_ENGLISH       	"Zombies Remaining: "
 
+REFERENCE          	TIME
+LANG_ENGLISH       	"Time: "
+
+REFERENCE          	ROUND_TIME
+LANG_ENGLISH       	"Round Time: "
+
+REFERENCE          	TOTAL_TIME
+LANG_ENGLISH       	"Total Time: "
+
 REFERENCE			ZOMBIE_THEATER_PLAYER_NAME_0
 LANG_ENGLISH		"Dempsey"
 
@@ -126,15 +135,6 @@ LANG_ENGLISH		"Danny"
 
 REFERENCE			ZOMBIE_COAST_PLAYER_NAME_3
 LANG_ENGLISH		"Michael"
-
-REFERENCE          	TIME
-LANG_ENGLISH       	"Time: "
-
-REFERENCE          	ROUND_TIME
-LANG_ENGLISH       	"Round Time: "
-
-REFERENCE          	TOTAL_TIME
-LANG_ENGLISH       	"Total Time: "
 
 //OPTIONS
 
