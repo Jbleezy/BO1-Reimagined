@@ -253,5 +253,6 @@ dud_dial_handler(dont_know_alias)
 		}
 
 		self RotatePitch(90, 0.25);
+		self waittill("rotatedone");
 	}
 }

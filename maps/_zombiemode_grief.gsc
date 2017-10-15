@@ -649,10 +649,10 @@ round_restart(same_round)
 	level notify( "round_restarted" );
 
 	players = get_players();
-	for(i=0;i<players.size;i++)
+	/*for(i=0;i<players.size;i++)
 	{
 		players[i].bleedout_time = 0;
-	}
+	}*/
 
 	wait(1);
 
@@ -675,6 +675,10 @@ round_restart(same_round)
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
+		if(players[i] maps\_laststand::player_is_in_laststand())
+		{
+			players[i] maps\_laststand::auto_revive();
+		}
 		players[i] [[level.spawnPlayer]]();
 	}
 

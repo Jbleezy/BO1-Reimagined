@@ -39,7 +39,7 @@
 * Round now ends immediately when last zombie is killed (previously up to a one second delay)
 * Players can now red screen after bleeding out and respawning
 * Red screens now start at 25% health (previously 20% health)
-* Explosive self damage now deals 60 damage (previously 75 damage)
+* Reduced self explosive damage from 75 to 70
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
@@ -208,6 +208,7 @@
 ### Wonder Weapons
 
 ### Ray Gun
+* Ammo now gets added to the clip at the same time that it does in the reload animation
 * Unupgraded: impact damage - 2500, max explosion damage - 2500, min explosion damage - 1250
 * Upgraded: impact damage - 3000, max explosion damage - 3000, min explosion damage - 1250
 * Always makes crawlers on first damage on an enemy
@@ -557,6 +558,8 @@
 * Cosmonaut's name above its head is now always "Cosmonaut"
 
 ## Maps
+* Easter egg songs can now be reactivated once the song is over
+
 ### Nacht Der Untoten
 * Removed Character dialog
 
@@ -599,6 +602,7 @@
 * Fixed teleporters showing they were ready to use again too early after teleporting through them
 
 ### Ascension
+* The easter egg song teddy bears will float up and rotate around while the song is active
 
 #### Sidequest
 * Completable with 1-4 players
@@ -623,6 +627,7 @@
 * Eclipse mode activatable with 1-4 players
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
 * While a weapon is in Pack-a-Punch, players will not be pushed off the stairs
+* Gongs now move and make a sound when meleed even if they have already been meleed recently
 
 #### Sidequest
 * Completable with 1-4 players
@@ -651,6 +656,7 @@
 * Jump pad in Receiving Bay now only pushes players upwards
 * Excavator sounds no longer linked to FPS
 * Teleporter sounds no longer linked to FPS
+* Announcer tells you when entering a new zone through the airlocks if the zone is not outside
 
 #### No Man's Land
 * Current No Man's Land round displayed in black where the round number normally is
@@ -815,8 +821,7 @@
 * Fix Der Riese trap lights not turning red when active (can't get it to happen again)
 * Show player's perks when spectating (player.spectatorclient?)
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
-* Ray gun: fix reload add time
-* Get all easter egg songs to be repeatable in a match
+* Shang: fix being able to run in mud pit if drinking perk while entering mud pit
 
 ## GRIEF TODO:
 * Make enemy mines destructible

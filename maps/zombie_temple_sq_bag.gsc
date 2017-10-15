@@ -447,6 +447,12 @@ resonate_runner()
 gong_resonate( player )
 {
 	level endon("kill_resonate");
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	self.ringing = true;
 
 	if( is_true( self.right_gong ) )
@@ -586,7 +592,7 @@ gong_wobble()
 	{
 		self waittill("triggered");
 		self playsound( "evt_sq_bag_gong_hit" );
-		self maps\_anim::anim_single(self, "ring");
+		self thread maps\_anim::anim_single(self, "ring");
 	}
 }
 

@@ -106,6 +106,12 @@ init()
 // 		}
  	}
 */
+
+	if(level.gamemode != "survival")
+    {
+        return;
+    }
+
 	teleport_target_event();	// Teleport the device hub
 	reroute_power_event();		// Attempts to activate the Casimir Device
 	sync_switch_event();		// Removes Security Lockdown

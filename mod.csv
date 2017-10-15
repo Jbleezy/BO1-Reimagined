@@ -47,9 +47,11 @@ rawfile,maps/zombie_cod5_factory_teleporter.gsc
 
 //KINO
 rawfile,maps/zombie_theater.gsc
+rawfile,maps/zombie_theater_amb.gsc
 rawfile,maps/zombie_theater_teleporter.gsc
 
 //FIVE
+rawfile,maps/zombie_pentagon_amb.gsc
 rawfile,maps/zombie_pentagon_traps.gsc
 rawfile,maps/zombie_pentagon_teleporter.gsc
 rawfile,maps/zombie_pentagon_elevators.gsc
@@ -57,6 +59,7 @@ rawfile,maps/zombie_pentagon_elevators.gsc
 //ASCENSION
 rawfile,maps/_zombiemode_ai_monkey.gsc
 rawfile,maps/zombie_cosmodrome.gsc
+rawfile,maps/zombie_cosmodrome_amb.gsc
 rawfile,maps/zombie_cosmodrome_lander.gsc
 rawfile,maps/zombie_cosmodrome_traps.gsc
 rawfile,maps/zombie_cosmodrome_eggs.gsc
@@ -70,6 +73,7 @@ rawfile,maps/_zombiemode_weap_sniper_explosive.gsc
 rawfile,maps/_zombiemode_ai_director.gsc
 rawfile,maps/zombie_coast_ai_director.gsc
 rawfile,maps/zombie_coast_eggs.gsc
+rawfile,maps/zombie_coast_amb.gsc
 
 //SHANG
 rawfile,maps/_zombiemode_weap_shrink_ray.gsc
@@ -81,10 +85,12 @@ rawfile,maps/zombie_temple_sq.gsc
 rawfile,maps/zombie_temple_sq_oafc.gsc
 rawfile,maps/zombie_temple_sq_dgcwf.gsc
 rawfile,maps/zombie_temple_sq_bttp.gsc
+rawfile,maps/zombie_temple_sq_bttp2.gsc
 rawfile,maps/zombie_temple_sq_bag.gsc
 rawfile,maps/_zombiemode_spikemore.gsc
 rawfile,maps/zombie_temple_minecart.gsc
 rawfile,maps/zombie_temple_spawning.gsc
+rawfile,maps/zombie_temple_amb.gsc
 
 //MOOON
 rawfile,maps/_zombiemode_weap_microwavegun.gsc
@@ -102,6 +108,7 @@ rawfile,maps/_zombiemode_equip_hacker.gsc
 rawfile,maps/_zombiemode_weap_quantum_bomb.gsc
 rawfile,maps/zombie_moon_sq.gsc
 rawfile,maps/zombie_moon_sq_sc.gsc
+rawfile,maps/zombie_moon_sq_ss.gsc
 rawfile,maps/zombie_moon_sq_ctvg.gsc
 rawfile,maps/zombie_moon_sq_ctt.gsc
 rawfile,maps/zombie_moon_digger.gsc
@@ -112,6 +119,7 @@ rawfile,maps/zombie_moon_distance_tracking.gsc
 rawfile,maps/zombie_moon_wasteland.gsc
 rawfile,maps/zombie_moon_gravity.gsc
 rawfile,maps/zombie_moon_teleporter.gsc
+rawfile,maps/zombie_moon_amb.gsc
 
 //CLIENTSCRIPTS
 rawfile,clientscripts/_explosive_bolt.csc

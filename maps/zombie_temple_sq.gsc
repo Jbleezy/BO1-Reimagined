@@ -224,8 +224,8 @@ gong_watcher()
 
 		for(i = 0; i < level._raised_crystals.size; i ++)
 		{
-				stop_exploder(500 + i + 1);
-				wait_network_frame();
+			stop_exploder(500 + i + 1);
+			wait_network_frame();
 		}
 	}
 }
@@ -253,8 +253,8 @@ watch_for_gongs_gone_bad()
 
 		for(i = 0; i < level._raised_crystals.size; i ++)
 		{
-				stop_exploder(510 + i + 1);
-				wait_network_frame();
+			stop_exploder(510 + i + 1);
+			wait_network_frame();
 		}
 
 	}
@@ -399,6 +399,11 @@ sundial_monitor()
 	buttons = GetEntArray("sq_sundial_button", "targetname");
 
 	array_thread(buttons, ::sundial_button);
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
 
 	while(1)
 	{
@@ -725,7 +730,10 @@ init_sidequest()
 		}
 	}
 
-	maps\zombie_temple_sq_brock::create_radio(1);
+	if(level.gamemode != "survival")
+	{
+		maps\zombie_temple_sq_brock::create_radio(1);
+	}
 
 	init_gongs();
 

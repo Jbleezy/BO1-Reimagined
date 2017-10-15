@@ -189,20 +189,23 @@ init_sidequest()
 		level.random_entnum = entnums[RandomInt(entnums.size)];
 	}
 
-	for(i = 0; i < players.size; i ++)
+	if(level.gamemode == "survival")
 	{
-		entnum = players[i] GetEntityNumber();
-		PrintLn("**** entnum " + entnum);
-
-		if( IsDefined( players[i].zm_random_char ) )
+		for(i = 0; i < players.size; i ++)
 		{
-			entnum = players[i].zm_random_char;
-		}
+			entnum = players[i] GetEntityNumber();
+			PrintLn("**** entnum " + entnum);
 
-		if((level.richtofen_in_game && entnum == 3) || (!level.richtofen_in_game && entnum == level.random_entnum))
-		{
-			players[i] thread wait_add_sidequest_icon("sq", "generator");
-			break;
+			if( IsDefined( players[i].zm_random_char ) )
+			{
+				entnum = players[i].zm_random_char;
+			}
+
+			if((level.richtofen_in_game && entnum == 3) || (!level.richtofen_in_game && entnum == level.random_entnum))
+			{
+				players[i] thread wait_add_sidequest_icon("sq", "generator");
+				break;
+			}
 		}
 	}
 

@@ -1628,8 +1628,8 @@ difficulty_init()
 #/
 	for ( p=0; p<players.size; p++ )
 	{
-		//players[p].score = 500000;
-		players[p].score = 500;
+		players[p].score = 500000;
+		//players[p].score = 500;
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
 	}
@@ -5474,13 +5474,13 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 			return 0;
 		}
 
-		if(self.health > 60)
+		if(self.health > 70)
 		{
-			return 60;
+			return 70;
 		}
 
-		iDamage = 60;
-		finalDamage = 60;
+		iDamage = 70;
+		finalDamage = 70;
 	}
 
 	//iprintln("i: " + iDamage);

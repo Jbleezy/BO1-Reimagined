@@ -217,6 +217,11 @@ c_overseer()
 
 knock_on_door()
 {
+	if(level.gamemode != "survival")
+    {
+        return;
+    }
+
 	level endon( "scrambled" );
 
 	knock_trig = GetEnt( "e_gargoyle", "targetname" );
@@ -823,6 +828,11 @@ coast_egg_fuse_box_think()
 	fuse_box_trigger SetHintString( "" );
 	fuse_box_trigger UseTriggerRequireLookAt();
 
+	if(level.gamemode != "survival")
+    {
+        return;
+    }
+
 	// wait for the start
 	flag_wait( "ffs" );
 
@@ -901,6 +911,11 @@ coast_egg_fuse_controller()
 			fuse_array[i].object.starter SetCursorHint( "HINT_NOICON" );
 			fuse_array[i].object.starter EnableLinkTo();
 			fuse_array[i].object.starter LinkTo( fuse_array[i].object );
+
+			if(level.gamemode != "survival")
+		    {
+		        return;
+		    }
 
 			fuse_array[i].object coast_egg_fuse_think();
 
@@ -1489,6 +1504,12 @@ denlo()
 		radios[i] SetCursorHint( "HINT_NOICON" );
 		radios[i] SetHintString( "" );
 		radios[i] UseTriggerRequireLookAt();
+
+		if(level.gamemode != "survival")
+	    {
+	        return;
+	    }
+
 		radios[i] thread coast_egg_art_critic_message();
 	}
 }
@@ -1936,6 +1957,11 @@ coast_egg_dial_think()
 
 	self SetHintString( "" );
 	self SetCursorHint( "HINT_NOICON" );
+
+	if(level.gamemode != "survival")
+    {
+        return;
+    }
 
 	/#
 	if( GetDvarInt( #"scr_coast_egg_debug" ) )
