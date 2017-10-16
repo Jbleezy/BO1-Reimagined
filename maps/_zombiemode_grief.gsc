@@ -82,6 +82,8 @@ post_all_players_connected()
 		{
 			players[i] thread instant_bleedouts();
 		}
+
+		//players[i] thread grief_damage_points_thread();
 	}
 }
 
@@ -410,8 +412,27 @@ slowdown(weapon, mod, eAttacker, loc)
 		self.slowdown_wait = false;
 	}
 
-	if(weapon == "mine_bouncing_betty" && self getstance() == "prone")
+	if(weapon == "mine_bouncing_betty" && self GetStance() == "prone")
 		return;
+
+	//shotguns were being called here for each pellet that hit a player, causing players to earn more grief points than they should have, this prevents that from happening
+	if(WeaponClass(weapon) == "spread")
+	{
+		if(!IsDefined(eAttacker.spread_already_damaged))
+		{
+			eAttacker.spread_already_damaged = [];
+		}
+
+		if(IsDefined(eAttacker.spread_already_damaged[self GetEntityNumber()]))
+		{
+			return;
+		}
+		else
+		{
+			eAttacker.spread_already_damaged[self GetEntityNumber()] = true;
+			self thread set_undamaged_after_frame(eAttacker);
+		}
+	}
 
 	eAttacker thread grief_damage_points(self);
 
@@ -427,25 +448,31 @@ slowdown(weapon, mod, eAttacker, loc)
 
 	PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
 	self AllowSprint(false);
-	self setblur( 1, .1 );
+	self SetBlur( 1, .1 );
 
 	if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon) || is_placeable_mine(weapon) || is_tactical_grenade(weapon) || weapon == "sniper_explosive_zm" || ( eAttacker HasPerk( "specialty_flakjacket" ) && eAttacker.divetoprone == 1 && mod == "MOD_GRENADE_SPLASH"))
 	{
-		self setMoveSpeedScale( self.move_speed * .2 );	
+		self SetMoveSpeedScale( self.move_speed * .2 );	
 	}
 	else
 	{
-		self setMoveSpeedScale( self.move_speed * .3 );
+		self SetMoveSpeedScale( self.move_speed * .3 );
 	}
 
 	wait( .75 );//.75 * 1.5 = 1.125
 
-	self setMoveSpeedScale( 1 );
+	self SetMoveSpeedScale( 1 );
 	if(!self.is_drinking)
 		self AllowSprint(true);
-	self setblur( 0, .2 );
+	self SetBlur( 0, .2 );
 
 	self.slowdown_wait = false;
+}
+
+set_undamaged_after_frame(eAttacker)
+{
+	wait_network_frame();
+	eAttacker.spread_already_damaged[self GetEntityNumber()] = undefined;
 }
 
 push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/ballistic, crouch, regular
@@ -494,6 +521,27 @@ grief_damage_points(gotgriefed)
 	{
 		points = int(10 * self.zombie_vars["zombie_point_scalar"]);
 		self maps\_zombiemode_score::add_to_player_score( points );
+	}
+}
+
+grief_damage_points_thread()
+{
+	self endon("disconnect");
+
+	while(1)
+	{
+		//self waittill("damage", damage, attacker, direction_vec, point, type, modelName, tagName);
+
+		self waittill( "weapon_pvp_attack", attacker, weapon, damage, mod );
+
+		if(IsPlayer(attacker) && attacker != self)
+		{
+			if(self.health < self.maxhealth && is_player_valid(attacker))
+			{
+				points = int(10 * attacker.zombie_vars["zombie_point_scalar"]);
+				attacker maps\_zombiemode_score::add_to_player_score( points );
+			}
+		}
 	}
 }
 
@@ -648,13 +696,22 @@ round_restart(same_round)
 	wait_network_frame();
 	level notify( "round_restarted" );
 
+	//dont let players bleedout or enter last stand during round restart
 	players = get_players();
-	/*for(i=0;i<players.size;i++)
+	for(i=0;i<players.size;i++)
 	{
-		players[i].bleedout_time = 0;
-	}*/
+		players[i] EnableInvulnerability();
+		if(players[i] maps\_laststand::player_is_in_laststand())
+		{
+			players[i].bleedout_time = 45;
+		}
+	}
+
+	SetTimeScale(.5);
 
 	wait(1);
+
+	SetTimeScale(1);
 
 	zombs = getaispeciesarray("axis");
 	for(i=0;i<zombs.size;i++)
@@ -687,6 +744,7 @@ round_restart(same_round)
 	for(i=0;i<players.size;i++)
 	{
 		players[i] notify( "round_restarted" );
+		players[i] DisableInvulnerability();
 		players[i].rebuild_barrier_reward = 0;
 		players[i] DoDamage( 0, (0,0,0) );//fix for health not being correct
 		players[i] TakeAllWeapons();

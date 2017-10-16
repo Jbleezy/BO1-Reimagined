@@ -627,7 +627,7 @@
 * Eclipse mode activatable with 1-4 players
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
 * While a weapon is in Pack-a-Punch, players will not be pushed off the stairs
-* Gongs now move and make a sound when meleed even if they have already been meleed recently
+* Gongs now move and make a sound when meleed if they have already been meleed recently
 
 #### Sidequest
 * Completable with 1-4 players
@@ -656,7 +656,7 @@
 * Jump pad in Receiving Bay now only pushes players upwards
 * Excavator sounds no longer linked to FPS
 * Teleporter sounds no longer linked to FPS
-* Announcer tells you when entering a new zone through the airlocks if the zone is not outside
+* Announcer tells players when entering a new zone through the airlocks if the zone that the player is going into is not outside
 
 #### No Man's Land
 * Current No Man's Land round displayed in black where the round number normally is
@@ -683,6 +683,9 @@
 * Knife players to push them
 * Upgraded weapons slow players down more
 * Ballistic knife, bowie knife, and sickle push players farther
+* Grenades, mines, flops, and Scavenger explosions deal 25 damage to enemies
+* Mines are triggerable by enemy players
+* Enemy mines are destroyable
 * Powerups have negative effects towards the team that did not grab the powerup
 * Mystery Box always initially spawns randomly on maps that the box can spawn randomly
 * Mystery Box can initially spawn in the start room on maps that the box can spawn randomly
@@ -818,17 +821,15 @@
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Add collision boxes near invincibilty spots on maps
 * Add line of sight check for windows breaking on Moon (tried fixing but wouldn't work)
-* Fix Der Riese trap lights not turning red when active (can't get it to happen again)
+* Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
 * Show player's perks when spectating (player.spectatorclient?)
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
 * Shang: fix being able to run in mud pit if drinking perk while entering mud pit
+* Shang: make mud pit triggers check for if player is on the ground
 
 ## GRIEF TODO:
-* Make enemy mines destructible
-* Disable easter eggs and songs on all maps
-* Fix shotguns giving additional grief damage points (giving points for each pellet hit)
-* Add meat powerup to grief
 * Add powerup model and shader for slow down powerdown
+* Add meat powerup to grief
 * Add EMP grenades to grief
 * Der Riese: add checks for round restarting during teleporting
 * Der Riese: all teleporters linked
@@ -854,6 +855,7 @@
 * Should there be a zombie spawn delay?
 * Kiparis as box weapon?
 * Should NML have insta kill rounds?
+* If you have 4 perks or more, still allow players to buy perks but bought perk will replace most recently obtained perk?
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG):
 * Insta kill rounds

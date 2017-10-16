@@ -169,6 +169,10 @@ spikemore_watch()
 			else
 			{
 				spikemore thread spikemore_detonation();
+				if(level.gamemode != "survival")
+				{
+					spikemore thread spikemore_damage();
+				}
 			}
 
 			self notify( "zmb_enable_spikemore_prompt" );
@@ -304,6 +308,8 @@ spikemore_detonation()
 	damagearea enablelinkto();
 	damagearea linkto( self );
 
+	self.trigger = damagearea;
+
 	self thread delete_spikemores_on_death( damagearea );
 
 	if(!isdefined(self.owner.mines))
@@ -315,7 +321,6 @@ spikemore_detonation()
 	if( self.owner.mines.size > amount )
 	{
 		self.owner.mines[0] _spikemore_SmallSpearActivate();
-		self.owner.mines = array_remove_nokeys( self.owner.mines, self.owner.mines[0] );
 	}
 
 	while(1)
@@ -336,10 +341,6 @@ spikemore_detonation()
 
 		if ( ent damageConeTrace(self.origin, self) > 0 )
 		{
-			if(is_in_array(self.owner.mines,self))
-			{
-				self.owner.mines = array_remove_nokeys(self.owner.mines,self);
-			}
 			self _spikemore_SmallSpearActivate();
 			return;
 		}
@@ -349,6 +350,12 @@ spikemore_detonation()
 delete_spikemores_on_death(ent)
 {
 	self waittill("death");
+	self.owner.mines = array_removeUndefined(self.owner.mines);
+	
+	if(isDefined(self.tag_origin))
+	{
+		self.tag_origin Delete();
+	}
 	// stupid getarraykeys in array_remove reversing the order - nate
 	wait .05;
 	if ( isdefined( ent ) )
@@ -568,4 +575,34 @@ _wait_to_fire_spikemore()
 	}
 
 	level.hasSpikemoreFiredRecently = true;
+}
+
+spikemore_damage()
+{
+	self endon( "death" );
+
+	tag_origin = spawn("script_model",self.origin);
+	tag_origin.angles = self.angles;
+	tag_origin setmodel(self.model);
+	tag_origin linkto(self);
+	self.tag_origin = tag_origin;
+
+	tag_origin setcandamage(true);
+	tag_origin.health = 100000;
+
+	while(1)
+	{
+		tag_origin waittill("damage", amount, attacker);
+		if(attacker.vsteam != self.owner.vsteam)
+		{
+			PlayFX(level._effect["equipment_damage"], self.origin);
+
+			if(IsDefined(self.trigger))
+			{
+				self.trigger delete();
+			}
+			tag_origin Delete();
+			self delete();
+		}
+	}
 }

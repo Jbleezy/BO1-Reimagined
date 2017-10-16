@@ -125,9 +125,14 @@ claymore_watch()
 		if(weapname == "claymore_zm")
 		{
 			claymore.owner = self;
-			claymore thread satchel_damage();
+			//claymore thread satchel_damage();
 			claymore thread claymore_detonation();
 			claymore thread play_claymore_effects();
+
+			if(level.gamemode != "survival")
+			{
+				claymore thread claymore_damage();
+			}
 
 			self notify( "zmb_enable_claymore_prompt" );
 		}
@@ -274,6 +279,8 @@ claymore_detonation()
 	damagearea enablelinkto();
 	damagearea linkto( self );
 
+	self.trigger = damagearea;
+
 	self thread delete_claymores_on_death( damagearea );
 
 	if(!isdefined(self.owner.mines))
@@ -285,7 +292,6 @@ claymore_detonation()
 	if( self.owner.mines.size > amount )
 	{
 		self.owner.mines[0] detonate( self.owner );
-		self.owner.mines = array_remove_nokeys( self.owner.mines, self.owner.mines[0] );
 	}
 
 	while(1)
@@ -306,10 +312,6 @@ claymore_detonation()
 
 		if ( ent damageConeTrace(self.origin, self) > 0 )
 		{
-			if(is_in_array(self.owner.mines,self))
-			{
-				self.owner.mines = array_remove_nokeys(self.owner.mines,self);
-			}
 			self playsound ("claymore_activated_SP");
 			wait 0.4;
 			if ( isdefined( self.owner ) )
@@ -325,6 +327,12 @@ claymore_detonation()
 delete_claymores_on_death(ent)
 {
 	self waittill("death");
+	self.owner.mines = array_removeUndefined(self.owner.mines);
+
+	if(isDefined(self.tag_origin))
+	{
+		self.tag_origin Delete();
+	}
 	// stupid getarraykeys in array_remove reversing the order - nate
 	//level.claymores = array_remove_nokeys( level.claymores, self );
 	wait .05;
@@ -462,4 +470,34 @@ show_claymore_hint(string)
 	self.hintelem setText(text);
 	wait(3.5);
 	self.hintelem settext("");
+}
+
+claymore_damage()
+{
+	self endon( "death" );
+
+	tag_origin = spawn("script_model",self.origin);
+	tag_origin.angles = self.angles;
+	tag_origin setmodel(self.model);
+	tag_origin linkto(self);
+	self.tag_origin = tag_origin;
+
+	tag_origin setcandamage(true);
+	tag_origin.health = 100000;
+
+	while(1)
+	{
+		tag_origin waittill("damage", amount, attacker);
+		if(attacker.vsteam != self.owner.vsteam)
+		{
+			PlayFX(level._effect["equipment_damage"], self.origin);
+
+			if(IsDefined(self.trigger))
+			{
+				self.trigger delete();
+			}
+			tag_origin Delete();
+			self delete();
+		}
+	}
 }

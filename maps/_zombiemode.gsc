@@ -1251,6 +1251,8 @@ init_fx()
 
 	level._effect["def_explosion"]				= LoadFX("explosions/fx_default_explosion");
 	level._effect["betty_explode"]				= LoadFX("weapon/bouncing_betty/fx_explosion_betty_generic");
+
+	level._effect["equipment_damage"] 			= loadfx( "env/electrical/fx_elec_sparking_oneshot" );
 }
 
 
@@ -1628,8 +1630,8 @@ difficulty_init()
 #/
 	for ( p=0; p<players.size; p++ )
 	{
-		players[p].score = 500000;
-		//players[p].score = 500;
+		//players[p].score = 500000;
+		players[p].score = 500;
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
 	}
@@ -6392,20 +6394,20 @@ end_game()
 
 	UploadStats();
 
-	/*if(level.gamemode != "survival")
+	if(level.gamemode != "survival")
 	{
 		SetTimeScale(.5);
-	}*/
+	}
 
 	wait( 1 );
 
 	//play_sound_at_pos( "end_of_game", ( 0, 0, 0 ) );
 	wait( 2 );
 
-	/*if(level.gamemode != "survival")
+	if(level.gamemode != "survival")
 	{
 		SetTimeScale(1);
-	}*/
+	}
 
 	intermission();
 	//wait( level.zombie_vars["zombie_intermission_time"] );
@@ -8426,7 +8428,7 @@ give_weapons_test()
 	self giveweapon( "molotov_zm" );
 	self set_player_tactical_grenade( "molotov_zm" );
 
-	wait 5;
+	//wait 5;
 
 	/*while(1)
 	{

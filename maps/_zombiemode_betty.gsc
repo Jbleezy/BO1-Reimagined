@@ -119,6 +119,11 @@ bouncing_betty_watch()
 			betty thread betty_think();
 			self thread betty_death_think();
 			betty thread pickup_betty();
+
+			if(level.gamemode != "survival")
+			{
+				betty thread betty_damage();
+			}
 		}
 	}
 }
@@ -148,6 +153,8 @@ bouncing_betty_setup()
 
 betty_think()
 {
+	self endon("death");
+
 	if(!isdefined(self.owner.mines))
 		self.owner.mines = [];
 	self.owner.mines = array_add( self.owner.mines, self );
@@ -389,7 +396,6 @@ give_betty()
 	self delete();
 }
 
-//make sure this only gets notified if the betty should for sure explode
 make_radius_trigger()
 {
 	self endon("death");
@@ -422,7 +428,28 @@ make_radius_trigger()
 			{
 				self notify("trigger_touch", players[i]);
 			}
-			//TODO: check for grief team
+		}
+	}
+}
+
+betty_damage()
+{
+	self endon("death");
+
+	self setCanDamage(true);
+	self.health = 1000000;
+	while(1)
+	{
+		self waittill("damage", amount, attacker);
+		if(attacker.vsteam != self.owner.vsteam)
+		{
+			PlayFX( level._effect["equipment_damage"], self.origin );
+
+			if(IsDefined(self.trigger))
+			{
+				self.trigger delete();
+			}
+			self delete();
 		}
 	}
 }
