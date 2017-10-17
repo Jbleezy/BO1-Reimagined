@@ -817,7 +817,7 @@ humangun_zombie_get_closest_zombie_loop()
 	{
 		zombies = GetAiSpeciesArray( "axis", "all" );
 		playable_area = getentarray("player_volume","script_noteworthy");
-		distance = 10000*10000;
+		distance = 10000;
 		closest_zomb = undefined;
 		for(i=0;i<zombies.size;i++)
 		{

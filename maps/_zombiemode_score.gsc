@@ -550,7 +550,7 @@ create_highlight_hud( x, y, value )
 
 	if( value < 1 )
 	{
-		hud.color = ( 0.6, 0, 0 );
+		hud.color = ( 0.4, 0, 0 );
 	}
 	else
 	{

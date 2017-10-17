@@ -1630,8 +1630,8 @@ difficulty_init()
 #/
 	for ( p=0; p<players.size; p++ )
 	{
-		//players[p].score = 500000;
-		players[p].score = 500;
+		players[p].score = 500000;
+		//players[p].score = 500;
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
 	}
@@ -4141,7 +4141,7 @@ create_chalk_hud( x )
 	hud.alignY = "bottom";
 	hud.horzAlign = "user_left";
 	hud.vertAlign = "user_bottom";
-	hud.color = ( 0.21, 0, 0 );
+	hud.color = ( 0.3, 0, 0 );
 	hud.x = x;
 	hud.y = -4;
 	hud.alpha = 0;
@@ -4366,10 +4366,10 @@ chalk_one_up(override_round_number)
 
 		// Fade to red
 		round FadeOverTime( 2 );
-		round.color = ( 0.21, 0, 0 );
+		round.color = ( 0.3, 0, 0 );
 
 		huds[0] FadeOverTime( 2 );
-		huds[0].color = ( 0.21, 0, 0 );
+		huds[0].color = ( 0.3, 0, 0 );
 		wait(2);
 	}
 	else if(!IsDefined(override_round_number))
@@ -4456,7 +4456,7 @@ chalk_one_up(override_round_number)
 			}
 			else
 			{
-				huds[i].color = ( 0.21, 0, 0 );
+				huds[i].color = ( 0.3, 0, 0 );
 			}
 			//set yellow insta kill on hud
 			if(round_number >= 163 && round_number % 2 == 1 && !flag("dog_round") && !flag("thief_round") && !flag("monkey_round"))
@@ -4589,7 +4589,7 @@ chalk_round_over()
 
 		huds[i] FadeOverTime( time * 0.25 );
 		//		huds[i].color = ( 0.8, 0, 0 );
-		huds[i].color = ( 0.21, 0, 0 );
+		huds[i].color = ( 0.3, 0, 0 );
 		huds[i].alpha = 0;
 	}
 

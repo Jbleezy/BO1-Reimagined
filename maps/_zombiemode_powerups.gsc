@@ -1133,8 +1133,8 @@ special_drop_setup(first_time, permament)
 {
 	powerup = undefined;
 	is_powerup = true;
-	// Always give something at lower rounds or if a player is in last stand mode.
-	if ( level.round_number <= 10 || first_time )
+	// Always give something at lower rounds or if linking teleporter
+	if ( (level.gamemode == "survival" && (level.round_number <= 10 || first_time)) || level.gamemode != "survival" )
 	{
 		powerup = get_valid_powerup();
 	}
@@ -1169,17 +1169,25 @@ special_drop_setup(first_time, permament)
 	case "lose_points_team":
 	case "lose_perk":
 	case "empty_clip":
+	case "full_ammo":
+
+	case "grief_empty_clip":
+	case "grief_lose_points":
+	case "grief_half_points":
+	case "grief_half_damage":
+	case "grief_slow_down":
+	case "meat":
 		break;
 
 	// Limit max ammo drops because it's too powerful
-	case "full_ammo":
+	/*case "full_ammo":
 		if ( level.round_number > 10 &&
 			 ( RandomInt(100) < (level.round_number - 10)*5 ) )
 		{
 			// Randomly pick another one
 			powerup = level.zombie_powerup_array[ RandomInt(level.zombie_powerup_array.size) ];
 		}
-		break;
+		break;*/
 
 	case "dog":
 		if ( level.round_number >= 15 )

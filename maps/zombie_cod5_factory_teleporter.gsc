@@ -78,44 +78,45 @@ teleporter_init()
 init_pack_door()
 {
 	//DCS: create collision blocker till door in place at load.
-	collision = spawn("script_model", (-56, 467, 157));
+	/*collision = spawn("script_model", (-56, 467, 157));
 	collision setmodel("collision_wall_128x128x10");
 	collision.angles = (0, 0, 0);
-	collision Hide();
+	collision Hide();*/
 
-	door = getent( "pack_door", "targetname" );
+	/*door = getent( "pack_door", "targetname" );
 	door movez( -50, 0.05, 0 );
-	wait(1.0);
+	wait(1.0);*/
 
 	flag_wait( "all_players_connected" );
 
-	door movez(  50, 1.5, 0 );
-	door playsound( "packa_door_1" );
+	/*door movez(  50, 1.5, 0 );
+	door playsound( "packa_door_1" );*/
 
 	//DCS: waite for door to be in place then delete blocker.
 	wait(2);
-	collision Delete();
+	//collision Delete();
+
+	door = getent( "pack_door", "targetname" );
 
 	// Open slightly the first two times
 	flag_wait( "teleporter_pad_link_1" );
 	door movez( -35, 1.5, 1 );
 	door playsound( "packa_door_2" );
 	door thread packa_door_reminder();
-	wait(2);
+	wait(1.5);
 
 	// Second link
 	flag_wait( "teleporter_pad_link_2" );
 	door movez( -25, 1.5, 1 );
 	door playsound( "packa_door_2" );
-	wait(2);
+	wait(1.5);
 
 	// Final Link
 	flag_wait( "teleporter_pad_link_3" );
-
 	door movez( -60, 1.5, 1 );
 	door playsound( "packa_door_2" );
-
 	//door rotateyaw( -90, 1.5, 1 );
+	wait(1.5);
 
 	clip = getentarray( "pack_door_clip", "targetname" );
 	for ( i = 0; i < clip.size; i++ )
@@ -186,7 +187,7 @@ teleport_pad_think( index )
 	trigger = level.teleporter_pad_trig[ index ];
 
 	trigger setcursorhint( "HINT_NOICON" );
-	trigger sethintstring( &"WAW_ZOMBIE_FLAMES_UNAVAILABLE" );
+	trigger sethintstring( &"ZOMBIE_NEED_POWER" );
 
 	flag_wait( "power_on" );
 
@@ -197,7 +198,14 @@ teleport_pad_think( index )
 	{
 		while ( !active )
 		{
-			trigger waittill( "trigger", user );
+			if(level.gamemode == "survival")
+			{
+				trigger waittill( "trigger", user );
+			}
+			else
+			{
+				user = get_players()[0];
+			}
 
 			if ( level.active_links < 3 )
 			{
@@ -334,7 +342,7 @@ teleport_pad_active_think( index )
 			user maps\_zombiemode_score::minus_to_player_score( level.teleport_cost );
 
 			// Non-threaded so the trigger doesn't activate before the cooldown
-			self player_teleporting( index, user );
+			self player_teleporting( index, user, false );
 		}
 	}
 }
@@ -346,6 +354,18 @@ player_teleporting( index, user, first_time )
 {
 	if(!IsDefined(first_time))
 		first_time = false;
+
+	if(!IsDefined(level.times_teleported))
+	{
+		level.times_teleported = 0;
+	}
+
+	if(level.times_teleported <= 3)
+	{
+		level.times_teleported++;
+	}
+
+	times_teleported = level.times_teleported; //save the current amount because the global variable might change
 
 	time_since_last_teleport = GetTime() - level.teleport_time;
 
@@ -394,14 +414,19 @@ player_teleporting( index, user, first_time )
 	ss = getstruct( "teleporter_powerup", "targetname" );
 	if ( IsDefined( ss ) )
 	{
-		ss thread maps\_zombiemode_powerups::special_powerup_drop(ss.origin, first_time, true);
+		//if versus gamemode, then only spawn powerups once all links are active or else it will try to spawn 3 powerups at the beginning of the match since the teleporters are automatically linked at the beginning of the match
+		if(!(level.gamemode != "survival" && times_teleported < 3))
+		{
+			ss thread maps\_zombiemode_powerups::special_powerup_drop(ss.origin, first_time, true);
+		}
 	}
 
 	// Special for teleporting too much.  The Dogs attack!
-	if ( time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20 )
+	if ( (level.gamemode == "survival" && time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20) || 
+		(level.gamemode != "survival" && times_teleported > 3) )
 	{
 		dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
-		maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 4 );
+		maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
 		//iprintlnbold( "Samantha Sez: No Powerup For You!" );
 		thread play_sound_2d( "sam_nospawn" );
 	}
@@ -683,7 +708,7 @@ teleport_core_hint_update()
 		// can't use teleporters until power is on
 		if ( !flag( "power_on" ) )
 		{
-			self sethintstring( &"WAW_ZOMBIE_FLAMES_UNAVAILABLE" );
+			self sethintstring( &"ZOMBIE_NEED_POWER" );
 		}
 		else if ( teleport_pads_are_active() )
 		{
@@ -738,7 +763,12 @@ teleport_core_think()
 						}
                      #/
 
-				    if ( !cheat )
+				    /*if ( !cheat )
+					{
+						trigger waittill( "trigger" );
+					}*/
+
+					if(level.gamemode == "survival")
 					{
 						trigger waittill( "trigger" );
 					}
@@ -760,21 +790,26 @@ teleport_core_think()
 								flag_set( "teleporter_pad_link_"+level.active_links );
 
 								//AUDIO
-								ClientNotify( "scd" + i );
-
-								teleport_core_start_exploder( i );
+								//if(level.gamemode == "survival")
+								{
+									ClientNotify( "scd" + i );
+									teleport_core_start_exploder( i );
+								}
 
 								// check for all teleporters active
 								if ( level.active_links == 3 )
 								{
-									exploder( 101 );
-									ClientNotify( "pap1" );	// Pack-A-Punch door on
-									teleporter_vo( "linkall", trigger );
-//									if( level.round_number <= 7 )
-//									{
-//										achievement_notify( "DLC3_ZOMBIE_FAST_LINK" );
-//									}
-									Earthquake( 0.3, 2.0, trigger.origin, 3700 );
+									//if(level.gamemode == "survival")
+									{
+										exploder( 101 );
+										ClientNotify( "pap1" );	// Pack-A-Punch door on
+										teleporter_vo( "linkall", trigger );
+//										if( level.round_number <= 7 )
+//										{
+//											achievement_notify( "DLC3_ZOMBIE_FAST_LINK" );
+//										}
+										Earthquake( 0.3, 2.0, trigger.origin, 3700 );
+									}
 								}
 
 								// stop the countdown for the teleport pad

@@ -454,6 +454,8 @@
 * Teleporters now kill zombies on any round
 * Guranteed teleporter powerup when first linking teleporter
 * Powerup spawned from teleporters stays on the map until picked up or a new teleporter powerup spawns
+* Amount of dogs spawned in from teleporter is now 2 multiplied by the amount of players (previously 4)
+* Max ammo now has the same chance of spawning from the teleporter as all other drops
 
 ### Turrets (Kino Der Toten and Ascension)
 * No longer deal damage to players
@@ -578,6 +580,7 @@
 * Fixed mystery box use trigger in Trench Gun room
 * Players will no longer get stuck on curbs
 * Easter egg song now plays the whole song
+* Pack-a-Punch door is now all the way up from the start of the match
 
 ### Kino Der Toten
 * Players no longer get teleported to special rooms unless both radios on the map have been activated
@@ -706,6 +709,9 @@
 * Punishment Points Powerdown: players lose a random amount of points between 500 and 2500 points
 * Slow Down Powerdown: Players move slower for 30 seconds
 * Meat Powerup
+* Der Riese: all teleporters linked
+* Der Riese: powerdown spawns from the start of each match
+* Der Riese: powerdown and dogs spawn from each teleporter use
 
 #### Grief
 * Win by surviving a round while all the enemies are dead
@@ -808,7 +814,7 @@
 * Get WaW weapon files of classic map weapons working
 * Get animator to make correct anims for classic map weapons
 * Wunderwaffe: make the closest zombie from the bolt be the first one that gets zapped
-* Fix Wunderwaffe not arcing after first kill
+* Fix Wunderwaffe not arcing after first kill rarely
 * Search & Rezurrect gamemode: must kill the remaining horde to win the round
 * Upgraded Kar98k: 50 round clip, no reserve ammo
 * Make sure powerup cycle resets when last currently obtainable powerup of a cycle spawns
@@ -826,13 +832,13 @@
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
 * Shang: fix being able to run in mud pit if drinking perk while entering mud pit
 * Shang: make mud pit triggers check for if player is on the ground
+* Fix PaP hintstring showing take weapon for other players weapons for a short period
 
 ## GRIEF TODO:
 * Add powerup model and shader for slow down powerdown
 * Add meat powerup to grief
 * Add EMP grenades to grief
 * Der Riese: add checks for round restarting during teleporting
-* Der Riese: all teleporters linked
 * Shang: PaP stairs always open
 * Shang: Geyser in first room available from start
 * Moon: spawn in first room
