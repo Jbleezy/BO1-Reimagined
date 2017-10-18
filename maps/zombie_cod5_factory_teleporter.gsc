@@ -101,14 +101,20 @@ init_pack_door()
 	// Open slightly the first two times
 	flag_wait( "teleporter_pad_link_1" );
 	door movez( -35, 1.5, 1 );
-	door playsound( "packa_door_2" );
+	if(level.gamemode == "survival")
+	{
+		door playsound( "packa_door_2" );
+	}
 	door thread packa_door_reminder();
 	wait(1.5);
 
 	// Second link
 	flag_wait( "teleporter_pad_link_2" );
 	door movez( -25, 1.5, 1 );
-	door playsound( "packa_door_2" );
+	if(level.gamemode == "survival")
+	{
+		door playsound( "packa_door_2" );
+	}
 	wait(1.5);
 
 	// Final Link
@@ -377,13 +383,19 @@ player_teleporting( index, user, first_time )
 	exploder( 105 );
 
 	//AUDIO
-	ClientNotify( "tpw" + index );
+	if(!(level.gamemode != "survival" && times_teleported <= 3))
+	{
+		ClientNotify( "tpw" + index );
+	}
 
 	// start fps fx
 	self thread teleport_pad_player_fx( level.teleport_delay );
 
-	//AUDIO
-	self thread teleport_2d_audio();
+	if(!(level.gamemode != "survival" && times_teleported <= 3))
+	{
+		//AUDIO
+		self thread teleport_2d_audio();
+	}
 
 	// Activate the TP zombie kill effect
 	self thread teleport_nuke( undefined, 300, user);	//range 300
@@ -391,7 +403,6 @@ player_teleporting( index, user, first_time )
 	// wait a bit
 	wait( level.teleport_delay );
 
-	// end fps fx
 	self notify( "fx_done" );
 
 	// add 3rd person beam fx
@@ -400,8 +411,11 @@ player_teleporting( index, user, first_time )
 	// teleport the players
 	self teleport_players(user);
 
-	//AUDIO
-	ClientNotify( "tpc" + index );
+	if(!(level.gamemode != "survival" && times_teleported <= 3))
+	{
+		//AUDIO
+		ClientNotify( "tpc" + index );
+	}
 
 	// only need this if it's not cooling down
 	if ( level.is_cooldown == false )
@@ -790,26 +804,20 @@ teleport_core_think()
 								flag_set( "teleporter_pad_link_"+level.active_links );
 
 								//AUDIO
-								//if(level.gamemode == "survival")
-								{
-									ClientNotify( "scd" + i );
-									teleport_core_start_exploder( i );
-								}
+								ClientNotify( "scd" + i );
+								teleport_core_start_exploder( i );
 
 								// check for all teleporters active
 								if ( level.active_links == 3 )
 								{
-									//if(level.gamemode == "survival")
-									{
-										exploder( 101 );
-										ClientNotify( "pap1" );	// Pack-A-Punch door on
-										teleporter_vo( "linkall", trigger );
+									exploder( 101 );
+									ClientNotify( "pap1" );	// Pack-A-Punch door on
+									teleporter_vo( "linkall", trigger );
 //										if( level.round_number <= 7 )
 //										{
 //											achievement_notify( "DLC3_ZOMBIE_FAST_LINK" );
 //										}
-										Earthquake( 0.3, 2.0, trigger.origin, 3700 );
-									}
+									Earthquake( 0.3, 2.0, trigger.origin, 3700 );
 								}
 
 								// stop the countdown for the teleport pad
