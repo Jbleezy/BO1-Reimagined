@@ -125,47 +125,46 @@ _setup_pap_blocker()
 	}
 }
 
-#using_animtree( "generic_human" );
-//_setup_pressure_plate_bodies()
-//{
-//	wait(1.0);
+/*#using_animtree( "generic_human" );
+_setup_pressure_plate_bodies()
+{
+	wait(1.0);
 
-//	joint_array = [];
-//	joint_array[joint_array.size] = "j_neck";
-//	joint_array[joint_array.size] = "j_ankle_ri";
-//	joint_array[joint_array.size] = "j_wrist_le";
-//	joint_index = 0;
-//
-//	spots = GetEntArray( "hanging_base", "targetname" );
+	joint_array = [];
+	joint_array[joint_array.size] = "j_neck";
+	joint_array[joint_array.size] = "j_ankle_ri";
+	joint_array[joint_array.size] = "j_wrist_le";
+	joint_index = 0;
 
-//	// keep track of how many zombies have been dropped before allowing the elevator to be activated
-//	level.zombie_drops_left = spots.size;
+	spots = GetEntArray( "hanging_base", "targetname" );
 
-//	for( i=0; i<spots.size; i++ )
-//	{
-//		guy = spawn( "script_model", spots[i].origin - (0,0,50) );
-//		guy.base = spots[i];
-//		guy.animname = "generic";
-//
-//		guy _setup_hanging_model(i);
-//		//guy SetModel("c_vtn_civ_fullbody");	//make random
-//
-//		guy makeFakeAI();
-//		guy useAnimTree(#animtree);
-//		//guy setAnim( %crouch2stand, 1.0, 1.0, 1.0 );
-//		guy.health = 1000;
+	// keep track of how many zombies have been dropped before allowing the elevator to be activated
+	level.zombie_drops_left = spots.size;
 
-//		joint = joint_array[joint_index];
-//		joint_index = (joint_index + 1) % joint_array.size;
+	for( i=0; i<spots.size; i++ )
+	{
+		guy = spawn( "script_model", spots[i].origin - (0,0,50) );
+		guy.base = spots[i];
+		guy.animname = "generic";
 
-//		guy.rope = createrope( spots[i].origin, (0,0,0), 40, guy, joint );
+		guy _setup_hanging_model(i);
+		guy SetModel("c_vtn_civ_fullbody");	//make random
 
-//		guy thread _watch_for_fall();
-//	}
+		guy makeFakeAI();
+		guy useAnimTree(#animtree);
+		guy setAnim( %crouch2stand, 1.0, 1.0, 1.0 );
+		guy.health = 1000;
 
-//	level thread _wait_for_pap_enable();
+		joint = joint_array[joint_index];
+		joint_index = (joint_index + 1) % joint_array.size;
 
-//}
+		guy.rope = createrope( spots[i].origin, (0,0,0), 40, guy, joint );
+
+		guy thread _watch_for_fall();
+	}
+
+	//level thread _wait_for_pap_enable();
+}*/
 
 _setup_hanging_model(index)
 {
@@ -265,11 +264,31 @@ _setup_simultaneous_pap_triggers()
 		triggers[i] = GetEnt("pap_blocker_trigger" + (i+1), "targetname");
 	}
 
-	_randomize_pressure_plates(triggers);
+	if(level.gamemode == "survival")
+	{
+		_randomize_pressure_plates(triggers);
 
-	array_thread( triggers, ::_pap_pressure_plate_move );
+		array_thread( triggers, ::_pap_pressure_plate_move );
 
-	wait(1.0);
+		wait(1.0);
+	}
+	else
+	{
+		thread _pap_think();
+
+		wait(1.0);
+
+		// end all the threads that manage the pressure plate action
+		for ( i = 0; i < triggers.size; i++ )
+		{
+			triggers[i] notify("pap_active");
+			triggers[i].plate _plate_move_down();
+		}
+
+		_set_num_plates_active(4, 15);
+
+		level waittill("forever");
+	}
 
 	last_num_plates_active = -1;
 	last_plate_state = -1;
@@ -310,7 +329,7 @@ _setup_simultaneous_pap_triggers()
 		_update_stairs(triggers);
 
 
-		if ( num_plates_active >= num_plates_needed)
+		if ( num_plates_active >= num_plates_needed )
 		{
 			// end all the threads that manage the pressure plate action
 			for ( i = 0; i < triggers.size; i++ )
@@ -431,7 +450,14 @@ _pap_pressure_plate_move()
 			{
 				if( players[i].sessionstate != "spectator" )
 				{
-					touching = players[i] IsTouching(self);
+					if(level.gamemode == "survival")
+					{
+						touching = players[i] IsTouching(self);
+					}
+					else
+					{
+						touching = true;
+					}
 				}
 			}
 
@@ -752,6 +778,11 @@ _pap_think()
 	}
 
 	level stop_pap_fx();
+
+	if(level.gamemode != "survival")
+	{
+		level waittill("forever");
+	}
 
 	level thread _wait_for_pap_reset();
 	level waittill("flush_done");

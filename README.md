@@ -712,6 +712,8 @@
 * Der Riese: all teleporters linked
 * Der Riese: powerdown spawns from the start of each match
 * Der Riese: powerdown and dogs spawn from each teleporter use
+* Shangri-La: Pack-a-Punch stairs are open from the start of the match
+* Kino Der Toten: teleporter is automatically linked to the mainframe
 
 #### Grief
 * Win by surviving a round while all the enemies are dead
@@ -838,8 +840,7 @@
 * Add powerup model and shader for slow down powerdown
 * Add meat powerup to grief
 * Add EMP grenades to grief
-* Der Riese: add checks for round restarting during teleporting
-* Shang: PaP stairs always open
+* Shang: disable minecart
 * Shang: Geyser in first room available from start
 * Moon: spawn in first room
 * Moon: turn on power and spawn immediately at start of match

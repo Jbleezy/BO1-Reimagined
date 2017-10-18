@@ -358,6 +358,10 @@ teleport_pad_active_think( index )
 //-------------------------------------------------------------------------------
 player_teleporting( index, user, first_time )
 {
+	level endon("round_restarted");
+
+	self thread cleanup_on_round_restart(index, user);
+
 	if(!IsDefined(first_time))
 		first_time = false;
 
@@ -445,6 +449,21 @@ player_teleporting( index, user, first_time )
 		thread play_sound_2d( "sam_nospawn" );
 	}
 	level.teleport_time = GetTime();
+
+	level notify("teleporter_end");
+}
+
+cleanup_on_round_restart(index, user)
+{
+	level endon("teleporter_end");
+
+	level waittill( "round_restarted" );
+
+	self notify( "fx_done" );
+
+	flag_waitopen("round_restarting");
+
+	setClientSysState( "levelNotify", "black_box_end", user );
 }
 
 //-------------------------------------------------------------------------------
