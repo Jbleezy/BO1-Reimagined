@@ -11,7 +11,6 @@
 //*****************************************************************************
 teleporter_function( name )
 {
-
 	// Get the Teleporter Trigger Ent
 	teleporter = getent( name, "targetname" );
 

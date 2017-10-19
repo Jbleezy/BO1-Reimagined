@@ -631,6 +631,8 @@
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
 * While a weapon is in Pack-a-Punch, players will not be pushed off the stairs
 * Gongs now move and make a sound when meleed if they have already been meleed recently
+* Mud pit walls now only activate when a player is on the ground
+* Fixed a bug where players were able to sprint and enter prone in the mud pit if they were drinking a perk while entering the mud pit
 
 #### Sidequest
 * Completable with 1-4 players
@@ -693,13 +695,11 @@
 * Mystery Box always initially spawns randomly on maps that the box can spawn randomly
 * Mystery Box can initially spawn in the start room on maps that the box can spawn randomly
 * Mystery Box can initially spawn anywhere on Five
-* Five: all 6 barriers in the start room are enabled
 * Mule Kick disabled on all maps except Moon
 * Turrets attack players (won't attack the team that activated the turret)
 * Players gain 10 points for slowing down a player if they are below full health
 * If an enemy player assisted in getting a player down, the player will gain 5% of the player's points who downed
 * When a enemy player bleeds out, players gain 10% of their current points
-* COTD: director spawns 2 random powerdowns
 * Removed all normal powerups except for Fire Sale
 * Fire Sale: makes traps cost 10 points
 * Powerups replaced by powerdowns: powerups that do negative effects but don't effect the team that grabs the powerup
@@ -712,8 +712,18 @@
 * Der Riese: all teleporters linked
 * Der Riese: powerdown spawns from the start of each match
 * Der Riese: powerdown and dogs spawn from each teleporter use
+* Kino Der Toten: teleporter is already linked to the mainframe
+* Five: all 6 barriers in the start room are enabled
+* Five: Pack-a-Punch door is now a 1500 point buyable door
+* Ascension: lunar landers disabled
+* Ascension: Pack-a-Punch door is now a 1500 point buyable door
+* COTD: director spawns 2 random powerdowns
 * Shangri-La: Pack-a-Punch stairs are open from the start of the match
-* Kino Der Toten: teleporter is automatically linked to the mainframe
+* Shangri-La: geyser in the start room is open from the start of the match
+* Shangri-La: monkeys disabled
+* Shangri-La: minecart disabled
+* Moon: No Man's Land disabled
+* Moon: first room door is open from the start of the match
 
 #### Grief
 * Win by surviving a round while all the enemies are dead
@@ -840,10 +850,8 @@
 * Add powerup model and shader for slow down powerdown
 * Add meat powerup to grief
 * Add EMP grenades to grief
-* Shang: disable minecart
-* Shang: Geyser in first room available from start
-* Moon: spawn in first room
 * Moon: turn on power and spawn immediately at start of match
+* Moon: make teleporter gate stay up
 * Add new grief damage fx
 
 ## TESTING:
@@ -852,7 +860,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Make sure spectators can't pick up powerups
 * Grief: test if turret is still attacking team of player that activated turret
-* Grief: make sure win/lose text on intermission screen is showing up correctly
+* Grief on Five: test if teleporters are disabled (disabled on solo, but were enabled on coop last time I checked)
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

@@ -92,6 +92,7 @@ rawfile,maps/_zombiemode_spikemore.gsc
 rawfile,maps/zombie_temple_minecart.gsc
 rawfile,maps/zombie_temple_spawning.gsc
 rawfile,maps/zombie_temple_amb.gsc
+rawfile,maps/zombie_temple_elevators.gsc
 
 //MOOON
 rawfile,maps/_zombiemode_weap_microwavegun.gsc

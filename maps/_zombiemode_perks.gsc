@@ -1716,7 +1716,6 @@ give_perk( perk, bought )
 give_back_mule_weapon()
 {
 	unupgrade_name = self.weapon_taken_by_losing_additionalprimaryweapon[0];
-	iprintln(unupgrade_name);
 	if(maps\_zombiemode_weapons::is_weapon_upgraded(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
 	{
 		//removes "_upgraded" from weapon name

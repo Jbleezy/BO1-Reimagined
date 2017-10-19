@@ -46,6 +46,11 @@ init()
 	}
     #/
 
+    if(level.gamemode != "survival")
+    {
+    	return;
+    }
+
 	// make all barriers with the zone they are in
 	level thread _setup_zone_info();
 	level thread _watch_for_powerups();

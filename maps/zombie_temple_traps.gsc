@@ -1110,7 +1110,7 @@ maze_cell_watch()
 		//This is a path trigger
 		if(self.trigger.pathCount > 0)
 		{
-			if ( isplayer( who ) )
+			if ( isplayer( who ) && who IsOnGround() )
 			{
 				//Player must be completely out of slow triggers to start path trigger
 				if(who is_player_maze_slow())
@@ -1132,7 +1132,7 @@ maze_cell_watch()
 		}
 		else //This is a slow trigger
 		{
-			if ( isplayer( who ) )
+			if ( isplayer( who ) && who IsOnGround() )
 			{
 				if(who is_player_on_path())
 				{
@@ -1467,8 +1467,6 @@ watch_slow_trigger_exit(player)
 	//First time touching a slow trigger?
 	if(!player is_player_maze_slow())
 	{
-		player allowSprint(false);
-		player allowProne(false);
 		player.move_speed = .35;
 		player SetMoveSpeedScale( 0.35 );
 		player clientnotify( "sle" );//notify to override footstep audio
@@ -1480,6 +1478,8 @@ watch_slow_trigger_exit(player)
 	//Wait till the player stops touching this trigger or it is no longer a slow trigger
 	while(self.pathCount == 0 && player isTouching(self))
 	{
+		player allowSprint(false);
+		player allowProne(false);
 		wait .1;
 	}
 

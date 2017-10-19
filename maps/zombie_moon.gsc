@@ -138,7 +138,7 @@ main()
 	level maps\zombie_moon_digger::digger_init_flags();
 	level thread maps\zombie_moon_achievement::init();
 
-	level thread electric_switch();
+	//level thread electric_switch();
 
 	// Setup generator switch
 	level thread electric_switch();
@@ -228,6 +228,11 @@ main()
 
 	level.zombie_speed_up = ::moon_speed_up;
 	level.ai_astro_explode = ::moon_push_zombies_when_astro_explodes;
+
+	if(level.gamemode != "survival")
+	{
+		level thread init_teleport_players();
+	}
 }
 
 moon_push_zombies_when_astro_explodes( position )
@@ -2250,4 +2255,24 @@ moon_speed_up()
 		self set_run_anim( "sprint" + var );
 		self.run_combatanim = level.scr_anim[self.animname]["sprint" + var];
 	}
+}
+
+init_teleport_players()
+{
+	flag_wait("all_players_spawned");
+
+	name = "nml_teleporter";
+	teleporter = getent( name, "targetname" );
+	target_positions = get_teleporter_target_positions( teleporter, name );
+
+	players = get_players();
+	for( i=0; i<players.size; i++ )
+	{
+		teleport_player_to_target( players[i], target_positions );
+		players[i] clientnotify( "bmfx" );
+	}
+
+	wait 2; //have to wait or stuff doesnt get inited right
+
+	teleporter_ending( teleporter, 0 );
 }

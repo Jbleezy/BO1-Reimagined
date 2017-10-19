@@ -708,7 +708,11 @@ minecart_lever_think()
 	self usetriggerrequirelookat();
 	self.cost = 250; // add cost amount so hint string knows what value to use
 	
-	
+	if(level.gamemode != "survival")
+	{
+		self disable_trigger();
+	}
+
 	//point of interest stuff
 	minecart_poi = getent("minecart_poi","targetname");
 	minecart_poi 	create_zombie_point_of_interest( undefined, 30, 0, false );
@@ -737,6 +741,7 @@ minecart_lever_think()
 	if ( wait_for_flags )
 	{
 		self SetHintString( &"ZOMBIE_NEED_POWER" );
+
 		flag_wait("power_on");
 	
 		//Wait For Destination To Be Open
@@ -1423,7 +1428,7 @@ show_players_on_mine_cart()
 			//Count up the players on the mine cart
 			for(i=0; i< players.size; i++)
 			{
-				if(players[i] isTouching(self))
+				if(players[i] isTouching(self) && players[i] IsOnGround())
 				{
 					count++;
 				}
@@ -1503,6 +1508,12 @@ show_players_on_mine_cart()
 			scale MoveZ(dip, Abs(dip*0.1), 0, 0);
 			scale waittill("movedone");
 		}
+
+		if(level.gamemode != "survival")
+		{
+			return;
+		}
+		
 		wait .1;
 	}
 }

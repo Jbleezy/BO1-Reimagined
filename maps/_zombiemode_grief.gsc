@@ -295,6 +295,12 @@ giveback_player_weapons()
 			continue;
 		}
 
+		if(IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon) && weapon == self.weapon_taken_by_losing_additionalprimaryweapon[0])
+		{
+			self.weapon_taken_by_losing_additionalprimaryweapon = undefined;
+			continue;
+		}
+
 		if ( !maps\_zombiemode_weapons::is_weapon_upgraded( weapon ) )
 		{
 			self GiveWeapon( weapon );
@@ -936,7 +942,7 @@ turn_power_on()
 			break;
 		case "zombie_moon":
 			flag_wait( "all_players_spawned" );
-			wait 5;
+			wait 4;
 			trig = getent("use_elec_switch","targetname");
 			trig notify("trigger");	
 			break;
@@ -963,33 +969,39 @@ open_doors()
 		zombie_debris[1] clear_debris();
 		zombie_debris[2] clear_debris();
 	}
-	if(level.script == "zombie_cod5_asylum")
+	else if(level.script == "zombie_cod5_asylum")
 	{
 		zombie_doors[1] open_door();
 	}
-	if(level.script == "zombie_cod5_sumpf")
+	else if(level.script == "zombie_cod5_sumpf")
 	{
 		zombie_doors[4] open_door();
 		zombie_debris[0] clear_debris();
 		zombie_debris[1] clear_debris();
 	}
-	if(level.script == "zombie_cod5_factory")
+	else if(level.script == "zombie_cod5_factory")
 	{
 		zombie_doors[2] open_door();
 		zombie_doors[3] open_door();
 	}
-	if(level.script == "zombie_pentagon")
+	else if(level.script == "zombie_pentagon")
 	{
 		zombie_doors[0] open_door();
 		zombie_doors[1] open_door();
 		zombie_debris[0] clear_debris();
 	}
-	if(level.script == "zombie_cosmodrome")
+	else if(level.script == "zombie_cosmodrome")
 	{
 		zombie_doors[0] open_door();
 		zombie_doors[2] open_door();
 		zombie_doors[4] open_door();
 		zombie_doors[8] open_door();
+	}
+	else if(level.script == "zombie_moon")
+	{
+		wait 1; //was causing error on fast_restart without a wait
+		zombie_doors = GetEntArray("zombie_airlock_buy", "targetname");
+		zombie_doors[13] maps\zombie_moon_utility::moon_door_opened();
 	}
 }
 

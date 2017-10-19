@@ -109,7 +109,12 @@ main()
 	level.round_spawn_func 			= ::temple_round_spawning;
 	level.round_wait_func           = ::temple_round_wait;
 	level.poi_positioning_func		= ::temple_poi_positioning_func;
-	level.powerup_fx_func			= ::temple_powerup_fx_func;
+
+	if(level.gamemode == "survival")
+	{
+		level.powerup_fx_func			= ::temple_powerup_fx_func;
+	}
+
 	level.playerlaststand_func		= ::player_laststand_temple;
 
 	//waterfall should just knock zombies down and not kill them
@@ -119,6 +124,11 @@ main()
 
 	level.zone_manager_init_func 	= ::local_zone_init;
 	init_zones[0] = "temple_start_zone";
+
+	if(level.gamemode != "survival")
+	{
+		init_zones[1] = "caves_water_zone";
+	}
 
 	// don't enable these zones until you hit the elevator button
 	//init_zones[1] = "waterfall_upper_zone";
@@ -732,7 +742,7 @@ init_random_perk_machines()
 }
 
 // Fix script_string being for wrong perks
-// Must spawn after players connect lel, since we need to send a message to csc
+// Must spawn after players connect lul, since we need to send a message to csc
 spawn_shang_bump_trigger(perk, origin)
 {
 	wait_network_frame(); //wait for flag to be inited
