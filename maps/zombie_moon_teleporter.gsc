@@ -551,7 +551,10 @@ teleporter_ending( teleporter_ent, was_aborted )
 				if( isdefined(level.ever_been_on_the_moon) && !level.ever_been_on_the_moon )
 				{
 					level notify( "track_nml_time" );
-					level thread display_time_survived();
+					if(level.gamemode == "survival")
+					{
+						level thread display_time_survived();
+					}
 					level.ever_been_on_the_moon = true;
 				}
 
@@ -736,6 +739,11 @@ teleporter_to_nml_power_down()
 
 	// Close the Teleporter Gate
 	teleporter_to_nml_gate_move( 0 );
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
 
 	// Waittill round over for return reset.
 	if(flag("teleporter_used") && is_true(level.first_teleporter_use))

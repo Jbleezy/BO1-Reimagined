@@ -1630,8 +1630,8 @@ difficulty_init()
 #/
 	for ( p=0; p<players.size; p++ )
 	{
-		players[p].score = 500000;
-		//players[p].score = 500;
+		//players[p].score = 500000;
+		players[p].score = 500;
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
 	}
@@ -7933,7 +7933,7 @@ round_time_loop()
 
 	flag_wait( "begin_spawning" );
 
-	if(level.script == "zombie_moon")
+	if(level.script == "zombie_moon" && level.gamemode == "survival")
 	{
 		level waittill( "end_of_round" );
 		level waittill( "start_of_round" );
@@ -8412,10 +8412,10 @@ give_weapons_test()
 	//wep = "ray_gun_upgraded_zm";
 	//wep = "crossbow_explosive_zm";
 
-	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
+	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
-	self SwitchToWeapon(wep);
+	self SwitchToWeapon(wep);*/
 
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
@@ -8425,8 +8425,8 @@ give_weapons_test()
 
 	//self thread maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
 
-	self giveweapon( "molotov_zm" );
-	self set_player_tactical_grenade( "molotov_zm" );
+	//self giveweapon( "molotov_zm" );
+	//self set_player_tactical_grenade( "molotov_zm" );
 
 	//wait 5;
 

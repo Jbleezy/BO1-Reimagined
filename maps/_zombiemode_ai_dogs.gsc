@@ -53,6 +53,11 @@ init()
 	dog_spawner_init();
 
 	level thread dog_clip_monitor();
+
+	if(level.gamemode != "survival")
+	{
+		level.dog_health = 1600;
+	}
 }
 
 
@@ -103,7 +108,6 @@ dog_spawner_init()
 	//level.enemy_dog_spawns = getnodearray( "zombie_spawner_dog_init", "script_noteworthy" );
 	level.enemy_dog_spawns = getEntArray( "zombie_spawner_dog_init", "targetname" );
 }
-
 
 dog_round_spawning()
 {
@@ -412,8 +416,6 @@ get_favorite_enemy()
 
 dog_health_increase()
 {
-	players = getplayers();
-
 	if( level.dog_round_count == 1 )
 	{
 		level.dog_health = 400;

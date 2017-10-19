@@ -297,6 +297,10 @@ giveback_player_weapons()
 
 		if(IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon) && weapon == self.weapon_taken_by_losing_additionalprimaryweapon[0])
 		{
+			if(self.weapon_taken_by_losing_additionalprimaryweapon[0] == self.lastActiveStoredWeap)
+			{
+				self.lastActiveStoredWeap = "none";
+			}
 			self.weapon_taken_by_losing_additionalprimaryweapon = undefined;
 			continue;
 		}

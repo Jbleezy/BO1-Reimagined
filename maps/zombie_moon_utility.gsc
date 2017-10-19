@@ -731,8 +731,6 @@ hacker_location_random_init()
 
 	level.hacker_tool_positions = [];
 
-
-
 	hacker = GetEntArray( "zombie_equipment_upgrade", "targetname" );
 	for ( i = 0; i < hacker.size; i++ )
 	{
@@ -752,8 +750,11 @@ hacker_location_random_init()
 
 	if(	hacker_tool_array.size > 1)
 	{
-		hacker_pos = hacker_tool_array[RandomInt(hacker_tool_array.size)];
-		hacker_tool_array  = array_remove(hacker_tool_array, hacker_pos);
+		if(GetDvar("zm_gamemode") == "survival") //the global variable isnt defined yet
+		{
+			hacker_pos = hacker_tool_array[RandomInt(hacker_tool_array.size)];
+			hacker_tool_array  = array_remove(hacker_tool_array, hacker_pos);
+		}
 		array_thread(hacker_tool_array, ::hacker_position_cleanup);
 	}
 }
@@ -776,6 +777,11 @@ hacker_position_cleanup()
 // ------------------------------------------------------------------------------------------------
 moon_glass_breach_init()
 {
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	level.glass = GetEntArray("moon_breach_glass","targetname");
 	array_thread(level.glass, ::glass_breach_think);
 

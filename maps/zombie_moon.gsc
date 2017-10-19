@@ -870,7 +870,15 @@ moon_round_think_func()
 
     if(level.moon_startmap == true)
     {
-    	level thread maps\_zombiemode::chalk_one_up(1);
+    	if(level.gamemode == "survival")
+    	{
+    		level thread maps\_zombiemode::chalk_one_up(1);
+    	}
+    	else
+    	{
+    		level.first_round = true;
+    		level thread maps\_zombiemode::chalk_one_up();
+    	}
     	level.moon_startmap = false;
 		level thread maps\_zombiemode::play_level_start_vox_delayed();
 		wait(3); // time that would have been for round text and init spawning.

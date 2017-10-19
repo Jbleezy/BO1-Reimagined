@@ -711,7 +711,7 @@
 * Meat Powerup
 * Der Riese: all teleporters linked
 * Der Riese: powerdown spawns from the start of each match
-* Der Riese: powerdown and dogs spawn from each teleporter use
+* Der Riese: powerdown and full health dogs spawn from every teleporter use
 * Kino Der Toten: teleporter is already linked to the mainframe
 * Five: all 6 barriers in the start room are enabled
 * Five: Pack-a-Punch door is now a 1500 point buyable door
@@ -724,6 +724,8 @@
 * Shangri-La: minecart disabled
 * Moon: No Man's Land disabled
 * Moon: first room door is open from the start of the match
+* Moon: windows are indestructible
+* Moon: hacker disabled
 
 #### Grief
 * Win by surviving a round while all the enemies are dead
@@ -851,7 +853,6 @@
 * Add meat powerup to grief
 * Add EMP grenades to grief
 * Moon: turn on power and spawn immediately at start of match
-* Moon: make teleporter gate stay up
 * Add new grief damage fx
 
 ## TESTING:

@@ -443,10 +443,10 @@ player_teleporting( index, user, first_time )
 	if ( (level.gamemode == "survival" && time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20) || 
 		(level.gamemode != "survival" && times_teleported > 3) )
 	{
+		thread play_sound_2d( "sam_nospawn" );
 		dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
 		maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
 		//iprintlnbold( "Samantha Sez: No Powerup For You!" );
-		thread play_sound_2d( "sam_nospawn" );
 	}
 	level.teleport_time = GetTime();
 

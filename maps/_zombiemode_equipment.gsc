@@ -67,6 +67,12 @@ init_equipment_upgrade()
 
 	for( i = 0; i < equipment_spawns.size; i++ )
 	{
+		if(level.gamemode != "survival")
+		{
+			equipment_spawns[i] disable_trigger();
+			continue;
+		}
+
 		hint_string = get_equipment_hint( equipment_spawns[i].zombie_equipment_upgrade );
 
 		equipment_spawns[i] SetHintString( hint_string );

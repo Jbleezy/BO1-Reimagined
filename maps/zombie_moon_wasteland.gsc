@@ -263,6 +263,11 @@ Init_Moon_NML_Round( target_round )
 	level.zombie_total = 0;
 	level.round_number = level.nml_last_round;
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	if(flag("enter_nml"))
 	{
 		level.chalk_hud1 FadeOverTime(.5);
