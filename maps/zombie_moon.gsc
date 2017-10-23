@@ -922,6 +922,24 @@ moon_round_think_func()
 	level notify( "end_of_round" );
 	flag_set("between_rounds");
 
+	if(flag("insta_kill_round"))
+	{
+		flag_clear("insta_kill_round");
+	}
+
+	if(level.gamemode != "survival")
+	{
+		for(i=0;i<players.size;i++)
+		{
+			if(players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0 && players.size > 1)
+			{
+				level.vs_winning_team = players[i].vsteam;
+				level notify("end_game");
+				return;
+			}
+		}
+	}
+
 	UploadStats();
 
 	if(!flag("teleporter_used"))
@@ -2280,7 +2298,9 @@ init_teleport_players()
 		players[i] clientnotify( "bmfx" );
 	}
 
-	wait 2; //have to wait or stuff doesnt get inited right
+	//have to wait or stuff doesnt get initialized right
+	//level waittill("fade_introblack");
+	level waittill("fade_in_complete");
 
 	teleporter_ending( teleporter, 0 );
 }

@@ -3419,7 +3419,7 @@ clear_is_drinking()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-fade_out(time)
+fade_out(time, freeze_controls)
 {
 	if (!isDefined(time))
 	{
@@ -3438,22 +3438,30 @@ fade_out(time)
 		wait .05;
 	}
 
+	if(!IsDefined(freeze_controls))
+	{
+		freeze_controls = true;
+	}
+
 	if( time > 0 )
 	{
 		level.introblack FadeOverTime( time );
 	}
 	level.introblack.alpha = 1;
 
-	players = get_players();
-	for(i = 0; i < players.size; i++)
+	if(freeze_controls)
 	{
-		players[i] freezecontrols(true);
+		players = get_players();
+		for(i = 0; i < players.size; i++)
+		{
+			players[i] freezecontrols(true);
+		}
 	}
 
 	wait time;
 }
 
-fade_in( hold_black_time )
+fade_in( hold_black_time, fade_in_time, freeze_controls )
 {
 	if( !IsDefined(level.introblack) )
 	{
@@ -3468,6 +3476,25 @@ fade_in( hold_black_time )
 		wait .05;
 	}
 
+	if(!IsDefined(fade_in_time))
+	{
+		fade_in_time = 1.5;
+	}
+
+	if(!IsDefined(freeze_controls))
+	{
+		freeze_controls = true;
+	}
+
+	if(freeze_controls)
+	{
+		players = get_players();
+		for(i = 0; i < players.size; i++)
+		{
+			players[i] freezecontrols(true);
+		}
+	}
+
 	level.introblack.alpha = 1;
 
 	if( IsDefined( hold_black_time ) )
@@ -3475,18 +3502,25 @@ fade_in( hold_black_time )
 	else
 		wait .2;
 
-	level.introblack FadeOverTime( 1.5 );
+	if( fade_in_time > 0 )
+	{
+		level.introblack FadeOverTime( fade_in_time );
+	}
 	level.introblack.alpha = 0;
 
 	level notify("fade_introblack");
 
-	wait 1.5;
+	wait fade_in_time;
 
-	players = get_players();
-	for(i = 0; i < players.size; i++)
+	if(freeze_controls)
 	{
-		players[i] freezecontrols(false);
+		players = get_players();
+		for(i = 0; i < players.size; i++)
+		{
+			players[i] freezecontrols(false);
+		}
 	}
+
 	level notify("fade_in_complete");
 }
 

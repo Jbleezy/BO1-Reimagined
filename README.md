@@ -714,6 +714,8 @@
 * Der Riese: powerdown and full health dogs spawn from every teleporter use
 * Kino Der Toten: teleporter is already linked to the mainframe
 * Five: all 6 barriers in the start room are enabled
+* Five: first room door is open from the start of the match
+* Five: teleporters disabled
 * Five: Pack-a-Punch door is now a 1500 point buyable door
 * Ascension: lunar landers disabled
 * Ascension: Pack-a-Punch door is now a 1500 point buyable door
@@ -724,15 +726,17 @@
 * Shangri-La: minecart disabled
 * Moon: No Man's Land disabled
 * Moon: first room door is open from the start of the match
+* Moon: players can survive forever in low gravity
 * Moon: windows are indestructible
-* Moon: hacker disabled
+* Moon: hacker and PES disabled
 
 #### Grief
-* Win by surviving a round while all the enemies are dead
+* Win by surviving a round after all enemy players are dead
 
 #### Free-for-all Grief
-* Win by surviving a round while all the enemies are dead
-* Players bleed out instantly unless they have Quick Revive
+* Win by surviving a round after all enemy players are dead
+* Players bleed out instantly
+* Quick Revive disabled
 
 #### Search & Rezurrect
 * Round based gamemode
@@ -844,9 +848,8 @@
 * Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
 * Show player's perks when spectating (player.spectatorclient?)
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
-* Shang: fix being able to run in mud pit if drinking perk while entering mud pit
-* Shang: make mud pit triggers check for if player is on the ground
 * Fix PaP hintstring showing take weapon for other players weapons for a short period
+* Make frag grenades throw faster
 
 ## GRIEF TODO:
 * Add powerup model and shader for slow down powerdown
@@ -854,14 +857,15 @@
 * Add EMP grenades to grief
 * Moon: turn on power and spawn immediately at start of match
 * Add new grief damage fx
+* Fix turret attacking team of player that activated turret
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Make sure spectators can't pick up powerups
-* Grief: test if turret is still attacking team of player that activated turret
-* Grief on Five: test if teleporters are disabled (disabled on solo, but were enabled on coop last time I checked)
+* Moon: test if NML stuff is active on first map load
+* Test if Quick Revive is disabled in coop
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

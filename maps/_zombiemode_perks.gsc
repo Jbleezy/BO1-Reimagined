@@ -844,7 +844,7 @@ turn_revive_on()
 
 	flag_wait( "all_players_connected" );
 	players = GetPlayers();
-	if ( players.size == 1 )
+	if ( players.size == 1 || level.gamemode == "ffa" )
 	{
 		for( i = 0; i < machine.size; i++ )
 		{
@@ -896,7 +896,10 @@ revive_solo_fx(machine_clip)
 	playfxontag( level._effect[ "revive_light" ], self.fx, "tag_origin" );
 	playfxontag( level._effect[ "revive_light_flicker" ], self.fx, "tag_origin" );
 
-	flag_wait( "solo_revive" );
+	if(level.gamemode != "ffa")
+	{
+		flag_wait( "solo_revive" );
+	}
 
 	if ( isdefined( level.revive_solo_fx_func ) )
 	{
@@ -906,39 +909,42 @@ revive_solo_fx(machine_clip)
 	//DCS: make revive model fly away like a magic box.
 	//self playsound("zmb_laugh_child");
 
-	wait(2.0);
-
-	self playsound("zmb_box_move");
-
-	playsoundatposition ("zmb_whoosh", self.origin );
-	//playsoundatposition ("zmb_vox_ann_magicbox", self.origin );
-
-	self moveto(self.origin + (0,0,40),3);
-
-	if( isDefined( level.custom_vibrate_func ) )
+	if(level.gamemode != "ffa")
 	{
-		[[ level.custom_vibrate_func ]]( self );
+		wait(2.0);
+
+		self playsound("zmb_box_move");
+
+		playsoundatposition ("zmb_whoosh", self.origin );
+		//playsoundatposition ("zmb_vox_ann_magicbox", self.origin );
+
+		self moveto(self.origin + (0,0,40),3);
+
+		if( isDefined( level.custom_vibrate_func ) )
+		{
+			[[ level.custom_vibrate_func ]]( self );
+		}
+		else
+		{
+		   direction = self.origin;
+		   direction = (direction[1], direction[0], 0);
+
+		   if(direction[1] < 0 || (direction[0] > 0 && direction[1] > 0))
+		   {
+	            direction = (direction[0], direction[1] * -1, 0);
+	       }
+	       else if(direction[0] < 0)
+	       {
+	            direction = (direction[0] * -1, direction[1], 0);
+	       }
+
+	        self Vibrate( direction, 10, 0.5, 5);
+		}
+
+		self waittill("movedone");
+		PlayFX(level._effect["poltergeist"], self.origin);
+		playsoundatposition ("zmb_box_poof", self.origin);
 	}
-	else
-	{
-	   direction = self.origin;
-	   direction = (direction[1], direction[0], 0);
-
-	   if(direction[1] < 0 || (direction[0] > 0 && direction[1] > 0))
-	   {
-            direction = (direction[0], direction[1] * -1, 0);
-       }
-       else if(direction[0] < 0)
-       {
-            direction = (direction[0] * -1, direction[1], 0);
-       }
-
-        self Vibrate( direction, 10, 0.5, 5);
-	}
-
-	self waittill("movedone");
-	PlayFX(level._effect["poltergeist"], self.origin);
-	playsoundatposition ("zmb_box_poof", self.origin);
 
     level clientNotify( "drb" );
 
@@ -957,6 +963,20 @@ revive_solo_fx(machine_clip)
 		vending_triggers[i].perk_hum_ent StopLoopSound();
 		vending_triggers[i].perk_hum_ent Delete();
 		vending_triggers[i].perk_hum_ent = undefined;
+	}
+
+	//remove machine trigger in ffa
+	if(level.gamemode == "ffa")
+	{
+		for(i = 0; i < vending_triggers.size; i++)
+		{
+			if(!isdefined(vending_triggers[i].script_noteworthy))
+				continue;
+			if(vending_triggers[i].script_noteworthy != "specialty_quickrevive")
+				continue;
+
+			vending_triggers[i] Delete();
+		}
 	}
 
 	//self setmodel("zombie_vending_revive");

@@ -3409,11 +3409,16 @@ spectator_respawn()
 
 check_for_valid_spawn_near_team( revivee )
 {
-
 	players = get_players();
 	spawn_points = getstructarray("player_respawn_point", "targetname");
-	initial_spawn_points = getstructarray( "initial_spawn_points", "targetname" );
-	spawn_points = array_combine(spawn_points, initial_spawn_points);
+
+	//moon was adding NML spawn points
+	if(level.script != "zombie_moon")
+	{
+		initial_spawn_points = getstructarray( "initial_spawn_points", "targetname" );
+		spawn_points = array_combine(spawn_points, initial_spawn_points);
+	}
+
 	closest_group = undefined;
 	closest_distance = 100000000;
 	backup_group = undefined;
@@ -3496,6 +3501,12 @@ check_for_valid_spawn_near_team( revivee )
 
 					if ( spawn_points[j].locked == false )
 					{
+						//on Five, only spawn players on the floor they died
+						if(level.script == "zombie_pentagon" && abs(players[i].origin[2] - spawn_points[j].origin[2]) > 250)
+						{
+							continue;
+						}
+
 						distance = DistanceSquared( players[i].origin, spawn_points[j].origin );
 						if( distance < ( ideal_distance * ideal_distance ) )
 						{
@@ -4927,6 +4938,12 @@ round_wait()
 			{
 				return;
 			}
+
+			while(flag("round_restarting"))
+			{
+				wait .05;
+			}
+
 			wait( .05 );
 		}
 	}
@@ -6276,13 +6293,6 @@ end_game()
 		players[i].zombie_vars["zombie_powerup_slow_down_time"] = 0;
 		players[i].zombie_vars["zombie_powerup_half_points_time"] = 0;
 
-		players[i] EnableInvulnerability();
-		players[i] FreezeControls(true);
-		/*if(level.gamemode == "survival")
-		{
-			players[i] FreezeControls(true);
-		}*/
-
 		perks = GetArrayKeys(players[i].perk_hud);
 		if(IsDefined(perks))
 		{
@@ -6290,7 +6300,20 @@ end_game()
 			{
 				players[i] maps\_zombiemode_perks::perk_hud_destroy(perks[j]);
 			}
-		}	
+		}
+
+		if(level.gamemode != "survival")
+		{
+			players[i].grief_hud1.alpha = 0;
+			players[i].grief_hud2.alpha = 0;
+		}
+
+		players[i] EnableInvulnerability();
+		players[i] FreezeControls(true);
+		/*if(level.gamemode == "survival")
+		{
+			players[i] FreezeControls(true);
+		}*/	
 	}
 
 	StopAllRumbles();

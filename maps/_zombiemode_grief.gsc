@@ -702,6 +702,8 @@ round_restart(same_round)
 	flag_set("round_restarting");
 	flag_clear( "spawn_zombies");
 
+	//level thread fade_out(1, false); //TODO - add this to snr only
+
 	//let player who just downed get last stand stuff initialized first
 	wait_network_frame();
 	level notify( "round_restarted" );
@@ -788,6 +790,8 @@ round_restart(same_round)
 			level.snr_round++;
 		chalk_one_up_snr();
 	}
+
+	//level thread fade_in(0, 1, true); //TODO - add this to snr only
 
 	flag_set( "spawn_zombies");
 	flag_clear("round_restarting");

@@ -52,6 +52,7 @@ rawfile,maps/zombie_theater_teleporter.gsc
 rawfile,maps/zombie_theater_quad.gsc
 
 //FIVE
+rawfile,maps/zombie_pentagon.gsc
 rawfile,maps/zombie_pentagon_amb.gsc
 rawfile,maps/zombie_pentagon_traps.gsc
 rawfile,maps/zombie_pentagon_teleporter.gsc

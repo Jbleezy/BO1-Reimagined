@@ -753,10 +753,10 @@ pentagon_brush_lights()
 
 	self.off_version Hide();
 
-	flag_wait( "power_on" );
+	/*flag_wait( "power_on" );
 
 	self Hide();
-	self.off_version Show();
+	self.off_version Show();*/
 
 }
 
