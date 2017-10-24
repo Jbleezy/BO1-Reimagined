@@ -864,8 +864,7 @@
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Make sure spectators can't pick up powerups
-* Moon: test if NML stuff is active on first map load
-* Test if Quick Revive is disabled in coop
+* Test if players are able to grief teammates
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

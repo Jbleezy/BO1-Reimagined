@@ -78,7 +78,7 @@ track_players_intersection_tracker()
 
 				if(players[i].origin[2] > players[j].origin[2])
 				{
-					if(level.gamemode != "survival")
+					if(level.gamemode != "survival" && players[i].vsteam != players[j].vsteam)
 					{
 						players[j] dodamage( 1000, (0, 0, 0) );
 					}
@@ -86,7 +86,7 @@ track_players_intersection_tracker()
 				}
 				else
 				{
-					if(level.gamemode != "survival")
+					if(level.gamemode != "survival" && players[i].vsteam != players[j].vsteam)
 					{
 						players[i] dodamage( 1000, (0, 0, 0) );
 					}
