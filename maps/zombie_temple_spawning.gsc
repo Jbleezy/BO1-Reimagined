@@ -575,6 +575,11 @@ _get_special_spawn_point()
 _can_spawn_napalm()
 {
 	forceSpawn = flag("zombie_napalm_force_spawn");
+
+	if( level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg" )
+	{
+		return RandomInt(200) < 3; //1.5% chance of spawning
+	}
 	
 	if ( GetDvarInt("zombiemode_debug_napalm") != 0 )
 	{
@@ -720,6 +725,11 @@ _try_spawn_sonic(spawn_point)
 
 _can_spawn_sonic()
 {
+	if( level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg" )
+	{
+		return RandomInt(200) < 3; //1.5% chance of spawning
+	}
+
 	if ( GetDvarInt("zombiemode_debug_sonic") != 0 )
 	{
 		return true;

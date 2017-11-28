@@ -414,7 +414,7 @@
 * Enemies killed by a Nuke no longer drop powerups
 * Zombies killed from a Nuke count as kills for the player who grabbed the Nuke
 
-### Wunderwaffe
+### Wunderwaffe (Powerup)
 * Powerup model now shows Wunderwaffe weapon model
 * Switch weapons to end powerup duration
 * Powerup can now drop while one is already active
@@ -740,12 +740,27 @@
 
 #### Search & Rezurrect
 * Round based gamemode
-* Each player starts with 10,000 points
-* Each player will get 5,000 points at the beginning of a new round if they have less than 5,000 points
 * Unlimited zombies
-* Win a round killing the remainder of the zombies spawned on the map after all enemies have downed
+* 2,000 health zombies
+* .5 second zombie spawn rate
+* Every player starts with 5,000 points and will get 5,000 points at the beginning of each new round if they have less than 5,000 points
+* Win a round by killing the remainder of the zombies spawned on the map after all enemies have downed
 * If both teams die on a round, neither team will get a point
 * Win the game by winning 3 rounds
+* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time though)
+
+#### Race
+* Unlimited zombies
+* Starts at round 1, every 45 seconds round increases until round 20
+* First team to 250 kills, or team with most kills after round 20 wins
+* Auto revive after 15 seoconds
+* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time though)
+
+#### Gun Game
+* Unlimited zombies
+* Win the game the game by progressing through all the weapons
+* Zombies will drop a gun increment powerup after a certain amount of kills
+* Only the player who killed the zombie can grab and see the gun increment powerup
 
 #### King of the Hill
 * Unlimited zombies
@@ -758,17 +773,6 @@
 * 2 rounds (switch side after the first round)
 * Win the game by having the most points at the end of the game
 * First round ends if a team scores 3 points
-
-#### Race
-* Unlimited zombies
-* No Man's Land style round progression
-* First team to 250 kills wins
-
-#### Gun Game
-* Unlimited zombies
-* Win the game the game by progressing through all the weapons
-* Zombies will drop a gun increment powerup after a certain amount of kills
-* Only the player who killed the zombie can grab and see the gun increment powerup
 
 #### Turned
 * Unlimited zombies
@@ -875,6 +879,7 @@
 * Kiparis as box weapon?
 * Should NML have insta kill rounds?
 * If you have 4 perks or more, still allow players to buy perks but bought perk will replace most recently obtained perk?
+* Should special rounds always be 5 rounds apart?
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG):
 * Insta kill rounds

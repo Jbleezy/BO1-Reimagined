@@ -1,6 +1,7 @@
 #include maps\_utility;
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
+#include maps\_music;
 
 init()
 {
@@ -22,6 +23,37 @@ init()
 	level thread disable_special_rounds();
 
 	level thread disable_box_weapons();
+
+	if(level.gamemode == "snr")
+	{
+		level.snr_round_number = 1;
+		level thread unlimited_powerups();
+		level thread unlimited_barrier_points();
+		level thread increase_round_number();
+		level thread increase_zombie_health();
+		level thread unlimited_zombies();
+		level thread increase_zombie_move_speed();
+		level thread increase_zombie_spawn_rate();
+		level thread setup_grief_top_logos();
+		level thread display_round_number();
+		if(level.script == "zombie_temple")
+		{
+			level thread unlimited_shriekers_and_napalms();
+		}
+	}
+	else if(level.gamemode == "race")
+	{
+		level thread unlimited_powerups();
+		level thread unlimited_barrier_points();
+		level thread unlimited_zombies();
+		level thread setup_grief_top_logos();
+		level thread race_win_watcher();
+		level thread increase_round_number_over_time();
+		if(level.script == "zombie_temple")
+		{
+			level thread unlimited_shriekers_and_napalms();
+		}
+	}
 }
 
 grief_precache()
@@ -33,6 +65,10 @@ grief_precache()
 	PrecacheString( &"REIMAGINED_ENEMY_DOWN" );
 	PrecacheString( &"REIMAGINED_ALL_ENEMIES_DOWN" );
 	PrecacheString( &"REIMAGINED_SURVIVE_TO_WIN" );
+
+	PrecacheString( &"REIMAGINED_CDC_WON" );
+	PrecacheString( &"REIMAGINED_CIA_WON" );
+	PrecacheString( &"REIMAGINED_FINAL_ROUND" );
 
 	level._effect["grief_shock"] = LoadFX("grief/fx_grief_shock");
 
@@ -78,24 +114,13 @@ post_all_players_connected()
 
 		players[i] thread take_tac_nades_when_used();
 
-		if(level.gamemode == "ffa")
-		{
-			players[i] thread instant_bleedouts();
-		}
-
 		//players[i] thread grief_damage_points_thread();
 	}
 }
 
-instant_bleedouts()
+instant_bleedout()
 {
-	self endon( "disconnect" );
-
-	while(1)
-	{
-		self waittill("player_downed");
-		self.bleedout_time = 0;
-	}
+	self.bleedout_time = 0;
 }
 
 is_team_valid()
@@ -645,7 +670,7 @@ setup_grief_msg()
 	self.grief_hud2.color = ( 1.0, 1.0, 1.0 );
 }
 
-grief_msg()
+grief_msg(msg)
 {
 	self notify("grief_msg");
 	self endon("grief_msg");
@@ -658,9 +683,11 @@ grief_msg()
 	self.grief_hud1.alpha = 0;
 	self.grief_hud2.alpha = 0;
 
-	if(flag("round_restarting"))
+	//if(flag("round_restarting"))
+	if(IsDefined(msg))
 	{
 		self.grief_hud1 SetText( &"REIMAGINED_ANOTHER_CHANCE" );
+		self.grief_hud1 SetText( msg );
 		self.grief_hud1 FadeOverTime( 1 );
 		self.grief_hud1.alpha = 1;
 		self thread grief_msg_fade_away(self.grief_hud1);
@@ -702,8 +729,6 @@ round_restart(same_round)
 	flag_set("round_restarting");
 	flag_clear( "spawn_zombies");
 
-	//level thread fade_out(1, false); //TODO - add this to snr only
-
 	//let player who just downed get last stand stuff initialized first
 	wait_network_frame();
 	level notify( "round_restarted" );
@@ -723,6 +748,11 @@ round_restart(same_round)
 
 	wait(1);
 
+	if(level.gamemode == "snr")
+	{
+		fade_out(1, false);
+	}
+
 	SetTimeScale(1);
 
 	zombs = getaispeciesarray("axis");
@@ -741,9 +771,27 @@ round_restart(same_round)
 		// Custom spawn call for when they respawn from spectator
 		level.custom_spawnPlayer = maps\_zombiemode::spectator_respawn;
 	}
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
+		if(is_player_valid( players[i] ))
+		{
+			vending_triggers = GetEntArray( "zombie_vending", "targetname" );
+
+			for ( j = 0; j < vending_triggers.size; j++ )
+			{
+				perk = vending_triggers[j].script_noteworthy;
+				if ( players[i] HasPerk( perk ) )
+				{
+					perk_str = perk + "_stop";
+					players[i] notify( perk_str );
+				}
+			}
+
+			players[i] store_player_weapons();
+		}
+
 		if(players[i] maps\_laststand::player_is_in_laststand())
 		{
 			players[i] maps\_laststand::auto_revive();
@@ -751,27 +799,46 @@ round_restart(same_round)
 		players[i] [[level.spawnPlayer]]();
 	}
 
-	wait_network_frame();//needed for stored weapons to work correctly and round_restarting flag was being cleared too soon
+	wait_network_frame(); //needed for stored weapons to work correctly and round_restarting flag was being cleared too soon
 
+	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
 		players[i] notify( "round_restarted" );
 		players[i] DisableInvulnerability();
 		players[i].rebuild_barrier_reward = 0;
-		players[i] DoDamage( 0, (0,0,0) );//fix for health not being correct
+		players[i] DoDamage( 0, (0,0,0) ); //fix for health not being correct
 		players[i] TakeAllWeapons();
 		players[i] giveback_player_weapons();
 		players[i].is_drinking = false;
 		players[i] SetStance("stand");
 
 		if(level.gamemode != "snr")
-			players[i] thread grief_msg();
+		{
+			players[i] thread grief_msg(&"REIMAGINED_ANOTHER_CHANCE");
+		}
 
 		if(level.gamemode == "snr")
 		{
 			if(players[i].score < 5000)
 			{
 				players[i].score = 5000;
+				players[i] maps\_zombiemode_score::set_player_score_hud();
+			}
+		}
+		else
+		{
+			if(level.round_number > 6)
+			{
+				if(players[i].score < 1500)
+				{
+					players[i].score = 1500;
+					players[i] maps\_zombiemode_score::set_player_score_hud();
+				}
+			}
+			else if(players[i].score < 500)
+			{
+				players[i].score = 500;
 				players[i] maps\_zombiemode_score::set_player_score_hud();
 			}
 		}
@@ -784,17 +851,22 @@ round_restart(same_round)
 	else
 		level thread play_sound_2d( "sam_nospawn" );*/
 
+	flag_clear("round_restarting"); //had to put here instead of the very end, since display_round_number is a timed function and if this flag isnt cleared players cant take damage from traps (and at this point players are spawned back in)
+
 	if(level.gamemode == "snr")
 	{
-		if(!isdefined(same_round))
-			level.snr_round++;
-		chalk_one_up_snr();
+		level thread fade_in(0, 1, true);
+
+		for(i=0;i<players.size;i++)
+		{
+			players[i] freezecontrols(false);
+		}
+
+		level.snr_round_number++;
+		display_round_number();
 	}
 
-	//level thread fade_in(0, 1, true); //TODO - add this to snr only
-
 	flag_set( "spawn_zombies");
-	flag_clear("round_restarting");
 }
 
 set_grief_viewmodel()
@@ -1168,7 +1240,7 @@ unlimited_zombies()
 increase_zombie_move_speed()
 {
 	wait 1;
-	level.zombie_move_speed = 90;
+	level.zombie_move_speed = 100;
 }
 
 increase_zombie_spawn_rate()
@@ -1177,7 +1249,116 @@ increase_zombie_spawn_rate()
 	level.zombie_vars["zombie_spawn_delay"] = .5;
 }
 
-chalk_one_up_snr()
+display_round_number()
+{
+	round_number = level.snr_round_number;
+
+	if(round_number == 1)
+	{
+		flag_wait("all_players_connected");
+		wait 2;
+		flag_clear( "spawn_zombies");
+	}
+
+	huds = [];
+	huds[0] = maps\_zombiemode::create_chalk_hud(0);
+
+	if( round_number >= 1 && round_number <= 5 )
+	{
+		huds[0] SetShader( "hud_chalk_" + round_number, 64, 64 );
+	}
+	else
+	{
+		huds[0].fontscale = 32;
+		huds[0] SetValue( round_number );
+	}
+
+	// Create "ROUND" hud text
+	round = create_simple_hud();
+	round.alignX = "center";
+	round.alignY = "bottom";
+	round.horzAlign = "user_center";
+	round.vertAlign = "user_bottom";
+	round.fontscale = 16;
+	round.color = ( 1, 1, 1 );
+	round.x = 0;
+	round.y = -265;
+	round.alpha = 0;
+	round SetText( &"ZOMBIE_ROUND" );
+
+	huds[0].color = ( 1, 1, 1 );
+	huds[0].alpha = 0;
+	huds[0].alignX = "center";
+	huds[0].horzAlign = "user_center";
+	huds[0].x = 0;
+	if(round_number >= 1 && round_number <= 3)
+	{
+		huds[0].x += (4 - round_number) * 8;
+	}
+	huds[0].y = -200;
+
+	// Fade in white
+	round FadeOverTime( 1 );
+	round.alpha = 1;
+
+	for ( i=0; i<huds.size; i++ )
+	{
+		huds[i] FadeOverTime( 1 );
+		huds[i].alpha = 1;
+	}
+
+	wait( 1 );
+
+	// Fade to red
+	round FadeOverTime( 2 );
+	round.color = ( 0.21, 0, 0 );
+
+	for ( i=0; i<huds.size; i++ )
+	{
+		huds[i] FadeOverTime( 2 );
+		huds[i].color = ( 0.21, 0, 0 );
+	}
+	wait(2);
+
+	for ( i=0; i<huds.size; i++ )
+	{
+		huds[i] FadeOverTime( 2 );
+		huds[i].alpha = 1;
+	}
+
+	wait( 3 );
+
+	if( IsDefined( round ) )
+	{
+		round FadeOverTime( 1 );
+		round.alpha = 0;
+		for ( i=0; i<huds.size; i++ )
+		{
+			huds[i] FadeOverTime( 1 );
+			huds[i].alpha = 0;
+		}
+	}
+
+	wait( 0.25 );
+
+	//level notify( "intro_hud_done" );
+	//		huds[0].x = 0;
+	wait( 2 );
+
+	if(round_number == 1)
+	{
+		flag_set( "spawn_zombies");
+	}
+
+	round destroy_hud();
+
+	for ( i=0; i<huds.size; i++ )
+	{
+		huds[i] destroy_hud();
+	}
+}
+
+/*chalk_one_up_snr()
 {
 	huds = [];
 	huds[0] = level.chalk_hud1;
@@ -1299,7 +1480,7 @@ chalk_one_up_snr()
 	{
 		level.chalk_override = undefined;
 	}
-}
+}*/
 
 snr_round_restart_watcher()
 {
@@ -1576,6 +1757,492 @@ reduce_survive_zombie_amount()
 				}
 			}
 		}
+		wait 1;
+	}
+}
+
+snr_round_win_watcher()
+{
+	zombs = get_enemy_count();
+
+	while(zombs == 0)
+	{
+		if(flag("round_restarting"))
+		{
+			players = get_players();
+			for(i=0;i<players.size;i++)
+			{
+				players[i] SetClientDvar("zombs_remaining", "");
+			}
+
+			return;
+		}
+
+		wait_network_frame();
+		zombs = get_enemy_count();
+	}
+
+	flag_clear( "spawn_zombies");
+
+	while(zombs > 0)
+	{
+		if(flag("round_restarting"))
+		{
+			players = get_players();
+			for(i=0;i<players.size;i++)
+			{
+				players[i] SetClientDvar("zombs_remaining", "");
+			}
+
+			return;
+		}
+
+		if(GetDvarInt("zombs_remaining") != zombs)
+		{
+			players = get_players();
+			for(i=0;i<players.size;i++)
+			{
+				players[i] SetClientDvar("zombs_remaining", zombs);
+			}
+		}
+
+		wait_network_frame();
+		zombs = get_enemy_count();
+	}
+
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		players[i] SetClientDvar("zombs_remaining", "");
+	}
+
+	team = undefined;
+	for(i=0;i<players.size;i++)
+	{
+		if(is_player_valid( players[i] ))
+		{
+			team = players[i].vsteam;
+			break;
+		}
+	}
+
+	if(IsDefined(team))
+	{
+		if(!IsDefined(level.round_wins))
+		{
+			level.rounds_wins = [];
+		}
+
+		if(!IsDefined(level.round_wins[team]))
+		{
+			level.round_wins[team] = 0;
+		}
+
+		level.round_wins[team]++;
+
+		for(i=0;i<players.size;i++)
+		{
+			if(players[i].vsteam == team)
+			{
+				players[i] SetClientDvar("vs_counter_friendly", "hud_chalk_" + level.round_wins[team]);
+				if(level.round_wins[team] == 1)
+				{
+					players[i] SetClientDvar("vs_counter_friendly_num_on", false);
+					players[i] SetClientDvar("vs_counter_friendly_on", true);
+				}
+			}
+			else
+			{
+				players[i] SetClientDvar("vs_counter_enemy", "hud_chalk_" + level.round_wins[team]);
+				if(level.round_wins[team] == 1)
+				{
+					players[i] SetClientDvar("vs_counter_enemy_num_on", false);
+					players[i] SetClientDvar("vs_counter_enemy_on", true);
+				}
+			}
+		}
+
+		if(level.round_wins[team] == 3)
+		{
+			level.vs_winning_team = team;
+			level notify( "end_game" );
+		}
+		else
+		{
+			level thread display_round_won(team);
+
+			level thread round_restart();
+		}
+	}
+}
+
+display_round_won(team)
+{
+	// Create "ROUND" hud text
+	round = create_simple_hud();
+	round.alignX = "center";
+	round.alignY = "bottom";
+	round.horzAlign = "user_center";
+	round.vertAlign = "user_bottom";
+	round.fontscale = 16;
+	round.color = ( 1, 1, 1 );
+	round.x = 0;
+	round.y = -300;
+	round.alpha = 0;
+	if(team == "cdc")
+	{
+		round SetText( &"REIMAGINED_CDC_WON" );
+	}
+	else
+	{
+		round SetText( &"REIMAGINED_CIA_WON" );
+	}
+
+	// Fade in white
+	round FadeOverTime( 1 );
+	round.alpha = 1;
+
+	wait( 1 );
+
+	// Fade to red
+	round FadeOverTime( 2 );
+	round.color = ( 0.21, 0, 0 );
+
+	wait(2);
+
+	wait( 3 );
+
+	if( IsDefined( round ) )
+	{
+		round FadeOverTime( 1 );
+		round.alpha = 0;
+	}
+
+	wait( 0.25 );
+
+	wait( 2 );
+
+	round destroy_hud();
+}
+
+setup_grief_top_logos()
+{
+	flag_wait( "all_players_connected" );
+
+	wait_network_frame();
+
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		players[i] SetClientDvar("vs_top_logos_on", 1);
+
+		if(players[i].vsteam == "cdc")
+		{
+			players[i] SetClientDvar("vs_logo_enemy", "cia_logo");
+		}
+		else
+		{
+			players[i] SetClientDvar("vs_logo_enemy", "cdc_logo");
+		}
+
+		players[i] SetClientDvar("vs_counter_friendly_num_on", 1);
+		players[i] SetClientDvar("vs_counter_enemy_num_on", 1);
+
+		players[i] SetClientDvar("vs_counter_friendly_num", 0);
+		players[i] SetClientDvar("vs_counter_enemy_num", 0);
+	}
+}
+
+race_win_watcher()
+{
+	flag_wait("all_players_connected");
+
+	wait_network_frame();
+
+	kills = [];
+
+	while(1)
+	{
+		kills["cdc"] = 0;
+		kills["cia"] = 0;
+
+		players = get_players();
+		for(i=0;i<players.size;i++)
+		{
+			kills[players[i].vsteam] += players[i].kills;
+		}
+
+		//display hud counters
+		if(kills["cdc"] > 5)
+		{
+			for(i=0;i<players.size;i++)
+			{
+				if(players[i].vsteam == "cdc")
+				{
+					players[i] SetClientDvar("vs_counter_friendly_on", false);
+					players[i] SetClientDvar("vs_counter_friendly_num", kills["cdc"]);
+					players[i] SetClientDvar("vs_counter_friendly_num_on", true);
+				}
+				else
+				{
+					players[i] SetClientDvar("vs_counter_enemy_on", false);
+					players[i] SetClientDvar("vs_counter_enemy_num", kills["cdc"]);
+					players[i] SetClientDvar("vs_counter_enemy_num_on", true);
+				}
+			}
+		}
+		else if(kills["cdc"] > 0)
+		{
+			for(i=0;i<players.size;i++)
+			{
+				if(players[i].vsteam == "cdc")
+				{
+					players[i] SetClientDvar("vs_counter_friendly_num_on", false);
+					players[i] SetClientDvar("vs_counter_friendly", "hud_chalk_" + kills["cdc"]);
+					players[i] SetClientDvar("vs_counter_friendly_on", true);
+				}
+				else
+				{
+					players[i] SetClientDvar("vs_counter_enemy_num_on", false);
+					players[i] SetClientDvar("vs_counter_enemy", "hud_chalk_" + kills["cdc"]);
+					players[i] SetClientDvar("vs_counter_enemy_on", true);
+				}
+			}
+		}
+
+		if(kills["cia"] > 5)
+		{
+			for(i=0;i<players.size;i++)
+			{
+				if(players[i].vsteam == "cia")
+				{
+					players[i] SetClientDvar("vs_counter_friendly_on", false);
+					players[i] SetClientDvar("vs_counter_friendly_num", kills["cia"]);
+					players[i] SetClientDvar("vs_counter_friendly_num_on", true);
+				}
+				else
+				{
+					players[i] SetClientDvar("vs_counter_enemy_on", false);
+					players[i] SetClientDvar("vs_counter_enemy_num", kills["cia"]);
+					players[i] SetClientDvar("vs_counter_enemy_num_on", true);
+				}
+			}
+		}
+		else if(kills["cia"] > 0)
+		{
+			for(i=0;i<players.size;i++)
+			{
+				if(players[i].vsteam == "cia")
+				{
+					players[i] SetClientDvar("vs_counter_friendly_num_on", false);
+					players[i] SetClientDvar("vs_counter_friendly", "hud_chalk_" + kills["cia"]);
+					players[i] SetClientDvar("vs_counter_friendly_on", true);
+				}
+				else
+				{
+					players[i] SetClientDvar("vs_counter_enemy_num_on", false);
+					players[i] SetClientDvar("vs_counter_enemy", "hud_chalk_" + kills["cia"]);
+					players[i] SetClientDvar("vs_counter_enemy_on", true);
+				}
+			}
+		}
+
+		if(kills["cdc"] >= 250)
+		{
+			level.vs_winning_team = "cdc";
+			level notify( "end_game" );
+			return;
+		}
+		else if(kills["cia"] >= 250)
+		{
+			level.vs_winning_team = "cia";
+			level notify( "end_game" );
+			return;
+		}
+
+		wait_network_frame();
+	}
+}
+
+increase_round_number_over_time()
+{
+	level endon("end_game");
+
+	level waittill( "start_of_round" );
+
+	while(1)
+	{
+		wait 45;
+
+		level.round_number++;
+
+		level thread fast_chalk_one_up();
+
+		prev_health = level.zombie_health;
+
+		maps\_zombiemode::ai_calculate_health( level.round_number );
+
+		level.zombie_vars["zombie_spawn_delay"] *= 0.95;
+
+		level.zombie_move_speed = level.round_number * level.zombie_vars["zombie_move_speed_multiplier"];
+
+		//if a zombie has not been damaged yet, set their health to the new rounds health
+		zombs = GetAiSpeciesArray( "axis", "all" );
+		for (i = 0; i < zombs.size; i++)
+		{
+			if(zombs[i].animname == "zombie")
+			{
+				if(zombs[i].health == prev_health)
+				{
+					zombs[i].health = level.zombie_health;
+				}
+			}
+			else if(zombs[i].animname == "quad_zombie")
+			{
+				if(zombs[i].health == int(prev_health * .75))
+				{
+					zombs[i].health = int(level.zombie_health * .75);
+				}
+			}
+		}
+
+		level thread maps\_zombiemode::award_grenades_for_survivors();
+
+		players = get_players();
+		for(i=0;i<players.size;i++)
+		{
+			if(IsDefined(players[i] get_player_placeable_mine()))
+			{
+				players[i] setweaponammoclip(players[i] get_player_placeable_mine(), 2);
+			}
+
+			if(is_player_valid(players[i]))
+			{
+				players[i].score += 500;
+				players[i] maps\_zombiemode_score::set_player_score_hud();
+				players[i] play_sound_on_ent( "purchase" );
+			}
+		}
+
+		if(level.round_number == 20)
+		{
+			players = get_players();
+			for(i=0;i<players.size;i++)
+			{
+				players[i] thread grief_msg(&"REIMAGINED_FINAL_ROUND");
+			}
+
+			wait 45;
+
+			kills = [];
+			kills["cdc"] = 0;
+			kills["cia"] = 0;
+
+			players = get_players();
+			for(i=0;i<players.size;i++)
+			{
+				kills[players[i].vsteam] += players[i].kills;
+			}
+
+			if(kills["cdc"] > kills["cia"])
+			{
+				level.vs_winning_team = "cdc";
+			}
+			else if(kills["cia"] > kills["cdc"])
+			{
+				level.vs_winning_team = "cia";
+			}
+			else
+			{
+				level.vs_winning_team = undefined;
+			}
+
+			level notify("end_game");
+		}
+	}
+}
+
+fast_chalk_one_up()
+{
+	level thread maps\_zombiemode_audio::change_zombie_music( "round_start" ); //not working
+
+	huds = [];
+	huds[0] = level.chalk_hud1;
+	huds[1] = level.chalk_hud2;
+
+	/*for ( i=0; i<huds.size; i++ )
+	{
+		huds[i] FadeOverTime( 0.5 );
+		huds[i].alpha = 0;
+	}
+	wait( 0.5 );*/
+
+	for ( i=0; i<huds.size; i++ )
+	{
+		huds[i] FadeOverTime( .5 );
+		//huds[i].alpha = 1;
+		huds[i].color = ( 1, 1, 1 );
+	}
+	wait( .5 );
+
+	round_number = level.round_number;
+
+	// Hud1 shader
+	if( round_number >= 1 && round_number <= 5 )
+	{
+		huds[0] SetShader( "hud_chalk_" + round_number, 64, 64 );
+	}
+	else if ( round_number >= 5 && round_number <= 10 )
+	{
+		huds[0] SetShader( "hud_chalk_5", 64, 64 );
+	}
+
+	// Hud2 shader
+	if( round_number > 5 && round_number <= 10 )
+	{
+		huds[1] SetShader( "hud_chalk_" + ( round_number - 5 ), 64, 64 );
+	}
+
+	// Display value
+	if( round_number <= 5 )
+	{
+		huds[1] SetText( " " );
+	}
+	else if( round_number > 10 )
+	{
+		huds[0].fontscale = 32;
+		huds[0] SetValue( round_number );
+		huds[1] SetText( " " );
+	}
+
+	for ( i=0; i<huds.size; i++ )
+	{
+		huds[i] FadeOverTime( .5 );
+		huds[i].color = ( 0.21, 0, 0 );
+	}
+}
+
+auto_revive_after_time()
+{
+	self endon( "disconnect" );
+	self endon("player_revived");
+	level endon("end_game");
+
+	wait 10;
+	self.revive_hud setText( &"GAME_REVIVING" );
+	self maps\_laststand::revive_hud_show_n_fade( 3.0 );
+	wait 5;
+	self maps\_laststand::auto_revive();
+}
+
+unlimited_shriekers_and_napalms()
+{
+	level endon("end_game");
+
+	while(1)
+	{
+		level.special_zombie_spawned_this_round = false;
+
 		wait 1;
 	}
 }

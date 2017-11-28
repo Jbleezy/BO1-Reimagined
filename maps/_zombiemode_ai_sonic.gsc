@@ -33,6 +33,8 @@ sonic_zombie_init()
 		SetDvar("zombiemode_debug_sonic", "0");
 	}
 
+	flag_init("zombie_sonic_force_spawn");
+
 	//Copied from Thunder GUN
 	set_zombie_var( "thundergun_knockdown_damage",		15 );
 

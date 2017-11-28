@@ -1630,8 +1630,15 @@ difficulty_init()
 #/
 	for ( p=0; p<players.size; p++ )
 	{
-		//players[p].score = 500000;
-		players[p].score = 500;
+		if(level.gamemode == "snr")
+		{
+			players[p].score = 5000;
+		}
+		else
+		{
+			//players[p].score = 500000;
+			players[p].score = 500;
+		}
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
 	}
@@ -1811,6 +1818,11 @@ onPlayerConnect_clientDvars()
 
 	//reset grief dvars
 	self SetClientDvar("vs_logo_on", 0);
+	self SetClientDvar("vs_top_logos_on", 0);
+	self SetClientDvar("vs_counter_friendly_on", 0);
+	self SetClientDvar("vs_counter_enemy_on", 0);
+	self SetClientDvar("vs_counter_friendly_num_on", 0);
+	self SetClientDvar("vs_counter_enemy_num_on", 0);
 
 	//self SetClientDvar("cg_drawpaused", 0);
 
@@ -1867,7 +1879,10 @@ checkForAllDead()
 		}
 		else
 		{
-			level thread maps\_zombiemode_grief::round_restart();
+			if(level.gamemode != "race")
+			{
+				level thread maps\_zombiemode_grief::round_restart();
+			}
 		}
 	}
 }
@@ -1902,9 +1917,27 @@ onPlayerDowned()
 				//only show grief message from a down if there are no other enemies still alive
 				if(players[i].vsteam != self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0)
 				{
-					players[i] thread maps\_zombiemode_grief::grief_msg();
+					if(level.gamemode != "race")
+					{
+						players[i] thread maps\_zombiemode_grief::grief_msg();
+					}
 				}
 			}
+
+			if(level.gamemode == "snr" && self maps\_zombiemode_grief::get_number_of_valid_friendly_players() == 0)
+			{
+				level thread maps\_zombiemode_grief::snr_round_win_watcher();
+			}
+		}
+
+		if(level.gamemode == "ffa")
+		{
+			self thread maps\_zombiemode_grief::instant_bleedout();
+		}
+
+		if(level.gamemode == "race")
+		{
+			self thread maps\_zombiemode_grief::auto_revive_after_time();
 		}
 	}
 }
@@ -3644,7 +3677,7 @@ default_max_zombie_func( max_num )
 {
 	max = max_num;
 
-	if ( level.round_number == 1 )//fix for moon, level.first_round is being set to false too quick on moon
+	if ( level.round_number == 1 ) //fix for moon, level.first_round is being set to false too quick on moon
 	{
 		max = int( max_num * 0.25 );
 	}
@@ -3762,7 +3795,7 @@ round_spawning()
 		spawn_dog = false;
 		if ( IsDefined( level.mixed_rounds_enabled ) && level.mixed_rounds_enabled == 1 )
 		{
-			if ( level.round_number > 30 )
+			if ( level.round_number > 30 || level.gamemode == "snr" )
 			{
 				if ( RandomInt(100) < 3 )
 				{
@@ -4086,7 +4119,12 @@ round_start()
 
 	//maps\_zombiemode_solo::init();
 
-	level.chalk_hud1 = create_chalk_hud(4);
+	if(level.gamemode != "snr")
+	{
+		level.chalk_hud1 = create_chalk_hud(4);
+		level.chalk_hud2 = create_chalk_hud(68);
+	}
+
 // 	if( level.round_number >= 1 && level.round_number <= 5 )
 // 	{
 // 		level.chalk_hud1 SetShader( "hud_chalk_" + level.round_number, 64, 64 );
@@ -4095,7 +4133,6 @@ round_start()
 // 	{
 // 		level.chalk_hud1 SetShader( "hud_chalk_5", 64, 64 );
 // 	}
-	level.chalk_hud2 = create_chalk_hud( 68 );
 
 	//	level waittill( "introscreen_done" );
 
@@ -4152,7 +4189,7 @@ create_chalk_hud( x )
 	hud.alignY = "bottom";
 	hud.horzAlign = "user_left";
 	hud.vertAlign = "user_bottom";
-	hud.color = ( 0.3, 0, 0 );
+	hud.color = ( 0.21, 0, 0 );
 	hud.x = x;
 	hud.y = -4;
 	hud.alpha = 0;
@@ -4233,6 +4270,12 @@ wait_until_first_player()
 //	Set the current round number hud display
 chalk_one_up(override_round_number)
 {
+	if(level.gamemode == "snr")
+	{
+		wait 10.25; //added up all the time of the wait statements in this function
+		return;
+	}
+
 	huds = [];
 	huds[0] = level.chalk_hud1;
 	huds[1] = level.chalk_hud2;
@@ -4377,10 +4420,10 @@ chalk_one_up(override_round_number)
 
 		// Fade to red
 		round FadeOverTime( 2 );
-		round.color = ( 0.3, 0, 0 );
+		round.color = ( 0.21, 0, 0 );
 
 		huds[0] FadeOverTime( 2 );
-		huds[0].color = ( 0.3, 0, 0 );
+		huds[0].color = ( 0.21, 0, 0 );
 		wait(2);
 	}
 	else if(!IsDefined(override_round_number))
@@ -4467,7 +4510,7 @@ chalk_one_up(override_round_number)
 			}
 			else
 			{
-				huds[i].color = ( 0.3, 0, 0 );
+				huds[i].color = ( 0.21, 0, 0 );
 			}
 			//set yellow insta kill on hud
 			if(round_number >= 163 && round_number % 2 == 1 && !flag("dog_round") && !flag("thief_round") && !flag("monkey_round"))
@@ -4600,7 +4643,7 @@ chalk_round_over()
 
 		huds[i] FadeOverTime( time * 0.25 );
 		//		huds[i].color = ( 0.8, 0, 0 );
-		huds[i].color = ( 0.3, 0, 0 );
+		huds[i].color = ( 0.21, 0, 0 );
 		huds[i].alpha = 0;
 	}
 
@@ -5597,7 +5640,10 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		}
 		else
 		{
-			level thread maps\_zombiemode_grief::round_restart();
+			if(level.gamemode != "race")
+			{
+				level thread maps\_zombiemode_grief::round_restart();
+			}
 			return finalDamage;
 		}
 
@@ -6365,7 +6411,11 @@ end_game()
 
 		if(level.gamemode != "survival")
 		{
-			if(players[i].vsteam == level.vs_winning_team)
+			if(!IsDefined(level.vs_winning_team))
+			{
+				survived[i] SetText( &"REIMAGINED_YOU_TIED" );
+			}
+			else if(players[i].vsteam == level.vs_winning_team)
 			{
 				survived[i] SetText( &"REIMAGINED_YOU_WIN" );
 			}
@@ -8106,7 +8156,8 @@ zombies_remaining_hud()
 		players = get_players();
 		for(i=0;i<players.size;i++)
 		{
-			players[i] SetClientDvar("hud_zombs_remaining_on_game", false);
+			players[i] SetClientDvar("hud_zombs_remaining_on_game", true);
+			players[i] SetClientDvar("zombs_remaining", "");
 		}
 		return;
 	}
@@ -8859,7 +8910,7 @@ set_gamemode()
 {
 	if(GetDvar("zm_gamemode") == "random")
 	{
-		gamemodes = array("grief", "ffa", "snr", "ctf", "koth", "gg", "race", "turned");
+		gamemodes = array("grief", "ffa", "snr", "gg", "race");
 		gamemodes = array_randomize(gamemodes);
 		level.gamemode = gamemodes[RandomInt(gamemodes.size)];
 	}

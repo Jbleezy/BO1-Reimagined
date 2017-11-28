@@ -221,6 +221,15 @@ betty_think()
 	playfx(level._effect["betty_explode"], fake_model.origin);
 	earthquake(1, .4, fake_model.origin, 512);
 
+	if ( isdefined( fake_model ) )
+	{
+		fake_model delete();
+	}
+	if ( isdefined( tag_origin ) )
+	{
+		tag_origin delete();
+	}
+
 	if ( isdefined( self.owner ) )
 	{
 		self detonate( self.owner );
@@ -230,14 +239,6 @@ betty_think()
 		self detonate( undefined );
 	}
 
-	if ( isdefined( fake_model ) )
-	{
-		fake_model delete();
-	}
-	if ( isdefined( tag_origin ) )
-	{
-		tag_origin delete();
-	}
 	if ( isdefined( self ) )
 	{
 		self delete();

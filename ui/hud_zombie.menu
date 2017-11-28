@@ -570,8 +570,24 @@
 		    forecolor           .4 0 0 1
 		    exp                	material(dvarString("vs_counter_friendly"))
 		    style             	WINDOW_STYLE_SHADER
-		    visible           	when(dvarBool("vs_top_logos_on"))
+		    visible           	when(dvarBool("vs_counter_friendly_on"))
 		    decoration
+		}
+
+		//LEFT SIDE COUNTER (NUMBER)
+		itemDef
+		{
+			name				"hud_counter_friendly_num"
+			type				ITEM_TYPE_TEXT
+			rect 				-64 34 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			forecolor			.4 0 0 1
+			textscale			TEXTSIZE_LARGE
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp text 			(dvarString("vs_counter_friendly_num"))
+			visible				when(dvarBool("vs_counter_friendly_num_on"))
+			decoration
 		}
 
 		//RIGHT SIDE LOGO
@@ -594,8 +610,24 @@
 		    forecolor           .4 0 0 1
 		    exp                	material(dvarString("vs_counter_enemy"))
 		    style             	WINDOW_STYLE_SHADER
-		    visible           	when(dvarBool("vs_top_logos_on"))
+		    visible           	when(dvarBool("vs_counter_enemy_on"))
 		    decoration
+		}
+
+		//RIGHT SIDE COUNTER (NUMBER)
+		itemDef
+		{
+			name				"hud_counter_enemy_num"
+			type				ITEM_TYPE_TEXT
+			rect 				64 34 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			forecolor			.4 0 0 1
+			textscale			TEXTSIZE_LARGE
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp text 			(dvarString("vs_counter_enemy_num"))
+			visible				when(dvarBool("vs_counter_enemy_num_on"))
+			decoration
 		}
 
 		#ifdef PC

@@ -714,7 +714,7 @@ powerup_drop(drop_point)
 	// some guys randomly drop, but most of the time they check for the drop flag
 	rand_drop = randomint(100);
 
-	if (rand_drop > 2)
+	if (rand_drop > 2) //>
 	{
 		if (!level.zombie_vars["zombie_drop_item"])
 		{
