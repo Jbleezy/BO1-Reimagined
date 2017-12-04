@@ -296,6 +296,11 @@ astro_zombie_can_spawn()
 		return false;
 	}
 
+	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
+	{
+		return RandomInt(100) < 1; //1% chance
+	}
+
 	if ( level.zombie_total > level.zombies_left_before_astro_spawn )
 	{
 		return false;
@@ -817,6 +822,12 @@ astro_zombie_die()
 	else
 	{
 		level thread [[level.quantum_bomb_results["zombie_fling"].result_func]]( self.origin );
+	}
+
+	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
+	{
+		level.zombie_total_update = true;
+		level thread astro_zombie_manager();
 	}
 
 	return self maps\_zombiemode_spawner::zombie_death_animscript();

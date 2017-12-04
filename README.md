@@ -752,12 +752,15 @@
 #### Race
 * Unlimited zombies
 * Starts at round 1, every 45 seconds round increases until round 20
+* Gain 500 points on each round increase if you are alive
 * First team to 250 kills, or team with most kills after round 20 wins
 * Auto revive after 15 seoconds
 * Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time though)
 
 #### Gun Game
 * Unlimited zombies
+* Unlimited ammo
+* Round number is whatever the lowest weapon a player is on in the match
 * Win the game the game by progressing through all the weapons
 * Zombies will drop a gun increment powerup after a certain amount of kills
 * Only the player who killed the zombie can grab and see the gun increment powerup

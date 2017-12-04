@@ -24,35 +24,32 @@ init()
 
 	level thread disable_box_weapons();
 
-	if(level.gamemode == "snr")
+	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
 	{
-		level.snr_round_number = 1;
-		level thread unlimited_powerups();
-		level thread unlimited_barrier_points();
-		level thread increase_round_number();
-		level thread increase_zombie_health();
-		level thread unlimited_zombies();
-		level thread increase_zombie_move_speed();
-		level thread increase_zombie_spawn_rate();
-		level thread setup_grief_top_logos();
-		level thread display_round_number();
+		if(level.gamemode == "snr")
+		{
+			level.snr_round_number = 1;
+			level thread increase_zombie_health();
+			level thread display_round_number();
+			level thread increase_round_number();
+			level thread increase_zombie_move_speed();
+			level thread increase_zombie_spawn_rate();
+		}
+		else if(level.gamemode == "race")
+		{
+			level thread race_win_watcher();
+			level thread increase_round_number_over_time();
+		}
+
 		if(level.script == "zombie_temple")
 		{
-			level thread unlimited_shriekers_and_napalms();
+			level thread unlimited_shrieker_and_napalm_spawns();
 		}
-	}
-	else if(level.gamemode == "race")
-	{
+
 		level thread unlimited_powerups();
 		level thread unlimited_barrier_points();
 		level thread unlimited_zombies();
 		level thread setup_grief_top_logos();
-		level thread race_win_watcher();
-		level thread increase_round_number_over_time();
-		if(level.script == "zombie_temple")
-		{
-			level thread unlimited_shriekers_and_napalms();
-		}
 	}
 }
 
@@ -113,8 +110,6 @@ post_all_players_connected()
 		players[i] setup_grief_msg();
 
 		players[i] thread take_tac_nades_when_used();
-
-		//players[i] thread grief_damage_points_thread();
 	}
 }
 
@@ -494,7 +489,7 @@ slowdown(weapon, mod, eAttacker, loc)
 		self SetMoveSpeedScale( self.move_speed * .3 );
 	}
 
-	wait( .75 );//.75 * 1.5 = 1.125
+	wait( .75 );
 
 	self SetMoveSpeedScale( 1 );
 	if(!self.is_drinking)
@@ -556,27 +551,6 @@ grief_damage_points(gotgriefed)
 	{
 		points = int(10 * self.zombie_vars["zombie_point_scalar"]);
 		self maps\_zombiemode_score::add_to_player_score( points );
-	}
-}
-
-grief_damage_points_thread()
-{
-	self endon("disconnect");
-
-	while(1)
-	{
-		//self waittill("damage", damage, attacker, direction_vec, point, type, modelName, tagName);
-
-		self waittill( "weapon_pvp_attack", attacker, weapon, damage, mod );
-
-		if(IsPlayer(attacker) && attacker != self)
-		{
-			if(self.health < self.maxhealth && is_player_valid(attacker))
-			{
-				points = int(10 * attacker.zombie_vars["zombie_point_scalar"]);
-				attacker maps\_zombiemode_score::add_to_player_score( points );
-			}
-		}
 	}
 }
 
@@ -1358,187 +1332,6 @@ display_round_number()
 	}
 }
 
-/*chalk_one_up_snr()
-{
-	huds = [];
-	huds[0] = level.chalk_hud1;
-	huds[1] = level.chalk_hud2;
-
-	// Hud1 shader
-	if( level.snr_round >= 1 && level.snr_round <= 5 )
-	{
-		huds[0] SetShader( "hud_chalk_" + level.snr_round, 64, 64 );
-	}
-	else if ( level.snr_round >= 5 && level.snr_round <= 10 )
-	{
-		huds[0] SetShader( "hud_chalk_5", 64, 64 );
-	}
-
-	// Hud2 shader
-	if( level.snr_round > 5 && level.snr_round <= 10 )
-	{
-		huds[1] SetShader( "hud_chalk_" + ( level.snr_round - 5 ), 64, 64 );
-	}
-
-	// Display value
-	if ( IsDefined( level.chalk_override ) )
-	{
-		huds[0] SetText( level.chalk_override );
-		huds[1] SetText( " " );
-	}
-	else if( level.snr_round <= 5 )
-	{
-		huds[1] SetText( " " );
-	}
-	else if( level.snr_round > 10 )
-	{
-		huds[0].fontscale = 32;
-		huds[0] SetValue( level.snr_round );
-		huds[1] SetText( " " );
-	}
-
-	if(!isdefined(level.gamemode_intro_hud))
-	{
-		level.gamemode_intro_hud = true;
-		level thread gamemode_intro_hud("Search & Rezurrect");
-	}
-
-	// Create "ROUND" hud text
-	round = create_simple_hud();
-	round.alignX = "center"; 
-	round.alignY = "bottom";
-	round.horzAlign = "user_center"; 
-	round.vertAlign = "user_bottom";
-	round.fontscale = 16;
-	round.color = ( 1, 1, 1 );
-	round.x = 0;
-	round.y = -265;
-	round.alpha = 0;
-	round SetText( &"ZOMBIE_ROUND" );
-
-//		huds[0] FadeOverTime( 0.05 );
-	huds[0].color = ( 1, 1, 1 );
-	huds[0].alpha = 0;
-	huds[0].horzAlign = "user_center";
-	huds[0].x = -5;
-	huds[0].y = -200;
-
-	huds[1] SetText( " " );
-
-	// Fade in white
-	round FadeOverTime( 1 );
-	round.alpha = 1;
-
-	huds[0] FadeOverTime( 1 );
-	huds[0].alpha = 1;
-
-	wait( 1 );
-
-	// Fade to red
-	round FadeOverTime( 2 );
-	round.color = ( 0.21, 0, 0 );
-
-	huds[0] FadeOverTime( 2 );
-	huds[0].color = ( 0.21, 0, 0 );
-	wait(2);
-
-// 	if( (level.round_number <= 5 || level.round_number >= 11) && IsDefined( level.chalk_hud2 ) )
-// 	{
-// 		huds[1] = undefined;
-// 	}
-// 	
-	for ( i=0; i<huds.size; i++ )
-	{
-		huds[i] FadeOverTime( 2 );
-		huds[i].alpha = 1;
-	}
-
-	wait( 3 );
-
-	if( IsDefined( round ) )
-	{
-		round FadeOverTime( 1 );
-		round.alpha = 0;
-	}
-
-	wait( 0.25 );
-
-	level notify( "intro_hud_done" );
-	huds[0] MoveOverTime( 1.75 );
-	huds[0].horzAlign = "user_left";
-	//		huds[0].x = 0;
-	huds[0].y = -4;
-	huds[0].x = 64;
-	wait( 2 );
-
-	round destroy_hud();
-	
-	ReportMTU(level.round_number);	// In network debug instrumented builds, causes network spike report to generate.
-
-	// Remove any override set since we're done with it
-	if ( IsDefined( level.chalk_override ) )
-	{
-		level.chalk_override = undefined;
-	}
-}*/
-
-snr_round_restart_watcher()
-{
-	level endon("end_game");
-	flag_wait( "begin_spawning" );
-	level.team1score = 0;
-	level.team2score = 0;
-	while(1)
-	{
-		players = get_players();
-		for( i = 0 ; i < players.size; i++ )
-		{
-			if(!IsDefined(players[i].round_wins))
-				players[i].round_wins = 0;
-			if(players[i] get_number_of_valid_enemy_players() == 0 && players.size > 1)
-			{
-				wait .05;
-				if(get_number_of_valid_players() == 0)
-				{
-					round_restart(true);
-					continue;
-				}
-				if(players[i].vsteam == 0)
-					level.team1score++;
-				else
-					level.team2score++;
-				if(level.team1score == 3)
-				{
-					for( j = 0 ; j < players.size; j++ )
-					{
-						if(players[j].vsteam == 0)
-						{
-							players[j].won = true;
-						}
-					}
-					level notify("end_game");
-				}
-				else if(level.team2score == 3)
-				{
-					for( j = 0 ; j < players.size; j++ )
-					{
-						if(players[j].vsteam == 1)
-						{
-							players[j].won = true;
-						}
-					}
-					level notify("end_game");
-				}
-				else
-				{
-					round_restart();
-				}
-			}
-		}
-		wait .05;
-	}
-}
-
 race_end_game()
 {
 	level endon("end_game");
@@ -1688,58 +1481,6 @@ revive_grace_period()
 		self.ignoreme = false;
 	}
 }
-
-/*grief_revive_icon()
-{
-	self.waypointYel = newHudElem();
-	self.waypointYel SetTargetEnt(self);
-	self.waypointYel.sort = 20;
-	self.waypointYel.alpha = 1;
-	self.waypointYel setWaypoint( true, "waypoint_" + self.griefteamname );
-	self.waypointYel.color = ( 1, .7, .1 );
-	time = int(GetDvar("player_lastStandBleedoutTime"));
-	self thread fade_over_time(time);
-	//self.waypointYel fadeovertime( time );// / 1.25
-	//self.waypointYel.color = ( 1, 0, 0 );
-	self.waypointWhi = newHudElem();
-	self.waypointWhi SetTargetEnt(self);
-	self.waypointWhi.sort = 21;
-	self.waypointWhi.alpha = 0;
-	self.waypointWhi setWaypoint( true, "waypoint_" + self.griefteamname );
-	self.waypointWhi.color = ( 1, 1, 1 );
-	self thread grief_revive_icon_hide_show_think();
-}
-
-grief_revive_icon_hide_show_think()
-{
-	self endon( "player_revived" );
-	self endon( "bled_out" );
-	self endon( "round_restarted" );
-	while( 1 )
-	{
-		if( isDefined( self.revivetrigger ) && isDefined( self.revivetrigger.beingRevived ) && self.revivetrigger.beingRevived )
-		{
-			self.waypointWhi.alpha = 1;
-		}
-		else
-		{
-			self.waypointWhi.alpha = 0;
-		}
-		wait 0.05;
-	}
-}
-
-remove_grief_revive_icon()
-{
-	while(1)
-	{
-		self waittill_any("player_revived","bled_out","round_restarted");
-		if(isdefined(self.waypointYel))
-			self.waypointYel destroy_hud();
-		if(isdefined(self.waypointWhi))
-			self.waypointWhi destroy_hud();
-	}
-}*/
 
 reduce_survive_zombie_amount()
 {
@@ -2228,14 +1969,14 @@ auto_revive_after_time()
 	self endon("player_revived");
 	level endon("end_game");
 
-	wait 10;
+	wait 12;
 	self.revive_hud setText( &"GAME_REVIVING" );
 	self maps\_laststand::revive_hud_show_n_fade( 3.0 );
-	wait 5;
+	wait 3;
 	self maps\_laststand::auto_revive();
 }
 
-unlimited_shriekers_and_napalms()
+unlimited_shrieker_and_napalm_spawns()
 {
 	level endon("end_game");
 
