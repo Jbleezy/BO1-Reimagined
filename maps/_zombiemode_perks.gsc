@@ -451,6 +451,11 @@ vending_weapon_upgrade()
 	self SetHintString( &"ZOMBIE_NEED_POWER" );
 	self SetCursorHint( "HINT_NOICON" );
 
+	if(level.gamemode == "gg")
+	{
+		return;
+	}
+
 	level waittill("Pack_A_Punch_on");
 
 	self thread vending_machine_trigger_think();
@@ -771,6 +776,11 @@ upgrade_knuckle_crack_end( gun )
 //	NOTE:  In the .map, you'll have to make sure that each Pack-A-Punch machine has a unique targetname
 turn_PackAPunch_on()
 {
+	if(level.gamemode == "gg")
+	{
+		return;
+	}
+
 	level waittill("Pack_A_Punch_on");
 
 	vending_weapon_upgrade_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
@@ -844,7 +854,7 @@ turn_revive_on()
 
 	flag_wait( "all_players_connected" );
 	players = GetPlayers();
-	if ( players.size == 1 || level.gamemode == "ffa" )
+	if ( players.size == 1 || level.gamemode == "ffa" || level.gamemode == "gg" )
 	{
 		for( i = 0; i < machine.size; i++ )
 		{
@@ -896,7 +906,7 @@ revive_solo_fx(machine_clip)
 	playfxontag( level._effect[ "revive_light" ], self.fx, "tag_origin" );
 	playfxontag( level._effect[ "revive_light_flicker" ], self.fx, "tag_origin" );
 
-	if(level.gamemode != "ffa")
+	if(level.gamemode != "ffa" && level.gamemode != "gg")
 	{
 		flag_wait( "solo_revive" );
 	}
@@ -909,7 +919,7 @@ revive_solo_fx(machine_clip)
 	//DCS: make revive model fly away like a magic box.
 	//self playsound("zmb_laugh_child");
 
-	if(level.gamemode != "ffa")
+	if(level.gamemode != "ffa" && level.gamemode != "gg")
 	{
 		wait(2.0);
 
@@ -966,7 +976,7 @@ revive_solo_fx(machine_clip)
 	}
 
 	//remove machine trigger in ffa
-	if(level.gamemode == "ffa")
+	if(level.gamemode == "ffa" || level.gamemode == "gg")
 	{
 		for(i = 0; i < vending_triggers.size; i++)
 		{
@@ -1107,6 +1117,11 @@ turn_deadshot_on()
 //
 turn_additionalprimaryweapon_on()
 {
+	if(level.gamemode == "gg")
+	{
+		return;
+	}
+
 	machine = getentarray("vending_additionalprimaryweapon", "targetname");
 //	level waittill("additionalprimaryweapon_on");
 	if ( "zombie_cod5_prototype" != level.script && "zombie_cod5_sumpf" != level.script )
@@ -1215,6 +1230,11 @@ vending_trigger_think()
 
 	self SetCursorHint( "HINT_NOICON" );
 	self UseTriggerRequireLookAt();
+
+	if(perk == "specialty_additionalprimaryweapon" && level.gamemode == "gg")
+	{
+		return;
+	}
 
 	cost = level.zombie_vars["zombie_perk_cost"];
 	switch( perk )
@@ -2267,7 +2287,7 @@ perk_give_bottle_end( gun, perk, has_fastswitch )
 		self decrement_is_drinking();
 		return;
 	}
-	else if( gun != "none" && !is_equipment( gun ) ) // && !is_placeable_mine( gun )
+	else if( gun != "none" && !is_equipment( gun ) && self HasWeapon(gun) ) // && !is_placeable_mine( gun )
 	{
 		self SwitchToWeapon( gun );
 		// ww: the knives have no first raise anim so they will never get a "weapon_change_complete" notify

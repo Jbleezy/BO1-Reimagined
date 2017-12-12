@@ -12,7 +12,7 @@ init()
 
 	grief_precache();
 
-	level thread include_powerups();
+	level thread include_grief_powerups();
 
 	level thread post_all_players_connected();
 
@@ -39,6 +39,16 @@ init()
 		{
 			level thread race_win_watcher();
 			level thread increase_round_number_over_time();
+		}
+		else if(level.gamemode == "gg")
+		{
+			level thread unlimited_ammo();
+			level thread increase_round_number();
+			//level thread increase_zombie_move_speed();
+			level thread increase_zombie_health();
+			level thread increase_zombie_spawn_rate();
+			level thread setup_gungame_weapons();
+			//level thread gungame_weapons_test();
 		}
 
 		if(level.script == "zombie_temple")
@@ -78,7 +88,7 @@ grief_precache()
 	precacheModel("bo2_c_zom_player_cia_fb");
 }
 
-include_powerups()
+include_grief_powerups()
 {
 	include_powerup("grief_empty_clip");
 	include_powerup("grief_lose_points");
@@ -86,10 +96,17 @@ include_powerups()
 	include_powerup("grief_half_damage");
 	include_powerup("grief_slow_down");
 	include_powerup("meat");
+
+	if(level.gamemode == "gg")
+	{
+		include_powerup("random_weapon");
+		include_powerup("all_revive");
+	}
+
 	wait_network_frame();
 	level.zombie_powerup_array = [];
 	level.zombie_powerup_array = array("grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_slow_down"); //, "meat"
-	if(!IsSubStr(level.script, "zombie_cod5_"))
+	if(!IsSubStr(level.script, "zombie_cod5_") && level.gamemode != "gg")
 	{
 		level.zombie_powerup_array = add_to_array(level.zombie_powerup_array, "fire_sale");
 	}
@@ -995,8 +1012,8 @@ turn_power_on()
 			trig2 notify( "trigger", players[0] );
 			break;
 		case "zombie_moon":
-			flag_wait( "all_players_spawned" );
-			wait 4;
+			level waittill("fade_introblack");
+			wait 2;
 			trig = getent("use_elec_switch","targetname");
 			trig notify("trigger");	
 			break;
@@ -1194,9 +1211,12 @@ increase_round_number()
 increase_zombie_health()
 {
 	wait 1;
+
+	health = 2000;
+
 	while(1)
 	{
-		level.zombie_health = 2000;
+		level.zombie_health = health;
 		wait 1;
 	}
 }
@@ -1220,7 +1240,14 @@ increase_zombie_move_speed()
 increase_zombie_spawn_rate()
 {
 	wait 1;
-	level.zombie_vars["zombie_spawn_delay"] = .5;
+	if(level.gamemode == "gg")
+	{
+		level.zombie_vars["zombie_spawn_delay"] = 2;
+	}
+	else
+	{
+		level.zombie_vars["zombie_spawn_delay"] = .5;
+	}
 }
 
 display_round_number()
@@ -1332,70 +1359,6 @@ display_round_number()
 	}
 }
 
-race_end_game()
-{
-	level endon("end_game");
-	flag_wait( "all_players_spawned" );
-	while(1)
-	{
-		level.team1score = 0;
-		level.team2score = 0;
-		players = get_players();
-		for( i = 0 ; i < players.size; i++ )
-		{
-			if(players[i].vsteam == 0)
-				level.team1score += players[i].kills;
-			else
-				level.team2score += players[i].kills;
-		}
-		if(level.team1score >= 250)
-		{
-			for( j = 0 ; j < players.size; j++ )
-			{
-				if(players[j].vsteam == 0)
-					players[j].won = true;
-			}
-			level notify("end_game");
-		}
-		else if(level.team2score >= 250)
-		{
-			for( j = 0 ; j < players.size; j++ )
-			{
-				if(players[j].vsteam == 1)
-					players[j].won = true;
-			}
-			level notify("end_game");
-		}
-		else if(level.round_number >= 30)
-		{
-			if(level.team1score > level.team2score)
-			{
-				for( j = 0 ; j < players.size; j++ )
-				{
-					if(players[j].vsteam == 0)
-						players[j].won = true;
-				}
-			}
-			else if(level.team1score < level.team2kills)
-			{
-				for( j = 0 ; j < players.size; j++ )
-				{
-					if(players[j].vsteam == 0)
-						players[j].won = true;
-				}
-			}
-			else
-			{
-				for( j = 0 ; j < players.size; j++ )
-				{
-					players[j].won = true;
-				}
-			}
-			level notify("end_game");
-		}
-		wait .1;
-	}
-}
 
 add_grief_logo(logo)
 {
@@ -1677,13 +1640,36 @@ setup_grief_top_logos()
 	{
 		players[i] SetClientDvar("vs_top_logos_on", 1);
 
-		if(players[i].vsteam == "cdc")
+		if(IsDefined(level.vsteam))
 		{
-			players[i] SetClientDvar("vs_logo_enemy", "cia_logo");
+			team = level.vsteam;
 		}
 		else
 		{
-			players[i] SetClientDvar("vs_logo_enemy", "cdc_logo");
+			team = players[i].vsteam;
+		}
+
+		if(team == "cdc")
+		{
+			if(IsDefined(level.vsteam))
+			{
+				players[i] SetClientDvar("vs_logo_enemy", "cdc_logo");
+			}
+			else
+			{
+				players[i] SetClientDvar("vs_logo_enemy", "cia_logo");
+			}
+		}
+		else
+		{
+			if(IsDefined(level.vsteam))
+			{
+				players[i] SetClientDvar("vs_logo_enemy", "cia_logo");
+			}
+			else
+			{
+				players[i] SetClientDvar("vs_logo_enemy", "cdc_logo");
+			}
 		}
 
 		players[i] SetClientDvar("vs_counter_friendly_num_on", 1);
@@ -1969,7 +1955,7 @@ auto_revive_after_time()
 	self endon("player_revived");
 	level endon("end_game");
 
-	wait 12;
+	wait 7;
 	self.revive_hud setText( &"GAME_REVIVING" );
 	self maps\_laststand::revive_hud_show_n_fade( 3.0 );
 	wait 3;
@@ -1985,5 +1971,297 @@ unlimited_shrieker_and_napalm_spawns()
 		level.special_zombie_spawned_this_round = false;
 
 		wait 1;
+	}
+}
+
+unlimited_ammo()
+{
+	level endon("end_game");
+
+	flag_wait("all_players_connected");
+
+	while(1)
+	{
+		players = get_players();
+
+		for(i=0;i<players.size;i++)
+		{
+			if(players[i] maps\_laststand::player_is_in_laststand())
+			{
+				continue;
+			}
+
+			primaryWeapons = players[i] GetWeaponsListPrimaries();
+
+			for(j=0;j<primaryWeapons.size;j++)
+			{
+				//clip_size = WeaponClipSize(primaryWeapons[j]);
+				//players[i] SetWeaponAmmoStock(primaryWeapons[j], clip_size);
+				players[i] GiveMaxAmmo(primaryWeapons[j]);
+
+				alt_name = WeaponAltWeaponName(primaryWeapons[j]);
+				if(alt_name != "none")
+				{
+					players[i] GiveMaxAmmo(alt_name);
+				}
+
+				if ( issubstr( primaryWeapons[j], "knife_ballistic_" ) )
+				{
+					players[i] notify( "zmb_lost_knife" );
+				}
+			}
+		}
+
+		wait .001;
+	}
+}
+
+setup_gungame_weapons()
+{
+	level.gg_kills_to_next_wep = 10;
+	level.gg_weps = [];
+	level.gg_weps[0] = "cz75_zm";
+	level.gg_weps[1] = "python_zm";
+	level.gg_weps[2] = "spas_zm";
+
+	if(!IsSubStr(level.script, "zombie_cod5_"))
+	{
+		level.gg_weps[3] = "ithaca_zm";
+	}
+	else
+	{
+		level.gg_weps[3] = "zombie_shotgun";
+	}
+
+	if(!IsSubStr(level.script, "zombie_cod5_"))
+	{
+		level.gg_weps[4] = "ak74u_zm";
+	}
+	else
+	{
+		level.gg_weps[4] = "zombie_thompson";
+	}
+
+	level.gg_weps[5] = "spectre_zm";
+	level.gg_weps[6] = "ppsh_zm";
+	level.gg_weps[7] = "fnfal_zm";
+	level.gg_weps[8] = "g11_lps_zm";
+	level.gg_weps[9] = "famas_zm";
+	level.gg_weps[10] = "galil_zm";
+	level.gg_weps[11] = "stoner63_zm";
+	level.gg_weps[12] = "hk21_zm";
+	level.gg_weps[13] = "psg1_zm";
+	level.gg_weps[14] = "l96a1_zm";
+	level.gg_weps[15] = "china_lake_zm";
+	level.gg_weps[16] = "m72_law_zm";
+	level.gg_weps[17] = "ray_gun_zm";
+
+	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_theater" || level.script == "zombie_cosmodrome")
+	{
+		level.gg_weps[18] = "thundergun_zm";
+	}
+	else if(level.script == "zombie_cod5_asylum" || level.script == "zombie_pentagon")
+	{
+		level.gg_weps[18] = "freezegun_zm";
+	}
+	else if(level.script == "zombie_cod5_sumpf" || level.script == "zombie_cod5_factory")
+	{
+		level.gg_weps[18] = "tesla_gun_zm";
+	}
+	else if(level.script == "zombie_coast")
+	{
+		level.gg_weps[18] = "sniper_explosive_zm";
+	}
+	else if(level.script == "zombie_temple")
+	{
+		level.gg_weps[18] = "shrink_ray_zm";
+	}
+	else if(level.script == "zombie_moon")
+	{
+		level.gg_weps[18] = "microwavegundw_zm";
+	}
+
+	level.gg_weps[19] = "knife_ballistic_zm";
+
+	level.gg_weps[20] = "none";
+
+	flag_wait("all_players_connected");
+
+	players = get_players();
+
+	for(i=0;i<players.size;i++)
+	{
+		players[i].gg_wep_num = 0;
+		players[i].gg_kill_count = 0;
+	}
+
+	level waittill("fade_introblack");
+
+	players = get_players();
+
+	for(i=0;i<players.size;i++)
+	{
+		players[i] update_gungame_weapon(undefined, true);
+	}
+}
+
+update_gungame_weapon(decrement, initial)
+{
+	if(!IsDefined(decrement))
+		decrement = false;
+
+	if(!IsDefined(initial))
+		initial = false;
+
+	primaryWeapons = self GetWeaponsListPrimaries();
+	holding_primary = false;
+	for(j=0;j<primaryWeapons.size;j++)
+	{
+		if(self GetCurrentWeapon() == primaryWeapons[j] || self IsSwitchingWeapons())
+		{
+			holding_primary = true;
+		}
+
+		if ( issubstr( primaryWeapons[j], "knife_ballistic_" ) )
+		{
+			self notify( "zmb_lost_knife" );
+		}
+		self TakeWeapon(primaryWeapons[j]);
+	}
+
+	weapon_string = level.gg_weps[self.gg_wep_num];
+	if ( weapon_string == "knife_ballistic_zm" && self HasWeapon( "bowie_knife_zm" ) )
+	{
+		weapon_string = "knife_ballistic_bowie_zm";
+	}
+	else if ( weapon_string == "knife_ballistic_zm" && self HasWeapon( "sickle_knife_zm" ) )
+	{
+		weapon_string = "knife_ballistic_sickle_zm";
+	}
+
+	self GiveWeapon(weapon_string);
+
+	if(holding_primary || initial || decrement)
+	{
+		self SwitchToWeapon(weapon_string);
+	}
+
+	if(!decrement && !initial)
+	{
+		nade = self get_player_lethal_grenade();
+		if(IsDefined(nade))
+		{
+			nade_clip = self GetWeaponAmmoClip(nade);
+			nade_clip += 2;
+			if(nade_clip > 4)
+			{
+				nade_clip = 4;
+			}
+			self SetWeaponAmmoClip( nade, nade_clip );
+		}
+
+		mine = self get_player_placeable_mine();
+		if(IsDefined(mine))
+		{
+			self SetWeaponAmmoClip(mine, 2);
+		}
+	}
+
+	self update_gungame_hud();
+}
+
+update_gungame_hud()
+{
+	wep_num = self.gg_wep_num + 1;
+
+	//update personal counter (left side)
+	if(wep_num > 5)
+	{
+		self SetClientDvar("vs_counter_friendly_on", false);
+		self SetClientDvar("vs_counter_friendly_num", wep_num);
+		self SetClientDvar("vs_counter_friendly_num_on", true);
+	}
+	else if(wep_num > 0)
+	{
+		self SetClientDvar("vs_counter_friendly_num_on", false);
+		self SetClientDvar("vs_counter_friendly", "hud_chalk_" + wep_num);
+		self SetClientDvar("vs_counter_friendly_on", true);
+	}
+
+	players = get_players();
+
+	if(players.size == 1)
+	{
+		self SetClientDvar("vs_counter_enemy_on", false);
+		self SetClientDvar("vs_counter_enemy_num", 0);
+		self SetClientDvar("vs_counter_enemy_num_on", true);
+		return;
+	}
+
+	highest_player = players[0];
+	second_highest_player = players[0];
+	highest_wep = players[0].gg_wep_num;
+	for(i=1;i<players.size;i++)
+	{
+		if(highest_wep > players[i].gg_wep_num)
+		{
+			second_highest_player = highest_player;
+			highest_player = players[i];
+			highest_wep = players[i].gg_wep_num;
+		}
+	}
+
+	highest_wep++;
+	second_highest_wep = second_highest_player.gg_wep_num + 1;
+
+	//update highest enemy counter (right side)
+	for(i=0;i<players.size;i++)
+	{
+		if(players[i] == highest_player)
+		{
+			if(second_highest_wep > 5)
+			{
+				players[i] SetClientDvar("vs_counter_enemy_on", false);
+				players[i] SetClientDvar("vs_counter_enemy_num", second_highest_wep);
+				players[i] SetClientDvar("vs_counter_enemy_num_on", true);
+			}
+			else if(second_highest_wep > 0)
+			{
+				players[i] SetClientDvar("vs_counter_enemy_num_on", false);
+				players[i] SetClientDvar("vs_counter_enemy", "hud_chalk_" + second_highest_wep);
+				players[i] SetClientDvar("vs_counter_enemy_on", true);
+			}
+		}
+		else
+		{
+			if(highest_wep > 5)
+			{
+				players[i] SetClientDvar("vs_counter_enemy_on", false);
+				players[i] SetClientDvar("vs_counter_enemy_num", highest_wep);
+				players[i] SetClientDvar("vs_counter_enemy_num_on", true);
+			}
+			else if(highest_wep > 0)
+			{
+				players[i] SetClientDvar("vs_counter_enemy_num_on", false);
+				players[i] SetClientDvar("vs_counter_enemy", "hud_chalk_" + highest_wep);
+				players[i] SetClientDvar("vs_counter_enemy_on", true);
+			}
+		}
+	}
+}
+
+gungame_weapons_test()
+{
+	flag_wait("all_players_spawned");
+
+	players = get_players();
+
+	for(i=1;i<level.gg_weps.size;i++)
+	{
+		wait .1;
+
+		players[0].gg_wep_num++;
+
+		players[0] update_gungame_weapon();
 	}
 }

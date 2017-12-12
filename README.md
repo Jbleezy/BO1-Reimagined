@@ -743,41 +743,55 @@
 * Unlimited zombies
 * 2,000 health zombies
 * .5 second zombie spawn rate
+* Only sprinting zombies
 * Every player starts with 5,000 points and will get 5,000 points at the beginning of each new round if they have less than 5,000 points
 * Win a round by killing the remainder of the zombies spawned on the map after all enemies have downed
 * If both teams die on a round, neither team will get a point
 * Win the game by winning 3 rounds
 * Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time though)
+* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time though)
 
 #### Race
 * Unlimited zombies
+* Auto revive after 10 seoconds
 * Starts at round 1, every 45 seconds round increases until round 20
 * Gain 500 points on each round increase if you are alive
 * First team to 250 kills, or team with most kills after round 20 wins
-* Auto revive after 15 seoconds
 * Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time though)
+* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time though)
 
 #### Gun Game
 * Unlimited zombies
 * Unlimited ammo
-* Round number is whatever the lowest weapon a player is on in the match
+* Quick Revive disabled
+* Pack-a-Punch disabled
+* Wall weapons disabled
+* Mystery box disabled
+* Mule Kick disabled
+* 2,000 health zombies
+* 2 second zombie spawn rate
+* Only running zombies
+* Auto revive after 10 seoconds
 * Win the game the game by progressing through all the weapons
-* Zombies will drop a gun increment powerup after a certain amount of kills
+* Weapon order: pistols, shotguns, smg's, assault rifles, lmg's, snipers, explosives, wonder weapons, ballistic knife
+* Zombies will drop a gun increment powerup after getting 10 kills with your current weapon
 * Only the player who killed the zombie can grab and see the gun increment powerup
+* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time though)
+* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time though)
 
-#### King of the Hill
+#### King of the Hill (scrapped)
 * Unlimited zombies
 * Gain points by controlling an area of the map without any enemies contesting the area
 * Win the game by reaching the score limit
 
-#### Capture
+#### Capture (scrapped)
 * Unlimited zombies
 * Gain points by capturing the enemy team's meat
 * 2 rounds (switch side after the first round)
 * Win the game by having the most points at the end of the game
 * First round ends if a team scores 3 points
 
-#### Turned
+#### Turned (scrapped)
 * Unlimited zombies
 * Every player starts off not infected
 * When a player dies, they become infected
@@ -857,6 +871,9 @@
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
 * Fix PaP hintstring showing take weapon for other players weapons for a short period
 * Make frag grenades throw faster
+* Fix zombies bleeding out when in teleporter room in Kino (add a check for this in failsafe)
+* Increase China Lake damage
+* Decrease PSG1 damage
 
 ## GRIEF TODO:
 * Add powerup model and shader for slow down powerdown
@@ -865,6 +882,8 @@
 * Moon: turn on power and spawn immediately at start of match
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret
+* Gun Game: add upgrade weapon powerup
+* Gun Game: make it so all wonder weapons can drop gun increment powerup
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen

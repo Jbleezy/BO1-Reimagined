@@ -50,6 +50,7 @@ rawfile,maps/zombie_theater.gsc
 rawfile,maps/zombie_theater_amb.gsc
 rawfile,maps/zombie_theater_teleporter.gsc
 rawfile,maps/zombie_theater_quad.gsc
+rawfile,maps/zombie_theater_magic_box.gsc
 
 //FIVE
 rawfile,maps/zombie_pentagon.gsc
@@ -57,6 +58,7 @@ rawfile,maps/zombie_pentagon_amb.gsc
 rawfile,maps/zombie_pentagon_traps.gsc
 rawfile,maps/zombie_pentagon_teleporter.gsc
 rawfile,maps/zombie_pentagon_elevators.gsc
+rawfile,maps/zombie_pentagon_magic_box.gsc
 
 //ASCENSION
 rawfile,maps/_zombiemode_ai_monkey.gsc
@@ -66,6 +68,7 @@ rawfile,maps/zombie_cosmodrome_lander.gsc
 rawfile,maps/zombie_cosmodrome_traps.gsc
 rawfile,maps/zombie_cosmodrome_eggs.gsc
 rawfile,maps/zombie_cosmodrome_pack_a_punch.gsc
+rawfile,maps/zombie_cosmodrome_magic_box.gsc
 
 //COTD
 rawfile,maps/zombie_coast.gsc

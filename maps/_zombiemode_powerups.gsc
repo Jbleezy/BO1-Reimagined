@@ -691,7 +691,7 @@ powerup_round_start()
 	level.powerup_drop_count = 0;
 }
 
-powerup_drop(drop_point)
+powerup_drop(drop_point, player, zombie)
 {
 	if( level.mutators["mutator_noPowerups"] )
 	{
@@ -714,7 +714,14 @@ powerup_drop(drop_point)
 	// some guys randomly drop, but most of the time they check for the drop flag
 	rand_drop = randomint(100);
 
-	if (rand_drop > 2) //>
+	drop_gg_wep = false;
+
+	if( level.gamemode == "gg" && IsDefined(zombie.can_drop_gg_powerup) && !IsDefined(player.gg_wep_dropped) )
+	{
+		drop_gg_wep = true;
+		debug = "gungame";
+	}
+	else if (rand_drop > 2) //>
 	{
 		if (!level.zombie_vars["zombie_drop_item"])
 		{
@@ -767,11 +774,33 @@ powerup_drop(drop_point)
 		return;
 	}
 
-	powerup powerup_setup();
+	if(drop_gg_wep)
+	{
+		//iprintln("spawning powerup");
+		powerup.player = player;
+		powerup.gg_powerup = true;
+		powerup powerup_setup("random_weapon"); //freeze comes from here
+		player.gg_wep_dropped = true;
+
+		players = get_players();
+		for(i=0;i<players.size;i++)
+		{
+			if(players[i] != player)
+			{
+				powerup SetInvisibleToPlayer(players[i], true);
+			}
+		}
+
+		powerup thread timeout_on_down();
+	}
+	else
+	{
+		powerup powerup_setup();
+	}
 
 	print_powerup_drop( powerup.powerup_name, debug );
 
-	if(level.last_powerup)
+	if(level.last_powerup && !drop_gg_wep)
 	{
 		//iprintln("last powerup");
 		playfx( level._effect["powerup_grabbed"], powerup.origin );
@@ -986,61 +1015,79 @@ powerup_setup( powerup_override )
 
 	if ( powerup == "random_weapon" )
 	{
-		// select the weapon for this instance of random_weapon
-		self.weapon = maps\_zombiemode_weapons::treasure_chest_ChooseWeightedRandomWeapon();
-
-/#
-		weapon = GetDvar( #"scr_force_weapon" );
-		if ( weapon != "" && IsDefined( level.zombie_weapons[ weapon ] ) )
+		if(IsDefined(self.gg_powerup))
 		{
-			self.weapon = weapon;
-			SetDvar( "scr_force_weapon", "" );
-		}
-#/
-
-		self.base_weapon = self.weapon;
-		if ( !isdefined( level.random_weapon_powerups ) )
-		{
-			level.random_weapon_powerups = [];
-		}
-		level.random_weapon_powerups[level.random_weapon_powerups.size] = self;
-		self thread cleanup_random_weapon_list();
-
-		if ( IsDefined( level.zombie_weapons[self.weapon].upgrade_name ) && !RandomInt( 4 ) ) // 25% chance
-		{
-			self.unupgrade_weapon = self.weapon;
-			self.weapon = level.zombie_weapons[self.weapon].upgrade_name;
-		}
-
-		self SetModel( GetWeaponModel( self.weapon ) );
-		self useweaponhidetags( self.weapon );
-
-		offsetdw = ( 3, 3, 3 );
-		self.worldgundw = undefined;
-		if ( maps\_zombiemode_weapons::weapon_is_dual_wield( self.weapon ) )
-		{
-			self.worldgundw = spawn( "script_model", self.origin + offsetdw );
-			self.worldgundw.angles  = self.angles;
-			self.worldgundw setModel( maps\_zombiemode_weapons::get_left_hand_weapon_model_name( self.weapon ) );
-			self.worldgundw useweaponhidetags( self.weapon );
-			self.worldgundw LinkTo( self, "tag_weapon", offsetdw, (0, 0, 0) );
-		}
-
-		trigger = spawn( "trigger_radius_use", self.origin - (0,0,40), 0, 64, 72 );
-		trigger enablelinkto();
-		trigger linkto( self );
-		trigger SetCursorHint( "HINT_NOICON" );
-		if(is_tactical_grenade(self.weapon))
-		{
-			trigger sethintstring( &"REIMAGINED_TRADE_EQUIPMENT" );
+			self.weapon = level.gg_weps[self.player.gg_wep_num + 1];
+			self.base_weapon = self.weapon;
 		}
 		else
 		{
-			trigger sethintstring( &"ZOMBIE_TRADE_WEAPONS" );
+			// select the weapon for this instance of random_weapon
+			self.weapon = maps\_zombiemode_weapons::treasure_chest_ChooseWeightedRandomWeapon();
+
+			/#
+			weapon = GetDvar( #"scr_force_weapon" );
+			if ( weapon != "" && IsDefined( level.zombie_weapons[ weapon ] ) )
+			{
+				self.weapon = weapon;
+				SetDvar( "scr_force_weapon", "" );
+			}
+			#/
+
+			self.base_weapon = self.weapon;
+			if ( !isdefined( level.random_weapon_powerups ) )
+			{
+				level.random_weapon_powerups = [];
+			}
+			level.random_weapon_powerups[level.random_weapon_powerups.size] = self;
+			self thread cleanup_random_weapon_list();
+
+			if ( IsDefined( level.zombie_weapons[self.weapon].upgrade_name ) && !RandomInt( 4 ) ) // 25% chance
+			{
+				self.unupgrade_weapon = self.weapon;
+				self.weapon = level.zombie_weapons[self.weapon].upgrade_name;
+			}
 		}
-		trigger thread random_weapon_powerup_hintstring_think(self.weapon);
-		trigger thread random_weapon_powerup_think(self);
-		self thread powerup_weapon_trigger_cleanup(trigger);
+
+		if(self.weapon == "none")
+		{
+			self SetModel( "zombie_revive" );
+		}
+		else
+		{
+			self SetModel( GetWeaponModel( self.weapon ) );
+			self useweaponhidetags( self.weapon );
+
+			offsetdw = ( 3, 3, 3 );
+			self.worldgundw = undefined;
+			if ( maps\_zombiemode_weapons::weapon_is_dual_wield( self.weapon ) )
+			{
+				self.worldgundw = spawn( "script_model", self.origin + offsetdw );
+				self.worldgundw.angles  = self.angles;
+				self.worldgundw setModel( maps\_zombiemode_weapons::get_left_hand_weapon_model_name( self.weapon ) );
+				self.worldgundw useweaponhidetags( self.weapon );
+				self.worldgundw LinkTo( self, "tag_weapon", offsetdw, (0, 0, 0) );
+			}
+		}
+
+		if(!IsDefined(self.gg_powerup))
+		{
+			trigger = spawn( "trigger_radius_use", self.origin - (0,0,40), 0, 64, 72 );
+			trigger enablelinkto();
+			trigger linkto( self );
+			trigger SetCursorHint( "HINT_NOICON" );
+			if(is_tactical_grenade(self.weapon))
+			{
+				trigger sethintstring( &"REIMAGINED_TRADE_EQUIPMENT" );
+			}
+			else
+			{
+				trigger sethintstring( &"ZOMBIE_TRADE_WEAPONS" );
+			}
+			trigger thread random_weapon_powerup_hintstring_think(self.weapon);
+			trigger thread random_weapon_powerup_think(self);
+			self thread powerup_weapon_trigger_cleanup(trigger);
+		}
 	}
 	else if(powerup == "tesla")
 	{
@@ -1369,6 +1416,7 @@ powerup_grab()
 
 	self endon ("powerup_timedout");
 	self endon ("powerup_grabbed");
+	self endon( "powerup_player_downed" );
 
 	range_squared = 64 * 64;
 	while (isdefined(self))
@@ -1399,8 +1447,11 @@ powerup_grab()
 			if(self.powerup_name == "tesla" && IsDefined(players[i].has_tesla) && players[i].has_tesla && players[i] GetCurrentWeapon() == "tesla_gun_new_upgraded_zm" && self.weapon == "tesla_gun_zm")
 				continue;
 
-			if ( (self.powerup_name != "random_weapon" && DistanceSquared( players[i].origin, self.origin ) < range_squared) || 
-				(self.powerup_name == "random_weapon" && is_true(self.weapon_powerup_grabbed)) )
+			if(self.powerup_name == "random_weapon" && !IsDefined(self.gg_powerup) && !is_true(self.weapon_powerup_grabbed))
+				continue;
+
+			if ( ( self.powerup_name != "random_weapon" || (self.powerup_name == "random_weapon" && IsDefined(self.gg_powerup)) ) && 
+				DistanceSquared( players[i].origin, self.origin ) < range_squared )
 			{
 				if( IsDefined( level.zombie_powerup_grab_func ) )
 				{
@@ -1485,11 +1536,11 @@ powerup_grab()
 
 					//done in its own function because it has a use trigger
 					case "random_weapon":
-						/*if ( !level random_weapon_powerup( self, players[i] ) )
+						if ( IsDefined(self.gg_powerup) && !level random_weapon_powerup( self, players[i] ) )
 						{
 							continue;
 						}
-						players[i] thread powerup_vo( "random_weapon" );*/ // TODO: Audio should uncomment this once the sounds have been set up
+						//players[i] thread powerup_vo( "random_weapon" ); // TODO: Audio should uncomment this once the sounds have been set up
 						break;
 						
 
@@ -1891,6 +1942,7 @@ powerup_wobble()
 {
 	self endon( "powerup_grabbed" );
 	self endon( "powerup_timedout" );
+	self endon( "powerup_player_downed" );
 
 	if ( isdefined( self ) )
 	{
@@ -1944,6 +1996,7 @@ powerup_timeout()
 {
 	self endon( "powerup_grabbed" );
 	self endon( "death" );
+	self endon( "powerup_player_downed" );
 
 	level.powerups[level.powerups.size] = self;
 
@@ -1981,6 +2034,11 @@ powerup_timeout()
 		{
 			wait( 0.1 );
 		}
+	}
+
+	if(IsDefined(self.gg_powerup))
+	{
+		self.player.gg_wep_dropped = undefined;
 	}
 
 	self notify( "powerup_timedout" );
@@ -2671,6 +2729,31 @@ random_weapon_powerup( item, player )
 	if ( player.sessionstate == "spectator" || player maps\_laststand::player_is_in_laststand() )
 	{
 		return false;
+	}
+
+	if(IsDefined(item.gg_powerup))
+	{
+		if(player != item.player)
+		{
+			return false;
+		}
+		else
+		{
+			player.gg_wep_num++;
+			player.gg_kill_count = 0;
+			player.gg_wep_dropped = undefined;
+
+			if(player.gg_wep_num == 20)
+			{
+				level.vs_winning_team = player.vsteam;
+				level notify("end_game");
+			}
+			else
+			{
+				player maps\_zombiemode_grief::update_gungame_weapon();
+			}
+			return true;
+		}
 	}
 
 	if ( is_true( player.random_weapon_powerup_throttle ) || player is_drinking() || !player UseButtonPressed() )
@@ -3814,4 +3897,19 @@ grief_slow_down_powerup( drop_item )
 meat_powerup( drop_item )
 {
 	//TODO
+}
+
+timeout_on_down()
+{
+	self endon( "powerup_grabbed" );
+	self endon( "death" );
+	self endon( "powerup_timedout" ); 
+
+	self.player waittill("player_downed");
+
+	self.player.gg_wep_dropped = undefined;
+
+	self notify( "powerup_player_downed" );
+
+	self delete();
 }

@@ -823,13 +823,23 @@ has_weapon_or_upgrade( weaponname )
 //
 treasure_chest_init()
 {
-	if( level.mutators["mutator_noMagicBox"] )
+	if( level.mutators["mutator_noMagicBox"] || level.gamemode == "gg" )
 	{
 		chests = GetEntArray( "treasure_chest_use", "targetname" );
-		for( i=0; i < chests.size; i++ )
+		if(level.gamemode == "gg" && level.script == "zombie_cod5_prototype")
 		{
-			chests[i] get_chest_pieces();
-			chests[i] hide_chest();
+			for( i=0; i < chests.size; i++ )
+			{
+				chests[i] disable_trigger();
+			}
+		}
+		else
+		{
+			for( i=0; i < chests.size; i++ )
+			{
+				chests[i] get_chest_pieces();
+				chests[i] hide_chest();
+			}
 		}
 		return;
 	}
@@ -3286,6 +3296,12 @@ weapon_spawn_think()
 	cost = get_weapon_cost( self.zombie_weapon_upgrade );
 	ammo_cost = get_ammo_cost( self.zombie_weapon_upgrade );
 	is_grenade = (WeaponType( self.zombie_weapon_upgrade ) == "grenade");
+
+	if(level.gamemode == "gg" && !is_grenade)
+	{
+		self disable_trigger();
+		return;
+	}
 
 	self thread decide_hide_show_hint();
 

@@ -1879,7 +1879,7 @@ checkForAllDead()
 		}
 		else
 		{
-			if(level.gamemode != "race")
+			if(level.gamemode != "race" && level.gamemode != "gg")
 			{
 				level thread maps\_zombiemode_grief::round_restart();
 			}
@@ -1917,7 +1917,7 @@ onPlayerDowned()
 				//only show grief message from a down if there are no other enemies still alive
 				if(players[i].vsteam != self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0)
 				{
-					if(level.gamemode != "race")
+					if(level.gamemode != "race" && level.gamemode != "gg")
 					{
 						players[i] thread maps\_zombiemode_grief::grief_msg();
 					}
@@ -1935,7 +1935,7 @@ onPlayerDowned()
 			self thread maps\_zombiemode_grief::instant_bleedout();
 		}
 
-		if(level.gamemode == "race")
+		if(level.gamemode == "race" || level.gamemode == "gg")
 		{
 			self thread maps\_zombiemode_grief::auto_revive_after_time();
 		}
@@ -2477,7 +2477,20 @@ player_revive_monitor()
 		}
 
 		wait_network_frame();
-		if(!maps\_zombiemode_weapons::is_weapon_included( self GetCurrentWeapon() ) && !maps\_zombiemode_weapons::is_weapon_upgraded( self GetCurrentWeapon() ))
+
+		if(level.gamemode == "gg")
+		{
+			if(self.gg_wep_num > 0)
+			{
+				self.gg_wep_num--;
+				self maps\_zombiemode_grief::update_gungame_weapon(true);
+			}
+			else
+			{
+				self.gg_kill_count = 0;
+			}
+		}
+		else if(!maps\_zombiemode_weapons::is_weapon_included( self GetCurrentWeapon() ) && !maps\_zombiemode_weapons::is_weapon_upgraded( self GetCurrentWeapon() ))
 		{
 			primaryWeapons = self GetWeaponsListPrimaries();
 			for ( i = 0; i < primaryWeapons.size; i++ )
@@ -3795,7 +3808,7 @@ round_spawning()
 		spawn_dog = false;
 		if ( IsDefined( level.mixed_rounds_enabled ) && level.mixed_rounds_enabled == 1 )
 		{
-			if ( level.round_number > 30 || level.gamemode == "snr" )
+			if ( level.round_number > 30 || level.gamemode == "snr" || level.gamemode == "gg" )
 			{
 				if ( RandomInt(100) < 3 )
 				{
@@ -4119,7 +4132,7 @@ round_start()
 
 	//maps\_zombiemode_solo::init();
 
-	if(level.gamemode != "snr")
+	if(level.gamemode != "snr" && level.gamemode != "gg")
 	{
 		level.chalk_hud1 = create_chalk_hud(4);
 		level.chalk_hud2 = create_chalk_hud(68);
@@ -4270,7 +4283,7 @@ wait_until_first_player()
 //	Set the current round number hud display
 chalk_one_up(override_round_number)
 {
-	if(level.gamemode == "snr")
+	if(level.gamemode == "snr" || level.gamemode == "gg" )
 	{
 		wait 10.25; //added up all the time of the wait statements in this function
 		return;
@@ -5640,7 +5653,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		}
 		else
 		{
-			if(level.gamemode != "race")
+			if(level.gamemode != "race" && level.gamemode != "gg")
 			{
 				level thread maps\_zombiemode_grief::round_restart();
 			}
@@ -6289,6 +6302,60 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	if ( IsDefined( self.actor_killed_override ) )
 	{
 		self [[ self.actor_killed_override ]]( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime );
+	}
+
+	if(level.gamemode == "gg" && (self.animname == "zombie" || self.animname == "quad_zombie" || self.animname == "zombie_dog")  && 
+		IsDefined(attacker) && IsPlayer(attacker) && is_player_valid(attacker) && IsDefined(sWeapon))
+	{
+		gg_wep = level.gg_weps[attacker.gg_wep_num];
+
+		if(gg_wep == "knife_ballistic_zm")
+		{
+			if(attacker HasWeapon("bowie_knife_zm"))
+			{
+				gg_wep = "knife_ballistic_bowie_zm";
+			}
+			else if(attacker HasWeapon("sickle_knife_zm"))
+			{
+				gg_wep = "knife_ballistic_sickle_zm";
+			}
+		}
+
+		gg_wep_upgraded = level.zombie_weapons[gg_wep].upgrade_name;
+
+		if(sWeapon == gg_wep || sWeapon == WeaponAltWeaponName(gg_wep) || sWeapon == gg_wep_upgraded || sWeapon == WeaponAltWeaponName(gg_wep_upgraded))
+		{
+			//if(!(IsSubStr(gg_wep, "knife_ballistic_") && sMeansOfDeath != "MOD_IMPACT"))
+			if(attacker.gg_kill_count < level.gg_kills_to_next_wep)
+			{
+				attacker.gg_kill_count++;
+			}
+
+			if(attacker.gg_kill_count == level.gg_kills_to_next_wep && !IsDefined(attacker.gg_wep_dropped) )
+			{
+				self.can_drop_gg_powerup = true;
+
+				if(self.animname == "zombie" && 
+				(gg_wep == "thundergun_zm" || gg_wep == "tesla_gun_zm" || gg_wep == "sniper_explosive_zm" || gg_wep == "shrink_ray_zm" || gg_wep == "microwavegundw_zm"))
+				//TODO: make sure these weapons drop gg powerup
+				{
+					// DCS 031611: hack to prevent risers from dropping powerups under the ground.
+					if(IsDefined(self.in_the_ground) && self.in_the_ground == true)
+					{
+						trace = BulletTrace(self.origin + (0, 0, 100), self.origin + (0, 0, -100), false, undefined);
+						origin = trace["position"];
+						level thread maps\_zombiemode_powerups::powerup_drop( origin, attacker, self );
+					}
+					else
+					{
+						trace = GroundTrace(self.origin + (0, 0, 5), self.origin + (0, 0, -300), false, undefined);
+						origin = trace["position"];
+						level thread maps\_zombiemode_powerups::powerup_drop( origin, attacker, self );
+					}
+				}
+			}
+			//iprintln("got gun game kill");
+		}
 	}
 }
 

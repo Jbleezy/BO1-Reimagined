@@ -3469,13 +3469,13 @@ zombie_death_points( origin, mod, hit_location, attacker, zombie )
 		{
 			trace = BulletTrace(zombie.origin + (0, 0, 100), zombie.origin + (0, 0, -100), false, undefined);
 			origin = trace["position"];
-			level thread maps\_zombiemode_powerups::powerup_drop( origin );
+			level thread maps\_zombiemode_powerups::powerup_drop( origin, attacker, zombie );
 		}
 		else
 		{
 			trace = GroundTrace(zombie.origin + (0, 0, 5), zombie.origin + (0, 0, -300), false, undefined);
 			origin = trace["position"];
-			level thread maps\_zombiemode_powerups::powerup_drop( origin );
+			level thread maps\_zombiemode_powerups::powerup_drop( origin, attacker, zombie );
 		}
 	}
 
