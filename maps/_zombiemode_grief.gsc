@@ -2190,33 +2190,41 @@ update_gungame_hud()
 
 	players = get_players();
 
-	if(players.size == 1)
-	{
-		self SetClientDvar("vs_counter_enemy_on", false);
-		self SetClientDvar("vs_counter_enemy_num", 0);
-		self SetClientDvar("vs_counter_enemy_num_on", true);
-		return;
-	}
-
 	highest_player = players[0];
-	second_highest_player = players[0];
-	highest_wep = players[0].gg_wep_num;
+	second_highest_player = undefined;
 	for(i=1;i<players.size;i++)
 	{
-		if(highest_wep > players[i].gg_wep_num)
+		if(players[i].gg_wep_num > highest_player.gg_wep_num)
 		{
 			second_highest_player = highest_player;
 			highest_player = players[i];
-			highest_wep = players[i].gg_wep_num;
+		}
+		else if(!IsDefined(second_highest_player) || players[i].gg_wep_num > second_highest_player.gg_wep_num)
+		{
+			second_highest_player = players[i];
 		}
 	}
 
-	highest_wep++;
-	second_highest_wep = second_highest_player.gg_wep_num + 1;
+	highest_wep = highest_player.gg_wep_num + 1;
+	if(IsDefined(second_highest_player))
+	{
+		second_highest_wep = second_highest_player.gg_wep_num + 1;
+	}
+	else
+	{
+		second_highest_wep = 0;
+	}
 
 	//update highest enemy counter (right side)
 	for(i=0;i<players.size;i++)
 	{
+		//dont need to check current player, right side is for other players
+		if(players[i] == self)
+		{
+			continue;
+		}
+
+		//show second place player's score for first place player
 		if(players[i] == highest_player)
 		{
 			if(second_highest_wep > 5)

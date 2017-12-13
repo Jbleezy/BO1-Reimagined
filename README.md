@@ -884,6 +884,7 @@
 * Fix turret attacking team of player that activated turret
 * Gun Game: add upgrade weapon powerup
 * Gun Game: make it so all wonder weapons can drop gun increment powerup
+* Gun Game: make sure top HUD is working correctly in coop
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
