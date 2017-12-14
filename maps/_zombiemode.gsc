@@ -1939,6 +1939,19 @@ onPlayerDowned()
 		{
 			self thread maps\_zombiemode_grief::auto_revive_after_time();
 		}
+
+		if(level.gamemode == "gg")
+		{
+			if(self.gg_wep_num > 0)
+			{
+				self.gg_wep_num--;
+				self maps\_zombiemode_grief::update_gungame_hud();
+			}
+			else
+			{
+				self.gg_kill_count = 0;
+			}
+		}
 	}
 }
 
@@ -2480,15 +2493,7 @@ player_revive_monitor()
 
 		if(level.gamemode == "gg")
 		{
-			if(self.gg_wep_num > 0)
-			{
-				self.gg_wep_num--;
-				self maps\_zombiemode_grief::update_gungame_weapon(true);
-			}
-			else
-			{
-				self.gg_kill_count = 0;
-			}
+			self maps\_zombiemode_grief::update_gungame_weapon(true);
 		}
 		else if(!maps\_zombiemode_weapons::is_weapon_included( self GetCurrentWeapon() ) && !maps\_zombiemode_weapons::is_weapon_upgraded( self GetCurrentWeapon() ))
 		{
@@ -6304,6 +6309,8 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		self [[ self.actor_killed_override ]]( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime );
 	}
 
+	//iprintln(sWeapon);
+
 	if(level.gamemode == "gg" && (self.animname == "zombie" || self.animname == "quad_zombie" || self.animname == "zombie_dog")  && 
 		IsDefined(attacker) && IsPlayer(attacker) && is_player_valid(attacker) && IsDefined(sWeapon))
 	{
@@ -6323,7 +6330,14 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 		gg_wep_upgraded = level.zombie_weapons[gg_wep].upgrade_name;
 
-		if(sWeapon == gg_wep || sWeapon == WeaponAltWeaponName(gg_wep) || sWeapon == gg_wep_upgraded || sWeapon == WeaponAltWeaponName(gg_wep_upgraded))
+		if(gg_wep == "sniper_explosive_zm")
+		{
+			gg_wep = "sniper_explosive_bolt_zm";
+			gg_wep_upgraded = "sniper_explosive_bolt_upgraded_zm";
+		}
+
+		if((sWeapon == gg_wep || sWeapon == WeaponAltWeaponName(gg_wep) || sWeapon == gg_wep_upgraded || sWeapon == WeaponAltWeaponName(gg_wep_upgraded)) || 
+			(gg_wep == "shrink_ray_zm" && IsDefined(self.shrinked) && self.shrinked))
 		{
 			//if(!(IsSubStr(gg_wep, "knife_ballistic_") && sMeansOfDeath != "MOD_IMPACT"))
 			if(attacker.gg_kill_count < level.gg_kills_to_next_wep)
@@ -6335,9 +6349,9 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 			{
 				self.can_drop_gg_powerup = true;
 
+				//allow weapons that normally cannot drop powerups to drop the gun game powerup
 				if(self.animname == "zombie" && 
-				(gg_wep == "thundergun_zm" || gg_wep == "tesla_gun_zm" || gg_wep == "sniper_explosive_zm" || gg_wep == "shrink_ray_zm" || gg_wep == "microwavegundw_zm"))
-				//TODO: make sure these weapons drop gg powerup
+				(gg_wep == "thundergun_zm" || gg_wep == "tesla_gun_zm" || gg_wep == "sniper_explosive_bolt_zm" || gg_wep == "microwavegundw_zm"))
 				{
 					// DCS 031611: hack to prevent risers from dropping powerups under the ground.
 					if(IsDefined(self.in_the_ground) && self.in_the_ground == true)

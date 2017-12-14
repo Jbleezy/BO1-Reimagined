@@ -2117,7 +2117,7 @@ update_gungame_weapon(decrement, initial)
 	holding_primary = false;
 	for(j=0;j<primaryWeapons.size;j++)
 	{
-		if(self GetCurrentWeapon() == primaryWeapons[j] || self IsSwitchingWeapons())
+		if(self GetCurrentWeapon() == primaryWeapons[j] || self GetCurrentWeapon() == WeaponAltWeaponName(primaryWeapons[j]) || self IsSwitchingWeapons())
 		{
 			holding_primary = true;
 		}

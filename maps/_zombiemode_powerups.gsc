@@ -1660,7 +1660,7 @@ powerup_grab()
 				self stoploopsound();
 
 				//Preventing the line from playing AGAIN if fire sale becomes active before it runs out
-				if( self.powerup_name != "fire_sale" )
+				if( self.powerup_name != "fire_sale" && !IsDefined(self.gg_powerup) )
 				{
 				    level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"][self.powerup_name] );
 				}
