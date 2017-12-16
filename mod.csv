@@ -206,6 +206,14 @@ weapon,sp/tesla_gun_new_upgraded_zm
 //weapon,sp/zombie_stg44_upgraded
 weapon,sp/freezegun_zm
 weapon,sp/freezegun_upgraded_zm
+weapon,sp/knife_ballistic_zm
+weapon,sp/knife_ballistic_upgraded_zm
+weapon,sp/knife_ballistic_bowie_zm
+weapon,sp/knife_ballistic_bowie_upgraded_zm
+//weapon,sp/knife_ballistic_sickle_zm
+//weapon,sp/knife_ballistic_sickle_upgraded_zm
+//weapon,sp/thundergun_zm
+//weapon,sp/thundergun_upgraded_zm
 
 //SOUNDS
 sound,reimagined

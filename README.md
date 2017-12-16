@@ -76,9 +76,9 @@
 * Option for random map rotation on versus gamemodes (automatically loads new map after intermission screen)
 
 ## Weapons
-* All bullet damage (except for shotguns) will now deal full damage through multiple enemies and thin walls
+* All bullet damage (except for shotguns) will now deal full damage through multiple enemies or thin walls
 * All body shots now deal the same amount of damage
-* Neck, head, and helmet shots now all deal the same amount of damage
+* Neck shots, head shots, and helmet shots now all deal the same amount of damage
 * All body shots will now give 50 points for a kill
 * Neck shots now give 100 points for a kill
 * Melee kills can no longer count as headshots
@@ -87,6 +87,7 @@
 #### Combat Knife
 * Wield your current knife by pressing the new melee weapon keybind (found in combat settings)
 * If you have no other weapon, you will hold your knife by default
+* 110% movement speed
 
 #### Molotovs
 * Added in classic maps
@@ -110,7 +111,8 @@
 * Upgraded name: Stoned420
 * Assault rifle/LMG hybrid weapon
 * 90% movement speed (in between LMG and assault rifle movement speed)
-* 60 rounds per clip unupgraded, 90 rounds per clip upgraded
+* Unupgraded: 60 rounds per clip
+* Upgraded: 90 rounds per clip
 
 
 ### Explosive weapons
@@ -130,6 +132,7 @@
 
 ### Ballistic Knife
 * Knives pick up automatically when close to them
+* Instantly starts reloading after firing the knife
 
 ### BAR
 * Replaced BAR + Bipod with BAR
@@ -137,8 +140,16 @@
 * Increased headshot damage multiplier to 2x
 
 ### China Lake
-* Time between shots reduced by 50%
-* Time to start reload after last shot reduced by 50%
+* Decreased time to start rechambering after firing from .4 seconds to .2 seconds
+* Instantly starts reloading after firing the last shot
+* Unupgraded: decreased chamber time from 2 seconds to 1 second
+* Upgraded: decreased chamber time from 1.4 seconds to .6 seconds
+* Unupgraded: impact damage - 1250
+* Unupgraded: maximum explosion damage - 1000
+* Unupgraded: minimum explosion damage - 500
+* Upgraded: impact damage - 2500
+* Upgraded: maximum explosion damage - 2000
+* Upgraded: minimum explosion damage - 1000
 
 ### Crossbow
 * Crossbow bolt beeping rate no longer changes depending on your FPS
@@ -150,88 +161,109 @@
 * Removed (replaced by PSG1)
 
 ### Famas
-* Unupgraded: increased stock ammo from 150 to 300
-* Upgraded: increased stock ammo from 225 to 450
+* Unupgraded: increased reserve ammo from 150 to 300
+* Upgraded: increased reserve ammo from 225 to 450
 
 ### G11
-* Unupgraded: increased stock ammo from 144 to 192
-* Upgraded: increased stock ammo from 288 to 384
+* Unupgraded: increased reserve ammo from 144 to 192
+* Upgraded: increased reserve ammo from 288 to 384
 
 ### Gewehr43
 * Unupgraded: increased damage from 120 to 130
 
 ### HS10
 * Upgraded: fixed right weapon fire sound
-* Upgraded: reduced hipfire spread, reduced recoil
+* Upgraded: reduced hipfire spread
+* Upgraded: reduced recoil
 
 ### Kar98k
-* Unupgraded: increased damage from 170 to 500, increased headshot damage from 350 to 1000
-* Upgraded: increased damage from 1200 to 3000, increased headshot damage from 2000 to 6000
+* Unupgraded: increased damage from 170 to 500
+* Unupgraded: increased headshot damage from 350 to 1000
+* Upgraded: increased damage from 1200 to 3000
+* Upgraded: increased headshot damage from 2000 to 6000
 
 ### Kar98k Scoped
-* Increased damage from 675 to 1000, increased headshot damage from 3000 to 4000
+* Increased damage from 675 to 1000
+* Increased headshot damage from 3000 to 4000
 
 ### L96A1
-* Unupgraded: now has variable zoom scope
+* Unupgraded: added variable zoom scope
 
 ### M16
-* Unupgraded: Increased stock ammo from 120 to 150
+* Unupgraded: increased reserve ammo from 120 to 150
 * Upgraded: decreased grenade launcher explosion radius by 36%
-* Upgraded: increased grenade launcher max damage from 400 to 1500
-* Upgraded: increased grenade launcher min damage from 75 to 500
+* Upgraded: grenade launcher impact damage - 1500
+* Upgraded: grenade launcher maximum damage - 1500
+* Upgraded: grenade launcher instantly starts reloading after firing the last shot
+* Upgraded: added name of weapon attachment on HUD
 * Upgraded: added name of weapon attachment on HUD
 
 ### M1911
-* Upgraded: impact damage - 2500, max explosion damage - 2500, min explosion damage - 1000
+* Upgraded: impact damage - 2500
+* Upgraded: maximum explosion damage - 2500
+* Upgraded: minimum explosion damage - 1000
 
-### M72 Law
-* Time to start automatically reloading after firing the last shot reduced by 50%
-* Unupgraded: impact damage - 2000, max explosion damage - 1500, min explosion damage - 1000
-* Upgraded: impact damage - 3000, max explosion damage - 2500, min explosion damage - 1000
+### M72 LAW
+* Instantly starts reloading after firing the last shot
+* Unupgraded: impact damage - 2000
+* Unupgraded: maximum explosion damage - 1500
+* Unupgraded: minimum explosion damage - 1000
+* Upgraded: impact damage - 3000
+* Upgraded: maximum explosion damage - 2500
+* Upgraded: minimum explosion damage - 1000
 
 ### Olympia
 * Unupgraded: deals 1.5x more damage
 * Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
 
 ### PM63
-* Unupgraded: increased stock ammo from 100 to 120
-* Upgraded: increased stock ammo from 225 to 250
-* Upgraded: reduced hipfire spread, reduced recoil
+* Unupgraded: increased reserve ammo from 100 to 120
+* Upgraded: increased reserve ammo from 225 to 250
+* Upgraded: reduced hipfire spread
+* Upgraded: reduced recoil
 
 ### RPK
-* Fixed animation bug when switching weapons with the clip being empty
+* Fixed animation bug when switching weapons from the RPK with an empty clip
 
 ### Spectre
-* Unupgraded: increased stock ammo from 120 to 240
-* Upgraded: increased stock ammo from 225 to 360
+* Unupgraded: increased reserve ammo from 120 to 240
+* Upgraded: increased reserve ammo from 225 to 360
 
 ### Wonder Weapons
 
 ### Ray Gun
 * Ammo now gets added to the clip at the same time that it does in the reload animation
-* Unupgraded: impact damage - 2500, max explosion damage - 2500, min explosion damage - 1250
-* Upgraded: impact damage - 3000, max explosion damage - 3000, min explosion damage - 1250
+* Unupgraded: impact damage - 2500
+* Unupgraded: maximum explosion damage - 2500
+* Unupgraded: minimum explosion damage - 1250
+* Upgraded: impact damage - 3000
+* Upgraded: maximum explosion damage - 3000
+* Upgraded: minimum explosion damage - 1250
 * Always makes crawlers on first damage on an enemy
 
 #### Wunderwaffe
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
-* Upgraded: can now kill 24 zombies
+* Unupgraded: decreased self damage radius by 72%
+* Unupgraded: increased zombie damage radius by 45%
+* Upgraded: decreased self damage radius by 134%
+* Upgraded: increased zombie damage radius by 7%
+* Unupgraded and upgraded versions now have the same zombie damage radius and self damage radius
+* Upgraded: increased maximum amount of kills from 10 to 24
 * Upgraded: decreased time between kills by 50%
 * Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
 * Upgraded: gold camo on Der Riese, regular camo on Call of the Dead
 * Upgraded: gold camo is now shinier
 * Fixed sprinting, diving, and reload cancelling animations on classic maps
-* Decreased self damage radius
-* Increased zombie damage radius
-* Both unupgraded and upgraded now have the same zombie damage radius and self damage radius
 
 #### Thundergun
 * Gives 50 points for each kill
 * No longer does any damage to any enemies that are knocked down and not killed
 
 #### Winter's Howl
-* Minimum damage: 500 unupgraded, 1000 upgraded
-* Damage to thief: 1000 unupgraded, 2000 upgraded
+* Unupgraded: minimum damage - 500
+* Upgraded: minimum damage - 1000
+* Unupgraded: damage to thief - 1000
+* Upgraded: damage to thief - 2000
 * Each shot slows down the enemy's move speed
 * Kills enemies when they are at their slowest move speed (3 shots to kill sprinting enemies)
 * Enemies will only be able to do slow hits after taking damage from the Winter's Howl
@@ -242,7 +274,7 @@
 * Decreased first raise time by 50%
 
 #### Scavenger
-* Damages an enemy on impact
+* Gives points when dealing impact damage
 * Explosion deals infinite damage
 * ADS disabled while reloading
 
@@ -334,7 +366,7 @@
 * Starburst weapon effect no longer has any explosive weapons
 
 ## Wallbuys
-* Can now purchase ammo if stock ammo is full but clip ammo is not full
+* Can now purchase ammo if reserve ammo is full but clip ammo is not full
 * Upgraded ammo cost reduced from 4500 points to 2500 points
 * Multiple players can now buy the Bowie Knife or Sickle at the same time
 * Claymores, Bouncing Betties, and Spikemores now all require the player to be looking at the wallbuy to be able to buy them
@@ -840,7 +872,7 @@
 * Add fast ADS to Speed Cola (when it becomes possible through game_mod)
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
-* Change type 100 stock ammo to 180 unupgraded, 240 upgraded (from weapon file)
+* Change type 100 reserve ammo to 180 unupgraded, 240 upgraded (from weapon file)
 * Crossbow: decrease explosion radius, increase damage
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Disable easter eggs on all versus gamemodes
@@ -872,8 +904,11 @@
 * Fix PaP hintstring showing take weapon for other players weapons for a short period
 * Make frag grenades throw faster
 * Fix zombies bleeding out when in teleporter room in Kino (add a check for this in failsafe)
-* Increase China Lake damage
 * Decrease PSG1 damage
+* Make it so weapons start reloading immediately after firing last shot
+* Get Ballistic Sickle weapon files completely working
+* Add correct Combat Sickle melee sounds
+* Get Thundergun weapon files completely working
 
 ## GRIEF TODO:
 * Add powerup model and shader for slow down powerdown
@@ -883,8 +918,6 @@
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret
 * Gun Game: add upgrade weapon powerup
-* Gun Game: make it so all wonder weapons can drop gun increment powerup
-* Gun Game: make sure top HUD is working correctly in coop
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
