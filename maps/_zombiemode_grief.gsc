@@ -78,6 +78,7 @@ grief_precache()
 	PrecacheString( &"REIMAGINED_FINAL_ROUND" );
 
 	level._effect["grief_shock"] = LoadFX("grief/fx_grief_shock");
+	level._effect["meat_fx"] = Loadfx( "grief/fx_meat_stink" );
 
 	PrecacheShader("waypoint_cia");
 	PrecacheShader("waypoint_cdc");
@@ -97,19 +98,34 @@ include_grief_powerups()
 	include_powerup("grief_slow_down");
 	include_powerup("meat");
 
+	vending_weapon_upgrade_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
 	if(level.gamemode == "gg")
 	{
 		include_powerup("random_weapon");
 		include_powerup("all_revive");
+
+		if(vending_weapon_upgrade_trigger.size >= 1)
+		{
+			include_powerup("upgrade_weapon");
+		}
 	}
+
+	PrecacheItem("meat_zm");
 
 	wait_network_frame();
 	level.zombie_powerup_array = [];
-	level.zombie_powerup_array = array("grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_slow_down"); //, "meat"
+	level.zombie_powerup_array = array("grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_slow_down", "meat"); 
+
 	if(!IsSubStr(level.script, "zombie_cod5_") && level.gamemode != "gg")
 	{
 		level.zombie_powerup_array = add_to_array(level.zombie_powerup_array, "fire_sale");
 	}
+
+	if(level.gamemode == "gg" && vending_weapon_upgrade_trigger.size >= 1)
+	{
+		level.zombie_powerup_array = add_to_array(level.zombie_powerup_array, "upgrade_weapon");
+	}
+
 	maps\_zombiemode_powerups::randomize_powerups();
 }
 
@@ -120,6 +136,8 @@ post_all_players_connected()
 	setup_grief_teams();
 
 	setup_grief_logo();
+
+	level thread meat_stink_think();
 
 	players = get_players();
 	for(i=0;i<players.size;i++)
@@ -329,6 +347,8 @@ giveback_player_weapons()
 
 		case "zombie_bowie_flourish":
 		case "zombie_sickle_flourish":
+
+		case "meat_zm":
 			continue;
 		}
 
@@ -509,7 +529,7 @@ slowdown(weapon, mod, eAttacker, loc)
 	wait( .75 );
 
 	self SetMoveSpeedScale( 1 );
-	if(!self.is_drinking)
+	if(!self.is_drinking || IsDefined(self.has_meat))
 		self AllowSprint(true);
 	self SetBlur( 0, .2 );
 
@@ -766,6 +786,8 @@ round_restart(same_round)
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
+		self notify("player_meat_end");
+
 		if(is_player_valid( players[i] ))
 		{
 			vending_triggers = GetEntArray( "zombie_vending", "targetname" );
@@ -2101,17 +2123,34 @@ setup_gungame_weapons()
 
 	for(i=0;i<players.size;i++)
 	{
-		players[i] update_gungame_weapon(undefined, true);
+		players[i] update_gungame_weapon();
 	}
 }
 
-update_gungame_weapon(decrement, initial)
+update_gungame_weapon(decrement, upgrade)
 {
+	if(IsDefined(self.has_meat))
+	{
+		self update_gungame_hud();
+		self.gg_wep_changed = true;
+		return;
+	}
+
 	if(!IsDefined(decrement))
 		decrement = false;
 
-	if(!IsDefined(initial))
-		initial = false;
+	if(!IsDefined(upgrade))
+		upgrade = false;
+
+	//if player has weapon in pap, remove it
+	pap_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
+	for(i=0;i<pap_trigger.size;i++)
+	{
+		if(pap_trigger[i].user == self)
+		{
+			pap_trigger[i] notify("pap_force_timeout");
+		}
+	}
 
 	primaryWeapons = self GetWeaponsListPrimaries();
 	holding_primary = false;
@@ -2122,7 +2161,7 @@ update_gungame_weapon(decrement, initial)
 			holding_primary = true;
 		}
 
-		if ( issubstr( primaryWeapons[j], "knife_ballistic_" ) )
+		if ( IsSubStr( primaryWeapons[j], "knife_ballistic_" ) )
 		{
 			self notify( "zmb_lost_knife" );
 		}
@@ -2139,14 +2178,23 @@ update_gungame_weapon(decrement, initial)
 		weapon_string = "knife_ballistic_sickle_zm";
 	}
 
-	self GiveWeapon(weapon_string);
+	if(self.zombie_vars["zombie_powerup_upgrade_weapon_on"] || IsDefined(self.player_bought_pack))
+	{
+		weapon_string = level.zombie_weapons[weapon_string].upgrade_name;
+		self GiveWeapon( weapon_string, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( weapon_string ) );
+	}
+	else
+	{
+		self GiveWeapon(weapon_string);
+	}
 
-	if(holding_primary || initial || decrement)
+	//if player was holding primary, initially getting first wep, or decrementing, then switch to wep
+	if(holding_primary || (self.gg_wep_num == 0 && !decrement) || decrement)
 	{
 		self SwitchToWeapon(weapon_string);
 	}
 
-	if(!decrement && !initial)
+	if(self.gg_wep_num != 0 && !decrement && !upgrade)
 	{
 		nade = self get_player_lethal_grenade();
 		if(IsDefined(nade))
@@ -2165,6 +2213,11 @@ update_gungame_weapon(decrement, initial)
 		{
 			self SetWeaponAmmoClip(mine, 2);
 		}
+	}
+
+	if(!upgrade)
+	{
+		self.player_bought_pack = undefined;
 	}
 
 	self update_gungame_hud();
@@ -2271,5 +2324,54 @@ gungame_weapons_test()
 		players[0].gg_wep_num++;
 
 		players[0] update_gungame_weapon();
+	}
+}
+
+meat_stink_think()
+{
+	level endon("end_game");
+
+	while(1)
+	{
+		players = get_players();
+		meat_stink_active = false;
+		for(i=0;i<players.size;i++)
+		{
+			if(IsDefined(players[i].meat_stink_active))
+			{
+				meat_stink_active = true;
+				break;
+			}
+		}
+
+		if(meat_stink_active)
+		{
+			for(i=0;i<players.size;i++)
+			{
+				if(is_player_valid(players[i]))
+				{
+					if(!IsDefined(players[i].meat_stink_active))
+					{
+						players[i].ignoreme = true;
+					}
+					else
+					{
+						players[i].ignoreme = false;
+					}
+				}
+			}
+			wait .5;
+		}
+		else
+		{
+			for(i=0;i<players.size;i++)
+			{
+				if(is_player_valid(players[i]))
+				{
+					players[i].ignoreme = false;
+				}
+			}
+			level waittill("meat_powerup_active");
+		}
 	}
 }

@@ -1951,6 +1951,22 @@ onPlayerDowned()
 			{
 				self.gg_kill_count = 0;
 			}
+
+			self.player_bought_pack = undefined;
+
+			pap_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
+			for(i=0;i<pap_trigger.size;i++)
+			{
+				if(pap_trigger[i].user == self)
+				{
+					pap_trigger[i] notify("pap_force_timeout");
+				}
+			}
+		}
+
+		if(level.gamemode != "survival")
+		{
+			self notify("player_meat_end");
 		}
 	}
 }
@@ -4913,6 +4929,23 @@ round_spawn_failsafe()
 				time = GetTime();
 				continue;
 			}
+		}
+
+		//if players are teleporting, wait also
+		teleporting = false;
+		players = get_players();
+		for(i=0; i < players.size; i++)
+		{
+			if (IsDefined(players[i].inteleportation) && players[i].inteleportation)
+			{
+				teleporting = true;
+				break;
+			}
+		}
+		if(teleporting)
+		{
+			time = GetTime();
+			continue;
 		}
 
 		//fell out of world

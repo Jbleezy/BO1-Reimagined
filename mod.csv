@@ -214,6 +214,7 @@ weapon,sp/knife_ballistic_bowie_upgraded_zm
 //weapon,sp/knife_ballistic_sickle_upgraded_zm
 //weapon,sp/thundergun_zm
 //weapon,sp/thundergun_upgraded_zm
+weapon,sp\meat_zm
 
 //SOUNDS
 sound,reimagined
@@ -223,6 +224,7 @@ stringtable,weaponoptions.csv
 
 //FX
 fx,grief/fx_grief_shock
+fx,grief/fx_meat_stink
 fx,misc/fx_zombie_powerup_on_red
 fx,misc/fx_zombie_powerup_red_grab
 fx,misc/fx_zombie_powerup_red_wave

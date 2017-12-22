@@ -153,7 +153,9 @@ init_powerups()
 	add_zombie_powerup( "grief_half_damage", "zombie_skull", &"REIMAGINED_HALF_DAMAGE", false, true, false );
 	add_zombie_powerup( "grief_slow_down", "zombie_bomb", &"REIMAGINED_SLOW_DOWN", false, true, false );
 
-	add_zombie_powerup( "meat", "zombie_carpenter", &"REIMAGINED_CLIP_UNLOAD", false, false, false );
+	add_zombie_powerup( "meat", GetWeaponModel("meat_zm"), &"REIMAGINED_CLIP_UNLOAD", false, false, false );
+
+	add_zombie_powerup( "upgrade_weapon", "zombie_pickup_bonfire", &"REIMAGINED_CLIP_UNLOAD", false, false, false );
 
 	// Randomize the order
 	randomize_powerups();
@@ -214,6 +216,9 @@ init_player_zombie_vars()
 		players[p].zombie_vars[ "zombie_powerup_slow_down_on" ] = false; // slow down
 		players[p].zombie_vars[ "zombie_powerup_slow_down_time" ] = 0;
 
+		players[p].zombie_vars[ "zombie_powerup_upgrade_weapon_on" ] = false; // upgrade weapon
+		players[p].zombie_vars[ "zombie_powerup_upgrade_weapon_time" ] = 0;
+
 		players[p].zombie_vars["zombie_point_scalar"] = 1; //point scaling for double points and half points
 	}
 }
@@ -265,6 +270,10 @@ powerup_hud_overlay()
 			players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // half points
 			players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // half damage
 			players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // slow down
+			if(level.gamemode == "gg")
+			{
+				players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // upgrade weapon
+			}
 		}
 
 		players[p].powerup_hud = [];
@@ -299,6 +308,11 @@ powerup_hud_overlay()
 			players[p] thread power_up_hud( "specialty_doublepoints_zombies", players[p].powerup_hud[6], "zombie_powerup_half_points_time", "zombie_powerup_half_points_on", true );
 			players[p] thread power_up_hud( "specialty_instakill_zombies", players[p].powerup_hud[7], "zombie_powerup_half_damage_time", "zombie_powerup_half_damage_on", true );
 			players[p] thread power_up_hud( "zom_icon_bonfire", players[p].powerup_hud[8], "zombie_powerup_slow_down_time", "zombie_powerup_slow_down_on", true );
+
+			if(level.gamemode == "gg")
+			{
+				players[p] thread power_up_hud( "zom_icon_bonfire", players[p].powerup_hud[9], "zombie_powerup_upgrade_weapon_time", "zombie_powerup_upgrade_weapon_on" );
+			}
 		}
 	}
 }
@@ -803,7 +817,14 @@ powerup_drop(drop_point, player, zombie)
 	if(level.last_powerup && !drop_gg_wep)
 	{
 		//iprintln("last powerup");
-		playfx( level._effect["powerup_grabbed"], powerup.origin );
+		if(self.caution)
+		{
+			playfx( level._effect["powerup_grabbed_red"], powerup.origin );
+		}
+		else
+		{
+			playfx( level._effect["powerup_grabbed"], powerup.origin );
+		}
 		level.last_powerup = false;
 	}
 
@@ -1224,6 +1245,7 @@ special_drop_setup(first_time, permament)
 	case "grief_half_damage":
 	case "grief_slow_down":
 	case "meat":
+	case "upgrade_weapon":
 		break;
 
 	// Limit max ammo drops because it's too powerful
@@ -1433,7 +1455,8 @@ powerup_grab()
 
 			// Don't let them grab the minigun, tesla, or random weapon if they're downed or reviving
 			//	due to weapon switching issues.
-			if ( (self.powerup_name == "minigun" || self.powerup_name == "tesla" || self.powerup_name == "random_weapon") &&
+			if ( (self.powerup_name == "minigun" || self.powerup_name == "tesla" || self.powerup_name == "random_weapon" || self.powerup_name == "upgrade_weapon" || 
+				self.powerup_name == "meat") &&
 				( players[i] maps\_laststand::player_is_in_laststand() || players[i] in_revive_trigger() ) )
 			{
 				continue;
@@ -1448,6 +1471,9 @@ powerup_grab()
 				continue;
 
 			if(self.powerup_name == "random_weapon" && !IsDefined(self.gg_powerup) && !is_true(self.weapon_powerup_grabbed))
+				continue;
+
+			if((self.powerup_name == "meat" /*|| IsDefined(self.gg_powerup) || self.powerup_name == "upgrade_weapon"*/) && IsDefined(players[i].has_meat))
 				continue;
 
 			if ( ( self.powerup_name != "random_weapon" || (self.powerup_name == "random_weapon" && IsDefined(self.gg_powerup)) ) && 
@@ -1608,6 +1634,11 @@ powerup_grab()
 					case "meat":
 						players[i] thread meat_powerup( self );
 						break;
+
+					case "upgrade_weapon":
+						players[i] thread upgrade_weapon_powerup( self );
+						break;
+
 
 					default:
 						// RAVEN BEGIN bhackbarth: callback for level specific powerups
@@ -3896,7 +3927,211 @@ grief_slow_down_powerup( drop_item )
 
 meat_powerup( drop_item )
 {
-	//TODO
+	self endon("player_downed");
+
+	prev_wep = self GetCurrentWeapon();
+
+	self increment_is_drinking();
+	self GiveWeapon("meat_zm");
+	self GiveMaxAmmo("meat_zm");
+	self SwitchToWeapon("meat_zm");
+	self DisableWeaponCycling();
+	self.has_meat = true;
+
+	self thread meat_powerup_check_for_player_downed();
+
+	while(1)
+	{
+		self waittill("grenade_fire", grenade, weapon);
+
+		if(weapon == "meat_zm")
+		{
+			grenade thread create_meat_stink(self);
+
+			if(is_true(self.has_meat))
+			{
+				wait(WeaponFireTime("meat_zm"));
+
+				self decrement_is_drinking();
+				self TakeWeapon("meat_zm");
+				if(self HasWeapon(prev_wep))
+				{
+					self SwitchToWeapon(prev_wep);
+				}
+				else
+				{
+					self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
+				}
+				self EnableWeaponCycling();
+				self.has_meat = undefined;
+				self notify("threw meat");
+
+				if(level.gamemode == "gg" && IsDefined(self.gg_wep_changed))
+				{
+					self.gg_wep_changed = undefined;
+					self maps\_zombiemode_grief::update_gungame_weapon(true);
+				}
+
+				return;
+			}
+		}
+	}
+}
+
+meat_powerup_check_for_player_downed()
+{
+	self endon("threw meat");
+
+	self waittill("player_meat_end");
+
+	self TakeWeapon("meat_zm");
+	self.has_meat = undefined;
+	self.gg_wep_changed = undefined;
+}
+
+create_meat_stink(player)
+{
+	self waittill( "stationary", endpos, normal, angles, attacker, prey, bone );
+
+	players = get_players();
+	player_stuck = undefined;
+	for(i=0;i<players.size;i++)
+	{
+		if(players[i] IsTouching(self) && players[i].vsteam != player.vsteam && is_player_valid(players[i])) //Distance(origin, players[i].origin) <= 64
+		{
+			player_stuck = players[i];
+			break;
+		}
+	}
+
+	origin = self.origin;
+	angles = self.angles;
+	self Delete();
+
+	//trace = BulletTrace(origin, origin + (20, 20, 100), false, undefined);
+
+	origin = groundpos(origin);
+
+	model = Spawn("script_model", origin);
+	model.angles = angles;
+
+	playable_area = getentarray("player_volume", "script_noteworthy");
+	valid_drop = false;
+	for (i = 0; i < playable_area.size; i++)
+	{
+		if(model istouching(playable_area[i]))
+		{
+			valid_drop = true;
+			break;
+		}
+	}
+	if(!valid_drop)
+	{
+		model Delete();
+		return;
+	}
+
+	model.fx = [];
+	for(i = 1; i <= 5; i++)
+	{
+		if(i == 1)
+			ent = Spawn("script_model", model.origin);
+		else if(i == 2)
+			ent = Spawn("script_model", model.origin + (20, 0, 0));
+		else if(i == 3)
+			ent = Spawn("script_model", model.origin - (20, 0, 0));
+		else if(i == 4)
+			ent = Spawn("script_model", model.origin + (0, 20, 0));
+		else
+			ent = Spawn("script_model", model.origin - (0, 20, 0));
+		ent SetModel("tag_origin");
+		ent LinkTo(model);
+
+		PlayFXOnTag(level._effect["meat_fx"], ent, "tag_origin");
+
+		model.fx[model.fx.size] = ent;
+	}
+
+	/*if(isdefined(trace["entity"]))
+	{
+		model LinkTo(trace["entity"]);
+	}*/
+
+	time = 15;
+
+	/*max_attract_dist = level.monkey_attract_dist;
+	num_attractors = level.num_monkey_attractors;
+	attract_dist_diff = level.monkey_attract_dist_diff;
+
+	if(!isdefined(attract_dist_diff))
+		attract_dist_diff = 45;
+	if(!isdefined(num_attractors))
+		num_attractors = 96;
+	if(!isdefined(max_attract_dist))
+		max_attract_dist = 1536;*/
+
+	if(IsDefined(player_stuck))
+	{
+		model EnableLinkTo();
+		model LinkTo(player_stuck);
+
+		player_stuck.meat_stink_active = true;
+		level notify("meat_powerup_active");
+		/*player_stuck.ignoreme = false;
+		for(i=0;i<players.size;i++)
+		{
+			if(!IsDefined(players[i].meat_stink_active))
+			{
+				players[i] ignore_player_for_time(time, player_stuck);
+			}
+		}*/
+
+		player_stuck waittill_notify_or_timeout("player_meat_end", time);
+	}
+	else
+	{
+		attract_dist_diff = 45;
+		num_attractors = 96;
+		max_attract_dist = 1536;
+
+		model SetModel("t6_wpn_zmb_meat_world");
+		model create_zombie_point_of_interest(max_attract_dist, num_attractors, 10000);
+		model.attract_to_origin = true;
+		model thread create_zombie_point_of_interest_attractor_positions(4, attract_dist_diff);
+		model thread maps\_zombiemode_weap_cymbal_monkey::wait_for_attractor_positions_complete();
+
+		wait time;
+	}
+
+	if(IsDefined(player_stuck))
+	{
+		player_stuck.meat_stink_active = undefined;
+	}
+
+	if(IsDefined(model.fx))
+	{
+		for(i = 0; i < model.fx.size; i++)
+		{
+			model.fx[i] Delete();
+		}
+	}
+
+	model Delete();
+}
+
+ignore_player_for_time(time, player_stuck)
+{
+	self notify("meat ignore player");
+	self endon("meat ignore player");
+
+	self.ignoreme = true;
+
+	player_stuck waittill_notify_or_timeout("player_downed", time);
+
+	if(is_player_valid(self))
+	{
+		self.ignoreme = false;
+	}
 }
 
 timeout_on_down()
@@ -3912,4 +4147,50 @@ timeout_on_down()
 	self notify( "powerup_player_downed" );
 
 	self delete();
+}
+
+upgrade_weapon_powerup( drop_item )
+{
+	self notify( "powerup upgrade weapon" );
+	self endon( "powerup upgrade weapon" );
+	self endon ("disconnect");
+
+	current_wep = self GetWeaponsListPrimaries();
+
+	already_active = false;
+	if(IsDefined(self.player_bought_pack))
+	{
+		already_active = true;
+	}
+	else if(maps\_zombiemode_weapons::is_weapon_upgraded(current_wep[0]) && !self.zombie_vars["zombie_powerup_upgrade_weapon_on"])
+	{
+		self.player_bought_pack = true;
+		already_active = true;
+	}
+	else if(self.zombie_vars["zombie_powerup_upgrade_weapon_on"])
+	{
+		already_active = true;
+	}
+
+	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_upgrade_weapon_on", "zombie_powerup_upgrade_weapon_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
+
+	if(!already_active)
+	{
+		self maps\_zombiemode_grief::update_gungame_weapon(false, true);
+	}
+
+	self waittill_notify_or_timeout("player_downed", self.zombie_vars["zombie_powerup_upgrade_weapon_time"]);
+
+	if(self.zombie_vars["zombie_powerup_upgrade_weapon_on"])
+	{
+		self.zombie_vars["zombie_powerup_upgrade_weapon_on"] = false;
+		self.zombie_vars["zombie_powerup_upgrade_weapon_time"] = 0;
+	}
+
+	if(self maps\_laststand::player_is_in_laststand() || IsDefined(self.player_bought_pack))
+	{
+		return;
+	}
+
+	self maps\_zombiemode_grief::update_gungame_weapon(false, true);
 }

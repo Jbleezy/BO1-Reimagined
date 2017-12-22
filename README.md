@@ -807,6 +807,7 @@
 * Win the game the game by progressing through all the weapons
 * Weapon order: pistols, shotguns, smg's, assault rifles, lmg's, snipers, explosives, wonder weapons, ballistic knife
 * Zombies will drop a gun increment powerup after getting 10 kills with your current weapon
+* New powerup: upgrade weapon powerup (for 30 seconds get the upgraded version of any weapon you are currently on)
 * Only the player who killed the zombie can grab and see the gun increment powerup
 * Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time though)
 * Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time though)
@@ -903,12 +904,11 @@
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
 * Fix PaP hintstring showing take weapon for other players weapons for a short period
 * Make frag grenades throw faster
-* Fix zombies bleeding out when in teleporter room in Kino (add a check for this in failsafe)
 * Decrease PSG1 damage
-* Make it so weapons start reloading immediately after firing last shot
 * Get Ballistic Sickle weapon files completely working
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
+* Make it so zombies getting attracted towards monkey bombs or anything similar don't interrupt their current animation
 
 ## GRIEF TODO:
 * Add powerup model and shader for slow down powerdown
@@ -917,7 +917,9 @@
 * Moon: turn on power and spawn immediately at start of match
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret
-* Gun Game: add upgrade weapon powerup
+* Delete all spawned powerups on round restart
+* Search & Rezurrect: change round won HUD
+* Gun Game: fix multiple gun increment powerups dropping when multiple zombies are killed with the same bullet
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -925,6 +927,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Make sure spectators can't pick up powerups
 * Test if players are able to grief teammates
+* Make sure meat powerup works
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

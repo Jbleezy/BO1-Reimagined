@@ -451,10 +451,10 @@ vending_weapon_upgrade()
 	self SetHintString( &"ZOMBIE_NEED_POWER" );
 	self SetCursorHint( "HINT_NOICON" );
 
-	if(level.gamemode == "gg")
+	/*if(level.gamemode == "gg")
 	{
 		return;
-	}
+	}*/
 
 	level waittill("Pack_A_Punch_on");
 
@@ -653,7 +653,8 @@ wait_for_timeout( weapon, packa_timer )
 {
 	self endon( "pap_taken" );
 
-	wait( level.packapunch_timeout );
+	//wait( level.packapunch_timeout );
+	self waittill_notify_or_timeout("pap_force_timeout", level.packapunch_timeout);
 
 	self notify( "pap_timeout" );
 	packa_timer stoploopsound(.05);
@@ -776,10 +777,10 @@ upgrade_knuckle_crack_end( gun )
 //	NOTE:  In the .map, you'll have to make sure that each Pack-A-Punch machine has a unique targetname
 turn_PackAPunch_on()
 {
-	if(level.gamemode == "gg")
+	/*if(level.gamemode == "gg")
 	{
 		return;
-	}
+	}*/
 
 	level waittill("Pack_A_Punch_on");
 
