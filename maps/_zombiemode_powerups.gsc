@@ -2238,7 +2238,7 @@ full_ammo_powerup( drop_item )
 			// Fill the clip
 			//players[i] SetWeaponAmmoClip( primary_weapons[x], WeaponClipSize( primary_weapons[x] ) );
 
-			if(GetDvar("gm_version") == "1.1.0")
+			if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1")
 			{
 				if(is_lethal_grenade(primary_weapons[x]))
 				{
@@ -3993,19 +3993,20 @@ create_meat_stink(player)
 {
 	self waittill( "stationary", endpos, normal, angles, attacker, prey, bone );
 
+	origin = self.origin;
+	angles = self.angles;
+
 	players = get_players();
 	player_stuck = undefined;
 	for(i=0;i<players.size;i++)
 	{
-		if(players[i] IsTouching(self) && players[i].vsteam != player.vsteam && is_player_valid(players[i])) //Distance(origin, players[i].origin) <= 64
+		if(DistanceSquared(origin, players[i].origin) < 64*64 && players[i].vsteam != player.vsteam && is_player_valid(players[i]))
 		{
 			player_stuck = players[i];
 			break;
 		}
 	}
 
-	origin = self.origin;
-	angles = self.angles;
 	self Delete();
 
 	//trace = BulletTrace(origin, origin + (20, 20, 100), false, undefined);
@@ -4059,34 +4060,12 @@ create_meat_stink(player)
 
 	time = 15;
 
-	/*max_attract_dist = level.monkey_attract_dist;
-	num_attractors = level.num_monkey_attractors;
-	attract_dist_diff = level.monkey_attract_dist_diff;
-
-	if(!isdefined(attract_dist_diff))
-		attract_dist_diff = 45;
-	if(!isdefined(num_attractors))
-		num_attractors = 96;
-	if(!isdefined(max_attract_dist))
-		max_attract_dist = 1536;*/
-
 	if(IsDefined(player_stuck))
 	{
 		model EnableLinkTo();
 		model LinkTo(player_stuck);
 
-		player_stuck.meat_stink_active = true;
-		level notify("meat_powerup_active");
-		/*player_stuck.ignoreme = false;
-		for(i=0;i<players.size;i++)
-		{
-			if(!IsDefined(players[i].meat_stink_active))
-			{
-				players[i] ignore_player_for_time(time, player_stuck);
-			}
-		}*/
-
-		player_stuck waittill_notify_or_timeout("player_meat_end", time);
+		player_stuck activate_meat_on_player(time);
 	}
 	else
 	{
@@ -4103,11 +4082,6 @@ create_meat_stink(player)
 		wait time;
 	}
 
-	if(IsDefined(player_stuck))
-	{
-		player_stuck.meat_stink_active = undefined;
-	}
-
 	if(IsDefined(model.fx))
 	{
 		for(i = 0; i < model.fx.size; i++)
@@ -4117,6 +4091,20 @@ create_meat_stink(player)
 	}
 
 	model Delete();
+}
+
+activate_meat_on_player(time)
+{
+	self notify("meat active");
+	self endon("meat active");
+	self endon("disconnect");
+
+	self.meat_stink_active = true;
+	level notify("meat_powerup_active");
+
+	self waittill_notify_or_timeout("player_meat_end", time);
+
+	self.meat_stink_active = undefined;
 }
 
 ignore_player_for_time(time, player_stuck)

@@ -281,8 +281,10 @@ default_vending_precaching()
 	level._effect["revive_light_flicker"] = loadfx("maps/zombie/fx_zmb_cola_revive_flicker");
 }
 
-third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk_machine )
+third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk_machine, perk_trigger )
 {
+	perk_trigger endon("pap_force_timeout");
+
 	forward = anglesToForward( angles );
 	interact_pos = origin + (forward*-25);
 	PlayFx( level._effect["packapunch_fx"], origin+(0,1,-34), forward );
@@ -547,31 +549,49 @@ vending_weapon_upgrade()
 		// Remember what weapon we have.  This is needed to check unique weapon counts.
 		self.current_weapon = current_weapon;
 
-		weaponmodel = player third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk_machine );
+		self thread wait_for_third_person_weapon_complete();
+
+		weaponmodel = player third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk_machine, self );
+
+		//weaponmodel will be undefined if the endon in third_person_weapon_upgrade() is notified from the pap trigger
+		if(!IsDefined(weaponmodel))
+		{
+			self waittill("third_person_weapon_complete");
+		}
 
 		self enable_trigger();
-		self SetHintString( &"ZOMBIE_GET_UPGRADED" );
-		//self setvisibletoplayer( player );
 
-		self thread wait_for_player_to_take( player, current_weapon, packa_timer );
-		self thread wait_for_timeout( current_weapon, packa_timer );
-
-		self waittill_either( "pap_timeout", "pap_taken" );
-
-		self.current_weapon = "";
-		if ( isdefined( weaponmodel.worldgundw ) )
+		if(IsDefined(weaponmodel))
 		{
-			weaponmodel.worldgundw delete();
+			self SetHintString( &"ZOMBIE_GET_UPGRADED" );
+			//self setvisibletoplayer( player );
+
+			self thread wait_for_player_to_take( player, current_weapon, packa_timer );
+			self thread wait_for_timeout( current_weapon, packa_timer );
+
+			self waittill_either( "pap_timeout", "pap_taken" );
+
+			self.current_weapon = "";
+			if ( isdefined( weaponmodel.worldgundw ) )
+			{
+				weaponmodel.worldgundw delete();
+			}
+			weaponmodel delete();
 		}
-		weaponmodel delete();
+
 		self SetHintString( &"ZOMBIE_PERK_PACKAPUNCH", self.cost );
 		self setvisibletoall();
 		flag_clear("pack_machine_in_use");
 		self.user = undefined;
-
 	}
 }
 
+wait_for_third_person_weapon_complete()
+{
+	wait 4.35;
+
+	self notify("third_person_weapon_complete");
+}
 
 vending_weapon_upgrade_cost()
 {

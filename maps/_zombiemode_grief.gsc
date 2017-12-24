@@ -268,6 +268,10 @@ store_player_weapons()
 	{
 		self.lastActiveStoredWeap = "microwavegundw_zm";
 	}
+	else if(self.lastActiveStoredWeap == "microwavegun_upgraded_zm")
+	{
+		self.lastActiveStoredWeap = "microwavegundw_upgraded_zm";
+	}
 	self SetLastStandPrevWeap( self.lastActiveStoredWeap );
 
 	self.melee = self get_player_melee_weapon();
@@ -281,10 +285,8 @@ store_player_weapons()
 		weapon = self.weaponInventory[i];
 		
 		switch( weapon )
-		{
-			
+		{	
 		case "syrette_sp": 
-		
 		case "zombie_perk_bottle_doubletap": 
 		case "zombie_perk_bottle_revive":
 		case "zombie_perk_bottle_jugg":
@@ -293,11 +295,10 @@ store_player_weapons()
 		case "zombie_perk_bottle_nuke":
 		case "zombie_perk_bottle_deadshot":
 		case "zombie_perk_bottle_additionalprimaryweapon":
-
 		case "zombie_knuckle_crack":
-
 		case "zombie_bowie_flourish":
 		case "zombie_sickle_flourish":
+		case "meat_zm":
 			self TakeWeapon( weapon );
 			self.lastActiveStoredWeap = "none";
 			continue;
@@ -2129,27 +2130,37 @@ setup_gungame_weapons()
 
 update_gungame_weapon(decrement, upgrade)
 {
-	if(IsDefined(self.has_meat))
-	{
-		self update_gungame_hud();
-		self.gg_wep_changed = true;
-		return;
-	}
-
 	if(!IsDefined(decrement))
 		decrement = false;
 
 	if(!IsDefined(upgrade))
 		upgrade = false;
 
+	//decrement updates hud earlier, upgrade doesnt change hud
+	if(!decrement && !upgrade)
+	{
+		self update_gungame_hud();
+	}
+
+	if(!upgrade)
+	{
+		self.player_bought_pack = undefined;
+	}
+
 	//if player has weapon in pap, remove it
 	pap_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
 	for(i=0;i<pap_trigger.size;i++)
 	{
-		if(pap_trigger[i].user == self)
+		if(IsDefined(pap_trigger[i].user) && pap_trigger[i].user == self)
 		{
 			pap_trigger[i] notify("pap_force_timeout");
 		}
+	}
+
+	if(IsDefined(self.has_meat))
+	{
+		self.gg_wep_changed = true;
+		return;
 	}
 
 	primaryWeapons = self GetWeaponsListPrimaries();
@@ -2214,13 +2225,6 @@ update_gungame_weapon(decrement, upgrade)
 			self SetWeaponAmmoClip(mine, 2);
 		}
 	}
-
-	if(!upgrade)
-	{
-		self.player_bought_pack = undefined;
-	}
-
-	self update_gungame_hud();
 }
 
 update_gungame_hud()

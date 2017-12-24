@@ -927,7 +927,8 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Make sure spectators can't pick up powerups
 * Test if players are able to grief teammates
-* Make sure meat powerup works
+* Test if auto map switching works in coop on game_mod 1.2
+* Search & Rezurrect: Hold meat in hand during round restart
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
