@@ -294,6 +294,7 @@ third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk
 	worldgun setModel( GetWeaponModel( current_weapon ) );
 	worldgun useweaponhidetags( current_weapon );
 	worldgun rotateto( angles+(0,90,0), 0.35, 0, 0 );
+	perk_trigger.worldgun = worldgun;
 
 	offsetdw = ( 3, 3, 3 );
 	worldgundw = undefined;
@@ -305,6 +306,7 @@ third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk
 		worldgundw setModel( maps\_zombiemode_weapons::get_left_hand_weapon_model_name( current_weapon ) );
 		worldgundw useweaponhidetags( current_weapon );
 		worldgundw rotateto( angles+(0,90,0), 0.35, 0, 0 );
+		perk_trigger.worldgundw = worldgundw;
 	}
 
 	wait( 0.5 );
@@ -337,6 +339,7 @@ third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk
 	worldgun setModel( GetWeaponModel( level.zombie_weapons[current_weapon].upgrade_name ) );
 	worldgun useweaponhidetags( level.zombie_weapons[current_weapon].upgrade_name );
 	worldgun moveto( interact_pos, 0.5, 0, 0 );
+	perk_trigger.worldgun = worldgun;
 
 	worldgundw = undefined;
 	if ( maps\_zombiemode_weapons::weapon_is_dual_wield( level.zombie_weapons[current_weapon].upgrade_name ) )
@@ -347,6 +350,7 @@ third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk
 		worldgundw setModel( maps\_zombiemode_weapons::get_left_hand_weapon_model_name( level.zombie_weapons[current_weapon].upgrade_name ) );
 		worldgundw useweaponhidetags( level.zombie_weapons[current_weapon].upgrade_name );
 		worldgundw moveto( interact_pos + offsetdw, 0.5, 0, 0 );
+		perk_trigger.worldgundw = worldgundw;
 	}
 
 	if( isDefined( perk_machine.wait_flag ) )
@@ -363,7 +367,8 @@ third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk
 	}
 
 	worldgun.worldgundw = worldgundw;
-	return worldgun;
+	perk_trigger.third_person_weapon_complete = true;
+	//return worldgun;
 }
 
 
@@ -551,17 +556,27 @@ vending_weapon_upgrade()
 
 		self thread wait_for_third_person_weapon_complete();
 
-		weaponmodel = player third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk_machine, self );
+		//weaponmodel = player third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk_machine, self );
+		player third_person_weapon_upgrade( current_weapon, origin, angles, packa_rollers, perk_machine, self );
 
-		//weaponmodel will be undefined if the endon in third_person_weapon_upgrade() is notified from the pap trigger
-		if(!IsDefined(weaponmodel))
+		//self.third_person_weapon_complete will be undefined if the endon in third_person_weapon_upgrade() is notified from the pap trigger
+		if(!IsDefined(self.third_person_weapon_complete))
 		{
+			if ( isdefined( self.worldgun ) )
+			{
+				self.worldgun Delete();
+			}
+			if ( isdefined( self.worldgundw ) )
+			{
+				self.worldgundw Delete();
+			}
+
 			self waittill("third_person_weapon_complete");
 		}
 
 		self enable_trigger();
 
-		if(IsDefined(weaponmodel))
+		if(IsDefined(self.third_person_weapon_complete))
 		{
 			self SetHintString( &"ZOMBIE_GET_UPGRADED" );
 			//self setvisibletoplayer( player );
@@ -572,17 +587,22 @@ vending_weapon_upgrade()
 			self waittill_either( "pap_timeout", "pap_taken" );
 
 			self.current_weapon = "";
-			if ( isdefined( weaponmodel.worldgundw ) )
+
+			if ( isdefined( self.worldgun ) )
 			{
-				weaponmodel.worldgundw delete();
+				self.worldgun Delete();
 			}
-			weaponmodel delete();
+			if ( isdefined( self.worldgundw ) )
+			{
+				self.worldgundw Delete();
+			}
 		}
 
 		self SetHintString( &"ZOMBIE_PERK_PACKAPUNCH", self.cost );
 		self setvisibletoall();
 		flag_clear("pack_machine_in_use");
 		self.user = undefined;
+		self.third_person_weapon_complete = undefined;
 	}
 }
 

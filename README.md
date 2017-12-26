@@ -920,6 +920,7 @@
 * Delete all spawned powerups on round restart
 * Search & Rezurrect: change round won HUD
 * Gun Game: fix multiple gun increment powerups dropping when multiple zombies are killed with the same bullet
+* Fix Meat weapon third person model
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
@@ -929,6 +930,7 @@
 * Test if players are able to grief teammates
 * Test if auto map switching works in coop on game_mod 1.2
 * Search & Rezurrect: Hold meat in hand during round restart
+* Test combat knives third person melee anims
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
@@ -970,7 +972,6 @@
 * Get brightness to work without having to be in fullscreen
 * Add LAN
 * Make dual wield weapons use attack bind for left weapon and ADS bind for right weapon
-* Make ChangeLevel() function work in coop
 * Allow changing timescale from GetTimeScale() function when sv_cheats dvar is set to 0
 * Add GetMoveSpeedScale() function
 * Add ActionSlotOneButtonPressed() function
