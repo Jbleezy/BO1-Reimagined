@@ -417,6 +417,7 @@
 
 ### Mule Kick
 * Removed from Nacht Der Untoten
+* Added jingle
 * Third weapon slot will now always be the correct weapon
 * Name of weapon that will be lost when downed is shown in yellow text
 * Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, or if the player already has the weapon, or if the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon)
@@ -894,7 +895,7 @@
 * NML: make amount of zombies that spawn in the beginning consistent
 * Moon: fix sliding sound keep playing when off object
 * Try adding 1st person mode to DOA
-* Mule Kick: add jingle
+* Mule Kick: make jingle work on all maps
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Add collision boxes near invincibilty spots on maps

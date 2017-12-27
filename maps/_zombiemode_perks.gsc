@@ -125,6 +125,9 @@ place_additionalprimaryweapon_machine()
 	machine_trigger.targetname = "zombie_vending";
 	machine_trigger.target = "vending_additionalprimaryweapon";
 	machine_trigger.script_noteworthy = "specialty_additionalprimaryweapon";
+	
+	machine_trigger.script_sound = "mus_perks_mulekick_jingle";
+	machine_trigger.script_label = "mus_perks_mulekick_sting";
 
 	if ( isdefined( level.zombie_additionalprimaryweapon_machine_clip_origin ) )
 	{

@@ -1978,10 +1978,10 @@ auto_revive_after_time()
 	self endon("player_revived");
 	level endon("end_game");
 
-	wait 7;
+	wait 5;
 	self.revive_hud setText( &"GAME_REVIVING" );
-	self maps\_laststand::revive_hud_show_n_fade( 3.0 );
-	wait 3;
+	self maps\_laststand::revive_hud_show_n_fade( 5.0 );
+	wait 5;
 	self maps\_laststand::auto_revive();
 }
 
