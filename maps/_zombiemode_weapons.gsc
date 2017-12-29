@@ -2388,10 +2388,15 @@ treasure_chest_ChooseWeightedRandomWeapon( player, final_wep, empty )
 	filtered = array_randomize( filtered );
 	wep = filtered[RandomInt( filtered.size )];
 
+	//show a new weapon every time, except for if there's only one weapon in the box then we can't
 	if(IsDefined(self.previous_floating_weapon) && self.previous_floating_weapon == wep && filtered.size > 1)
 	{
+		temp = wep;
 		filtered = array_remove( filtered, wep );
 		wep = filtered[RandomInt( filtered.size )];
+
+		//must add back the wep into filtered for the next if statement to work correctly
+		filtered[filtered.size] = temp;
 	}
 
 	if(IsDefined(final_wep) && final_wep && filtered.size == 1)

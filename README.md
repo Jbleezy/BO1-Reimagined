@@ -927,9 +927,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Make sure spectators can't pick up powerups
 * Test if players are able to grief teammates
-* Test if auto map switching works in coop on game_mod 1.2
-* Search & Rezurrect: Hold meat in hand during round restart
-* Test combat knives third person melee anims
+* Test throwing meat on player
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
@@ -982,6 +980,7 @@
 * Add SprintButtonPressed() function
 * Add WeaponSwitchButtonPressed() function
 * Add WeaponReloadAddTime() function
+* Fix ChangeLevel()
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
