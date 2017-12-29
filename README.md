@@ -63,7 +63,7 @@
 * Option to change FOV (65-120 in intervals of 5)
 * Option to show FPS on HUD
 * Option to disable character dialog (host only)
-* Option to enable/disable Mule Kick on Verruckt through Shangri-La (host only, always disabled on Nacht, always enabled on Moon)
+* Option to enable/disable Mule Kick (host only, always disabled on Nacht, always enabled on Moon)
 * Option to choose which room you start in on Verruckt (host only)
 * Option to choose which perk you start with on No Man's Land (host only)
 * Options to set which barriers in Five first room you want disabled (host only)
@@ -413,7 +413,7 @@
 ### Deadshot
 * Increased cost from 1000 to 1500
 * 2x headshot damage (stacks with Double Tap)
-* Move at normal speed when aiming
+* Move faster when aiming
 
 ### Mule Kick
 * Removed from Nacht Der Untoten
@@ -869,8 +869,6 @@
 * Remove marks on background of Deadshot perk shader
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)
-* Gun Game: add increment weapon powerup, powerup model is the weapon they will receive, powerup is hidden and ungrabbable to all other players
-* Gun Game: add upgrade weapon powerup, powerup model is solo bonfire sale, for 30 seconds you get upgraded version of current weapon even when incrementing weapons
 * Add fast ADS to Speed Cola (when it becomes possible through game_mod)
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
@@ -894,8 +892,8 @@
 * Make sure powerups that are added later in a match are added in randomly on the remaining powerups of the current cycle
 * NML: make amount of zombies that spawn in the beginning consistent
 * Moon: fix sliding sound keep playing when off object
-* Try adding 1st person mode to DOA
-* Mule Kick: make jingle work on all maps
+* DOA: add 1st person mode in settings
+* DOA: make fates not randomized
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Add collision boxes near invincibilty spots on maps
