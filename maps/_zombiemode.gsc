@@ -403,7 +403,11 @@ track_players_ammo_count()
 					weap == "humangun_zm" ||
 					weap == "humangun_upgraded_zm" ||
 					weap == "equip_gasmask_zm" ||
-					weap == "lower_equip_gasmask_zm" )
+					weap == "lower_equip_gasmask_zm" ||
+					weap == "combat_knife_zm" ||
+					weap == "combat_bowie_knife_zm" ||
+					weap == "combat_sickle_knife_zm" ||
+					weap == "meat_zm" || )
 			{
 				continue;
 			}

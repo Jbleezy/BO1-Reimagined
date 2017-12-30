@@ -143,7 +143,7 @@
 * Decreased time to start rechambering after firing from .4 seconds to .2 seconds
 * Instantly starts reloading after firing the last shot
 * Unupgraded: decreased chamber time from 2 seconds to 1 second
-* Upgraded: decreased chamber time from 1.4 seconds to .6 seconds
+* Upgraded: decreased chamber time from 1.4 seconds to .7 seconds
 * Unupgraded: impact damage - 1250
 * Unupgraded: maximum explosion damage - 1000
 * Unupgraded: minimum explosion damage - 500
@@ -233,13 +233,14 @@
 
 ### Ray Gun
 * Ammo now gets added to the clip at the same time that it does in the reload animation
+* Always makes crawlers on first damage on an enemy
+* Decreased first raise time from 2.4 seconds to 1.2 seconds
 * Unupgraded: impact damage - 2500
 * Unupgraded: maximum explosion damage - 2500
 * Unupgraded: minimum explosion damage - 1250
 * Upgraded: impact damage - 3000
 * Upgraded: maximum explosion damage - 3000
 * Upgraded: minimum explosion damage - 1250
-* Always makes crawlers on first damage on an enemy
 
 #### Wunderwaffe
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
@@ -352,7 +353,7 @@
 * 100% chance of opening a door when thrown near a door
 * 100% chance of upgrading current weapon when thrown near Pack-a-Punch machine
 * 100% chance of reviving player when thrown near downed player
-* 100% of fling effect when thrown near Cosmonaut
+* 100% chance of fling effect when thrown near Cosmonaut
 * 100% chance of hacking an exacavtor when thrown near the panel
 * 100% chance of random weapon powerup if thrown near a wall weapon
 * 100% chance of random powerup when throw near a powerup
