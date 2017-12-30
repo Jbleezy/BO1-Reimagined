@@ -407,7 +407,7 @@ track_players_ammo_count()
 					weap == "combat_knife_zm" ||
 					weap == "combat_bowie_knife_zm" ||
 					weap == "combat_sickle_knife_zm" ||
-					weap == "meat_zm" || )
+					weap == "meat_zm" )
 			{
 				continue;
 			}
@@ -8757,18 +8757,30 @@ do_damage_on_impact(player)
 disable_character_dialog()
 {
 	flag_wait("all_players_connected");
-	while(1)
+	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.gamemode != "survival")
 	{
-		if(GetDvarInt("character_dialog") == 0 || level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.gamemode != "survival")
+		while(1)
 		{
 			level.player_is_speaking = 1;
 			wait .1;
 		}
-		else
+	}
+	else
+	{
+		while(1)
 		{
-			level.player_is_speaking = 0;
-			while(GetDvarInt("character_dialog") == 1)
+			if(GetDvarInt("character_dialog") == 1)
 			{
+				level.player_is_speaking = 0;
+				while(GetDvarInt("character_dialog") == 1)
+				{
+					wait .1;
+				}
+			}
+
+			while(GetDvarInt("character_dialog") == 0)
+			{
+				level.player_is_speaking = 1;
 				wait .1;
 			}
 		}
@@ -8793,13 +8805,20 @@ character_names_on_hud()
 	{
 		// Allow custom maps to override this logic
 		if(isdefined(level._zombiemode_get_player_name_string))
+		{
 			name = players[j] [[level._zombiemode_get_player_name_string]](players[j].entity_num);
+		}
+		else if(level.script == "zombie_pentagon")
+		{
+			name = "REIMAGINED_ZOMBIE_PENTAGON_PLAYER_NAME_" + players[j].entity_num;
+		}
+		else if(level.script == "zombie_coast")
+		{
+			name = "REIMAGINED_ZOMBIE_COAST_PLAYER_NAME_" + players[j].entity_num;
+		}
 		else
 		{
-			if(level.script == "zombie_pentagon" || level.script == "zombie_coast")
-				name = "REIMAGINED_" + level.script + "_player_name_" + players[j].entity_num;
-			else
-				name = "REIMAGINED_ZOMBIE_THEATER_player_name_" + players[j].entity_num; // Commonly use Kino mames
+			name = "REIMAGINED_ZOMBIE_THEATER_PLAYER_NAME_" + players[j].entity_num;
 		}
 
 		if(IsDefined(name))
