@@ -44,11 +44,9 @@ init()
 		{
 			level thread unlimited_ammo();
 			level thread increase_round_number();
-			//level thread increase_zombie_move_speed();
 			level thread increase_zombie_health();
 			level thread increase_zombie_spawn_rate();
 			level thread setup_gungame_weapons();
-			//level thread gungame_weapons_test();
 		}
 
 		if(level.script == "zombie_temple")
@@ -695,10 +693,8 @@ grief_msg(msg)
 	self.grief_hud1.alpha = 0;
 	self.grief_hud2.alpha = 0;
 
-	//if(flag("round_restarting"))
 	if(IsDefined(msg))
 	{
-		self.grief_hud1 SetText( &"REIMAGINED_ANOTHER_CHANCE" );
 		self.grief_hud1 SetText( msg );
 		self.grief_hud1 FadeOverTime( 1 );
 		self.grief_hud1.alpha = 1;
@@ -1598,6 +1594,8 @@ snr_round_win_watcher()
 		{
 			level thread display_round_won(team);
 
+			wait 2;
+
 			level thread round_restart();
 		}
 	}
@@ -1605,14 +1603,27 @@ snr_round_win_watcher()
 
 display_round_won(team)
 {
-	// Create "ROUND" hud text
-	round = create_simple_hud();
+	flag_wait("all_players_spawned");
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		if(team == "cdc")
+		{
+			players[i] thread grief_msg(&"REIMAGINED_CDC_WON");
+		}
+		else
+		{
+			players[i] thread grief_msg(&"REIMAGINED_CIA_WON");
+		}
+	}
+
+	/*round = create_simple_hud();
 	round.alignX = "center";
 	round.alignY = "bottom";
 	round.horzAlign = "user_center";
 	round.vertAlign = "user_bottom";
 	round.fontscale = 16;
-	round.color = ( 1, 1, 1 );
+	round.color = ( 0.4, 0, 0 );
 	round.x = 0;
 	round.y = -300;
 	round.alpha = 0;
@@ -1632,8 +1643,8 @@ display_round_won(team)
 	wait( 1 );
 
 	// Fade to red
-	round FadeOverTime( 2 );
-	round.color = ( 0.21, 0, 0 );
+	//round FadeOverTime( 2 );
+	//round.color = ( 0.21, 0, 0 );
 
 	wait(2);
 
@@ -1649,7 +1660,7 @@ display_round_won(team)
 
 	wait( 2 );
 
-	round destroy_hud();
+	round destroy_hud();*/
 }
 
 setup_grief_top_logos()

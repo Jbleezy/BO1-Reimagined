@@ -1,8 +1,12 @@
 # Call of Duty: Black Ops Zombies - Reimagined
 ## Created by: Jbleezy / Jbird
+
 [YouTube](https://youtube.com/ItsJbirdJustin)
-[Twitch](https://twitch.tv/jbird_justin)
+
+[Twitch](https://twitch.tv/jbleezy)
+
 [Twitter](https://twitter.com/jbird_justin)
+
 [Donate](https://www.paypal.me/Jbleezy/10)
 
 ## General
@@ -909,26 +913,22 @@
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
 * Make it so zombies getting attracted towards monkey bombs or anything similar don't interrupt their current animation
+* Remove zombie failsafe death print before release
 
 ## GRIEF TODO:
 * Add powerup model and shader for slow down powerdown
-* Add meat powerup to grief
 * Add EMP grenades to grief
 * Moon: turn on power and spawn immediately at start of match
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret
-* Delete all spawned powerups on round restart
-* Search & Rezurrect: change round won HUD
-* Gun Game: fix multiple gun increment powerups dropping when multiple zombies are killed with the same bullet
 * Fix Meat weapon third person model
+* Gun Game: fix rare bug where multiple gun increment powerups spawn (not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ## TESTING:
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-* Make sure spectators can't pick up powerups
-* Test if players are able to grief teammates
-* Test throwing meat on player
+* Test if players are able to grief teammates (need a 3-4 player game)
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

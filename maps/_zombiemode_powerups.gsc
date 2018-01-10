@@ -735,7 +735,7 @@ powerup_drop(drop_point, player, zombie)
 		drop_gg_wep = true;
 		debug = "gungame";
 	}
-	else if (rand_drop > 2) //>
+	else if (rand_drop > 2) //should be >
 	{
 		if (!level.zombie_vars["zombie_drop_item"])
 		{

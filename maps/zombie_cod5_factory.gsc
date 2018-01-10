@@ -2051,7 +2051,7 @@ curbs_fix()
 	collision.angles = (0, 0, 0);
 	collision Hide();
 
-	collision2 = spawn("script_model", (361.273 + 64, -1828.36 - 271, 55.9853 - 248));
+	collision2 = spawn("script_model", (361.273 + 32, -1828.36 - 271, 55.9853 - 248));
 	collision2 setmodel("collision_geo_512x512x512");
 	collision2.angles = (0, 0, 0);
 	collision2 Hide();
@@ -2065,6 +2065,11 @@ curbs_fix()
 	collision4 setmodel("collision_geo_128x128x128");
 	collision4.angles = (0, 47, 0);
 	collision4 Hide();
+
+	collision5 = spawn("script_model", (435.5, -1502.5, -0.5));
+	collision5 setmodel("collision_geo_128x128x128");
+	collision5.angles = (0, 0, 0);
+	collision5 Hide();
 }
 
 get_position(collision)
