@@ -9,9 +9,9 @@ init()
 	PrecacheShader( "specialty_doublepoints_zombies" );
 	PrecacheShader( "specialty_instakill_zombies" );
 	PrecacheShader( "specialty_firesale_zombies");
-	PrecacheShader( "zom_icon_bonfire");
-	PrecacheShader( "zom_icon_minigun");
-
+	PrecacheShader( "zom_icon_bonfire" );
+	PrecacheShader( "zom_icon_minigun" );
+	PrecacheShader( "specialty_slowdown_zombies" );
 
 	PrecacheShader( "black" );
 	// powerup Vars
@@ -151,7 +151,7 @@ init_powerups()
 	add_zombie_powerup( "grief_lose_points", "zombie_z_money_icon", &"REIMAGINED_LOSE_POINTS", false, true, false );
 	add_zombie_powerup( "grief_half_points", "zombie_x2_icon", &"REIMAGINED_HALF_POINTS", false, true, false );
 	add_zombie_powerup( "grief_half_damage", "zombie_skull", &"REIMAGINED_HALF_DAMAGE", false, true, false );
-	add_zombie_powerup( "grief_slow_down", "zombie_bomb", &"REIMAGINED_SLOW_DOWN", false, true, false );
+	add_zombie_powerup( "grief_slow_down", "p_rus_boots_sloppy", &"REIMAGINED_SLOW_DOWN", false, true, false );
 
 	add_zombie_powerup( "meat", GetWeaponModel("meat_zm"), &"REIMAGINED_CLIP_UNLOAD", false, false, false );
 
@@ -307,7 +307,7 @@ powerup_hud_overlay()
 		{
 			players[p] thread power_up_hud( "specialty_doublepoints_zombies", players[p].powerup_hud[6], "zombie_powerup_half_points_time", "zombie_powerup_half_points_on", true );
 			players[p] thread power_up_hud( "specialty_instakill_zombies", players[p].powerup_hud[7], "zombie_powerup_half_damage_time", "zombie_powerup_half_damage_on", true );
-			players[p] thread power_up_hud( "zom_icon_bonfire", players[p].powerup_hud[8], "zombie_powerup_slow_down_time", "zombie_powerup_slow_down_on", true );
+			players[p] thread power_up_hud( "specialty_slowdown_zombies", players[p].powerup_hud[8], "zombie_powerup_slow_down_time", "zombie_powerup_slow_down_on", true );
 
 			if(level.gamemode == "gg")
 			{

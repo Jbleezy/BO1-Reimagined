@@ -947,51 +947,18 @@ stop_shellshock_when_spectating()
 	}
 }
 
-player_weapons_watcher()//gives player m1911 if they have no weapons; takes away m1911 if they have upgraded m1911; takes away additional weapons
-{
-	self endon( "disconnect" );
-	while ( 1 )
-	{
-		if(is_player_valid(self) && !self.is_drinking && !level.round_restart && !self HasWeapon("syrette_sp"))
-		{
-			if(self GetCurrentWeapon() == "knife_zm" || self GetCurrentWeapon() == "bowie_knife_zm" || self GetCurrentWeapon() == "sickle_knife_zm" || self GetCurrentWeapon() == "stielhandgranate" || self GetCurrentWeapon() == "frag_grenade_zm")
-			{
-				self GiveWeapon("m1911_zm");
-				self SwitchToWeapon("m1911_zm");
-			}
-			else if(self HasWeapon("m1911_zm") && self HasWeapon("m1911_upgraded_zm"))
-			{
-				self TakeWeapon("m1911_zm");
-				self SwitchToWeapon("m1911_upgraded_zm");
-			}
-			weapon_limit = 2;
-			if ( self HasPerk( "specialty_additionalprimaryweapon" ) )
-			{
-				weapon_limit = 3;
-			}
-			primaryWeapons = self GetWeaponsListPrimaries();
-			if(primaryWeapons.size > weapon_limit && self HasWeapon("m1911_zm"))
-			{
-				self TakeWeapon("m1911_zm");
-				self SwitchToWeapon(primaryWeapons[0]);
-			}
-		}
-		wait .05;
-	}
-}
-
 take_tac_nades_when_used()
 {
 	self endon( "disconnect" );
-	//self endon( "death" );
+
 	while(1)
 	{
+		self waittill( "grenade_fire", grenade, weaponName, parent );
 		tac_nade = self get_player_tactical_grenade();
-		if(IsDefined(tac_nade) && self GetFractionMaxAmmo(tac_nade) == 0)
+		if(IsDefined(tac_nade) && weaponName == tac_nade && self GetFractionMaxAmmo(tac_nade) == 0)
 		{
 			self TakeWeapon(tac_nade);
 		}
-		wait .05;
 	}
 }
 

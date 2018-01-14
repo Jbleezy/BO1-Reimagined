@@ -237,6 +237,7 @@ material,waypoint_cdc
 material,waypoint_cia
 material,waypoint_revive
 material,waypoint_second_chance
+material,specialty_slowdown_zombies
 
 //XMODELS
 xmodel,weapon_rus_ppsh_smg
@@ -263,6 +264,7 @@ xmodel,bo2_c_zom_hazmat_viewhands
 xmodel,bo2_c_zom_suit_viewhands
 xmodel,bo2_c_zom_player_cdc_fb
 xmodel,bo2_c_zom_player_cia_fb
+xmodel,p_rus_boots_sloppy
 
 //XANIMS
 xanim,viewmodel_tesla_d2p_in

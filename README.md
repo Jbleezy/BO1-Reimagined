@@ -914,13 +914,13 @@
 * Get Thundergun weapon files completely working
 * Make it so zombies getting attracted towards monkey bombs or anything similar don't interrupt their current animation
 * Remove zombie failsafe death print before release
+* Look at stuff from wings todo pic
 
 ## GRIEF TODO:
-* Add powerup model and shader for slow down powerdown
 * Add EMP grenades to grief
 * Moon: turn on power and spawn immediately at start of match
 * Add new grief damage fx
-* Fix turret attacking team of player that activated turret
+* Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Fix Meat weapon third person model
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (not sure what causes it, not caused from killing multiple zombies from the same shot)
 
@@ -929,6 +929,7 @@
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need a 3-4 player game)
+* Check if PaP is showing take weapon hintstring for other players weapons for a short period
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
