@@ -172,9 +172,9 @@ init_powerups()
 
 	if ( isdefined( level.quantum_bomb_register_result_func ) )
 	{
-		[[level.quantum_bomb_register_result_func]]( "random_powerup", ::quantum_bomb_random_powerup_result, 80, ::quantum_bomb_random_powerup_validation );
+		[[level.quantum_bomb_register_result_func]]( "random_powerup", ::quantum_bomb_random_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
 		//[[level.quantum_bomb_register_result_func]]( "random_zombie_grab_powerup", ::quantum_bomb_random_zombie_grab_powerup_result, 5, level.quantum_bomb_in_playable_area_validation_func );
-		[[level.quantum_bomb_register_result_func]]( "random_weapon_powerup", ::quantum_bomb_random_weapon_powerup_result, 100, ::quantum_bomb_random_weapon_powerup_validation );
+		[[level.quantum_bomb_register_result_func]]( "random_weapon_powerup", ::quantum_bomb_random_weapon_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
 		[[level.quantum_bomb_register_result_func]]( "random_bonus_or_lose_points_powerup", ::quantum_bomb_random_bonus_or_lose_points_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
 	}
 }
@@ -1470,14 +1470,16 @@ powerup_grab()
 			if(self.powerup_name == "tesla" && IsDefined(players[i].has_tesla) && players[i].has_tesla && players[i] GetCurrentWeapon() == "tesla_gun_new_upgraded_zm" && self.weapon == "tesla_gun_zm")
 				continue;
 
+			//no picking up qed random weapon powerup if player the hasn't triggered it
 			if(self.powerup_name == "random_weapon" && !IsDefined(self.gg_powerup) && !is_true(self.weapon_powerup_grabbed))
 				continue;
 
-			if((self.powerup_name == "meat" /*|| IsDefined(self.gg_powerup) || self.powerup_name == "upgrade_weapon"*/) && IsDefined(players[i].has_meat))
+			//no picking up meat if the player already has meat powerup
+			if(self.powerup_name == "meat" && IsDefined(players[i].has_meat))
 				continue;
 
-			if ( ( self.powerup_name != "random_weapon" || (self.powerup_name == "random_weapon" && IsDefined(self.gg_powerup)) ) && 
-				DistanceSquared( players[i].origin, self.origin ) < range_squared )
+			//( self.powerup_name != "random_weapon" || (self.powerup_name == "random_weapon" && IsDefined(self.gg_powerup)) ) &&
+			if ( DistanceSquared( players[i].origin, self.origin ) < range_squared )
 			{
 				if( IsDefined( level.zombie_powerup_grab_func ) )
 				{
@@ -1975,6 +1977,8 @@ powerup_wobble()
 	self endon( "powerup_timedout" );
 	self endon( "powerup_player_downed" );
 
+	self thread powerup_add_to_array();
+
 	if ( isdefined( self ) )
 	{
 		if( isDefined(level.powerup_fx_func) )
@@ -2023,13 +2027,20 @@ powerup_wobble()
 	}
 }
 
+powerup_add_to_array()
+{
+	level.powerups[level.powerups.size] = self;
+
+	self waittill_any("powerup_grabbed", "powerup_timedout", "powerup_player_downed", "death");
+
+	level.powerups = array_remove(level.powerups, self);
+}
+
 powerup_timeout()
 {
 	self endon( "powerup_grabbed" );
 	self endon( "death" );
 	self endon( "powerup_player_downed" );
-
-	level.powerups[level.powerups.size] = self;
 
 	wait 15;
 
@@ -3730,7 +3741,8 @@ quantum_bomb_random_powerup_validation(position)
 		return false;
 	}
 
-	level.powerups = array_removeUndefined(level.powerups);
+	//shouldnt need this here anymore, made a separate function to remove powerups from level.powerups
+	//level.powerups = array_removeUndefined(level.powerups);
 
 	range_squared = 180 * 180;
 	for(i=0;i<level.powerups.size;i++)

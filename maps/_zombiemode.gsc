@@ -8600,7 +8600,7 @@ give_weapons_test()
 	//wep = "sniper_explosive_upgraded_zm";
 	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_zm";
-	wep = "tesla_gun_upgraded_zm";
+	//wep = "tesla_gun_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
 	//wep = "crossbow_explosive_zm";
 
@@ -8609,7 +8609,7 @@ give_weapons_test()
 	wait_network_frame();
 	self SwitchToWeapon(wep);*/
 
-	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
+	self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
 	//self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
 
@@ -8714,15 +8714,17 @@ stielhandgranate_impact_damage()
 {
 	self endon("disconnect");
 
-	if(IsSubStr(level.script, "zombie_cod5_"))
+	if(!IsSubStr(level.script, "zombie_cod5_"))
 	{
-		while(1)
+		return;
+	}
+
+	while(1)
+	{
+		self waittill( "grenade_fire", grenade, weaponName, parent );
+		if(weaponName == "stielhandgranate")
 		{
-			self waittill( "grenade_fire", grenade, weaponName, parent );
-			if(weaponName == "stielhandgranate")
-			{
-				grenade thread do_damage_on_impact(self);
-			}
+			grenade thread do_damage_on_impact(self);
 		}
 	}
 }

@@ -11,8 +11,8 @@ init_registration()
 	level.quantum_bomb_deregister_result_func = ::quantum_bomb_deregister_result;
 	level.quantum_bomb_in_playable_area_validation_func = ::quantum_bomb_in_playable_area_validation;
 
-	quantum_bomb_register_result( "random_lethal_grenade", ::quantum_bomb_lethal_grenade_result, 25 );
-	quantum_bomb_register_result( "random_weapon_starburst", ::quantum_bomb_random_weapon_starburst_result, 25 );
+	quantum_bomb_register_result( "random_lethal_grenade", ::quantum_bomb_lethal_grenade_result, 100 );
+	quantum_bomb_register_result( "random_weapon_starburst", ::quantum_bomb_random_weapon_starburst_result, 100 );
 	quantum_bomb_register_result( "pack_or_unpack_current_weapon", ::quantum_bomb_pack_or_unpack_current_weapon_result, 100, ::quantum_bomb_pack_or_unpack_current_weapon_validation );
 	quantum_bomb_register_result( "auto_revive", ::quantum_bomb_auto_revive_result, 100, ::quantum_bomb_auto_revive_validation );
 	quantum_bomb_register_result( "player_teleport", ::quantum_bomb_player_teleport_result, 100, ::quantum_bomb_player_teleport_validation );
@@ -21,12 +21,12 @@ init_registration()
 	// added for zombie speed buff
 	level.scr_anim["zombie"]["sprint5"] = %ai_zombie_fast_sprint_01;
 	level.scr_anim["zombie"]["sprint6"] = %ai_zombie_fast_sprint_02;
-	quantum_bomb_register_result( "zombie_speed_buff", ::quantum_bomb_zombie_speed_buff_result, 25 );
-	quantum_bomb_register_result( "zombie_add_to_total", ::quantum_bomb_zombie_add_to_total_result, 25, ::quantum_bomb_zombie_add_to_total_validation );
+	quantum_bomb_register_result( "zombie_speed_buff", ::quantum_bomb_zombie_speed_buff_result, 100 );
+	quantum_bomb_register_result( "zombie_add_to_total", ::quantum_bomb_zombie_add_to_total_result, 100, ::quantum_bomb_zombie_add_to_total_validation );
 
 
 	level._effect["zombie_fling_result"] = loadfx( "maps/zombie_moon/fx_moon_qbomb_explo_distort" );
-	quantum_bomb_register_result( "zombie_fling", ::quantum_bomb_zombie_fling_result );
+	quantum_bomb_register_result( "zombie_fling", ::quantum_bomb_zombie_fling_result, 0 );
 
 	level._effect["quantum_bomb_viewmodel_twist"]			= LoadFX( "weapon/quantum_bomb/fx_twist" );
 	level._effect["quantum_bomb_viewmodel_press"]			= LoadFX( "weapon/quantum_bomb/fx_press" );
@@ -200,15 +200,21 @@ quantum_bomb_select_result( position )
 		return level.quantum_bomb_results[result_name];
 	}
 #/
+
 	//fling effect if near cosmonaut
 	zombs = GetAiSpeciesArray( "axis", "all" );
+	near_zomb = false; //near cosmonaut is the first forced result, but if just near a zombie we'll force that later
 	for(i=0;i<zombs.size;i++)
 	{
-		if(zombs[i].animname == "astro_zombie")
+		if(DistanceSquared(zombs[i].origin, position) < 180*180)
 		{
-			if(DistanceSquared(zombs[i].origin, position) < 180*180)
+			if(zombs[i].animname == "astro_zombie")
 			{
 				return level.quantum_bomb_results["zombie_fling"];
+			}
+			else if(!near_zomb)
+			{
+				near_zomb = true;
 			}
 		}
 	}
@@ -226,16 +232,51 @@ quantum_bomb_select_result( position )
 		}
 	}
 
-	//guaranteed results (in order of priority)
-	forced_results = array("auto_revive", "give_nearest_perk", "open_nearest_door", "pack_or_unpack_current_weapon", "remove_digger", "random_weapon_powerup", "random_powerup", "random_bonus_or_lose_points_powerup", "player_teleport" );
+	//forced results (in order of priority)
+	forced_results = array("player_teleport", "auto_revive", "give_nearest_perk", "open_nearest_door", "pack_or_unpack_current_weapon", "remove_digger");
+
+	//only add one of the powerup results
+	rand = RandomInt(3);
+	if(rand == 0)
+	{
+		forced_results[forced_results.size] = "random_powerup";
+	}
+	else if(rand == 1)
+	{
+		forced_results[forced_results.size] = "random_weapon_powerup";
+	}
+	else
+	{
+		forced_results[forced_results.size] = "random_bonus_or_lose_points_powerup";
+	}
 
 	for ( i = 0; i < forced_results.size; i++ )
 	{
 		for ( j = 0; j < eligible_results.size; j++ )
 		{
 			if(forced_results[i] == eligible_results[j])
-				return level.quantum_bomb_results[eligible_results[j]];
+				return level.quantum_bomb_results[forced_results[i]];
 		}
+	}
+
+	//fling effect if near any zombie
+	if(near_zomb)
+	{
+		return level.quantum_bomb_results["zombie_fling"];
+	}
+
+	//add one of the powerup results to the list of random eligible results
+	if(rand == 0)
+	{
+		eligible_results[eligible_results.size] = "random_powerup";
+	}
+	else if(rand == 1)
+	{
+		eligible_results[eligible_results.size] = "random_weapon_powerup";
+	}
+	else
+	{
+		eligible_results[eligible_results.size] = "random_bonus_or_lose_points_powerup";
 	}
 
 	return level.quantum_bomb_results[eligible_results[RandomInt( eligible_results.size )]];
@@ -425,7 +466,7 @@ quantum_bomb_random_weapon_starburst_result( position )
 
 quantum_bomb_pack_or_unpack_current_weapon_validation( position )
 {
-	if ( !quantum_bomb_get_cached_in_playable_area( position ) )
+	if ( !quantum_bomb_get_cached_in_playable_area( position ) || maps\_zombiemode_weapons::is_weapon_upgraded(self GetCurrentWeapon()) )
 	{
 		return false;
 	}
@@ -455,6 +496,11 @@ quantum_bomb_pack_or_unpack_current_weapon_result( position )
 	{
 		player = players[i];
 
+		if(player != self)
+		{
+			continue;
+		}
+
 		if ( player.sessionstate == "spectator" || player maps\_laststand::player_is_in_laststand() )
 		{
 			continue;
@@ -481,12 +527,9 @@ quantum_bomb_pack_or_unpack_current_weapon_result( position )
 				player TakeWeapon( weapon );
 			}
 
-			if( player == self )
-			{
-				player thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "quant_good" );
-				player thread maps\_zombiemode_weapons::weapon_give( level.zombie_weapons[weapon].upgrade_name );
-				player quantum_bomb_play_player_effect();
-			}
+			player thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "quant_good" );
+			player thread maps\_zombiemode_weapons::weapon_give( level.zombie_weapons[weapon].upgrade_name );
+			player quantum_bomb_play_player_effect();
 		}
 	}
 }

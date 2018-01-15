@@ -353,21 +353,21 @@
 * Now deals damage on impact
 
 #### QED
+* 100% chance of fling effect when thrown near Cosmonaut or zombie
+* 100% chance of reviving player when thrown near downed player
 * 100% chance of giving perk when thrown near a perk machine that is powered on
 * 100% chance of opening a door when thrown near a door
-* 100% chance of upgrading current weapon when thrown near Pack-a-Punch machine
-* 100% chance of reviving player when thrown near downed player
-* 100% chance of fling effect when thrown near Cosmonaut
+* 100% chance of upgrading player's weapon when thrown near Pack-a-Punch machine
 * 100% chance of hacking an exacavtor when thrown near the panel
-* 100% chance of random weapon powerup if thrown near a wall weapon
 * 100% chance of random powerup when throw near a powerup
+* Guaranteed results order: fling effect (if near Cosmonaut), revive players, give nearest perk, open nearest door, upgrade weapon, stop excavator, random powerup, fling effect (if near any zombie)
 * If thrown outside the map, the player who threw the QED gets teleported to a random location on the map
 * Free perk now only gives the perk to the player who threw the QED
 * Revive player effect now only revives players near where the QED was thrown
 * Random weapon powerup now gives player max ammo on a weapon if they already have the weapon
-* Removed red powerup spawn effect
-* Removed unupgrade current weapon effect
-* All other effects have a 25% chance of being put on the selected list
+* Removed red powerup effect
+* Removed unupgrade weapon effect
+* All other effects and random powerup effect have a chance of spawning when none of the forced effects are activated
 * Starburst weapon effect no longer has any explosive weapons
 
 ## Wallbuys
@@ -914,9 +914,13 @@
 * Get Thundergun weapon files completely working
 * Make it so zombies getting attracted towards monkey bombs or anything similar don't interrupt their current animation
 * Remove zombie failsafe death print before release
-* Look at stuff from wings todo pic
+* README: add QED forced results order
+* Remove ADS weapon bobbing
+* Upload mod using PassDropIt
+* QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
 
 ## GRIEF TODO:
+* Race: get round change sound to work
 * Add EMP grenades to grief
 * Moon: turn on power and spawn immediately at start of match
 * Add new grief damage fx
