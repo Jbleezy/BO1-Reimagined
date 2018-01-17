@@ -5456,7 +5456,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		}
 	}
 
-	//turrets won't effect players
+	//turrets - don't damage players
 	if(sWeapon == "zombie_bullet_crouch" && sMeansOfDeath == "MOD_RIFLE_BULLET")
 	{
 		if(level.gamemode != "survival")
@@ -5941,7 +5941,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	}
 
 	//damage for non-shotgun bullet weapons - deals the same amount of damage through walls and multiple zombies
-	//all body shots deal same damage
+	//all body shots deal the same damage
 	//neck, head, and healmet shots all deal the same damage
 	if(meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET")
 	{
@@ -6028,12 +6028,12 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 				final_damage *= 3;
 			break;
 		case "psg1_zm":
-			final_damage = 600;
+			final_damage = 500;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 5;
 			break;
 		case "l96a1_zm":
-			final_damage = 900;
+			final_damage = 1000;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 5;
 			break;
@@ -6094,6 +6094,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		case "mp5k_upgraded_zm":
 		case "mpl_upgraded_zm":
 		case "pm63_upgraded_zm":
+		case "ppsh_upgraded_zm":
 			final_damage = 140;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 5;
@@ -6151,7 +6152,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 				final_damage *= 8;
 			break;
 		case "l96a1_upgraded_zm":
-			final_damage = 1500;
+			final_damage = 2000;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 8;
 			break;
@@ -6194,18 +6195,59 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			break;
 		}
 
+		//+50% damage on Olympia, easier to do it from here
 		if(weapon == "rottweil72_zm" || weapon == "rottweil72_upgraded_zm")
 		{
 			final_damage = int(final_damage * 1.5);
 		}
 
+		//Death Machine - always does at least 1/4 damage on regular shots and 1/2 damage on headshots
 		if(weapon == "minigun_zm" && self.animname != "director_zombie" && self.animname != "astro_zombie")
 		{
-			if(final_damage < level.zombie_health / 3)
-				final_damage = int(level.zombie_health / 3);
+			if(!(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck") && final_damage < level.zombie_health / 4)
+			{
+				final_damage = int(level.zombie_health / 4);
+			}
+			else if((sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck") && final_damage < level.zombie_health / 2)
+			{
+				final_damage = int(level.zombie_health / 2);
+			}
 		}
 	}
 
+	//projectile impact damage - all body shots deal the same damage
+	//neck, head, and healmet shots all deal the same damage
+	if(meansofdeath == "MOD_IMPACT")
+	{
+		if(weapon == "crossbow_explosive_zm")
+		{
+			final_damage = 750;
+			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
+				final_damage *= 4;
+		}
+		else if(weapon == "crossbow_explosive_upgraded_zm")
+		{
+			final_damage = 2250;
+			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
+				final_damage *= 4;
+		}
+		else if(weapon == "knife_ballistic_zm" || weapon == "knife_ballistic_bowie_zm" || weapon == "knife_ballistic_sickle_zm")
+		{
+			final_damage = 500;
+			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
+				final_damage *= 4;
+		}
+		else if(weapon == "knife_ballistic_upgraded_zm" || weapon == "knife_ballistic_bowie_upgraded_zm" || weapon == "knife_ballistic_sickle_upgraded_zm")
+		{
+			final_damage = 1000;
+			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
+				final_damage *= 4;
+		}
+		else if(weapon == "frag_grenade_zm" || weapon == "sticky_grenade_zm" || weapon == "stielhandgranate")
+		{
+			final_damage = 30;
+		}
+	}
 
 	if(weapon == "molotov_zm")
 	{
@@ -8687,12 +8729,15 @@ remove_idle_sway()
 		}
 
 		wep = self GetCurrentWeapon();
-		if(is_in_array(snipers, wep) && isADS(self) && !set)
+		is_sniper = is_in_array(snipers, wep);
+		is_ads = isADS(self);
+
+		if(is_sniper && is_ads && !set)
 		{
 			self SetClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
 			set = true;
 		}
-		else if(( !is_in_array(snipers, wep) || !isADS(self) ) && set)
+		else if(( !is_sniper || !is_ads ) && set)
 		{
 			self ClearClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
 			set = false;

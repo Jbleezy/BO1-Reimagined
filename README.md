@@ -101,15 +101,27 @@
 * Upgraded name: The Red Mist
 * Upgraded version has flamethrower attachment
 * 30 rounds per clip unupgraded and upgraded
+* Unupgraded: damage - 150
+* Unupgraded: headshot damage - 600
+* Unupgraded: damage - 210
+* Unupgraded: headshot damage - 1050
 
 #### PPSH
 * Upgraded name: The Reaper
 * 71 rounds per clip unupgraded and upgraded
+* Unupgraded: damage - 100
+* Unupgraded: headshot damage - 400
+* Unupgraded: damage - 140
+* Unupgraded: headshot damage - 700
 
 #### PSG1
 * Upgraded name: Psycho Sexy Genius 115
 * Replaces the Dragunov
 * 10 rounds per clip unupgraded and upgraded
+* Unupgraded: damage - 500
+* Unupgraded: headshot damage - 2500
+* Unupgraded: damage - 1000
+* Unupgraded: headshot damage - 8000
 
 #### Stoner63
 * Upgraded name: Stoned420
@@ -117,7 +129,10 @@
 * 90% movement speed (in between LMG and assault rifle movement speed)
 * Unupgraded: 60 rounds per clip
 * Upgraded: 90 rounds per clip
-
+* Unupgraded: damage - 160
+* Unupgraded: headshot damage - 480
+* Unupgraded: damage - 230
+* Unupgraded: headshot damage - 690
 
 ### Explosive weapons
 * Removed shellshock effect from explosive damage (except for lethal grenades)
@@ -137,11 +152,13 @@
 ### Ballistic Knife
 * Knives pick up automatically when close to them
 * Instantly starts reloading after firing the knife
+* Unupgraded: increased impact damage from 450 to 500 (weapon file shows it is suppose to do this amount of damage but it does not)
+* Upgraded: increased impact damage from 900 to 1000 (weapon file shows it is suppose to do this amount of damage but it does not)
 
 ### BAR
 * Replaced BAR + Bipod with BAR
 * All BAR wallbuys cost 1800 now
-* Increased headshot damage multiplier to 2x
+* Increased headshot damage from 270 to 400
 
 ### China Lake
 * Decreased time to start rechambering after firing from .4 seconds to .2 seconds
@@ -156,7 +173,15 @@
 * Upgraded: minimum explosion damage - 1000
 
 ### Crossbow
+* Instantly starts reloading after firing the bolt
 * Crossbow bolt beeping rate no longer changes depending on your FPS
+* Unupgraded: increased impact damage from 675 to 750 (weapon file shows it is suppose to do this amount of damage but it does not)
+* Unupgraded: maximum explosion damage - 800
+* Unupgraded: minimum explosion damage - 400
+* Upgraded: increased impact damage from 675 to 2250 (weapon file shows it is suppose to do this amount of damage but it does not)
+* Upgraded: increased impact damage from 3000 to 9000
+* Upgraded: maximum explosion damage - 2500
+* Upgraded: minimum explosion damage - 1250
 
 ### CZ75 Dual Wield
 * Upgraded: reduced recoil
@@ -192,6 +217,10 @@
 
 ### L96A1
 * Unupgraded: added variable zoom scope
+* Unupgraded: damage - 1000 (previously 500-750 damage depending on where the damage was dealt)
+* Unupgraded: headshot damage - 5000 (previously 1500-5000 damage depending on where the damage was dealt)
+* Upgraded: damage - 2000 (previously 1000-3000 damage depending on where the damage was dealt)
+* Upgraded: headshot damage - 16000 (previously 8000-10000 damage depending on where the damage was dealt)
 
 ### M16
 * Unupgraded: increased reserve ammo from 120 to 150
@@ -302,6 +331,7 @@
 * Limit of 120 mines placed on the map at once (each player can place equal amount of mines in coop)
 * Fixed a bug where a tactical grenade wouldn't work if it was thrown before a previously thrown tactical grenade had activated
 * Grenades now cannot be thrown faster than intended when throwing a grenade right after after throwing one
+* Lethal grenades: impact damage - 30
 
 #### Bouncing Betty
 * Can now explode after being placed for 1 second (previously 2 seconds)
@@ -362,13 +392,13 @@
 * 100% chance of random powerup when throw near a powerup
 * Guaranteed results order: fling effect (if near Cosmonaut), revive players, give nearest perk, open nearest door, upgrade weapon, stop excavator, random powerup, fling effect (if near any zombie)
 * If thrown outside the map, the player who threw the QED gets teleported to a random location on the map
-* Free perk now only gives the perk to the player who threw the QED
+* Free perk effect now only gives the perk to the player who threw the QED
 * Revive player effect now only revives players near where the QED was thrown
 * Random weapon powerup now gives player max ammo on a weapon if they already have the weapon
+* Starburst weapon effect no longer has any explosive weapons
 * Removed red powerup effect
 * Removed unupgrade weapon effect
 * All other effects and random powerup effect have a chance of spawning when none of the forced effects are activated
-* Starburst weapon effect no longer has any explosive weapons
 
 ## Wallbuys
 * Can now purchase ammo if reserve ammo is full but clip ammo is not full
@@ -400,11 +430,11 @@
 * Removed blur effect that previously happened after buying a perk
 * Perk order will no longer be changed when losing a perk
 * All perk machines on all maps now make a sound when bumping into them
-* Fixed a bug where the Quick Revive perk machine sounds would still play after the machine is gone in solo
 
 ### Quick Revive
 * Hintstring now says "Quick Revive" in solo and coop
 * Losing Quick Revive in solo from ways other than downing no longer counts as a use of Quick Revive
+* Fixed a bug where the Quick Revive perk machine sounds would still play after the machine is gone in solo
 
 ### Speed Cola
 * Switch weapons twice as fast
@@ -440,7 +470,8 @@
 
 ### Death Machine
 * Switch weapons to end duration
-* Deals at least 1/3 of zombie's health per shot
+* Deals at least 1/4 of zombie's health per body shot
+* Deals at least 1/2 of zombie's health per headshot
 * Powerup can now drop while one is already active
 
 ### Fire Sale
@@ -520,7 +551,7 @@
 ### Spikes (Shangri-La)
 * Deal 50 damage to players
 * 50% change of Killing a zombie
-* Spikes will not activate if the player is jumping over them
+* Spikes will not activate if the player is down or if the player jumping over them
 
 ### Waterfall Trap (Shangri-La)
 * Now kills zombies
@@ -878,9 +909,7 @@
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Change type 100 reserve ammo to 180 unupgraded, 240 upgraded (from weapon file)
-* Crossbow: decrease explosion radius, increase damage
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
-* Disable easter eggs on all versus gamemodes
 * Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
 * Fix zombie pathing on Five going to different floors
 * Make betties place correctly on Der Riese bridge
@@ -891,7 +920,6 @@
 * Get animator to make correct anims for classic map weapons
 * Wunderwaffe: make the closest zombie from the bolt be the first one that gets zapped
 * Fix Wunderwaffe not arcing after first kill rarely
-* Search & Rezurrect gamemode: must kill the remaining horde to win the round
 * Upgraded Kar98k: 50 round clip, no reserve ammo
 * Make sure powerup cycle resets when last currently obtainable powerup of a cycle spawns
 * Make sure powerups that are added later in a match are added in randomly on the remaining powerups of the current cycle
@@ -908,16 +936,15 @@
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
 * Fix PaP hintstring showing take weapon for other players weapons for a short period
 * Make frag grenades throw faster
-* Decrease PSG1 damage
 * Get Ballistic Sickle weapon files completely working
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
 * Make it so zombies getting attracted towards monkey bombs or anything similar don't interrupt their current animation
 * Remove zombie failsafe death print before release
-* README: add QED forced results order
 * Remove ADS weapon bobbing
 * Upload mod using PassDropIt
 * QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
+* Health bar for player's health?
 
 ## GRIEF TODO:
 * Race: get round change sound to work

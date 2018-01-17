@@ -390,7 +390,7 @@ quantum_bomb_random_weapon_starburst_result( position )
 	self thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "quant_good" );
 
 	weapon = "spas_upgraded_zm";
-	rand = RandomInt( 20 );
+	rand = RandomInt( 3 );
 /#
 	starburst_debug = GetDvarInt( #"scr_quantum_bomb_weapon_starburst_debug" );
 	if ( starburst_debug )
@@ -398,33 +398,41 @@ quantum_bomb_random_weapon_starburst_result( position )
 		rand = starburst_debug;
 	}
 #/
+
 	switch ( rand )
 	{
 	case 0:
-	case 1:
-	case 2:
-	case 3:
-	case 4:
-		weapon = "rottweil72_upgraded_zm";
-		if ( IsDefined( level.zombie_include_weapons["rottweil72_upgraded_zm"] ) )
+		weapon = "ray_gun_upgraded_zm";
+		if ( IsDefined( level.zombie_include_weapons["ray_gun_upgraded_zm"] ) )
 		{
 			break;
 		}
-	case 5:
-	case 6:
-	case 7:
-	case 8:
-	case 9:
+	case 1:
+		weapon = "spas_upgraded_zm";
+		if ( IsDefined( level.zombie_include_weapons["spas_upgraded_zm"] ) )
+		{
+			break;
+		}
+	case 2:
 		weapon = "python_upgraded_zm";
 		if ( IsDefined( level.zombie_include_weapons["python_upgraded_zm"] ) )
 		{
 			break;
 		}
-	default:
-		weapon = "spas_upgraded_zm";
-		break;
+	//explosive weapons hurt the player who threw the QED, disable them for now
+	/*case 2:
+		weapon = "china_lake_upgraded_zm";
+		if ( IsDefined( level.zombie_include_weapons["china_lake_upgraded_zm"] ) )
+		{
+			break;
+		}
+	case 3:
+		weapon = "m72_law_upgraded_zm";
+		if ( IsDefined( level.zombie_include_weapons["m72_law_upgraded_zm"] ) )
+		{
+			break;
+		}*/
 	}
-
 
 	quantum_bomb_play_player_effect_at_position( position );
 
@@ -443,6 +451,8 @@ quantum_bomb_random_weapon_starburst_result( position )
 	weapon_model waittill( "movedone" );
 
 	attacker = self;
+	//weapon_model.magic_bullet_damage = true;
+	//attacker = weapon_model;
 	for ( i = 0; i < 36; i++ )
 	{
 		yaw = start_yaw + (RandomIntRange( -3, 3 ), i * 10, 0);
@@ -457,6 +467,7 @@ quantum_bomb_random_weapon_starburst_result( position )
 
 		MagicBullet( weapon, flash_pos, target_pos, attacker );
 
+		//wait .05;
 		wait_network_frame();
 	}
 

@@ -474,7 +474,6 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 	}
 	println("CB PD");
 
-
 	if( isdefined( eAttacker ) && ((isPlayer( eAttacker )) && (eAttacker.team == self.team))&& ( !isDefined( level.friendlyexplosivedamage ) || !level.friendlyexplosivedamage ))
 	{
 		if( !isDefined(level.is_friendly_fire_on) || ![[level.is_friendly_fire_on]]() )

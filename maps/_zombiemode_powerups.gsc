@@ -2249,7 +2249,7 @@ full_ammo_powerup( drop_item )
 			// Fill the clip
 			//players[i] SetWeaponAmmoClip( primary_weapons[x], WeaponClipSize( primary_weapons[x] ) );
 
-			if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1")
+			if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2")
 			{
 				if(is_lethal_grenade(primary_weapons[x]))
 				{

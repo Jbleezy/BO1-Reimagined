@@ -1534,20 +1534,20 @@ snr_round_win_watcher()
 		{
 			if(players[i].vsteam == team)
 			{
-				players[i] SetClientDvar("vs_counter_friendly", "hud_chalk_" + level.round_wins[team]);
+				players[i] SetClientDvar("vs_counter_friendly_num", level.round_wins[team]);
 				if(level.round_wins[team] == 1)
 				{
-					players[i] SetClientDvar("vs_counter_friendly_num_on", false);
-					players[i] SetClientDvar("vs_counter_friendly_on", true);
+					players[i] SetClientDvar("vs_counter_friendly_num_on", true);
+					players[i] SetClientDvar("vs_counter_friendly_on", false);
 				}
 			}
 			else
 			{
-				players[i] SetClientDvar("vs_counter_enemy", "hud_chalk_" + level.round_wins[team]);
+				players[i] SetClientDvar("vs_counter_friendly_num", level.round_wins[team]);
 				if(level.round_wins[team] == 1)
 				{
-					players[i] SetClientDvar("vs_counter_enemy_num_on", false);
-					players[i] SetClientDvar("vs_counter_enemy_on", true);
+					players[i] SetClientDvar("vs_counter_enemy_num_on", true);
+					players[i] SetClientDvar("vs_counter_enemy_on", false);
 				}
 			}
 		}
@@ -1701,7 +1701,7 @@ race_win_watcher()
 		}
 
 		//display hud counters
-		if(kills["cdc"] > 5)
+		if(kills["cdc"] > 0)
 		{
 			for(i=0;i<players.size;i++)
 			{
@@ -1719,26 +1719,8 @@ race_win_watcher()
 				}
 			}
 		}
-		else if(kills["cdc"] > 0)
-		{
-			for(i=0;i<players.size;i++)
-			{
-				if(players[i].vsteam == "cdc")
-				{
-					players[i] SetClientDvar("vs_counter_friendly_num_on", false);
-					players[i] SetClientDvar("vs_counter_friendly", "hud_chalk_" + kills["cdc"]);
-					players[i] SetClientDvar("vs_counter_friendly_on", true);
-				}
-				else
-				{
-					players[i] SetClientDvar("vs_counter_enemy_num_on", false);
-					players[i] SetClientDvar("vs_counter_enemy", "hud_chalk_" + kills["cdc"]);
-					players[i] SetClientDvar("vs_counter_enemy_on", true);
-				}
-			}
-		}
 
-		if(kills["cia"] > 5)
+		if(kills["cia"] > 0)
 		{
 			for(i=0;i<players.size;i++)
 			{
@@ -1753,24 +1735,6 @@ race_win_watcher()
 					players[i] SetClientDvar("vs_counter_enemy_on", false);
 					players[i] SetClientDvar("vs_counter_enemy_num", kills["cia"]);
 					players[i] SetClientDvar("vs_counter_enemy_num_on", true);
-				}
-			}
-		}
-		else if(kills["cia"] > 0)
-		{
-			for(i=0;i<players.size;i++)
-			{
-				if(players[i].vsteam == "cia")
-				{
-					players[i] SetClientDvar("vs_counter_friendly_num_on", false);
-					players[i] SetClientDvar("vs_counter_friendly", "hud_chalk_" + kills["cia"]);
-					players[i] SetClientDvar("vs_counter_friendly_on", true);
-				}
-				else
-				{
-					players[i] SetClientDvar("vs_counter_enemy_num_on", false);
-					players[i] SetClientDvar("vs_counter_enemy", "hud_chalk_" + kills["cia"]);
-					players[i] SetClientDvar("vs_counter_enemy_on", true);
 				}
 			}
 		}
@@ -2210,17 +2174,11 @@ update_gungame_hud()
 	wep_num = self.gg_wep_num + 1;
 
 	//update personal counter (left side)
-	if(wep_num > 5)
+	if(wep_num > 0)
 	{
 		self SetClientDvar("vs_counter_friendly_on", false);
 		self SetClientDvar("vs_counter_friendly_num", wep_num);
 		self SetClientDvar("vs_counter_friendly_num_on", true);
-	}
-	else if(wep_num > 0)
-	{
-		self SetClientDvar("vs_counter_friendly_num_on", false);
-		self SetClientDvar("vs_counter_friendly", "hud_chalk_" + wep_num);
-		self SetClientDvar("vs_counter_friendly_on", true);
 	}
 
 	players = get_players();
@@ -2262,33 +2220,15 @@ update_gungame_hud()
 		//show second place player's score for first place player
 		if(players[i] == highest_player)
 		{
-			if(second_highest_wep > 5)
-			{
-				players[i] SetClientDvar("vs_counter_enemy_on", false);
-				players[i] SetClientDvar("vs_counter_enemy_num", second_highest_wep);
-				players[i] SetClientDvar("vs_counter_enemy_num_on", true);
-			}
-			else if(second_highest_wep > 0)
-			{
-				players[i] SetClientDvar("vs_counter_enemy_num_on", false);
-				players[i] SetClientDvar("vs_counter_enemy", "hud_chalk_" + second_highest_wep);
-				players[i] SetClientDvar("vs_counter_enemy_on", true);
-			}
+			players[i] SetClientDvar("vs_counter_enemy_on", false);
+			players[i] SetClientDvar("vs_counter_enemy_num", second_highest_wep);
+			players[i] SetClientDvar("vs_counter_enemy_num_on", true);
 		}
 		else
 		{
-			if(highest_wep > 5)
-			{
-				players[i] SetClientDvar("vs_counter_enemy_on", false);
-				players[i] SetClientDvar("vs_counter_enemy_num", highest_wep);
-				players[i] SetClientDvar("vs_counter_enemy_num_on", true);
-			}
-			else if(highest_wep > 0)
-			{
-				players[i] SetClientDvar("vs_counter_enemy_num_on", false);
-				players[i] SetClientDvar("vs_counter_enemy", "hud_chalk_" + highest_wep);
-				players[i] SetClientDvar("vs_counter_enemy_on", true);
-			}
+			players[i] SetClientDvar("vs_counter_enemy_on", false);
+			players[i] SetClientDvar("vs_counter_enemy_num", highest_wep);
+			players[i] SetClientDvar("vs_counter_enemy_num_on", true);
 		}
 	}
 }

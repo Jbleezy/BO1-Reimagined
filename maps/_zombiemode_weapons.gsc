@@ -1748,7 +1748,7 @@ decide_hide_show_hint( endon_notify )
 						{
 							max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
 						}
-						else if((GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1") && weapon_type == "grenade")
+						else if((GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2") && weapon_type == "grenade")
 						{
 							max_ammo = 4;
 						}
@@ -3053,7 +3053,7 @@ treasure_chest_give_weapon( weapon_string )
 			self TakeWeapon( self get_player_tactical_grenade() );
 		}
 		self maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
-		if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1")
+		if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2")
 		{
 			self SetWeaponAmmoClip(weapon_string, 3);
 		}
@@ -3069,7 +3069,7 @@ treasure_chest_give_weapon( weapon_string )
 		}
 		self giveweapon( "molotov_zm" );
 		self set_player_tactical_grenade( "molotov_zm" );
-		if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1")
+		if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2")
 		{
 			self SetWeaponAmmoClip(weapon_string, 3);
 		}
@@ -3778,7 +3778,7 @@ ammo_give( weapon )
 		max_ammo += WeaponClipSize(weapon);
 	}
 
-	if((GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1") && is_offhand_weapon(weapon))
+	if((GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2") && is_offhand_weapon(weapon))
 	{
 		max_ammo = 4;
 	}
@@ -3851,7 +3851,7 @@ ammo_give( weapon )
 	if( give_ammo )
 	{
 		self play_sound_on_ent( "purchase" );
-		if((GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1") && is_offhand_weapon( weapon ))
+		if((GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2") && is_offhand_weapon( weapon ))
 		{
 			self SetWeaponAmmoClip( weapon, 4 );
 		}

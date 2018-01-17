@@ -70,7 +70,7 @@ spear_trap_think()
 		self waittill("trigger", who);
 
 		//Only player can trigger trap
-		if(!IsDefined( who ) || !IsPlayer( who ) || who.sessionstate == "spectator" )
+		if(!IsDefined( who ) || !IsPlayer( who ) || who maps\_laststand::player_is_in_laststand() || who.sessionstate == "spectator" )
 		{
 			continue;
 		}
