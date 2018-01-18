@@ -1759,8 +1759,6 @@ onPlayerConnect()
 		player thread sprint_notify();
 		player thread switch_weapons_notify();
 		player thread is_reloading_check();
-
-		player thread stielhandgranate_impact_damage();
 	}
 }
 
@@ -2060,8 +2058,6 @@ onPlayerSpawned()
 		self thread revive_grace_period();
 
 		self thread no_weapon_watcher();
-
-		self thread disable_grenades_watcher();
 
 		self thread disable_melee_watcher();
 
@@ -2454,11 +2450,40 @@ player_grenade_watcher()
 	{
 		self waittill( "grenade_fire", grenade, weapName );
 
+		//REMOVE LATER
+		if(!IsDefined(grenade))
+		{
+			iprintlnbold("grenade not defined!");
+		}
+
 		if( isdefined( grenade ) && isalive( grenade ) )
 		{
 			grenade.team = self.team;
 		}
+
+		//Stielhandgranate - add impact damage through script
+		if(weapName == "stielhandgranate")
+		{
+			grenade thread do_damage_on_impact(self);
+		}
+
+		//disable grenades for a short period after just throwing a grenade
+		//to fix a bug that caused players to be able to throw a second grenade faster than intended
+		if(is_lethal_grenade(weapName) || is_tactical_grenade(weapName))
+		{
+			self thread temp_disable_offhand_weapons();
+		}
 	}
+}
+
+temp_disable_offhand_weapons()
+{
+	self endon( "disconnect" );
+
+	self DisableOffhandWeapons();
+	while(self IsThrowingGrenade())
+		wait_network_frame();
+	self EnableOffhandWeapons();
 }
 
 player_prevent_damage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, modelIndex, psOffsetTime )
@@ -8651,7 +8676,7 @@ give_weapons_test()
 	wait_network_frame();
 	self SwitchToWeapon(wep);*/
 
-	self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
+	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
 	//self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
 
@@ -8752,25 +8777,6 @@ velocity_test()
 		vel = self GetVelocity();
 		iprintln(vel);
 		wait_network_frame();
-	}
-}
-
-stielhandgranate_impact_damage()
-{
-	self endon("disconnect");
-
-	if(!IsSubStr(level.script, "zombie_cod5_"))
-	{
-		return;
-	}
-
-	while(1)
-	{
-		self waittill( "grenade_fire", grenade, weaponName, parent );
-		if(weaponName == "stielhandgranate")
-		{
-			grenade thread do_damage_on_impact(self);
-		}
 	}
 }
 
@@ -9196,32 +9202,11 @@ reload_complete_notify(reload_time)
 	self endon("melee");
 	self endon("sprint");
 	self endon("switch_weapons");
+	self endon("disconnect");
 
 	wait reload_time;
 
 	self notify("reload_complete");
-}
-
-disable_grenades_watcher()
-{
-	self endon("death");
-	self endon("disconnect");
-
-	flag_wait("all_players_spawned");
-
-	while(1)
-	{
-		if(self IsThrowingGrenade())
-		{
-			self DisableOffhandWeapons();
-			while(self IsThrowingGrenade())
-			{
-				wait_network_frame();
-			}
-			self EnableOffhandWeapons();
-		}
-		wait_network_frame();
-	}
 }
 
 disable_melee_watcher()

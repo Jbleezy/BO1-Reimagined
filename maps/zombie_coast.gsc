@@ -183,7 +183,7 @@ main()
 
 	level thread setup_water_physics();
 	level thread setup_zcoast_water();
-	level thread maps\zombie_coast_distance_tracking::zombie_tracking_init();
+	level thread maps\_zombiemode_spawner::zombie_tracking_init();
 
 	// fix for pathing below player at drop offs.
 	SetSavedDvar( "zombiemode_path_minz_bias", 17 );

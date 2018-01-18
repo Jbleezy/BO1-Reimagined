@@ -64,18 +64,19 @@
 
 ## Settings
 * Removed popup menu when changing graphic content to unrestricted
+* Combat settings: removed Sprint/Hold Breath option and Steady Sniper option (sniper scopes are always steady now)
 * Option to change FOV (65-120 in intervals of 5)
 * Option to show FPS on HUD
+* Option to change max FPS
+* Option to disable fog
+* Option to add weapon cycle delay
 * Option to disable character dialog (host only)
-* Option to enable/disable Mule Kick (host only, always disabled on Nacht, always enabled on Moon)
+* Option to disable Mule Kick (host only, always disabled on Nacht, always enabled on Moon)
+* Options to enable/disable timer, zombie counter, zone names, and character names
 * Option to choose which room you start in on Verruckt (host only)
 * Option to choose which perk you start with on No Man's Land (host only)
 * Options to set which barriers in Five first room you want disabled (host only)
 * Option to choose the initial box location on maps that have a random initial box location (host only)
-* Max FPS option
-* Fog option
-* Weapon cycle delay option
-* Options to enable/disable timer, zombie counter, zone names, and character names
 * Option to choose which gamemode you want to play, including random which includes every gamemode except survival
 * Option for random map rotation on versus gamemodes (automatically loads new map after intermission screen)
 
@@ -572,7 +573,9 @@
 * Zombies will no longer get stuck behind a barrier when there are many zombies behind one barrier
 
 ## Zombies
-* Fixed a bug where zombies would bleed out when they shouldn't have
+* Fixed a bug where zombies would bleed out occasionally if they were standing in the same spot they were 30 seconds ago
+* For zombies to not bleed out, a player must now have line of sight to the zombie in addition to looking at the zombie
+* Zombies will now not bleed out if they are in an active zone in addition to being close to a player
 * Zombies can no longer be alive and headless
 * 4 round and 5 round special rounds will happen more equally now
 * Max health: 1 million
@@ -874,7 +877,6 @@
 * Fix projectiles disappearing
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?)
 * Find out how to get MagicBullet() to not effect players (for starbust QED weapons)
-* Make deleting zombies use sighttracepassed for check instead of player_can_see_me
 * Five: rebuilding glass barriers puts back the glass instead of wooden barriers
 * Make better last powerup FX
 * Check out box glitch when grabbing a fire sale as the box is moving
@@ -883,7 +885,6 @@
 * Fix trench gun 3rd person sounds being too loud
 * Make crawlers give kill points immediately if killed on wall
 * Add stielhandgranate icon on HUD
-* Add dtp anims for all weapons
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
 * Fix dtp loop anims on PSG1, M72 LAW, and RPK
 * Fix weapon bobbing on PSG1
@@ -961,6 +962,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need a 3-4 player game)
 * Check if PaP is showing take weapon hintstring for other players weapons for a short period
+* Test if we throw a grenade and it fails, see if the print statement shows up
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

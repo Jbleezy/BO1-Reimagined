@@ -143,7 +143,7 @@ main()
 	// Setup generator switch
 	level thread electric_switch();
 
-	level thread maps\zombie_moon_distance_tracking::zombie_tracking_init();
+	level thread maps\_zombiemode_spawner::zombie_tracking_init();
 
 	// Teleporter initializations
 	init_no_mans_land();

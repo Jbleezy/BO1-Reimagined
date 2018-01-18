@@ -2,8 +2,8 @@
 #include "ui_mp/common_macro.inc"
 #define OPTIONS_STYLE			1
 
-#define 	CHOICE_SEP_1		30
-#define 	CHOICE_SEP_2		32
+#define 	CHOICE_SEP_1		28
+#define 	CHOICE_SEP_2		30
 
 #include "ui_mp/menustyle.inc"
 #include "ui/choices_setup_common.menu"
@@ -104,27 +104,27 @@
 		FRAME_CHOICE_BIND( 26, "@MENU_SWITCH_WEAPON_CAPS", "weapnext", ; )
 		FRAME_CHOICE_BIND( 27, "@MENU_RELOAD_WEAPON_CAPS", "+reload", ; )
 		FRAME_CHOICE_BIND( 28, "@MENU_SPRINT_CAPS", "+sprint", ; )
-		FRAME_CHOICE_BIND( 29, "@MENU_SPRINT_HOLD_BREATH_CAPS", "+breath_sprint", ; )
-		FRAME_CHOICE_BIND( 30, "@MENU_STEADY_SNIPER_RIFLE_CAPS", "+holdbreath", ; )
+		//FRAME_CHOICE_BIND( 29, "@MENU_SPRINT_HOLD_BREATH_CAPS", "+breath_sprint", ; )
+		//FRAME_CHOICE_BIND( 30, "@MENU_STEADY_SNIPER_RIFLE_CAPS", "+holdbreath", ; )
 
 		//FRAME_CHOICE_SEPARATOR( CHOICE_SEP_1 )
 
-		FRAME_CHOICE_BIND( 31, "@MENU_THROW_FRAG_GRENADE_CAPS", "+frag", ; )
-		FRAME_CHOICE_BIND( 32, "@MENU_THROW_SPECIAL_GRENADE_CAPS", "+smoke", ; )
+		FRAME_CHOICE_BIND( 29, "@MENU_THROW_FRAG_GRENADE_CAPS", "+frag", ; )
+		FRAME_CHOICE_BIND( 30, "@MENU_THROW_SPECIAL_GRENADE_CAPS", "+smoke", ; )
 
 		//FRAME_CHOICE_SEPARATOR( CHOICE_SEP_2 )
 
-		FRAME_CHOICE_BIND_VIS( 33, "@PLATFORM_USE_EQUIPMENT_CAPS", "+actionslot 1", ;, ( dvarbool( ui_multiplayer ) ), dvarbool( ui_multiplayer ) )	//mp
-		FRAME_CHOICE_BIND_VIS( 33, "@PLATFORM_USE_EQUIPMENT_CAPS", "+actionslot 1", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) ) //sp
+		FRAME_CHOICE_BIND_VIS( 31, "@PLATFORM_USE_EQUIPMENT_CAPS", "+actionslot 1", ;, ( dvarbool( ui_multiplayer ) ), dvarbool( ui_multiplayer ) )	//mp
+		FRAME_CHOICE_BIND_VIS( 31, "@PLATFORM_USE_EQUIPMENT_CAPS", "+actionslot 1", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) ) //sp
 
-		FRAME_CHOICE_BIND_VIS( 34, "@MENU_ACTION_INVENTORY_CAPS", "+actionslot 3", ;, ( dvarbool( ui_multiplayer ) ), dvarbool( ui_mulitplayer ) ) 	//mp
+		FRAME_CHOICE_BIND_VIS( 32, "@MENU_ACTION_INVENTORY_CAPS", "+actionslot 3", ;, ( dvarbool( ui_multiplayer ) ), dvarbool( ui_mulitplayer ) ) 	//mp
 		//FRAME_CHOICE_BIND_VIS( 34, "@MENU_SATCHEL_CHARGE", "+actionslot 2", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) ) 	//sp
-		FRAME_CHOICE_BIND_VIS( 34, "@MENU_ACTION_INVENTORY_CAPS", "+actionslot 3", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) ) //sp
+		FRAME_CHOICE_BIND_VIS( 32, "@MENU_ACTION_INVENTORY_CAPS", "+actionslot 3", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) ) //sp
 
-		FRAME_CHOICE_BIND_VIS( 35, "@MENU_GROUND_SUPPORT_CAPS", "+actionslot 4", ;, ( dvarbool( ui_multiplayer ) ), dvarbool( ui_multiplayer )  ) 	//mp
-		FRAME_CHOICE_BIND_VIS( 35, "@MENU_GROUND_SUPPORT_CAPS", "+actionslot 4", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) )//sp
+		FRAME_CHOICE_BIND_VIS( 33, "@MENU_GROUND_SUPPORT_CAPS", "+actionslot 4", ;, ( dvarbool( ui_multiplayer ) ), dvarbool( ui_multiplayer )  ) 	//mp
+		FRAME_CHOICE_BIND_VIS( 33, "@MENU_GROUND_SUPPORT_CAPS", "+actionslot 4", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) )//sp
 		//CHOICE_BACK( "@MENU_BACK", close self )
 
-		FRAME_CHOICE_BIND_VIS( 36, "@REIMAGINED_MELEE_WEAPON", "+actionslot 2", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) )//sp
+		FRAME_CHOICE_BIND_VIS( 34, "@REIMAGINED_MELEE_WEAPON", "+actionslot 2", ;, ( !dvarbool( ui_multiplayer ) ), !dvarbool( ui_multiplayer ) )//sp
 	}
 }

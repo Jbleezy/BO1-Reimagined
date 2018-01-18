@@ -2676,7 +2676,8 @@ move_faster_while_ads(perk_str)
 	while(1)
 	{
 		current_ads = self PlayerADS();
-		if(previous_ads > current_ads)
+		iprintln(current_ads);
+		if(previous_ads > current_ads || self.is_reloading)
 		{
 			if(set)
 			{
@@ -2686,11 +2687,6 @@ move_faster_while_ads(perk_str)
 		}
 		else if(current_ads >= .5)
 		{
-			while(self.is_reloading)
-			{
-				wait_network_frame();
-			}
-
 			set = true;
 			wep = self GetCurrentWeapon();
 			class = WeaponClass(wep);
