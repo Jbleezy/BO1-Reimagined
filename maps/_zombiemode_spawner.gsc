@@ -5399,32 +5399,36 @@ delete_zombie_noone_looking(how_close)
 		{
 			return;
 		}		
-	
 		// zombie took damage, don't touch.
 		if(self.health != level.zombie_health)
 		{
 			return;
-		}	
-		else
+		}
+		if(IsDefined(self.humangun_delayed_kill_active) && self.humangun_delayed_kill_active)
 		{
-			// exclude rising zombies that haven't finished rising.
-			if(IsDefined(self.in_the_ground) && self.in_the_ground == true)
-			{
-				return;
-			}
+			return;
+		}
+		// exclude rising zombies that haven't finished rising.
+		if(IsDefined(self.in_the_ground) && self.in_the_ground == true)
+		{
+			return;
+		}
+		// exclude falling zombies that haven't dropped.
+		if(IsDefined(self.in_the_ceiling) && self.in_the_ceiling == true)
+		{
+			return;
+		}
+		//VR11 delayed kill
+		if(IsDefined(self.humangun_delayed_kill_active) && self.humangun_delayed_kill_active)
+		{
+			return;
+		}
 
-			// exclude falling zombies that haven't dropped.
-			if(IsDefined(self.in_the_ceiling) && self.in_the_ceiling == true)
-			{
-				return;
-			}				
-			
- 			//IPrintLnBold("deleting zombie out of view lul");
-			level.zombie_total++;
-			self maps\_zombiemode_spawner::reset_attack_spot();
-			self notify("zombie_delete");
-			self Delete();
-		}	
+		//IPrintLnBold("deleting zombie out of view lul");
+		level.zombie_total++;
+		self maps\_zombiemode_spawner::reset_attack_spot();
+		self notify("zombie_delete");
+		self Delete();	
 	}
 }
 //-------------------------------------------------------------------------------

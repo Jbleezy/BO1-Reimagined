@@ -2672,12 +2672,13 @@ move_faster_while_ads(perk_str)
 		self.move_speed = 1;
 	}
 	previous_ads = 0;
+	initial_ads = 0;
 
 	while(1)
 	{
 		current_ads = self PlayerADS();
-		iprintln(current_ads);
-		if(previous_ads > current_ads || self.is_reloading)
+		//iprintln(current_ads);
+		if(current_ads == 0 || previous_ads > current_ads || self.still_reloading) // || self.is_reloading
 		{
 			if(set)
 			{
@@ -2685,58 +2686,81 @@ move_faster_while_ads(perk_str)
 				self SetMoveSpeedScale(self.move_speed);
 			}
 		}
-		else if(current_ads >= .5)
+		//else if(current_ads >= .5)
+		//as current_ads goes from 0 to 1, move_speed_increase should go from 1 to its max value
+		//example: if current_ads is .5 and move_speed_increase is 2.5 and self.move_speed is 1, the result should be 1.75
+		else
 		{
-			set = true;
+			if(!set)
+			{
+				set = true;
+				initial_ads = previous_ads;
+			}
+			//only increase move speed during ads if the player was initially not ads, or else they will move faster than intended
+			if(current_ads < 1 && initial_ads != 0)
+			{
+				previous_ads = current_ads;
+				wait .001;
+				continue;
+			}
+
 			wep = self GetCurrentWeapon();
 			class = WeaponClass(wep);
+			move_speed_increase = 1;
 			if(class == "pistol" || class == "smg")
 			{
 				if(IsSubStr(wep, "ppsh") || IsSubStr(wep, "mp40") || IsSubStr(wep, "ray_gun"))
 				{
-					self SetMoveSpeedScale(self.move_speed * 2.5);
+					move_speed_increase = 2.5;
 				}
 				else
 				{
-					self SetMoveSpeedScale(self.move_speed * 1.25);
+					move_speed_increase = 1.25;
 				}
 			}
 			else if(class == "spread")
 			{
 				if(IsSubStr(wep, "ithaca"))
 				{
-					self SetMoveSpeedScale(self.move_speed * 1.25);
+					move_speed_increase = 1.25;
 				}
 				else
 				{
-					self SetMoveSpeedScale(self.move_speed * 2.5);
+					move_speed_increase = 2.5;
 				}
 			}
 			else if(class == "rocketlauncher" || class == "grenade")
 			{
-				self SetMoveSpeedScale(self.move_speed * 2);
+				move_speed_increase = 2;
 			}
 			else if(class == "mg")
 			{
-				self SetMoveSpeedScale(self.move_speed * 2.2);
+				move_speed_increase = 2.2;
 			}
 			else if(class == "rifle")
 			{
 				if(IsSubStr(wep, "sniper_explosive"))
 				{
-					self SetMoveSpeedScale(self.move_speed * 2.25);
+					move_speed_increase = 2.25;
 				}
 				else if(IsSubStr(wep, "humangun") || IsSubStr(wep, "shrink_ray") || IsSubStr(wep, "microwavegun"))
 				{
-					self SetMoveSpeedScale(self.move_speed * 2.5);
+					move_speed_increase = 2.5;
 				}
 				else
 				{
-					self SetMoveSpeedScale(self.move_speed * 2.4);
+					move_speed_increase = 2.5;
 				}
 			}
+
+			//if not fully ads, only increase move speed partially based off how far ads the player is
+			if(current_ads < 1)
+			{
+				move_speed_increase = 1 + ((move_speed_increase - 1) * current_ads);
+			}
+			self SetMoveSpeedScale(self.move_speed * move_speed_increase);
 		}
 		previous_ads = current_ads;
-		wait_network_frame();
+		wait .001;
 	}
 }

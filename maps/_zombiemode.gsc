@@ -5844,15 +5844,16 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	//kino and ascension turrets
 	if(weapon == "zombie_bullet_crouch" && meansofdeath == "MOD_RIFLE_BULLET")
 	{
-		damage = int(self.maxhealth/3) + 1;
-		if(damage < 500)
-			damage = 500;
+		//damage = int(self.maxhealth/3) + 1;
+		//if(damage < 500)
+		//	damage = 500;
+		return self.health + 1000;
 	}
 
 	//gersch, skip damage if they dead do full damage
 	if( IsDefined( self._black_hole_bomb_collapse_death ) && self._black_hole_bomb_collapse_death == 1 )
 	{
-		return self.health + 50;
+		return self.health + 1000;
 	}
 
 	// skip conditions
@@ -5940,7 +5941,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			{
 				self.no_powerups = true;
 			}
-			return self.maxhealth + 1000;
+			return self.health + 1000;
 		}
 	}
 
@@ -6231,11 +6232,11 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		{
 			if(!(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck") && final_damage < level.zombie_health / 4)
 			{
-				final_damage = int(level.zombie_health / 4);
+				final_damage = int(self.maxhealth / 4);
 			}
 			else if((sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck") && final_damage < level.zombie_health / 2)
 			{
-				final_damage = int(level.zombie_health / 2);
+				final_damage = int(self.maxhealth / 2);
 			}
 		}
 	}
@@ -6276,11 +6277,11 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 
 	if(weapon == "molotov_zm")
 	{
-		final_damage = level.zombie_health + 1000;
+		final_damage = self.health + 1000;
 	}
 
 	if((weapon == "sniper_explosive_bolt_zm" || weapon == "sniper_explosive_bolt_upgraded_zm") && self.animname != "director_zombie")
-		final_damage = level.zombie_health + 1000;
+		final_damage = self.health + 1000;
 
 	if(attacker HasPerk("specialty_rof") && (meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET"))
 		final_damage = int(final_damage * 1.5);
@@ -8776,7 +8777,7 @@ velocity_test()
 	{
 		vel = self GetVelocity();
 		iprintln(vel);
-		wait_network_frame();
+		wait .0001;
 	}
 }
 
@@ -9182,31 +9183,41 @@ is_reloading_check()
 	{
 		self waittill("reload_start");
 
-		/*weapon = self GetCurrentWeapon();
-        reload_time = WeaponReloadTime(weapon);
-        if(self HasPerk("specialty_fastreload"))
-       		reload_time *= GetDvarFloat("perk_weapReloadMultipler");
-
-       	self thread reload_complete_notify(reload_time);*/
+		empty_clip = self GetCurrentWeaponClipAmmo() == 0;
 
 		self.is_reloading = true;
+		self.still_reloading = true;
 
-		self waittill_any("reload", "melee", "sprint", "switch_weapons");
+		waittill_return = self waittill_any_return("reload", "melee", "sprint", "switch_weapons");
 
 		self.is_reloading = false;
+
+		if(waittill_return == "reload")
+		{
+			self reload_complete_check(empty_clip);
+		}
+		self.still_reloading = false;
 	}
 }
 
-reload_complete_notify(reload_time)
+reload_complete_check(empty_clip)
 {
 	self endon("melee");
 	self endon("sprint");
 	self endon("switch_weapons");
+	self endon("weapon_fired");
 	self endon("disconnect");
 
-	wait reload_time;
+	weapon = self GetCurrentWeapon();
+	reload_time = WeaponReloadTime(weapon);
+	if(self HasPerk("specialty_fastreload"))
+		reload_time *= GetDvarFloat("perk_weapReloadMultipler");
 
-	self notify("reload_complete");
+	reload_time *= .2;
+	if(empty_clip)
+		reload_time *= 2;
+
+	wait reload_time;
 }
 
 disable_melee_watcher()

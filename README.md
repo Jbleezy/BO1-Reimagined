@@ -529,7 +529,7 @@
 
 ### Turrets (Kino Der Toten and Ascension)
 * No longer deal damage to players
-* Deal 500 damage or 1/3 of zombie's health, whichever one is more
+* Kills zombies in one shot
 * Turrets now lockon to a new target quicker
 * Turrets now target the zombie that is closest to the turret
 
@@ -1014,8 +1014,12 @@
 * Add ReloadButtonPressed() function
 * Add SprintButtonPressed() function
 * Add WeaponSwitchButtonPressed() function
-* Add WeaponReloadAddTime() function
+* Add WeaponReloadEndTime() function
+* Add IsReloading() function
 * Fix ChangeLevel()
+* Make specialty_fastads perk work
+* Make specialty_fastinteract perk (or whatever the fast grenade throw perk is) work
+* Add perk for faster movement while ads
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
