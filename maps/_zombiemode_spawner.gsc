@@ -4702,6 +4702,42 @@ do_zombie_rise()
 		spots = GetStructArray("zombie_rise", "targetname");
 	}
 
+	//No Man's Land initial spawn - force to spawn from the middle
+	if(IsDefined(level.initial_spawn) && level.initial_spawn && level.gamemode == "survival")
+	{
+		if(!IsDefined(level.spawn_in_middle))
+		{
+			level.spawn_in_middle = true;
+		}
+
+		if(level.spawn_in_middle)
+		{
+			level.spawn_in_middle = false;
+			initial_spots = array(7, 8, 9, 10, 11, 12, 15, 16); //the middle spawns in No Man's Land area
+			playable_area = getentarray("player_volume", "script_noteworthy");
+			temp = [];
+			for (i = 0; i < spots.size; i++)
+			{
+				if(is_in_array(initial_spots, i))
+					temp[temp.size] = spots[i];
+			}
+			spots = temp;
+		}
+		else
+		{
+			level.spawn_in_middle = true;
+			initial_spots = array(7, 8, 9, 10, 11, 12, 15, 16); //the middle spawns in No Man's Land area
+			playable_area = getentarray("player_volume", "script_noteworthy");
+			temp = [];
+			for (i = 0; i < spots.size; i++)
+			{
+				if(!is_in_array(initial_spots, i))
+					temp[temp.size] = spots[i];
+			}
+			spots = temp;
+		}
+	}
+
 	spot = undefined;
 
 	if( spots.size < 1 )
@@ -5341,7 +5377,7 @@ zombie_tracking_init()
 				zombies[i] thread delete_zombie_noone_looking(1500);
 			}
 		}
-		wait(10);	
+		wait_network_frame();	
 	}	
 }	
 //-------------------------------------------------------------------------------
@@ -5357,9 +5393,33 @@ delete_zombie_noone_looking(how_close)
 	{
 		how_close = 1000;
 	}
-	
-	self.inview = 0;
-	self.player_close = 0;
+
+	if(!IsDefined(self.animname) || (IsDefined(self.animname) && self.animname != "zombie"))
+	{
+		return;
+	}
+
+	playable_area = getentarray("player_volume","script_noteworthy");
+	in_playable_area = false;
+	for (i = 0; i < playable_area.size; i++)
+	{
+		if (self istouching(playable_area[i]))
+		{
+			in_playable_area = true;
+			break;
+		}
+	}
+
+	if(!in_playable_area)
+	{
+		return;
+	}
+
+	if(!IsDefined(self.player_in_sight_time))
+		self.player_in_sight_time = GetTime();
+
+	can_be_seen = false;
+	near = false;
 	
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
@@ -5370,31 +5430,28 @@ delete_zombie_noone_looking(how_close)
 			continue;
 		}
 
-		//zombie must be in line of sight of a player, and either in an active zone or near the player to not bleed out
+		//zombie must be in line of sight of a player, in an active zone, or near the player to not bleed out
 
 		//SightTracePassed() checks if there is any collision between the player and the zombie
 		//player_can_see_me() checks if the player is looking at the direction of the zombie
-		can_be_seen = SightTracePassed( players[i] GetEye(), self.origin, false, undefined ) && self player_can_see_me(players[i]);
+		if(!can_be_seen)
+			can_be_seen = SightTracePassed( players[i] GetEye(), self.origin, false, undefined ) && self player_can_see_me(players[i]);
 
-		near = level.zones[self get_current_zone()].is_active || Distance(self.origin, players[i].origin) < how_close;
+		if(!near)
+			near = level.zones[self get_current_zone()].is_active || Distance(self.origin, players[i].origin) < how_close;		
+	}
 
-		if(can_be_seen)
-		{
-			self.inview++;
-		}
-		else if(near)
-		{
-			self.player_close++;					
-		}		
-	}	
-
-	wait_network_frame();
-	if(self.inview == 0 && self.player_close == 0 )
+	//reset player player_in_sight_time if a player can see zombie or player is near zombie
+	if(can_be_seen || near)
 	{
-		if(!IsDefined(self.animname) || (IsDefined(self.animname) && self.animname != "zombie"))
-		{
-			return;
-		}
+		self.player_in_sight_time = GetTime();
+		return;
+	}
+
+	//wait_network_frame();
+	time = GetTime() - self.player_in_sight_time;
+	if(time >= 5000)
+	{
 		if(IsDefined(self.electrified) && self.electrified == true)
 		{
 			return;
@@ -5424,11 +5481,12 @@ delete_zombie_noone_looking(how_close)
 			return;
 		}
 
-		//IPrintLnBold("deleting zombie out of view lul");
+		//IPrintLnBold("deleting zombie out of view");
 		level.zombie_total++;
-		self maps\_zombiemode_spawner::reset_attack_spot();
-		self notify("zombie_delete");
-		self Delete();	
+		self DoDamage(self.health + 1000, self.origin);
+		//self maps\_zombiemode_spawner::reset_attack_spot();
+		//self notify("zombie_delete");
+		//self Delete();	
 	}
 }
 //-------------------------------------------------------------------------------

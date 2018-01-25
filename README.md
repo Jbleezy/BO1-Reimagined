@@ -466,6 +466,7 @@
 * An effect now plays when a powerup spawns if it is the last powerup of a powerup cycle
 * Grabbing a powerup that is already active will add to its current remaining time instead of resetting its remaining time
 * Powerups will now not be grabbed automatically if spawned near where a player died at
+* Powerups that are not initally active are now guaranteed to be added to your current powerup cycle when they become active
 
 ### Carpenter
 * Removed
@@ -577,6 +578,7 @@
 * Fixed a bug where zombies would bleed out occasionally if they were standing in the same spot they were 30 seconds ago
 * For zombies to not bleed out, a player must now have line of sight to the zombie in addition to looking at the zombie
 * Zombies will now not bleed out if they are in an active zone in addition to being close to a player
+* Zombies that bleed out from being too far away will now be killed instead of deleted
 * Zombies can no longer be alive and headless
 * 4 round and 5 round special rounds will happen more equally now
 * Max health: 1 million
@@ -740,6 +742,7 @@
 * Current No Man's Land round displayed in black where the round number normally is
 * Now spawns 24 zombies instead of 20 zombies
 * Now displays a more accurate time of how long you survived
+* Zombies now spawn more consistently in the middle area during the beginning
 * Insta kill rounds can now occur on No Man's Land (except for the initital time you spawn in so players can't exploit No Man's Land insta kill rounds to get more kills)
 
 #### Sidequest
@@ -891,7 +894,6 @@
 * Fix barrel textures on Der Riese? (Haven't had it happen again)
 * Find a way to be able to shoot through more than 3 zombies
 * Figure out bug that causes cosmonaut to delete himself occasionally (might be fixed)
-* Fix mule kick weapon highlight text not working if player got perk from shang easter egg
 * Make insta kill powerups work in high rounds (might be fixed)
 * Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge (might be fixed)
 * Fix Ascension monkey pathing (might be fixed)
@@ -941,9 +943,7 @@
 * Upload mod using PassDropIt
 * QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
 * Health bar for player's health?
-* NML: make amount of zombies that spawn in the beginning consistent
-* Fix powerup cycle not resetting on last currently obtainable powerup (example: if last powerup in array is fire sale and player cant get fire sale, then it will show last powerup fx on the first powerup of the next cycle)
-* Make sure powerups that are added later in a match are added in randomly on the remaining powerups of the current cycle
+* Shangri-La sidequest: fix bug where eclipse doesn't activate after completing sidequest
 
 ## GRIEF TODO:
 * Race: get round change sound to work
@@ -1017,6 +1017,7 @@
 * Add specialty_fastads perk
 * Add specialty_fastinteract perk
 * Add specialty_sprintrecovery perk
+* Add specialty_stalker perk (fast movement while ads)
 * Add perk for faster movement while ads
 * Fix rechamber times changed for existing weapons not showing correct anim when ads (try making legacy mod with modified rechamber time and see if it works how it should)
 * Fix being able to throw another grenade at the of another grenades anim
