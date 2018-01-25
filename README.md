@@ -65,6 +65,7 @@
 ## Settings
 * Removed popup menu when changing graphic content to unrestricted
 * Combat settings: removed Sprint/Hold Breath option and Steady Sniper option (sniper scopes are always steady now)
+* Combat settings: added Previous Weapon option
 * Option to change FOV (65-120 in intervals of 5)
 * Option to show FPS on HUD
 * Option to change max FPS
@@ -873,8 +874,6 @@
 * Unlimited zombies
 
 ## TODO:
-* Fix alive players movement being stopped when other players spawn in (caused from .sessionstate)
-* Fix projectiles disappearing
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?)
 * Find out how to get MagicBullet() to not effect players (for starbust QED weapons)
 * Five: rebuilding glass barriers puts back the glass instead of wooden barriers
@@ -915,16 +914,12 @@
 * Fix zombie pathing on Five going to different floors
 * Make betties place correctly on Der Riese bridge
 * Fix fx inside top of Wunderwaffe on COTD
-* Add game_mod as a submodule on github
 * Check if zombies eyes fx should be deleting on death
 * Get WaW weapon files of classic map weapons working
 * Get animator to make correct anims for classic map weapons
 * Wunderwaffe: make the closest zombie from the bolt be the first one that gets zapped
 * Fix Wunderwaffe not arcing after first kill rarely
 * Upgraded Kar98k: 50 round clip, no reserve ammo
-* Make sure powerup cycle resets when last currently obtainable powerup of a cycle spawns
-* Make sure powerups that are added later in a match are added in randomly on the remaining powerups of the current cycle
-* NML: make amount of zombies that spawn in the beginning consistent
 * Moon: fix sliding sound keep playing when off object
 * DOA: add 1st person mode in settings
 * DOA: make fates not randomized
@@ -946,6 +941,9 @@
 * Upload mod using PassDropIt
 * QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
 * Health bar for player's health?
+* NML: make amount of zombies that spawn in the beginning consistent
+* Fix powerup cycle not resetting on last currently obtainable powerup (example: if last powerup in array is fire sale and player cant get fire sale, then it will show last powerup fx on the first powerup of the next cycle)
+* Make sure powerups that are added later in a match are added in randomly on the remaining powerups of the current cycle
 
 ## GRIEF TODO:
 * Race: get round change sound to work
@@ -988,12 +986,14 @@
 * No more new weapons
 
 ## GAME_MOD TODO:
+* Fix grenades giving more ammo than they should (made fix)
+* Fix being able to buy grenades when you already have max amount (made fix)
+* Fix grenade not throwing when holding fire button with a non-auto weapon (made fix)
+* Make dual wield weapons fire left weapon with fire button and right right weapon with ads button (made fix)
 * Allow changing FOV to 65
-* Fix grenades giving more ammo than they should
-* Fix being able to buy grenades when you already have max amount
 * Make friends list alphabetical order
 * 8 player zombies
-* Fix performance tab issues
+* Options - fix performance tab issues
 * Add the rest of the multiplayer perks
 * Fix Connecting... issue
 * Fix weapon swap on player leave
@@ -1007,19 +1007,26 @@
 * Allow changing timescale from GetTimeScale() function when sv_cheats dvar is set to 0
 * Add GetMoveSpeedScale() function
 * Add ActionSlotOneButtonPressed() function
-* Add ActionSlotTwoButtonPressed() function
+* Fix ActionSlotTwoButtonPressed() function
 * Add ActionSlotThreeButtonPressed() function
 * Add ActionSlotFourButtonPressed() function
-* Add JumpButtonPressed() function
-* Add ReloadButtonPressed() function
-* Add SprintButtonPressed() function
 * Add WeaponSwitchButtonPressed() function
 * Add WeaponReloadEndTime() function
 * Add IsReloading() function
 * Fix ChangeLevel()
-* Make specialty_fastads perk work
-* Make specialty_fastinteract perk (or whatever the fast grenade throw perk is) work
+* Add specialty_fastads perk
+* Add specialty_fastinteract perk
+* Add specialty_sprintrecovery perk
 * Add perk for faster movement while ads
+* Fix rechamber times changed for existing weapons not showing correct anim when ads (try making legacy mod with modified rechamber time and see if it works how it should)
+* Fix being able to throw another grenade at the of another grenades anim
+* Allow fire button to be used to melee with melee weapons
+* Fix alive players movement being stopped when other players spawn in (caused from .sessionstate change)
+* Fix projectiles not spawning occasionally when shooting weapons
+* Make it so shooting the last bullet of a rechamber weapon will rechamber the bullet before auto switching
+* Find out how to send something from client to server
+* Dual wield weapon fire input - add dvar "gpad_enabled" check that works for all players
+* Test if "gpad_enabled" dvar check works for non-host in coop if they change the value after starting a match
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
@@ -1030,7 +1037,7 @@
 * **_SE2Dev_** -  LinkerMod
 * **_Nukem_** -  LinkerMod
 * **_DTZxPorter_** -  Wraith
-* **_Treyarch_** - Assets, source code (although some of it's bad), and an amazing base game
+* **_Treyarch_** - Assets, source code, and an amazing base game
 
 ## TESTERS:
 * **_FleshCrunch_**

@@ -1665,9 +1665,9 @@ give_perk( perk, bought )
 
 	if(perk == "specialty_fastreload")
 	{
-		//self SetPerk("specialty_fastads");
+		self SetPerk("specialty_fastads");
 		self SetPerk("specialty_fastswitch");
-		//self SetPerk("specialty_fastinteract"); //fast grenade throw?
+		self SetPerk("specialty_fastinteract");
 	}
 
 	//increase burst fire rate with double tap also
@@ -1682,7 +1682,7 @@ give_perk( perk, bought )
 		self SetClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
 		perk_str = perk + "_stop";
 		self thread move_faster_while_ads(perk_str);
-		//self SetPerk("specialty_sprintrecovery");
+		self SetPerk("specialty_sprintrecovery");
 	}
 	else if( perk == "specialty_deadshot_upgrade" )
 	{
@@ -1936,9 +1936,9 @@ perk_think( perk )
 			break;
 
 		case "specialty_fastreload":
-			//self UnsetPerk("specialty_fastads");
+			self UnsetPerk("specialty_fastads");
 			self UnsetPerk("specialty_fastswitch");
-			//self UnsetPerk("specialty_fastinteract"); //fast grenade throw?
+			self UnsetPerk("specialty_fastinteract");
 			break;
 
 		case "specialty_rof":
@@ -1958,7 +1958,7 @@ perk_think( perk )
 		case "specialty_deadshot":
 			self ClearClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
 			self SetMoveSpeedScale(self.move_speed);
-			//self UnsetPerk("specialty_sprintrecovery");
+			self UnsetPerk("specialty_sprintrecovery");
 			break;
 
 		case "specialty_deadshot_upgrade":
@@ -2686,7 +2686,6 @@ move_faster_while_ads(perk_str)
 				self SetMoveSpeedScale(self.move_speed);
 			}
 		}
-		//else if(current_ads >= .5)
 		//as current_ads goes from 0 to 1, move_speed_increase should go from 1 to its max value
 		//example: if current_ads is .5 and move_speed_increase is 2.5 and self.move_speed is 1, the result should be 1.75
 		else

@@ -162,6 +162,9 @@ init_powerups()
 	level.zombie_powerup_index = 0;
 	randomize_powerups();
 
+	//REMOVE LATER
+	level.zombie_powerup_array = array("full_ammo", "insta_kill", "double_points", "nuke", "fire_sale");
+
 	// Rare powerups
 	level.rare_powerups_active = 0;
 
@@ -735,7 +738,7 @@ powerup_drop(drop_point, player, zombie)
 		drop_gg_wep = true;
 		debug = "gungame";
 	}
-	else if (rand_drop > 2) //should be >
+	else if(rand_drop > 2)
 	{
 		if (!level.zombie_vars["zombie_drop_item"])
 		{
@@ -1020,6 +1023,7 @@ powerup_setup( powerup_override )
 	{
 		powerup = get_valid_powerup();
 		//iprintln(powerup);
+		//TODO - check for next valid powerup here to see if cycle resets
 	}
 	else
 	{
@@ -1447,7 +1451,7 @@ powerup_grab()
 
 		for (i = 0; i < players.size; i++)
 		{
-			//spectators should not be able to pick up powerups, this should be obvious treyarch
+			//spectators should not be able to pick up powerups
 			if(players[i].sessionstate == "spectator")
 			{
 				continue;
