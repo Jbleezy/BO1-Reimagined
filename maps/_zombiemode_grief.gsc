@@ -1764,7 +1764,12 @@ increase_round_number_over_time()
 
 	while(1)
 	{
-		wait 45;
+		wait 43;
+
+		level.old_music_state = undefined; // need this to be able to play the same music again
+		level thread maps\_zombiemode_audio::change_zombie_music( "round_start" );
+
+		wait 2;
 
 		level.round_number++;
 
@@ -1812,7 +1817,6 @@ increase_round_number_over_time()
 			{
 				players[i].score += 500;
 				players[i] maps\_zombiemode_score::set_player_score_hud();
-				players[i] play_sound_on_ent( "purchase" );
 			}
 		}
 
@@ -1856,8 +1860,6 @@ increase_round_number_over_time()
 
 fast_chalk_one_up()
 {
-	level thread maps\_zombiemode_audio::change_zombie_music( "round_start" ); //not working
-
 	huds = [];
 	huds[0] = level.chalk_hud1;
 	huds[1] = level.chalk_hud2;

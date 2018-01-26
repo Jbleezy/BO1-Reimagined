@@ -2450,12 +2450,6 @@ player_grenade_watcher()
 	{
 		self waittill( "grenade_fire", grenade, weapName );
 
-		//REMOVE LATER
-		if(!IsDefined(grenade))
-		{
-			iprintlnbold("grenade not defined!");
-		}
-
 		if( isdefined( grenade ) && isalive( grenade ) )
 		{
 			grenade.team = self.team;
@@ -8667,7 +8661,7 @@ give_weapons_test()
 	//wep = "thundergun_zm";
 	//wep = "sniper_explosive_upgraded_zm";
 	//wep = "humangun_upgraded_zm";
-	//wep = "shrink_ray_zm";
+	//wep = "shrink_ray_upgraded_zm";
 	//wep = "tesla_gun_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
 	//wep = "crossbow_explosive_zm";

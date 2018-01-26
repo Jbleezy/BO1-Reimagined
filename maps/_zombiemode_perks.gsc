@@ -1914,7 +1914,7 @@ perk_think( perk )
 
 	do_retain = true;
 
-	if( (get_players().size == 1) && perk == "specialty_quickrevive")
+	if( get_players().size == 1 && perk == "specialty_quickrevive")
 	{
 		do_retain = false;
 	}
@@ -1924,6 +1924,12 @@ perk_think( perk )
 		wait_network_frame();
 		self update_perk_hud();
 		return;
+	}
+
+	//always notify the perk stop string so we know to end perk specific stuff
+	if(result != perk_str)
+	{
+		self notify(perk_str);
 	}
 
 	self UnsetPerk( perk );
@@ -2513,9 +2519,7 @@ unsave_additional_weapon_on_bleedout()
 
 additional_weapon_indicator(perk, perk_str)
 {
-	self endon("fake_death");
-	self endon("death");
-	self endon("player_downed");
+	self endon("disconnect");
 	self endon(perk_str);
 
 	indicated = false;
@@ -2523,6 +2527,12 @@ additional_weapon_indicator(perk, perk_str)
 
 	while(1)
 	{
+		if(self maps\_laststand::player_is_in_laststand())
+		{
+			self SetClientDvar("ui_show_mule_wep_color", "0");
+			self waittill("player_revived");
+		}
+
 		additional_wep = undefined;
 
 		primary_weapons_that_can_be_taken = [];
@@ -2625,9 +2635,7 @@ additional_weapon_indicator(perk, perk_str)
 
 wait_for_weapon_switch(perk_str)
 {
-	self endon("fake_death");
-	self endon("death");
-	self endon("player_downed");
+	self endon("disconnect");
 	self endon(perk_str);
 
 	while(self isSwitchingWeapons())
@@ -2645,9 +2653,7 @@ wait_for_weapon_switch(perk_str)
 
 wait_for_weapon_switch_stop(perk_str)
 {
-	self endon("fake_death");
-	self endon("death");
-	self endon("player_downed");
+	self endon("disconnect");
 	self endon(perk_str);
 
 	while(self isSwitchingWeapons())
@@ -2661,9 +2667,6 @@ wait_for_weapon_switch_stop(perk_str)
 move_faster_while_ads(perk_str)
 {
 	self endon("disconnect");
-	self endon("fake_death");
-	self endon("death");
-	self endon("player_downed");
 	self endon(perk_str);
 
 	set = false;

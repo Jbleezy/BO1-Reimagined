@@ -943,10 +943,11 @@
 * Upload mod using PassDropIt
 * QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
 * Health bar for player's health?
-* Shangri-La sidequest: fix bug where eclipse doesn't activate after completing sidequest
+* Shangri-La: zombies killed from Pack-a-Punch water should count as kills and award kills to player closest to them
+* Shangri-La sidequest: make it so the timer for eclipse mode does not get pushed out when entering permament eclipse mode after completing the sidequest
+* Shangri-La sidequest: fix voicelines playing for players that are not in the match
 
 ## GRIEF TODO:
-* Race: get round change sound to work
 * Add EMP grenades to grief
 * Moon: turn on power and spawn immediately at start of match
 * Add new grief damage fx
@@ -960,7 +961,6 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need a 3-4 player game)
 * Check if PaP is showing take weapon hintstring for other players weapons for a short period
-* Test if we throw a grenade and it fails, see if the print statement shows up
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)

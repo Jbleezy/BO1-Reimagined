@@ -421,7 +421,7 @@ sundial_monitor()
 		self moveto(self.original_pos, 0.25);
 		self waittill("movedone");
 
-		if(IsDefined(level.egg_complete))
+		if(IsDefined(level._zombie_sidequests["sq"].sidequest_completed) && level._zombie_sidequests["sq"].sidequest_completed)
 		{
 			back_to_the_eclipse();
 			return;
