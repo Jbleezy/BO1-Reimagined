@@ -726,13 +726,14 @@
 * Removed the forced jumping in low gravity
 * Excavators will not reactivate for places that have already been breached
 * Fixed the invisible digger glitch
-* Gersches and QEDs no longer break windows
+* Gersches and QEDs no longer breach windows
+* Added line of sight check on explosions for breaching windows
 * Fixed bug where players could stay on jump pads in low gravity indefinitely by diving upon landing on them
 * Jump pads now fling players correctly when a player dives on a jump pad
 * Crawlers get deleted if players are too far away from then and no players are looking at them
 * Pack-a-Punch hackable gates are now solid when moving (players were able to hack Pack-a-Punch and then escape before the gates closed to get 1000 points)
 * Fixed a bug where players would sometimes be moving in a different direction after teleporting
-* Fixed a bug where if players teleported to No Man's Land while the round was changing and the Cosmonaut was spawned in, the next round would only have one zombie
+* Fixed a bug where the next round would only have one zombie if players teleported to No Man's Land while the round was changing and the Cosmonaut was spawned in
 * Fixed a bug that caused the amount of zombies on round 1 to be the amount of zombies that should be on round 2
 * Teleporter gate doesn't start going down until power is on
 * When Tunnel 6 or Tunnel 11 are breached from an excavator, the areas with doors closed to the excavator will not get breached until the doors are opened
@@ -892,7 +893,6 @@
 * Add stielhandgranate icon on HUD
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
 * Fix dtp loop anims on PSG1, M72 LAW, and RPK
-* Fix weapon bobbing on PSG1
 * Turn off Der Riese easter egg song noises after they have been activated
 * Fix barrel textures on Der Riese? (Haven't had it happen again)
 * Find a way to be able to shoot through more than 3 zombies
@@ -928,21 +928,19 @@
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Add collision boxes near invincibilty spots on maps
-* Add line of sight check for windows breaking on Moon (tried fixing but wouldn't work)
 * Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
 * Show player's perks when spectating (player.spectatorclient?)
-* Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
-* Fix PaP hintstring showing take weapon for other players weapons for a short period
+* Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after Gersch is gone
 * Get Ballistic Sickle weapon files completely working
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
 * Make it so zombies getting attracted towards monkey bombs or anything similar don't interrupt their current animation
 * Remove zombie failsafe death print before release
-* Remove ADS weapon bobbing
 * Upload mod using PassDropIt
 * QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
 * Health bar for player's health?
 * Fix Wunderwaffe not arcing after first kill rarely (might be fixed)
+* Fix PaP hintstring showing take weapon for other players weapons for a short period
 
 ## GRIEF TODO:
 * Add EMP grenades to grief
@@ -1027,6 +1025,7 @@
 * Make dual wield weapons fire left weapon with fire button and right right weapon with ads button
 * Death Machine: don't allow spin up by pressing ADS
 * 007EF7D0 - iprintln address (try it out)
+* Allow melee while ADS with a sniper scope
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer

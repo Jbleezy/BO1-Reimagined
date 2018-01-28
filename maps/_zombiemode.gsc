@@ -1818,6 +1818,9 @@ onPlayerConnect_clientDvars()
 		"dtp_exhaustion_window", 100,
 		"dtp_startup_delay", 100);
 
+	//set minimum fov (so sniper scopes dont go below this)
+	self SetClientDvar("cg_fovMin", 30);
+
 	//reset grief dvars
 	self SetClientDvar("vs_logo_on", 0);
 	self SetClientDvar("vs_top_logos_on", 0);
@@ -9172,6 +9175,7 @@ is_reloading_check()
 	self endon("disconnect");
 
 	self.is_reloading = false;
+	self.still_reloading = false;
 
 	while(1)
 	{

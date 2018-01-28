@@ -870,8 +870,8 @@ check_for_grenade_damage_on_window( grenade_origin, grenade )
 			{
 				glass_origin = level.glass[i].fxpos_array[j].origin;
 
-				//Do distance check
-				if( DistanceSquared( glass_origin, grenade_origin ) < radiusSqToCheck )
+				//Do distance check and line of sight check
+				if( DistanceSquared( glass_origin, grenade_origin ) < radiusSqToCheck && SightTracePassed(glass_origin, grenade_origin + (0,0,30), false, undefined) )
 				{
 					glass_destroyed = true;
 					break;
