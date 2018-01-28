@@ -763,7 +763,7 @@ round_restart(same_round)
 
 	SetTimeScale(1);
 
-	zombs = getaispeciesarray("axis");
+	zombs = GetAiSpeciesArray("axis");
 	for(i=0;i<zombs.size;i++)
 	{
 		if(zombs[i].animname == "zombie" || zombs[i].animname == "zombie_dog" || zombs[i].animname == "quad_zombie")

@@ -8714,9 +8714,9 @@ give_weapons_test()
 
 	/*wait 1;
 	origin = self.origin;
-	wait 10;
-	level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );*/
+	wait 5;
+	//level.upgraded_tesla_reward = true;
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "minigun", origin, true );*/
 
 	/*wait 5;
 

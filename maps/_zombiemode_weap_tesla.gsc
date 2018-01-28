@@ -47,6 +47,14 @@ tesla_damage_init( hit_location, hit_origin, player )
 {
 	player endon( "disconnect" );
 
+	// Make sure the closest the zombie from the hit origin is the one that initially gets hit
+	zombs = getaispeciesarray("axis");
+	closest_zomb = GetClosest(hit_origin, zombs);
+	if(self != closest_zomb)
+	{
+		return;
+	}
+
 	if ( IsDefined( player.tesla_enemies_hit ) && player.tesla_enemies_hit > 0 )
 	{
 		debug_print( "TESLA: Player: '" + player.playername + "' currently processing tesla damage" );

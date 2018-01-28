@@ -296,6 +296,7 @@ wait_for_flinger_area_to_be_clear()
 
 fling_zombie(fling_dir, activator)
 {
+	self endon("death");
 	self.no_powerups = true;
 	self StartRagdoll();
 	self setclientflag(level._ZOMBIE_ACTOR_FLAG_LAUNCH_RAGDOLL);

@@ -279,6 +279,7 @@
 
 #### Wunderwaffe
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
+* The initial zombie that is hit will now always be the zombie that is closest to the bolt's location
 * Unupgraded: decreased self damage radius by 72%
 * Unupgraded: increased zombie damage radius by 45%
 * Upgraded: decreased self damage radius by 134%
@@ -556,8 +557,8 @@
 * 50% change of Killing a zombie
 * Spikes will not activate if the player is down or if the player jumping over them
 
-### Waterfall Trap (Shangri-La)
-* Now kills zombies
+### Waterfall (Shangri-La)
+* Now kills zombies (except for Shrieker and Napalm)
 * Displays a hintstring when active
 
 ### Minecart (Shangri-La)
@@ -692,7 +693,7 @@
 * Removed zombie spawn delay at the beginning of a match
 
 #### Sidequest
-* Steps in solo are the same as in coop
+* Steps in solo are now the same as in coop
 * Fuse spawns before starting the sidequest
 * Increased generators' damage hitbox
 * Bottle no longer breaks when it hits the ground
@@ -705,18 +706,20 @@
 * Eclipse mode activatable with 1-4 players
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
 * While a weapon is in Pack-a-Punch, players will not be pushed off the stairs
+* Zombies killed from the Pack-a-Punch stairs now count as kills and award kills to the player closest to them
 * Gongs now move and make a sound when meleed if they have already been meleed recently
 * Mud pit walls now only activate when a player is on the ground
 * Fixed a bug where players were able to sprint and enter prone in the mud pit if they were drinking a perk while entering the mud pit
 
 #### Sidequest
 * Completable with 1-4 players
-* Stepping stone step: stones stay down until a new stone on the same side has been stepped on
-* Only 1 player now required for waterslide step
-* Reward: all players get permament perks
+* Stepping stones step: stones stay down until a new stone on the same side has been stepped on
+* Waterslide step: only 1 player now required
 * No longer recompletable in a match
 * Melee stones step: Increased melee range for stones
+* Mud pit step: radio is no longer required to be played in order to complete
 * Fixed a bug where players could clip through the wall behind Pack-a-Punch during the sidequest
+* Reward: all players get permament perks
 
 ### Moon
 * Added Fire Sale, Max Ammo, and Perk Bottle to jump pad powerup cycle
@@ -914,13 +917,10 @@
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
 * Fix zombie pathing on Five going to different floors
-* Make betties place correctly on Der Riese bridge
+* Make betties place correctly on Der Riese bridge and new collision
 * Fix fx inside top of Wunderwaffe on COTD
-* Check if zombies eyes fx should be deleting on death
 * Get WaW weapon files of classic map weapons working
 * Get animator to make correct anims for classic map weapons
-* Wunderwaffe: make the closest zombie from the bolt be the first one that gets zapped
-* Fix Wunderwaffe not arcing after first kill rarely
 * Upgraded Kar98k: 50 round clip, no reserve ammo
 * Moon: fix sliding sound keep playing when off object
 * DOA: add 1st person mode in settings
@@ -933,7 +933,6 @@
 * Show player's perks when spectating (player.spectatorclient?)
 * Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after gersch is gone
 * Fix PaP hintstring showing take weapon for other players weapons for a short period
-* Make frag grenades throw faster
 * Get Ballistic Sickle weapon files completely working
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
@@ -943,9 +942,7 @@
 * Upload mod using PassDropIt
 * QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
 * Health bar for player's health?
-* Shangri-La: zombies killed from Pack-a-Punch water should count as kills and award kills to player closest to them
-* Shangri-La sidequest: make it so the timer for eclipse mode does not get pushed out when entering permament eclipse mode after completing the sidequest
-* Shangri-La sidequest: fix voicelines playing for players that are not in the match
+* Fix Wunderwaffe not arcing after first kill rarely (might be fixed)
 
 ## GRIEF TODO:
 * Add EMP grenades to grief
@@ -989,7 +986,7 @@
 * Fix grenades giving more ammo than they should (made fix)
 * Fix being able to buy grenades when you already have max amount (made fix)
 * Fix grenade not throwing when holding fire button with a non-auto weapon (made fix)
-* Make dual wield weapons fire left weapon with fire button and right right weapon with ads button (made fix)
+* Add check for client dvars in server code
 * Allow changing FOV to 65
 * Make friends list alphabetical order
 * 8 player zombies
@@ -1027,7 +1024,9 @@
 * Make it so shooting the last bullet of a rechamber weapon will rechamber the bullet before auto switching
 * Find out how to send something from client to server
 * Dual wield weapon fire input - add dvar "gpad_enabled" check that works for all players
-* Test if "gpad_enabled" dvar check works for non-host in coop if they change the value after starting a match
+* Make dual wield weapons fire left weapon with fire button and right right weapon with ads button
+* Death Machine: don't allow spin up by pressing ADS
+* 007EF7D0 - iprintln address (try it out)
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer

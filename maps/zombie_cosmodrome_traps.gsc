@@ -843,10 +843,8 @@ centrifuge_damage()
 			{
 //				self._kill_count++;
 				ent.marked_for_death = true;
-				players = get_players();
-				closest_player = getClosest(ent.origin, players);
-				closest_player.kills++;
-				ent thread maps\_zombiemode_traps::zombie_trap_death( self, randomint(100) );
+				closest_player = get_closest_player(ent.origin);
+				ent thread maps\_zombiemode_traps::zombie_trap_death( self, randomint(100), closest_player );
 				ent PlaySound( "zmb_cent_zombie_gib" );
 			}
 		}

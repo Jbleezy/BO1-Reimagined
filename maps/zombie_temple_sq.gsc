@@ -417,15 +417,17 @@ sundial_monitor()
 		level._sundial_active = true;
 
 		self playsound( "evt_sq_gen_transition_start" );
-		self playsound( "evt_sq_gen_sundial_emerge" );
-		self moveto(self.original_pos, 0.25);
-		self waittill("movedone");
 
+		//if the sundial gets activated after the sidequest has been completed, then they stay in permament eclipse mode
 		if(IsDefined(level._zombie_sidequests["sq"].sidequest_completed) && level._zombie_sidequests["sq"].sidequest_completed)
 		{
 			back_to_the_eclipse();
 			return;
 		}
+
+		self playsound( "evt_sq_gen_sundial_emerge" );
+		self moveto(self.original_pos, 0.25);
+		self waittill("movedone");
 
 		// Wait for movement to be done.
 
@@ -730,7 +732,7 @@ init_sidequest()
 		}
 	}
 
-	if(level.gamemode != "survival")
+	if(level.gamemode == "survival")
 	{
 		maps\zombie_temple_sq_brock::create_radio(1);
 	}

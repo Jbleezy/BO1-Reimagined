@@ -1238,7 +1238,10 @@ _zombie_flush()
 
 	// Make sure they're dead...physics launch didn't kill them.
 	self.no_gib = true;
-	level.zombie_total++; //Add the zombies back
+
+	player = get_closest_player(self.origin);
+	player.kills++;
+
 	self dodamage(self.health + 666, self.origin);
 
 }

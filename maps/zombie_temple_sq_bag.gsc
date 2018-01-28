@@ -646,7 +646,7 @@ bag_story_vox_pt1( player )
 	if( isdefined( player ) )
 	{
 		level.skit_vox_override = true;
-		player playsound( "vox_egg_story_5_3" + maps\zombie_temple_sq::get_variant_from_entity_num( player GetEntityNumber() ), "vox_egg_sounddone" );
+		player playsound( "vox_egg_story_5_3" + maps\zombie_temple_sq::get_variant_from_entity_num( player.entity_num ), "vox_egg_sounddone" );
 		player waittill( "vox_egg_sounddone" );
 		level.skit_vox_override = false;
 	}

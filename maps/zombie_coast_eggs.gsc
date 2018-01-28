@@ -1116,8 +1116,6 @@ coast_egg_power_source_react( str_flag )
 	{
 		dmg_trig waittill( "damage", i_amount, e_attacker, v_direction, vec_position, i_dmg_type, str_model_name, str_tagname );
 
-		iprintln("got here");
-
 		// only grenade damage
 		if( is_player_valid( e_attacker ) && ( i_dmg_type == level.trials[0] || i_dmg_type == level.trials[1] ) )
 		{

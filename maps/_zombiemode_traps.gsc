@@ -979,7 +979,8 @@ zombie_trap_death( trap, param, activator )
 		else
 		{
 			level notify( "trap_kill", self, trap );
-			activator.kills++;
+			if(IsDefined(activator))
+				activator.kills++;
 			self dodamage(self.health + 666, self.origin);
 		}
 
