@@ -273,6 +273,7 @@ xmodel,bo2_c_zom_suit_viewhands
 xmodel,bo2_c_zom_player_cdc_fb
 xmodel,bo2_c_zom_player_cia_fb
 xmodel,p_rus_boots_sloppy
+//xmodel,t5_weapon_carry_minigun_viewmodel
 
 //XANIMS
 xanim,viewmodel_tesla_d2p_in
@@ -281,6 +282,9 @@ xanim,viewmodel_tesla_d2p_loop
 xanim,viewmodel_tesla_sprint_in
 xanim,viewmodel_tesla_sprint_loop
 xanim,viewmodel_tesla_sprint_out
+xanim,viewmodel_psg1_d2p_loop
+xanim,viewmodel_rpk_d2p_loop
+xanim,viewmodel_m72_law_d2p_loop
 
 //CHARACTERS
 rawfile,character/c_ger_richtofen_dlc5.gsc

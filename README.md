@@ -239,6 +239,7 @@
 * Upgraded: minimum explosion damage - 1000
 
 ### M72 LAW
+* Fixed dive to prone animation from looping
 * Instantly starts reloading after firing the last shot
 * Unupgraded: impact damage - 2000
 * Unupgraded: maximum explosion damage - 1500
@@ -259,6 +260,7 @@
 
 ### RPK
 * Fixed animation bug when switching weapons from the RPK with an empty clip
+* Fixed dive to prone animation from looping
 
 ### Spectre
 * Unupgraded: increased reserve ammo from 120 to 240
@@ -892,7 +894,6 @@
 * Make crawlers give kill points immediately if killed on wall
 * Add stielhandgranate icon on HUD
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
-* Fix dtp loop anims on PSG1, M72 LAW, and RPK
 * Turn off Der Riese easter egg song noises after they have been activated
 * Fix barrel textures on Der Riese? (Haven't had it happen again)
 * Find a way to be able to shoot through more than 3 zombies
@@ -915,12 +916,10 @@
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Change type 100 reserve ammo to 180 unupgraded, 240 upgraded (from weapon file)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
-* Fix bug with classic weapons where if the player cancels a reload animation the weapon keeps doing the reload animation
 * Fix zombie pathing on Five going to different floors
 * Make betties place correctly on Der Riese bridge and new collision
 * Fix fx inside top of Wunderwaffe on COTD
 * Get WaW weapon files of classic map weapons working
-* Get animator to make correct anims for classic map weapons
 * Upgraded Kar98k: 50 round clip, no reserve ammo
 * Moon: fix sliding sound keep playing when off object
 * DOA: add 1st person mode in settings
@@ -941,6 +940,9 @@
 * Health bar for player's health?
 * Fix Wunderwaffe not arcing after first kill rarely (might be fixed)
 * Fix PaP hintstring showing take weapon for other players weapons for a short period
+* Make it so Death Machine and FG42 weapon models look better with higher FOV
+* Add weapons to IWD, then test ChangeLevel()
+* Add dive to prone and sprint anims for ray gun and waw weapons
 
 ## GRIEF TODO:
 * Add EMP grenades to grief
@@ -1032,10 +1034,10 @@
 * **_lilrifa_** - menu scripting help
 * **_MasadaDRM_** - weapons and sound help
 * **_xSanchez78_** - client scripting help, localized string help
-* **_Kody_** -  Wunderwaffe gold camo, fixed CIA player viewmodel
-* **_SE2Dev_** -  LinkerMod
-* **_Nukem_** -  LinkerMod
-* **_DTZxPorter_** -  Wraith
+* **_Kody_** - Wunderwaffe gold camo, fixed CIA player viewmodel
+* **_SE2Dev_** - LinkerMod
+* **_Nukem_** - LinkerMod
+* **_DTZxPorter_** - Wraith
 * **_Treyarch_** - Assets, source code, and an amazing base game
 
 ## TESTERS:
