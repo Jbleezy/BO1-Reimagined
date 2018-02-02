@@ -1007,7 +1007,11 @@ get_closest_player_using_paths( origin, players )
 					continue;
 				}
 			}
+		}
 
+		if(level.script == "zombie_cod5_asylum" && length_to_player == 0)
+		{
+			continue;
 		}
 
 		if( length_to_player < min_length_to_player )

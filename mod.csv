@@ -147,6 +147,7 @@ rawfile,clientscripts/zombie_moon_amb.csc
 
 //ANIMSCRIPTS
 rawfile,animscripts/zombie_melee.gsc
+rawfile,animscripts/traverse/zombie_wall_crawl_drop.gsc
 
 //MENU
 menufile,ui/options_game_pc.menu

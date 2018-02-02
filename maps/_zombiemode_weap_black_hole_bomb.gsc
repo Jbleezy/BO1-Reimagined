@@ -47,7 +47,6 @@ init()
 	flag_init( "bhb_anim_change_allowed" ); // flag to control when ai can add themselves to the array
 	level thread black_hole_bomb_throttle_anim_changes(); // throttling function
 	flag_set( "bhb_anim_change_allowed" );
-
 }
 
 player_give_black_hole_bomb()
@@ -166,6 +165,7 @@ player_handle_black_hole_bomb()
 				grenade thread do_black_hole_bomb_sound( model, info ); // WW: This might not work if it is based on the model
 				level thread black_hole_bomb_teleport_init( grenade );
 				grenade.is_valid = true;
+				level notify("attractor_positions_generated");
 			}
 			else
 			{
@@ -251,8 +251,6 @@ do_black_hole_bomb_sound( model, info )
 //	sound_ent = spawn ("script_origin", self.origin);
 
 	fakeorigin = self.origin;
-
-	level notify("attractor_positions_generated");
 
 	self waittill( "explode", position );
 
@@ -468,7 +466,6 @@ black_hole_bomb_initial_attract_func( ent_poi )
 			{
 				self black_hole_bomb_event_horizon_death( self._current_black_hole_bomb_origin, ent_poi );
 			}
-
 		}
 
 		wait( 0.1 );
@@ -476,6 +473,13 @@ black_hole_bomb_initial_attract_func( ent_poi )
 
 	// zombie wasn't sucked in to the hole before it collapsed, put him back to normal.
 	self thread black_hole_bomb_escaped_zombie_reset();
+
+	// fix for anim not getting reset
+	for(i=0;i<5;i++)
+	{
+		wait_network_frame();
+		self.needs_run_update = true;
+	}
 }
 
 // -- store and return the current zombie movement anim
@@ -515,11 +519,11 @@ black_hole_bomb_attract_walk()
 {
 	self endon( "death" );
 
-	flag_wait( "bhb_anim_change_allowed" );  // permission for adding to the array
-	level._black_hole_bomb_zombies_anim_change = add_to_array( level._black_hole_bomb_zombies_anim_change, self, false ); // no dupes allowed
+	//flag_wait( "bhb_anim_change_allowed" );  // permission for adding to the array
+	//level._black_hole_bomb_zombies_anim_change = add_to_array( level._black_hole_bomb_zombies_anim_change, self, false ); // no dupes allowed
 
 	// wait for permission to change anim
-	self ent_flag_wait( "bhb_anim_change" );
+	//self ent_flag_wait( "bhb_anim_change" );
 
 	self.a.runBlendTime = 0.9;
 	self clear_run_anim();
@@ -568,11 +572,11 @@ black_hole_bomb_attract_run()
 	// there are three fast pulls for zombies and legless so this random can happen here
 	rand = RandomIntRange( 1, 4 );
 
-	flag_wait( "bhb_anim_change_allowed" ); // permission for adding to the array
-	level._black_hole_bomb_zombies_anim_change = add_to_array( level._black_hole_bomb_zombies_anim_change, self, false ); // no dupes allowed
+	//flag_wait( "bhb_anim_change_allowed" ); // permission for adding to the array
+	//level._black_hole_bomb_zombies_anim_change = add_to_array( level._black_hole_bomb_zombies_anim_change, self, false ); // no dupes allowed
 
 	// wait for permission to change anim
-	self ent_flag_wait( "bhb_anim_change" );
+	//self ent_flag_wait( "bhb_anim_change" );
 
 	self.a.runBlendTime = 0.9;
 	self clear_run_anim();
@@ -731,11 +735,11 @@ black_hole_bomb_escaped_zombie_reset()
 {
 	self endon( "death" );
 
-	flag_wait( "bhb_anim_change_allowed" );  // permission for adding to the array
-	level._black_hole_bomb_zombies_anim_change = add_to_array( level._black_hole_bomb_zombies_anim_change, self, false ); // no dupes allowed
+	//flag_wait( "bhb_anim_change_allowed" );  // permission for adding to the array
+	//level._black_hole_bomb_zombies_anim_change = add_to_array( level._black_hole_bomb_zombies_anim_change, self, false ); // no dupes allowed
 
 	// wait for permission to change anim
-	self ent_flag_wait( "bhb_anim_change" );
+	//self ent_flag_wait( "bhb_anim_change" );
 
 	// need the new fx before running these functions again
 	// clear the flag that causes the back sparks
@@ -816,7 +820,6 @@ black_hole_bomb_escaped_zombie_reset()
 		self.crouchRunAnim = level.scr_anim[ self.animname ][ self.pre_black_hole_bomb_run_combatanim ];
 		self.crouchrun_combatanim = level.scr_anim[ self.animname ][ self.pre_black_hole_bomb_run_combatanim ];
 	}
-
 
 	// reset all variables for the black hole in case this zombie gets attracted again
 	self.pre_black_hole_bomb_run_combatanim = undefined;

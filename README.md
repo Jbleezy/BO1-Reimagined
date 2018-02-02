@@ -596,6 +596,7 @@
 
 ### Nova Crawlers
 * The player who kills a Nova Crawler gets the kills for any zombies killed from the explosion of the Nova Crawler
+* Now award kill points immediately if killed while crawling on a wall
 
 ### Thief
 * Max health: 30,000
@@ -883,6 +884,14 @@
 * Unlimited zombies
 
 ## TODO:
+* Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after Gersch is gone (maybe something to do with Gersch ending right as the zombie gets out of a barrier?, might be fixed)
+* Make Shang power switches do things when only one is turned on
+* Fix zombie pathing on Five going to different floors
+* Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
+* Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
+* Add collision boxes near invincibilty spots on maps
+* Fix fx inside top of Wunderwaffe on COTD
+* Moon: fix sliding sound keep playing when off object 
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?)
 * Find out how to get MagicBullet() to not effect players (for starbust QED weapons)
 * Five: rebuilding glass barriers puts back the glass instead of wooden barriers
@@ -891,7 +900,6 @@
 * Make cosmonaut not attracted to Gersch device after hacking Pack-a-Punch
 * Give players the same basic model on Nacht and Verruckt
 * Fix trench gun 3rd person sounds being too loud
-* Make crawlers give kill points immediately if killed on wall
 * Add stielhandgranate icon on HUD
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -902,10 +910,9 @@
 * Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge (might be fixed)
 * Fix Ascension monkey pathing (might be fixed)
 * Fix kino round skip bug (might be fixed)
-* Fix low grav with increased FPS
+* Fix low grav with increased FPS (might be engine based)
 * Make it easier to tell how many grenades you have on HUD
 * Remove blur when paused ingame
-* Make Shang power switches do things when only one is turned on
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
 * Make trap hintstrings show time remaining for active and cooldown (try using add_zombie_hint())
 * Remove marks on background of Deadshot perk shader
@@ -916,20 +923,13 @@
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Change type 100 reserve ammo to 180 unupgraded, 240 upgraded (from weapon file)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
-* Fix zombie pathing on Five going to different floors
 * Make betties place correctly on Der Riese bridge and new collision
-* Fix fx inside top of Wunderwaffe on COTD
 * Get WaW weapon files of classic map weapons working
 * Upgraded Kar98k: 50 round clip, no reserve ammo
-* Moon: fix sliding sound keep playing when off object
 * DOA: add 1st person mode in settings
 * DOA: make fates not randomized
-* Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
-* Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
-* Add collision boxes near invincibilty spots on maps
 * Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
 * Show player's perks when spectating (player.spectatorclient?)
-* Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after Gersch is gone
 * Get Ballistic Sickle weapon files completely working
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
@@ -941,7 +941,6 @@
 * Fix Wunderwaffe not arcing after first kill rarely (might be fixed)
 * Fix PaP hintstring showing take weapon for other players weapons for a short period
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
-* Add weapons to IWD, then test ChangeLevel()
 * Add dive to prone and sprint anims for ray gun and waw weapons
 
 ## GRIEF TODO:
@@ -956,7 +955,8 @@
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-* Test if players are able to grief teammates (need a 3-4 player game)
+* Test if players are able to grief teammates (need 3-4 players)
+* Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
 * Check if PaP is showing take weapon hintstring for other players weapons for a short period
 
 ## MAYBE:
@@ -1010,7 +1010,7 @@
 * Add WeaponSwitchButtonPressed() function
 * Add WeaponReloadEndTime() function
 * Add IsReloading() function
-* Fix ChangeLevel()
+* Fix ChangeLevel() causing weapon index mismatch error
 * Add specialty_fastads perk
 * Add specialty_fastinteract perk
 * Add specialty_sprintrecovery perk
