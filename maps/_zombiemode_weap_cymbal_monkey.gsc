@@ -67,8 +67,6 @@ player_handle_cymbal_monkey()
 		grenade thread monitor_zombie_groans( info );
 		velocitySq = 10000*10000;
 		oldPos = grenade.origin;
-		grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 0 );
-		grenade.attract_to_origin = true;
 
 		while( velocitySq != 0 )
 		{
@@ -103,8 +101,7 @@ player_handle_cymbal_monkey()
 
 			if(valid_poi)
 			{
-				grenade thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
-				grenade thread wait_for_attractor_positions_complete();
+				grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 0 );
 			}
 			else
 			{

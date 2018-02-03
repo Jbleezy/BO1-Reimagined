@@ -1640,8 +1640,8 @@ difficulty_init()
 		}
 		else
 		{
-			//players[p].score = 500000;
-			players[p].score = 500;
+			players[p].score = 500000;
+			//players[p].score = 500;
 		}
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
@@ -4714,7 +4714,7 @@ round_think()
 {
 	for( ;; )
 	{
-		level.test_variable = true;
+		//level.test_variable = true;
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
@@ -8680,7 +8680,7 @@ give_weapons_test()
 
 	//self thread maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
 
-	//self thread maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
+	self thread maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
 
 	//self giveweapon( "molotov_zm" );
 	//self set_player_tactical_grenade( "molotov_zm" );
@@ -8783,22 +8783,22 @@ do_damage_on_impact(player)
 {
 	self endon("death");
 
-	nade_already_touching = [];
+	nade_already_touched = [];
 
 	while(1)
 	{
 		prev_origin = self.origin;
-		wait .05;
+		wait .001;
 		vel = Distance(prev_origin, self.origin);
 		if(vel >= 1)
 		{
 			zombs = GetAiSpeciesArray( "axis", "all" );
 			for (i = 0; i < zombs.size; i++)
 			{
-				if(self IsTouching(zombs[i]) && !is_in_array(nade_already_touching, zombs[i]))
+				if(self IsTouching(zombs[i]) && !is_in_array(nade_already_touched, zombs[i]))
 				{
-					zombs[i] DoDamage( 12, self.origin, player, 0, "impact" );
-					nade_already_touching[nade_already_touching.size] = zombs[i];
+					zombs[i] DoDamage( 30, self.origin, player, 0, "impact" );
+					nade_already_touched[nade_already_touched.size] = zombs[i];
 				}
 			}
 		}

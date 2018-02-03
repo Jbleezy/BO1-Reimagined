@@ -353,7 +353,6 @@ create_zombie_point_of_interest( attract_dist, num_attractors, added_poi_value, 
 	{
 		self.arrival_attract_func = arrival_attract_func;
 	}
-
 }
 
 create_zombie_point_of_interest_attractor_positions( num_attract_dists, diff_per_dist, attractor_width )

@@ -38,7 +38,6 @@
 * Intermission time decreased from 15 seconds to 10 seconds
 * Maps now auto restart in coop after intermission
 * Maps now auto restart correctly (box gets randomized again)
-* Zombies will now taunt when near a Monkey Bomb or an upgraded crossbow bolt
 * Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the fire button while spawning in
 * Round now ends immediately when last zombie is killed (previously up to a one second delay)
 * Players can now red screen after bleeding out and respawning
@@ -184,6 +183,7 @@
 * Upgraded: increased impact damage from 3000 to 9000
 * Upgraded: maximum explosion damage - 2500
 * Upgraded: minimum explosion damage - 1250
+* Upgraded: zombies now get attracted immediately
 
 ### CZ75 Dual Wield
 * Upgraded: reduced recoil
@@ -346,7 +346,7 @@
 * Added placing sound
 
 #### Gersch Device
-* Zombies now get attracted towards Gersch Devices immediately
+* Zombies now get attracted immediately
 * Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
 
 #### Hacker
@@ -374,6 +374,8 @@
 * Damage increased from 4500 to 9000 on the Director
 
 #### Monkey Bombs
+* Zombies now get attracted immediately
+* Zombies will now taunt when near a Monkey Bomb
 * Removed on Nacht, Verruckt, and Shi No Numa
 
 #### P.E.S.
@@ -884,7 +886,8 @@
 * Unlimited zombies
 
 ## TODO:
-* Fix zombies rarely (about 1 in 200) still doing Gersch device backwards run anim after Gersch is gone (maybe something to do with Gersch ending right as the zombie gets out of a barrier?, might be fixed)
+* Make gersch work better when there is multiple gersches out, zombies should not switch to running when one gersch ends if there is still another one nearby active, make it so if zombies are being attracted to a farther away gersh but then get sucked in by a closer gersch on the way the fx should play correctly
+* Make it so only normal powerup drops are from the powerup cycle
 * Make Shang power switches do things when only one is turned on
 * Fix zombie pathing on Five going to different floors
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
@@ -933,7 +936,6 @@
 * Get Ballistic Sickle weapon files completely working
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
-* Make it so zombies getting attracted towards monkey bombs or anything similar don't interrupt their current animation
 * Remove zombie failsafe death print before release
 * Upload mod using PassDropIt
 * QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage

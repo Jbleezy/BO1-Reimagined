@@ -137,7 +137,6 @@ crossbow_monkey_bolt( player_who_fired )
 				return;
 			}
 
-			self create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
 			valid_poi = maps\_zombiemode_utility::check_point_in_active_zone( self.origin );
 
 			if( !valid_poi )
@@ -147,7 +146,8 @@ crossbow_monkey_bolt( player_who_fired )
 
 			if(valid_poi)
 			{
-				self thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
+				self create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
+				//self thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
 			}
 			else
 			{
@@ -175,7 +175,7 @@ crossbow_monkey_bolt( player_who_fired )
 			{
 				alt_poi = spawn("script_origin",new_pos);
 				alt_poi create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
-				alt_poi thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
+				//alt_poi thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
 				alt_poi thread wait_for_bolt_death(self);
 				return;
 			}
@@ -183,13 +183,15 @@ crossbow_monkey_bolt( player_who_fired )
 		if(valid_poi)
 		{
 			self create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
-			self thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
+			//self thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
 		}
 		else
 		{
 			player_who_fired.script_noteworthy = undefined;
 		}
 	}
+
+	level notify("attractor_positions_generated");
 }
 
 wait_for_bolt_death(bolt)
@@ -281,6 +283,8 @@ monkey_bolt_cleanup( ent_grenade )
 		wait( 0.1 );
 	}
 
+	level notify("attractor_positions_generated");
+
 	if( IsDefined( level.monkey_bolt_holder ) )
 	{
 		level.monkey_bolt_holder = undefined;
@@ -294,8 +298,6 @@ monkey_bolt_on_back( monkey_bolt, player_who_fired, player_with_back_bolt )
 	{
 		level._bolt_on_back = 0;
 	}
-
-	level notify("attractor_positions_generated");
 
 	monkey_bolt waittill( "explode" );
 
@@ -313,6 +315,4 @@ monkey_bolt_on_back( monkey_bolt, player_who_fired, player_with_back_bolt )
 			player_with_back_bolt giveachievement_wrapper( "SP_ZOM_SILVERBACK" );
 		}
 	}
-
-	level notify("attractor_positions_generated");
 }

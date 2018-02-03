@@ -4028,12 +4028,15 @@ create_meat_stink(player)
 		max_attract_dist = 1536;
 
 		model SetModel("t6_wpn_zmb_meat_world");
-		model create_zombie_point_of_interest(max_attract_dist, num_attractors, 10000);
-		model.attract_to_origin = true;
-		model thread create_zombie_point_of_interest_attractor_positions(4, attract_dist_diff);
-		model thread maps\_zombiemode_weap_cymbal_monkey::wait_for_attractor_positions_complete();
+		model create_zombie_point_of_interest(max_attract_dist, num_attractors, 0);
+		//model thread create_zombie_point_of_interest_attractor_positions(4, attract_dist_diff);
+		//model thread maps\_zombiemode_weap_cymbal_monkey::wait_for_attractor_positions_complete();
+
+		level notify("attractor_positions_generated");
 
 		wait time;
+
+		level notify("attractor_positions_generated");
 	}
 
 	if(IsDefined(model.fx))
@@ -4056,9 +4059,13 @@ activate_meat_on_player(time)
 	self.meat_stink_active = true;
 	level notify("meat_powerup_active");
 
+	level notify("attractor_positions_generated");
+
 	self waittill_notify_or_timeout("player_meat_end", time);
 
 	self.meat_stink_active = undefined;
+
+	level notify("attractor_positions_generated");
 }
 
 ignore_player_for_time(time, player_stuck)

@@ -4519,33 +4519,32 @@ zombie_follow_enemy()
 				self OrientMode( "face point", self.enemyoverride[1].origin );
 			}
 			self.ignoreall = true;
+			self SetGoalPos( self.enemyoverride[0] );
 
-			//Little hack for now to make sure zombies don't taunt if it's a gersch
-			zomb_pois = getEntArray( "zombie_poi", "script_noteworthy" );
-			nearby_attract_func = false;
+			//make sure zombies don't taunt if it's a gersch
+			/*zomb_pois = getEntArray( "zombie_poi", "script_noteworthy" );
+			nearby_gersch_attract = false;
 			for(i=0;i<zomb_pois.size;i++)
 			{
-				if( IsDefined(zomb_pois[i].arrival_attract_func) && distanceSquared( self.origin, zomb_pois[i].origin ) < 192*192 )
+				if( IsDefined(zomb_pois[i].initial_attract_func) && IsDefined(level.black_hole_bomb_poi_initial_attract_func) 
+					&& zomb_pois[i].initial_attract_func == level.black_hole_bomb_poi_initial_attract_func
+					&& distanceSquared( self.origin, zomb_pois[i].origin ) < 192*192 )
 				{
-					nearby_attract_func = true;
+					nearby_gersch_attract = true;
 					break;
 				}
-			}
+			}*/
 
-			if( distanceSquared( self.origin, self.enemyoverride[0] ) < 128*128 && !nearby_attract_func )
+			//taunt at the poi (except for gersch device)
+			if( !is_true(self._black_hole_attract_walk) && !is_true(self._black_hole_attract_run) && !is_true(self._black_hole_bomb_collapse_death) 
+				&& !self.is_traversing && distanceSquared( self.origin, self.enemyoverride[0] ) < 128*128 )
 			{
 				if(!already_at_override)
 				{
-					self SetGoalPos( self.enemyoverride[0] );
-					self OrientMode( "face point", self.enemyoverride[0].origin );
-					wait(.5 + RandomFloat(.5));
+					already_at_override = true;
+					wait(RandomFloat(1.0));
 				}
-				already_at_override = true;
 				self do_a_taunt();
-			}
-			else
-			{
-				self SetGoalPos( self.enemyoverride[0] );
 			}
 		}
 		else if( IsDefined( self.favoriteenemy ) )

@@ -212,8 +212,6 @@ black_hole_bomb_cleanup( parent, model )
 	}
 
 	level thread black_hole_bomb_corpse_collect( grenade_org );
-
-	level notify("attractor_positions_generated");
 }
 
 black_hole_bomb_corpse_collect( vec_origin )
@@ -402,7 +400,10 @@ black_hole_bomb_initial_attract_func( ent_poi )
 	}
 
 	// save original movement animation
-	self.pre_black_hole_bomb_run_combatanim = self black_hole_bomb_store_movement_anim();
+	if( !IsDefined( self.pre_black_hole_bomb_run_combatanim ) )
+	{
+		self.pre_black_hole_bomb_run_combatanim = self black_hole_bomb_store_movement_anim();
+	}
 
 	if( IsDefined( level._black_hole_attract_override ) )
 	{
@@ -473,13 +474,6 @@ black_hole_bomb_initial_attract_func( ent_poi )
 
 	// zombie wasn't sucked in to the hole before it collapsed, put him back to normal.
 	self thread black_hole_bomb_escaped_zombie_reset();
-
-	// fix for anim not getting reset
-	for(i=0;i<5;i++)
-	{
-		wait_network_frame();
-		self.needs_run_update = true;
-	}
 }
 
 // -- store and return the current zombie movement anim
@@ -688,6 +682,12 @@ black_hole_bomb_arrival_attract_func( ent_poi )
 black_hole_bomb_event_horizon_death( vec_black_hole_org, grenade )
 {
 	self endon( "death" );
+
+	if(!IsDefined(grenade))
+	{
+		//level notify("attractor_positions_generated");
+		return;
+	}
 
 	self maps\_zombiemode_spawner::zombie_eye_glow_stop();
 	self playsound ("wpn_gersh_device_kill");
