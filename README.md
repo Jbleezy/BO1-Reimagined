@@ -271,6 +271,7 @@
 ### Ray Gun
 * Ammo now gets added to the clip at the same time that it does in the reload animation
 * Always makes crawlers on first damage on an enemy
+* Added sprint and dive animations
 * Decreased first raise time from 2.4 seconds to 1.2 seconds
 * Unupgraded: impact damage - 2500
 * Unupgraded: maximum explosion damage - 2500
@@ -886,7 +887,8 @@
 * Unlimited zombies
 
 ## TODO:
-* Make gersch work better when there is multiple gersches out, zombies should not switch to running when one gersch ends if there is still another one nearby active, make it so if zombies are being attracted to a farther away gersh but then get sucked in by a closer gersch on the way the fx should play correctly
+* When player has no weapons, disable melee until player has combat knife out
+* Make gersch work better when there is multiple gersches out, zombies should not switch to running when one gersch ends if there is still another one nearby active, make it so if zombies are being attracted to a farther away gersh but then get sucked in by a closer gersch on the way the fx should play correctly (when a gersch ends, check if there is another one active, if so notify attractors right away, else wait .5 and notify attractors)
 * Make it so only normal powerup drops are from the powerup cycle
 * Make Shang power switches do things when only one is turned on
 * Fix zombie pathing on Five going to different floors
@@ -943,9 +945,12 @@
 * Fix Wunderwaffe not arcing after first kill rarely (might be fixed)
 * Fix PaP hintstring showing take weapon for other players weapons for a short period
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
-* Add dive to prone and sprint anims for ray gun and waw weapons
+* Add sprint and dive anims on waw weapons
+* Fix sprint and dive anims on ray gun
 
 ## GRIEF TODO:
+* Gun Game: make tv screens black on Five and Ascension instead of static
+* Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Moon: turn on power and spawn immediately at start of match
 * Add new grief damage fx
