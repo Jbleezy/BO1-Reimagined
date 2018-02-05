@@ -409,9 +409,11 @@ doll_behavior_explode_when_stopped( parent, doll_id, index )
 	velocitySq = 10000*10000;
 	oldPos = self.origin;
 
+	wait .05;
+
 	while( velocitySq != 0 )
 	{
-		wait( 0.1 );
+		wait( 0.05 );
 
 		if( !isDefined( self ) )
 		{
@@ -420,13 +422,14 @@ doll_behavior_explode_when_stopped( parent, doll_id, index )
 
 		velocitySq = distanceSquared( self.origin, oldPos );
 		oldPos = self.origin;
+		self.angles = (self.angles[0], self.angles[1], 0);
 	}
 
 	if( isDefined( self ) )
 	{
 		self.doll_model unlink();
 		self.doll_model.origin = self.origin;
-		self.doll_model.angles = self.angles;
+		self.doll_model.angles = (0, self.doll_model.angles[1], 0);
 
 		// spawn a new doll
 		self notify( "spawn_doll", self.origin, self.angles );

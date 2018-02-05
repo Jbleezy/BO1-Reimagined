@@ -116,12 +116,14 @@ player_handle_black_hole_bomb()
 
 			velocitySq = distanceSquared( grenade.origin, oldPos );
 			oldPos = grenade.origin;
+			grenade.angles = (grenade.angles[0], grenade.angles[1], 0);
 		}
 		if( isDefined( grenade ) )
 		{
 			model unlink();
 			model.origin = grenade.origin;
-			model.angles = grenade.angles;
+			model.angles = (0, model.angles[1], 0);
+			//model.angles = grenade.angles;
 			model._black_hole_bomb_player = self; // saves who threw the grenade, used to assign the damage when zombies die
 			model.targetname = "zm_bhb";
 			model._new_ground_trace = true;
@@ -469,7 +471,7 @@ black_hole_bomb_initial_attract_func( ent_poi )
 			}
 		}
 
-		wait( 0.1 );
+		wait( 0.05 );
 	}
 
 	// zombie wasn't sucked in to the hole before it collapsed, put him back to normal.
@@ -667,6 +669,7 @@ black_hole_bomb_arrival_attract_func( ent_poi )
 		return;
 	}*/
 
+	self._black_hole_bomb_collapse_death = 1;
 	if( IsDefined( self._bhb_horizon_death ) )
 	{
 		self [[ self._bhb_horizon_death ]]( self._current_black_hole_bomb_origin, ent_poi );
@@ -1275,7 +1278,6 @@ black_hole_bomb_stolen_by_sam( ent_grenade, ent_model )
 	ent_model Delete();
 
 }
-
 
 // setup anims needed for the black hole bomb
 #using_animtree( "generic_human" );

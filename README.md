@@ -348,6 +348,7 @@
 
 #### Gersch Device
 * Zombies now get attracted immediately
+* Stays upright more while being thrown
 * Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
 
 #### Hacker
@@ -373,10 +374,13 @@
 #### Matroyshka Dolls
 * Deal infinite damage (except for the Director)
 * Damage increased from 4500 to 9000 on the Director
+* Stays upright more while being thrown
 
 #### Monkey Bombs
 * Zombies now get attracted immediately
 * Zombies will now taunt when near a Monkey Bomb
+* Will not activate if thrown outside the map
+* Stays upright more while being thrown
 * Removed on Nacht, Verruckt, and Shi No Numa
 
 #### P.E.S.
@@ -887,8 +891,6 @@
 * Unlimited zombies
 
 ## TODO:
-* When player has no weapons, disable melee until player has combat knife out
-* Make gersch work better when there is multiple gersches out, zombies should not switch to running when one gersch ends if there is still another one nearby active, make it so if zombies are being attracted to a farther away gersh but then get sucked in by a closer gersch on the way the fx should play correctly (when a gersch ends, check if there is another one active, if so notify attractors right away, else wait .5 and notify attractors)
 * Make it so only normal powerup drops are from the powerup cycle
 * Make Shang power switches do things when only one is turned on
 * Fix zombie pathing on Five going to different floors
@@ -949,7 +951,6 @@
 * Fix sprint and dive anims on ray gun
 
 ## GRIEF TODO:
-* Gun Game: make tv screens black on Five and Ascension instead of static
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Moon: turn on power and spawn immediately at start of match

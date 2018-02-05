@@ -8680,7 +8680,7 @@ give_weapons_test()
 
 	//self thread maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
 
-	self thread maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
+	//self thread maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
 
 	//self giveweapon( "molotov_zm" );
 	//self set_player_tactical_grenade( "molotov_zm" );
@@ -8986,6 +8986,7 @@ no_weapon_watcher()
 		if(actual_weapons.size == 0)
 		{
 			wait_network_frame();
+			//self TakeWeapon(self get_player_melee_weapon());
 			if(self GetCurrentWeapon() == "zombie_knuckle_crack" || self GetCurrentWeapon() == "zombie_gunstolen")
 			{
 				continue;

@@ -79,15 +79,16 @@ player_handle_cymbal_monkey()
 
 			velocitySq = distanceSquared( grenade.origin, oldPos );
 			oldPos = grenade.origin;
+
+			grenade.angles = (grenade.angles[0], grenade.angles[1], 0);
 		}
 		if( isDefined( grenade ) )
 		{
-			model SetAnim( %o_monkey_bomb );
 			model thread monkey_cleanup( grenade );
 
 			model unlink();
 			model.origin = grenade.origin;
-			model.angles = grenade.angles;
+			model.angles = (0, model.angles[1], 0);
 
 			grenade resetmissiledetonationtime();
 			PlayFxOnTag( level._effect["monkey_glow"], model, "origin_animate_jnt" );
@@ -101,14 +102,16 @@ player_handle_cymbal_monkey()
 
 			if(valid_poi)
 			{
+				model SetAnim( %o_monkey_bomb );
 				grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 0 );
+				level notify("attractor_positions_generated");
+				grenade thread do_monkey_sound( model, info );
 			}
 			else
 			{
 				self.script_noteworthy = undefined;
+				level thread cymbal_monkey_stolen_by_sam( self, model );
 			}
-
-			grenade thread do_monkey_sound( model, info );
 		}
 	}
 }
@@ -135,8 +138,6 @@ monkey_cleanup( parent )
 
 do_monkey_sound( model, info )
 {
-	level notify("attractor_positions_generated");
-
 	monk_scream_vox = false;
 
 	if( isdefined(level.monk_scream_trig) && self IsTouching( level.monk_scream_trig))
@@ -269,4 +270,56 @@ play_zombie_groans()
 cymbal_monkey_exists()
 {
 	return IsDefined( level.zombie_weapons["zombie_cymbal_monkey"] );
+}
+
+// if the player throws it to an unplayable area samantha steals it
+cymbal_monkey_stolen_by_sam( ent_grenade, ent_model )
+{
+	if( !IsDefined( ent_model ) )
+	{
+		return;
+	}
+
+	direction = ent_model.origin;
+	direction = (direction[1], direction[0], 0);
+
+	if(direction[1] < 0 || (direction[0] > 0 && direction[1] > 0))
+	{
+		direction = (direction[0], direction[1] * -1, 0);
+	}
+	else if(direction[0] < 0)
+	{
+		direction = (direction[0] * -1, direction[1], 0);
+	}
+
+	// Play laugh sound here, players should connect the laugh with the movement which will tell the story of who is moving it
+	players = GetPlayers();
+	for( i = 0; i < players.size; i++ )
+	{
+		if( IsAlive( players[i] ) )
+		{
+			if( is_true( level.player_4_vox_override ) )
+			{
+				players[i] playlocalsound( "zmb_laugh_rich" );
+			}
+			else
+			{
+				players[i] playlocalsound( "zmb_laugh_child" );
+			}
+		}
+	}
+
+	// play the fx on the model
+	PlayFXOnTag( level._effect[ "black_hole_samantha_steal" ], ent_model, "tag_origin" );
+
+	// raise the model
+	ent_model MoveZ( 60, 1.0, 0.25, 0.25 );
+
+	// spin it
+	ent_model Vibrate( direction, 1.5,  2.5, 1.0 );
+
+	ent_model waittill( "movedone" );
+
+	// delete it
+	ent_model Delete();
 }

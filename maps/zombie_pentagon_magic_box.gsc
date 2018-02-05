@@ -50,12 +50,17 @@ get_location_from_chest_index( chest_index )
 
 magic_box_update()
 {
-	flag_wait("all_players_connected");
+	level waittill("fade_introblack");
+
+	if(level.gamemode == "gg")
+	{
+		return;
+	}
 
 	// Let the level startup
-	wait(2);
+	wait(1);
 	
-	setclientsysstate( "box_indicator", level._pentagon_no_power ); // "no_power"
+	//setclientsysstate( "box_indicator", level._pentagon_no_power ); // "no_power"
 
 	// flag_wait( "power_on" );
 
@@ -70,8 +75,6 @@ magic_box_update()
 	// Tell client 
 	
 	// setclientsysstate( "box_indicator", get_location_from_chest_index( level.chest_index ) );
-
-	wait 1;
 	
 	while( 1 )
 	{		
