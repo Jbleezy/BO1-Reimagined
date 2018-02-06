@@ -477,6 +477,7 @@
 * Grabbing a powerup that is already active will add to its current remaining time instead of resetting its remaining time
 * Powerups will now not be grabbed automatically if spawned near where a player died at
 * Powerups that are not initally active are now guaranteed to be added to your current powerup cycle when they become active
+* Only normal powerup drops now effect the powerup cycle
 
 ### Carpenter
 * Removed
@@ -891,13 +892,11 @@
 * Unlimited zombies
 
 ## TODO:
-* Make it so only normal powerup drops are from the powerup cycle
-* Make Shang power switches do things when only one is turned on
-* Fix zombie pathing on Five going to different floors
+* Shang: make power switches do things when only one is turned on
+* Five: fix zombie pathing going to different floors
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Add collision boxes near invincibilty spots on maps
-* Fix fx inside top of Wunderwaffe on COTD
 * Moon: fix sliding sound keep playing when off object 
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?)
 * Find out how to get MagicBullet() to not effect players (for starbust QED weapons)
@@ -924,7 +923,7 @@
 * Make trap hintstrings show time remaining for active and cooldown (try using add_zombie_hint())
 * Remove marks on background of Deadshot perk shader
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
-* Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes)
+* Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Add fast ADS to Speed Cola (when it becomes possible through game_mod)
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)

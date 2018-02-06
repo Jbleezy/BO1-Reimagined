@@ -67,7 +67,6 @@ player_handle_cymbal_monkey()
 		grenade thread monitor_zombie_groans( info );
 		velocitySq = 10000*10000;
 		oldPos = grenade.origin;
-
 		while( velocitySq != 0 )
 		{
 			wait( 0.05 );
@@ -106,13 +105,12 @@ player_handle_cymbal_monkey()
 				grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 0 );
 				level notify("attractor_positions_generated");
 				grenade thread do_monkey_sound( model, info );
-			}
-			else
-			{
-				self.script_noteworthy = undefined;
-				level thread cymbal_monkey_stolen_by_sam( self, model );
+				return;
 			}
 		}
+
+		self.script_noteworthy = undefined;
+		level thread cymbal_monkey_stolen_by_sam( self, model );
 	}
 }
 

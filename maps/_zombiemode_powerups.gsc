@@ -561,6 +561,24 @@ is_valid_powerup(powerup_name)
 	return true;
 }
 
+//gets random powerup without effecting the current powerup cycle
+get_random_valid_powerup()
+{
+	powerups = array_randomize(level.zombie_powerup_array);
+	i = 0;
+	powerup = powerups[i];
+	while(!is_valid_powerup(powerup))
+	{
+		i++;
+		if(i >= powerups.size)
+		{
+			break;
+		}
+		powerup = powerups[i];
+	}
+	return powerup;
+}
+
 minigun_no_drop()
 {
 	/*players = GetPlayers();
@@ -1216,7 +1234,7 @@ special_drop_setup(first_time, permament)
 	// Always give something at lower rounds or if linking teleporter
 	if ( (level.gamemode == "survival" && (level.round_number <= 10 || first_time)) || level.gamemode != "survival" )
 	{
-		powerup = get_valid_powerup();
+		powerup = get_random_valid_powerup();
 	}
 	// Gets harder now
 	else
@@ -1282,7 +1300,7 @@ special_drop_setup(first_time, permament)
 		}
 		else
 		{
-			powerup = get_valid_powerup();
+			powerup = get_random_valid_powerup();
 		}
 		break;
 

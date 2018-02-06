@@ -8676,7 +8676,7 @@ give_weapons_test()
 
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
-	//self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
+	self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
 
 	//self thread maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
 

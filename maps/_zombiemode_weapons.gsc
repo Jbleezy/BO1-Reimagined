@@ -1185,7 +1185,6 @@ treasure_chest_think()
 	}
 	*/
 	self SetHintString(&"REIMAGINED_MYSTERY_BOX", self.zombie_cost);
-	// Wardog: End
 	self setCursorHint( "HINT_NOICON" );
 
 	// waittill someuses uses this
