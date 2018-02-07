@@ -917,7 +917,6 @@
 * Fix Ascension monkey pathing (might be fixed)
 * Fix kino round skip bug (might be fixed)
 * Fix low grav with increased FPS (might be engine based)
-* Make it easier to tell how many grenades you have on HUD
 * Remove blur when paused ingame
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
 * Make trap hintstrings show time remaining for active and cooldown (try using add_zombie_hint())
@@ -1035,13 +1034,14 @@
 * Death Machine: don't allow spin up by pressing ADS
 * 007EF7D0 - iprintln address (try it out)
 * Allow melee while ADS with a sniper scope
+* Add space between grenades on HUD (CG_OFFHAND_WEAPON_ICON_FRAG - 103 and CG_OFFHAND_WEAPON_ICON_SMOKEFLASH - 104)
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
-* **_lilrifa_** - menu scripting help
-* **_MasadaDRM_** - weapons and sound help
-* **_xSanchez78_** - client scripting help, localized string help
-* **_Kody_** - Wunderwaffe gold camo, fixed CIA player viewmodel
+* **_lilrifa_** - assisted with menu scripting
+* **_MasadaDRM_** - assisted with weapons and sounds
+* **_xSanchez78_** - assisted with client scripting and localized strings
+* **_Kody_** - Wunderwaffe gold camo, fixed CIA player viewmodel, assisted with animations
 * **_SE2Dev_** - LinkerMod
 * **_Nukem_** - LinkerMod
 * **_DTZxPorter_** - Wraith

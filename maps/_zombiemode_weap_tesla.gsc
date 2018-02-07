@@ -47,9 +47,29 @@ tesla_damage_init( hit_location, hit_origin, player )
 {
 	player endon( "disconnect" );
 
-	// Make sure the closest the zombie from the hit origin is the one that initially gets hit
+	// Make sure the closest zombie from the hit origin is the one that initially gets hit
 	zombs = getaispeciesarray("axis");
-	closest_zomb = GetClosest(hit_origin, zombs);
+	zombs_hit = [];
+	for(i=0;i<zombs.size;i++)
+	{
+		if(IsDefined(zombs[i].attacker) && zombs[i].attacker == player)
+		{
+			if(IsDefined(zombs[i].damageweapon) && 
+				(zombs[i].damageweapon == "tesla_gun_zm" || zombs[i].damageweapon == "tesla_gun_upgraded_zm" || 
+				zombs[i].damageweapon == "tesla_gun_new_upgraded_zm"))
+			{
+				if(!is_true(zombs[i].zombie_tesla_hit) && !is_true(zombs[i].humangun_zombie_1st_hit_response))
+				{
+					zombs_hit[zombs_hit.size] = zombs[i];
+				}
+			}
+		}
+	}
+	if(zombs_hit.size == 0)
+	{
+		return;
+	}
+	closest_zomb = GetClosest(hit_origin, zombs_hit);
 	if(self != closest_zomb)
 	{
 		return;
@@ -197,6 +217,11 @@ tesla_get_enemies_in_area( origin, distance, player )
 			}
 
 			if ( !BulletTracePassed( origin, test_origin, false, undefined ) )
+			{
+				continue;
+			}
+
+			if ( is_true(zombies[i].humangun_zombie_1st_hit_response) )
 			{
 				continue;
 			}
