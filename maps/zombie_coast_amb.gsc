@@ -396,12 +396,6 @@ do_director_playvox( sound_to_play, waittime, override )
 //START Radio Easter Eggs
 radio_easter_eggs()
 {
-    wait_network_frame();
-    if(level.gamemode != "survival")
-    {
-        return;
-    }
-
     wait(3);
     
     //Check to see if this has been BSP'd yet
@@ -424,6 +418,11 @@ activate_radio_egg( num )
 {
     radio_trig = Spawn( "trigger_radius", self.origin - (0,0,200), 0, 75, 400 );
     radio_trig.completed = false;
+
+    if(level.gamemode != "survival")
+    {
+        return;
+    }
     
     while(1)
     {
@@ -451,14 +450,14 @@ activate_radio_egg( num )
 
 //START Music Easter Egg
 setup_music_egg()
-{
-    wait_network_frame();
+{ 
+    wait(3);
+
     if(level.gamemode != "survival")
     {
         return;
     }
-    
-    wait(3);
+
     level.meteor_counter = 0;
     level.music_override = false;
     array_thread( getstructarray( "mus_easteregg", "targetname" ), ::music_egg );

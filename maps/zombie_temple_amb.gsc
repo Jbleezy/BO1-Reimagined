@@ -103,13 +103,13 @@ weapon_type_check_custom(weapon)
 //START Music Easter Egg
 setup_music_egg()
 {
-	wait_network_frame();
-	if(level.gamemode != "survival")
+    wait(3);
+
+    if(level.gamemode != "survival")
 	{
 		return;
 	}
 
-    wait(3);
     level.meteor_counter = 0;
     level.music_override = false;
     array_thread( getstructarray( "mus_easteregg", "targetname" ), ::music_egg );
@@ -221,6 +221,11 @@ intro_vox_or_skit()
 visual_trigger_vox( place )
 {
 	wait(3);
+	
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
 	
 	struct = getstruct( "vox_" + place, "targetname" );
 	

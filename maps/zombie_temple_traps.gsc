@@ -504,7 +504,7 @@ waterfall_trap_think()
 				//Turn off trap
 				self notify("trap_off");
 
-					//Hide Use Message
+				//Hide Use Message
 				self.useTrigger SetHintString(&"ZOMBIE_TEMPLE_WATER_TRAP_COOL");
 
 

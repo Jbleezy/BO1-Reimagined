@@ -318,14 +318,14 @@
 * Explosion deals infinite damage
 * ADS disabled while reloading
 
-#### VR-11
+#### V-R11
 * Removed explosion effect from shooting the same enemy multiple times
 * Shooting the Director while he is calm will no longer make him angry
 * Unupgraded: permamently makes the Director calm when shot at him
 * Human zombies now target the closest zombie to them
 * Zombies' heads will explode if they get too close to a human enemy
 * Human enemy lasts for 10 seconds unupgraded, 15 seconds upgraded
-* Owner of VR-11 gets 50% of any points that the player who they shot earns for its duration (previously 75%)
+* Owner of V-R11 gets 50% of any points that the player who they shot earns for its duration (previously 75%)
 
 #### Baby Gun
 * Fixed a bug that caused an error to happen when shrinking enemies and allowing them to regrow many times throughout a game
@@ -708,6 +708,7 @@
 * Fuse spawns before starting the sidequest
 * Increased generators' damage hitbox
 * Bottle no longer breaks when it hits the ground
+* Lighthouse dials can now be rotated faster
 * Human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health multiplied the amount of players)
 * Reward: upgraded Wunderwaffe from every Wunderwaffe powerup for the rest of the game
 * Wunderwaffe powerup from sidequest stays on the map until picked up
@@ -892,13 +893,15 @@
 * Unlimited zombies
 
 ## TODO:
-* Shang: make power switches do things when only one is turned on
+* COTD: fix zipline giving no weapon after going on it with Wunderwaffe powerup
+* VR11: make it so the human zombie has a timer while outside the map
+* Make it so ceiling spawners don't take so long to spawn
 * Five: fix zombie pathing going to different floors
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Add collision boxes near invincibilty spots on maps
 * Moon: fix sliding sound keep playing when off object 
-* Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?)
+* Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
 * Find out how to get MagicBullet() to not effect players (for starbust QED weapons)
 * Five: rebuilding glass barriers puts back the glass instead of wooden barriers
 * Make better last powerup FX
@@ -921,7 +924,7 @@
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
 * Make trap hintstrings show time remaining for active and cooldown (try using add_zombie_hint())
 * Remove marks on background of Deadshot perk shader
-* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen?)
+* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Add fast ADS to Speed Cola (when it becomes possible through game_mod)
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
