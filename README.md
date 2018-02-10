@@ -141,7 +141,7 @@
 
 ### Snipers
 * Removed idle sway
-* Increased ADS FOV from 15 to 30
+* Increased FOV when aiming from 15 to 30
 * Variable zoom scopes now only have one scope option
 
 ### Ak74u
@@ -314,17 +314,19 @@
 * Decreased first raise time by 50%
 
 #### Scavenger
+* Infinite damage
 * Gives points when dealing impact damage
-* Explosion deals infinite damage
 * ADS disabled while reloading
 
 #### V-R11
-* Removed explosion effect from shooting the same enemy multiple times
-* Shooting the Director while he is calm will no longer make him angry
-* Unupgraded: permamently makes the Director calm when shot at him
 * Human zombies now target the closest zombie to them
-* Zombies' heads will explode if they get too close to a human enemy
-* Human enemy lasts for 10 seconds unupgraded, 15 seconds upgraded
+* Director is no longer attracted towards the human zombie
+* Zombies die when they get close to a human zombie
+* Human zombie lasts for 10 seconds unupgraded, 15 seconds upgraded
+* Upgraded: the human zombie explodes when it dies
+* Upgraded: removed explosion effect from shooting the same human zombie multiple times
+* Shooting the Director while he is calm no longer makes him angry
+* Unupgraded: permamently makes the Director calm when shot at him
 * Owner of V-R11 gets 50% of any points that the player who they shot earns for its duration (previously 75%)
 
 #### Baby Gun
@@ -562,6 +564,10 @@
 ### Flinger (Call of the Dead)
 * Zombies flung now count as actual kills
 
+### Zipline (Call of the Dead)
+* FOV no longer changes while riding the zipline
+* Weapon is no longer out while riding the zipline
+
 ### Spikes (Shangri-La)
 * Deal 50 damage to players
 * 50% change of Killing a zombie
@@ -573,6 +579,7 @@
 
 ### Minecart (Shangri-La)
 * Kills from the minecart now count as actual kills
+* Moves back up 4x faster
 
 ## Blockers
 ### Doors
@@ -597,6 +604,7 @@
 * Fixed a bug that caused spawning zombies to be able to collide with players while they were still invisible to the player
 * Zombies can now gib when damaged from the Bowie Knife or Sickle
 * Fixed certain zombie swipes that damaged players at incorrect times
+* Ceiling spawner zombies now fall from the ceiling quicker
 
 ### Dogs
 * No longer gain additional points for kills from dogs when killing dogs with wonder weapons
@@ -622,7 +630,7 @@
 * Upgraded assault rifles no longer deal extra damage to the Director
 * Max health is now 250,000 no matter how many players are in the match
 * Only slows down players close to him when shot at while calm
-* Fixed a bug that caused the Director to not be able to slow you down anymore if you knifed a zombie on an insta kill
+* Fixed a bug that caused the Director to not be able to slow you down anymore if you knifed an electrified zombie during an insta kill
 
 ### Monkeys (Shangri-La)
 * Keep attempting to spawn until they successfully spawn during the whole duration while a powerup is active on the ground
@@ -643,8 +651,8 @@
 * Fixed a bug where the Cosmonaut would get stuck in place when spawning in while a player was on the jump pads
 * Cosmonaut no longer teleports players that activate a jump pad between the time of being grabbed and when they would have been teleported
 * Fixed a bug where the Cosmonaut would move faster than intended after throwing a Gersch device once the Pack-a-Punch gates had been hacked
-* Now kills any zombies near him when he explodes
-* Cosmonaut's name above its head is now always "Cosmonaut"
+* Now kills any zombies nearby when Cosmonaut explodes
+* Removed name above Cosmonaut's head
 
 ## Maps
 * Easter egg songs can now be reactivated once the song is over
@@ -893,9 +901,7 @@
 * Unlimited zombies
 
 ## TODO:
-* COTD: fix zipline giving no weapon after going on it with Wunderwaffe powerup
-* VR11: make it so the human zombie has a timer while outside the map
-* Make it so ceiling spawners don't take so long to spawn
+* Might have to look at zombie anim damage times again
 * Five: fix zombie pathing going to different floors
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
@@ -1038,6 +1044,7 @@
 * 007EF7D0 - iprintln address (try it out)
 * Allow melee while ADS with a sniper scope
 * Add space between grenades on HUD (CG_OFFHAND_WEAPON_ICON_FRAG - 103 and CG_OFFHAND_WEAPON_ICON_SMOKEFLASH - 104)
+* Make it so you can queue another shot on non-auto weapons by pressing the fire button during the fire time of the current shot (similar to BO3)
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
@@ -1045,6 +1052,7 @@
 * **_MasadaDRM_** - assisted with weapons and sounds
 * **_xSanchez78_** - assisted with client scripting and localized strings
 * **_Kody_** - Wunderwaffe gold camo, fixed CIA player viewmodel, assisted with animations
+* **_ZeRoY_** - function list
 * **_SE2Dev_** - LinkerMod
 * **_Nukem_** - LinkerMod
 * **_DTZxPorter_** - Wraith

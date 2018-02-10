@@ -4214,7 +4214,7 @@ find_flesh()
 		}
 		//PI_CHANGE_END
 
-		player = get_closest_valid_player( self.origin, self.ignore_player );
+		player = self get_closest_valid_player( self.origin, self.ignore_player );
 
 		if( !isDefined( player ) && !isDefined( zombie_poi ) )
 		{
@@ -5460,25 +5460,36 @@ delete_zombie_noone_looking(how_close)
 		{
 			return;
 		}
-		if(IsDefined(self.humangun_delayed_kill_active) && self.humangun_delayed_kill_active)
+		//VR11 delayed kill
+		if(is_true(self.humangun_delayed_kill_active))
+		{
+			return;
+		}
+		//VR11 human zombie
+		if(is_true(self.humangun_zombie_1st_hit_response))
+		{
+			return;
+		}
+		//Wunderwaffe delayed kill
+		if(is_true(self.zombie_tesla_hit))
+		{
+			return;
+		}
+		//Zombie is outside the map
+		if(!is_true(self.completed_emerging_into_playable_area))
 		{
 			return;
 		}
 		// exclude rising zombies that haven't finished rising.
-		if(IsDefined(self.in_the_ground) && self.in_the_ground == true)
+		/*if(is_true(self.in_the_ground))
 		{
 			return;
 		}
 		// exclude falling zombies that haven't dropped.
-		if(IsDefined(self.in_the_ceiling) && self.in_the_ceiling == true)
+		if(is_true(self.in_the_ceiling))
 		{
 			return;
-		}
-		//VR11 delayed kill
-		if(IsDefined(self.humangun_delayed_kill_active) && self.humangun_delayed_kill_active)
-		{
-			return;
-		}
+		}*/
 
 		//IPrintLnBold("deleting zombie out of view");
 		level.zombie_total++;

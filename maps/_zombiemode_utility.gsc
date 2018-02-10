@@ -1041,7 +1041,7 @@ get_closest_valid_player( origin, ignore_player )
 
 	players = get_players();
 
-	if( is_true( level._zombie_using_humangun ) )
+	if( is_true( level._zombie_using_humangun ) && self.animname != "director_zombie" )
 	{
 		players = array_merge( players, level._zombie_human_array );
 	}

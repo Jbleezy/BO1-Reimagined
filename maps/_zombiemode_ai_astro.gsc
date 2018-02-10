@@ -554,7 +554,8 @@ astro_zombie_headbutt_watcher( animname )
 
 		vel = self.player_to_headbutt GetVelocity();
 
-		if ( !isdefined( self.player_to_headbutt ) || !is_player_valid( self.player_to_headbutt ) || vel[2] > 10000 ) //fix for teleporting players who activated jump pad after being grabbed
+		// fix for teleporting players who activated jump pad after being grabbed
+		if ( !isdefined( self.player_to_headbutt ) || !is_player_valid( self.player_to_headbutt ) || vel[2] > 10000 )
 		{
 			continue;
 		}

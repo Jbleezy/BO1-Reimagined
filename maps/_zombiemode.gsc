@@ -4714,7 +4714,7 @@ round_think()
 {
 	for( ;; )
 	{
-		//level.test_variable = true;
+		level.test_variable = true;
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
@@ -6399,6 +6399,12 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	if(sMeansOfDeath == "MOD_IMPACT" && (sWeapon == "sniper_explosive_zm" || sWeapon == "sniper_explosive_upgraded_zm"))
 	{
 		self.no_powerups = true;
+	}
+
+	if(sMeansOfDeath == "MOD_PROJECTILE_SPLASH" && sWeapon == "humangun_upgraded_zm")
+	{
+		self.no_powerups = true;
+		self thread hide_and_delete();
 	}
 
 	if(is_true(self.is_ziplining))
@@ -8663,20 +8669,20 @@ give_weapons_test()
 	//wep = "freezegun_upgraded_zm";
 	//wep = "thundergun_zm";
 	//wep = "sniper_explosive_upgraded_zm";
-	//wep = "humangun_upgraded_zm";
+	wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_upgraded_zm";
 	//wep = "tesla_gun_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
 	//wep = "crossbow_explosive_zm";
 
-	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
+	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
-	self SwitchToWeapon(wep);*/
+	self SwitchToWeapon(wep);
 
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
-	self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
+	//self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
 
 	//self thread maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
 
@@ -8719,7 +8725,7 @@ give_weapons_test()
 	origin = self.origin;
 	wait 5;
 	//level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "minigun", origin, true );*/
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );*/
 
 	/*wait 5;
 
@@ -9352,4 +9358,12 @@ destroy_revive_waypoint()
 
 	if(isdefined(self.reviveWaypoint))
 		self.reviveWaypoint destroy_hud();
+}
+
+hide_and_delete()
+{
+	self.water_damage = false;
+	self Hide();
+	wait .4;
+	self Delete();
 }

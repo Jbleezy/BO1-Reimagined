@@ -55,11 +55,11 @@ zipline_rumble_and_quake(localClientNum, set,newEnt)
 		self notify("stop_zipline_fx");
 
 		realwait(1.5);
-		if (getlocalplayers().size == 1)
+		/*if (getlocalplayers().size == 1)
 		{
 			fov = GetDvarInt("cg_fov_settings");
 			self thread lerp_fov(.75,level.zipline_fov,fov,false);
-		}
+		}*/
 	}
 }
 
@@ -69,11 +69,11 @@ do_zipline_fx(localClientNum)
 	self endon("disconnect");
 	self endon("entityshutdown");
 
-	if (getlocalplayers().size == 1)
+	/*if (getlocalplayers().size == 1)
 	{
 		fov = GetDvarInt("cg_fov_settings");
 		self thread lerp_fov(.75,fov,level.zipline_fov,true);
-	}
+	}*/
 
 	ent_num = self GetEntityNumber();
 

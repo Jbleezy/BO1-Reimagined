@@ -622,14 +622,26 @@ minecart_begin_path(name)
 	}
 }
 
-minecart_start(accel)
+minecart_start(accel, backwards)
 {
+	if(!IsDefined(backwards))
+	{
+		backwards = false;
+	}
+
 	self notify("minecart_start");
 	if ( !IsDefined(accel) )
 	{
 		accel = self.accel;
 	}
-	self ResumeSpeed( accel );
+	if(backwards)
+	{
+		self SetSpeed(10, accel);
+	}
+	else
+	{
+		self ResumeSpeed( accel );
+	}
 	self thread minecart_animate_wheels();
 }
 
@@ -896,7 +908,7 @@ minecart_lever_think()
 	
 			_minecart_lerp(self.minecart, backVehicle);
 			
-			backVehicle minecart_init_anims(.1);
+			backVehicle minecart_init_anims(.4);
 	
 			backVehicle thread play_loop_sound_on_entity( "evt_minecart_climb_loop" );
 			
@@ -905,7 +917,7 @@ minecart_lever_think()
 			self.minecart minecart_begin_path("start");
 			
 			// start the backwards vehicle on it's way
-			backVehicle minecart_start(self.minecart.accel);
+			backVehicle minecart_start(self.minecart.accel, true);
 			backVehicle waittill("reached_stop_point");
 			
 	

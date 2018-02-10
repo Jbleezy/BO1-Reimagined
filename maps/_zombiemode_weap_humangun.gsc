@@ -409,6 +409,7 @@ humangun_player_damage_response( eInflictor, eAttacker, iDamage, iDFlags, sMeans
 humangun_zombie_damage_watcher( player )
 {
 	self endon( "death" );
+	self endon("humangun_zombie_timeout");
 
 	while ( true )
 	{
@@ -464,6 +465,7 @@ humangun_zombie_damage_watcher( player )
 humangun_delayed_kill(player, human_zombie)
 {
 	//self endon("death");
+	self endon("humangun_zombie_1st_hit_response");
 
 	self.humangun_delayed_kill_active = true;
 	self notify( "stop_find_flesh" );
@@ -483,12 +485,12 @@ humangun_delayed_kill(player, human_zombie)
 	wait( RandomFloatRange( .5, 2 ) );
 
 	// if the zombie got hit with the humangun, don't try to kill them
-	if(IsDefined(self.humangun_zombie_1st_hit_response) && self.humangun_zombie_1st_hit_response)
+	/*if(is_true(self.humangun_zombie_1st_hit_response))
 	{
 		return;
-	}
+	}*/
 
-	if(IsDefined(self))
+	if(IsDefined(self) && IsAlive(self))
 	{
 		self.no_powerups = true;
 		self maps\_zombiemode_spawner::zombie_head_gib();
@@ -647,6 +649,7 @@ humangun_zombie_get_closest_zombie()
 humangun_zombie_1st_hit_response( upgraded, player )
 {
 	self endon("death");
+	self endon("humangun_zombie_timeout");
 
 	self thread humangun_zombie_timeout(upgraded, player);
 
@@ -674,7 +677,7 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	{
 		self.owner = player;
 		self thread humangun_zombie_damage_watcher( player );
-		self thread humangun_zombie_death_watcher( player );
+		//self thread humangun_zombie_death_watcher( player );
 	}
 
 	self.owner.kills++;
@@ -720,25 +723,6 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	self BloodImpact( "hero" );
 
 	do_initial_anim = true;
-	in_playable_area = self in_playable_area();
-	/*if(is_true(self.in_the_ground) || is_true(self.in_the_ceiling))
-	{
-		do_initial_anim = false;
-		while(is_true(self.in_the_ground) || is_true(self.in_the_ceiling))
-		{
-			wait .05;
-		}
-	}
-
-	if(!self in_playable_area())
-	{
-		while(1)
-		{
-			react_anim = random( level._zombie_humangun_react[self.animname] );
-			self animscripted( "zombie_react", self.origin, self.angles, react_anim, "normal", undefined, 1, 0.4 );
-			waittill_notify_or_timeout( "death", getanimlength( react_anim ) );
-		}
-	}*/
 
 	if(is_true(self.in_the_ground))
 	{
@@ -932,7 +916,7 @@ humangun_zombie_get_closest_zombie_loop()
 	}
 }
 
-humangun_zombie_2nd_hit_response( player )
+humangun_zombie_2nd_hit_response( upgraded, player )
 {
 	self notify( "humangun_zombie_2nd_hit_response" );
 
@@ -941,12 +925,15 @@ humangun_zombie_2nd_hit_response( player )
 
 	self thread play_humangun_upgraded_effect_audio();
 
-	self waittill_any_or_timeout( level.zombie_vars["humangun_zombie_explosion_delay"], "humangun_zombie_3rd_hit_response", "goal", "bad_path", "death" );
+	//wait_network_frame();
+
+	//self waittill_any_or_timeout( level.zombie_vars["humangun_zombie_explosion_delay"], "humangun_zombie_3rd_hit_response", "goal", "bad_path", "death" );
 	//iprintln("explosion");
 
 	player notify( "stuntman_achieved" );
 	level._zombie_human_array = array_remove( level._zombie_human_array, self );
-	radiusDamage( self.origin, 180, 10000, 10000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
+	//playfx( level._effect["humangun_explosion"], self.origin );
+	radiusDamage( self.origin, 180, level.zombie_health + 100, level.zombie_health + 100, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
 
 	// prevent them freezing the water, sice they were turned to mist
 	self.water_damage = false;
@@ -1098,18 +1085,9 @@ humangun_zombie_timeout(upgraded, player)
 {
 	self endon("death");
 
-	if(upgraded)
-	{
-		time = 15;
-	}
-	else
-	{
-		time = 10;
-	}
+	time = 10;
 
 	wait time;
-
-	//self notify("humangun_zombie_timeout");
 
 	level._zombie_human_array = array_remove( level._zombie_human_array, self );
 	if ( !upgraded )
@@ -1123,7 +1101,47 @@ humangun_zombie_timeout(upgraded, player)
 
 	if ( isalive( self ) && !IsDefined( level._humangun_escape_override ) )
 	{
-		self.magic_bullet_shield = false;
-		self DoDamage( self.health + 100, self.origin );
+		if(upgraded)
+		{
+			self thread humangun_zombie_explosion( player );
+		}
+		else
+		{
+			self notify("humangun_zombie_timeout");
+			self.magic_bullet_shield = false;
+			self DoDamage( self.health + 100, self.origin );
+		}
 	}
+}
+
+humangun_zombie_explosion( player )
+{
+	self notify( "humangun_zombie_explosion" );
+
+	self.humangun_zombie_2nd_hit_response = true;
+	self setclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_HIT_RESPONSE );
+
+	self thread play_humangun_upgraded_effect_audio();
+
+	//react_anim = random( level._zombie_humangun_react[self.animname] );
+	//self animscripted( "zombie_react", self.origin, self.angles, react_anim, "normal", undefined, 1, 0.4 );
+	wait level.zombie_vars["humangun_zombie_explosion_delay"];
+	self notify("humangun_zombie_timeout");
+
+	//self waittill_any_or_timeout( level.zombie_vars["humangun_zombie_explosion_delay"], "humangun_zombie_3rd_hit_response", "goal", "bad_path", "death" );
+	//iprintln("explosion");
+
+	//player notify( "stuntman_achieved" );
+	level._zombie_human_array = array_remove( level._zombie_human_array, self );
+	SetPlayerIgnoreRadiusDamage(true);
+	RadiusDamage( self.origin, 180, level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
+
+	// prevent them freezing the water, since they were turned to mist
+	self.water_damage = false;
+
+	self hide();
+	self clearclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_HIT_RESPONSE );
+
+	wait ( 0.4 );
+	self delete();
 }

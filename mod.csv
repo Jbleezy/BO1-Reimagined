@@ -79,6 +79,7 @@ rawfile,maps/_zombiemode_ai_director.gsc
 rawfile,maps/zombie_coast_ai_director.gsc
 rawfile,maps/zombie_coast_eggs.gsc
 rawfile,maps/zombie_coast_amb.gsc
+rawfile,maps/_zombiemode_player_zipline.gsc
 
 //SHANG
 rawfile,maps/_zombiemode_weap_shrink_ray.gsc

@@ -44,7 +44,7 @@ moon_astro_enter_level()
 	self playloopsound( "zmb_zombie_astronaut_loop", 1 );
 
 	self thread play_line_if_player_can_see();
-	self zombie_set_fake_playername();
+	//self zombie_set_fake_playername();
 
 	wait_network_frame();
 

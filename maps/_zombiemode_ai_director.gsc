@@ -2317,9 +2317,19 @@ director_full_damage( inflictor, attacker, damage, flags, meansofdeath, weapon, 
 {
 	self endon( "death" );
 
-	if((weapon == "humangun_zm" || weapon == "humangun_upgraded_zm") && IsDefined(self.is_activated) && !self.is_activated)
+	if(weapon == "humangun_zm" || weapon == "humangun_upgraded_zm")
 	{
-		return 0; //fix to make director not get angry when shot by vr11
+		// fix to make director not get angry when shot by vr11
+		if(!is_true(self.is_activated))
+		{
+			return 0;
+		}
+
+		// don't allow explosion from upgraded vr11 damage director
+		if(meansofdeath == "MOD_PROJECTILE_SPLASH")
+		{
+			return 0;
+		}
 	}
 
 	self notify( "activation_damage", attacker, weapon );

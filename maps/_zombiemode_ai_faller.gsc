@@ -278,12 +278,19 @@ zombie_faller_do_fall()
 	//NOTE: now we don't fall until we've attacked at least once from the ceiling
 	self.zombie_faller_wait_start = GetTime();
 	self.zombie_faller_should_drop = false;
-	self thread zombie_fall_wait();
+	self.attacked_times = 0;
+	//self thread zombie_fall_wait();
 	self thread zombie_faller_watch_all_players();
 	while ( !self.zombie_faller_should_drop )
 	{
+		if(self.attacked_times >= 3)
+		{
+			self.zombie_faller_should_drop = true;
+			break;
+		}
 		if ( self zombie_fall_should_attack(self.zombie_faller_location) )
 		{
+			self.attacked_times++;
 			attack_anim = self get_attack_anim(self.zombie_faller_location);
 			self AnimScripted("attack", self.origin, self.zombie_faller_location.angles, attack_anim);
 			self animscripts\zombie_shared::DoNoteTracks("attack", ::handle_fall_notetracks, undefined, self.zombie_faller_location);
@@ -317,10 +324,16 @@ zombie_faller_do_fall()
 			}
 			else
 			{
+				self.attacked_times++;
 				//NOTE: instead of playing a looping idle, they just flail and attack over and over
 				attack_anim = self get_attack_anim(self.zombie_faller_location);
 				self AnimScripted("attack", self.origin, self.zombie_faller_location.angles, attack_anim);
 				self animscripts\zombie_shared::DoNoteTracks("attack", ::handle_fall_notetracks, undefined, self.zombie_faller_location);
+				if ( !(self zombie_faller_always_drop()) && randomfloat(1) > 0.5 )
+				{
+					//NOTE: if we *can* attack, should we actually stay up here until we can't anymore?
+					self.zombie_faller_should_drop = true;
+				}
 			}
 		}
 	}

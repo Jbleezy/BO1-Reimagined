@@ -1966,122 +1966,118 @@ coast_egg_dial_think()
 
 	dial PlayLoopSound( sound );
 
-	self thread coast_egg_dial_trigger_think(dial, partners);
-}
-
-coast_egg_dial_trigger_think(dial, partners)
-{
-	self waittill( "trigger", who );
-
-	while( dial ent_flag( "rotating" ) )
+	while(1)
 	{
-		wait( 0.05 );
-	}
+		self waittill( "trigger", who );
 
-	if( is_player_valid( who ) )
-	{
-		level thread coast_egg_dial_rotate( dial ); // rotate dial
-
-		/#
-		if( GetDvarInt( #"scr_coast_egg_debug" ) )
+		while( dial ent_flag( "rotating" ) )
 		{
-			dial notify( "stop_egg_debug" );
-			str_text = "" + dial.pos;
-			dial thread coast_egg_debug_print3d( str_text );
+			wait( 0.05 );
 		}
-		#/
 
-
-		if( GetDvarInt( #"scr_coast_egg_debug" ) )
+		if( is_player_valid( who ) )
 		{
+			level thread coast_egg_dial_rotate( dial ); // rotate dial
+
 			/#
-				IPrintLn( "Testing purpose: Don't turn other dials" );
-			#/
-		}
-		else
-		{
-			// rotate the others that are influenced
-			other_dials = GetEntArray( self.targetname, "targetname" );
-			for( i = 0; i < other_dials.size; i++ )
+			if( GetDvarInt( #"scr_coast_egg_debug" ) )
 			{
-				if( other_dials[i].script_special == partners[0] )
-				{
-					partner_dial = GetEnt( other_dials[i].target, "targetname" );
-					if( IsDefined( partner_dial ) )
-					{
-						level thread coast_egg_dial_rotate( partner_dial );
-					}
-					else
-					{
-						/#
-						if( GetDvarInt( #"scr_coast_egg_debug" ) )
-						{
-							PrintLn( "############################## The partner dial should not be undefined! ###################################" );
-						}
-						#/
-					}
-
-				}
-				else if( other_dials[i].script_special == partners[1] )
-				{
-					partner_dial = GetEnt( other_dials[i].target, "targetname" );
-					if( IsDefined( partner_dial ) )
-					{
-						level thread coast_egg_dial_rotate( partner_dial );
-					}
-					else
-					{
-						/#
-						if( GetDvarInt( #"scr_coast_egg_debug" ) )
-						{
-							PrintLn( "############################## The partner dial should not be undefined! ###################################" );
-						}
-						#/
-					}
-				}
-				else if( other_dials[i].script_special == partners[2] )
-				{
-					partner_dial = GetEnt( other_dials[i].target, "targetname" );
-					if( IsDefined( partner_dial ) )
-					{
-						level thread coast_egg_dial_rotate( partner_dial );
-					}
-					else
-					{
-						/#
-						if( GetDvarInt( #"scr_coast_egg_debug" ) )
-						{
-							PrintLn( "############################## The partner dial should not be undefined! ###################################" );
-						}
-						#/
-					}
-				}
+				dial notify( "stop_egg_debug" );
+				str_text = "" + dial.pos;
+				dial thread coast_egg_debug_print3d( str_text );
 			}
-		}
+			#/
 
 
-		// check all the dials to see if they are set to the correct spot
-		if( flag( "hn" ) && !flag( "mm" ) ) // WW (4-18-11): Issue 82044: dials preset before the sub light doesn't activate properly
-		{
-			if( coast_egg_dials_in_harmony() )
+			if( GetDvarInt( #"scr_coast_egg_debug" ) )
 			{
-				// if you got here then the dials matach the harmony requested
-				exploder( 755 );
-				flag_set( "mm" );
-
 				/#
-				if( GetDvarInt( #"scr_coast_egg_debug" ) )
-				{
-					PrintLn( " ########################### master_musician ########################### " );
-				}
+					IPrintLn( "Testing purpose: Don't turn other dials" );
 				#/
 			}
+			else
+			{
+				// rotate the others that are influenced
+				other_dials = GetEntArray( self.targetname, "targetname" );
+				for( i = 0; i < other_dials.size; i++ )
+				{
+					if( other_dials[i].script_special == partners[0] )
+					{
+						partner_dial = GetEnt( other_dials[i].target, "targetname" );
+						if( IsDefined( partner_dial ) )
+						{
+							level thread coast_egg_dial_rotate( partner_dial );
+						}
+						else
+						{
+							/#
+							if( GetDvarInt( #"scr_coast_egg_debug" ) )
+							{
+								PrintLn( "############################## The partner dial should not be undefined! ###################################" );
+							}
+							#/
+						}
+
+					}
+					else if( other_dials[i].script_special == partners[1] )
+					{
+						partner_dial = GetEnt( other_dials[i].target, "targetname" );
+						if( IsDefined( partner_dial ) )
+						{
+							level thread coast_egg_dial_rotate( partner_dial );
+						}
+						else
+						{
+							/#
+							if( GetDvarInt( #"scr_coast_egg_debug" ) )
+							{
+								PrintLn( "############################## The partner dial should not be undefined! ###################################" );
+							}
+							#/
+						}
+					}
+					else if( other_dials[i].script_special == partners[2] )
+					{
+						partner_dial = GetEnt( other_dials[i].target, "targetname" );
+						if( IsDefined( partner_dial ) )
+						{
+							level thread coast_egg_dial_rotate( partner_dial );
+						}
+						else
+						{
+							/#
+							if( GetDvarInt( #"scr_coast_egg_debug" ) )
+							{
+								PrintLn( "############################## The partner dial should not be undefined! ###################################" );
+							}
+							#/
+						}
+					}
+				}
+			}
+
+
+			// check all the dials to see if they are set to the correct spot
+			if( flag( "hn" ) && !flag( "mm" ) ) // WW (4-18-11): Issue 82044: dials preset before the sub light doesn't activate properly
+			{
+				if( coast_egg_dials_in_harmony() )
+				{
+					// if you got here then the dials matach the harmony requested
+					exploder( 755 );
+					flag_set( "mm" );
+
+					/#
+					if( GetDvarInt( #"scr_coast_egg_debug" ) )
+					{
+						PrintLn( " ########################### master_musician ########################### " );
+					}
+					#/
+				}
+			}
 		}
+
+		wait .05;
 	}
-
-	wait .05;
-
-	self thread coast_egg_dial_trigger_think(dial, partners);
 }
 
 // -- WW: rotates the dial passed in
