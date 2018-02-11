@@ -579,7 +579,7 @@
 
 ### Minecart (Shangri-La)
 * Kills from the minecart now count as actual kills
-* Moves back up 4x faster
+* Travels back up 4x faster
 
 ## Blockers
 ### Doors
@@ -901,7 +901,6 @@
 * Unlimited zombies
 
 ## TODO:
-* Might have to look at zombie anim damage times again
 * Five: fix zombie pathing going to different floors
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player

@@ -133,14 +133,24 @@ MeleeCombat()
 
 		zombie_attack = pick_zombie_melee_anim( self );
 
+		// these anim's fire notes happens at incorrect times
+		if(zombie_attack == level._zombie_melee["zombie"][2] || zombie_attack == level._zombie_run_melee["zombie"][2])
+		{
+			fire_note = "sndnt#zmb_attack_whoosh";
+		}
+		else
+		{
+			fire_note = "fire";
+		}
+
+		attack_times = 0;
+
 		if ( isDefined( self.melee_anim_func ) )
 		{
 			self thread [[ self.melee_anim_func ]]( zombie_attack );
 		}
 
 		self SetFlaggedAnimKnobAllRestart("meleeanim", zombie_attack, %body, 1, .2, 1);
-
-		attack_times = 0;
 
 		while ( 1 )
 		{
@@ -149,21 +159,18 @@ MeleeCombat()
 			{
 				break;
 			}
-			else if ( note == "fire" )
+			else if ( note == fire_note )
 			{
-				//fix for stupid melee anim
-				if(zombie_attack == level._zombie_melee["zombie"][2])
+				attack_times++;
+
+				// these notes happen multiple times but these are the only ones we should melee on
+				if(zombie_attack == level._zombie_melee["zombie"][2] && !(attack_times == 2 || attack_times == 4))
 				{
-					if(attack_times >= 1)
-					{
-						break;
-					}
-					wait .5;
-					attack_times++;
+					continue;
 				}
-				else if(zombie_attack == level._zombie_run_melee["zombie"][2])
+				if(zombie_attack == level._zombie_run_melee["zombie"][2] && attack_times != 2)
 				{
-					wait .5;
+					continue;
 				}
 
 				if ( !IsDefined( self.enemy ) )
@@ -172,13 +179,8 @@ MeleeCombat()
 				}
 
 				oldhealth = self.enemy.health;
-				self melee();
 
-				//fix for stupid melee anim
-				if(zombie_attack == level._zombie_melee["zombie"][2])
-				{
-					self thread melee_after_delay();
-				}
+				self melee();
 
 				if ( self.enemy.health < oldhealth )
 				{
@@ -247,12 +249,6 @@ MeleeCombat()
 	/#
 	self animscripts\debug::debugPopState();
 	#/
-}
-
-melee_after_delay()
-{
-	wait .5;
-	self Melee();
 }
 
 resetGiveUpTime()
