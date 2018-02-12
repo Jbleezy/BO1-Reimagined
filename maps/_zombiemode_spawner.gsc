@@ -686,6 +686,8 @@ zombie_goto_entrance( node, endon_bad_path )
 		self waittill("goal");
 	}
 
+	self thread set_traversing_barrier(traverse_anim);
+
 	self AnimScripted( "zombie_traverse_done", start_origin, self.first_node.angles, traverse_anim, "normal", undefined, 1, 0.3 );
 
 	self waittill("zombie_traverse_done");
@@ -717,6 +719,16 @@ zombie_goto_entrance( node, endon_bad_path )
 	//self waittill( "zombie_start_traverse" );
 	//self waittill( "zombie_end_traverse" );
 	self zombie_complete_emerging_into_playable_area();
+}
+
+set_traversing_barrier(traverse_anim)
+{
+	self endon("death");
+
+	self.is_traversing_barrier = true;
+	wait GetAnimLength(traverse_anim);
+	self.is_traversing_barrier = undefined;
+	self notify("zombie_end_traverse_barrier");
 }
 
 get_traverse_anim()

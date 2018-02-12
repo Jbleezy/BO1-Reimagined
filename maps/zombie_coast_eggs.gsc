@@ -1191,11 +1191,12 @@ virgo()
 	// randomize
 	holsters = array_randomize( holsters );
 
+	level thread coast_egg_bartender( holsters );
+
 	flag_wait( "bs" );
 
 	// setup the delivery trigger
 	level thread coast_egg_bottle_delivered();
-	level thread coast_egg_bartender( holsters );
 }
 
 coast_egg_bartender( structs )
@@ -1273,6 +1274,8 @@ coast_egg_bottle_think()
 		e_bottle thread coast_egg_debug_print3d( "E" );
 	}
 	#/
+
+	flag_wait( "bs" );
 
 	ice_solid = true;
 	while( ice_solid )
@@ -1989,7 +1992,7 @@ coast_egg_dial_think()
 			#/
 
 
-			if( GetDvarInt( #"scr_coast_egg_debug" ) )
+			/*if( GetDvarInt( #"scr_coast_egg_debug" ) )
 			{
 				/#
 					IPrintLn( "Testing purpose: Don't turn other dials" );
@@ -2054,8 +2057,7 @@ coast_egg_dial_think()
 						}
 					}
 				}
-			}
-
+			}*/
 
 			// check all the dials to see if they are set to the correct spot
 			if( flag( "hn" ) && !flag( "mm" ) ) // WW (4-18-11): Issue 82044: dials preset before the sub light doesn't activate properly
@@ -2088,6 +2090,13 @@ coast_egg_dial_rotate( ent_dial )
 		ent_dial.pos = 0;
 	}
 
+	ent_dial.pos++;
+	// the dial turns nine times before getting back to zero
+	if( ent_dial.pos > 9 )
+	{
+		ent_dial.pos = 0;
+	}
+
 	// wait for the ent flag to be off before trying to rotate it
 	while( ent_dial ent_flag( "rotating" ) )
 	{
@@ -2100,12 +2109,6 @@ coast_egg_dial_rotate( ent_dial )
 	// rotate
 	ent_dial RotatePitch( 36, 0.2 );
 	ent_dial waittill( "rotatedone" );
-	ent_dial.pos++;
-	// the dial turns nine times before getting back to zero
-	if( ent_dial.pos > 9 )
-	{
-		ent_dial.pos = 0;
-	}
 
 	// play sound based on spot
 	sound = "zmb_harmonizer_tone_" + ent_dial.pos;
@@ -2237,6 +2240,8 @@ coast_egg_sacrifice_spot_start()
 				// make sure this ai is no longer part of the humangun stuff
 				level._zombie_human_array = array_remove( level._zombie_human_array, who );
 				who.humangun_zombie_1st_hit_was_upgraded = undefined;
+				who clearclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_HIT_RESPONSE );
+				who clearclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_UPGRADED_HIT_RESPONSE );
 
 				level._humangun_escape_override = undefined;
 
@@ -2389,20 +2394,20 @@ device_return_from_death( vec_spot )
 
 			if( is_player_valid( who ) )
 			{
-						device notify( "completed" );
+				device notify( "completed" );
 
-						// place material on this player
-						device StopLoopSound( .1 );
-						device PlaySound( "zmb_tingling_sensation" );
-						who thread coast_eggs_hud( "zom_hud_icon_vril", "s_s" );
+				// place material on this player
+				device StopLoopSound( .1 );
+				device PlaySound( "zmb_tingling_sensation" );
+				who thread coast_eggs_hud( "zom_hud_icon_vril", "s_s" );
 
-						device Delete();
+				device Delete();
 
-						who._has_device = true;
+				who._has_device = true;
 
-						who maps\_zombiemode_audio::create_and_play_dialog( "eggs", "coast_response", undefined, 12 );
+				who maps\_zombiemode_audio::create_and_play_dialog( "eggs", "coast_response", undefined, 12 );
 
-						grabbed = true;
+				grabbed = true;
 			}
 		}
 

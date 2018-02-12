@@ -630,7 +630,8 @@
 * Upgraded assault rifles no longer deal extra damage to the Director
 * Max health is now 250,000 no matter how many players are in the match
 * Only slows down players close to him when shot at while calm
-* Fixed a bug that caused the Director to not be able to slow you down anymore if you knifed an electrified zombie during an insta kill
+* Fixed a bug that caused the Director to not be able to electrify a player anymore if they knifed an electrified zombie during an insta kill
+* No longer plays audio after exiting the map due to being hit by the upgraded V-R11
 
 ### Monkeys (Shangri-La)
 * Keep attempting to spawn until they successfully spawn during the whole duration while a powerup is active on the ground
@@ -717,6 +718,7 @@
 * Increased generators' damage hitbox
 * Bottle no longer breaks when it hits the ground
 * Lighthouse dials can now be rotated faster
+* Rotating a lighthouse dial no longer rotates other lighthouse dials
 * Human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health multiplied the amount of players)
 * Reward: upgraded Wunderwaffe from every Wunderwaffe powerup for the rest of the game
 * Wunderwaffe powerup from sidequest stays on the map until picked up
@@ -901,6 +903,10 @@
 * Unlimited zombies
 
 ## TODO:
+* COTD: fix sidequest generator hitboxes
+* COTD: fix bug where director does not do angry anim after when he should (happened with upgraded waffe powerup but cant reproduce, might be fixed)
+* COTD: fix bug where director can play angry sounds after being killed
+* Fix flag wait errors
 * Five: fix zombie pathing going to different floors
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player

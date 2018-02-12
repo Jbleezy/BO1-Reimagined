@@ -9,8 +9,6 @@
 
 main()
 {
-	set_gamemode();
-
 	level.player_too_many_weapons_monitor = true;
 	level.player_too_many_weapons_monitor_func = ::player_too_many_weapons_monitor;
 	level._dontInitNotifyMessage = 1;
@@ -96,8 +94,6 @@ main()
 
 	// Initialize the zone manager above any scripts that make use of zone info
 	maps\_zombiemode_zone_manager::init();
-
-	maps\_zombiemode_grief::init();
 
 	// Call the other zombiemode scripts
 	maps\_zombiemode_audio::audio_init();
@@ -198,6 +194,10 @@ main()
 	level thread increase_revive_radius();
 
 	level thread test_changes();
+
+	set_gamemode();
+
+	maps\_zombiemode_grief::init();
 }
 
 post_all_players_connected()
@@ -8721,11 +8721,11 @@ give_weapons_test()
 
 	//level thread maps\_zombiemode_grief::turn_power_on();
 
-	/*wait 1;
+	wait 1;
 	origin = self.origin;
 	wait 5;
-	//level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );*/
+	level.upgraded_tesla_reward = true;
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );
 
 	/*wait 5;
 

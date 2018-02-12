@@ -804,15 +804,16 @@ director_watch_damage()
 
 	if(level.gamemode == "survival")
 	{
-		//if ( isdefined( level.director_should_drop_special_powerup ) && [[level.director_should_drop_special_powerup]]() )
-		//{
-		level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", self.origin );
-		/*}
+		/*if ( isdefined( level.director_should_drop_special_powerup ) && [[level.director_should_drop_special_powerup]]() )
+		{
+			level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", self.origin );
+		}
 		else
 		{
 			level thread maps\_zombiemode_powerups::specific_powerup_drop( "minigun", self.origin );
 		}*/
 
+		level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", self.origin );
 		level thread maps\_zombiemode_powerups::specific_powerup_drop( "free_perk", end_pos );
 	}
 	else
@@ -2319,8 +2320,8 @@ director_full_damage( inflictor, attacker, damage, flags, meansofdeath, weapon, 
 
 	if(weapon == "humangun_zm" || weapon == "humangun_upgraded_zm")
 	{
-		// fix to make director not get angry when shot by vr11
-		if(!is_true(self.is_activated))
+		// fix to make director not get angry when shot by vr11, but still allow director to go away when shot with upgraded vr11 in water
+		if(!is_true(self.is_activated) && !(weapon == "humangun_upgraded_zm" && isDefined(self.water_trigger) && isDefined(self.water_trigger.target)))
 		{
 			return 0;
 		}
@@ -2585,6 +2586,8 @@ director_humangun_hit_response( upgraded )
 			self notify( "zombie_acquire_enemy" );
 
 			self notify( "humangun_leave" );
+
+			level notify( "director_submerging_audio" );
 
 			self.ignoreall = true;
 

@@ -456,6 +456,10 @@ humangun_zombie_damage_watcher( player )
 			{
 				continue;
 			}
+			if(is_true(zombs[i].is_traversing_barrier))
+			{
+				continue;
+			}
 			zombs[i] thread humangun_delayed_kill(player, self);
 		}
 		wait_network_frame();
@@ -728,6 +732,8 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	{
 		self waittill("rise_anim_finished");
 
+		wait_network_frame();
+
 		if(!self in_playable_area())
 		{
 			self humangun_zombie_react_loop();
@@ -756,6 +762,12 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	{
 		do_initial_anim = false;
 		self waittill( "zombie_end_traverse" );
+	}
+
+	if(is_true(self.is_traversing_barrier))
+	{
+		do_initial_anim = false;
+		self waittill( "zombie_end_traverse_barrier" );
 	}
 
 	level._zombie_human_array = add_to_array( level._zombie_human_array, self, false );
@@ -831,6 +843,7 @@ humangun_zombie_get_closest_zombie_loop()
 	}
 
 	self endon("death");
+	self endon("humangun_zombie_timeout");
 	while(1)
 	{
 		zombies = GetAiSpeciesArray( "axis", "all" );
@@ -916,24 +929,20 @@ humangun_zombie_get_closest_zombie_loop()
 	}
 }
 
-humangun_zombie_2nd_hit_response( upgraded, player )
+humangun_zombie_2nd_hit_response( player )
 {
 	self notify( "humangun_zombie_2nd_hit_response" );
 
 	self.humangun_zombie_2nd_hit_response = true;
 	self setclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_HIT_RESPONSE );
-
+	
 	self thread play_humangun_upgraded_effect_audio();
 
-	//wait_network_frame();
-
-	//self waittill_any_or_timeout( level.zombie_vars["humangun_zombie_explosion_delay"], "humangun_zombie_3rd_hit_response", "goal", "bad_path", "death" );
-	//iprintln("explosion");
+	self waittill_any_or_timeout( level.zombie_vars["humangun_zombie_explosion_delay"], "humangun_zombie_3rd_hit_response", "goal", "bad_path", "death" );
 
 	player notify( "stuntman_achieved" );
 	level._zombie_human_array = array_remove( level._zombie_human_array, self );
-	//playfx( level._effect["humangun_explosion"], self.origin );
-	radiusDamage( self.origin, 180, level.zombie_health + 100, level.zombie_health + 100, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
+	radiusDamage( self.origin, 180, 10000, 10000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
 
 	// prevent them freezing the water, sice they were turned to mist
 	self.water_damage = false;
@@ -951,6 +960,7 @@ play_humangun_upgraded_effect_audio()
     self waittill_any_or_timeout( level.zombie_vars["humangun_zombie_explosion_delay"], "humangun_zombie_3rd_hit_response", "goal", "bad_path", "death" );
     self PlaySound( "zmb_humangun_effect_explosion" );
 }
+
 audio_wait_for_death()
 {
     self waittill( "death" );
@@ -1085,10 +1095,29 @@ humangun_zombie_timeout(upgraded, player)
 {
 	self endon("death");
 
-	time = 10;
+	wait 10;
 
-	wait time;
+	if(is_true(self._lighthouse_owned))
+	{
+		self notify("humangun_zombie_timeout");
+		return;
+	}
 
+	if ( isalive( self ) )
+	{
+		if(upgraded)
+		{
+			self thread humangun_zombie_explosion( upgraded, player );
+		}
+		else
+		{
+			self thread humangun_zombie_death( upgraded, player );
+		}
+	}
+}
+
+humangun_zombie_death( upgraded, player )
+{
 	level._zombie_human_array = array_remove( level._zombie_human_array, self );
 	if ( !upgraded )
 	{
@@ -1098,43 +1127,38 @@ humangun_zombie_timeout(upgraded, player)
 	{
 		self clearclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_UPGRADED_HIT_RESPONSE );
 	}
+	self notify("humangun_zombie_timeout");
 
-	if ( isalive( self ) && !IsDefined( level._humangun_escape_override ) )
-	{
-		if(upgraded)
-		{
-			self thread humangun_zombie_explosion( player );
-		}
-		else
-		{
-			self notify("humangun_zombie_timeout");
-			self.magic_bullet_shield = false;
-			self DoDamage( self.health + 100, self.origin );
-		}
-	}
+	self.magic_bullet_shield = false;
+	self DoDamage( self.health + 100, self.origin );
 }
 
-humangun_zombie_explosion( player )
+humangun_zombie_explosion( upgraded, player )
 {
 	self notify( "humangun_zombie_explosion" );
 
 	self.humangun_zombie_2nd_hit_response = true;
 	self setclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_HIT_RESPONSE );
 
-	self thread play_humangun_upgraded_effect_audio();
+	self PlaySound( "zmb_humangun_effect_timer" );
 
-	//react_anim = random( level._zombie_humangun_react[self.animname] );
-	//self animscripted( "zombie_react", self.origin, self.angles, react_anim, "normal", undefined, 1, 0.4 );
 	wait level.zombie_vars["humangun_zombie_explosion_delay"];
+
 	self notify("humangun_zombie_timeout");
 
-	//self waittill_any_or_timeout( level.zombie_vars["humangun_zombie_explosion_delay"], "humangun_zombie_3rd_hit_response", "goal", "bad_path", "death" );
-	//iprintln("explosion");
+	if(is_true(self._lighthouse_owned))
+	{
+		return;
+	}
 
-	//player notify( "stuntman_achieved" );
+	self PlaySound( "zmb_humangun_effect_explosion" );
+
 	level._zombie_human_array = array_remove( level._zombie_human_array, self );
+
+	self.magic_bullet_shield = false;
+
 	SetPlayerIgnoreRadiusDamage(true);
-	RadiusDamage( self.origin, 180, level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
+	RadiusDamage( self.origin + (0, 0, 90), 180, level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
 
 	// prevent them freezing the water, since they were turned to mist
 	self.water_damage = false;

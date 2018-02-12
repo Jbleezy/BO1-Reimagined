@@ -3,7 +3,7 @@
 #include maps\_utility;
 #include maps\_zombiemode_utility;
 
-#using_animtree( "generic_human" );
+#using_animtree( "generic_human" ); 
 
 //-----------------------------------------------------------------------
 // setup coast director
@@ -37,7 +37,7 @@ init()
 }
 
 //-----------------------------------------------------------------------
-// this pos can't be pathed to
+// this pos can't be pathed to 
 //-----------------------------------------------------------------------
 FIX_bad_dog_location()
 {
@@ -76,7 +76,7 @@ coast_spawn_heuristic( spawner )
 	{
 		return -1;
 	}
-
+	
 	if( !isDefined( spawner.script_noteworthy ) )
 	{
 		return -1;
@@ -86,13 +86,13 @@ coast_spawn_heuristic( spawner )
 	{
 		return -1;
 	}
-
+	
 	score = 0;
-
+	
 	players = get_players();
 
 	score = int( distanceSquared( spawner.origin, players[0].origin ) );
-
+	
 	for( i = 1; i < players.size; i++ )
 	{
 		// send the distance of the closest player
@@ -102,7 +102,7 @@ coast_spawn_heuristic( spawner )
 			score = player_score;
 		}
 	}
-
+	
 	return score;
 }
 
@@ -112,9 +112,9 @@ coast_spawn_heuristic( spawner )
 coast_director_start()
 {
 	level waittill("fade_in_complete");
-
+	
 	wait( 6.0 );
-
+	
 	level.max_director_zombies = 1;
 }
 
@@ -124,7 +124,7 @@ coast_director_start()
 coast_director_init()
 {
 	self endon( "death" );
-
+	
 	if( IsDefined( level._audio_director_vox ) )
 	{
 	    self [[ level._audio_director_vox ]]();
@@ -141,7 +141,7 @@ coast_director_init()
 	self.choose_run = ::coast_director_choose_run;
 	self.find_exit_point = ::coast_director_find_exit_point;
 
-	//self thread coast_director_failsafe();
+	self thread coast_director_failsafe();
 }
 
 coast_director_entered_water( trigger )
@@ -156,8 +156,8 @@ coast_director_entered_water( trigger )
 	}
 
 	self notify( "disable_activation" );
-	self check_for_close_players();
 	self thread maps\_zombiemode_ai_director::director_calmed();
+	self thread check_for_close_players();
 }
 
 coast_director_exited_water()
@@ -208,7 +208,7 @@ coast_director_water_rise_fx( angles, fx_pos, anim_time )
 	level thread coast_director_water_on_screen();
 
 	Playfx( level._effect["director_water_burst"], org );
-
+	
 	trail = Spawn( "script_model", org );
 	trail.angles = angles;
 	trail SetModel( "tag_origin" );
@@ -228,9 +228,9 @@ coast_director_water_rise_fx( angles, fx_pos, anim_time )
 coast_director_water_on_screen()
 {
 	wait( 0.5 );
-
+	
 	players = GetPlayers();
-
+	
 	for( i = 0; i < players.size; i++ )
 	{
 		if( is_true( players[i]._in_coast_water ) )
@@ -241,20 +241,20 @@ coast_director_water_on_screen()
 		{
 			players[i] thread coast_director_water_drops_on_screen();
 		}
-
+		
 		wait_network_frame();
 	}
-
+	
 }
 
 coast_director_water_drops_on_screen()
 {
 	self endon( "disconnect" );
-
+	
 	self SetWaterDrops( 50 );
-
+	
 	wait( 10.0 );
-
+	
 	self SetWaterDrops( 0 );
 }
 
@@ -362,7 +362,7 @@ coast_director_get_reentry_point()
 
 	// pick random water to come back from
 	location = array_randomize( location );
-
+	
 	return location[0];
 }
 
@@ -429,7 +429,7 @@ coast_director_exit_level( exit, calm )
 
 	return_anim = %ai_zombie_boss_return_to_water;
 	time = getAnimLength( return_anim );
-
+	
 	playsoundatposition( "zmb_director_bubble_effect", exit.origin );
 
 	self thread coast_director_exit_fx( time );
@@ -442,7 +442,7 @@ coast_director_exit_level( exit, calm )
 	self SetPlayerCollision( 0 );
 
 	self clearclientflag( level._ZOMBIE_ACTOR_FLAG_DIRECTOR_DEATH );
-
+	
 	//AUDIO: Play a director exit line on a random player
 	players = getplayers();
 	rand = RandomIntRange(0,players.size);
@@ -562,7 +562,7 @@ coast_director_sliding( slide_node )
 	while(Distance(self.origin, slide_node.origin) > self.goalradius)
 	{
 		wait(0.01);
-	}
+	}			
 	//self waittill( "goal" );
 	self.goalradius = 90;
 
@@ -610,11 +610,8 @@ coast_director_choose_run()
 //SELF == Director Zombie
 check_for_close_players()
 {
-	if(!self.is_activated)
-		return;
-
     players = GetPlayers();
-
+    
     for(i=0;i<players.size;i++)
     {
         if( DistanceSquared( self.origin, players[i].origin ) <= 600*600 )
@@ -683,7 +680,7 @@ coast_director_find_exit_point()
 		}
 		wait_network_frame();
 	}
-
+	
 	self.goalradius = 90;
 
 	maps\_zombiemode_ai_director::director_zombie_update_next_groundhit();
@@ -725,7 +722,7 @@ coast_director_failsafe()
 
 		if ( is_true( self.performing_activation ) || is_true( self.finish_anim ) || is_true( self.on_break ) ||
 			 is_true( self.is_traversing ) || is_true( self.nuke_react ) || is_true( self.leaving_level ) ||
-			 is_true( self.entering_level ) )
+			 is_true( self.entering_level ) || is_true( self.defeated ) || is_true( self.is_sliding ) || is_true( self.water_scream ) )
 		{
 			wait( 1 );
 			self.failsafe = 0;
@@ -748,8 +745,10 @@ coast_director_failsafe()
 			players = getplayers();
 			for ( i = 0; i < players.size; i++ )
 			{
-				players[i] playlocalsound( "zmb_laugh_child" );
+				players[i] playlocalsound( "zmb_laugh_child" );	
 			}
 		}
 	}
 }
+
+
