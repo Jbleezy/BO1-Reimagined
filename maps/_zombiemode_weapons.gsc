@@ -771,7 +771,7 @@ has_upgrade( weaponname )
 	}
 
 	// double check for the bowie variant on the ballistic knife
-	if ( !has_upgrade && "knife_ballistic_zm" == weaponname )
+	if ( !has_upgrade && weaponname == "knife_ballistic_zm" )
 	{
 		has_upgrade = has_upgrade( "knife_ballistic_bowie_zm" ) || has_upgrade( "knife_ballistic_sickle_zm" );
 	}
@@ -1131,7 +1131,7 @@ hide_chest()
 
 	self.hidden = true;
 
-	if(IsDefined(self.box_hacks["summon_box"]))
+	if(IsDefined(self.box_hacks) && IsDefined(self.box_hacks["summon_box"]))
 	{
 		self [[self.box_hacks["summon_box"]]](true);
 	}
@@ -1345,9 +1345,13 @@ treasure_chest_think()
 				continue;
 			}
 
-			primaryWeapons = grabber GetWeaponsListPrimaries();
+			primaryWeapons = undefined;
+			if(grabber != level)
+			{
+				primaryWeapons = grabber GetWeaponsListPrimaries();
+			}
 
-			if( is_melee_weapon(grabber GetCurrentWeapon()) && primaryWeapons.size > 0 )
+			if( grabber != level && is_melee_weapon(grabber GetCurrentWeapon()) && primaryWeapons.size > 0 )
 			{
 				wait( 0.1 );
 				continue;
@@ -1731,7 +1735,7 @@ decide_hide_show_hint( endon_notify )
 
 					if(weapon_type != "grenade" && pap_triggers.size > 0)
 					{
-						has_weapon_upgrade = has_upgrade(self.zombie_weapon_upgrade);
+						has_weapon_upgrade = players[i] has_upgrade(self.zombie_weapon_upgrade);
 					}
 					else
 					{
@@ -1758,7 +1762,7 @@ decide_hide_show_hint( endon_notify )
 						max_ammo = WeaponMaxAmmo(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name) + WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
 					}
 
-					if((has_weapon || has_weapon_upgrade) && player_ammo == max_ammo)
+					if(IsDefined(player_ammo) && IsDefined(max_ammo) && player_ammo == max_ammo)
 					{
 						self SetInvisibleToPlayer( players[i], true );
 					}
@@ -2258,7 +2262,7 @@ treasure_chest_ChooseWeightedRandomWeapon( player, final_wep, empty )
 	filtered = [];
 	for( i = 0; i < keys.size; i++ )
 	{
-		if( !get_is_in_box( keys[i] ) )
+		if( !is_true( get_is_in_box( keys[i] ) ) )
 		{
 			continue;
 		}
@@ -3618,7 +3622,7 @@ weapon_give( weapon, weapon_unupgraded )
 			self GiveMaxAmmo(weapon);
 			return;
 		}
-		else if(IsDefined(level.zombie_weapons[weapon].upgrade_name) && self HasWeapon(level.zombie_weapons[weapon].upgrade_name))
+		else if(IsDefined(level.zombie_weapons[weapon]) && IsDefined(level.zombie_weapons[weapon].upgrade_name) && self HasWeapon(level.zombie_weapons[weapon].upgrade_name))
 		{
 			self GiveMaxAmmo(level.zombie_weapons[weapon].upgrade_name);
 			return;

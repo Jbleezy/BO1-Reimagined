@@ -9,6 +9,8 @@
 
 main()
 {
+	set_gamemode();
+
 	level.player_too_many_weapons_monitor = true;
 	level.player_too_many_weapons_monitor_func = ::player_too_many_weapons_monitor;
 	level._dontInitNotifyMessage = 1;
@@ -94,6 +96,8 @@ main()
 
 	// Initialize the zone manager above any scripts that make use of zone info
 	maps\_zombiemode_zone_manager::init();
+
+	maps\_zombiemode_grief::init();
 
 	// Call the other zombiemode scripts
 	maps\_zombiemode_audio::audio_init();
@@ -194,10 +198,6 @@ main()
 	level thread increase_revive_radius();
 
 	level thread test_changes();
-
-	set_gamemode();
-
-	maps\_zombiemode_grief::init();
 }
 
 post_all_players_connected()
@@ -1801,8 +1801,7 @@ onPlayerConnect_clientDvars()
 
 	//self setClientDvar("cg_weaponCycleDelay", "100"); //added in menu options
 
-	//TODO: check if I need both of these
-	self setClientDvar( "aim_lockon_pitch_strength", 100 );
+	self setClientDvar( "aim_lockon_pitch_strength", 0.0 );
 	self setClientDvar( "aim_automelee_enabled", 0 );
 
 	self SetClientDvar("r_zombieNameAllowDevList", 0); //disable dev names on cosmonaut
@@ -4573,7 +4572,8 @@ chalk_one_up(override_round_number)
 				huds[i].color = ( 0.21, 0, 0 );
 			}
 			//set yellow insta kill on hud
-			if(round_number >= 163 && round_number % 2 == 1 && !flag("dog_round") && !flag("thief_round") && !flag("monkey_round"))
+			if(round_number >= 163 && round_number % 2 == 1 && 
+				!is_true(flag("dog_round")) && !is_true(flag("thief_round")) && !is_true(flag("monkey_round")))
 			{
 				//starting on round 163, odd rounds that are not special rounds are insta kill rounds
 				if((IsDefined(level.ever_been_on_the_moon) && level.ever_been_on_the_moon) || !IsDefined(level.ever_been_on_the_moon))
@@ -4581,7 +4581,7 @@ chalk_one_up(override_round_number)
 					flag_set("insta_kill_round");
 				}
 			}
-			else if(flag("insta_kill_round") && flag("enter_nml"))
+			else if(is_true(flag("insta_kill_round")) && is_true(flag("enter_nml")))
 			{
 				flag_clear("insta_kill_round"); //special clear for NML
 			}
@@ -5923,7 +5923,8 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		}
 	}
 
-	if((level.zombie_vars["zombie_insta_kill"] || is_true( attacker.personal_instakill)) && (self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie" && !self.magic_bullet_shield))
+	if((is_true(level.zombie_vars["zombie_insta_kill"]) || is_true(attacker.personal_instakill)) && !is_true(self.magic_bullet_shield) && 
+		self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
 	{
 		//insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
 		no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "tesla_gun_new_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
@@ -6366,17 +6367,6 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		//	value = int( value * multiplier );
 		//	attacker thread maps\_zombiemode_rank::giveRankXP( type, value, false, false );
 		//}
-
-		if(self.animname == "astro_zombie")
-		{
-			self.attacker = attacker;
-		}
-
-		//monkeys no longer count as kills
-		/*if(level.script == "zombie_temple" && self.animname == "monkey_zombie")
-		{
-			attacker.kills--;
-		}*/
 	}
 
 	if(sWeapon == "zombie_bullet_crouch" && sMeansofdeath == "MOD_RIFLE_BULLET")
@@ -6528,9 +6518,9 @@ end_game()
 		players[i].zombie_vars["zombie_powerup_slow_down_time"] = 0;
 		players[i].zombie_vars["zombie_powerup_half_points_time"] = 0;
 
-		perks = GetArrayKeys(players[i].perk_hud);
-		if(IsDefined(perks))
+		if(IsDefined(players[i].perk_hud))
 		{
+			perks = GetArrayKeys(players[i].perk_hud);
 			for(j=0;j<perks.size;j++)
 			{
 				players[i] maps\_zombiemode_perks::perk_hud_destroy(perks[j]);
@@ -8212,15 +8202,15 @@ round_time_loop()
 		level thread round_time();
 
 		//end round timer when last enemy of round is killed
-		if(flag( "dog_round" ))
+		if((level.script == "zombie_cod5_sumpf" || level.script == "zombie_cod5_factory" || level.script == "zombie_theater") && flag( "dog_round" ))
 		{
 			level waittill( "last_dog_down" );
 		}
-		else if(flag( "thief_round" ))
+		else if(level.script == "zombie_pentagon" && flag( "thief_round" ))
 		{
 			flag_wait( "last_thief_down" );
 		}
-		else if(flag( "monkey_round" ))
+		else if(level.script == "zombie_cosmodrome" && flag( "monkey_round" ))
 		{
 			flag_wait( "last_monkey_down" );
 		}
@@ -8229,7 +8219,7 @@ round_time_loop()
 			level waittill( "end_of_round" );
 		}
 
-		if(flag("enter_nml"))
+		if(is_true(flag("enter_nml")))
 		{
 			level waittill( "end_of_round" ); //end no man's land
 			level waittill( "end_of_round" ); //end actual round
@@ -8262,7 +8252,7 @@ round_time_loop()
 
 		level waittill( "start_of_round" );
 
-		if(flag("enter_nml"))
+		if(is_true(flag("enter_nml")))
 		{
 			level waittill( "start_of_round" );
 		}
@@ -8340,23 +8330,23 @@ update_time(level_var, client_var)
 
 zombies_remaining_hud()
 {
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		players[i] SetClientDvar("hud_zombs_remaining_on_game", true);
+		players[i] SetClientDvar("zombs_remaining", "");
+	}
+
 	if(!(level.gamemode == "survival" || level.gamemode == "grief" || level.gamemode == "ffa"))
 	{
-		players = get_players();
-		for(i=0;i<players.size;i++)
-		{
-			players[i] SetClientDvar("hud_zombs_remaining_on_game", true);
-			players[i] SetClientDvar("zombs_remaining", "");
-		}
 		return;
 	}
 
 	while(1)
 	{
-		players = get_players();
-		if(flag("enter_nml"))
+		if(is_true(flag("enter_nml")))
 		{
-			if(!GetDvar("hud_zombs_remaining_on_game"))
+			if(!GetDvarInt("hud_zombs_remaining_on_game"))
 			{
 				for(i=0;i<players.size;i++)
 				{
@@ -8388,7 +8378,7 @@ zombies_remaining_hud()
 				}
 			}
 
-			if(GetDvar("hud_zombs_remaining_on_game"))
+			if(GetDvarInt("hud_zombs_remaining_on_game"))
 			{
 				for(i=0;i<players.size;i++)
 				{
@@ -8602,8 +8592,6 @@ box_weapon_changes()
 	if(level.script == "zombie_cod5_sumpf")
 	{
 		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel_sawed"].is_in_box = true;
 		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
 		level.zombie_weapons["zombie_bar"].is_in_box = true;
 		level.zombie_weapons["zombie_type99_rifle"].is_in_box = true;
@@ -8619,7 +8607,6 @@ box_weapon_changes()
 	{
 		level.zombie_weapons["zombie_thompson"].is_in_box = true;
 		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel_sawed"].is_in_box = true;
 		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
 		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
 		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
@@ -8675,10 +8662,10 @@ give_weapons_test()
 	//wep = "ray_gun_upgraded_zm";
 	//wep = "crossbow_explosive_zm";
 
-	self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
+	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
 	wait_network_frame();
-	self SwitchToWeapon(wep);
+	self SwitchToWeapon(wep);*/
 
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
 
@@ -8721,11 +8708,14 @@ give_weapons_test()
 
 	//level thread maps\_zombiemode_grief::turn_power_on();
 
-	wait 1;
+	/*wait 1;
 	origin = self.origin;
 	wait 5;
 	level.upgraded_tesla_reward = true;
 	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );
+	origin = self.origin;
+	wait 5;
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", origin, true );*/
 
 	/*wait 5;
 
@@ -9119,6 +9109,7 @@ set_gamemode()
 
 set_gamemode_name()
 {
+	wait_network_frame();
 	flag_wait("all_players_connected");
 
 	players = get_players();
@@ -9362,6 +9353,8 @@ destroy_revive_waypoint()
 
 hide_and_delete()
 {
+	self endon("death");
+
 	self.water_damage = false;
 	self Hide();
 	wait .4;

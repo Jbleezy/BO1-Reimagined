@@ -1361,6 +1361,8 @@ special_drop_setup(first_time, permament)
 
 powerup_timeout_on_next_powerup()
 {
+	self endon("death");
+
 	level waittill("new_special_powerup");
 
 	self notify( "powerup_timedout" );
@@ -1369,7 +1371,10 @@ powerup_timeout_on_next_powerup()
 	{
 		self.worldgundw delete();
 	}
-	self delete();
+	if( IsDefined(self) )
+	{
+		self delete();
+	}
 }
 
 powerup_zombie_grab_trigger_cleanup( trigger )
@@ -3802,6 +3807,8 @@ add_powerup_later(powerup_name)
 	{
 		return;
 	}
+
+	wait_network_frame();
 
 	while(!is_valid_powerup(powerup_name))
 	{

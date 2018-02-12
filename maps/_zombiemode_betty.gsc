@@ -422,7 +422,7 @@ make_radius_trigger()
 		players = get_players();
 		for(i = 0; i < players.size; i++)
 		{
-			if(players[i] == self.owner)
+			if(IsDefined(self.owner) && players[i] == self.owner)
 				continue;
 
 			if(players[i] IsTouching(self))

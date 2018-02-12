@@ -29,7 +29,7 @@ initPendulumTrap ()
 
 	zapper_lights = getentarray("pendulum_light", "targetname");
 	for(i=0;i<zapper_lights.size;i++)
-		zapper_lights[i] thread maps\zombie_cod5_sumpf::turnLightGreen("pendulum_light");
+		zapper_lights[i] thread maps\zombie_cod5_sumpf::turnLightGreen("pendulum_light", i);
 }
 
 moveLeverDown()

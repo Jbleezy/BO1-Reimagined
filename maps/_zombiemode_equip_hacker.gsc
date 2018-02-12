@@ -278,7 +278,7 @@ add_eligable_pooled_items()
 		}
 
 		trigger = Spawn( "trigger_radius", candidate.origin, 0, radius, height);
-		trigger UseTriggerRequireLookAt();
+		//trigger UseTriggerRequireLookAt();
 		trigger SetCursorHint( "HINT_NOICON" );
 		trigger.radius = radius;
 		trigger.height = height;

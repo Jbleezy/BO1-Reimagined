@@ -205,7 +205,7 @@ track_door_entry_exit( special )
 
 		zone = player get_current_zone();
 
-		if(!GetSubStr(zone, "airlock_"))
+		if(!IsSubStr(zone, "airlock_"))
 		{
 			if( where == "outside" && !level.audio_zones_breached[self.script_noteworthy] )
 			{

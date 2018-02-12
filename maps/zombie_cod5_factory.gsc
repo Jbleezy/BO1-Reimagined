@@ -105,6 +105,9 @@ main()
 
 	level thread magic_box_init();
 
+	//DCS: get betties working.
+	maps\_zombiemode_betty::init();
+
 	//DCS: need stop watch setup
 	maps\_zombiemode_timer::init();
 
@@ -156,7 +159,6 @@ main()
 	level thread factory_german_safe();
 	level thread mature_settings_changes();
 
-
 	// Special level specific settings
 	set_zombie_var( "zombie_powerup_drop_max_per_round", 3 );	// lower this to make drop happen more often
 
@@ -185,9 +187,6 @@ main()
 	SetSavedDvar( "r_lightGridContrast", 0.15 );
 
 	maps\createart\zombie_cod5_factory_art::main();
-
-	//DCS: get betties working.
-	maps\_zombiemode_betty::init();
 
 	level thread curbs_fix();
 }

@@ -30,7 +30,7 @@ player_add_points( event, mod, hit_location ,is_dog)
 			player_points	= get_zombie_death_player_points();
 			team_points		= get_zombie_death_team_points();
 			points = player_add_points_kill_bonus( mod, hit_location );
-			if( level.zombie_vars["zombie_powerup_insta_kill_on"] == 1 && mod == "MOD_UNKNOWN" )
+			if( IsDefined(level.zombie_vars["zombie_powerup_insta_kill_on"]) && level.zombie_vars["zombie_powerup_insta_kill_on"] && mod == "MOD_UNKNOWN" )
 			{
 				points = points * 2;
 			}
@@ -627,13 +627,13 @@ score_highlight( scoring_player, score, value )
 
 	if(value < 1)
 	{
-		if(IsDefined(self.negative_points_hud[player_num]))
+		if(IsDefined(self.negative_points_hud) && IsDefined(self.negative_points_hud[player_num]))
 		{
 			value += self.negative_points_hud_value[player_num];
 			self.negative_points_hud[player_num] Destroy();
 		}
 	}
-	else if(IsDefined(self.positive_points_hud[player_num]))
+	else if(IsDefined(self.positive_points_hud) && IsDefined(self.positive_points_hud[player_num]))
 	{
 		value += self.positive_points_hud_value[player_num];
 		self.positive_points_hud[player_num] Destroy();

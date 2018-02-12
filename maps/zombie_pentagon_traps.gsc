@@ -47,7 +47,10 @@ pickup_trap_piece()
 		return;
 	}
 
-	trap_piece = self spawn_trap_piece();
+	self SetCursorHint( "HINT_NOICON" );
+	self trigger_off();
+
+	/*trap_piece = self spawn_trap_piece();
 
 	self SetHintString( &"ZOMBIE_PENTAGON_GRAB_MISSING_PIECE" );
 	self SetCursorHint( "HINT_NOICON" );
@@ -60,19 +63,16 @@ pickup_trap_piece()
 
 	while( self.picked_up == 0 )
 	{
-		//self waittill( "trigger", user );
-		wait .05;
-		players = get_players();
-		user = players[0];
+		self waittill( "trigger", user );
 
-		//if( is_player_valid( user ) )
+		if( is_player_valid( user ) )
 		{
-			/*if( IsDefined( user._trap_piece ) && user._trap_piece > 0 ) // you have a piece, go away
+			if( IsDefined( user._trap_piece ) && user._trap_piece > 0 ) // you have a piece, go away
 			{
 				play_sound_at_pos( "no_purchase", self.origin );
 				continue;
 			}
-			else*/
+			else
 			{
 				self trigger_off();
 
@@ -96,7 +96,7 @@ pickup_trap_piece()
 				trap_piece Delete();
 			}
 		}
-	}
+	}*/
 }
 
 // ww: trigger spawns the script model that will be picked up, script model is returned
@@ -161,21 +161,18 @@ pentagon_fix_electric_trap()
 	trap_cover = GetEnt( self.script_string, "targetname" ); // script brush model covering the trap pieces
 	level thread pentagon_trap_cover_remove( trap_cover, self.script_flag_wait );
 
-	while( !flag( self.script_flag_wait ) ) // this flag will be set internally when the battery is delivered
+	/*while( !flag( self.script_flag_wait ) ) // this flag will be set internally when the battery is delivered
 	{
-		//self waittill( "trigger", who );
-		wait .05;
-		players = get_players();
-		who = players[0];
+		self waittill( "trigger", who );
 
-		//if( is_player_valid( who ) )
+		if( is_player_valid( who ) )
 		{
-			/*if( !IsDefined( who._trap_piece ) || who._trap_piece == 0 ) // you don't have it, go away
+			if( !IsDefined( who._trap_piece ) || who._trap_piece == 0 ) // you don't have it, go away
 			{
 				play_sound_at_pos( "no_purchase", self.origin );
 				// continue;
 			}
-			else if( IsDefined( who._trap_piece ) && who._trap_piece == 1 ) // you have the battery*/
+			else if( IsDefined( who._trap_piece ) && who._trap_piece == 1 ) // you have the battery
 			{
 				who._trap_piece = 0;
 
@@ -187,10 +184,12 @@ pentagon_fix_electric_trap()
 
 				who notify( "trap_piece_returned" );
 
-				//who thread pentagon_remove_battery_hud();
+				who thread pentagon_remove_battery_hud();
 			}
 		}
-	}
+	}*/
+
+	flag_set( self.script_flag_wait );
 
 	// hide the trigger
 	self SetHintString( "" );

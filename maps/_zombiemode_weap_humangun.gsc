@@ -755,6 +755,8 @@ humangun_zombie_1st_hit_response( upgraded, player )
 		self notify( "zombie_acquire_enemy" );
 		self OrientMode( "face default" );
 		self.ignoreall = true;
+
+		wait_network_frame();
 	}
 
 	// don't start reacting until traverse is done
@@ -762,12 +764,14 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	{
 		do_initial_anim = false;
 		self waittill( "zombie_end_traverse" );
+		wait_network_frame();
 	}
 
 	if(is_true(self.is_traversing_barrier))
 	{
 		do_initial_anim = false;
 		self waittill( "zombie_end_traverse_barrier" );
+		wait_network_frame();
 	}
 
 	level._zombie_human_array = add_to_array( level._zombie_human_array, self, false );

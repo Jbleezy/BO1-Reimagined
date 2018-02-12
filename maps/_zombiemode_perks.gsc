@@ -1468,8 +1468,6 @@ vending_trigger_think()
 				//player iprintln( "Already using Perk: " + perk );
 				self playsound("deny");
 				player maps\_zombiemode_audio::create_and_play_dialog( "general", "perk_deny", undefined, 1 );
-
-
 				continue;
 			}
 		}
@@ -1482,7 +1480,7 @@ vending_trigger_think()
 			continue;
 		}
 
-		if ( player.num_perks >= 4 && !player._retain_perks )
+		if ( player.num_perks >= 4 && !is_true(player._retain_perks) )
 		{
 			//player iprintln( "Too many perks already to buy Perk: " + perk );
 			self playsound("evt_perk_deny");
@@ -1709,7 +1707,7 @@ give_perk( perk, bought )
 
 	if(perk == "specialty_additionalprimaryweapon")
 	{
-		if(IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
+		if(IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon) && IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
 		{
 			can_give_wep = true;
 			if( IsDefined( level.limited_weapons )  )
@@ -1842,7 +1840,7 @@ check_player_has_perk(perk)
 #/
 
 	dist = 128 * 128;
-	while(true)
+	while(IsDefined(self))
 	{
 		players = get_players();
 		for( i = 0; i < players.size; i++ )
@@ -1880,7 +1878,6 @@ check_player_has_perk(perk)
 			}
 		}
 		wait(0.05);
-
 	}
 }
 

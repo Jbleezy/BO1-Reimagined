@@ -630,8 +630,9 @@
 * Upgraded assault rifles no longer deal extra damage to the Director
 * Max health is now 250,000 no matter how many players are in the match
 * Only slows down players close to him when shot at while calm
-* Fixed a bug that caused the Director to not be able to electrify a player anymore if they knifed an electrified zombie during an insta kill
+* Fixed a bug that caused the Director to not be able to electrify a player anymore after the player knifed an electrified zombie during an insta kill
 * No longer plays audio after exiting the map due to being hit by the upgraded V-R11
+* Fixed a bug that would sometimes cause the Director to sream in the water after already being killed
 
 ### Monkeys (Shangri-La)
 * Keep attempting to spawn until they successfully spawn during the whole duration while a powerup is active on the ground
@@ -903,10 +904,12 @@
 * Unlimited zombies
 
 ## TODO:
+* Fix runtime errors in developer mode
+* Ascension: fix one of the fire trap handles not going down when activated
+* Mule Kick: should you switch to gained weapon after buying the perk so player knows they already have a 3rd weapon?
+* Turn off zombies remaining HUD whenever there is unlimited zombies
 * COTD: fix sidequest generator hitboxes
 * COTD: fix bug where director does not do angry anim after when he should (happened with upgraded waffe powerup but cant reproduce, might be fixed)
-* COTD: fix bug where director can play angry sounds after being killed
-* Fix flag wait errors
 * Five: fix zombie pathing going to different floors
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
@@ -963,6 +966,7 @@
 * Fix sprint and dive anims on ray gun
 
 ## GRIEF TODO:
+* Moon: fix audio sometimes not being correct on map startup
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Moon: turn on power and spawn immediately at start of match

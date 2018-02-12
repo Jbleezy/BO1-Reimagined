@@ -280,7 +280,7 @@ dancing_teddy_bear()
 
 init_redphone_eggs()
 {
-    if(level.gamemode != "survival")
+    if(GetDvar("zm_gamemode") != "survival")
     {
         return;
     }

@@ -70,11 +70,12 @@ play_evil_generator_audio()
 
 play_projecter_soundtrack()
 {
-	if(level.gamemode == "survival")
+	/*if(GetDvar("zm_gamemode") != "survival")
 	{
-		level waittill("generator_done");
-		wait(20);
-	}
+		return;
+	}*/
+	level waittill("generator_done");
+	wait(20);
 	//TEMP 
 	speaker = spawn ("script_origin", (32, 1216, 592));
 	speaker playloopsound ("amb_projecter_soundtrack");	
@@ -82,10 +83,11 @@ play_projecter_soundtrack()
 
 play_projecter_loop()
 {
-	if(level.gamemode == "survival")
+	/*if(GetDvar("zm_gamemode") != "survival")
 	{
-		level waittill("generator_done");
-	}
+		return;
+	}*/
+	level waittill("generator_done");
 	projecter = spawn ("script_origin", (-72, -144, 384));
 	projecter playloopsound ("amb_projecter");
 }
@@ -127,7 +129,7 @@ meteor_egg()
 	self UseTriggerRequireLookAt();
 	self SetCursorHint( "HINT_NOICON" );
 
-	if(level.gamemode != "survival")
+	if(GetDvar("zm_gamemode") != "survival")
 	{
 		return;
 	}
@@ -159,7 +161,7 @@ portrait_egg_vox()
 	self UseTriggerRequireLookAt();
 	self SetCursorHint( "HINT_NOICON" );
 
-	if(level.gamemode != "survival")
+	if(GetDvar("zm_gamemode") != "survival")
 	{
 		return;
 	}
@@ -173,7 +175,7 @@ portrait_egg_vox()
 
 location_egg_vox()
 {
-	if(level.gamemode != "survival")
+	if(GetDvar("zm_gamemode") != "survival")
 	{
 		return;
 	}

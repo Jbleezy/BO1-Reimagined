@@ -776,6 +776,8 @@ director_watch_damage()
 
 	self.ignoreall = true;
 
+	self StopSounds();
+
 	if ( is_true( self.is_traversing ) )
 	{
 		self.skip_stumble = true;
@@ -905,6 +907,8 @@ director_scream_in_water()
 
 director_scream_delay()
 {
+	self endon( "director_exit" );
+
 	wait( 2.6 );
 	clientnotify( "ZDA" );
 	self thread director_blur();

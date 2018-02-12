@@ -99,7 +99,6 @@ main()
 	init_zombie_sumpf();
 	init_sounds();
 
-
 	//DCS: get betties working.
 	maps\_zombiemode_betty::init();
 
@@ -390,7 +389,23 @@ init_zombie_sumpf()
 		}
 
 		//turning on the lights for the pen trap
-		level thread maps\zombie_cod5_sumpf::turnLightRed("pendulum_light");
+		zapper_lights = getentarray("pendulum_light","targetname");
+		for(i=0;i<zapper_lights.size;i++)
+		{
+			zapper_lights[i] setmodel("zombie_zapper_cagelight_red");	
+			if (isDefined(zapper_lights[i].target))
+			{
+				old_light_effect = getent(zapper_lights[i].target, "targetname");
+				light_effect = spawn("script_model",zapper_lights[i].origin + (0, 0, 10));
+				//light_effect = spawn("script_model",zapper_lights[i].origin);
+				light_effect setmodel("tag_origin");	
+				light_effect.angles = (0,270,0);
+				light_effect.targetname = "effect_pendulum_light" + i;
+				old_light_effect delete();
+				zapper_lights[i].target = light_effect.targetname;
+				playfxontag(level._effect["zapper_light_notready"], light_effect, "tag_origin");
+			}
+		}
 	}
 }
 
@@ -408,6 +423,7 @@ turnLightGreen(name, i)
 			//light_effect = spawn("script_model",zapper_lights[i].origin);
 			light_effect setmodel("tag_origin");
 			light_effect.angles = (0,270,0);
+
 			light_effect.targetname = "effect_" + name + i;
 			old_light_effect delete();
 			self.target = light_effect.targetname;

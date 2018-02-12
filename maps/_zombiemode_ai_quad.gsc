@@ -710,15 +710,16 @@ quad_death_explo( origin, death_vars )
     players = get_players();
     zombies = GetAIArray( "axis" );
 
-
     for(i = 0; i < zombies.size; i++)
     {
-        if( Distance( origin, zombies[i].origin ) <= death_vars["explo_radius_zomb"] )
+        if( IsAlive(zombies[i]) && zombies[i] != self && Distance( origin, zombies[i].origin ) <= death_vars["explo_radius_zomb"] )
         {
             if( zombies[i].animname != "quad_zombie" )
             {
             	if(IsDefined(self.attacker))
+            	{
             		self.attacker.kills++;
+            	}
                	//zombies[i] StartRagdoll();
             	//zombies[i] LaunchRagdoll( VectorNormalize(zombies[i].origin - origin) * (25,25,25) );
             }
@@ -853,8 +854,6 @@ quad_killed_override( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 			self.fx_quad_trail delete();
 		}
 	}
-
-	self.attacker = attacker;
 
 	if(isDefined(level._override_quad_explosion))
 	{

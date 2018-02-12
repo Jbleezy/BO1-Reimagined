@@ -632,7 +632,8 @@ zombie_goto_entrance( node, endon_bad_path )
 	zombs_behind_window = -3; //dont count zombs tearing down barrier
 	for(i=0;i<zombs.size;i++)
 	{
-		if(zombs[i] != self && zombs[i].first_node == self.first_node && IsDefined(zombs[i].behind_barrier) && zombs[i].behind_barrier)
+		if(zombs[i] != self && IsDefined(zombs[i].first_node) && IsDefined(self.first_node) && zombs[i].first_node == self.first_node && 
+			is_true(zombs[i].behind_barrier))
 		{
 			zombs_behind_window++;
 		}
@@ -680,11 +681,13 @@ zombie_goto_entrance( node, endon_bad_path )
 	//start_origin = self.first_node.origin - (0,0,32);
 	start_origin = (self.first_node.origin[0], self.first_node.origin[1], self.origin[2]);
 
-	if(self.attacking_spot_index != 0)
+	if(IsDefined(self.prev_attacking_spot_index) && self.prev_attacking_spot_index != 0)
 	{
 		self SetGoalPos(start_origin, self.first_node.angles);
 		self waittill("goal");
 	}
+
+	self.prev_attacking_spot_index = undefined;
 
 	self thread set_traversing_barrier(traverse_anim);
 
@@ -967,6 +970,8 @@ tear_into_building()
 			//wait( 1 );
 			continue;
 		}
+
+		self.prev_attacking_spot_index = self.attacking_spot_index;
 
 		// This is where the zombie moves into position to tear down a board/bar
 		self.goalradius = 2;
@@ -4549,7 +4554,7 @@ zombie_follow_enemy()
 
 			//taunt at the poi (except for gersch device)
 			if( !is_true(self._black_hole_attract_walk) && !is_true(self._black_hole_attract_run) && !is_true(self._black_hole_bomb_collapse_death) 
-				&& !self.is_traversing && distanceSquared( self.origin, self.enemyoverride[0] ) < 128*128 )
+				&& !is_true(self.is_traversing) && distanceSquared( self.origin, self.enemyoverride[0] ) < 128*128 )
 			{
 				if(!already_at_override)
 				{

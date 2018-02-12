@@ -256,6 +256,7 @@ spawn_audio_bump_trigger(perk, origin)
 
 audio_bump_trigger_think()
 {
+	self endon("death");
 	self endon("entity_shutdown");
 
 	touching = [];
@@ -273,7 +274,7 @@ audio_bump_trigger_think()
 			if(!isdefined(touching[i]))
 				touching[i] = false;
 
-			if(Distance(self.origin, player.origin) < self.radius)
+			if(IsDefined(self.radius) && Distance(self.origin, player.origin) < self.radius)
 			{
 				if(!touching[i])
 				{
