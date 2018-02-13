@@ -463,24 +463,14 @@ trap_move_switches(activator)
 	}
 
 	self trap_lights_red();
-	closest = undefined;
-	distance = 0;
-	for ( i=0; i<self._trap_switches.size; i++ )
-	{
-		if(i == 0)
-		{
-			closest = self._trap_switches[i];
-			distance = DistanceSquared(self._trap_switches[i].origin, activator.origin);
-		}
-		else if(DistanceSquared(self._trap_switches[i].origin, activator.origin) < distance)
-		{
-			closest = self._trap_switches[i];
-			distance = DistanceSquared(self._trap_switches[i].origin, activator.origin);
-		}
-	}
 
-	// Rotate switch model "on"
-	//self._trap_switches[i] rotatepitch( 180, .5 );
+	/*for ( i=0; i<self._trap_switches.size; i++ )
+	{
+		// Rotate switch model "on"
+		self._trap_switches[i] rotatepitch( 180, .5 );
+		self._trap_switches[i] playsound( "amb_sparks_l_b" );
+	}*/
+	closest = GetClosest(activator.origin, self._trap_switches);
 	extra_time = closest move_trap_handle(180);
 	closest playsound( "amb_sparks_l_b" );
 
@@ -1250,18 +1240,18 @@ trap_model_type_init()
 
 }
 
-//move trap handle based on its current position so it ends up at the correct spot
+// move trap handle based on its current position so it ends up at the correct spot
 move_trap_handle(end_angle)
 {
-	angle = self.angles[0];
+	angle = int(self.angles[0]);
 
 	//round up angle, some trap handles are slightly off
-	if(angle - int(self.angles[0]) >= .5)
+	if(self.angles[0] - angle >= .5)
 	{
 		angle += 1;
 	}
 
-	angle = int(angle) % 360;
+	angle = angle % 360;
 
 	//bind angle between -180 and 180
 	if(angle <= -180)
@@ -1273,12 +1263,15 @@ move_trap_handle(end_angle)
 		angle -= 360;
 	}
 
+	// already in correct position, handle was activated right away
+	if(angle == 180)
+	{
+		self RotateTo((end_angle, self.angles[1], self.angles[2]), .05);
+		return .45;
+	}
+
 	percent = 1 - (angle / 180);
 	time = .5 * percent;
-	if(time < .05)
-	{
-		time = .05;
-	}
 	extra_time = .5 - time;
 	self RotatePitch(end_angle * percent, time);
 
@@ -1288,15 +1281,13 @@ move_trap_handle(end_angle)
 
 move_turret_trap_handle(end_angle, start_angle)
 {
-	angle = self.angles[0];
+	angle = int(self.angles[0]);
 
 	//round up angle, some trap handles are slightly off
-	if(angle - int(self.angles[0]) >= .5)
+	if(self.angles[0] - angle >= .5)
 	{
 		angle += 1;
 	}
-
-	angle = int(angle);
 
 	//bind angle between -180 and 180
 	if(angle <= -180)
@@ -1322,18 +1313,6 @@ move_turret_trap_handle(end_angle, start_angle)
 
 	//return extra time so trap still ativates at same time
 	return extra_time;
-}
-
-print_pitch()
-{
-	self endon("rotatedone");
-
-	while(1)
-	{
-		iprintln(self.angles[0]);
-
-		wait .05;
-	}
 }
 
 update_string()

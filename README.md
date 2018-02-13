@@ -905,7 +905,7 @@
 * Unlimited zombies
 
 ## TODO:
-* Fix runtime errors in developer mode
+* Fix turret trap handle the same way I fixed regular trap handles
 * Ascension: fix one of the fire trap handles not going down when activated
 * Mule Kick: should you switch to gained weapon after buying the perk so player knows they already have a 3rd weapon?
 * Turn off zombies remaining HUD whenever there is unlimited zombies
@@ -1054,6 +1054,7 @@
 * Allow melee while ADS with a sniper scope
 * Add space between grenades on HUD (CG_OFFHAND_WEAPON_ICON_FRAG - 103 and CG_OFFHAND_WEAPON_ICON_SMOKEFLASH - 104)
 * Make it so you can queue another shot on non-auto weapons by pressing the fire button during the fire time of the current shot (similar to BO3)
+* Fix freeze on map load on Ascension
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
