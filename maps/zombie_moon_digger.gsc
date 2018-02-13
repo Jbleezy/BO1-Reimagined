@@ -222,7 +222,7 @@ digger_activate(force_digger)
 		}
 	}*/
 
-	if(active.size < level.digger.size)
+	if(active.size < level.diggers.size)
 	{
 		digger_to_activate = level.diggers[level.digger_index];
 		level.digger_index++;

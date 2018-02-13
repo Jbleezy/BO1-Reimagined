@@ -365,6 +365,11 @@ teleporter_starting( teleporter_ent )
 //*****************************************************************************
 teleporter_check_for_endgame()
 {
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	level waittill_any( "end_game", "track_nml_time" );
 	level.nml_best_time = GetTime() - level.nml_start_time;
 
@@ -616,6 +621,11 @@ teleporter_to_nml_init()
 
 	init_teleporter_lights();
 	teleporter_lights_red();
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
 
 	level thread teleporter_exit_nml_think();
 	level thread teleporter_waiting_for_electric();

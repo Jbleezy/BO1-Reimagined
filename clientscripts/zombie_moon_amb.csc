@@ -326,7 +326,8 @@ setup_zone_1_special()
 
 setup_airless_ambient_packages()
 {
-	wait(5);
+	//wait(5);
+	waitforclient(0);
 
 	trigs = GetEntArray( 0, "ambient_package","targetname");
 	for(i=0;i<trigs.size;i++)

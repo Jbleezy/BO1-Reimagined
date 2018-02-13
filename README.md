@@ -764,6 +764,7 @@
 * Excavator sounds no longer linked to FPS
 * Teleporter sounds no longer linked to FPS
 * Announcer tells players when entering a new zone through the airlocks if the zone that the player is going into is not outside
+* Fixed a bug where the sky would turn bright right after restarting the map
 
 #### No Man's Land
 * Current No Man's Land round displayed in black where the round number normally is
@@ -966,16 +967,15 @@
 * Fix sprint and dive anims on ray gun
 
 ## GRIEF TODO:
-* Moon: fix audio sometimes not being correct on map startup
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
-* Moon: turn on power and spawn immediately at start of match
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Fix Meat weapon third person model
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ## TESTING:
+* Test if new Moon startup for versus modes works correclty in coop
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)

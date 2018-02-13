@@ -48,7 +48,7 @@ init_no_mans_land()
 	maps\_zombiemode_zone_manager::zone_init( "nml_zone" );
 
 	//set for earth sky at start
-	SetSavedDvar( "r_skyTransition", 1 );
+	//SetSavedDvar( "r_skyTransition", 1 );
 
 	// Power Gate
 	teleporter_to_nml_init();
@@ -73,7 +73,10 @@ init_no_mans_land()
 	level.first_perk = true;
 
 	// DCS 050911: starting in nml.
-	level thread zombie_moon_start_init();
+	if(level.gamemode == "survival")
+	{
+		level thread zombie_moon_start_init();
+	}
 
 	level.NML_REACTION_INTERVAL		  = 2000;	  // time interval between reactions
 	level.NML_MIN_REACTION_DIST_SQ    = 32*32;	  // minimum distance from the player to be able to react

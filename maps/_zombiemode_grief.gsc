@@ -981,27 +981,22 @@ disable_box_weapons()
 turn_power_on()
 {
 	flag_wait( "all_players_connected" );
-	players = get_players();
 	switch(level.script)
 	{
 		case "zombie_theater":
 		case "zombie_pentagon":
 		case "zombie_cosmodrome":
 		case "zombie_coast":
+		case "zombie_moon":
 			trig = getent("use_elec_switch","targetname");
 			trig notify("trigger");	
 			break;
 		case "zombie_temple":
+			players = get_players();
 			trig1 = getEnt( "power_trigger_left", "targetname" );
 			trig2 = getEnt( "power_trigger_right", "targetname" );
 			trig1 notify( "trigger", players[0] );
 			trig2 notify( "trigger", players[0] );
-			break;
-		case "zombie_moon":
-			level waittill("fade_introblack");
-			wait 2;
-			trig = getent("use_elec_switch","targetname");
-			trig notify("trigger");	
 			break;
 		case "zombie_cod5_asylum":
 			trig = getent("use_master_switch","targetname");
@@ -1056,9 +1051,9 @@ open_doors()
 	}
 	else if(level.script == "zombie_moon")
 	{
-		wait 1; //was causing error on fast_restart without a wait
-		zombie_doors = GetEntArray("zombie_airlock_buy", "targetname");
-		zombie_doors[13] maps\zombie_moon_utility::moon_door_opened();
+		level waittill("fade_introblack"); //causes error on fast_restart without a wait
+		zombie_airlock_buys = GetEntArray("zombie_airlock_buy", "targetname");
+		zombie_airlock_buys[13] maps\zombie_moon_utility::moon_door_opened();
 	}
 }
 

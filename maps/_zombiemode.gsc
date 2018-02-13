@@ -1961,7 +1961,7 @@ onPlayerDowned()
 			pap_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
 			for(i=0;i<pap_trigger.size;i++)
 			{
-				if(pap_trigger[i].user == self)
+				if(IsDefined(pap_trigger[i].user) && pap_trigger[i].user == self)
 				{
 					pap_trigger[i] notify("pap_force_timeout");
 				}

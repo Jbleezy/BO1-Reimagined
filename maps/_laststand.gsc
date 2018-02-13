@@ -866,10 +866,13 @@ auto_revive( reviver )
 
 	self.ignoreme = false;
 
-	// ww: moving the revive tracking, wasn't catching below the auto_revive
-	reviver.revives++;
-	//stat tracking
-	reviver.stats["revives"] = reviver.revives;
+	if(IsDefined(reviver))
+	{
+		// ww: moving the revive tracking, wasn't catching below the auto_revive
+		reviver.revives++;
+		//stat tracking
+		reviver.stats["revives"] = reviver.revives;
+	}
 
 	self thread say_revived_vo();
 	self notify ( "player_revived", reviver );

@@ -148,8 +148,12 @@ main()
 	// Teleporter initializations
 	init_no_mans_land();
 	level thread teleporter_check_for_endgame();
-	level thread teleporter_function( "generator_teleporter" );
-	level thread teleporter_function( "nml_teleporter" );
+
+	if(level.gamemode == "survival")
+	{
+		level thread teleporter_function( "generator_teleporter" );
+		level thread teleporter_function( "nml_teleporter" );
+	}
 
 	level thread vision_set_init();
 	level thread init_zombie_airlocks();
@@ -1504,6 +1508,11 @@ electric_switch()
 	flag_set( "power_on" );
 	Objective_State(8,"done");
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	user thread delayed_poweron_vox();
 }
 
@@ -2285,22 +2294,29 @@ moon_speed_up()
 
 init_teleport_players()
 {
+	//level.round_number = 1;
+	level.on_the_moon = true;
+	level.ever_been_on_the_moon = true;
+
 	flag_wait("all_players_spawned");
 
 	name = "nml_teleporter";
 	teleporter = getent( name, "targetname" );
 	target_positions = get_teleporter_target_positions( teleporter, name );
 
+	// teleport players to moon
 	players = get_players();
 	for( i=0; i<players.size; i++ )
 	{
 		teleport_player_to_target( players[i], target_positions );
-		players[i] clientnotify( "bmfx" );
+		players[i] VisionSetNaked("zombie_moonInterior", 0.5);
 	}
+
+	// change to moon sky
+	level clientnotify("MMS");
+	level thread sky_transition_fog_settings();
 
 	//have to wait or stuff doesnt get initialized right
 	//level waittill("fade_introblack");
-	level waittill("fade_in_complete");
-
-	teleporter_ending( teleporter, 0 );
+	//level waittill("fade_in_complete");
 }

@@ -1244,6 +1244,8 @@ electric_perks_dialog()
 //
 vending_trigger_think()
 {
+	self endon("death");
+	
 	//self thread turn_cola_off();
 	perk = self.script_noteworthy;
 	solo = false;
