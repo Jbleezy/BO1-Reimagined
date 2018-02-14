@@ -1108,13 +1108,14 @@ coast_egg_power_source_react( str_flag )
 		PlayFXOnTag( level._effect[ "rtg_field" ], field, "tag_origin" );
 	}
 
-	dmg_trig = Spawn( "trigger_damage", self.origin - (0,0,64), 0, 128, 128 ); // org, flags, radius, height
+	// move damage trigger slightly up, checks explosion more accurately
+	self.origin = self.origin + (0, 0, 32);
 
 	// wait for damage
 	self._source_damaged = false;
 	while( !self._source_damaged )
 	{
-		dmg_trig waittill( "damage", i_amount, e_attacker, v_direction, vec_position, i_dmg_type, str_model_name, str_tagname );
+		self waittill( "damage", i_amount, e_attacker, v_direction, vec_position, i_dmg_type, str_model_name, str_tagname );
 
 		// only grenade damage
 		if( is_player_valid( e_attacker ) && ( i_dmg_type == level.trials[0] || i_dmg_type == level.trials[1] ) )
@@ -1134,10 +1135,6 @@ coast_egg_power_source_react( str_flag )
 	}
 
 	// clean up
-	if(IsDefined(dmg_trig))
-	{
-		dmg_trig Delete();
-	}
 	if( IsDefined( field ) )
 	{
 		field Delete();

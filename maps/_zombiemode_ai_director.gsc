@@ -871,9 +871,14 @@ director_scream_in_water()
 
 	if ( !isDefined( self.water_scream ) )
 	{
+		if ( is_true( self.is_melee ) )
+		{
+			return;
+		}
+
 		self.water_scream = true;
 
-		if ( is_true( self.is_melee ) )
+		/*if ( is_true( self.is_melee ) )
 		{
 			while ( 1 )
 			{
@@ -883,7 +888,7 @@ director_scream_in_water()
 				}
 				wait_network_frame();
 			}
-		}
+		}*/
 
         if( IsDefined( level._audio_director_vox_play ) )
 	    {

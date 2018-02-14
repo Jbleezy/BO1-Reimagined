@@ -1241,8 +1241,13 @@ trap_model_type_init()
 }
 
 // move trap handle based on its current position so it ends up at the correct spot
-move_trap_handle(end_angle)
+move_trap_handle(end_angle, rotate_amount)
 {
+	if(!IsDefined(rotate_amount))
+	{
+		rotate_amount = 180;
+	}
+
 	angle = int(self.angles[0]);
 
 	//round up angle, some trap handles are slightly off
@@ -1264,52 +1269,20 @@ move_trap_handle(end_angle)
 	}
 
 	// already in correct position, handle was activated right away
-	if(angle == 180)
+	if(angle == end_angle)
 	{
 		self RotateTo((end_angle, self.angles[1], self.angles[2]), .05);
 		return .45;
 	}
 
-	percent = 1 - (angle / 180);
-	time = .5 * percent;
-	extra_time = .5 - time;
-	self RotatePitch(end_angle * percent, time);
-
-	//return extra time so trap still ativates at same time
-	return extra_time;
-}
-
-move_turret_trap_handle(end_angle, start_angle)
-{
-	angle = int(self.angles[0]);
-
-	//round up angle, some trap handles are slightly off
-	if(self.angles[0] - angle >= .5)
-	{
-		angle += 1;
-	}
-
-	//bind angle between -180 and 180
-	if(angle <= -180)
-	{
-		angle += 360;
-	}
-	else if(angle > 180)
-	{
-		angle -= 360;
-	}
-
-	//subtract the offset, must start at 0
+	// subtract the start angle offset, must start at 0
+	start_angle = end_angle - rotate_amount;
 	angle -= start_angle;
 
-	percent = 1 - (angle / 160);
+	percent = 1 - (angle / rotate_amount);
 	time = .5 * percent;
-	if(time < .05)
-	{
-		time = .05;
-	}
 	extra_time = .5 - time;
-	self RotatePitch(160 * percent, time);
+	self RotatePitch(rotate_amount * percent, time);
 
 	//return extra time so trap still ativates at same time
 	return extra_time;

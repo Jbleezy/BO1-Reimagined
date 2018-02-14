@@ -633,6 +633,7 @@
 * Fixed a bug that caused the Director to not be able to electrify a player anymore after the player knifed an electrified zombie during an insta kill
 * No longer plays audio after exiting the map due to being hit by the upgraded V-R11
 * Fixed a bug that would sometimes cause the Director to sream in the water after already being killed
+* No longer screams in the water after meleeing if damaged in the water while meleeing
 
 ### Monkeys (Shangri-La)
 * Keep attempting to spawn until they successfully spawn during the whole duration while a powerup is active on the ground
@@ -716,7 +717,7 @@
 #### Sidequest
 * Steps in solo are now the same as in coop
 * Fuse spawns before starting the sidequest
-* Increased generators' damage hitbox
+* Generators' damage hitbox is now more accurate
 * Bottle no longer breaks when it hits the ground
 * Lighthouse dials can now be rotated faster
 * Rotating a lighthouse dial no longer rotates other lighthouse dials
@@ -823,7 +824,7 @@
 * Five: Pack-a-Punch door is now a 1500 point buyable door
 * Ascension: lunar landers disabled
 * Ascension: Pack-a-Punch door is now a 1500 point buyable door
-* COTD: director spawns 2 random powerdowns
+* Call of the Dead: director spawns 2 random powerdowns
 * Shangri-La: Pack-a-Punch stairs are open from the start of the match
 * Shangri-La: geyser in the start room is open from the start of the match
 * Shangri-La: monkeys disabled
@@ -905,11 +906,8 @@
 * Unlimited zombies
 
 ## TODO:
-* Fix turret trap handle the same way I fixed regular trap handles
-* Ascension: fix one of the fire trap handles not going down when activated
 * Mule Kick: should you switch to gained weapon after buying the perk so player knows they already have a 3rd weapon?
 * Turn off zombies remaining HUD whenever there is unlimited zombies
-* COTD: fix sidequest generator hitboxes
 * COTD: fix bug where director does not do angry anim after when he should (happened with upgraded waffe powerup but cant reproduce, might be fixed)
 * Five: fix zombie pathing going to different floors
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
@@ -937,7 +935,6 @@
 * Fix low grav with increased FPS (might be engine based)
 * Remove blur when paused ingame
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
-* Make trap hintstrings show time remaining for active and cooldown (try using add_zombie_hint())
 * Remove marks on background of Deadshot perk shader
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
