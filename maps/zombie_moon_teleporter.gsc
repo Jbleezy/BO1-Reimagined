@@ -541,7 +541,6 @@ teleporter_ending( teleporter_ent, was_aborted )
 				level thread perk_machine_arrival_update();
 
 				nml_setup_round_spawner();
-
 			}
 			else if( teleporter_ent.script_noteworthy == "exit_no_mans_land" )
 			{

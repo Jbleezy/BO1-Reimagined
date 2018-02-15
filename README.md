@@ -72,13 +72,13 @@
 * Option to add weapon cycle delay
 * Option to disable character dialog (host only)
 * Option to disable Mule Kick (host only, always disabled on Nacht, always enabled on Moon)
-* Options to enable/disable timer, zombie counter, zone names, and character names
+* Options to disable timer, zombie counter, zone names, and character names
 * Option to choose which room you start in on Verruckt (host only)
 * Option to choose which perk you start with on No Man's Land (host only)
 * Options to set which barriers in Five first room you want disabled (host only)
 * Option to choose the initial box location on maps that have a random initial box location (host only)
-* Option to choose which gamemode you want to play, including random which includes every gamemode except survival
-* Option for random map rotation on versus gamemodes (automatically loads new map after intermission screen)
+* Option to choose which gamemode you want to play, including random which includes every gamemode except Survival
+* Option for random map rotation on versus gamemodes, automatically loads new map after intermission screen
 
 ## Weapons
 * All bullet damage (except for shotguns) will now deal full damage through multiple enemies or thin walls
@@ -469,7 +469,7 @@
 * Added jingle
 * Third weapon slot will now always be the correct weapon
 * Name of weapon that will be lost when downed is shown in yellow text
-* Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, or if the player already has the weapon, or if the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon)
+* Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, or if the player already has the weapon, or if the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or if the player bled out)
 
 ## Powerups
 * Powerups allign on the center of the HUD
@@ -633,7 +633,7 @@
 * Fixed a bug that caused the Director to not be able to electrify a player anymore after the player knifed an electrified zombie during an insta kill
 * No longer plays audio after exiting the map due to being hit by the upgraded V-R11
 * Fixed a bug that would sometimes cause the Director to sream in the water after already being killed
-* No longer screams in the water after meleeing if damaged in the water while meleeing
+* No longer screams in the water if damaged while attacking
 
 ### Monkeys (Shangri-La)
 * Keep attempting to spawn until they successfully spawn during the whole duration while a powerup is active on the ground
@@ -906,8 +906,7 @@
 * Unlimited zombies
 
 ## TODO:
-* Mule Kick: should you switch to gained weapon after buying the perk so player knows they already have a 3rd weapon?
-* Turn off zombies remaining HUD whenever there is unlimited zombies
+* Add sidequest complete text to localized string
 * COTD: fix bug where director does not do angry anim after when he should (happened with upgraded waffe powerup but cant reproduce, might be fixed)
 * Five: fix zombie pathing going to different floors
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)

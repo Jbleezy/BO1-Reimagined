@@ -1448,6 +1448,12 @@ reduce_survive_zombie_amount()
 
 snr_round_win_watcher()
 {
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		players[i] SetClientDvar("hud_zombs_remaining_on_game", true);
+	}
+
 	zombs = get_enemy_count();
 
 	while(zombs == 0)
@@ -1457,6 +1463,7 @@ snr_round_win_watcher()
 			players = get_players();
 			for(i=0;i<players.size;i++)
 			{
+				players[i] SetClientDvar("hud_zombs_remaining_on_game", false);
 				players[i] SetClientDvar("zombs_remaining", "");
 			}
 
@@ -1476,6 +1483,7 @@ snr_round_win_watcher()
 			players = get_players();
 			for(i=0;i<players.size;i++)
 			{
+				players[i] SetClientDvar("hud_zombs_remaining_on_game", false);
 				players[i] SetClientDvar("zombs_remaining", "");
 			}
 
@@ -1554,6 +1562,12 @@ snr_round_win_watcher()
 		}
 		else
 		{
+			players = get_players();
+			for(i=0;i<players.size;i++)
+			{
+				players[i] SetClientDvar("hud_zombs_remaining_on_game", false);
+			}
+
 			level thread display_round_won(team);
 
 			wait 2;

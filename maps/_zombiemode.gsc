@@ -1820,6 +1820,10 @@ onPlayerConnect_clientDvars()
 	//set minimum fov (so sniper scopes dont go below this)
 	self SetClientDvar("cg_fovMin", 30);
 
+	//turn zombies remaining HUD off initially
+	self SetClientDvar("hud_zombs_remaining_on_game", false);
+	self SetClientDvar("zombs_remaining", "");
+
 	//reset grief dvars
 	self SetClientDvar("vs_logo_on", 0);
 	self SetClientDvar("vs_top_logos_on", 0);
@@ -8330,24 +8334,21 @@ update_time(level_var, client_var)
 
 zombies_remaining_hud()
 {
-	players = get_players();
-	for(i=0;i<players.size;i++)
-	{
-		players[i] SetClientDvar("hud_zombs_remaining_on_game", true);
-		players[i] SetClientDvar("zombs_remaining", "");
-	}
-
-	if(!(level.gamemode == "survival" || level.gamemode == "grief" || level.gamemode == "ffa"))
+	if(level.gamemode != "survival" && level.gamemode != "grief" && level.gamemode != "ffa")
 	{
 		return;
 	}
 
+	set = false;
+
 	while(1)
 	{
-		if(is_true(flag("enter_nml")))
+		players = get_players();
+		if( is_true(flag("enter_nml")) )
 		{
-			if(!GetDvarInt("hud_zombs_remaining_on_game"))
+			if(set)
 			{
+				set = false;
 				for(i=0;i<players.size;i++)
 				{
 					players[i] SetClientDvar("hud_zombs_remaining_on_game", false);
@@ -8357,6 +8358,7 @@ zombies_remaining_hud()
 		else
 		{
 			zombs = level.zombie_total + get_enemy_count();
+
 			if(zombs == 0 || flag("round_restarting"))
 			{
 				if(GetDvar("zombs_remaining") != "")
@@ -8378,14 +8380,16 @@ zombies_remaining_hud()
 				}
 			}
 
-			if(GetDvarInt("hud_zombs_remaining_on_game"))
+			if(!set)
 			{
+				set = true;
 				for(i=0;i<players.size;i++)
 				{
 					players[i] SetClientDvar("hud_zombs_remaining_on_game", true);
 				}
 			}
 		}
+
 		wait .05;
 	}
 }

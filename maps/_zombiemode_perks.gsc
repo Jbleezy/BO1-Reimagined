@@ -1245,7 +1245,7 @@ electric_perks_dialog()
 vending_trigger_think()
 {
 	self endon("death");
-	
+
 	//self thread turn_cola_off();
 	perk = self.script_noteworthy;
 	solo = false;
@@ -1799,6 +1799,8 @@ give_perk( perk, bought )
 
 give_back_mule_weapon()
 {
+	self endon("disconnect");
+
 	unupgrade_name = self.weapon_taken_by_losing_additionalprimaryweapon[0];
 	if(maps\_zombiemode_weapons::is_weapon_upgraded(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
 	{
@@ -1826,8 +1828,8 @@ give_back_mule_weapon()
 	{
 		self SetWeaponAmmoClip( dual_wield_name, self.weapon_taken_by_losing_additionalprimaryweapon[3] );
 	}
-	//wait_network_frame();
-	//self SwitchToWeapon(self.weapon_taken_by_losing_additionalprimaryweapon[0]);
+	wait_network_frame();
+	self SwitchToWeapon(self.weapon_taken_by_losing_additionalprimaryweapon[0]);
 	self.weapon_taken_by_losing_additionalprimaryweapon = [];
 }
 
