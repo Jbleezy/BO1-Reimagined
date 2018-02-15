@@ -8359,7 +8359,7 @@ zombies_remaining_hud()
 		{
 			zombs = level.zombie_total + get_enemy_count();
 
-			if(zombs == 0 || flag("round_restarting"))
+			if( zombs == 0 || is_true(flag("round_restarting")) )
 			{
 				if(GetDvar("zombs_remaining") != "")
 				{
@@ -8396,13 +8396,37 @@ zombies_remaining_hud()
 
 sidequest_hud()
 {
-	if(!(level.script == "zombie_cod5_factory" || level.script == "zombie_cosmodrome" || level.script == "zombie_coast" || level.script == "zombie_temple" || level.script == "zombie_moon") || level.gamemode != "survival")
+	if((level.script != "zombie_cod5_factory" && level.script != "zombie_cosmodrome" && level.script != "zombie_coast" && level.script != "zombie_temple" && level.script != "zombie_moon") || level.gamemode != "survival")
 		return;
 
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
 		players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_out");
+	}
+
+	// Moon has 2 parts to the sidequest
+	if(level.script == "zombie_moon")
+	{
+		flag_wait("sam_switch_thrown");
+
+		time = to_mins_short(level.total_time);
+
+		players = get_players();
+		for(i=0;i<players.size;i++)
+		{
+			players[i] SetClientDvar("sidequest_text", "REIMAGINED_SIDEQUEST_PART_ONE_COMPLETE");
+			players[i] SetClientDvar("sidequest_time", time);
+			players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_in");
+		}
+
+		wait 5;
+
+		players = get_players();
+		for(i=0;i<players.size;i++)
+		{
+			players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_out");
+		}
 	}
 
 	if(level.script == "zombie_cod5_factory")
@@ -8426,37 +8450,21 @@ sidequest_hud()
 	}
 	else if(level.script == "zombie_moon")
 	{
-		flag_wait("sam_switch_thrown");
-
-		time = to_mins_short(level.total_time);
-
-		text = "Sidequest Part 1 Complete! Time: " + time;
-		players = get_players();
-		for(i=0;i<players.size;i++)
-		{
-			players[i] SetClientDvar("sidequest_time", text);
-			players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_in");
-		}
-
-		wait 5;
-		players = get_players();
-		for(i=0;i<players.size;i++)
-		{
-			players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_out");
-		}
-
 		flag_wait("be2");
 	}
 
 	time = to_mins_short(level.total_time);
-	text = "Sidequest Complete! Time: " + time;
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		players[i] SetClientDvar("sidequest_time", text);
+		players[i] SetClientDvar("sidequest_text", "REIMAGINED_SIDEQUEST_COMPLETE");
+		players[i] SetClientDvar("sidequest_time", time);
 		players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_in");
 	}
+
 	wait 5;
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{

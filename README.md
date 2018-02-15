@@ -906,7 +906,7 @@
 * Unlimited zombies
 
 ## TODO:
-* Add sidequest complete text to localized string
+* Try making dvars unchangeable from console
 * COTD: fix bug where director does not do angry anim after when he should (happened with upgraded waffe powerup but cant reproduce, might be fixed)
 * Five: fix zombie pathing going to different floors
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)

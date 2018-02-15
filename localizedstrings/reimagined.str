@@ -100,6 +100,12 @@ LANG_ENGLISH       	"Round Time: "
 REFERENCE          	TOTAL_TIME
 LANG_ENGLISH       	"Total Time: "
 
+REFERENCE          	SIDEQUEST_COMPLETE
+LANG_ENGLISH       	"Sidequest Complete! Time: "
+
+REFERENCE          	SIDEQUEST_PART_ONE_COMPLETE
+LANG_ENGLISH       	"Sidequest Part 1 Complete! Time: "
+
 REFERENCE			ZOMBIE_THEATER_PLAYER_NAME_0
 LANG_ENGLISH		"Dempsey"
 
