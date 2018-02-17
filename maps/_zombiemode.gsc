@@ -8431,10 +8431,9 @@ sidequest_hud()
 
 	if(level.script == "zombie_cod5_factory")
 	{
-		while(level.flytrap_counter != 3)
-		{
-			wait_network_frame();
-		}
+		flag_wait( "ee_exp_monkey" );
+		flag_wait( "ee_bowie_bear" );
+		flag_wait( "ee_perk_bear" );
 	}
 	else if(level.script == "zombie_cosmodrome")
 	{

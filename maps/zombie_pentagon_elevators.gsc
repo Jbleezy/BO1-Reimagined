@@ -829,31 +829,22 @@ laststand_elev_zombies_away(current_floor,next_floor)
 
 		if(IsDefined(zombies[i].floor) && zombies[i].floor == self.floor)
 		{
-			if(zombies[i].floor == 1 && flag("power_on"))
+			if(zombies[i].floor == 1 && flag("power_on") && level.gamemode == "survival")
 			{
 				zombies[i] thread send_zombies_out(level.portal_top);
 			}
-			else if(zombies[i].floor == 2 && flag("power_on"))
+			else if(zombies[i].floor == 2 && flag("power_on") && level.gamemode == "survival")
 			{
 				zombies[i] thread send_zombies_out(level.portal_mid);
 			}
-			else if(zombies[i].floor == 3 && flag("power_on"))
+			else if(zombies[i].floor == 3 && flag("power_on") && level.gamemode == "survival")
 			{
 				zombies[i] thread send_zombies_out(level.portal_power);
 			}
 			else
 			{
-				PlayFX(level._effect["transporter_start"], zombies[i].origin);
-
 				level.zombie_total++;
-				if(IsDefined(zombies[i].fx_quad_trail))
-				{
-					zombies[i].fx_quad_trail Delete();
-				}
-				zombies[i] maps\_zombiemode_spawner::reset_attack_spot();
-
-				zombies[i] notify("zombie_delete");
-				zombies[i] Delete();
+				zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
 			}
 		}
 	}

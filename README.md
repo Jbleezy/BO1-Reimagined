@@ -721,6 +721,7 @@
 * Bottle no longer breaks when it hits the ground
 * Lighthouse dials can now be rotated faster
 * Rotating a lighthouse dial no longer rotates other lighthouse dials
+* Radio order now resets after a wrong radio is activated
 * Human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health multiplied the amount of players)
 * Reward: upgraded Wunderwaffe from every Wunderwaffe powerup for the rest of the game
 * Wunderwaffe powerup from sidequest stays on the map until picked up
@@ -906,9 +907,10 @@
 * Unlimited zombies
 
 ## TODO:
+* Five: try linking powerups and meat to elevator if spawned in elevator
+* Use Sleepy when game crashes on map load
 * Try making dvars unchangeable from console
-* COTD: fix bug where director does not do angry anim after when he should (happened with upgraded waffe powerup but cant reproduce, might be fixed)
-* Five: fix zombie pathing going to different floors
+* COTD: fix bug where director does not do angry anim after when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Add collision boxes near invincibilty spots on maps

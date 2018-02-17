@@ -1539,18 +1539,17 @@ coast_egg_art_critic_message()
 		if( is_player_valid( dj ) )
 		{
 
-			if( !flag( "ke" ) || ent_flag( "sequence_incorrect" ) )
+			if( !flag( "ke" ) ) //ent_flag( "sequence_incorrect" )
 			{
-				self PlaySound( "zmb_radio_morse_static", "sounddone_static" );
-				self waittill("sounddone_static");
+				self PlaySound( "zmb_radio_morse_static", "sound_done" );
+				self waittill("sound_done");
 			}
 
 			if( flag( "ke" ) )
 			{
 				// SOUND: PLAY SOUND FROM STRING
-				self PlaySound( self.script_string );
-
-				wait( 1.0 );
+				self PlaySound( self.script_string, "sound_done" );
+				self waittill("sound_done");
 
 				// add special to array
 				if( !IsDefined( level._reach ) )
@@ -1566,7 +1565,11 @@ coast_egg_art_critic_message()
 
 					flag_set( "aca" );
 				}
-
+				else if( IsDefined( heard ) && !heard )
+				{
+					radios = GetEntArray( "hello_world", "targetname" );
+					radios[0] waittill("sound_done");
+				}
 			}
 
 		}
@@ -1581,7 +1584,7 @@ call_out( str_message )
 
 	level._reach = add_to_array( level._reach, str_message );
 
-	if( level._reach.size == level.contact.size )
+	/*if( level._reach.size == level.contact.size )
 	{
 		for( i = 0; i < level.contact.size; i++ )
 		{
@@ -1604,8 +1607,32 @@ call_out( str_message )
 		}
 
 		return true;
+	}*/
+
+	for( i = 0; i < level._reach.size; i++ )
+	{
+		if( level._reach[i] != level.contact[i] )
+		{
+			level._reach = undefined;
+
+			// WW (4-18-11): Issue 82048 - Radios give no feedback and make is difficult for a player to know when they've input a sequence
+			radios = GetEntArray( "hello_world", "targetname" );
+			// each radio plays the negative sound to show the sequence was incorrect
+			for( j = 0; j < radios.size; j++ )
+			{
+				radios[j] PlaySound("zmb_box_move", "sound_done"); // sounds explains that the sequnce entered was incorrect
+				//radios[j] ent_flag_set( "sequence_incorrect" );
+				//radios[j] thread call_out_wrong_clear();
+			}
+
+			return false;
+		}
 	}
 
+	if( level._reach.size == level.contact.size )
+	{
+		return true;
+	}
 }
 
 // WW (4-18-11): Issue 82048 - Radios give no feedback and make is difficult for a player to know when they've input a sequence

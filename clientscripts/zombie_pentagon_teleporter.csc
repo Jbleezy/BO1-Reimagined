@@ -16,6 +16,11 @@ main()
 	level.portal_effect = level._effect["zombie_pentagon_teleporter"];
 	level.pack_effect = level._effect["zombie_pent_portal_pack"];
 
+	if(GetDvar("zm_gamemode") != "survival")
+	{
+		return;
+	}
+
 	players = getlocalplayers();
 	for ( i = 0; i < players.size; i++ )
 	{

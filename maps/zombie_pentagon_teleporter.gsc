@@ -1357,7 +1357,7 @@ check_if_empty_floors()
 		}
 		else if(IsDefined(zombies[i].floor) && zombies[i].floor == 1)
 		{
-			if(num_floor1 == num_floor1_laststand && players.size > 1 && flag("power_on"))
+			if(num_floor1 == num_floor1_laststand && players.size > 1 && flag("power_on") && level.gamemode == "survival")
 			{
 				zombies[i] thread send_zombies_out(level.portal_top);
 			}
@@ -1368,7 +1368,7 @@ check_if_empty_floors()
 			}
 			else if(num_floor1 == 0)
 			{
-				if(flag("power_on"))
+				if(flag("power_on") && level.gamemode == "survival")
 				{
 					zombies[i] thread send_zombies_out(level.portal_top);
 				}
@@ -1385,7 +1385,7 @@ check_if_empty_floors()
 		}
 		else if(IsDefined(zombies[i].floor) && zombies[i].floor == 2)
 		{
-			if(num_floor2 == num_floor2_laststand && players.size > 1 && flag("power_on"))
+			if(num_floor2 == num_floor2_laststand && players.size > 1 && flag("power_on") && level.gamemode == "survival")
 			{
 				zombies[i] thread send_zombies_out(level.portal_mid);
 			}
@@ -1396,7 +1396,7 @@ check_if_empty_floors()
 			}
 			else if(num_floor2 == 0)
 			{
-				if(flag("power_on"))
+				if(flag("power_on") && level.gamemode == "survival")
 				{
 					zombies[i] thread send_zombies_out(level.portal_mid);
 				}
@@ -1413,7 +1413,7 @@ check_if_empty_floors()
 		}
 		else if(IsDefined(zombies[i].floor) && zombies[i].floor == 3)
 		{
-			if(num_floor3 == num_floor3_laststand && players.size > 1 && flag("power_on"))
+			if(num_floor3 == num_floor3_laststand && players.size > 1 && flag("power_on") && level.gamemode == "survival")
 			{
 				zombies[i] thread send_zombies_out(level.portal_power);
 			}
@@ -1424,7 +1424,7 @@ check_if_empty_floors()
 			}
 			else if(num_floor3 == 0)
 			{
-				if(flag("power_on"))
+				if(flag("power_on") && level.gamemode == "survival")
 				{
 					zombies[i] thread send_zombies_out(level.portal_power);
 				}
