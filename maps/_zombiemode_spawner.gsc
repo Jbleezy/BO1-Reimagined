@@ -1082,7 +1082,7 @@ tear_into_building()
 			//thread grate_shake_swap();
 
 
-			self zombie_tear_notetracks( "tear_anim", chunk, self.first_node );
+			self zombie_tear_notetracks( "tear_anim", chunk, self.first_node, tear_anim );
 
 			//chris - adding new window attack & gesture animations ;)
 			attack = self should_attack_player_thru_boards();
@@ -1165,7 +1165,7 @@ should_attack_player_thru_boards()
 	}
 
 	//DCS 083110: check glass section or walls are all broken through.
-	if(IsDefined(self.first_node.barrier_chunks))
+	/*if(IsDefined(self.first_node.barrier_chunks))
 	{
 		for(i=0;i<self.first_node.barrier_chunks.size;i++)
 		{
@@ -1174,7 +1174,7 @@ should_attack_player_thru_boards()
 				return false;
 			}
 		}
-	}
+	}*/
 
 	if(GetDvar( #"zombie_reachin_freq") == "")
 	{
@@ -1336,12 +1336,33 @@ get_attack_spot_index( node )
 }
 
 // Self is zombie
-zombie_tear_notetracks( msg, chunk, node )
+zombie_tear_notetracks( msg, chunk, node, tear_anim )
 {
 	// JL: Setup random chance for bars getting bent or not
 	random_chance = undefined;
 	self endon("death");
 	chunk thread check_for_zombie_death(self);
+
+	attack_times = 0;
+
+	max_attack_times = 1;
+	if(IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board")
+	{
+		if((IsDefined(chunk.material) && chunk.material == "glass") || !IsDefined(chunk.material))
+		{
+			if(self.attacking_spot_index == 0)
+			{
+				// Five glass barrier - there are 4 notetracks for breaking the window, only break on the last one
+				max_attack_times = 4;
+			}
+			else
+			{
+				// Five wall barrier - there are 2 notetracks for breaking the window, only break on the last one
+				max_attack_times = 2;
+			}
+		}
+	}
+	
 
 	while( 1 )
 	{
@@ -1352,11 +1373,12 @@ zombie_tear_notetracks( msg, chunk, node )
 			return;
 		}
 
+		attack_times++;
+
 		if( notetrack == "board" )
 		{
 			if( !chunk.destroyed )
 			{
-				self.lastchunk_destroy_time = getTime();
 				//PlayFx( level._effect["wood_chunk_destory"], chunk.origin );
 				// jl created another function for dust so we create offsets with its timing
 				if(chunk.script_noteworthy == "4" || chunk.script_noteworthy == "6" || chunk.script_noteworthy == "5" || chunk.script_noteworthy == "1")
@@ -1367,6 +1389,14 @@ zombie_tear_notetracks( msg, chunk, node )
 				{
 					chunk thread zombie_boardtear_offset_fx_verticle(chunk, node);
 				}
+
+				if(attack_times < max_attack_times)
+				{
+					chunk thread maps\_zombiemode_blockers::zombie_boardtear_audio_offset(chunk);
+					continue;
+				}
+
+				self.lastchunk_destroy_time = getTime();
 
 				zomb = self;
 				level thread maps\_zombiemode_blockers::remove_chunk( chunk, node, true, zomb );
@@ -1624,12 +1654,12 @@ zombie_boardtear_offset_fx_horizontle( chunk, node )
 			if(IsDefined(chunk.material) && chunk.material == "glass")
 			{
 				PlayFX( level._effect["glass_break"], chunk.origin, node.angles );
-				chunk.unbroken = false;
+				//chunk.unbroken = false;
 			}
 			else if(IsDefined(chunk.material) && chunk.material == "metal")
 			{
 				PlayFX( level._effect["fx_zombie_bar_break"], chunk.origin );
-				chunk.unbroken = false;
+				//chunk.unbroken = false;
 			}
 			else if(IsDefined(chunk.material) && chunk.material == "rock")
 			{
@@ -1641,7 +1671,7 @@ zombie_boardtear_offset_fx_horizontle( chunk, node )
 				{
 					PlayFX( level._effect["wall_break"], chunk.origin );
 				}
-				chunk.unbroken = false;
+				//chunk.unbroken = false;
 			}
 		}
 	}
@@ -1689,12 +1719,12 @@ zombie_boardtear_offset_fx_verticle( chunk, node )
 			if(IsDefined(chunk.material) && chunk.material == "glass")
 			{
 				PlayFX( level._effect["glass_break"], chunk.origin, node.angles );
-				chunk.unbroken = false;
+				//chunk.unbroken = false;
 			}
 			else if(IsDefined(chunk.material) && chunk.material == "metal")
 			{
 				PlayFX( level._effect["fx_zombie_bar_break"], chunk.origin );
-				chunk.unbroken = false;
+				//chunk.unbroken = false;
 			}
 			else if(IsDefined(chunk.material) && chunk.material == "rock")
 			{
@@ -1706,7 +1736,7 @@ zombie_boardtear_offset_fx_verticle( chunk, node )
 				{
 					PlayFX( level._effect["wall_break"], chunk.origin );
 				}
-				chunk.unbroken = false;
+				//chunk.unbroken = false;
 			}
 		}
 	}

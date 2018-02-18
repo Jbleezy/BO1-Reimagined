@@ -1305,16 +1305,16 @@ blocker_init()
 destructible_glass_barricade(unbroken_section, node)
 {
 	unbroken_section SetCanDamage( true );
-	unbroken_section.health = 99999;
-	unbroken_section waittill( "damage", amount, who);
-	if( is_player_valid( who ) || who maps\_laststand::player_is_in_laststand())
+	
+	while(1)
 	{
+		unbroken_section.health = 99999;
+		unbroken_section waittill( "damage", amount, who);
+
 		self thread maps\_zombiemode_spawner::zombie_boardtear_offset_fx_horizontle( self, node );
 		level thread remove_chunk( self, node, true );
-		self update_states("destroyed");
-		self notify("destroyed");
-		self.unbroken = false;
 
+		self waittill("repaired");
 	}
 }
 //-------------------------------------------------------------------------------
@@ -1555,7 +1555,10 @@ blocker_trigger_think()
 			}
 			else
 			{
-				chunk Show();
+				if(!IsDefined(chunk.unbroken_section))
+				{
+					chunk Show();
+				}
 			}
 
 
@@ -1783,163 +1786,34 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 
 
 
-		if ( IsDefined( chunk.script_moveoverride ) && chunk.script_moveoverride )
-		{
-			chunk Hide();
-		}
+	if ( IsDefined( chunk.script_moveoverride ) && chunk.script_moveoverride )
+	{
+		chunk Hide();
+	}
 
 
-		// an origin is created and the current chunk is linked to it. Then it flings the chunk and deletes the origin
-		if ( IsDefined( chunk.script_parameters ) && ( chunk.script_parameters == "bar" ) )
-		{
-
-			// added top bar check so it goes less higher
-			if( IsDefined ( chunk.script_noteworthy ) && ( chunk.script_noteworthy == "4" ) )
-			{
-				ent = Spawn( "script_origin", chunk.origin );
-				ent.angles = node.angles +( 0, 180, 0 );
-
-				//DCS 030711: adding potential for having max distance movement
-				//for boards in closets that aren't very deep.
-				dist = 100; // base number.
-				if(IsDefined(chunk.script_move_dist))
-				{
-						dist_max = chunk.script_move_dist - 100;
-						dist = 100 + RandomInt(dist_max);
-				}
-				else
-				{
-					dist = 100 + RandomInt( 100 );
-				}
-
-				dest = ent.origin + ( AnglesToForward( ent.angles ) * dist );
-				trace = BulletTrace( dest + ( 0, 0, 16 ), dest + ( 0, 0, -200 ), false, undefined );
-
-				if( trace["fraction"] == 1 )
-				{
-					dest = dest + ( 0, 0, -200 );
-				}
-				else
-				{
-					dest = trace["position"];
-				}
-
-		//		time = 1;
-				chunk LinkTo( ent );
-
-				//time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
-				time = ent fake_physicslaunch( dest, 300 + RandomInt( 100 ) );
-
-
-				if( RandomInt( 100 ) > 40 )
-				{
-					ent RotatePitch( 180, time * 0.5 );
-				}
-				else
-				{
-					ent RotatePitch( 90, time, time * 0.5 );
-				}
-				wait( time );
-
-				chunk Hide();
-
-				// try sending the notify now...
-				wait( 0.1);
-				//wait( 1 ); // the notify is sent out late... so I can't call it right away...
-				// I need to keep track of what the last peice is...
-				ent Delete();
-			}
-
-			else
-			{
-				ent = Spawn( "script_origin", chunk.origin );
-				ent.angles = node.angles +( 0, 180, 0 );
-
-
-				//DCS 030711: adding potential for having max distance movement
-				//for boards in closets that aren't very deep.
-				dist = 100; // base number.
-				if(IsDefined(chunk.script_move_dist))
-				{
-						dist_max = chunk.script_move_dist - 100;
-						dist = 100 + RandomInt(dist_max);
-				}
-				else
-				{
-					dist = 100 + RandomInt( 100 );
-				}
-
-				dest = ent.origin + ( AnglesToForward( ent.angles ) * dist );
-				trace = BulletTrace( dest + ( 0, 0, 16 ), dest + ( 0, 0, -200 ), false, undefined );
-
-				if( trace["fraction"] == 1 )
-				{
-					dest = dest + ( 0, 0, -200 );
-				}
-				else
-				{
-					dest = trace["position"];
-				}
-
-		//		time = 1;
-				chunk LinkTo( ent );
-
-				time = ent fake_physicslaunch( dest, 260 + RandomInt( 100 ) );
-
-				// here you will do a random damage... however it would be better if you made them fall over
-				// call damage function out of here so the wait doesn't interrupt normal flow.
-
-
-				//time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
-
-				//forward = AnglesToForward( ent.angles + ( -60, 0, 0 ) ) * power );
-				//ent MoveGravity( forward, time );
-
-				if( RandomInt( 100 ) > 40 )
-				{
-					ent RotatePitch( 180, time * 0.5 );
-				}
-				else
-				{
-					ent RotatePitch( 90, time, time * 0.5 );
-				}
-				wait( time );
-
-				chunk Hide();
-
-				// try sending the notify now...
-				wait( 0.1);
-				//wait( 1 ); // the notify is sent out late... so I can't call it right away...
-				// I need to keep track of what the last peice is...
-				ent Delete();
-
-			}
-			//if (isdefined( destroy_immediately ) && destroy_immediately)
-			//{
-			//	return;
-			//}
-			chunk update_states("destroyed");
-			chunk notify( "destroyed" );
-		}
-
-	if ( IsDefined ( chunk.script_parameters ) && chunk.script_parameters == "board" || chunk.script_parameters == "repair_board" || chunk.script_parameters == "barricade_vents" )
+	// an origin is created and the current chunk is linked to it. Then it flings the chunk and deletes the origin
+	if ( IsDefined( chunk.script_parameters ) && ( chunk.script_parameters == "bar" ) )
 	{
 
+		// added top bar check so it goes less higher
+		if( IsDefined ( chunk.script_noteworthy ) && ( chunk.script_noteworthy == "4" ) )
+		{
 			ent = Spawn( "script_origin", chunk.origin );
 			ent.angles = node.angles +( 0, 180, 0 );
 
 			//DCS 030711: adding potential for having max distance movement
 			//for boards in closets that aren't very deep.
-				dist = 100; // base number.
-				if(IsDefined(chunk.script_move_dist))
-				{
-						dist_max = chunk.script_move_dist - 100;
-						dist = 100 + RandomInt(dist_max);
-				}
-				else
-				{
-					dist = 100 + RandomInt( 100 );
-				}
+			dist = 100; // base number.
+			if(IsDefined(chunk.script_move_dist))
+			{
+					dist_max = chunk.script_move_dist - 100;
+					dist = 100 + RandomInt(dist_max);
+			}
+			else
+			{
+				dist = 100 + RandomInt( 100 );
+			}
 
 			dest = ent.origin + ( AnglesToForward( ent.angles ) * dist );
 			trace = BulletTrace( dest + ( 0, 0, 16 ), dest + ( 0, 0, -200 ), false, undefined );
@@ -1956,21 +1830,9 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 	//		time = 1;
 			chunk LinkTo( ent );
 
-			time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
 			//time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
+			time = ent fake_physicslaunch( dest, 300 + RandomInt( 100 ) );
 
-	//		forward = AnglesToForward( ent.angles + ( -60, 0, 0 ) ) * power );
-	//		ent MoveGravity( forward, time );
-
-			// DCS 090110: delete glass or wall piece before sending flying.
-			//DCS 090910: but not metal.
-			if(IsDefined(chunk.unbroken_section))
-			{
-				if(!IsDefined(chunk.material) || chunk.material != "metal")
-				{
-					chunk.unbroken_section self_delete();
-				}
-			}
 
 			if( RandomInt( 100 ) > 40 )
 			{
@@ -1982,14 +1844,69 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 			}
 			wait( time );
 
-			// DCS 090910: let the metal vents go fly.
-			if(IsDefined(chunk.unbroken_section))
+			chunk Hide();
+
+			// try sending the notify now...
+			wait( 0.1);
+			//wait( 1 ); // the notify is sent out late... so I can't call it right away...
+			// I need to keep track of what the last peice is...
+			ent Delete();
+		}
+
+		else
+		{
+			ent = Spawn( "script_origin", chunk.origin );
+			ent.angles = node.angles +( 0, 180, 0 );
+
+
+			//DCS 030711: adding potential for having max distance movement
+			//for boards in closets that aren't very deep.
+			dist = 100; // base number.
+			if(IsDefined(chunk.script_move_dist))
 			{
-				if(IsDefined(chunk.material) && chunk.material == "metal")
-				{
-					chunk.unbroken_section self_delete();
-				}
+					dist_max = chunk.script_move_dist - 100;
+					dist = 100 + RandomInt(dist_max);
 			}
+			else
+			{
+				dist = 100 + RandomInt( 100 );
+			}
+
+			dest = ent.origin + ( AnglesToForward( ent.angles ) * dist );
+			trace = BulletTrace( dest + ( 0, 0, 16 ), dest + ( 0, 0, -200 ), false, undefined );
+
+			if( trace["fraction"] == 1 )
+			{
+				dest = dest + ( 0, 0, -200 );
+			}
+			else
+			{
+				dest = trace["position"];
+			}
+
+	//		time = 1;
+			chunk LinkTo( ent );
+
+			time = ent fake_physicslaunch( dest, 260 + RandomInt( 100 ) );
+
+			// here you will do a random damage... however it would be better if you made them fall over
+			// call damage function out of here so the wait doesn't interrupt normal flow.
+
+
+			//time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
+
+			//forward = AnglesToForward( ent.angles + ( -60, 0, 0 ) ) * power );
+			//ent MoveGravity( forward, time );
+
+			if( RandomInt( 100 ) > 40 )
+			{
+				ent RotatePitch( 180, time * 0.5 );
+			}
+			else
+			{
+				ent RotatePitch( 90, time, time * 0.5 );
+			}
+			wait( time );
 
 			chunk Hide();
 
@@ -1999,15 +1916,124 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 			// I need to keep track of what the last peice is...
 			ent Delete();
 
+		}
+		//if (isdefined( destroy_immediately ) && destroy_immediately)
+		//{
+		//	return;
+		//}
 
-			//if (isdefined( destroy_immediately ) && destroy_immediately)
-			//{
-			//	return;
-			//}
+		chunk update_states("destroyed");
+		chunk notify( "destroyed" );
+	}
 
+	if ( IsDefined ( chunk.script_parameters ) && chunk.script_parameters == "board" || chunk.script_parameters == "repair_board" || chunk.script_parameters == "barricade_vents" )
+	{
+		ent = Spawn( "script_origin", chunk.origin );
+		ent.angles = node.angles +( 0, 180, 0 );
+
+		//DCS 030711: adding potential for having max distance movement
+		//for boards in closets that aren't very deep.
+		dist = 100; // base number.
+		if(IsDefined(chunk.script_move_dist))
+		{
+			dist_max = chunk.script_move_dist - 100;
+			dist = 100 + RandomInt(dist_max);
+		}
+		else
+		{
+			dist = 100 + RandomInt( 100 );
+		}
+
+		dest = ent.origin + ( AnglesToForward( ent.angles ) * dist );
+		trace = BulletTrace( dest + ( 0, 0, 16 ), dest + ( 0, 0, -200 ), false, undefined );
+
+		if( trace["fraction"] == 1 )
+		{
+			dest = dest + ( 0, 0, -200 );
+		}
+		else
+		{
+			dest = trace["position"];
+		}
+
+		// Five glass barriers - destroy immediately
+		if(IsDefined(chunk.unbroken_section) && IsDefined(chunk.material) && chunk.material == "glass")
+		{
+			chunk.unbroken_section Hide();
+			chunk.unbroken_section NotSolid();
+
+			chunk.origin = groundpos( chunk.origin + ( AnglesToForward( node.angles + (0, 180, 0) ) * dist ) );
+
+			if( RandomInt( 100 ) > 40 )
+			{
+				chunk.angles = chunk.angles + (180, 0, 0);
+			}
+			else
+			{
+				chunk.angles = chunk.angles + (90, 0, 0);
+			}
+
+			ent Delete();
 			chunk update_states("destroyed");
 			chunk notify( "destroyed" );
+			return;
 		}
+
+		//time = 1;
+		chunk LinkTo( ent );
+
+		time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
+		//time = ent fake_physicslaunch( dest, 200 + RandomInt( 100 ) );
+
+		//forward = AnglesToForward( ent.angles + ( -60, 0, 0 ) ) * power );
+		//ent MoveGravity( forward, time );
+
+		// DCS 090110: delete glass or wall piece before sending flying.
+		//DCS 090910: but not metal.
+		if(IsDefined(chunk.unbroken_section))
+		{
+			if(IsDefined(chunk.material) && chunk.material == "glass")
+			{
+				//chunk.unbroken_section self_delete();
+				chunk.unbroken_section Hide();
+				chunk.unbroken_section NotSolid();
+			}
+		}
+
+		if( RandomInt( 100 ) > 40 )
+		{
+			ent RotatePitch( 180, time * 0.5 );
+		}
+		else
+		{
+			ent RotatePitch( 90, time, time * 0.5 );
+		}
+		wait( time );
+
+		if(IsDefined(chunk.unbroken_section))
+		{
+			//chunk.unbroken_section self_delete();
+			chunk.unbroken_section Hide();
+			chunk.unbroken_section NotSolid();
+		}
+
+		chunk Hide();
+
+		// try sending the notify now...
+		wait( 0.1);
+		//wait( 1 ); // the notify is sent out late... so I can't call it right away...
+		// I need to keep track of what the last peice is...
+		ent Delete();
+
+
+		//if (isdefined( destroy_immediately ) && destroy_immediately)
+		//{
+		//	return;
+		//}
+
+		chunk update_states("destroyed");
+		chunk notify( "destroyed" );
+	}
 
 
 	if ( IsDefined ( chunk.script_parameters ) && ( chunk.script_parameters == "grate" ) )
@@ -2128,16 +2154,16 @@ zombie_boardtear_audio_offset(chunk)
 	if( IsDefined(chunk.material) && chunk.material == "glass" && chunk.already_broken == false )
 	{
 	    chunk PlaySound( "zmb_break_glass_barrier" );
-	    wait( randomfloat( 0.3, 0.6 ));
-	    chunk PlaySound( "zmb_break_glass_barrier" );
-	    chunk.already_broken = true;
+	    //wait( randomfloat( 0.3, 0.6 ));
+	    //chunk PlaySound( "zmb_break_glass_barrier" );
+	    //chunk.already_broken = true;
 	}
 	else if( IsDefined(chunk.material) && chunk.material == "metal" && chunk.already_broken == false )
 	{
-	    chunk PlaySound( "grab_metal_bar" );
+	    chunk play_sound_on_ent( "grab_metal_bar" );
 	    wait( randomfloat( 0.3, 0.6 ));
-	    chunk PlaySound( "break_metal_bar" );
-	    chunk.already_broken = true;
+	    chunk play_sound_on_ent( "break_metal_bar" );
+	    //chunk.already_broken = true;
 	}
 	else if( IsDefined(chunk.material) && chunk.material == "rock" )
 	{
@@ -2160,8 +2186,8 @@ zombie_boardtear_audio_offset(chunk)
 	}
 	else
 	{
-			if(!is_true(level.use_clientside_board_fx))
-			{
+		if(!is_true(level.use_clientside_board_fx))
+		{
 	    	chunk play_sound_on_ent( "break_barrier_piece" );
 	    	wait( randomfloat( 0.3, 0.6 )); // 06 might be too much, a little seperation sounds great...
 	    	chunk play_sound_on_ent( "break_barrier_piece" );
@@ -2210,6 +2236,12 @@ replace_chunk( chunk, perk, via_powerup )
 	{
 		sound = chunk.script_presound;
 	}
+	// TODO - get rebuild barrier sounds from other maps working on Five
+	/*// Five metal barrier
+	if(IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board" && IsDefined(chunk.material) && chunk.material == "metal")
+	{
+		sound = "zmb_vent_fix";
+	}*/
 
 
 	if( !isdefined( via_powerup  ) )
@@ -2263,8 +2295,9 @@ replace_chunk( chunk, perk, via_powerup )
 		{
 			if(IsDefined(chunk.unbroken_section))
 			{
-				chunk.unbroken_section self_delete();
-				chunk Show();
+				//chunk.unbroken_section self_delete();
+				//chunk Show();
+				chunk.unbroken_section Show();
 			}
 			else
 			{
@@ -2511,10 +2544,32 @@ replace_chunk( chunk, perk, via_powerup )
 	{
 	    sound = "zmb_rock_fix";
 	}
-	if( isdefined( chunk.script_parameters ) && chunk.script_parameters == "barricade_vents" )
+	if( IsDefined( chunk.script_parameters ) && chunk.script_parameters == "barricade_vents" )
 	{
 		sound = "zmb_vent_fix";
 	}
+	// TODO - get rebuild barrier sounds from other maps working on Five
+	/*// Five glass barrier
+	if(IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board" && IsDefined(chunk.material) && chunk.material == "glass")
+	{
+		sound = "zmb_break_glass_barrier";
+	}
+	// Five wall barrier
+	if(IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board" && !IsDefined(chunk.material))
+	{
+		sound = "zmb_rock_fix";
+	}
+	// Five metal barrier
+	if(IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board" && IsDefined(chunk.material) && chunk.material == "metal")
+	{
+		sound = "zmb_vent_fix";
+	}*/
+	
+	/*iprintln("script_ender: " + self.script_ender);
+	iprintln("script_string: " + chunk.script_string);
+	iprintln("script_parameters: " + chunk.script_parameters);
+	iprintln("material: " + chunk.material);
+	iprintln("script_noteworthy: " + chunk.unbroken_section.script_noteworthy);*/
 
 		//TUEY Play the sounds
 		// JL, hey Tuey I added calls in here for our different windows so we can call different sounds
@@ -2570,7 +2625,12 @@ replace_chunk( chunk, perk, via_powerup )
 		}
 
 	chunk Solid();
+	if(IsDefined(chunk.unbroken_section))
+	{
+		chunk.unbroken_section Solid();
+	}
 	chunk update_states("repaired");
+	chunk notify("repaired");
 
 	fx = "wood_chunk_destory";
 	if( IsDefined( self.script_fxid ) )
@@ -2610,6 +2670,23 @@ replace_chunk( chunk, perk, via_powerup )
 		//playfx( level._effect[fx], chunk.origin +( randomint( 20 ), randomint( 20 ), randomint( 10 ) ) );
 		//playfx( level._effect[fx], chunk.origin +( randomint( 40 ), randomint( 40 ), randomint( 20 ) ) );
 	//}
+
+	// TODO - get rebuild barrier sounds from other maps working on Five
+	/*// Five glass barrier
+	if(IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board" && IsDefined(chunk.material) && chunk.material == "glass")
+	{
+		chunk PlaySound( "zmb_break_glass_barrier" );
+	}
+	// Five wall barrier
+	if(IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board" && !IsDefined(chunk.material))
+	{
+		chunk PlaySound( "zmb_rock_fix" );
+	}
+	// Five metal barrier
+	if(IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board" && IsDefined(chunk.material) && chunk.material == "metal")
+	{
+		chunk PlaySound( "zmb_vent_fix" );
+	}*/
 
 	if( !Isdefined( self.clip ) )
 	{

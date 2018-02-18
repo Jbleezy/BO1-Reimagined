@@ -689,6 +689,10 @@
 * Trap pieces are already in place
 * Barriers in the spawn room no longer reset
 * Pack-a-punch machine will stay available for as long as the defcon room is active
+* Glass barriers, wall barriers, and metal barriers can now all be rebuilt
+* Zombies can now attack players through glass barriers, wall barriers, and metal barriers
+* Fixed a bug where glass barriers and wall barriers had to be rebuilt twice for the repair to take effect if the barrier was rebuilt right after it got destroyed
+* Fixed a bug where glass barriers and wall barriers were destroyed at slightly incorrect times
 
 #### Elevators
 * Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1 second
@@ -907,6 +911,8 @@
 * Unlimited zombies
 
 ## TODO:
+* Der Riese sidequest reward: guaranteed teleporter powerup for the next 5 times the player teleports
+* Five: get rebuild barrier sounds from other maps working
 * Five: try linking powerups and meat to elevator if spawned in elevator
 * Use Sleepy when game crashes on map load
 * Try making dvars unchangeable from console
@@ -917,7 +923,6 @@
 * Moon: fix sliding sound keep playing when off object 
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
 * Find out how to get MagicBullet() to not effect players (for starbust QED weapons)
-* Five: rebuilding glass barriers puts back the glass instead of wooden barriers
 * Make better last powerup FX
 * Check out box glitch when grabbing a fire sale as the box is moving
 * Make cosmonaut not attracted to Gersch device after hacking Pack-a-Punch
