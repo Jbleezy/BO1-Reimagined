@@ -52,6 +52,10 @@ main()
 	precachestring(&"WAW_ZOMBIE_INACTIVE_TPAD");
 	precachestring(&"WAW_ZOMBIE_START_TPAD");
 
+	PrecacheString(&"REIMAGINED_POWER_UP_TPAD");
+	PrecacheString(&"REIMAGINED_TELEPORT_TO_CORE");
+	PrecacheString(&"REIMAGINED_LINK_TPAD");
+
 	precacheshellshock("electrocution");
 	precachemodel("zombie_zapper_cagelight_red");
 	precachemodel("zombie_zapper_cagelight_green");
@@ -1613,6 +1617,12 @@ flytrap()
 	flag_wait( "ee_exp_monkey" );
 	flag_wait( "ee_bowie_bear" );
 	flag_wait( "ee_perk_bear" );
+
+	level.teleporter_powerups_reward = true;
+	wait( 4.0 );
+
+	ss = getstruct( "teleporter_powerup", "targetname" );
+	ss thread maps\_zombiemode_powerups::special_powerup_drop(ss.origin, true, true);
 
 	// Colin, play music here.
 //	println( "Still Alive" );

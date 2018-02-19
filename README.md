@@ -431,6 +431,7 @@
 * Players will now get every weapon they can from the box before getting duplicates
 * If a player does not grab a weapon from the box, then it will be put back into the list of weapons the player can get
 * All weapons have the same probability to be obtained in the box
+* Ray Gun can now be obtained without moving the box on all maps
 * Box weapons will not appear again in a row while floating up (unless it is the final weapon)
 * Box will now cycle through all locations before going to a previous location again
 * Box has a different hintstring for taking tactical grenades
@@ -538,9 +539,10 @@
 ### Teleporters (Der Riese)
 * Teleporters now kill zombies on any round
 * Guranteed teleporter powerup when first linking teleporter
-* Powerup spawned from teleporters stays on the map until picked up or a new teleporter powerup spawns
+* Powerup spawned from teleporters stays on the map until picked up or after teleporting again
 * Amount of dogs spawned in from teleporter is now 2 multiplied by the amount of players (previously 4)
 * Max ammo now has the same chance of spawning from the teleporter as all other drops
+* Fixed a bug that allowed players to link teleporters while the teleporters were on cooldown
 
 ### Turrets (Kino Der Toten and Ascension)
 * No longer deal damage to players
@@ -661,12 +663,12 @@
 * Easter egg songs can now be reactivated once the song is over
 
 ### Nacht Der Untoten
-* Removed Character dialog
+* Removed character dialog
 
 ### Verruckt
-* Removed Character dialog
-* Removed intro text
 * Fixed zombie pathing near Speed Cola
+* Removed character dialog
+* Removed intro text
 
 ### Shi No Numa
 * Removed the need power hintstring for perks while they are spawning
@@ -674,11 +676,13 @@
 * Last perk is buyable while it is spawning
 
 ### Der Riese
-* Removed intro text
-* Fixed mystery box use trigger in Trench Gun room
+* Fixed Mystery Box use trigger in Trench Gun room
 * Players will no longer get stuck on curbs
 * Easter egg song now plays the whole song
-* Pack-a-Punch door is now all the way up from the start of the match
+* Removed intro text
+
+#### Sidequest
+* Reward: spawns a random powerup at the teleporter powerup spawn location
 
 ### Kino Der Toten
 * Players no longer get teleported to special rooms unless both radios on the map have been activated
@@ -911,11 +915,11 @@
 * Unlimited zombies
 
 ## TODO:
-* Der Riese sidequest reward: guaranteed teleporter powerup for the next 5 times the player teleports
 * Five: get rebuild barrier sounds from other maps working
 * Five: try linking powerups and meat to elevator if spawned in elevator
 * Use Sleepy when game crashes on map load
 * Try making dvars unchangeable from console
+* Fix bouncing betties not placing correctly on Der Riese added curb collision
 * COTD: fix bug where director does not do angry anim after when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
@@ -1053,6 +1057,7 @@
 * Dual wield weapon fire input - add dvar "gpad_enabled" check that works for all players
 * Make dual wield weapons fire left weapon with fire button and right right weapon with ads button
 * Death Machine: don't allow spin up by pressing ADS
+* Death Machine: check if Stamin-Up increases move speed with Death Machine
 * 007EF7D0 - iprintln address (try it out)
 * Allow melee while ADS with a sniper scope
 * Add space between grenades on HUD (CG_OFFHAND_WEAPON_ICON_FRAG - 103 and CG_OFFHAND_WEAPON_ICON_SMOKEFLASH - 104)

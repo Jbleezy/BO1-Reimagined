@@ -1231,20 +1231,57 @@ special_drop_setup(first_time, permament)
 {
 	powerup = undefined;
 	is_powerup = true;
+
 	// Always give something at lower rounds or if linking teleporter
-	if ( (level.gamemode == "survival" && (level.round_number <= 10 || first_time)) || level.gamemode != "survival" )
+	guaranteed = false;
+	if(level.gamemode == "survival")
 	{
-		powerup = get_random_valid_powerup();
+		if(level.round_number < 15)
+		{
+			guaranteed = true;
+		}
+		else if(first_time)
+		{
+			guaranteed = true;
+		}
+	}
+	else
+	{
+		guaranteed = true;
+	}
+
+	if(!guaranteed)
+	{
+		// starting at round 15, chance of getting a powerup goes down by 15% each round until round 21 where you can't get powerups anymore
+		if(level.round_number <= 20)
+		{
+			guaranteed = RandomInt(100) >= (level.round_number - 14) * 15;
+		}
+
+		// 20% chance of powerup if sidequest is complete
+		/*if(IsDefined(level.teleporter_powerups_reward) && !guaranteed)
+		{
+			guaranteed = RandomInt(100) < 20;
+		}*/
+	}
+
+	if(guaranteed)
+	{
+		if(!IsDefined(powerup))
+		{
+			powerup = get_random_valid_powerup();
+		}
 	}
 	// Gets harder now
 	else
 	{
-		powerup = level.zombie_special_drop_array[ RandomInt(level.zombie_special_drop_array.size) ];
-		if ( level.round_number > 15 &&
-			 ( RandomInt(100) < (level.round_number - 15)*5 ) )
+		is_powerup = false;
+		powerup = "nothing";
+		/*powerup = level.zombie_special_drop_array[ RandomInt(level.zombie_special_drop_array.size) ];
+		if( level.round_number >= 15 && RandomInt(100) > (level.round_number - 15)*5 )
 		{
 			powerup = "nothing";
-		}
+		}*/
 	}
 	//MM test  Change this if you want the same thing to keep spawning
 //	powerup = "dog";
@@ -1289,19 +1326,12 @@ special_drop_setup(first_time, permament)
 		break;*/
 
 	case "dog":
-		if ( level.round_number >= 15 )
-		{
-			is_powerup = false;
-			dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
-//Z2	comment out for now so we don't need to include _zombiemode_dogs
-//			maps\_zombiemode_dogs::special_dog_spawn( dog_spawners, 1 );
-			//iprintlnbold( "Samantha Sez: No Powerup For You!" );
-			thread play_sound_2d( "sam_nospawn" );
-		}
-		else
-		{
-			powerup = get_random_valid_powerup();
-		}
+		is_powerup = false;
+		dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
+		// Z2 omment out for now so we don't need to include _zombiemode_dogs
+		//maps\_zombiemode_dogs::special_dog_spawn( dog_spawners, 1 );
+		//iprintlnbold( "Samantha Sez: No Powerup For You!" );
+		thread play_sound_2d( "sam_nospawn" );
 		break;
 
 	// Nothing drops!!
@@ -1325,10 +1355,20 @@ special_drop_setup(first_time, permament)
 			PlayRumbleOnPosition("explosion_generic", self.origin);
 			playsoundatposition( "spawn", self.origin );
 
+			level notify("new_special_powerup");
 			wait( 1.0 );
 			//iprintlnbold( "Samantha Sez: No Powerup For You!" );
 			thread play_sound_2d( "sam_nospawn" );
 			self Delete();
+
+			// Special for teleporting too much.  The Dogs attack!
+			if ( (level.gamemode == "survival" && level.time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20 && !first_time) || 
+				(level.gamemode != "survival" && !first_time) )
+			{
+				dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
+				maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
+				//iprintlnbold( "Samantha Sez: No Powerup For You!" );
+			}
 		}
 	}
 

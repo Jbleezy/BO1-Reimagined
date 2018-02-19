@@ -63,6 +63,15 @@ LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to call lander to position"
 REFERENCE          	LANDER_IN_USE
 LANG_ENGLISH       	"The lander is currently in use"
 
+REFERENCE          	POWER_UP_TPAD
+LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to initiate link to the mainframe"
+
+REFERENCE          	TELEPORT_TO_CORE
+LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to teleport to the mainframe [Cost: &&1]"
+
+REFERENCE          	LINK_TPAD
+LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to link the teleport pad to the mainframe"
+
 //WEAPONS
 
 REFERENCE          	AK47_UPGRADED

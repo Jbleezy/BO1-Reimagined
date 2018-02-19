@@ -78,23 +78,15 @@ teleporter_init()
 init_pack_door()
 {
 	//DCS: create collision blocker till door in place at load.
-	/*collision = spawn("script_model", (-56, 467, 157));
-	collision setmodel("collision_wall_128x128x10");
-	collision.angles = (0, 0, 0);
-	collision Hide();*/
-
-	/*door = getent( "pack_door", "targetname" );
-	door movez( -50, 0.05, 0 );
-	wait(1.0);*/
+	if(level.gamemode == "survival")
+	{
+		level thread pack_door_move_up();
+	}
 
 	flag_wait( "all_players_connected" );
 
-	/*door movez(  50, 1.5, 0 );
-	door playsound( "packa_door_1" );*/
-
 	//DCS: waite for door to be in place then delete blocker.
 	wait(2);
-	//collision Delete();
 
 	door = getent( "pack_door", "targetname" );
 
@@ -104,8 +96,8 @@ init_pack_door()
 	if(level.gamemode == "survival")
 	{
 		door playsound( "packa_door_2" );
+		door thread packa_door_reminder();
 	}
-	door thread packa_door_reminder();
 	wait(1.5);
 
 	// Second link
@@ -132,6 +124,27 @@ init_pack_door()
 	}
 }
 
+pack_door_move_up()
+{
+	collision = spawn("script_model", (-56, 467, 157));
+	collision setmodel("collision_wall_128x128x10");
+	collision.angles = (0, 0, 0);
+	collision Hide();
+
+	door = getent( "pack_door", "targetname" );
+	door.origin = door.origin - (0, 0, 50);
+
+	flag_wait( "all_players_spawned" );
+
+	wait 1.5;
+
+	door movez(  50, 1.5, 0 );
+	door playsound( "packa_door_1" );
+
+	wait(1.5);
+	collision Delete();
+}
+
 //-------------------------------------------------------------------------------
 // handles activating and deactivating pads for cool down
 //-------------------------------------------------------------------------------
@@ -152,11 +165,11 @@ pad_manager()
 	{
 		if ( level.teleporter_pad_trig[i].teleport_active )
 		{
-			level.teleporter_pad_trig[i] sethintstring( &"WAW_ZOMBIE_TELEPORT_TO_CORE" );
+			level.teleporter_pad_trig[i] sethintstring( &"REIMAGINED_TELEPORT_TO_CORE", level.teleport_cost );
 		}
 		else
 		{
-			level.teleporter_pad_trig[i] sethintstring( &"WAW_ZOMBIE_LINK_TPAD" );
+			level.teleporter_pad_trig[i] sethintstring( &"REIMAGINED_LINK_TPAD" );
 		}
 //		level.teleporter_pad_trig[i] teleport_trigger_invisible( false );
 	}
@@ -197,7 +210,7 @@ teleport_pad_think( index )
 
 	flag_wait( "power_on" );
 
-	trigger sethintstring( &"WAW_ZOMBIE_POWER_UP_TPAD" );
+	trigger sethintstring( &"REIMAGINED_POWER_UP_TPAD" );
 	trigger.teleport_active = false;
 
 	if ( isdefined( trigger ) )
@@ -211,6 +224,11 @@ teleport_pad_think( index )
 			else
 			{
 				user = get_players()[0];
+			}
+
+			if(level.is_cooldown)
+			{
+				continue;
 			}
 
 			if ( level.active_links < 3 )
@@ -377,7 +395,7 @@ player_teleporting( index, user, first_time )
 
 	times_teleported = level.times_teleported; //save the current amount because the global variable might change
 
-	time_since_last_teleport = GetTime() - level.teleport_time;
+	level.time_since_last_teleport = GetTime() - level.teleport_time;
 
 	// begin the teleport
 	// add 3rd person fx
@@ -387,7 +405,7 @@ player_teleporting( index, user, first_time )
 	exploder( 105 );
 
 	//AUDIO
-	if(!(level.gamemode != "survival" && times_teleported <= 3))
+	if(level.gamemode == "survival" || (level.gamemode != "survival" && !first_time))
 	{
 		ClientNotify( "tpw" + index );
 	}
@@ -395,7 +413,7 @@ player_teleporting( index, user, first_time )
 	// start fps fx
 	self thread teleport_pad_player_fx( level.teleport_delay );
 
-	if(!(level.gamemode != "survival" && times_teleported <= 3))
+	if(level.gamemode == "survival" || (level.gamemode != "survival" && !first_time))
 	{
 		//AUDIO
 		self thread teleport_2d_audio();
@@ -415,7 +433,7 @@ player_teleporting( index, user, first_time )
 	// teleport the players
 	self teleport_players(user);
 
-	if(!(level.gamemode != "survival" && times_teleported <= 3))
+	if(level.gamemode == "survival" || (level.gamemode != "survival" && !first_time))
 	{
 		//AUDIO
 		ClientNotify( "tpc" + index );
@@ -433,21 +451,22 @@ player_teleporting( index, user, first_time )
 	if ( IsDefined( ss ) )
 	{
 		//if versus gamemode, then only spawn powerups once all links are active or else it will try to spawn 3 powerups at the beginning of the match since the teleporters are automatically linked at the beginning of the match
-		if(!(level.gamemode != "survival" && times_teleported < 3))
+		if(level.gamemode == "survival" || (level.gamemode != "survival" && times_teleported >= 3))
 		{
 			ss thread maps\_zombiemode_powerups::special_powerup_drop(ss.origin, first_time, true);
 		}
 	}
 
 	// Special for teleporting too much.  The Dogs attack!
-	if ( (level.gamemode == "survival" && time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20) || 
-		(level.gamemode != "survival" && times_teleported > 3) )
+	/*if ( (level.gamemode == "survival" && level.time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20 && !first_time) || 
+		(level.gamemode != "survival" && !first_time) )
 	{
 		thread play_sound_2d( "sam_nospawn" );
 		dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
 		maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
 		//iprintlnbold( "Samantha Sez: No Powerup For You!" );
-	}
+	}*/
+
 	level.teleport_time = GetTime();
 
 	level notify("teleporter_end");
@@ -739,7 +758,7 @@ teleport_core_hint_update()
 	while ( 1 )
 	{
 		// can't use teleporters until power is on
-		if ( !flag( "power_on" ) )
+		/*if ( !flag( "power_on" ) )
 		{
 			self sethintstring( &"ZOMBIE_NEED_POWER" );
 		}
@@ -750,6 +769,10 @@ teleport_core_hint_update()
 		else if ( level.active_links == 0 )
 		{
 			self sethintstring( &"WAW_ZOMBIE_INACTIVE_TPAD" );
+		}*/
+		if ( teleport_pads_are_active() )
+		{
+			self sethintstring( &"REIMAGINED_LINK_TPAD" );
 		}
 		else
 		{
