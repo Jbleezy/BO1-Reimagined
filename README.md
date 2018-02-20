@@ -32,9 +32,9 @@
 * Players can now dolphin dive again right away after just dolphin diving
 * Players can now move after dolphin diving quicker
 * Dolphin dive startup time decreased
-* Any hintstring that previously showed "Press & hold" or "Press" at the beginning has been changed to show "Hold"
+* Any hintstring that previously showed "Press & hold" or "Press" at the beginning has been changed to only show "Hold"
 * Power hintstrings on classic maps have been changed to show the same hintstring on non classic maps
-* Hintstrings now don't show if the current action isn't available for the player
+* Hintstrings are now invisible while the current action is not available for the player
 * Intermission time decreased from 15 seconds to 10 seconds
 * Maps now auto restart in coop after intermission
 * Maps now auto restart correctly (box gets randomized again)
@@ -529,12 +529,12 @@
 ### Zipline (Sho No Numa)
 * Cost decreased from 1500 to 750
 * Cooldown time decreased from 40 seconds to 5 seconds
-* Hintstrings now show when the zipline is active and cooling down
+* Hintstrings now display when the zipline is active and cooling down
 * The zipline trigger near the hut can now be activated when the zipline is on either side
 
 ### Electric Traps (Der Riese)
 * Fixed a bug that caused the Trench Gun trap to turn on when opening the door to the teleporter room next to the Trench Gun room while still having the door for next tot the trap closed
-* Traps now show a hintstring when the power is on but the door is closed for them
+* Traps now display a hintstring when the power is on but the door is closed for them
 
 ### Teleporters (Der Riese)
 * Teleporters now kill zombies on any round
@@ -543,6 +543,7 @@
 * Amount of dogs spawned in from teleporter is now 2 multiplied by the amount of players (previously 4)
 * Max ammo now has the same chance of spawning from the teleporter as all other drops
 * Fixed a bug that allowed players to link teleporters while the teleporters were on cooldown
+* Mainframe no longer displays a hintstring for needing power or needing to activate a link
 
 ### Turrets (Kino Der Toten and Ascension)
 * No longer deal damage to players
@@ -681,7 +682,7 @@
 
 ### Shi No Numa
 * Removed the need power hintstring for perks while they are spawning
-* Removed the ability to buy Quick Revive on solo while it was still in the process of spawning
+* Fixed a bug where players were able to buy Quick Revive on solo while it was still in the process of spawning
 * Last perk is buyable while it is spawning
 
 ### Der Riese
@@ -702,14 +703,14 @@
 * Trap pieces are already in place
 * Active barriers in the spawn room stay the same throughout the entire match
 * Pack-a-Punch machine will stay available for as long as the defcon room is active
+* If all players on a floor use an elevator or get downed when the power is off, all zombies will now respawn
+* If all players on a floor use an elevator or get downed when the power is on, all zombies will now go through teleporters
 * Fixed lighting in the top floor being incorrect
 
 #### Elevators
 * Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1 second
 * Hintstring for elevators will now not show up until the elvator becomes usable again
 * Added .2 second delay for the top elevator to activate after it has been triggered if there is a player blocking it so the elevator can move without the player having to ride it
-* If the power is on, all zombies will now go through teleporters if all players on a floor use an elevator or down
-* If the power is off, all zombies will now respawn if all players on a floor use an elevator or down
 
 #### Teleporters
 * Teleporting no longer takes players' weapons away temporarily
@@ -921,7 +922,7 @@
 * Unlimited zombies
 
 ## TODO:
-* Five: get rebuild barrier sounds from other maps working
+* Five: get wall barrier tear down sound and metal vent barrier rebuild sound from other maps working
 * Five: try linking powerups and meat to elevator if spawned in elevator
 * Use Sleepy when game crashes on map load
 * Try making dvars unchangeable from console
