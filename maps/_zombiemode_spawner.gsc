@@ -1346,21 +1346,27 @@ zombie_tear_notetracks( msg, chunk, node, tear_anim )
 
 	attack_times = 0;
 
+	// Five's barrier tear down anims for glass and wall barriers have multiple notetracks for breaking the barrier, only break on the last one
 	max_attack_times = 1;
 	if(IsDefined(chunk.unbroken_section) && IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board")
 	{
-		if((IsDefined(chunk.material) && chunk.material == "glass") || !IsDefined(chunk.material))
+		if(!IsDefined(chunk.material))
 		{
-			if(self.attacking_spot_index == 0)
+			if(IsDefined(self.random_tear_anim))
 			{
-				// Five glass barrier - there are 4 notetracks for breaking the window, only break on the last one
-				max_attack_times = 4;
+				if(self.random_tear_anim == 1)
+				{
+					max_attack_times = 4;
+				}
+				else
+				{
+					max_attack_times = 2;
+				}
 			}
-			else
-			{
-				// Five wall barrier - there are 2 notetracks for breaking the window, only break on the last one
-				max_attack_times = 2;
-			}
+		}
+		if(IsDefined(chunk.material) && chunk.material == "glass")
+		{
+			max_attack_times = 2;
 		}
 	}
 	
@@ -2058,15 +2064,21 @@ get_tear_anim( chunk, zombo ) // zombo is self
 								tear_anim = %ai_zombie_boardtear_m_6;
 							}
 						}
+						else if(IsDefined(chunk.material) && chunk.material == "glass")
+						{
+							tear_anim = %ai_zombie_door_pound_v2;
+						}
 						else
 						{
-							if(zombo.attacking_spot_index == 0)
+							if(RandomInt(100) < 50)
 							{
 								tear_anim = %ai_zombie_door_pound_v1;
+								zombo.random_tear_anim = 1;
 							}
 							else
 							{
 								tear_anim = %ai_zombie_door_pound_v2;
+								zombo.random_tear_anim = 2;
 							}
 						}
 					}

@@ -75,7 +75,7 @@
 * Options to disable timer, zombie counter, zone names, and character names
 * Option to choose which room you start in on Verruckt (host only)
 * Option to choose which perk you start with on No Man's Land (host only)
-* Options to set which barriers in Five first room you want disabled (host only)
+* Options to set which barriers in Five spawn room you want disabled (host only)
 * Option to choose the initial box location on maps that have a random initial box location (host only)
 * Option to choose which gamemode you want to play, including random which includes every gamemode except Survival
 * Option for random map rotation on versus gamemodes, automatically loads new map after intermission screen
@@ -589,11 +589,19 @@
 * Fixed a bug where two or more players could trigger a door that has multiple triggers at the same time and both pay to open the door
 
 ## Barriers
-* No longer have to hold use button in order to rebuild barriers, only press
+* No longer have to hold the use button in order to rebuild barriers, only press it
 * Fixed a bug where zombies would get stuck in a barrier if a board was repaired as the zombie was beginning to go over the barrier
 * All zombies behind a barrier will now taunt correctly
 * Zombies behind a barrier will now only attack if they can see a player
 * Zombies will no longer get stuck behind a barrier when there are many zombies behind one barrier
+* All wall barriers and metal vent barriers can now be rebuilt
+* Glass barriers now start off with glass and wooden boards
+* On glass barriers, zombies will now tear down all of the glass first
+* Zombies can now attack through all glass barriers, wall barriers, and metal barriers
+* Fixed a bug where glass barriers and wall barriers had to be rebuilt twice for the repair to take effect if the barrier was rebuilt right after it got destroyed
+* Fixed a bug where glass barriers and wall barriers were destroyed at slightly incorrect times
+* Zombies now always use the same animation when tearing down glass barriers
+* Zombies now randomly choose between two animations when tearing down wall barriers
 
 ## Zombies
 * Fixed a bug where zombies would bleed out occasionally if they were standing in the same spot they were 30 seconds ago
@@ -695,11 +703,6 @@
 * Active barriers in the spawn room stay the same throughout the entire match
 * Pack-a-Punch machine will stay available for as long as the defcon room is active
 * Fixed lighting in the top floor being incorrect
-* Wall barriers and metal barriers can now be rebuilt
-* Glass barriers now start off with glass and wooden boards
-* Zombies can now attack players through glass barriers, wall barriers, and metal barriers
-* Fixed a bug where glass barriers and wall barriers had to be rebuilt twice for the repair to take effect if the barrier was rebuilt right after it got destroyed
-* Fixed a bug where glass barriers and wall barriers were destroyed at slightly incorrect times
 
 #### Elevators
 * Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1 second

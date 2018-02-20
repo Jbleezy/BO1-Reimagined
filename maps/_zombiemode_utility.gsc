@@ -2000,6 +2000,20 @@ get_destroyed_repair_grates( barrier_chunks )
 get_non_destroyed_chunks( barrier_chunks )
 {
 	array = []; // Setup array
+
+	glass_on_barrier = undefined;
+	for( i = 0; i < barrier_chunks.size; i++ )
+	{
+		if(IsDefined(barrier_chunks[i].script_parameters) && barrier_chunks[i].script_parameters == "repair_board" && IsDefined(barrier_chunks[i].material) && barrier_chunks[i].material == "glass")
+		{
+			if(IsDefined(barrier_chunks[i].unbroken_section))
+			{
+				glass_on_barrier = true;
+				break;
+			}
+		}
+	}
+
 	for( i = 0; i < barrier_chunks.size; i++ ) // Cycle through and grab all chunks
 	{
 		if(IsDefined (barrier_chunks[i].script_team) && (barrier_chunks[i].script_team == "classic_boards") )
@@ -2024,7 +2038,17 @@ get_non_destroyed_chunks( barrier_chunks )
 				{
 					if( barrier_chunks[i].origin == barrier_chunks[i].og_origin ) // If this chunk has its original origin then continue
 					{
-						array[array.size] = barrier_chunks[i]; //
+						if(IsDefined(glass_on_barrier))
+						{
+							if(IsDefined(barrier_chunks[i].unbroken_section))
+							{
+								array[array.size] = barrier_chunks[i];
+							}
+						}
+						else
+						{
+							array[array.size] = barrier_chunks[i];
+						}
 					}
 				}
 			}
