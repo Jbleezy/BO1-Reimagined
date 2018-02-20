@@ -470,14 +470,19 @@ zombie_pathing_cleanup()
 //-------------------------------------------------------------------------------
 vision_set_init()
 {
-	level waittill( "start_of_round" );
+	if(GetDvar("zm_gamemode") != "survival")
+	{
+		return;
+	}
+
+	flag_wait("all_players_connected");
 
 	exploder(2000);
 
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
-		players[i] VisionSetNaked("zombie_pentagon", 0.5);
+		players[i] VisionSetNaked("zombie_pentagon_offices_poweroff", 0.0);
 	}
 }
 

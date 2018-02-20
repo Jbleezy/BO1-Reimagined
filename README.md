@@ -591,7 +591,8 @@
 ## Barriers
 * No longer have to hold use button in order to rebuild barriers, only press
 * Fixed a bug where zombies would get stuck in a barrier if a board was repaired as the zombie was beginning to go over the barrier
-* All zombies behind a barrer will now taunt correctly
+* All zombies behind a barrier will now taunt correctly
+* Zombies behind a barrier will now only attack if they can see a player
 * Zombies will no longer get stuck behind a barrier when there are many zombies behind one barrier
 
 ## Zombies
@@ -691,9 +692,11 @@
 
 ### Five
 * Trap pieces are already in place
-* Barriers in the spawn room no longer reset
-* Pack-a-punch machine will stay available for as long as the defcon room is active
-* Glass barriers, wall barriers, and metal barriers can now all be rebuilt
+* Active barriers in the spawn room stay the same throughout the entire match
+* Pack-a-Punch machine will stay available for as long as the defcon room is active
+* Fixed lighting in the top floor being incorrect
+* Wall barriers and metal barriers can now be rebuilt
+* Glass barriers now start off with glass and wooden boards
 * Zombies can now attack players through glass barriers, wall barriers, and metal barriers
 * Fixed a bug where glass barriers and wall barriers had to be rebuilt twice for the repair to take effect if the barrier was rebuilt right after it got destroyed
 * Fixed a bug where glass barriers and wall barriers were destroyed at slightly incorrect times
@@ -920,7 +923,7 @@
 * Use Sleepy when game crashes on map load
 * Try making dvars unchangeable from console
 * Fix bouncing betties not placing correctly on Der Riese added curb collision
-* COTD: fix bug where director does not do angry anim after when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
+* COTD: fix bug where director does not do angry anim when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Add collision boxes near invincibilty spots on maps
@@ -974,6 +977,7 @@
 * Fix sprint and dive anims on ray gun
 
 ## GRIEF TODO:
+* Five: fix lighting not being correct on initial spawn
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Add new grief damage fx

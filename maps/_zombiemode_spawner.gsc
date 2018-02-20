@@ -1188,7 +1188,8 @@ should_attack_player_thru_boards()
 	self.player_targets = [];
 	for(i=0;i<players.size;i++)
 	{
-		if ( isAlive( players[i] ) && !isDefined( players[i].revivetrigger ) && distance2d( self.origin, players[i].origin ) <= 90 )
+		if ( isAlive( players[i] ) && !isDefined( players[i].revivetrigger ) && distance2d( self.origin, players[i].origin ) <= 90 && 
+			players[i] DamageConeTrace(self GetEye(), players[i]) )
 		{
 			self.player_targets[self.player_targets.size] = players[i];
 			attack = true;
@@ -1346,7 +1347,7 @@ zombie_tear_notetracks( msg, chunk, node, tear_anim )
 	attack_times = 0;
 
 	max_attack_times = 1;
-	if(IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board")
+	if(IsDefined(chunk.unbroken_section) && IsDefined(chunk.script_parameters) && chunk.script_parameters == "repair_board")
 	{
 		if((IsDefined(chunk.material) && chunk.material == "glass") || !IsDefined(chunk.material))
 		{
@@ -5478,10 +5479,10 @@ delete_zombie_noone_looking(how_close)
 
 		//zombie must be in line of sight of a player, in an active zone, or near the player to not bleed out
 
-		//SightTracePassed() checks if there is any collision between the player and the zombie
+		//BulletTracePassed() checks if there is any collision between the player and the zombie
 		//player_can_see_me() checks if the player is looking at the direction of the zombie
 		if(!can_be_seen)
-			can_be_seen = SightTracePassed( players[i] GetEye(), self.origin, false, undefined ) && self player_can_see_me(players[i]);
+			can_be_seen = BulletTracePassed( players[i] GetEye(), self.origin, false, undefined ) && self player_can_see_me(players[i]);
 
 		if(!near)
 			near = level.zones[self get_current_zone()].is_active || Distance(self.origin, players[i].origin) < how_close;		

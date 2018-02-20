@@ -141,6 +141,7 @@ rawfile,clientscripts/_zombiemode_perks.csc
 rawfile,clientscripts/_zombiemode_weap_tesla.csc
 rawfile,clientscripts/zombie_theater.csc
 rawfile,clientscripts/zombie_theater_teleporter.csc
+rawfile,clientscripts/zombie_pentagon.csc
 rawfile,clientscripts/zombie_pentagon_teleporter.csc
 rawfile,clientscripts/zombie_coast_player_zipline.csc
 rawfile,clientscripts/zombie_moon.csc

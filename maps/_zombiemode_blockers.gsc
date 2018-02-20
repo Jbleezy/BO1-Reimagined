@@ -1236,8 +1236,11 @@ blocker_init()
 				if(IsDefined(targets[j].unbroken_section))
 				{
 					targets[j].unbroken_section LinkTo(targets[j]);
-					targets[j] Hide();
-					targets[j] notSolid();
+					if(!IsDefined(targets[j].unbroken_section.script_noteworthy) || targets[j].unbroken_section.script_noteworthy != "glass")
+					{
+						targets[j] Hide();
+						targets[j] notSolid();
+					}
 					targets[j].unbroken = true;
 
 					// self is the goal (level.exterior_goals)
@@ -1749,6 +1752,16 @@ rebuild_barrier_reward_reset()
 
 remove_chunk( chunk, node, destroy_immediately, zomb )
 {
+	if(IsDefined(chunk.unbroken_section) && IsDefined(chunk.material) && chunk.material == "glass")
+	{
+		chunk.unbroken_section self_delete();
+		chunk thread zombie_boardtear_audio_offset(chunk);
+		chunk.already_broken = true;
+		chunk.unbroken = false;
+		chunk update_states("repaired");
+		return;
+	}
+
 	chunk update_states("mid_tear");
 
 	// jl dec 15 09
@@ -1959,8 +1972,9 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 		// Five glass barriers - destroy immediately
 		if(IsDefined(chunk.unbroken_section) && IsDefined(chunk.material) && chunk.material == "glass")
 		{
-			chunk.unbroken_section Hide();
-			chunk.unbroken_section NotSolid();
+			chunk.unbroken_section self_delete();
+			//chunk.unbroken_section Hide();
+			//chunk.unbroken_section NotSolid();
 
 			chunk.origin = groundpos( chunk.origin + ( AnglesToForward( node.angles + (0, 180, 0) ) * dist ) );
 
@@ -1994,9 +2008,9 @@ remove_chunk( chunk, node, destroy_immediately, zomb )
 		{
 			if(IsDefined(chunk.material) && chunk.material == "glass")
 			{
-				//chunk.unbroken_section self_delete();
-				chunk.unbroken_section Hide();
-				chunk.unbroken_section NotSolid();
+				chunk.unbroken_section self_delete();
+				//chunk.unbroken_section Hide();
+				//chunk.unbroken_section NotSolid();
 			}
 		}
 
