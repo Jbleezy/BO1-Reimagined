@@ -122,7 +122,6 @@ penThink()
 				if(!level.pen_in_use)
 				{
 					level.pen_in_use = 1;
-					zapper_lights = getentarray("pendulum_light", "targetname");
 					if(DistanceSquared(zapper_lights[0].origin, who.origin) < DistanceSquared(zapper_lights[1].origin, who.origin))
 					{
 						//the trigger that alligns with the light are opposite lol

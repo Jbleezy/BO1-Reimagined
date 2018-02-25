@@ -729,10 +729,12 @@ electric_trap_think()
 					play_sound_at_pos( "purchase", who.origin );
 					self sethintstring( &"ZOMBIE_TRAP_ACTIVE" );
 					self thread electric_trap_move_switch(self);
-					//need to play a 'woosh' sound here, like a gas furnace starting up
-					self waittill("switch_activated");
+					
 					//set the score
 					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
+
+					//need to play a 'woosh' sound here, like a gas furnace starting up
+					self waittill("switch_activated");
 
 					//turn off the valve triggers associated with this valve until the gas is available again
 					//array_thread (valve_trigs,::trigger_off);

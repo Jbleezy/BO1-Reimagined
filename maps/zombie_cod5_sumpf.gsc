@@ -114,7 +114,7 @@ main()
 	SetSavedDvar("sv_maxPhysExplosionSpheres", 15);
 
 	//added for performance concerns- not in waw
-	SetCullDist( 2400 );
+	//SetCullDist( 2400 );
 
 	SetSavedDvar( "r_lightGridEnableTweaks", 1 );
 	SetSavedDvar( "r_lightGridIntensity", 1.25 );

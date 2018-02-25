@@ -248,6 +248,9 @@
 * Upgraded: maximum explosion damage - 2500
 * Upgraded: minimum explosion damage - 1000
 
+### MP40
+* Fixed sprinting animation not playing correctly when clip is empty
+
 ### Olympia
 * Unupgraded: deals 1.5x more damage
 * Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
@@ -510,6 +513,7 @@
 * All traps now kill instantly
 * Fixed trap handles being moved to the wrong spot and trap lights staying green if a trap was activated while the trap handle was still moving up
 * All trap triggers now display active and cooldown hintstrings
+* All traps now take players' points as soon as the trigger is activated
 * Fixed traps showing damage fx when player is spectating if the player bled out in a trap and the trap is active
 
 ### Electric Traps (All Maps)
@@ -684,6 +688,7 @@
 * Removed the need power hintstring for perks while they are spawning
 * Fixed a bug where players were able to buy Quick Revive on solo while it was still in the process of spawning
 * Last perk is buyable while it is spawning
+* Objects can now be seen from farther away
 
 ### Der Riese
 * Fixed Mystery Box use trigger in Trench Gun room
@@ -926,7 +931,7 @@
 * Five: try linking powerups and meat to elevator if spawned in elevator
 * Use Sleepy when game crashes on map load
 * Try making dvars unchangeable from console
-* Fix bouncing betties not placing correctly on Der Riese added curb collision
+* Fix bouncing betties from repeating place sound on Der Riese added curb collision
 * COTD: fix bug where director does not do angry anim when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player

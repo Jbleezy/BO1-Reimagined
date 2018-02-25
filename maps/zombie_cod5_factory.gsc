@@ -1124,13 +1124,14 @@ electric_trap_think( enable_flag )
 
 					array_thread( triggers, ::hint_string, &"ZOMBIE_TRAP_ACTIVE");
 
-
 					play_sound_at_pos( "purchase", who.origin );
 					self thread electric_trap_move_switch(self);
-					//need to play a 'woosh' sound here, like a gas furnace starting up
-					self waittill("switch_activated");
+
 					//set the score
 					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
+
+					//need to play a 'woosh' sound here, like a gas furnace starting up
+					self waittill("switch_activated");
 
 					//this trigger detects zombies walking thru the flames
 					self.zombie_dmg_trig trigger_on();
