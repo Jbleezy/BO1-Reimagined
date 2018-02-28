@@ -2492,11 +2492,14 @@ zombie_clear_electric_buff( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapo
 		}
 	}
 
-	if ( IsDefined( sMeansOfDeath ) )
+	if(level.gamemode == "survival")
 	{
-		if ( is_true( level.director_max_ammo_available ) && !is_true( self.ignoreme ) )
+		if ( IsDefined( sMeansOfDeath ) )
 		{
-			self zombie_drop_max_ammo();
+			if ( is_true( level.director_max_ammo_available ) && !is_true( self.ignoreme ) )
+			{
+				self zombie_drop_max_ammo();
+			}
 		}
 	}
 
@@ -2533,9 +2536,9 @@ director_max_ammo_watcher()
 	level.director_max_ammo_available = false;
 	level.director_max_ammo_chance = level.director_max_ammo_chance_default;
 
-	flag_wait( "power_on" );
+	//flag_wait( "power_on" );
 
-	level.director_max_ammo_round = level.round_number + randomintrange( 1, 4 );
+	level.director_max_ammo_round = level.round_number + randomintrange( 0, 4 );
 
 	director_print( "next max ammo round " + level.director_max_ammo_round );
 

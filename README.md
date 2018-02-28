@@ -125,7 +125,7 @@
 * Unupgraded: headshot damage - 8000
 
 #### Stoner63
-* Upgraded name: Stoned420
+* Upgraded name: Stoned69
 * Assault rifle/LMG hybrid weapon
 * 90% movement speed (in between LMG and assault rifle movement speed)
 * Unupgraded: 60 rounds per clip
@@ -518,7 +518,7 @@
 
 ### Electric Traps (All Maps)
 * Stun duration reduced from 2.5 seconds to 1.5 seconds (now matches the duration of the electricity being on screen)
-* Only the trap handle that was activated moves down now
+* Only the trap handle that was activated now moves down
 
 ### Electric Traps (Shi No Numa)
 * Cooldown time reduced from 90 seconds to 25 seconds (same as Verruckt and Der Riese)
@@ -538,7 +538,7 @@
 
 ### Electric Traps (Der Riese)
 * Fixed a bug that caused the Trench Gun trap to turn on when opening the door to the teleporter room next to the Trench Gun room while still having the door for next tot the trap closed
-* Traps now display a hintstring when the power is on but the door is closed for them
+* Traps now display a hintstring when the power is on but the trap cannot be activated due to a door being closed
 
 ### Teleporters (Der Riese)
 * Teleporters now kill zombies on any round
@@ -650,6 +650,7 @@
 * No longer plays audio after exiting the map due to being hit by the upgraded V-R11
 * Fixed a bug that would sometimes cause the Director to sream in the water after already being killed
 * No longer screams in the water if damaged while attacking
+* Power no longer needs to be on for an electrified zombie to drop a Max Ammo
 
 ### Monkeys (Shangri-La)
 * Keep attempting to spawn until they successfully spawn during the whole duration while a powerup is active on the ground
@@ -927,6 +928,16 @@
 * Unlimited zombies
 
 ## TODO:
+* Fix zombies traversing through barriers when there is board rebuilt
+* Fix Pack-a-Punch hintstring showing for other players for a frame when weapon becomes available to grab from Pack-a-Punch
+* Moon: fix sound for entering new zone playing for all players
+* Check out box glitch when grabbing a fire sale as the box is moving
+* Make cosmonaut not attracted to Gersch device after hacking Pack-a-Punch
+* Add collision boxes near invincibilty spots on maps
+* Moon: fix sliding sound keep playing when off object 
+* Fix zombies sounds on classic maps to sound like they are coming from the correct direction
+* Turn off Der Riese easter egg song noises after they have been activated
+* Make betties place correctly on Der Riese bridge and new collision
 * Five: get wall barrier tear down sound and metal vent barrier rebuild sound from other maps working
 * Five: try linking powerups and meat to elevator if spawned in elevator
 * Use Sleepy when game crashes on map load
@@ -935,18 +946,12 @@
 * COTD: fix bug where director does not do angry anim when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
-* Add collision boxes near invincibilty spots on maps
-* Moon: fix sliding sound keep playing when off object 
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
 * Find out how to get MagicBullet() to not effect players (for starbust QED weapons)
 * Make better last powerup FX
-* Check out box glitch when grabbing a fire sale as the box is moving
-* Make cosmonaut not attracted to Gersch device after hacking Pack-a-Punch
 * Give players the same basic model on Nacht and Verruckt
 * Fix trench gun 3rd person sounds being too loud
 * Add stielhandgranate icon on HUD
-* Fix zombies sounds on classic maps to sound like they are coming from the correct direction
-* Turn off Der Riese easter egg song noises after they have been activated
 * Fix barrel textures on Der Riese? (Haven't had it happen again)
 * Find a way to be able to shoot through more than 3 zombies
 * Figure out bug that causes cosmonaut to delete himself occasionally (might be fixed)
@@ -965,7 +970,6 @@
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Change type 100 reserve ammo to 180 unupgraded, 240 upgraded (from weapon file)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
-* Make betties place correctly on Der Riese bridge and new collision
 * Get WaW weapon files of classic map weapons working
 * Upgraded Kar98k: 50 round clip, no reserve ammo
 * DOA: add 1st person mode in settings
@@ -980,13 +984,16 @@
 * QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
 * Health bar for player's health?
 * Fix Wunderwaffe not arcing after first kill rarely (might be fixed)
-* Fix PaP hintstring showing take weapon for other players weapons for a short period
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Add sprint and dive anims on waw weapons
 * Fix sprint and dive anims on ray gun
+* Fix Der Riese Nikolai viewhands for FG42
+* Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
 
 ## GRIEF TODO:
-* Five: fix lighting not being correct on initial spawn
+* Race: use player names for score HUD instead of grief icon
+* Search & Rezurrect: fix score HUD not updating correctly (updates for wrong team when enemy team wins)
+* Fix half points end sound playing for all players
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Add new grief damage fx
@@ -995,13 +1002,11 @@
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ## TESTING:
-* Test if new Moon startup for versus modes works correclty in coop
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
-* Check if PaP is showing take weapon hintstring for other players weapons for a short period
 
 ## MAYBE:
 * Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
@@ -1011,7 +1016,7 @@
 * Should there be a zombie spawn delay?
 * Kiparis as box weapon?
 * Should NML have insta kill rounds?
-* If you have 4 perks or more, still allow players to buy perks but bought perk will replace most recently obtained perk?
+* If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
 * Should special rounds always be 5 rounds apart?
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG):

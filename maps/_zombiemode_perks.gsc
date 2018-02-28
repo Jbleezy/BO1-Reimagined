@@ -582,6 +582,15 @@ vending_weapon_upgrade()
 		if(IsDefined(self.third_person_weapon_complete))
 		{
 			self SetHintString( &"ZOMBIE_GET_UPGRADED" );
+			// Set pack string invisibile to all other players immediately so the string doesn't show for them for a frame
+			players = get_players();
+			for(i=0;i<players.size;i++)
+			{
+				if(players[i] != player)
+				{
+					self SetInvisibleToPlayer(players[i], true);
+				}
+			}
 			//self setvisibletoplayer( player );
 
 			self thread wait_for_player_to_take( player, current_weapon, packa_timer );
@@ -602,7 +611,7 @@ vending_weapon_upgrade()
 		}
 
 		self SetHintString( &"ZOMBIE_PERK_PACKAPUNCH", self.cost );
-		self setvisibletoall();
+		//self setvisibletoall();
 		flag_clear("pack_machine_in_use");
 		self.user = undefined;
 		self.third_person_weapon_complete = undefined;
