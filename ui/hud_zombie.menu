@@ -562,6 +562,50 @@
 		    decoration
 		}
 
+		//RIGHT SIDE LOGO
+		itemDef
+		{
+		    type                ITEM_TYPE_IMAGE
+		    rect              	64 2 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+		    forecolor           1 1 1 1
+		    exp                	material(dvarString("vs_logo_enemy"))
+		    style             	WINDOW_STYLE_SHADER
+		    visible           	when(dvarBool("vs_top_logos_on"))
+		    decoration
+		}
+
+		//LEFT SIDE PLAYER NAME
+		itemDef
+		{
+			name				"hud_friendly_playername"
+			type				ITEM_TYPE_TEXT
+			rect 				-64 18 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			forecolor			1 1 1 1
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp text 			(dvarString("vs_friendly_playername"))
+			visible				when(dvarBool("vs_top_playernames_on"))
+			decoration
+		}
+
+		//RIGHT SIDE PLAYER NAME
+		itemDef
+		{
+			name				"hud_enemy_playername"
+			type				ITEM_TYPE_TEXT
+			rect 				64 18 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			forecolor			1 1 1 1
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp text 			(dvarString("vs_enemy_playername"))
+			visible				when(dvarBool("vs_top_playernames_on"))
+			decoration
+		}
+
 		//LEFT SIDE COUNTER
 		itemDef
 		{
@@ -588,18 +632,6 @@
 			exp text 			(dvarString("vs_counter_friendly_num"))
 			visible				when(dvarBool("vs_counter_friendly_num_on"))
 			decoration
-		}
-
-		//RIGHT SIDE LOGO
-		itemDef
-		{
-		    type                ITEM_TYPE_IMAGE
-		    rect              	64 2 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
-		    forecolor           1 1 1 1
-		    exp                	material(dvarString("vs_logo_enemy"))
-		    style             	WINDOW_STYLE_SHADER
-		    visible           	when(dvarBool("vs_top_logos_on"))
-		    decoration
 		}
 
 		//RIGHT SIDE COUNTER

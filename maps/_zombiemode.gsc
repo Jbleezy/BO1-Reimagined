@@ -1824,13 +1824,16 @@ onPlayerConnect_clientDvars()
 	self SetClientDvar("hud_zombs_remaining_on_game", false);
 	self SetClientDvar("zombs_remaining", "");
 
-	//reset grief dvars
+	//reset versus HUD dvars
 	self SetClientDvar("vs_logo_on", 0);
 	self SetClientDvar("vs_top_logos_on", 0);
+	self SetClientDvar("vs_top_playernames_on", 0);
 	self SetClientDvar("vs_counter_friendly_on", 0);
 	self SetClientDvar("vs_counter_enemy_on", 0);
 	self SetClientDvar("vs_counter_friendly_num_on", 0);
 	self SetClientDvar("vs_counter_enemy_num_on", 0);
+	self SetClientDvar("vs_friendly_playername", "");
+	self SetClientDvar("vs_enemy_playername", "");
 
 	//self SetClientDvar("cg_drawpaused", 0);
 

@@ -929,7 +929,6 @@
 
 ## TODO:
 * Fix zombies traversing through barriers when there is board rebuilt
-* Fix Pack-a-Punch hintstring showing for other players for a frame when weapon becomes available to grab from Pack-a-Punch
 * Moon: fix sound for entering new zone playing for all players
 * Check out box glitch when grabbing a fire sale as the box is moving
 * Make cosmonaut not attracted to Gersch device after hacking Pack-a-Punch
@@ -991,8 +990,6 @@
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
 
 ## GRIEF TODO:
-* Race: use player names for score HUD instead of grief icon
-* Search & Rezurrect: fix score HUD not updating correctly (updates for wrong team when enemy team wins)
 * Fix half points end sound playing for all players
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
@@ -1081,6 +1078,7 @@
 * Add space between grenades on HUD (CG_OFFHAND_WEAPON_ICON_FRAG - 103 and CG_OFFHAND_WEAPON_ICON_SMOKEFLASH - 104)
 * Make it so you can queue another shot on non-auto weapons by pressing the fire button during the fire time of the current shot (similar to BO3)
 * Fix freeze on map load on Ascension
+* Fix player names getting changed to "Unknown Soldier" on scoreboard and chat after fast_restart if name is too short
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer
