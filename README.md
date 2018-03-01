@@ -668,9 +668,9 @@
 * Damaging a shrieker will now always give points
 
 ### Cosmonaut
-* Fixed a bug where the Cosmonaut would get stuck in place when spawning in while a player was on the jump pads
+* Fixed a bug where the Cosmonaut would get stuck in place if spawned in while a player was on the jump pads
+* Fixed a bug where the Cosmonaut would be attracted towards a Gersch Device and move faster than intended after the Pack-a-Punch gates had been hacked
 * Cosmonaut no longer teleports players that activate a jump pad between the time of being grabbed and when they would have been teleported
-* Fixed a bug where the Cosmonaut would move faster than intended after throwing a Gersch device once the Pack-a-Punch gates had been hacked
 * Now kills any zombies nearby when Cosmonaut explodes
 * Removed name above Cosmonaut's head
 
@@ -772,7 +772,7 @@
 * Removed the forced jumping in low gravity
 * Excavators will not reactivate for places that have already been breached
 * Fixed the invisible digger glitch
-* Gersches and QEDs no longer breach windows
+* Gersch Devices and QEDs no longer breach windows
 * Added line of sight check on explosions for breaching windows
 * Fixed bug where players could stay on jump pads in low gravity indefinitely by diving upon landing on them
 * Jump pads now fling players correctly when a player dives on a jump pad
@@ -928,10 +928,9 @@
 * Unlimited zombies
 
 ## TODO:
-* Fix zombies traversing through barriers when there is board rebuilt
-* Moon: fix sound for entering new zone playing for all players
+* Moon: fix ground spawners not moving after spawned (might be effecting other maps too)
+* Fix zombies traversing through barriers when there is boards rebuilt
 * Check out box glitch when grabbing a fire sale as the box is moving
-* Make cosmonaut not attracted to Gersch device after hacking Pack-a-Punch
 * Add collision boxes near invincibilty spots on maps
 * Moon: fix sliding sound keep playing when off object 
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -990,7 +989,7 @@
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
 
 ## GRIEF TODO:
-* Fix half points end sound playing for all players
+* Remove random map rotation until it works properly
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Add new grief damage fx
@@ -999,6 +998,8 @@
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ## TESTING:
+* Grief: test if powerdown end sounds are not playing for all players
+* Moon: test if zone enter voicelines are not playing for all players
 * Moon sidequest dialog in coop without Richtofen
 * Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)

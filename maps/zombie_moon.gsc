@@ -364,12 +364,12 @@ packapunch_hack_think()
 	{
 		level waittill("packapunch_hacked");
 
-		flag_clear("packapunch_hacked");
+		flag_set("packapunch_hacked");
 		array_thread(pack_gates,::pack_gate_activate);
 		level thread pack_gate_poi_activate(time);
 
 		wait(time);
-		flag_set("packapunch_hacked");
+		flag_clear("packapunch_hacked");
 
 		maps\_zombiemode_equip_hacker::register_pooled_hackable_struct(level._pack_hack_struct, maps\_zombiemode_hackables_packapunch::packapunch_hack);
 	}
@@ -411,14 +411,11 @@ pack_gate_poi_activate(time)
 	level thread activate_zombieland_poi_positions(time);
 	level thread watch_for_exit(pack_zombieland_poi);
 
-	while( !flag( "packapunch_hacked" ) )
+	while( flag( "packapunch_hacked" ) )
 	{
 		zombies = GetAIArray("axis");
 		for( i=0; i<zombies.size; i++ )
 		{
-			if(zombies[i].animname == "astro_zombie")
-				continue;
-
 			if( zombies[i] istouching( pack_enclosure ) )
 			{
 				zombies[i].in_pack_enclosure = true;
@@ -439,15 +436,12 @@ pack_gate_poi_activate(time)
 		wait( 1.0 );
 	}
 
-	flag_wait("packapunch_hacked");
+	flag_waitopen("packapunch_hacked");
 	level notify("stop_pack_poi");
 
 	zombies = GetAIArray( "axis" );
 	for ( i = 0; i < zombies.size; i++ )
 	{
-		if(zombies[i].animname == "astro_zombie")
-			continue;
-
 		zombies[i]._poi_pack_set = 0;
 	}
 
@@ -477,7 +471,7 @@ switch_between_zland_poi()
 
 	poi_array = array_randomize( poi_array );
 
-	while( !flag( "packapunch_hacked" ) )
+	while( flag( "packapunch_hacked" ) )
 	{
 
 		for( i = 0; i < poi_array.size; i++ )
@@ -528,7 +522,7 @@ activate_zombieland_poi_positions(time)
 }
 watch_for_exit(poi_array)
 {
-	while(players_in_zombieland() && !flag("packapunch_hacked"))
+	while(players_in_zombieland() && flag("packapunch_hacked"))
 	{
 		wait(0.1);
 	}
@@ -588,7 +582,7 @@ pack_gate_activate()
 
 		self thread pack_gate_closed();
 
-		flag_wait("packapunch_hacked");
+		flag_waitopen("packapunch_hacked");
 
 		//self NotSolid();
 
@@ -643,7 +637,7 @@ moon_nml_bhb_present()
 	pack_enclosure = GetEnt("pack_enclosure","targetname");
 
 
-	while( !flag( "packapunch_hacked" ) )
+	while( flag( "packapunch_hacked" ) )
 	{
 		zombie_pois = GetEntArray( "zombie_poi", "script_noteworthy" );
 
@@ -738,7 +732,7 @@ moon_zombieland_ignore_poi()
 		self add_poi_to_ignore_list( nml_poi_array[i] );
 	}
 
-	while( !flag( "packapunch_hacked" ) )
+	while( flag( "packapunch_hacked" ) )
 	{
 		// if a bhb is tossed while the gates are closed the ai needs to update depending on where it is
 		bhb_bomb = GetEntArray( "zm_bhb", "targetname" );
