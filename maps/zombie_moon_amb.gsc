@@ -201,7 +201,7 @@ track_door_entry_exit( special )
 	while(1)
 	{
 		array_thread( getentarray( self.target, "targetname" ), ::waitfor_door_open, self );
-		self waittill( "trigger", where, player );
+		self waittill( "trigger", where, player, ent );
 
 		zone = player get_current_zone();
 
@@ -212,7 +212,8 @@ track_door_entry_exit( special )
 				
 				//iprintlnbold( "Entering Area " + self.script_int );
 				
-				playsoundatposition( "vox_mcomp_enter_" + self.script_int, self.origin );
+				ent PlaySoundToPlayer("vox_mcomp_enter_" + self.script_int, player);
+				//playsoundatposition( "vox_mcomp_enter_" + self.script_int, self.origin );
 			}
 			else
 			{
@@ -220,11 +221,13 @@ track_door_entry_exit( special )
 				{
 					if(zone == "forest_zone")
 					{
-						playsoundatposition( "vox_mcomp_enter_3", self.origin );
+						ent PlaySoundToPlayer("vox_mcomp_enter_3", player);
+						//playsoundatposition( "vox_mcomp_enter_3", self.origin );
 					}
 					else if(zone == "enter_forest_east_zone")
 					{
-						playsoundatposition( "vox_mcomp_enter_4", self.origin );
+						ent PlaySoundToPlayer("vox_mcomp_enter_4", player);
+						//playsoundatposition( "vox_mcomp_enter_4", self.origin );
 					}
 					//iprintlnbold( "Entering Area 3" );
 				}
@@ -266,7 +269,7 @@ waitfor_door_open( struct )
 				}
 			}
 			
-			struct notify( "trigger", where, who );
+			struct notify( "trigger", where, who, self );
 			struct notify( "other_door_opened" );
 			return;
 		}

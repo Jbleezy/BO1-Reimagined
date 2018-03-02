@@ -4762,7 +4762,7 @@ do_zombie_rise()
 	}
 
 	//No Man's Land initial spawn - force to spawn from the middle
-	if(IsDefined(level.initial_spawn) && level.initial_spawn && level.gamemode == "survival")
+	if(IsDefined(level.initial_spawn) && level.initial_spawn && level.gamemode == "survival" && flag("enter_nml"))
 	{
 		if(!IsDefined(level.spawn_in_middle))
 		{

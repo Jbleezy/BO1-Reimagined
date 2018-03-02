@@ -129,7 +129,8 @@
 		//FRAME_CHOICE_DVARSTRINGLIST_VIS( 31, "@REIMAGINED_GAMEMODE_CAPS", zm_gamemode, { "@REIMAGINED_GAMEMODE_SURVIVAL_CAPS"; "survival" }, ;, 1)
 
 		FRAME_CHOICE_DVARYESNO_VIS( 32, "@REIMAGINED_CHAR_DIALOG", character_dialog, ;, (dvarString(zm_gamemode) == "survival") )
-		FRAME_CHOICE_DVARSTRINGLIST_VIS( 32, "@REIMAGINED_MAP_ROTATION", map_rotation, { "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_SINGLE_MAP"; "single" }, ;, (dvarString(zm_gamemode) != "survival") )
+		// TODO - uncomment this when map rotation works correctly in coop
+		//FRAME_CHOICE_DVARSTRINGLIST_VIS( 32, "@REIMAGINED_MAP_ROTATION", map_rotation, { "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_SINGLE_MAP"; "single" }, ;, (dvarString(zm_gamemode) != "survival") )
 
 		FRAME_CHOICE_DVARYESNO_VIS( 33, "@REIMAGINED_ADDITIONAL_PRIMARY_WEAPON_CAPS", mule_kick_enabled, ;, (dvarString(zm_gamemode) == "survival") )
 

@@ -3789,7 +3789,7 @@ powerup_shader_on_hud( item, powerup_on_var, powerup_time_var, sound, loop_sound
 
 	if(IsDefined(sound))
 	{
-		self playsound(sound);
+		self PlaySoundToPlayer(sound, self);
 	}
 
 	if(IsDefined(temp_ent))
