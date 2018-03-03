@@ -2630,7 +2630,7 @@ treasure_chest_weapon_spawn( chest, player, respin )
 			self.weapon_string = undefined;
 
 			self.weapon_model SetModel("zombie_teddybear");
-		//	model rotateto(level.chests[level.chest_index].angles, 0.01);
+			//model rotateto(level.chests[level.chest_index].angles, 0.01);
 			//wait(1);
 			self.weapon_model.angles = self.angles;
 
@@ -2655,6 +2655,7 @@ treasure_chest_weapon_spawn( chest, player, respin )
 	{
 		wait .5;	// we need a wait here before this notify
 		level notify("weapon_fly_away_start");
+		//level thread maps\_zombiemode_powerups::start_fire_sale();
 		wait 2;
 		self.weapon_model MoveZ(500, 4, 3);
 

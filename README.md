@@ -928,7 +928,6 @@
 * Unlimited zombies
 
 ## TODO:
-* Fix zombies traversing through barriers when there is boards rebuilt
 * Check out box glitch when grabbing a fire sale as the box is moving
 * Add collision boxes near invincibilty spots on maps
 * Moon: fix sliding sound keep playing when off object 
@@ -988,18 +987,15 @@
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
 
 ## GRIEF TODO:
+* Meat: fix third person weapon model
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
-* Fix Meat weapon third person model
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ## TESTING:
-* Grief: make sure powerdown end sounds are not playing for all players
-* Moon: make sure zone enter voicelines are not playing for all players
 * Moon sidequest dialog in coop without Richtofen
-* Ceiling spawn cancels on Moon
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)

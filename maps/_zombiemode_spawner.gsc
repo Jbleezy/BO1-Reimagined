@@ -670,6 +670,8 @@ zombie_goto_entrance( node, endon_bad_path )
 	// They go into this function and do everything they and then comeback once all the barriers are removed
 	self tear_into_building();
 
+	self.ignoreall = true;
+
 	self.behind_barrier = false;
 
 	self reset_attack_spot();
@@ -1084,13 +1086,6 @@ tear_into_building()
 
 			self zombie_tear_notetracks( "tear_anim", chunk, self.first_node, tear_anim );
 
-			//chris - adding new window attack & gesture animations ;)
-			attack = self should_attack_player_thru_boards();
-			if(isDefined(attack) && !attack && self.has_legs)
-			{
-				self do_a_taunt();
-			}
-
 			//chrisp - fix the extra tear anim bug
 			if( all_chunks_destroyed( self.first_node.barrier_chunks ) )
 			{
@@ -1099,6 +1094,13 @@ tear_into_building()
 					self.first_node.attack_spots_taken[i] = false;
 				}*/
 				return;
+			}
+
+			//chris - adding new window attack & gesture animations ;)
+			attack = self should_attack_player_thru_boards();
+			if(isDefined(attack) && !attack && self.has_legs)
+			{
+				self do_a_taunt();
 			}
 		}
 

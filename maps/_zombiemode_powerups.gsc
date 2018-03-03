@@ -1362,14 +1362,21 @@ special_drop_setup(first_time, permament)
 			self Delete();
 
 			// Special for teleporting too much.  The Dogs attack!
-			if ( (level.gamemode == "survival" && level.time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20 && !first_time) || 
-				(level.gamemode != "survival" && !first_time) )
+			if ( level.gamemode == "survival" && level.time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20 && !first_time )
 			{
 				dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
 				maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
 				//iprintlnbold( "Samantha Sez: No Powerup For You!" );
 			}
 		}
+	}
+
+	// Dogs always spawn in versus modes
+	if(level.gamemode != "survival" && !first_time)
+	{
+		dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
+		maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
+		//iprintlnbold( "Samantha Sez: No Powerup For You!" );
 	}
 
 	if ( is_powerup )
