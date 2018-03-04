@@ -2615,12 +2615,13 @@ toggle_fire_sale_on()
 				if( level.chest_index != i )
 				{
 					level.chests[i].was_temp = true;
-					level.chests[i] thread maps\_zombiemode_weapons::show_chest();
 					level.chests[i] thread maps\_zombiemode_weapons::hide_rubble();
+					level.chests[i] thread maps\_zombiemode_weapons::show_chest();
 					wait_network_frame();
 				}
 			}
 		}
+
 		level waittill( "fire_sale_off" );
 
 		for( i = 0; i < level.chests.size; i++ )

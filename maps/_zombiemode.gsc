@@ -13,6 +13,7 @@ main()
 
 	level.player_too_many_weapons_monitor = true;
 	level.player_too_many_weapons_monitor_func = ::player_too_many_weapons_monitor;
+	level.player_out_of_playable_area_monitor = true;
 	level._dontInitNotifyMessage = 1;
 
 	init_additionalprimaryweapon_machine_locations(); //adds mule kick to other maps
@@ -2253,6 +2254,12 @@ player_out_of_playable_area_monitor()
 	{
 		// skip over players in spectate, otherwise Sam keeps laughing every 3 seconds since their corpse is still invisibly in a kill area
 		if ( self.sessionstate == "spectator" )
+		{
+			wait( get_player_out_of_playable_area_monitor_wait_time() );
+			continue;
+		}
+
+		if(is_true(self.inteleportation) || is_true(self.in_elevator))
 		{
 			wait( get_player_out_of_playable_area_monitor_wait_time() );
 			continue;

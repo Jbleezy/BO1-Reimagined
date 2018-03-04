@@ -425,20 +425,25 @@
 * Sniper cabinet: weapon ammo now costs exactly 25% the cost of the weapon
 
 ## Mystery Box
-* Re-hitting the box is now faster (only 1 second delay between box hits)
-* When the box moves, it will instantly appear at its new location instead of waiting 8 seconds
+* Re-hitting the Mystery Box is now faster (only 1 second delay between box hits)
+* Flies up twice as high when moving
+* Now plays an animation when spawning in (except for Fire Sale Mystery Boxes)
+* Instantly appears at its new location when moving instead of waiting 8 seconds
 * Wall weapons are in the box on classic maps
-* Box now cycles through weapons for its whole duration while opening
 * Every player now sees the same weapons in the box when the weapons are floating up
 * Can only see weapons floating up that the player can currently obtain
 * Players will now get every weapon they can from the box before getting duplicates
 * If a player does not grab a weapon from the box, then it will be put back into the list of weapons the player can get
-* All weapons have the same probability to be obtained in the box
+* All weapons have the same probability to be obtained
 * Ray Gun can now be obtained without moving the box on all maps
 * Box weapons will not appear again in a row while floating up (unless it is the final weapon)
 * Box will now cycle through all locations before going to a previous location again
 * Box has a different hintstring for taking tactical grenades
 * Hintstring now says "Mystery Box" instead of "Random Weapon"
+* Fixed a bug that would cause there to sometimes be no Mystery Box or multiple Mystery Boxes if a Fire Sale was activated right after the Mystery Box started to move
+* Fixed a bug where the Mystery Box weapon would fly away if the Mystery Box was activated as a Fire Sale was ending and the Fire Sale was grabbed as the box was starting to move
+* Fixed a bug where weapons would be cycled through faster on higher FPS
+* Fixed a bug where the teddy bear would spawn in facing the wrong direction for one frame
 
 ## Perks
 * Perks now become active as soon as the player starts to put away the perk bottle
@@ -676,6 +681,7 @@
 
 ## Maps
 * Easter egg songs can now be reactivated once the song is over
+* Added out of bounds death barriers to all maps
 
 ### Nacht Der Untoten
 * Removed character dialog
@@ -928,7 +934,6 @@
 * Unlimited zombies
 
 ## TODO:
-* Check out box glitch when grabbing a fire sale as the box is moving
 * Add collision boxes near invincibilty spots on maps
 * Moon: fix sliding sound keep playing when off object 
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -1001,7 +1006,6 @@
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
 
 ## MAYBE:
-* Ascension: double tap obtainable by having every other perk on the map? (gained as soon as you get all perks, lost if you lose one)
 * Shangri-La: should mud pit sidequest step need the radio to be activated to work?
 * Moon: should teleporter gate start going down before power is on?
 * Should zombies not double swipe if player doesnt have jug?

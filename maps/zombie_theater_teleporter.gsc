@@ -199,13 +199,13 @@ teleport_pad_think()
 	{
 		if ( !flag( "teleporter_linked" ) && flag( "core_linked" ) )
 		{
-			pad sethintstring( "" );
-
 			if(level.gamemode == "survival")
 			{
 				pad waittill( "trigger", user );
             	pad PlaySound( "evt_teleporter_activate_finish" );
 			}
+
+			pad sethintstring( "" );
 
 			flag_set( "teleporter_linked" );
 

@@ -627,6 +627,8 @@ teleport_players(user)
 				players_touching[player_idx] = i;
 				player_idx++;
 
+				players[i].inteleportation = true;
+
 				if ( isdefined( image_room[i] ) )
 				{
 					players[i] disableOffhandWeapons();
@@ -742,6 +744,8 @@ teleport_players(user)
 		}
 
 		//player achievement_notify( "DLC3_ZOMBIE_FIVE_TELEPORTS" );
+
+		player.inteleportation = false;
 	}
 
 	// play beam fx at the core

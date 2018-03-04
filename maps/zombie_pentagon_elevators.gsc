@@ -1035,6 +1035,24 @@ close_elev_doors()
 			playsoundatposition( "evt_elevator_office_door_close", newpos5 );
 		}
 	}
+
+	if(self.station == self.targetname + "_up")
+	{
+		check_trig = GetEnt(self.targetname + "_up_riders", "targetname");
+	}
+	else
+	{
+		check_trig = GetEnt(self.targetname + "_down_riders", "targetname");
+	}
+
+	players = get_players();
+	for ( i = 0; i < players.size; i++ )
+	{
+		if(players[i] IsTouching(check_trig))
+		{
+			players[i].in_elevator = true;
+		}
+	}
 }
 //---------------------------------------------------------------------------
 // Open doors on floor elevator is at.
@@ -1062,6 +1080,9 @@ open_elev_doors()
 				self.elevator_players[i] SetOrigin( self.origin + (RandomFloatRange(-32,32), RandomFloatRange(-32,32), 10 ));
 				self.elevator_players[i] playsound( "zmb_laugh_child" );
 			}
+
+			self.elevator_players[i].in_elevator = false;
+
 			self.elevator_players = array_remove(self.elevator_players, self.elevator_players[i]);
 		}
 	}
