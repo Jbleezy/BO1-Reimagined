@@ -1539,7 +1539,7 @@ powerup_grab()
 			//	due to weapon switching issues.
 			if ( (self.powerup_name == "minigun" || self.powerup_name == "tesla" || self.powerup_name == "random_weapon" || self.powerup_name == "upgrade_weapon" || 
 				self.powerup_name == "meat") &&
-				( players[i] maps\_laststand::player_is_in_laststand() || players[i] in_revive_trigger() ) )
+				( players[i] maps\_laststand::player_is_in_laststand() || ( players[i] UseButtonPressed() && players[i] in_revive_trigger() ) ) )
 			{
 				continue;
 			}

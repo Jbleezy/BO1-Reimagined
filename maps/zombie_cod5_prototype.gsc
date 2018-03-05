@@ -79,6 +79,8 @@ main()
 	level thread pistol_rank_setup();
 
 	level.has_pack_a_punch = false;
+
+	level thread life_brush();
 }
 
 precache_player_model_override()
@@ -831,4 +833,9 @@ zombie_collision_patch()
 	collision setmodel("collision_geo_32x32x128");
 	collision.angles = (0, 0, 0);
 	collision Hide();
+}
+
+life_brush()
+{
+	maps\_zombiemode::spawn_life_brush( (321, 356, 63), 256, 256 );
 }

@@ -2010,11 +2010,7 @@ treasure_chest_move( player_vox )
 	//wait for all the chests to reset
 	//wait(post_selection_wait_duration);
 
-	level.chests[level.chest_index] hide_rubble();
-
 	level.chests[level.chest_index] treasure_chest_fly_away(false);
-
-	level.chests[level.chest_index] show_chest();
 
 	flag_clear("moving_chest_now");
 	self.chest_origin.chest_moving = false;
@@ -2035,7 +2031,6 @@ treasure_chest_fly_away(up)
 	fake_pieces[1] = spawn("script_model",self.chest_box.origin);
 	fake_pieces[1].angles = self.chest_box.angles;
 	fake_pieces[1] setmodel(self.chest_box.model);
-
 
 	anchor = spawn("script_origin",fake_pieces[0].origin);
 	soundpoint = spawn("script_origin", self.chest_origin.origin);

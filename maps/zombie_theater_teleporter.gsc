@@ -80,8 +80,11 @@ teleport_core_think( index )
 	teleport_start_exploder(0);
 
 	trigger sethintstring( "" );
-	trigger maps\zombie_theater_magic_box::turnLightRed("teleporter_indicator_light1", true );
+	trigger maps\zombie_theater_magic_box::turnLightGreen("teleporter_indicator_light1", true );
 	//wait(30);
+
+	core = getent( trigger_name, "targetname" );
+	pad = getent( core.target, "targetname" );
 
 	if ( isdefined( trigger ) )
 	{
@@ -127,6 +130,8 @@ teleport_core_think( index )
 
 				//turn the light green
 				trigger maps\zombie_theater_magic_box::turnLightGreen("teleporter_indicator_light1", true );
+
+				pad SetHintString( &"ZOMBIE_THEATER_START_CORE" );
 			}
 		}
 	}
@@ -179,7 +184,7 @@ teleport_pad_hide_use()
 	}
 
 	// ww: pad should work like Der Rise, so it gets the "power on first" hint string
-	pad SetHintString( &"ZOMBIE_NEED_POWER" );
+	//pad SetHintString( &"ZOMBIE_NEED_POWER" );
 	flag_wait( "power_on" );
 	pad SetHintString( &"ZOMBIE_THEATER_START_CORE" );
 

@@ -710,6 +710,9 @@
 * Players no longer get teleported to special rooms unless both radios on the map have been activated
 * Players no longer get teleported out of the Pack-a-Punch room if there is a weapon currently in the Pack-a-Punch machine
 * Box lights now blink correctly with higher FPS
+* Teleporter light is now green initially after turning on the power
+* Teleporter mainframe pad no longer displays the need power hintstring
+* Teleporter mainframe pad will now display the link not active hintstring every time the teleporter needs to be linked
 
 ### Five
 * Trap pieces are already in place
@@ -845,7 +848,7 @@
 * Der Riese: all teleporters linked
 * Der Riese: powerdown spawns from the start of each match
 * Der Riese: powerdown and full health dogs spawn from every teleporter use
-* Kino Der Toten: teleporter is already linked to the mainframe
+* Kino Der Toten: teleporter is permamently linked to the mainframe
 * Five: all 6 barriers in the start room are enabled
 * Five: first room door is open from the start of the match
 * Five: teleporters disabled
@@ -1000,6 +1003,8 @@
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ## TESTING:
+* Grief: test meat third person model
+* Moon: check if you can hack box while it is spawning in
 * Moon sidequest dialog in coop without Richtofen
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)

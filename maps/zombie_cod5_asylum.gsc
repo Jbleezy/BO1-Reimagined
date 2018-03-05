@@ -129,6 +129,8 @@ main()
 	level.has_pack_a_punch = false;
 
 	level thread fix_zombie_pathing();
+
+	level thread life_brush();
 }
 
 //*****************************************************************************
@@ -1899,4 +1901,9 @@ recalculate_pathing(good_spot)
 	self SetGoalPos(good_spot);
 	wait .2;
 	self.recalculating = false;
+}
+
+life_brush()
+{
+	maps\_zombiemode::spawn_life_brush( (-2, -648, 302), 64, 256 );
 }
