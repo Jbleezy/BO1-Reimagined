@@ -8493,10 +8493,17 @@ zone_hud()
 
 		name = choose_zone_name(self get_current_zone(), current_name);
 
+		// Five - these 2 zone names are the same area just depends on if the elevator is up or down, so use the same HUD name for both
+		if(name == "reimagined_zombie_pentagon_labs_elevator")
+		{
+			name = "reimagined_zombie_pentagon_war_room_zone_elevator";
+		}
+
 		if(current_name == name)
 		{
 			continue;
 		}
+
 		current_name = name;
 
 		self send_message_to_csc("hud_anim_handler", "hud_zone_name_out");
@@ -8512,7 +8519,7 @@ choose_zone_name(zone, current_name)
 		return " ";
 	}
 
-	if(!IsDefined(zone) && level.script == "zombie_cod5_asylum")
+	if(!IsDefined(zone) && (level.script == "zombie_cod5_asylum" || level.script == "zombie_pentagon"))
 	{
 		return current_name;
 	}
@@ -8526,14 +8533,14 @@ choose_zone_name(zone, current_name)
 
 	if(IsDefined(zone))
 	{
-		name = "REIMAGINED_" + level.script + "_" + zone;
+		name = "reimagined_" + level.script + "_" + zone;
 	}
 
 	if(level.script == "zombie_cod5_prototype")
 	{
 		if(!IsDefined(zone))
 		{
-			name = "REIMAGINED_ZOMBIE_COD5_PROTOTYPE_CORNER";
+			name = "reimagined_zombie_cod5_prototype_corner";
 		}
 	}
 	else if(level.script == "zombie_cosmodrome")

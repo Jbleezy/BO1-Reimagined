@@ -774,7 +774,7 @@
 * Melee stones step: Increased melee range for stones
 * Mud pit step: radio is no longer required to be played in order to complete
 * Fixed a bug where players could clip through the wall behind Pack-a-Punch during the sidequest
-* Reward: all players get permament perks
+* Reward: all players get permament perks (Quick Revive goes away when downed in solo, can be rebought with all perks)
 
 ### Moon
 * Added Fire Sale, Max Ammo, and Perk Bottle to jump pad powerup cycle
@@ -855,7 +855,7 @@
 * Five: Pack-a-Punch door is now a 1500 point buyable door
 * Ascension: lunar landers disabled
 * Ascension: Pack-a-Punch door is now a 1500 point buyable door
-* Call of the Dead: director spawns 2 random powerdowns
+* Call of the Dead: director spawns 2 random powerdowns on death
 * Shangri-La: Pack-a-Punch stairs are open from the start of the match
 * Shangri-La: geyser in the start room is open from the start of the match
 * Shangri-La: monkeys disabled

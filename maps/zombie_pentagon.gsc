@@ -100,6 +100,8 @@ main()
 
 	level thread play_starting_vox();
 
+	level thread life_brush();
+
 	level thread maps\zombie_pentagon_ffotd::main_end();
 }
 //-------------------------------------------------------------------------------
@@ -959,4 +961,9 @@ barricade_glitch_fix()
 	collision4 setmodel("collision_wall_64x64x10");
 	collision4.angles = (0, 6.19994, 0);
 	collision4 Hide();
+}
+
+life_brush()
+{
+	maps\_zombiemode::spawn_life_brush( (-1089, 2509, 84), 256, 256 );
 }
