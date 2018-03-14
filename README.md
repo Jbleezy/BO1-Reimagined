@@ -429,21 +429,21 @@
 * Flies up twice as high when moving
 * Now plays an animation when spawning in (except for Fire Sale Mystery Boxes)
 * Instantly appears at its new location when moving instead of waiting 8 seconds
-* Wall weapons are in the box on classic maps
+* Wall weapons are in the Mystery Box on classic maps
 * Every player now sees the same weapons in the box when the weapons are floating up
 * Can only see weapons floating up that the player can currently obtain
 * Players will now get every weapon they can from the box before getting duplicates
 * If a player does not grab a weapon from the box, then it will be put back into the list of weapons the player can get
 * All weapons have the same probability to be obtained
-* Ray Gun can now be obtained without moving the box on all maps
-* Box weapons will not appear again in a row while floating up (unless it is the final weapon)
-* Box will now cycle through all locations before going to a previous location again
-* Box has a different hintstring for taking tactical grenades
+* Ray Gun can now be obtained without moving the Mystery Box on all maps
+* Mystery Box weapons will not appear again in a row while floating up (unless it is the final weapon)
+* Mystery Box will now cycle through all locations before going to a previous location again
+* Mystery Box has a different hintstring for taking tactical grenades
 * Hintstring now says "Mystery Box" instead of "Random Weapon"
 * Fixed a bug that would cause there to sometimes be no Mystery Box or multiple Mystery Boxes if a Fire Sale was activated right after the Mystery Box started to move
 * Fixed a bug where the Mystery Box weapon would fly away if the Mystery Box was activated as a Fire Sale was ending and the Fire Sale was grabbed as the box was starting to move
 * Fixed a bug where weapons would be cycled through faster on higher FPS
-* Fixed a bug where the teddy bear would spawn in facing the wrong direction for one frame
+* Fixed a bug where the teddy bear would spawn in facing the wrong direction
 
 ## Perks
 * Perks now become active as soon as the player starts to put away the perk bottle
@@ -721,6 +721,7 @@
 * If all players on a floor use an elevator or get downed when the power is off, all zombies will now respawn
 * If all players on a floor use an elevator or get downed when the power is on, all zombies will now go through teleporters
 * Fixed lighting in the top floor being incorrect
+* Player viewmodels now use the CIA viewmodel on all characters except Castro
 
 #### Elevators
 * Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1 second
@@ -937,6 +938,8 @@
 * Unlimited zombies
 
 ## TODO:
+* Death Machine: increase weapon switch speed
+* Switching to powerup weapons (Death Machine, Wunderwaffe, Meat) should not increase weapon switch speed with Speed Cola
 * Add collision boxes near invincibilty spots on maps
 * Moon: fix sliding sound keep playing when off object 
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -1003,6 +1006,7 @@
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ## TESTING:
+* Grief: test what happens if you get effected by a Clip Unload powerdown when holding claymores
 * Grief: test meat third person model
 * Moon: check if you can hack box while it is spawning in
 * Moon sidequest dialog in coop without Richtofen

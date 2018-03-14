@@ -5,12 +5,12 @@
 
 init()
 {
+	grief_precache();
+
 	if(level.gamemode == "survival")
 	{
 		return;
 	}
-
-	grief_precache();
 
 	level thread include_grief_powerups();
 
@@ -22,8 +22,6 @@ init()
 
 	level thread disable_special_rounds();
 
-	level thread disable_box_weapons();
-
 	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
 	{
 		if(level.gamemode == "snr")
@@ -34,11 +32,13 @@ init()
 			level thread increase_round_number();
 			level thread increase_zombie_move_speed();
 			level thread increase_zombie_spawn_rate();
+			level thread setup_grief_top_logos();
 		}
 		else if(level.gamemode == "race")
 		{
 			level thread race_win_watcher();
 			level thread increase_round_number_over_time();
+			level thread setup_grief_top_logos();
 		}
 		else if(level.gamemode == "gg")
 		{
@@ -47,6 +47,7 @@ init()
 			level thread increase_zombie_health();
 			level thread increase_zombie_spawn_rate();
 			level thread setup_gungame_weapons();
+			level thread setup_grief_top_playernames();
 		}
 
 		if(level.script == "zombie_temple")
@@ -57,15 +58,6 @@ init()
 		level thread unlimited_powerups();
 		level thread unlimited_barrier_points();
 		level thread unlimited_zombies();
-
-		if(level.gamemode == "gg")
-		{
-			level thread setup_grief_top_playernames();
-		}
-		else
-		{
-			level thread setup_grief_top_logos();
-		}
 	}
 }
 

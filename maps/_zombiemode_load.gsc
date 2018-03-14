@@ -1039,17 +1039,17 @@ player_set_viewmodel( zm_random_solo_char )
 		{
 			case 0:
 			// JFK
-				self SetViewModel( "viewmodel_usa_pow_arms" );
+				self SetViewModel( "bo2_c_zom_suit_viewhands" );
 				break;
 
 			case 1:
 			// Mcnamara
-				self SetViewModel( "viewmodel_usa_pow_arms" );
+				self SetViewModel( "bo2_c_zom_suit_viewhands" );
 				break;
 
 			case 2:
 			// Nixon
-				self SetViewModel( "viewmodel_usa_pow_arms" );
+				self SetViewModel( "bo2_c_zom_suit_viewhands" );
 				break;
 
 			case 3:
