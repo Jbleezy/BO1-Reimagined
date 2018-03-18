@@ -1365,7 +1365,7 @@ special_drop_setup(first_time, permament)
 			if ( level.gamemode == "survival" && level.time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20 && !first_time )
 			{
 				dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
-				maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
+				level thread maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
 				//iprintlnbold( "Samantha Sez: No Powerup For You!" );
 			}
 		}
@@ -1375,7 +1375,7 @@ special_drop_setup(first_time, permament)
 	if(level.gamemode != "survival" && !first_time)
 	{
 		dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
-		maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
+		level thread maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
 		//iprintlnbold( "Samantha Sez: No Powerup For You!" );
 	}
 
@@ -1584,6 +1584,10 @@ powerup_grab()
 					case "full_ammo":
 						for(j=0;j<players.size;j++)
 						{
+							if(level.gamemode != "survival" && players[j].vsteam != players[i].vsteam)
+							{
+								continue;
+							}
 							players[j] thread full_ammo_powerup( self );
 						}
 						players[i] thread powerup_vo("full_ammo");
@@ -1591,6 +1595,11 @@ powerup_grab()
 					case "double_points":
 						for(j=0;j<players.size;j++)
 						{
+							if(level.gamemode != "survival" && players[j].vsteam != players[i].vsteam)
+							{
+								continue;
+							}
+
 							players[j] thread double_points_powerup( self );
 						}
 						players[i] thread powerup_vo("double_points");
@@ -1598,6 +1607,11 @@ powerup_grab()
 					case "insta_kill":
 						for(j=0;j<players.size;j++)
 						{
+							if(level.gamemode != "survival" && players[j].vsteam != players[i].vsteam)
+							{
+								continue;
+							}
+
 							players[j] thread insta_kill_powerup( self );
 						}
 						players[i] thread powerup_vo("insta_kill");
@@ -2251,6 +2265,11 @@ nuke_powerup( drop_item, grabber )
 	players = get_players();
 	for(i = 0; i < players.size; i++)
 	{
+		if(level.gamemode != "survival" && players[i].vsteam != grabber.vsteam)
+		{
+			continue;
+		}
+
 		players[i] maps\_zombiemode_score::player_add_points( "nuke_powerup", 400 );
 	}
 }
@@ -2311,46 +2330,43 @@ double_points_powerup( drop_item )
 
 full_ammo_powerup( drop_item )
 {
-	players = get_players();
-	for (i = 0; i < players.size; i++)
+	// skip players in last stand
+	if ( self maps\_laststand::player_is_in_laststand() )
 	{
-		// skip players in last stand
-		if ( players[i] maps\_laststand::player_is_in_laststand() )
+		return;
+	}
+
+	primary_weapons = self GetWeaponsList();
+
+	self notify( "zmb_max_ammo" );
+	self notify( "zmb_lost_knife" );
+	self notify( "zmb_disable_claymore_prompt" );
+	self notify( "zmb_disable_spikemore_prompt" );
+	for( x = 0; x < primary_weapons.size; x++ )
+	{
+		// Fill the clip
+		//players[i] SetWeaponAmmoClip( primary_weapons[x], WeaponClipSize( primary_weapons[x] ) );
+
+		if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2")
 		{
+			if(is_lethal_grenade(primary_weapons[x]))
+			{
+				self SetWeaponAmmoClip(primary_weapons[x], 4);
+			}
+			else if(is_tactical_grenade(primary_weapons[x]))
+			{
+				self SetWeaponAmmoClip(primary_weapons[x], 3);
+			}
+			else
+			{
+				self GiveMaxAmmo( primary_weapons[x] );
+			}
 			continue;
 		}
 
-		primary_weapons = players[i] GetWeaponsList();
-
-		players[i] notify( "zmb_max_ammo" );
-		players[i] notify( "zmb_lost_knife" );
-		players[i] notify( "zmb_disable_claymore_prompt" );
-		players[i] notify( "zmb_disable_spikemore_prompt" );
-		for( x = 0; x < primary_weapons.size; x++ )
-		{
-			// Fill the clip
-			//players[i] SetWeaponAmmoClip( primary_weapons[x], WeaponClipSize( primary_weapons[x] ) );
-
-			if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2")
-			{
-				if(is_lethal_grenade(primary_weapons[x]))
-				{
-					players[i] SetWeaponAmmoClip(primary_weapons[x], 4);
-				}
-				else if(is_tactical_grenade(primary_weapons[x]))
-				{
-					players[i] SetWeaponAmmoClip(primary_weapons[x], 3);
-				}
-				else
-				{
-					players[i] GiveMaxAmmo( primary_weapons[x] );
-				}
-				continue;
-			}
-
-			players[i] GiveMaxAmmo( primary_weapons[x] );
-		}
+		self GiveMaxAmmo( primary_weapons[x] );
 	}
+
 	//	array_thread (players, ::full_ammo_on_hud, drop_item);
 	level thread full_ammo_on_hud( drop_item );
 }
@@ -3883,9 +3899,22 @@ grief_empty_clip_powerup( item )
 {
 	if ( !self maps\_laststand::player_is_in_laststand() && self.sessionstate != "spectator" )
 	{
-		weapon = self GetCurrentWeapon();
-		self SetWeaponAmmoClip( weapon, 0 );
 		self thread powerup_hint_on_hud(item);
+
+		weapon = self GetCurrentWeapon();
+
+		if(weapon == "syrette_sp" || weapon == "zombie_perk_bottle_doubletap" || weapon == "zombie_perk_bottle_revive" || weapon == "zombie_perk_bottle_jugg" || weapon == "zombie_perk_bottle_sleight" || weapon == "zombie_perk_bottle_marathon" || weapon == "zombie_perk_bottle_nuke" || weapon == "zombie_perk_bottle_deadshot" || weapon == "zombie_perk_bottle_additionalprimaryweapon" || weapon == "zombie_knuckle_crack" || weapon == "zombie_bowie_flourish" || weapon == "zombie_sickle_flourish" || weapon == "meat_zm")
+		{
+			return;
+		}
+
+		self SetWeaponAmmoClip( weapon, 0 );
+
+		// if player has mines out, switch weapons since it doesn't happen automatically
+		if(weapon == self get_player_placeable_mine())
+		{
+			self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
+		}
 	}
 }
 

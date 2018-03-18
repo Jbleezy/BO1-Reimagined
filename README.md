@@ -426,6 +426,7 @@
 
 ## Mystery Box
 * Re-hitting the Mystery Box is now faster (only 1 second delay between box hits)
+* Decreased weapon pickup time from 12 seconds to 9 seconds
 * Flies up twice as high when moving
 * Now plays an animation when spawning in (except for Fire Sale Mystery Boxes)
 * Instantly appears at its new location when moving instead of waiting 8 seconds
@@ -497,6 +498,8 @@
 * Switch weapons to end duration
 * Deals at least 1/4 of zombie's health per body shot
 * Deals at least 1/2 of zombie's health per headshot
+* Decreased weapon raise time from 1.55 seconds to 1.1 seconds
+* Decreased weapon drop time from .75 seconds to .3 seconds
 * Powerup can now drop while one is already active
 
 ### Fire Sale
@@ -721,7 +724,7 @@
 * If all players on a floor use an elevator or get downed when the power is off, all zombies will now respawn
 * If all players on a floor use an elevator or get downed when the power is on, all zombies will now go through teleporters
 * Fixed lighting in the top floor being incorrect
-* Player viewmodels now use the CIA viewmodel on all characters except Castro
+* All characters now use the CIA viewmodel except Castro
 
 #### Elevators
 * Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1 second
@@ -741,6 +744,7 @@
 * Monkey round step: buttons no longer have to be pressed at the same time, only on the same monkey round
 * Lunar lander step: First use centrifuge lander, then use Stamin-Up lander, then use PHD Flopper lander, and last use Speed Cola lander
 * Lunar lander step - HITSAM easter egg now only requiers the letters SAM (was not enough room to fit HITSAM)
+* Reward: 90 second Death Machines for the rest of the match
 
 ### Call of the Dead
 * Removed zombie spawn delay at the beginning of a match
@@ -839,13 +843,16 @@
 * When a enemy player bleeds out, players gain 10% of their current points
 * Removed all normal powerups except for Fire Sale
 * Fire Sale: makes traps cost 10 points
-* Powerups replaced by powerdowns: powerups that do negative effects but don't effect the team that grabs the powerup
+* Added Powerdowns: powerups that do negative effects to the enemy team
 * Clip Unload Powerdown: unloads players' clips of the weapon they are currently holding
 * Half Damage Powerdown: players do half damage to zombies for 30 seconds
 * Half Points Powerdown: players earn half points for 30 seconds
 * Punishment Points Powerdown: players lose a random amount of points between 500 and 2500 points
 * Slow Down Powerdown: Players move slower for 30 seconds
-* Meat Powerup
+* Added Meat Powerup
+* Nacht Der Untoten: all doors are open from the start of the match
+* Shi No Numa: first room doors are open from the start of the match
+* Der Riese: first room doors are open from the start of the match
 * Der Riese: all teleporters linked
 * Der Riese: powerdown spawns from the start of each match
 * Der Riese: powerdown and full health dogs spawn from every teleporter use
@@ -854,6 +861,7 @@
 * Five: first room door is open from the start of the match
 * Five: teleporters disabled
 * Five: Pack-a-Punch door is now a 1500 point buyable door
+* Ascension: first room doors, door near MP5K, and door above Juggernog are open from the start of the match
 * Ascension: lunar landers disabled
 * Ascension: Pack-a-Punch door is now a 1500 point buyable door
 * Call of the Dead: director spawns 2 random powerdowns on death
@@ -901,7 +909,6 @@
 * Unlimited zombies
 * Unlimited ammo
 * Quick Revive disabled
-* Pack-a-Punch disabled
 * Wall weapons disabled
 * Mystery box disabled
 * Mule Kick disabled
@@ -938,8 +945,7 @@
 * Unlimited zombies
 
 ## TODO:
-* Death Machine: increase weapon switch speed
-* Switching to powerup weapons (Death Machine, Wunderwaffe, Meat) should not increase weapon switch speed with Speed Cola
+* Gersch: after teleporting through a Gersch, allow players to teleport back to the Gersch's location through the portal? (will probably cause players to get out of map)
 * Add collision boxes near invincibilty spots on maps
 * Moon: fix sliding sound keep playing when off object 
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -998,7 +1004,7 @@
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
 
 ## GRIEF TODO:
-* Meat: fix third person weapon model
+* Fix line on top right of screen with CDC viewmodel (happens with Scoped Kar98k in hand)
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Add new grief damage fx
@@ -1006,8 +1012,6 @@
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ## TESTING:
-* Grief: test what happens if you get effected by a Clip Unload powerdown when holding claymores
-* Grief: test meat third person model
 * Moon: check if you can hack box while it is spawning in
 * Moon sidequest dialog in coop without Richtofen
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
@@ -1087,6 +1091,7 @@
 * Make it so you can queue another shot on non-auto weapons by pressing the fire button during the fire time of the current shot (similar to BO3)
 * Fix freeze on map load on Ascension
 * Fix player names getting changed to "Unknown Soldier" on scoreboard and chat after fast_restart if name is too short
+* Make it so perks that are not engine based only use 1 bit
 
 ## SPECIAL THANKS:
 * **_WARDOG_** - co-developer

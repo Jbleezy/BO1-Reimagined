@@ -2241,7 +2241,7 @@ treasure_chest_timeout()
 	player = self.chest_user;
 	weapon = self.chest_origin.weapon_string;
 
-	wait( 12 );
+	wait( 9 );
 	
 	if(IsDefined(player.already_got_weapons) && is_in_array(player.already_got_weapons, weapon))
 	{
@@ -2995,7 +2995,7 @@ timer_til_despawn(floatHeight)
 {
 	self endon("kill_weapon_movement");
 	// SRS 9/3/2008: if we timed out, move the weapon back into the box instead of deleting it
-	putBackTime = 12;
+	putBackTime = 9;
 	self MoveTo( self.origin - ( 0, 0, floatHeight ), putBackTime, ( putBackTime * 0.5 ) );
 	wait( putBackTime );
 
