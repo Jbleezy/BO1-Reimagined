@@ -874,6 +874,7 @@
 * Moon: players can survive forever in low gravity
 * Moon: windows are indestructible
 * Moon: hacker and PES disabled
+* Moon: teleporter disabled
 
 #### Grief
 * Win by surviving a round after all enemy players are dead
@@ -1004,6 +1005,8 @@
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
 
 ## GRIEF TODO:
+* Make Scavenger weapon not damage players on enemy team
+* Add fade out and fade in effect to all round restarts
 * Fix line on top right of screen with CDC viewmodel (happens with Scoped Kar98k in hand)
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
