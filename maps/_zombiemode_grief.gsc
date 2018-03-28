@@ -142,7 +142,7 @@ post_all_players_connected()
 	{
 		players[i] setup_grief_msg();
 
-		players[i] thread take_tac_nades_when_used();
+		//players[i] thread take_tac_nades_when_used();
 	}
 }
 
@@ -437,27 +437,23 @@ grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 	if(sWeapon == "mine_bouncing_betty" && self getstance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
 		return;
 
-	//only nades, mines, flops, and scavenger do actual damage
-	//TODO - add molotov damage
+	//only nades, mines, and flops do actual damage
 	if(!self HasPerk( "specialty_flakjacket" ))
 	{
 		//80 DoDamage = 25 actual damage
 		if(sMeansOfDeath == "MOD_GRENADE_SPLASH" && (sWeapon == "frag_grenade_zm" || sWeapon == "sticky_grenade_zm" || sWeapon == "stielhandgranate"))
 		{
 			//nades
-			//if(self.health > 25)
 			self DoDamage( 80, eInflictor.origin );
-			//else
-			//	radiusdamage(self.origin,10,self.health + 100,self.health + 100);
 		}
 		else if( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" )
 		{
-			//flops
-			self DoDamage( 80, eAttacker.origin );//for flops, the origin of the player must be used
+			//for flops, the origin of the player must be used
+			self DoDamage( 80, eAttacker.origin );
 		}
-		else if((sMeansOfDeath == "MOD_GRENADE_SPLASH" && (is_placeable_mine( sWeapon ) || is_tactical_grenade( sWeapon ) || sWeapon == "sniper_explosive_zm" || sWeapon == "sniper_explosive_zm")))
+		else if( sMeansOfDeath == "MOD_GRENADE_SPLASH" && (is_placeable_mine( sWeapon ) || is_tactical_grenade( sWeapon )) )
 		{
-			//claymores, spikemores, betties, dolls, and scavenger
+			//tactical nades and mines
 			self DoDamage( 80, eInflictor.origin );
 		}
 	}
@@ -756,10 +752,7 @@ round_restart(same_round)
 
 	wait(1);
 
-	if(level.gamemode == "snr")
-	{
-		fade_out(1, false);
-	}
+	fade_out(1, false);
 
 	SetTimeScale(1);
 
@@ -861,17 +854,18 @@ round_restart(same_round)
 	else
 		level thread play_sound_2d( "sam_nospawn" );*/
 
-	flag_clear("round_restarting"); //had to put here instead of the very end, since display_round_number is a timed function and if this flag isnt cleared players cant take damage from traps (and at this point players are spawned back in)
+	//had to put here instead of the very end, since display_round_number is a timed function and if this flag isnt cleared players cant take damage from traps (and at this point players are spawned back in)
+	flag_clear("round_restarting");
+
+	level thread fade_in(0, 1, true);
+
+	for(i=0;i<players.size;i++)
+	{
+		players[i] freezecontrols(false);
+	}
 
 	if(level.gamemode == "snr")
 	{
-		level thread fade_in(0, 1, true);
-
-		for(i=0;i<players.size;i++)
-		{
-			players[i] freezecontrols(false);
-		}
-
 		level.snr_round_number++;
 		display_round_number();
 	}

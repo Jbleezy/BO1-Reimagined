@@ -946,7 +946,6 @@
 * Unlimited zombies
 
 ## TODO:
-* Gersch: after teleporting through a Gersch, allow players to teleport back to the Gersch's location through the portal? (will probably cause players to get out of map)
 * Add collision boxes near invincibilty spots on maps
 * Moon: fix sliding sound keep playing when off object 
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -1005,14 +1004,11 @@
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
 
 ## GRIEF TODO:
-* Make Scavenger weapon not damage players on enemy team
-* Add fade out and fade in effect to all round restarts
-* Fix line on top right of screen with CDC viewmodel (happens with Scoped Kar98k in hand)
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
-* Gun Game: fix rare bug where multiple gun increment powerups spawn (not sure what causes it, not caused from killing multiple zombies from the same shot)
+* Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ## TESTING:
 * Moon: check if you can hack box while it is spawning in
