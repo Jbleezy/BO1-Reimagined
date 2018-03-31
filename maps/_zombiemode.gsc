@@ -1641,8 +1641,8 @@ difficulty_init()
 		}
 		else
 		{
-			players[p].score = 500000;
-			//players[p].score = 500;
+			//players[p].score = 500000;
+			players[p].score = 500;
 		}
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
@@ -1809,7 +1809,7 @@ onPlayerConnect_clientDvars()
 
 	self SetClientDvar("cg_drawFPSLabels", 0); //makes FPS area in corner smaller
 
-	//self SetClientDvar("sv_cheats", 0); //uncomment on release
+	self SetClientDvar("sv_cheats", 0); //uncomment on release
 
 	self SetClientDvar("g_friendlyFireDist", 0);
 
@@ -2113,7 +2113,7 @@ onPlayerSpawned()
 
 				//self thread player_health_watcher();
 				self thread points_cap();
-				self thread give_weapons_test();
+				//self thread give_weapons_test();
 				//self thread button_pressed_test();
 				//self thread velocity_test();
 
@@ -8708,6 +8708,10 @@ give_weapons_test()
 
 	//wait 5;
 
+	//self giveweapon( "molotov_zm" );
+	//self set_player_tactical_grenade( "molotov_zm" );
+	//self SetWeaponAmmoClip("molotov_zm", 3);
+
 	/*while(1)
 	{
 		wait_network_frame();
@@ -8740,10 +8744,11 @@ give_weapons_test()
 	origin = self.origin;
 	wait 5;
 	level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );
-	origin = self.origin;
-	wait 5;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", origin, true );*/
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "minigun", origin, true );*/
+
+	//origin = self.origin;
+	//wait 5;
+	//level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", origin, true );
 
 	/*wait 5;
 

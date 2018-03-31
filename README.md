@@ -9,6 +9,8 @@
 
 [Donate](https://www.paypal.me/Jbleezy/10)
 
+## Change Notes
+
 ## General
 * Zombies now only have an additonal spawn delay when a full horde is spawned in
 * Additional spawn delay time reduced from 1.2 seconds to 1 second
@@ -945,7 +947,7 @@
 * Win by being a survivor after the time limit or get all players infected
 * Unlimited zombies
 
-## TODO:
+## TODO
 * Add collision boxes near invincibilty spots on maps
 * Moon: fix sliding sound keep playing when off object 
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -1003,21 +1005,21 @@
 * Fix Der Riese Nikolai viewhands for FG42
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
 
-## GRIEF TODO:
+## GRIEF TODO
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 
-## TESTING:
+## TESTING
 * Moon: check if you can hack box while it is spawning in
 * Moon sidequest dialog in coop without Richtofen
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
 
-## MAYBE:
+## MAYBE
 * Shangri-La: should mud pit sidequest step need the radio to be activated to work?
 * Moon: should teleporter gate start going down before power is on?
 * Should zombies not double swipe if player doesnt have jug?
@@ -1027,7 +1029,7 @@
 * If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
 * Should special rounds always be 5 rounds apart?
 
-## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG):
+## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds
 * Powerup limit per round reset by teleporting on Moon
 * Damaging a zombie resets its hit animation
@@ -1039,7 +1041,7 @@
 * Additional perk machines on maps
 * No more new weapons
 
-## GAME_MOD TODO:
+## GAME_MOD TODO
 * Fix grenades giving more ammo than they should (made fix)
 * Fix being able to buy grenades when you already have max amount (made fix)
 * Fix grenade not throwing when holding fire button with a non-auto weapon (made fix)
@@ -1092,7 +1094,7 @@
 * Fix player names getting changed to "Unknown Soldier" on scoreboard and chat after fast_restart if name is too short
 * Make it so perks that are not engine based only use 1 bit
 
-## SPECIAL THANKS:
+## SPECIAL THANKS
 * **_WARDOG_** - co-developer
 * **_lilrifa_** - assisted with menu scripting
 * **_MasadaDRM_** - assisted with weapons and sounds
@@ -1104,7 +1106,7 @@
 * **_DTZxPorter_** - Wraith
 * **_Treyarch_** - Assets, source code, and an amazing base game
 
-## TESTERS:
+## TESTERS
 * **_FleshCrunch_**
 * **_Ph3Nix_**
 * **_WECoyote99_**
