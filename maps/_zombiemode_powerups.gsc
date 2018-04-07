@@ -3911,9 +3911,16 @@ grief_empty_clip_powerup( item )
 		self SetWeaponAmmoClip( weapon, 0 );
 
 		// if player has mines out, switch weapons since it doesn't happen automatically
-		if(weapon == self get_player_placeable_mine())
+		if(is_player_placeable_mine(weapon))
 		{
-			self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
+			if(IsDefined(self.last_held_primary_weapon) && self HasWeapon(self.last_held_primary_weapon))
+			{
+				self SwitchToWeapon(self.last_held_primary_weapon);
+			}
+			else
+			{
+				self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
+			}
 		}
 	}
 }

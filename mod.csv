@@ -131,6 +131,7 @@ rawfile,maps/zombie_moon_wasteland.gsc
 rawfile,maps/zombie_moon_gravity.gsc
 rawfile,maps/zombie_moon_teleporter.gsc
 rawfile,maps/zombie_moon_amb.gsc
+rawfile,maps/zombie_moon_ffotd.gsc
 
 //CLIENTSCRIPTS
 rawfile,clientscripts/_explosive_bolt.csc

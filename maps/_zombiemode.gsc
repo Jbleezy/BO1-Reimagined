@@ -197,8 +197,6 @@ main()
 	level thread box_weapon_changes();
 
 	level thread increase_revive_radius();
-
-	level thread test_changes();
 }
 
 post_all_players_connected()
@@ -1641,8 +1639,8 @@ difficulty_init()
 		}
 		else
 		{
-			//players[p].score = 500000;
-			players[p].score = 500;
+			players[p].score = 500000;
+			//players[p].score = 500;
 		}
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
@@ -1760,6 +1758,7 @@ onPlayerConnect()
 		player thread sprint_notify();
 		player thread switch_weapons_notify();
 		player thread is_reloading_check();
+		player thread store_last_held_primary_weapon();
 	}
 }
 
@@ -1809,7 +1808,7 @@ onPlayerConnect_clientDvars()
 
 	self SetClientDvar("cg_drawFPSLabels", 0); //makes FPS area in corner smaller
 
-	self SetClientDvar("sv_cheats", 0); //uncomment on release
+	//self SetClientDvar("sv_cheats", 0); //uncomment on release
 
 	self SetClientDvar("g_friendlyFireDist", 0);
 
@@ -2113,7 +2112,7 @@ onPlayerSpawned()
 
 				//self thread player_health_watcher();
 				self thread points_cap();
-				//self thread give_weapons_test();
+				self thread give_weapons_test();
 				//self thread button_pressed_test();
 				//self thread velocity_test();
 
@@ -6326,6 +6325,8 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	if ( game["state"] == "postgame" )
 		return;
 
+	self SetPlayerCollision(0);
+
 	if( isai(attacker) && isDefined( attacker.script_owner ) )
 	{
 		// if the person who called the dogs in switched teams make sure they don't
@@ -9286,13 +9287,6 @@ disable_melee_watcher()
 	}
 }
 
-test_changes()
-{
-	flag_wait("all_players_spawned");
-
-	wait 2;
-}
-
 revive_waypoint()
 {
 	waypoint = "waypoint_second_chance";
@@ -9392,4 +9386,28 @@ hide_and_delete()
 	self Hide();
 	wait .4;
 	self Delete();
+}
+
+store_last_held_primary_weapon()
+{
+	self endon("disconnect");
+
+	while(1)
+	{
+		self waittill( "weapon_change" );
+
+		current_wep = self GetCurrentWeapon();
+
+		wep_prefix = GetSubStr(current_wep, 0, 3);
+		alt_wep = WeaponAltWeaponName(current_wep);
+		if(alt_wep != "none" && (wep_prefix == "gl_" || wep_prefix == "mk_" || wep_prefix == "ft_"))
+		{
+			current_wep = alt_wep;
+		}
+
+		if(is_in_array(self GetWeaponsListPrimaries(), current_wep))
+		{
+			self.last_held_primary_weapon = current_wep;
+		}
+	}
 }

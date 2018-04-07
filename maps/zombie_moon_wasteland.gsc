@@ -980,7 +980,11 @@ perk_machine_arrival_update()
 		{
 			//host can choose which perk initally spawns from game settings
 			level.first_perk = false;
-			if(level.nml_start_perk == "speed")
+			if(level.nml_start_perk == "random")
+			{
+				perk_index = randomintrange( 0, 2 );
+			}
+			else if(level.nml_start_perk == "speed")
 			{
 				perk_index = 0;
 			}
@@ -991,9 +995,13 @@ perk_machine_arrival_update()
 		}
 		else
 		{
-			while( perk_index == level.last_perk_index )
+			if(level.last_perk_index == 0)
 			{
-				perk_index = randomintrange( 0, 2 );
+				perk_index = 1;
+			}
+			else
+			{
+				perk_index = 0;
 			}
 		}
 

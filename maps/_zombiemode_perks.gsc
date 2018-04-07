@@ -1679,7 +1679,7 @@ give_perk( perk, bought )
 		self SetPerk("specialty_fastinteract");
 	}
 
-	//increase burst fire rate with double tap also
+	//increase burst fire rate with double tap
 	if(perk == "specialty_rof")
 	{
 		self SetClientDvar("player_burstFireCoolDown", .14);

@@ -1061,7 +1061,15 @@ spawn_point_override()
 
 	side1 = north_structs;
 	side2 = south_structs;
-	if(GetDvar("asylum_start_room") == "jug")
+	if(GetDvar("asylum_start_room") == "random" || level.gamemode != "survival")
+	{
+		if(RandomIntRange(0, 2) == 0)
+		{
+			side1 = south_structs;
+			side2 = north_structs;
+		}
+	}
+	else if(GetDvar("asylum_start_room") == "jug")
 	{
 		side1 = south_structs;
 		side2 = north_structs;

@@ -270,6 +270,15 @@ store_player_weapons()
 	{
 		self.lastActiveStoredWeap = "microwavegundw_upgraded_zm";
 	}
+
+	//dont store the weapon attachment name as the last active weapon or can't switch to it
+	wep_prefix = GetSubStr(self.lastActiveStoredWeap, 0, 3);
+	alt_wep = WeaponAltWeaponName(self.lastActiveStoredWeap);
+	if(alt_wep != "none" && (wep_prefix == "gl_" || wep_prefix == "mk_" || wep_prefix == "ft_"))
+	{
+		self.lastActiveStoredWeap = alt_wep;
+	}
+
 	self SetLastStandPrevWeap( self.lastActiveStoredWeap );
 
 	self.melee = self get_player_melee_weapon();
@@ -305,19 +314,10 @@ store_player_weapons()
 		self.weaponAmmo[weapon]["clip"] = self GetWeaponAmmoClip( weapon );
 		self.weaponAmmo[weapon]["stock"] = self GetWeaponAmmoStock( weapon );
 
-		self.weaponAmmo[weapon]["clip_dual_wield"] = undefined;
 		dual_wield_name = WeaponDualWieldWeaponName( weapon );
 		if ( dual_wield_name != "none" )
 		{
 			self.weaponAmmo[dual_wield_name]["clip"] = self GetWeaponAmmoClip( dual_wield_name );
-		}
-
-		//dont store the weapon attachment name as the last active weapon or can't switch to it
-		wep_prefix = GetSubStr(weapon, 0, 3);
-		alt_wep = WeaponAltWeaponName(weapon);
-		if(alt_wep != "none" && (wep_prefix == "gl_" || wep_prefix == "mk_" || wep_prefix == "ft_"))
-		{
-			self.lastActiveStoredWeap = alt_wep;
 		}
 	}
 }
@@ -330,9 +330,7 @@ giveback_player_weapons()
 
 		switch( weapon )
 		{
-		// this player was killed while reviving another player
 		case "syrette_sp": 
-
 		case "zombie_perk_bottle_doubletap": 
 		case "zombie_perk_bottle_revive":
 		case "zombie_perk_bottle_jugg":
@@ -341,12 +339,9 @@ giveback_player_weapons()
 		case "zombie_perk_bottle_nuke":
 		case "zombie_perk_bottle_deadshot":
 		case "zombie_perk_bottle_additionalprimaryweapon":
-
 		case "zombie_knuckle_crack":
-
 		case "zombie_bowie_flourish":
 		case "zombie_sickle_flourish":
-
 		case "meat_zm":
 			continue;
 		}
@@ -401,8 +396,7 @@ giveback_player_weapons()
 		self setweaponammoclip(self.mine,2);
 	}
 
-	if( self.lastActiveStoredWeap != "none" && self.lastActiveStoredWeap != "mine_bouncing_betty" && self.lastActiveStoredWeap != "claymore_zm" && self.lastActiveStoredWeap != "spikemore_zm" 
-		&& self.lastActiveStoredWeap != "combat_knife_zm" && self.lastActiveStoredWeap != "combat_bowie_knife_zm" && self.lastActiveStoredWeap != "combat_sickle_knife_zm" )
+	if( self.lastActiveStoredWeap != "none" && !is_placeable_mine(self.lastActiveStoredWeap) && !is_melee_weapon(self.lastActiveStoredWeap) )
 	{
 		self SwitchToWeapon( self.lastActiveStoredWeap );
 	}

@@ -619,6 +619,7 @@
 * Zombies now randomly choose between two animations when tearing down wall barriers
 
 ## Zombies
+* Removed collision from zombies as soon as they are dead
 * Fixed a bug where zombies would bleed out occasionally if they were standing in the same spot they were 30 seconds ago
 * For zombies to not bleed out, a player must now have line of sight to the zombie in addition to looking at the zombie
 * Zombies will now not bleed out if they are in an active zone in addition to being close to a player
@@ -804,6 +805,7 @@
 * Teleporter sounds no longer linked to FPS
 * Announcer tells players when entering a new zone through the airlocks if the zone that the player is going into is not outside
 * Fixed a bug where the sky would turn bright right after restarting the map
+* Removed certain triggers on the map that move players
 
 #### No Man's Land
 * Current No Man's Land round displayed in black where the round number normally is
@@ -948,8 +950,13 @@
 * Unlimited zombies
 
 ## TODO
+* Verruckt: replace Kar98k with Springfield? (WaW version has Springfield)
+* Der Riese: use WaW camo on MP40?
+* Make dual wield weapons reload at the same time
+* Five: fix zombies getting stuck after teleporting
+* Track last held weapon, allow interacting with wall weapons and mystery box weapons with knife out, interacting with them with knife out will switch to last held weapon
 * Add collision boxes near invincibilty spots on maps
-* Moon: fix sliding sound keep playing when off object 
+* Moon: fix sliding sound keep playing when off object
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
 * Turn off Der Riese easter egg song noises after they have been activated
 * Make betties place correctly on Der Riese bridge and new collision
@@ -995,7 +1002,6 @@
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
 * Remove zombie failsafe death print before release
-* Upload mod using PassDropIt
 * QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
 * Health bar for player's health?
 * Fix Wunderwaffe not arcing after first kill rarely (might be fixed)
