@@ -950,11 +950,12 @@
 * Unlimited zombies
 
 ## TODO
+* Moon: fix box not being able to move to box locations that have been hacked after 1 round
+* Buying wall weapon ammo should fully fill clip and stock?
 * Verruckt: replace Kar98k with Springfield? (WaW version has Springfield)
 * Der Riese: use WaW camo on MP40?
 * Make dual wield weapons reload at the same time
 * Five: fix zombies getting stuck after teleporting
-* Track last held weapon, allow interacting with wall weapons and mystery box weapons with knife out, interacting with them with knife out will switch to last held weapon
 * Add collision boxes near invincibilty spots on maps
 * Moon: fix sliding sound keep playing when off object
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -1019,7 +1020,6 @@
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ## TESTING
-* Moon: check if you can hack box while it is spawning in
 * Moon sidequest dialog in coop without Richtofen
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)

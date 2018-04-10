@@ -3917,9 +3917,18 @@ grief_empty_clip_powerup( item )
 			{
 				self SwitchToWeapon(self.last_held_primary_weapon);
 			}
-			else
+			else if(IsDefined(self GetWeaponsListPrimaries()[0]))
 			{
 				self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
+			}
+			else
+			{
+				melee = self get_player_melee_weapon();
+				if(IsDefined(melee))
+				{
+					wep = "combat_" + melee;
+					self SwitchToWeapon(wep);
+				}
 			}
 		}
 	}

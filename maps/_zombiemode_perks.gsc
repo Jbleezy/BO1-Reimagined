@@ -414,14 +414,6 @@ vending_machine_trigger_think()
 		 		{
 		 			self SetInvisibleToPlayer( players[i], true );
 		 		}
-				else if( flag("pack_machine_in_use") && is_melee_weapon(current_weapon) && primaryWeapons.size > 0 )
-				{
-					self SetInvisibleToPlayer( players[i], true );
-				}
-				else if(!flag("pack_machine_in_use") && is_melee_weapon(current_weapon))
-				{
-					self SetInvisibleToPlayer( players[i], true );
-				}
 				else if ( !flag("pack_machine_in_use") && !IsDefined( level.zombie_include_weapons[current_weapon] ) )
 				{
 					self SetInvisibleToPlayer( players[i], true );
@@ -515,18 +507,35 @@ vending_weapon_upgrade()
 			continue;
 		}
 
-		if( is_melee_weapon(current_weapon) )
-		{
-			wait(0.1);
- 			continue;
-		}
-
 		if ( player.score < self.cost )
 		{
 			//player iprintln( "Not enough points to buy Perk: " + perk );
 			self playsound("deny");
 			player maps\_zombiemode_audio::create_and_play_dialog( "general", "perk_deny", undefined, 0 );
 			continue;
+		}
+
+		if( is_melee_weapon(current_weapon) || is_placeable_mine(current_weapon) )
+		{
+			if(IsDefined(player.last_held_primary_weapon) && player HasWeapon(player.last_held_primary_weapon))
+			{
+				player SwitchToWeapon(player.last_held_primary_weapon);
+			}
+			else if(IsDefined(player GetWeaponsListPrimaries()[0]))
+			{
+				player SwitchToWeapon(player GetWeaponsListPrimaries()[0]);
+			}
+			else if(!is_melee_weapon(current_weapon))
+			{
+				melee = player get_player_melee_weapon();
+				if(IsDefined(melee))
+				{
+					wep = "combat_" + melee;
+					player SwitchToWeapon(wep);
+				}
+			}
+			
+ 			continue;
 		}
 
 		self.user = player;
@@ -660,13 +669,45 @@ wait_for_player_to_take( player, weapon, packa_timer )
 		if( trigger_player == player )
 		{
 			current_weapon = player GetCurrentWeapon();
-/#
-if ( "none" == current_weapon )
-{
-	iprintlnbold( "WEAPON IS NONE, PACKAPUNCH RETRIEVAL DENIED" );
-}
-#/
-			if( is_player_valid( player ) && !player is_drinking() && !is_placeable_mine( current_weapon ) && !is_equipment( current_weapon ) && "syrette_sp" != current_weapon && "none" != current_weapon && !player hacker_active())
+
+			/#
+			if ( "none" == current_weapon )
+			{
+				iprintlnbold( "WEAPON IS NONE, PACKAPUNCH RETRIEVAL DENIED" );
+			}
+			#/
+
+			primaryWeapons = player GetWeaponsListPrimaries();
+			weapon_limit = 2;
+			if( player HasPerk( "specialty_additionalprimaryweapon" ) )
+		 	{
+		 		weapon_limit = 3;
+		 	}
+
+			if( ( is_melee_weapon(current_weapon) || is_placeable_mine(current_weapon) ) && primaryWeapons.size >= weapon_limit )
+			{
+				if(IsDefined(player.last_held_primary_weapon) && player HasWeapon(player.last_held_primary_weapon))
+				{
+					player SwitchToWeapon(player.last_held_primary_weapon);
+				}
+				else if(IsDefined(player GetWeaponsListPrimaries()[0]))
+				{
+					player SwitchToWeapon(player GetWeaponsListPrimaries()[0]);
+				}
+				else if(!is_melee_weapon(current_weapon))
+				{
+					melee = player get_player_melee_weapon();
+					if(IsDefined(melee))
+					{
+						wep = "combat_" + melee;
+						player SwitchToWeapon(wep);
+					}
+				}
+				
+	 			continue;
+			}
+
+			if( is_player_valid( player ) && !player is_drinking() && !is_equipment( current_weapon ) && "syrette_sp" != current_weapon && "none" != current_weapon && !player hacker_active())
 			{
 				self notify( "pap_taken" );
 				player notify( "pap_taken" );

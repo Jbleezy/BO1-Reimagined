@@ -1351,8 +1351,22 @@ treasure_chest_think()
 				primaryWeapons = grabber GetWeaponsListPrimaries();
 			}
 
-			if( grabber != level && is_melee_weapon(grabber GetCurrentWeapon()) && primaryWeapons.size > 0 )
+			weapon_limit = 2;
+			if( grabber HasPerk( "specialty_additionalprimaryweapon" ) )
+		 	{
+		 		weapon_limit = 3;
+		 	}
+
+			if( grabber != level && ( is_melee_weapon(grabber GetCurrentWeapon()) || is_placeable_mine(grabber GetCurrentWeapon()) ) && primaryWeapons.size >= weapon_limit )
 			{
+				if(IsDefined(grabber.last_held_primary_weapon) && grabber HasWeapon(grabber.last_held_primary_weapon))
+				{
+					grabber SwitchToWeapon(grabber.last_held_primary_weapon);
+				}
+				else
+				{
+					grabber SwitchToWeapon(primaryWeapons[0]);
+				}
 				wait( 0.1 );
 				continue;
 			}
@@ -1646,11 +1660,7 @@ decide_hide_show_hint( endon_notify )
 		if(IsDefined(self.chest_user) && !IsDefined(self.box_rerespun)) //box when it is up
 		{
 			primaryWeapons = self.chest_user GetWeaponsListPrimaries();
-			if(is_melee_weapon(self.chest_user GetCurrentWeapon()) && primaryWeapons.size > 0)
-			{
-				self SetInvisibleToPlayer( self.chest_user, true );
-			}
-			else if( self.chest_user can_buy_weapon())
+			if( self.chest_user can_buy_weapon())
 			{
 				self SetInvisibleToPlayer( self.chest_user, false );
 			}
@@ -1680,10 +1690,6 @@ decide_hide_show_hint( endon_notify )
 						self SetInvisibleToPlayer( players[i], true );
 					}
 					else if( players[i] can_buy_weapon())
-					{
-						self SetInvisibleToPlayer( players[i], false );
-					}
-					else if( is_melee_weapon(current_weapon) )
 					{
 						self SetInvisibleToPlayer( players[i], false );
 					}
@@ -1743,6 +1749,8 @@ decide_hide_show_hint( endon_notify )
 					}
 					player_ammo = undefined;
 					max_ammo = undefined;
+					player_alt_ammo = undefined;
+					max_alt_ammo = undefined;
 					if(has_weapon)
 					{
 						player_ammo = players[i] GetAmmoCount(self.zombie_weapon_upgrade);
@@ -1755,31 +1763,34 @@ decide_hide_show_hint( endon_notify )
 						{
 							max_ammo = 4;
 						}
+
+						alt_weapon = WeaponAltWeaponName(self.zombie_weapon_upgrade);
+						if(alt_weapon != "none")
+						{
+							player_alt_ammo = players[i] GetAmmoCount(alt_weapon);
+							max_alt_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
+						}
 					}
 					else if(has_weapon_upgrade)
 					{
 						player_ammo = players[i] GetAmmoCount(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
 						max_ammo = WeaponMaxAmmo(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name) + WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
+
+						alt_weapon = WeaponAltWeaponName(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
+						if(alt_weapon != "none")
+						{
+							player_alt_ammo = players[i] GetAmmoCount(alt_weapon);
+							max_alt_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
+						}
 					}
 
-					if(IsDefined(player_ammo) && IsDefined(max_ammo) && player_ammo == max_ammo)
+					if(IsDefined(player_ammo) && IsDefined(max_ammo) && !IsDefined(player_alt_ammo) && !IsDefined(max_alt_ammo) && player_ammo == max_ammo)
 					{
 						self SetInvisibleToPlayer( players[i], true );
 					}
-					else if(is_melee_weapon(current_weapon))
+					else if(IsDefined(player_ammo) && IsDefined(max_ammo) && IsDefined(player_alt_ammo) && IsDefined(max_alt_ammo) && player_ammo == max_ammo && player_alt_ammo == max_alt_ammo)
 					{
-						if(primaryWeapons.size == 0 || players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade) || weapon_type == "grenade")
-						{
-							self SetInvisibleToPlayer( players[i], false );
-						}
-						else
-						{
-							self SetInvisibleToPlayer( players[i], true );
-						}
-					}
-					else if(is_placeable_mine(current_weapon) && (players[i] has_weapon_or_upgrade(self.zombie_weapon_upgrade) || weapon_type == "grenade"))
-					{
-						self SetInvisibleToPlayer( players[i], false );
+						self SetInvisibleToPlayer( players[i], true );
 					}
 					else if( players[i] can_buy_weapon() )
 					{
@@ -1802,11 +1813,7 @@ decide_hide_show_hint( endon_notify )
 					current_weapon = players[i] GetCurrentWeapon();
 					primaryWeapons = players[i] GetWeaponsListPrimaries();
 
-					if(is_melee_weapon(current_weapon) && primaryWeapons.size > 0)
-					{
-						self SetInvisibleToPlayer( players[i], true );
-					}
-					else if( players[i] can_buy_weapon())
+					if( players[i] can_buy_weapon())
 					{
 						self SetInvisibleToPlayer( players[i], false );
 					}
@@ -1875,7 +1882,7 @@ can_buy_weapon()
 	}
 
 	current_weapon = self GetCurrentWeapon();
-	if( is_placeable_mine( current_weapon ) || is_equipment( current_weapon ) )
+	if( is_equipment( current_weapon ) )
 	{
 		return false;
 	}
@@ -2661,6 +2668,8 @@ treasure_chest_weapon_spawn( chest, player, respin )
 
 			self.weapon_string = undefined;
 
+			// Delete and respawn the weapon model for the teddy bear so that it faces the correct angle right away
+
 			origin = self.weapon_model.origin;
 
 			self.weapon_model Delete();
@@ -3128,7 +3137,7 @@ treasure_chest_give_weapon( weapon_string )
 	}
 	if (weapon_string == "ray_gun_zm")
 	{
-			playsoundatposition ("mus_raygun_stinger", (0,0,0));
+		playsoundatposition("mus_raygun_stinger", (0,0,0));
 	}
 
 	self GiveWeapon( weapon_string, 0 );
@@ -3136,7 +3145,6 @@ treasure_chest_give_weapon( weapon_string )
 	self SwitchToWeapon( weapon_string );
 
 	self play_weapon_vo(weapon_string);
-
 }
 
 
@@ -3380,6 +3388,26 @@ weapon_spawn_think()
 			// else make the weapon show and give it
 			if( player.score >= cost )
 			{
+				primaryWeapons = player GetWeaponsListPrimaries();
+				weapon_limit = 2;
+				if( player HasPerk( "specialty_additionalprimaryweapon" ) )
+			 	{
+			 		weapon_limit = 3;
+			 	}
+
+				if( ( is_melee_weapon(player GetCurrentWeapon()) || is_placeable_mine(player GetCurrentWeapon()) ) && primaryWeapons.size >= weapon_limit )
+				{
+					if(IsDefined(player.last_held_primary_weapon) && player HasWeapon(player.last_held_primary_weapon))
+					{
+						player SwitchToWeapon(player.last_held_primary_weapon);
+					}
+					else
+					{
+						player SwitchToWeapon(primaryWeapons[0]);
+					}
+					continue;
+				}
+
 				if( self.first_time_triggered == false )
 				{
 					if(self.zombie_weapon_upgrade == "kiparis_zm")
@@ -3820,7 +3848,7 @@ ammo_give( weapon )
 		max_ammo += WeaponClipSize(weapon);
 	}
 
-	if((GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2") && is_offhand_weapon(weapon))
+	if(is_offhand_weapon(weapon) && (GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2"))
 	{
 		max_ammo = 4;
 	}
@@ -3829,6 +3857,21 @@ ammo_give( weapon )
 	if( self getammocount( weapon ) < max_ammo )
 	{
 		give_ammo = true;
+	}
+
+	if(!give_ammo)
+	{
+		alt_weapon = WeaponAltWeaponName(weapon);
+
+		if(alt_weapon != "none")
+		{
+			max_alt_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
+
+			if( self getammocount( alt_weapon ) < max_alt_ammo )
+			{
+				give_ammo = true;
+			}
+		}
 	}
 
 	// Check to see if ammo belongs to a primary weapon
