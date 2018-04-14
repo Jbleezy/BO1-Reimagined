@@ -386,7 +386,7 @@ init_summon_box(create)
 
 summon_box_thread(hacker)
 {
-	self.chest.last_hacked_round = level.round_number + 1;
+	self.chest.last_hacked_round = level.round_number;
 
 	maps\_zombiemode_equip_hacker::deregister_hackable_struct(self);
 
@@ -429,7 +429,7 @@ summon_box(hacker)
 summon_box_qualifier(player)
 {
 
-	if(self.chest.last_hacked_round > level.round_number)
+	if(self.chest.last_hacked_round >= level.round_number)
 	{
 		return false;
 	}

@@ -950,24 +950,14 @@
 * Unlimited zombies
 
 ## TODO
-* Moon: fix box not being able to move to box locations that have been hacked after 1 round
-* Buying wall weapon ammo should fully fill clip and stock?
-* Verruckt: replace Kar98k with Springfield? (WaW version has Springfield)
-* Der Riese: use WaW camo on MP40?
 * Make dual wield weapons reload at the same time
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
-* Moon: fix sliding sound keep playing when off object
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
-* Turn off Der Riese easter egg song noises after they have been activated
-* Make betties place correctly on Der Riese bridge and new collision
 * Five: get wall barrier tear down sound and metal vent barrier rebuild sound from other maps working
 * Five: try linking powerups and meat to elevator if spawned in elevator
-* Use Sleepy when game crashes on map load
 * Try making dvars unchangeable from console
 * Fix bouncing betties from repeating place sound on Der Riese added curb collision
-* COTD: fix bug where director does not do angry anim when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
-* Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
 * Find out how to get MagicBullet() to not effect players (for starbust QED weapons)
@@ -975,65 +965,78 @@
 * Give players the same basic model on Nacht and Verruckt
 * Fix trench gun 3rd person sounds being too loud
 * Add stielhandgranate icon on HUD
-* Fix barrel textures on Der Riese? (Haven't had it happen again)
 * Find a way to be able to shoot through more than 3 zombies
-* Figure out bug that causes cosmonaut to delete himself occasionally (might be fixed)
-* Make insta kill powerups work in high rounds (might be fixed)
-* Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge (might be fixed)
-* Fix Ascension monkey pathing (might be fixed)
-* Fix kino round skip bug (might be fixed)
 * Fix low grav with increased FPS (might be engine based)
 * Remove blur when paused ingame
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
-* Remove marks on background of Deadshot perk shader
-* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
+* Remove marks on background of Deadshot perk shader while still allowing players to modify the Deadshot perk shader
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
-* Add fast ADS to Speed Cola (when it becomes possible through game_mod)
-* Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
-* Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
-* Change type 100 reserve ammo to 180 unupgraded, 240 upgraded (from weapon file)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Get WaW weapon files of classic map weapons working
-* Upgraded Kar98k: 50 round clip, no reserve ammo
 * DOA: add 1st person mode in settings
 * DOA: make fates not randomized
-* Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
 * Show player's perks when spectating (player.spectatorclient?)
 * Get Ballistic Sickle weapon files completely working
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
-* Remove zombie failsafe death print before release
 * QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
 * Health bar for player's health?
-* Fix Wunderwaffe not arcing after first kill rarely (might be fixed)
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Add sprint and dive anims on waw weapons
 * Fix sprint and dive anims on ray gun
 * Fix Der Riese Nikolai viewhands for FG42
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
+* Use Sleepy when game crashes on map load
+* Remove zombie failsafe death print before release
 
-## GRIEF TODO
+### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add EMP grenades to grief
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 
-## TESTING
+### Cannot Find Fix
+* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
+* Turn off Der Riese easter egg song noises after they have been activated
+* Make betties place correctly on Der Riese bridge and new collision
+* Moon: fix sliding sound keep playing when off object
+
+### Might Be Fixed
+* Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
+* Figure out bug that causes cosmonaut to delete himself occasionally
+* Make insta kill powerups work in high rounds
+* Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge
+* Fix Ascension monkey pathing
+* Fix kino round skip bug
+* Fix barrel textures on Der Riese
+* COTD: fix bug where director does not do angry anim when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
+* Fix Wunderwaffe not arcing after first kill rarely (might be fixed)
+* Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
+
+### Cannot Do Yet
+* Add fast ADS to Speed Cola (when it becomes possible through game_mod)
+* Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
+* Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
+* Change type 100 reserve ammo to 180 unupgraded, 240 upgraded (need weapon file)
+* Upgraded Kar98k: 50 round clip, no reserve ammo (need weapon file)
+
+### Maybe 
+* Verruckt: replace Kar98k with Springfield? (WaW version has Springfield)
+* Der Riese: use WaW camo on MP40?
+* Shangri-La: should mud pit sidequest step need the radio to be activated to work? No
+* Moon: should teleporter gate start going down before power is on? No
+* Should there be a zombie spawn delay?
+* Kiparis as box weapon?
+* Should NML have insta kill rounds? No
+* If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
+* Should special rounds always be 5 rounds apart?
+
+### Testing
 * Moon sidequest dialog in coop without Richtofen
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
-
-## MAYBE
-* Shangri-La: should mud pit sidequest step need the radio to be activated to work?
-* Moon: should teleporter gate start going down before power is on?
-* Should zombies not double swipe if player doesnt have jug?
-* Should there be a zombie spawn delay?
-* Kiparis as box weapon?
-* Should NML have insta kill rounds?
-* If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
-* Should special rounds always be 5 rounds apart?
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds
