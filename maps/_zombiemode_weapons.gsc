@@ -1764,6 +1764,13 @@ decide_hide_show_hint( endon_notify )
 							max_ammo = 4;
 						}
 
+						dual_wield_weapon = WeaponDualWieldWeaponName(self.zombie_weapon_upgrade);
+						if(dual_wield_weapon != "none")
+						{
+							max_ammo += WeaponClipSize(dual_wield_weapon);
+							player_ammo += players[i] GetWeaponAmmoClip(dual_wield_weapon);
+						}
+
 						alt_weapon = WeaponAltWeaponName(self.zombie_weapon_upgrade);
 						if(alt_weapon != "none")
 						{
@@ -1775,6 +1782,13 @@ decide_hide_show_hint( endon_notify )
 					{
 						player_ammo = players[i] GetAmmoCount(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
 						max_ammo = WeaponMaxAmmo(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name) + WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
+
+						dual_wield_weapon = WeaponDualWieldWeaponName(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
+						if(dual_wield_weapon != "none")
+						{
+							max_ammo += WeaponClipSize(dual_wield_weapon);
+							player_ammo += players[i] GetWeaponAmmoClip(dual_wield_weapon);
+						}
 
 						alt_weapon = WeaponAltWeaponName(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
 						if(alt_weapon != "none")
@@ -3504,7 +3518,9 @@ weapon_spawn_think()
 						model useweaponhidetags( self.zombie_weapon_upgrade );
 					}
 					else
+					{
 						model = getent( self.target, "targetname" );
+					}
 					//model show();
 					model thread weapon_show( player );
 					self.first_time_triggered = true;
@@ -3853,8 +3869,17 @@ ammo_give( weapon )
 		max_ammo = 4;
 	}
 
+	ammo_count = self GetAmmoCount( weapon );
+
+	dual_wield_weapon = WeaponDualWieldWeaponName( weapon );
+	if(dual_wield_weapon != "none")
+	{
+		max_ammo += WeaponClipSize(dual_wield_weapon);
+		ammo_count += self GetWeaponAmmoClip(dual_wield_weapon);
+	}
+
 	// compare it with the ammo player actually has, if more or equal just dont give the ammo, else do
-	if( self getammocount( weapon ) < max_ammo )
+	if( ammo_count < max_ammo )
 	{
 		give_ammo = true;
 	}
@@ -3936,6 +3961,13 @@ ammo_give( weapon )
 	if( give_ammo )
 	{
 		self play_sound_on_ent( "purchase" );
+
+		ammo_to_remove = 0;
+		if(dual_wield_weapon != "none")
+		{
+			ammo_to_remove = WeaponClipSize(weapon) + WeaponClipSize(dual_wield_weapon) - self GetWeaponAmmoClip(weapon) - self GetWeaponAmmoClip(dual_wield_weapon);
+		}
+
 		if((GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2") && is_offhand_weapon( weapon ))
 		{
 			self SetWeaponAmmoClip( weapon, 4 );
@@ -3944,6 +3976,13 @@ ammo_give( weapon )
 		{
 			self GiveStartAmmo( weapon );
 		}
+
+		// on dual wield weapons, ammo from stock isn't removed when filling clips
+		if(dual_wield_weapon != "none")
+		{
+			self SetWeaponAmmoStock(weapon, self GetWeaponAmmoStock(weapon) - ammo_to_remove);
+		}
+
 		return true;
 	}
 	return false;

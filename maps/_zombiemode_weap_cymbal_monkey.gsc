@@ -110,7 +110,7 @@ player_handle_cymbal_monkey()
 		}
 
 		self.script_noteworthy = undefined;
-		level thread cymbal_monkey_stolen_by_sam( self, model );
+		level thread cymbal_monkey_stolen_by_sam( grenade, model );
 	}
 }
 
@@ -320,4 +320,8 @@ cymbal_monkey_stolen_by_sam( ent_grenade, ent_model )
 
 	// delete it
 	ent_model Delete();
+	if( IsDefined(ent_grenade) )
+	{
+		ent_grenade Delete();
+	}
 }

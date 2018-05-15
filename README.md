@@ -188,7 +188,7 @@
 * Upgraded: zombies now get attracted immediately
 
 ### CZ75 Dual Wield
-* Decreased recoil
+* Reduced recoil
 
 ### Dragunov
 * Removed (replaced by PSG1)
@@ -421,8 +421,11 @@
 * All other effects and random powerup effect have a chance of spawning when none of the forced effects are activated
 
 ## Wallbuys
-* Can now purchase ammo if reserve ammo is full but clip ammo is not full
 * Upgraded ammo cost reduced from 4500 points to 2500 points
+* Can now purchase ammo if reserve ammo is full but clip ammo is not full
+* Can now purchase ammo for weapons with attachments if only the attachment ammo is not full
+* Can now purchase ammo for dual wield weapons if only the left weapon clip is not full
+* Purchasing ammo for dual wield weapons will no longer fully fill the stock ammo if either of the clips are not full
 * Multiple players can now buy the Bowie Knife or Sickle at the same time
 * Claymores, Bouncing Betties, and Spikemores now all require the player to be looking at the wallbuy to be able to buy them
 * Sniper cabinet: weapon ammo now costs exactly 25% the cost of the weapon
@@ -951,9 +954,6 @@
 * Unlimited zombies
 
 ## TODO
-* Fix dual wield weapon wall buys from fully filling stock ammo if clip ammo is not full
-* Fix Monkey Bombs still exploding after being deleted from being out of the map
-* Make dual wield weapons reload at the same time
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
