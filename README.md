@@ -182,13 +182,13 @@
 * Unupgraded: maximum explosion damage - 800
 * Unupgraded: minimum explosion damage - 400
 * Upgraded: increased impact damage from 675 to 2250 (weapon file shows it is suppose to do this amount of damage but it does not)
-* Upgraded: increased impact damage from 3000 to 9000
+* Upgraded: increased headshot impact damage from 3000 to 9000
 * Upgraded: maximum explosion damage - 2500
 * Upgraded: minimum explosion damage - 1250
 * Upgraded: zombies now get attracted immediately
 
 ### CZ75 Dual Wield
-* Upgraded: reduced recoil
+* Decreased recoil
 
 ### Dragunov
 * Removed (replaced by PSG1)
@@ -276,6 +276,7 @@
 ### Ray Gun
 * Ammo now gets added to the clip at the same time that it does in the reload animation
 * Always makes crawlers on first damage on an enemy
+* Removed weapon bob from movement
 * Added sprint and dive animations
 * Decreased first raise time from 2.4 seconds to 1.2 seconds
 * Unupgraded: impact damage - 2500
@@ -950,6 +951,8 @@
 * Unlimited zombies
 
 ## TODO
+* Fix dual wield weapon wall buys from fully filling stock ammo if clip ammo is not full
+* Fix Monkey Bombs still exploding after being deleted from being out of the map
 * Make dual wield weapons reload at the same time
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
@@ -986,20 +989,18 @@
 * Fix sprint and dive anims on ray gun
 * Fix Der Riese Nikolai viewhands for FG42
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
+* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
-* Add EMP grenades to grief
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ### Cannot Find Fix
-* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Turn off Der Riese easter egg song noises after they have been activated
-* Make betties place correctly on Der Riese bridge and new collision
 * Moon: fix sliding sound keep playing when off object
 
 ### Might Be Fixed
@@ -1011,7 +1012,7 @@
 * Fix kino round skip bug
 * Fix barrel textures on Der Riese
 * COTD: fix bug where director does not do angry anim when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
-* Fix Wunderwaffe not arcing after first kill rarely (might be fixed)
+* Fix Wunderwaffe not arcing after first kill rarely
 * Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
 
 ### Cannot Do Yet
