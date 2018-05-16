@@ -1,0 +1,620 @@
+#include "ui/menudef.h"
+#include "ui_mp/common_macro.inc"
+#include "ui/frame.inc"
+
+#define CHOICE_GROUP					"pausemenu"
+
+#include "ui/framestyle.inc"
+#include "ui/choices_setup_common.menu"
+
+#ifdef PC	
+	#undef  CHOICE_X_START
+	#define CHOICE_X_START				50
+	#undef  CHOICE_Y_START
+	#define CHOICE_Y_START				75
+	
+	#define	ZOMBIE_X_SHIFT				exp rect X(50 + dvarint(zombietron)*66)
+	#define	ZOMBIE_OPTION_X_SHIFT		exp rect X(192 + dvarint(zombietron)*66)
+	#define ZOMBIE_X_SIZE				exp rect W(CHOICE_SIZE_X*2)
+	
+	#undef CHOICE_TEXTSIZE
+	#define CHOICE_TEXTSIZE				TEXTSIZE_DEFAULT
+	#undef CHOICE_SIZE_X
+	#define CHOICE_SIZE_X				215
+#else
+	#undef  CHOICE_X_START
+	#define CHOICE_X_START				50
+	#undef  CHOICE_Y_START
+	#define CHOICE_Y_START				94//130
+	
+	#define ZOMBIE_X_SHIFT				;
+#endif
+
+#undef CHOICE_HORIZONTAL_ALIGN
+#define CHOICE_HORIZONTAL_ALIGN			HORIZONTAL_ALIGN_LEFT
+
+#undef CHOICE_VERTICAL_ALIGN
+#define CHOICE_VERTICAL_ALIGN			VERTICAL_ALIGN_TOP
+
+#undef MEDIUM_GRAY
+#define MEDIUM_GRAY						0.4 0.4 0.4 0.5
+
+#define PAUSESCREEN_OPTION_SIZE			(BUTTON_BG_WIDTH-15) 30
+
+#undef CHOICE_BUTTON_NAME
+#define CHOICE_BUTTON_NAME		"pausedmenu_"
+#undef MENUDEF_NAME
+#define MENUDEF_NAME			pausedmenu
+
+
+{
+	// Pause menu
+	menuDef
+	{
+		name			"pausedmenu"
+		fullScreen		0
+		rect			0 0 640 480 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+		focusColor		COLOR_FOCUSED
+		allowedBinding	"pause"
+
+		onOpen
+		{
+#ifndef PC
+			if( IsSplitscreen() && !dvarBool( onlinegame ) && !dvarBool( systemlink ) )
+			{
+				exec "fullscreenview";
+			}
+			elseif( IsSplitscreen() && ( dvarBool( onlinegame ) || dvarBool( systemlink ) ) && !dvarBool( zombietron ) )
+			{
+				close self;
+				open "pausedmenu_splitscreen";
+			}
+#endif	
+
+#ifdef PS3
+			hide "controls_buttons_set10";
+#else
+			hide "controls_buttons_set6";
+#endif
+			if ( dvarBool(#"zombietron") )
+			{
+#ifdef PS3
+				show "controls_buttons_set10";
+#else
+				show "controls_buttons_set6";
+#endif
+			}
+
+			showMenu "pausedbkgnd"
+			showMenu "zombietron_pausedbkgnd"
+			showMenu "objectiveinfo"
+			showMenu "overheadmap"
+						
+			focusfirst;
+			nosavehide "saveandquit"
+			saveAvailableHide "quit";
+//			profilehide "quitnoprofile"
+#ifdef PC
+//			nosavehide "quitnosave"
+			exec "update_sv_savegameavailable"
+#endif
+		}
+		onClose
+		{
+			hideMenu "pausedbkgnd"
+			hideMenu "zombietron_pausedbkgnd"
+			hideMenu "objectiveinfo"
+			hideMenu "overheadmap"
+#ifndef PC
+			execNow if( IsSplitscreen() && !dvarBool( onlinegame ) && !dvarBool( ui_options_open ) ) "splitscreenview";
+#endif	
+		}
+		onEsc
+		{
+			close pausedmenu;
+		}
+
+#define ENABLE_GPAD_ACTION													\
+	if( dvarBool( gpad_enabled ) )											\
+	{																		\
+		/*Store off the current mouse/keyboard settings to a .cfg file*/	\
+		exec "saveKeys";													\
+		execNow "updategamerprofile";										\
+	}																		\
+	else																	\
+	{																		\
+		/*Recall the mouse/keyboard settings from the stored .cfg file*/	\
+		exec "restoreKeys";													\
+	}
+
+		// Gamepad Enabled
+		FRAME_CHOICE_DVARYESNO_FOCUS_VIS_EX2(	7, "@PLATFORM_ENABLE_GAMEPAD_CAPS", gpad_enabled, ENABLE_GPAD_ACTION,
+												SET_HINT_TEXT( "@PLATFORM_ENABLE_GAMEPAD_DESC" ),
+												CLEARUIHINT, dvarBool(zombietron) && ( dvarbool( gpad_present ) || dvarbool( gpad_enabled ) ), ZOMBIE_X_SHIFT )
+
+#undef CHOICE_TEXTCOLOR
+#define CHOICE_TEXTCOLOR MEDIUM_GRAY
+		FRAME_CHOICE_DBUTTON_DARK_FOCUS_VIS_EX(	7, "@PLATFORM_ENABLE_GAMEPAD_CAPS", ;, ;, dvarBool(zombietron) && ( !dvarbool( gpad_present ) && !dvarbool( gpad_enabled ) ), ZOMBIE_X_SHIFT )
+		FRAME_CHOICE_DBUTTON_DARK_LIST_VIS_EX(	7, gpad_enabled, ITEM_TYPE_MULTI, dvarFloatList { "@MENU_NO_CAPS" 0 "@MENU_YES_CAPS" 1 }, ;, 
+												dvarBool(zombietron) && ( !dvarbool( gpad_present ) && !dvarbool( gpad_enabled ) ), ZOMBIE_OPTION_X_SHIFT; exp rect W(0); )
+#undef CHOICE_TEXTCOLOR
+#define CHOICE_TEXTCOLOR	1 1 1 1
+
+		FRAME_CHOICE_BIND_VIS_EX( 9,	"@MENU_FORWARD_CAPS",			"+forward",		;, ( dvarBool(zombietron) && !dvarbool( gpad_enabled ) ), 1, ZOMBIE_X_SHIFT; ZOMBIE_X_SIZE )
+		FRAME_CHOICE_BIND_VIS_EX( 10,	"@MENU_BACKPEDAL_CAPS",			"+back",		;, ( dvarBool(zombietron) && !dvarbool( gpad_enabled ) ), 1, ZOMBIE_X_SHIFT; ZOMBIE_X_SIZE )
+		FRAME_CHOICE_BIND_VIS_EX( 11,	"@MENU_MOVE_LEFT_CAPS",			"+moveleft",	;, ( dvarBool(zombietron) && !dvarbool( gpad_enabled ) ), 1, ZOMBIE_X_SHIFT; ZOMBIE_X_SIZE )
+		FRAME_CHOICE_BIND_VIS_EX( 12,	"@MENU_MOVE_RIGHT_CAPS",		"+moveright",	;, ( dvarBool(zombietron) && !dvarbool( gpad_enabled ) ), 1, ZOMBIE_X_SHIFT; ZOMBIE_X_SIZE )
+		FRAME_CHOICE_BIND_VIS_EX( 13,	"@PLATFORM_FIRE_CAPS",			"+attack",		;, ( dvarBool(zombietron) && !dvarbool( gpad_enabled ) ), 1, ZOMBIE_X_SHIFT; ZOMBIE_X_SIZE )
+		FRAME_CHOICE_BIND_VIS_EX( 14,	"@PLATFORM_TACTICAL_BOMB_CAPS",	"+frag",		;, ( dvarBool(zombietron) && !dvarbool( gpad_enabled ) ), 1, ZOMBIE_X_SHIFT; ZOMBIE_X_SIZE )
+		FRAME_CHOICE_BIND_VIS_EX( 15,	"@PLATFORM_SPEED_BOOST_CAPS",	"+gostand",		;, ( dvarBool(zombietron) && !dvarbool( gpad_enabled ) ), 1, ZOMBIE_X_SHIFT; ZOMBIE_X_SIZE )
+
+#ifndef PC
+		#define BUTTON_VISIBLE	dvarBool(#"zombietron")
+
+		#undef BUTTON_Y_START
+
+#ifdef PS3
+		#define BUTTON_Y_START						85
+#else //#ifdef PS3
+		#define BUTTON_Y_START						105
+#endif //#ifdef PS3
+		#include "ui/controls_thumbstick_set.menu"
+
+		#undef BUTTON_Y_START
+		#undef BUTTON_VISIBLE
+		#define BUTTON_VISIBLE	0
+		#include "ui_mp/controls_buttons_set.menu"
+#else //#ifndef PC
+		#define BUTTON_VISIBLE	( dvarBool( zombietron ) && dvarBool( gpad_enabled ) )
+		#undef BUTTON_X_START
+		#define BUTTON_X_START						82
+		#undef BUTTON_Y_START
+		#define BUTTON_Y_START						170
+		#include "ui/controls_thumbstick_set.menu"
+		#include "ui/controls_buttons_set.menu"
+#endif //#ifndef PC
+
+
+
+#undef BUTTON_BG_Y_START
+#define BUTTON_BG_Y_START		40
+		itemDef
+		{
+			name			"pausedMsg"
+			type			ITEM_TYPE_TEXT
+			text			"@MENU_PAUSED_CAPS"
+			rect			CHOICE_X_START BUTTON_BG_Y_START PAUSESCREEN_OPTION_SIZE HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			forecolor		COLOR_TITLE
+			textscale		TEXTSIZE_TITLE
+			textfont		UI_FONT_EXTRABIG
+			textalign		ITEM_ALIGN_TOP_LEFT
+			visible			when( !dvarbool( systemlink ) && !dvarbool( onlinegame ) )
+			decoration
+#ifdef PC
+			exp				rect X( 50 + dvarint(zombietron) * 66 )
+#endif // PC	
+		}
+		
+#define SETUP_ACTION_ZOMBIEMODE_QUIT \
+			exec "disconnect";
+
+#ifdef PC 
+	#define SETUP_ACTION_MENU_CONTROLS \
+				close self; \
+				open "options_controls_new_pc"; 
+				
+	#define SETUP_ACTION_MENU_OPTIONS \
+				execnow "set ui_allow_graphic_change 0"; \
+				close self; \
+				open "options_new_pc"; 				
+
+#else
+	#define SETUP_ACTION_MENU_CONTROLS \
+				open "ingame_controls"; 
+
+	#define SETUP_ACTION_MENU_OPTIONS \
+				execNow set ui_options_open "1";	\
+				open "ingameoptions";				\
+				close self;
+#endif //#ifdef PC
+
+
+
+#define NOT_CUSTOM_MATCH \
+		( !dvarbool( systemlink ) && !dvarbool( xblive_privatematch ) )
+
+//NEW DEFINES
+#define IS_CAMPAIGN				( !dvarbool( zombiemode ) )
+#define IS_ZOMBIES				( dvarbool( zombiemode ) )
+#define IS_ZOMBIES_RESTART		( LOCAL_MATCH && (( SPLITSCREEN_HOST && NOT_CUSTOM_MATCH ) || ( dvarBool( sv_running ) && CUSTOM_MATCH && !dvarbool( splitscreen )))  )
+#define IS_NOT_ZOMBIES_RESTART	( !(IS_ZOMBIES_RESTART) )
+
+#define LOCAL_MATCH				( !dvarBool( onlinegame ) && !dvarBool( systemlinkparty ) )
+#define SOLO					( !dvarBool( splitscreen ) && !dvarBool( onlinegame ) && !dvarBool( systemlinkparty ) )
+#define NOT_SOLO				( dvarBool(splitscreen) || dvarBool( onlinegame ) || dvarBool( systemlinkparty ) )
+#define CUSTOM_MATCH			( dvarbool( systemlink ) || dvarbool( xblive_privatematch ) )
+#define XBOX_LIVE_PUBLIC		( dvarbool( onlinegame ) && !dvarbool( xblive_privatematch ) )
+#define SPLITSCREEN_HOST		( dvarbool( splitscreen ) && issplitscreenhost() == 1 )
+#define NOT_SPLITSCREEN_HOST	( dvarbool( splitscreen ) && issplitscreenhost() != 1 )
+#define XBOX_LIVE_PRIVATE		( dvarbool( onlinegame ) && dvarbool( xblive_privatematch ) )
+#define SHOW_LOWER_DIFFICULTY	( dvarInt( g_gameskill ) > 0 && dvarString( mapname ) != "pentagon" && dvarString( mapname ) != "int_escape" )
+
+//CAMPAIGN
+		FRAME_CHOICE_BUTTON_VIS_EX(	1, "@MENU_RESUMEGAME_CAPS",
+										close pausedmenu;,
+										( IS_CAMPAIGN ), ; )
+
+		FRAME_CHOICE_BUTTON_VIS_EX(	2, "@MENU_SETTINGS_CAPS",
+										SETUP_ACTION_MENU_OPTIONS,
+										( IS_CAMPAIGN ), ; )
+
+		FRAME_CHOICE_BUTTON_VIS_EX(	3, "@MENU_LOWER_DIFFICULTY_CAPS",
+										open ingame_difficulty,
+										( IS_CAMPAIGN && SHOW_LOWER_DIFFICULTY ), ; )
+		FRAME_CHOICE_DBUTTON_FOCUS_VIS_EX(	3,
+											"@MENU_LOWER_DIFFICULTY_CAPS",
+											CLEARHINT, CLEARHINT,
+											( IS_CAMPAIGN && !( SHOW_LOWER_DIFFICULTY ) ), ; )
+
+		FRAME_CHOICE_BUTTON_VIS_EX(	4, "@MENU_RESTART_LEVEL_CAPS",
+										open "popup_restart_warning",
+										( IS_CAMPAIGN ), ; )
+
+		FRAME_CHOICE_BUTTON_VIS_EX(	5, "@PLATFORM_SAVE_AND_QUIT_CAPS",
+										open "popup_savegame_warning",
+										( dvarbool( sv_running ) && IS_CAMPAIGN && IsProfileSignedIn() ), ; )
+		FRAME_CHOICE_BUTTON_VIS_EX(	5, "@PLATFORM_QUIT_CAPS",
+										open "popup_noprofile_quit",
+										( dvarbool( sv_running ) && IS_CAMPAIGN && !IsProfileSignedIn() ), ; )
+		
+		FRAME_CHOICE_BUTTON_VIS_EX(	6, "@MENU_RESTART_CHECKPOINT_CAPS",
+										open "popup_checkpoint_restart_warning",
+										( IS_CAMPAIGN && dvarBool( ui_shipping_cheats ) && dvarbool( sv_running ) ), ; )
+
+
+
+#ifdef CONSOLE
+		#define SYSTEMLINKPARTY_LEAVE_QUIT_VIS			( !dvarBool( onlinegame ) && dvarbool( systemlinkparty ) && !dvarbool( sv_running ) )
+#else //#ifdef CONSOLE
+		#define SYSTEMLINKPARTY_LEAVE_QUIT_VIS			( dvarBool( onlinegame ) && dvarbool( systemlinkparty ) && !dvarbool( sv_running ) )
+#endif //#ifdef CONSOLE
+
+#define SETUP_ACTION_ZOMBIE_QUIT					\
+		/*"online_leave_quit"*/						\
+		if(dvarbool( onlinegame ) && !dvarbool( systemlinkparty ) && !dvarbool( sv_running ) && (!InPrivateParty() || PrivatePartyHost() || !PrivatePartyHostInLobby()) )		\
+		{											\
+			open "popup_leavegame_coop";			\
+		}											\
+		/*"online_leave_quit"*/						\
+		elseif(dvarbool( onlinegame ) && !dvarbool( systemlinkparty ) && !dvarbool( sv_running ) && (InPrivateParty() && !PrivatePartyHost() && PrivatePartyHostInLobby()) )	\
+		{											\
+			open "popup_leavegameandparty_coop";	\
+		}											\
+		/*"systemlinkparty_leave_quit"*/			\
+		elseif( SYSTEMLINKPARTY_LEAVE_QUIT_VIS )																																\
+		{											\
+			open "popup_coop_client_quit";			\
+		}											\
+		/*""quit_coop_host""*/						\
+		elseif( dvarbool( sv_running ) &&  ( dvarBool( splitscreen ) || dvarBool( systemlinkparty ) || XBOX_LIVE_PRIVATE ) )													\
+		{											\
+			 open "popup_coop_host_quit";			\
+		}											\
+		/*"quit_coop_host"*/						\
+		elseif( dvarbool( sv_running ) &&  XBOX_LIVE_PUBLIC && !dvarbool( splitscreen ) && !dvarbool( systemlinkparty ) )														\
+		{											\
+			open "popup_coop_host_quit_clone";		\
+		}											\
+		/*"quit_solo"*/								\
+		elseif( dvarBool( zombiemode ) && dvarbool( sv_running ) && SOLO )																										\
+		{											\
+			open "popup_nosave_quit";				\
+		}											\
+		execNow "updategamerprofile";
+
+		FRAME_CHOICE_BUTTON_VIS_EX2(	1, "@MENU_ZOMBIE_RESUMEGAME_CAPS",
+										close pausedmenu;,
+										( IS_ZOMBIES ), ;, ZOMBIE_X_SHIFT )
+
+		FRAME_CHOICE_BUTTON_VIS_EX2(	2, "@MENU_SETTINGS_CAPS",
+ 											SETUP_ACTION_MENU_OPTIONS,
+ 											( IS_ZOMBIES && !dvarBool( zombietron ) ), ;, ZOMBIE_X_SHIFT )
+ 		
+ 		FRAME_CHOICE_DBUTTON_FOCUS_VIS_EX2(	2, "@MENU_SETTINGS_CAPS",
+											CLEARHINT, CLEARHINT,
+											( IS_ZOMBIES && dvarBool( zombietron ) ), ;, ZOMBIE_X_SHIFT )
+
+		FRAME_CHOICE_BUTTON_VIS_EX2(	3, "@MENU_RESTART_LEVEL_CAPS",
+										open "popup_restart_warning",
+										IS_ZOMBIES && ( IS_ZOMBIES_RESTART || SOLO ), ;, ZOMBIE_X_SHIFT )
+		FRAME_CHOICE_DBUTTON_FOCUS_VIS_EX2(	3,
+											"@MENU_RESTART_LEVEL_CAPS",
+											CLEARHINT, CLEARHINT,
+											IS_ZOMBIES && IS_NOT_ZOMBIES_RESTART && NOT_SOLO, ;, ZOMBIE_X_SHIFT )
+
+		FRAME_CHOICE_BUTTON_VIS_EX2(	4, "@PLATFORM_QUIT_CAPS",
+										SETUP_ACTION_ZOMBIE_QUIT,
+										( IS_ZOMBIES ), ;, ZOMBIE_X_SHIFT )
+
+#ifndef PC	
+		// Friends list button
+		GAMEPAD_BUTTON( -55 -15 70 17 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM, "@PLATFORM_FRIENDLIST", BUTTON_Y { open menu_friends; }, when( dvarbool( invite_visible ) && dvarBool( zombiemode ) && !LOCAL_MATCH  ) )
+#endif // #ifndef PC
+	}
+
+	// Pause menu background... separate menu so that it can draw behind the objective menu
+	menuDef
+	{
+		name			"pausedbkgnd"
+		fullScreen		0
+		rect			0 0 640 480
+		visible 		when( !dvarBool( zombietron ) );
+
+		#define SINGLE_PLAYER	1
+		#include "ui_mp/ingamebg.inc"
+	}
+
+	menuDef
+	{
+		name			"zombietron_pausedbkgnd"
+		fullscreen		0
+		rect			0 0 640 480
+		visible 		when( dvarBool( zombietron ) );
+
+		itemDef
+		{
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+			visible			1
+			ownerdraw		CG_ZOMBIETRON_BEZEL
+			decoration
+		}
+	}
+
+	// objective info... shown when paused, or on PC when "TAB" is held
+	menuDef
+	{
+		name			"objectiveinfo"
+		fullScreen		0
+		rect			0 0 640 480
+		focusColor		COLOR_FOCUSED
+		visible 		when( !dvarBool( zombietron ) );
+
+		itemDef
+		{
+			type			ITEM_TYPE_TEXT
+			text			"@MENU_MISSIONOBJECTIVES_CAPS"
+			rect			(CHOICE_X_START-50) BUTTON_BG_Y_START PAUSESCREEN_OPTION_SIZE HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+			forecolor		COLOR_TITLE
+			textscale		TEXTSIZE_TITLE
+			textfont		UI_FONT_EXTRABIG
+			textstyle		ITEM_TEXTSTYLE_NORMAL
+			textalign		ITEM_ALIGN_TOP_LEFT
+			visible			when( !dvarBool( zombiemode ) )
+			decoration
+		}
+
+		// objective check box stub
+		itemDef
+		{
+			name			"objectivecheckbox"
+			type			ITEM_TYPE_OWNERDRAW_TEXT
+			rect	 		(CHOICE_X_START-50) (CHOICE_Y_START+CHOICE_SIZE_Y-1) 14 14 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
+			forecolor		1.0 1.0 1.0 1.0
+			textscale		CHOICE_TEXTSIZE//0.38
+			textfont		UI_FONT_DEFAULT
+			visible 		when( LOCAL_VIS_OBJECTIVE_DISPLAY && ! dvarBool( zombiemode ) );
+			ownerdraw		CG_MISSION_OBJECTIVE_LIST
+			decoration
+		}
+
+		#include "ui/safearea.menu"
+	}
+
+	//#define HAS_INGAME_MAP ( dvarString( mapname ) == "zombie_cosmodrome" )
+	
+
+
+	// Scripter MOD: Maestas Brought over from MP for use in zombiemode
+	// Full Screen Map for location selection
+	#define FULL_SCREEN_MAP_WIDTH 375
+	#define FULL_SCREEN_MAP_HEIGHT 375
+
+#ifdef PC
+#define VIS_OVERHEAD dvarBool( ui_showZombiePauseMap )
+#else
+#define VIS_OVERHEAD 1
+#endif
+
+	menuDef
+	{
+		//#define FSM_VISIBILITY (ShowZombieMap() && NOT_SPECTATING)
+		
+		name			"overheadmap"
+ 	   	rect			-100 -100 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+ 	   	fullScreen		0
+  	   	visible			when ( issplitscreen() != 1 && dvarBool( zombiemode ) && !dvarBool( cg_showZombieControls ) && !dvarBool( zombietron ) && VIS_OVERHEAD );
+		
+		//itemDef
+ 	   	//{
+		//	name			"map_backdrop"
+		//	style			WINDOW_STYLE_SHADER
+		//	rect			-200 -200 (FULL_SCREEN_MAP_WIDTH+200) (FULL_SCREEN_MAP_HEIGHT+200) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+		//	forecolor		0.1 0.1 0.1 0.7
+		//	background		"menu_black_box_faded"
+		//	visible			1
+		//	decoration
+ 	   	//}
+
+		itemDef
+ 	   	{
+			name			"map_map"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+			forecolor		1 1 1 1
+			background		"compass_map_default"
+			ownerdraw		CG_PLAYER_FULLMAP_MAP
+			visible			1
+			decoration
+ 	   	}
+		
+		// Vehicles
+		itemDef
+		{
+			name			"mapvehicles"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_FULLMAP_VEHICLES
+			visible			1
+		}
+		
+		// Helicopter
+		itemDef
+		{
+			name			"mapvehicles"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_FULLMAP_HELICOPTER
+			visible			1
+		}
+
+		// Objective pointers
+		itemDef
+		{
+			name			"mappointers"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+			forecolor		1 1 1 1
+			background		"objective_line"
+			ownerdraw		CG_PLAYER_FULLMAP_POINTERS
+			visible			1
+			decoration
+		}
+ 	   	// Friendlies pointers
+		itemDef
+		{
+			name			"mapfriendlies"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_FULLMAP_FRIENDS
+			visible			1
+		}
+ 	   	// Friendlies pointers
+		itemDef
+		{
+			name			"mapenemies"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_FULLMAP_ENEMIES
+			visible			1
+		}
+		
+// 		itemDef
+//  	   	{
+// 			name			"map_locator"
+// 			type			ITEM_TYPE_OWNERDRAW
+// 			rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+// 			forecolor		1 1 1 1
+// 			background		"compass_map_default"
+// 			ownerdraw		CG_PLAYER_FULLMAP_LOCATION_SELECTOR
+// 			visible			when( isartillery());
+// 			decoration
+//  	   	}
+
+		// Player direction indicator
+		itemDef
+		{
+			name			"mapplayer"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+			forecolor		1 1 1 1
+			background		"compassping_player"
+			ownerdraw		CG_PLAYER_FULLMAP_PLAYER
+			visible			1
+		}
+		
+//    	// Artillery Icon
+// 		itemDef
+// 		{
+// 			name			"mapartilleryicon"
+// 			type			ITEM_TYPE_OWNERDRAW
+// 			rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+// 			forecolor		1 1 1 1
+// 			ownerdraw		CG_PLAYER_FULLMAP_ARTILLERY_ICON
+// 			visible			1
+// 		}
+
+	// Dogs
+		itemDef
+		{
+			name			"mapdogs"
+			type			ITEM_TYPE_OWNERDRAW
+			rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_FULLMAP_DOGS
+			visible			1
+		}
+
+		//// border
+		//itemDef
+		//{
+		//	name			"mapborder"
+		//	rect			0 0 FULL_SCREEN_MAP_WIDTH FULL_SCREEN_MAP_HEIGHT
+		//	forecolor		1 1 1 1
+		//	background		"map_border"
+		//	ownerdraw		CG_PLAYER_FULLMAP_BORDER
+		//	visible			when( FSM_VISIBILITY );
+		//	decoration
+		//}
+		
+		// instruction
+// 		itemDef
+// 		{
+// 			name			"airstrikeinstruction"
+// 			type			ITEM_TYPE_TEXT
+// 			rect			100 -60 20 20
+// 			textstyle		ITEM_TEXTSTYLE_SHADOWED
+// 			textalign		ITEM_ALIGN_CENTER
+// 			textfont		UI_FONT_NORMAL
+// 			textscale		0.4
+// 			forecolor		1 1 1 1
+// 			text			"@PLATFORM_PRESS_TO_SET_AIRSTRIKE"
+// 			visible			when( isartillery() );
+// 			decoration
+// 		}
+// 		
+// 		itemDef
+// 		{
+// 			name			"squadback"
+// 			type			ITEM_TYPE_TEXT
+// 			rect			195 290 20 20
+// 			textstyle		ITEM_TEXTSTYLE_SHADOWED
+// 			textalign		ITEM_ALIGN_LEFT
+// 			textfont		UI_FONT_NORMAL
+// 			textscale		0.3
+// 			forecolor		1 1 1 1
+// 			text			"@PLATFORM_SQUAD_BACK"
+// 			visible			1
+// 			decoration
+// 		}
+		
+		itemDef
+		{
+			name			"MapName"
+			type			ITEM_TYPE_TEXT
+			rect			-70 -80 100 100
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textalign		ITEM_ALIGN_LEFT
+			textfont		UI_FONT_NORMAL
+			textscale		0.4
+			forecolor		1 1 1 1
+			exp text		( "@"+tablelookup("mapsTable.csv",0,dvarString(mapname),3) );
+			visible			1
+			decoration
+		}
+	}
+}

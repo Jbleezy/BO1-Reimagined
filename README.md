@@ -62,6 +62,7 @@
 * Score highlights now only show one positive amount and one negative amount per player at a time
 * Negative score color is now slightly brighter
 * Yellow insta kill shows on HUD during insta kill rounds
+* Removed blur when paused ingame
 
 ## Settings
 * Removed popup menu when changing graphic content to unrestricted
@@ -970,7 +971,6 @@
 * Add stielhandgranate icon on HUD
 * Find a way to be able to shoot through more than 3 zombies
 * Fix low grav with increased FPS (might be engine based)
-* Remove blur when paused ingame
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
 * Remove marks on background of Deadshot perk shader while still allowing players to modify the Deadshot perk shader
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
