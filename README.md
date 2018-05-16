@@ -825,6 +825,9 @@
 * Part 1 reward - 90 second Death Machines for the rest of the match
 * Full reward - permament perks (Quick Revive goes away when downed in solo, can be rebought with all perks)
 
+### Dead Ops Arcade
+* Fates are now always in the same order (Fate of Fortune - top, Fate of Firepower - right, Fate of Friendship - bottom, Fate of Furious Feet - left)
+
 ## Gamemodes
 
 ### Survival
@@ -952,7 +955,6 @@
 * When a player dies, they become infected
 * Infected player must attempt to infect the uninfected player
 * Win by being a survivor after the time limit or get all players infected
-* Unlimited zombies
 
 ## TODO
 * Five: fix zombies getting stuck after teleporting
@@ -976,8 +978,6 @@
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Get WaW weapon files of classic map weapons working
-* DOA: add 1st person mode in settings
-* DOA: make fates not randomized
 * Show player's perks when spectating (player.spectatorclient?)
 * Get Ballistic Sickle weapon files completely working
 * Add correct Combat Sickle melee sounds

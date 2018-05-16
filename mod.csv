@@ -133,6 +133,9 @@ rawfile,maps/zombie_moon_teleporter.gsc
 rawfile,maps/zombie_moon_amb.gsc
 rawfile,maps/zombie_moon_ffotd.gsc
 
+//DEAD OPS ARCADE
+rawfile,maps/_zombietron_fate.gsc
+
 //CLIENTSCRIPTS
 rawfile,clientscripts/_explosive_bolt.csc
 rawfile,clientscripts/_sticky_grenade.csc
