@@ -390,7 +390,7 @@ quantum_bomb_random_weapon_starburst_result( position )
 	self thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "quant_good" );
 
 	weapon = "spas_upgraded_zm";
-	rand = RandomInt( 3 );
+	rand = RandomInt( 5 );
 /#
 	starburst_debug = GetDvarInt( #"scr_quantum_bomb_weapon_starburst_debug" );
 	if ( starburst_debug )
@@ -402,8 +402,8 @@ quantum_bomb_random_weapon_starburst_result( position )
 	switch ( rand )
 	{
 	case 0:
-		weapon = "ray_gun_upgraded_zm";
-		if ( IsDefined( level.zombie_include_weapons["ray_gun_upgraded_zm"] ) )
+		weapon = "starburst_ray_gun_zm";
+		if ( IsDefined( level.zombie_include_weapons["starburst_ray_gun_zm"] ) )
 		{
 			break;
 		}
@@ -419,19 +419,18 @@ quantum_bomb_random_weapon_starburst_result( position )
 		{
 			break;
 		}
-	//explosive weapons hurt the player who threw the QED, disable them for now
-	/*case 2:
-		weapon = "china_lake_upgraded_zm";
-		if ( IsDefined( level.zombie_include_weapons["china_lake_upgraded_zm"] ) )
+	case 3:
+		weapon = "starburst_m72_law_zm";
+		if ( IsDefined( level.zombie_include_weapons["starburst_m72_law_zm"] ) )
 		{
 			break;
 		}
-	case 3:
-		weapon = "m72_law_upgraded_zm";
-		if ( IsDefined( level.zombie_include_weapons["m72_law_upgraded_zm"] ) )
+	case 4:
+		weapon = "starburst_china_lake_zm";
+		if ( IsDefined( level.zombie_include_weapons["starburst_china_lake_zm"] ) )
 		{
 			break;
-		}*/
+		}
 	}
 
 	quantum_bomb_play_player_effect_at_position( position );

@@ -416,7 +416,7 @@
 * Free perk effect now only gives the perk to the player who threw the QED
 * Revive player effect now only revives players near where the QED was thrown
 * Random weapon powerup now gives player max ammo on a weapon if they already have the weapon
-* Starburst weapon effect no longer has any explosive weapons
+* Starburst weapons no longer damage players
 * Removed red powerup effect
 * Removed unupgrade weapon effect
 * All other effects and random powerup effect have a chance of spawning when none of the forced effects are activated
@@ -966,7 +966,6 @@
 * Fix bouncing betties from repeating place sound on Der Riese added curb collision
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
-* Find out how to get MagicBullet() to not effect players (for starbust QED weapons)
 * Make better last powerup FX
 * Give players the same basic model on Nacht and Verruckt
 * Fix trench gun 3rd person sounds being too loud
@@ -982,8 +981,6 @@
 * Get Ballistic Sickle weapon files completely working
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
-* QED starbust weapon: try making a new weaponfile for the explosive weapons with 0 player damage
-* Health bar for player's health?
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Add sprint and dive anims on waw weapons
 * Fix sprint and dive anims on ray gun
@@ -1032,6 +1029,8 @@
 * Should NML have insta kill rounds? No
 * If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
 * Should special rounds always be 5 rounds apart?
+* Remove shellshock from lethal grenade explosions?
+* Health bar for player's health?
 
 ### Testing
 * Moon sidequest dialog in coop without Richtofen

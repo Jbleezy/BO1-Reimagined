@@ -237,6 +237,9 @@ weapon,sp\mp40_zm
 weapon,sp\mp40_upgraded_zm
 weapon,sp\zombie_type99_rifle
 weapon,sp\minigun_zm
+weapon,sp/starburst_ray_gun_zm
+weapon,sp/starburst_m72_law_zm
+weapon,sp/starburst_china_lake_zm
 
 //SOUNDS
 sound,reimagined

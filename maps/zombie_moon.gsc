@@ -1178,6 +1178,10 @@ include_weapons()
 	include_weapon( "microwavegundw_zm" );
 	include_weapon( "microwavegundw_upgraded_zm", false );
 
+	include_weapon( "starburst_ray_gun_zm", false);
+	include_weapon( "starburst_m72_law_zm", false);
+	include_weapon( "starburst_china_lake_zm", false);
+
 	// limited weapons
 	maps\_zombiemode_weapons::add_limited_weapon( "m1911_zm", 0 );
 	maps\_zombiemode_weapons::add_limited_weapon( "knife_ballistic_zm", 1 );
@@ -1693,6 +1697,10 @@ custom_add_weapons()
 {
 	maps\_zombiemode_weapons::add_zombie_weapon( "microwavegundw_zm",		"microwavegundw_upgraded_zm",			&"ZOMBIE_WEAPON_MICROWAVEGUN_DW", 				10,		"microwave",			"",		undefined );
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_quantum_bomb",		undefined,								&"ZOMBIE_WEAPON_SATCHEL_2000", 		2000,	"quantum",	"",		undefined );
+
+	maps\_zombiemode_weapons::add_zombie_weapon( "starburst_ray_gun_zm",		undefined,							&"ZOMBIE_WEAPON_SATCHEL_2000", 		2000,	"raygun",	"",		undefined );
+	maps\_zombiemode_weapons::add_zombie_weapon( "starburst_m72_law_zm",		undefined,							&"ZOMBIE_WEAPON_SATCHEL_2000", 		2000,	"launcher",	"",		undefined );
+	maps\_zombiemode_weapons::add_zombie_weapon( "starburst_china_lake_zm",		undefined,							&"ZOMBIE_WEAPON_SATCHEL_2000", 		2000,	"launcher",	"",		undefined );
 }
 
 moon_zombie_death_response()

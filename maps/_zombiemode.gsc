@@ -5491,7 +5491,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		}
 	}
 
-	//turrets - don't damage players
+	// turrets - don't damage players
 	if(sWeapon == "zombie_bullet_crouch" && sMeansOfDeath == "MOD_RIFLE_BULLET")
 	{
 		if(level.gamemode != "survival")
@@ -5501,17 +5501,23 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		return 0;
 	}
 
+	// QED explosive weapon damage fix to not damage players
+	if(sWeapon == "starburst_ray_gun_zm" || sWeapon == "starburst_m72_law_zm" || sWeapon == "starburst_china_lake_zm")
+	{
+		return 0;
+	}
+
 	if( isDefined( eAttacker ) )
 	{
 		if(IsPlayer(eAttacker) && eAttacker == self)
 		{
-			//fix for being able to damage yourself if you meleed while leaning
+			// fix for being able to damage yourself if you meleed while leaning
 			if(sMeansofdeath == "MOD_MELEE")
 			{
 				return 0;
 			}
 
-			//dont do damage to self from tesla if bolt was more than 64 units away (didnt change in weapon file because that also changed the radius zombies could take damage from tesla which was not wanted)
+			// dont do damage to self from tesla if bolt was more than 64 units away (didnt change in weapon file because that also changed the radius zombies could take damage from tesla which was not wanted)
 			if((IsDefined(sWeapon) && (sWeapon == "tesla_gun_zm" || sWeapon == "tesla_gun_upgraded_zm" || sWeapon == "tesla_gun_new_upgraded_zm")) && (sMeansOfDeath == "MOD_PROJECTILE" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH"))
 			{
 				if(IsDefined(eInflictor) && DistanceSquared(eInflictor.origin, self.origin) > 64*64)
@@ -5520,6 +5526,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 				}
 			}
 		}
+
 		if(IsPlayer(eAttacker) && eAttacker != self)
 		{
 			if(level.gamemode != "survival" && eAttacker.vsteam != self.vsteam)
@@ -5528,7 +5535,8 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 			}
 			return 0;
 		}
-		//tracking player damage
+
+		// tracking player damage
 		if(is_true(eAttacker.is_zombie))
 		{
 			self.stats["damage_taken"] += iDamage;
