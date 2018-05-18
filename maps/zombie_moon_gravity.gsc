@@ -524,6 +524,12 @@ zombie_moon_update_player_gravity()
 
 	player_zones = getentarray( "player_volume", "script_noteworthy" );
 
+	players = getplayers();
+	for ( i = 0; i < players.size; i++ )
+	{
+		players[i] thread zombie_moon_player_gravity_fix();
+	}
+
 	while ( 1 )
 	{
 		players = getplayers();
@@ -566,6 +572,33 @@ zombie_moon_update_player_gravity()
 
 		wait_network_frame();
 		//wait( 0.5 );
+	}
+}
+
+// fix for players getting stuck in the air in low gravity with high fps
+zombie_moon_player_gravity_fix()
+{
+	self endon("disconnect");
+
+	LOW_G = 136;
+	force = 1;
+
+	while(1)
+	{
+		vel = self GetVelocity();
+
+		if(self.in_low_gravity && !self IsOnGround() && vel[2] == 0)
+		{
+			self SetVelocity( vel + (0, 0, -1 * force) );
+
+			force *= 2;
+		}
+		else if(force != 1)
+		{
+			force = 1;
+		}
+
+		wait_network_frame();
 	}
 }
 

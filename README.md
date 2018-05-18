@@ -792,6 +792,7 @@
 ### Moon
 * Added Fire Sale, Max Ammo, and Perk Bottle to jump pad powerup cycle
 * Removed the forced jumping in low gravity
+* Fixed players getting stuck in the air in low gravity with high FPS
 * Excavators will not reactivate for places that have already been breached
 * Fixed the invisible digger glitch
 * Gersch Devices and QEDs no longer breach windows
@@ -957,6 +958,7 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
+* QED: fix weapon powerup not going away after being triggered
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -971,8 +973,6 @@
 * Fix trench gun 3rd person sounds being too loud
 * Add stielhandgranate icon on HUD
 * Find a way to be able to shoot through more than 3 zombies
-* Fix low grav with increased FPS (might be engine based)
-* Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo
 * Remove marks on background of Deadshot perk shader while still allowing players to modify the Deadshot perk shader
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
@@ -982,7 +982,6 @@
 * Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
-* Add sprint and dive anims on waw weapons
 * Fix sprint and dive anims on ray gun
 * Fix Der Riese Nikolai viewhands for FG42
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
@@ -1018,6 +1017,7 @@
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Change type 100 reserve ammo to 180 unupgraded, 240 upgraded (need weapon file)
 * Upgraded Kar98k: 50 round clip, no reserve ammo (need weapon file)
+* Add sprint and dive anims on waw weapons (need weapon files)
 
 ### Maybe 
 * Verruckt: replace Kar98k with Springfield? (WaW version has Springfield)
@@ -1031,6 +1031,7 @@
 * Should special rounds always be 5 rounds apart?
 * Remove shellshock from lethal grenade explosions?
 * Health bar for player's health?
+* Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo?
 
 ### Testing
 * Moon sidequest dialog in coop without Richtofen
