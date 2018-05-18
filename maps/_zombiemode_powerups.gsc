@@ -1560,8 +1560,8 @@ powerup_grab()
 			if(self.powerup_name == "meat" && IsDefined(players[i].has_meat))
 				continue;
 
-			//( self.powerup_name != "random_weapon" || (self.powerup_name == "random_weapon" && IsDefined(self.gg_powerup)) ) &&
-			if ( DistanceSquared( players[i].origin, self.origin ) < range_squared )
+			// QED random weapon only needs to be triggered, does not need player within distance
+			if ( DistanceSquared( players[i].origin, self.origin ) < range_squared || ( self.powerup_name == "random_weapon" && !IsDefined(self.gg_powerup) ) )
 			{
 				if( IsDefined( level.zombie_powerup_grab_func ) )
 				{

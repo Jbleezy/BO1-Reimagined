@@ -958,7 +958,6 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* QED: fix weapon powerup not going away after being triggered
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
