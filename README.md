@@ -56,6 +56,8 @@
 * Sidequest completion time displayed on top center of the HUD
 * Character names displayed next to player's points on the HUD
 * Current zone displayed above round number on the HUD
+* Ammo display on HUD no longer fades away
+* Grenades on HUD are now more spread out
 * Removed Reload, No Ammo, and Low Ammo HUD messages
 * Removed bloodsplat on D-pad
 * Fixed attachments on D-pad being highlighted incorrectly

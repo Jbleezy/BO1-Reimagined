@@ -1835,8 +1835,8 @@ onPlayerConnect_clientDvars()
 	self SetClientDvar("vs_friendly_playername", "");
 	self SetClientDvar("vs_enemy_playername", "");
 
-	//self SetClientDvar("cg_drawpaused", 0);
-
+	//ammo on HUD never fades away
+	self SetClientDvar("hud_fade_ammodisplay", 0);
 
 	if(!level.wii)
 	{
@@ -2119,6 +2119,8 @@ onPlayerSpawned()
 				self thread character_names_on_hud();
 
 				self thread zone_hud();
+
+				self thread grenade_hud();
 			}
 			else
 			{
@@ -8575,6 +8577,77 @@ choose_zone_name(zone, current_name)
 	}
 
 	return name;
+}
+
+grenade_hud()
+{
+	self endon("disconnect");
+
+	while(1)
+	{
+		if(self is_drinking())
+		{
+			self SetClientDvar("lethal_grenade_amount", 0);
+			self SetClientDvar("tactical_grenade_amount", 0);
+			self SetClientDvar("disable_grenade_amount_update", true);
+		}
+		else
+		{
+			self SetClientDvar("disable_grenade_amount_update", false);
+		}
+
+		// Now done in csc, keeping code here in case I need to switch back
+
+		/*lethal_nade = self get_player_lethal_grenade();
+		tactical_nade = self get_player_tactical_grenade();
+
+		lethal_nade_icon = "hud_grenadeicon";
+		tactical_nade_icon = "hud_cymbal_monkey";
+
+		if(lethal_nade == "frag_grenade_zm")
+		{
+			lethal_nade_icon = "hud_grenadeicon";
+		}
+		else if(lethal_nade == "sticky_grenade_zm")
+		{
+			lethal_nade_icon = "hud_icon_sticky_grenade";
+		}
+		else if(lethal_nade == "stielhandgranate")
+		{
+			lethal_nade_icon = "hud_grenadeicon";
+		}
+
+		if(tactical_nade == "zombie_cymbal_monkey")
+		{
+			tactical_nade_icon = "hud_cymbal_monkey";
+		}
+		else if(tactical_nade == "zombie_black_hole_bomb")
+		{
+			tactical_nade_icon = "hud_blackhole";
+		}
+		else if(tactical_nade == "zombie_nesting_dolls")
+		{
+			tactical_nade_icon = "hud_nestingbomb";
+		}
+		else if(tactical_nade == "zombie_quantum_bomb")
+		{
+			tactical_nade_icon = "hud_icon_quantum_bomb";
+		}
+		else if(tactical_nade == "molotov_zm")
+		{
+			tactical_nade_icon = "hud_icon_molotov";
+		}
+
+		lethal_nade_amt = self GetWeaponAmmoClip( lethal_nade );
+		tactical_nade_amt = self GetWeaponAmmoClip( tactical_nade );
+
+		self SetClientDvar("lethal_grenade_icon", lethal_nade_icon);
+		self SetClientDvar("tactical_grenade_icon", tactical_nade_icon);
+		self SetClientDvar("lethal_grenade_amount", lethal_nade_amt);
+		self SetClientDvar("tactical_grenade_amount", tactical_nade_amt);*/
+
+		wait_network_frame();
+	}
 }
 
 player_health_watcher()

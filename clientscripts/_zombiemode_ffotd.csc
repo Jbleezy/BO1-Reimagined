@@ -1,14 +1,16 @@
 #include clientscripts\_utility;
-
+#include clientscripts\_zombiemode_weapons;
 
 main_start()
 {
+	include_weapons();
+
 	players = GetLocalPlayers();
 	for(i = 0; i < players.size; i++)
 	{
 		players[i] thread set_fov();
-		players[i] thread remove_pause_screen_darkness();
 		players[i] thread fog_setting();
+		players[i] thread grenade_hud(i);
 	}
 
 	// registerSystem("hud", ::hud);
@@ -16,10 +18,172 @@ main_start()
 	register_client_system("hud_anim_handler", ::hud_message_handler);
 }
 
-
 main_end()
 {
 	clientscripts\_zombiemode_perks::init();
+}
+
+include_weapons()
+{
+	if(GetDvar("mapname") == "zombie_cod5_prototype")
+	{
+		include_weapon( "ak47_zm" );
+		include_weapon( "stoner63_zm" );
+		include_weapon( "ppsh_zm" );
+		include_weapon( "psg1_zm" );
+
+		include_weapon( "combat_knife_zm", false );
+		include_weapon( "molotov_zm" );
+	}
+	else if(GetDvar("mapname") == "zombie_cod5_asylum")
+	{
+		include_weapon( "ak47_zm" );
+		include_weapon( "stoner63_zm" );
+		include_weapon( "ppsh_zm" );
+		include_weapon( "psg1_zm" );
+
+		include_weapon( "combat_knife_zm", false );
+		include_weapon( "molotov_zm" );
+	}
+	else if(GetDvar("mapname") == "zombie_cod5_sumpf")
+	{
+		include_weapon( "ak47_zm" );
+		include_weapon( "stoner63_zm" );
+		include_weapon( "ppsh_zm" );
+		include_weapon( "psg1_zm" );
+
+		include_weapon( "combat_knife_zm", false );
+		include_weapon( "molotov_zm" );
+	}
+	else if(GetDvar("mapname") == "zombie_cod5_factory")
+	{
+		include_weapon( "ak47_zm" );
+		include_weapon( "ak47_upgraded_zm", false );
+		include_weapon( "stoner63_zm" );
+		include_weapon( "stoner63_upgraded_zm", false );
+		include_weapon( "ppsh_zm" );
+		include_weapon( "ppsh_upgraded_zm", false );
+		include_weapon( "psg1_zm" );
+		include_weapon( "psg1_upgraded_zm", false );
+
+		include_weapon( "combat_knife_zm", false );
+		include_weapon( "combat_bowie_knife_zm", false );
+		include_weapon( "molotov_zm" );
+	}
+	else if(GetDvar("mapname") == "zombie_theater")
+	{
+		include_weapon( "ak47_zm" );
+		include_weapon( "ak47_upgraded_zm", false );
+		include_weapon( "stoner63_zm" );
+		include_weapon( "stoner63_upgraded_zm", false );
+		include_weapon( "ppsh_zm" );
+		include_weapon( "ppsh_upgraded_zm", false );
+		include_weapon( "psg1_zm" );
+		include_weapon( "psg1_upgraded_zm", false );
+
+		include_weapon( "combat_knife_zm", false );
+		include_weapon( "combat_bowie_knife_zm", false );
+	}
+	else if(GetDvar("mapname") == "zombie_pentagon")
+	{
+		include_weapon( "ak47_zm" );
+		include_weapon( "ak47_upgraded_zm", false );
+		include_weapon( "stoner63_zm" );
+		include_weapon( "stoner63_upgraded_zm", false );
+		include_weapon( "ppsh_zm" );
+		include_weapon( "ppsh_upgraded_zm", false );
+		include_weapon( "psg1_zm" );
+		include_weapon( "psg1_upgraded_zm", false );
+
+		include_weapon( "combat_knife_zm", false );
+		include_weapon( "combat_bowie_knife_zm", false );
+	}
+	else if(GetDvar("mapname") == "zombie_cosmodrome")
+	{
+		include_weapon( "ak47_zm" );
+		include_weapon( "ak47_upgraded_zm", false );
+		include_weapon( "stoner63_zm" );
+		include_weapon( "stoner63_upgraded_zm", false );
+		include_weapon( "ppsh_zm" );
+		include_weapon( "ppsh_upgraded_zm", false );
+		include_weapon( "psg1_zm" );
+		include_weapon( "psg1_upgraded_zm", false );
+
+		include_weapon( "combat_knife_zm", false );
+		include_weapon( "combat_sickle_knife_zm", false );
+	}
+	else if(GetDvar("mapname") == "zombie_coast")
+	{
+		include_weapon( "ak47_zm" );
+		include_weapon( "ak47_upgraded_zm", false );
+		include_weapon( "stoner63_zm" );
+		include_weapon( "stoner63_upgraded_zm", false );
+		include_weapon( "ppsh_zm" );
+		include_weapon( "ppsh_upgraded_zm", false );
+		include_weapon( "psg1_zm" );
+		include_weapon( "psg1_upgraded_zm", false );
+
+		include_weapon( "combat_knife_zm", false );
+		include_weapon( "combat_sickle_knife_zm", false );
+
+		check_for_include_weapon( "sticky_grenade_zm", false );
+	}
+	else if(GetDvar("mapname") == "zombie_temple")
+	{
+		include_weapon( "ak47_zm" );
+		include_weapon( "ak47_upgraded_zm", false );
+		include_weapon( "stoner63_zm" );
+		include_weapon( "stoner63_upgraded_zm", false );
+		include_weapon( "ppsh_zm" );
+		include_weapon( "ppsh_upgraded_zm", false );
+		include_weapon( "psg1_zm" );
+		include_weapon( "psg1_upgraded_zm", false );
+
+		include_weapon( "combat_knife_zm", false );
+		include_weapon( "combat_bowie_knife_zm", false );
+
+		check_for_include_weapon( "sticky_grenade_zm", false );
+	}
+	else if(GetDvar("mapname") == "zombie_moon")
+	{
+		include_weapon( "ak47_zm" );
+		include_weapon( "ak47_upgraded_zm", false );
+		include_weapon( "stoner63_zm" );
+		include_weapon( "stoner63_upgraded_zm", false );
+		include_weapon( "ppsh_zm" );
+		include_weapon( "ppsh_upgraded_zm", false );
+		include_weapon( "psg1_zm" );
+		include_weapon( "psg1_upgraded_zm", false );
+
+		include_weapon( "combat_knife_zm", false );
+		include_weapon( "combat_bowie_knife_zm", false );
+
+		check_for_include_weapon( "sticky_grenade_zm", false );
+	}
+}
+
+check_for_include_weapon(weapon, in_box)
+{
+	if(!IsDefined(in_box))
+	{
+		in_box = true;
+	}
+
+	found = false;
+
+	for(i = 0; i < level._included_weapons.size; i++)
+	{
+		if(level._included_weapons[i] == weapon)
+		{
+			found = true;
+			break;
+		}
+	}
+
+	if(!found)
+	{
+		include_weapon(weapon, false);
+	}
 }
 
 set_fov()
@@ -48,25 +212,6 @@ set_fov()
 		}
 
 		SetClientDvar("cg_fov", fov);
-		wait .05;
-	}
-}
-
-remove_pause_screen_darkness()
-{
-	self endon("disconnect");
-
-	while(1)
-	{
-		if(GetDvarInt("cl_paused") == 1)
-		{
-			SetClientDvar("cg_drawpaused", 0);
-
-			while(GetDvarInt("cl_paused") == 1)
-				wait .05;
-
-			SetClientDvar("cg_drawpaused", 1); //have to set it back because it makes certain hud elements not work...
-		}
 
 		wait .05;
 	}
@@ -83,10 +228,182 @@ fog_setting()
 			wait .05;
 			continue;
 		}
+
 		fog = GetDvarInt("r_fog_settings");
 		SetClientDvar("r_fog", fog);
+
 		wait .05;
 	}
+}
+
+grenade_hud(clientnum)
+{
+	self endon("disconnect");
+
+	lethal_nades = [];
+	tactical_nades = [];
+
+	for(i = 0; i < level._included_weapons.size; i++)
+	{
+		weapon = level._included_weapons[i];
+		nade_type = get_grenade_type(weapon);
+
+		if(IsDefined(nade_type))
+		{
+			icon = get_grenade_icon(weapon, nade_type);
+
+			if(nade_type == "lethal")
+			{
+				size = lethal_nades.size;
+				lethal_nades[size] = [];
+				lethal_nades[size]["weapon"] = weapon;
+				lethal_nades[size]["icon"] = icon;
+			}
+			else if(nade_type == "tactical")
+			{
+				size = tactical_nades.size;
+				tactical_nades[size] = [];
+				tactical_nades[size]["weapon"] = weapon;
+				tactical_nades[size]["icon"] = icon;
+			}
+		}
+	}
+
+	while(1)
+	{
+		if(GetDvarInt("disable_grenade_amount_update") == 1)
+		{
+			wait .05;
+			continue;
+		}
+
+		lethal_nade = undefined;
+		tactical_nade = undefined;
+		lethal_nade_amt = 0;
+		tactical_nade_amt = 0;
+
+		for(i = 0; i < lethal_nades.size; i++)
+		{
+			weapon = lethal_nades[i]["weapon"];
+			count = GetWeaponAmmoClip(clientnum, weapon);
+
+			if(count > 0)
+			{
+				lethal_nade = i;
+				lethal_nade_amt = count;
+				break;
+			}
+		}
+
+		for(i = 0; i < tactical_nades.size; i++)
+		{
+			weapon = tactical_nades[i]["weapon"];
+			count = GetWeaponAmmoClip(clientnum, weapon);
+
+			if(count > 0)
+			{
+				tactical_nade = i;
+				tactical_nade_amt = count;
+				break;
+			}
+		}
+
+		if(IsDefined(lethal_nade))
+		{
+			SetClientDvar("lethal_grenade_icon", lethal_nades[lethal_nade]["icon"]);
+			SetClientDvar("lethal_grenade_amount", lethal_nade_amt);
+		}
+		else
+		{
+			SetClientDvar("lethal_grenade_amount", 0);
+		}
+
+		if(IsDefined(tactical_nade))
+		{
+			SetClientDvar("tactical_grenade_icon", tactical_nades[tactical_nade]["icon"]);
+			SetClientDvar("tactical_grenade_amount", tactical_nade_amt);
+		}
+		else
+		{
+			SetClientDvar("tactical_grenade_amount", 0);
+		}
+
+		wait .05;
+	}
+}
+
+get_grenade_type(weapon)
+{
+	if(!isdefined(weapon) || weapon == "" || weapon == "none")
+		return undefined;
+
+	switch(weapon)
+	{
+		case "frag_grenade_zm":
+		case "sticky_grenade_zm":
+		case "stielhandgranate":
+			return "lethal";
+
+		case "zombie_cymbal_monkey":
+		case "zombie_black_hole_bomb":
+		case "zombie_nesting_dolls":
+		case "zombie_quantum_bomb":
+		case "molotov_zm":
+			return "tactical";
+
+		default:
+			return undefined;
+	}
+}
+
+get_grenade_icon(weapon, nade_type)
+{
+	icon = "hud_grenadeicon";
+	if(nade_type == "tactical")
+	{
+		icon = "hud_cymbal_monkey";
+	}
+
+	if(nade_type == "lethal")
+	{
+		if(weapon == "frag_grenade_zm")
+		{
+			icon = "hud_grenadeicon";
+		}
+		else if(weapon == "sticky_grenade_zm")
+		{
+			icon = "hud_icon_sticky_grenade";
+		}
+		else if(weapon == "stielhandgranate")
+		{
+			icon = "hud_grenadeicon";
+		}
+	}
+	else if(nade_type == "tactical")
+	{
+		if(weapon == "zombie_cymbal_monkey")
+		{
+			icon = "hud_cymbal_monkey";
+		}
+		else if(weapon == "zombie_black_hole_bomb")
+		{
+			icon = "hud_blackhole";
+		}
+		else if(weapon == "zombie_nesting_dolls")
+		{
+			icon = "hud_nestingbomb";
+		}
+		else if(weapon == "zombie_quantum_bomb")
+		{
+			icon = "hud_icon_quantum_bomb";
+		}
+		else if(weapon == "molotov_zm")
+		{
+			icon = "hud_icon_molotov";
+		}
+	}
+
+	return icon;
 }
 
 hud_message_handler(clientnum, state)

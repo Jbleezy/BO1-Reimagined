@@ -227,9 +227,9 @@
 			decoration
 		}
 
-		#define	GRENADE_X_START		(WEAPINFO_X-9)
+		#define	GRENADE_X_START		(WEAPINFO_X + 8)
 		// Grenades
-		itemDef
+		/*itemDef
 		{
 			name			"offhandFragIcon"
 			type			ITEM_TYPE_OWNERDRAW
@@ -245,11 +245,90 @@
 		{
 			name			"offhandSmokeIcon"
 			type			ITEM_TYPE_OWNERDRAW
-			rect			(GRENADE_X_START-25) (WEAPINFO_Y+43) 18 18
+			rect			(GRENADE_X_START-48) (WEAPINFO_Y+43) 18 18
 			forecolor		1 1 1 HUD_ALPHA
 			ownerdraw		CG_OFFHAND_WEAPON_ICON_SMOKEFLASH
 			background		"hud_us_smokegrenade" // default texture
 			visible			1
+			decoration
+		}*/
+
+		itemDef
+		{
+			name			"offhandFragIcon1"
+			type			ITEM_TYPE_IMAGE
+			rect			GRENADE_X_START (WEAPINFO_Y+43) 18 18
+			forecolor		1 1 1 1
+			exp            	material(dvarString("lethal_grenade_icon"))
+		    style      		WINDOW_STYLE_SHADER
+		    visible     	when(dvarInt("lethal_grenade_amount") >= 1)
+			decoration
+		}
+		itemDef
+		{
+			name			"offhandFragIcon2"
+			type			ITEM_TYPE_IMAGE
+			rect			(GRENADE_X_START-16) (WEAPINFO_Y+43) 18 18
+			forecolor		1 1 1 1
+			exp            	material(dvarString("lethal_grenade_icon"))
+		    style      		WINDOW_STYLE_SHADER
+		    visible     	when(dvarInt("lethal_grenade_amount") >= 2)
+			decoration
+		}
+		itemDef
+		{
+			name			"offhandFragIcon3"
+			type			ITEM_TYPE_IMAGE
+			rect			(GRENADE_X_START-32) (WEAPINFO_Y+43) 18 18
+			forecolor		1 1 1 1
+			exp            	material(dvarString("lethal_grenade_icon"))
+		    style      		WINDOW_STYLE_SHADER
+		    visible     	when(dvarInt("lethal_grenade_amount") >= 3)
+			decoration
+		}
+		itemDef
+		{
+			name			"offhandFragIcon4"
+			type			ITEM_TYPE_IMAGE
+			rect			(GRENADE_X_START-48) (WEAPINFO_Y+43) 18 18
+			forecolor		1 1 1 1
+			exp            	material(dvarString("lethal_grenade_icon"))
+		    style      		WINDOW_STYLE_SHADER
+		    visible     	when(dvarInt("lethal_grenade_amount") >= 4)
+			decoration
+		}
+
+		itemDef
+		{
+			name			"offhandSmokeIcon1"
+			type			ITEM_TYPE_IMAGE
+			rect			(GRENADE_X_START-64) (WEAPINFO_Y+43) 18 18
+			forecolor		1 1 1 1
+			exp            	material(dvarString("tactical_grenade_icon"))
+		    style      		WINDOW_STYLE_SHADER
+		    visible     	when(dvarInt("tactical_grenade_amount") >= 1)
+			decoration
+		}
+		itemDef
+		{
+			name			"offhandSmokeIcon2"
+			type			ITEM_TYPE_IMAGE
+			rect			(GRENADE_X_START-80) (WEAPINFO_Y+43) 18 18
+			forecolor		1 1 1 1
+			exp            	material(dvarString("tactical_grenade_icon"))
+		    style      		WINDOW_STYLE_SHADER
+		    visible     	when(dvarInt("tactical_grenade_amount") >= 2)
+			decoration
+		}
+		itemDef
+		{
+			name			"offhandSmokeIcon3"
+			type			ITEM_TYPE_IMAGE
+			rect			(GRENADE_X_START-96) (WEAPINFO_Y+43) 18 18
+			forecolor		1 1 1 1
+			exp            	material(dvarString("tactical_grenade_icon"))
+		    style      		WINDOW_STYLE_SHADER
+		    visible     	when(dvarInt("tactical_grenade_amount") >= 3)
 			decoration
 		}
 
