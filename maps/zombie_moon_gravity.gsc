@@ -580,14 +580,13 @@ zombie_moon_player_gravity_fix()
 {
 	self endon("disconnect");
 
-	LOW_G = 136;
 	force = 1;
 
 	while(1)
 	{
 		vel = self GetVelocity();
 
-		if(self.in_low_gravity && !self IsOnGround() && vel[2] == 0)
+		if(is_true(self.in_low_gravity) && !self IsOnGround() && vel[2] == 0)
 		{
 			self SetVelocity( vel + (0, 0, -1 * force) );
 

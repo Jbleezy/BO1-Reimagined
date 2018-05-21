@@ -94,7 +94,7 @@ player_handle_cymbal_monkey()
 
 			valid_poi = check_point_in_active_zone( grenade.origin );
 
-			if( !valid_poi )
+			if( valid_poi )
 			{
 				valid_poi = check_point_in_playable_area( grenade.origin );
 			}

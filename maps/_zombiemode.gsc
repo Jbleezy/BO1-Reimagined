@@ -2068,7 +2068,7 @@ onPlayerSpawned()
 
 		self thread no_weapon_watcher();
 
-		self thread disable_melee_watcher();
+		//self thread disable_melee_watcher();
 
 		self.move_speed = 1;
 
@@ -8999,7 +8999,7 @@ no_weapon_watcher()
 			continue;
 		}
 
-		if(self.is_drinking)
+		if(self is_drinking())
 		{
 			wait_network_frame();
 			continue;

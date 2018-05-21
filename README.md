@@ -959,6 +959,7 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
+* Fix being able to cancel melee animation by switching weapons with a weapon that has an empty clip
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -970,21 +971,11 @@
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
 * Make better last powerup FX
 * Give players the same basic model on Nacht and Verruckt
-* Fix trench gun 3rd person sounds being too loud
 * Add stielhandgranate icon on HUD
 * Find a way to be able to shoot through more than 3 zombies
-* Remove marks on background of Deadshot perk shader while still allowing players to modify the Deadshot perk shader
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
-* Get WaW weapon files of classic map weapons working
 * Show player's perks when spectating (player.spectatorclient?)
-* Get Ballistic Sickle weapon files completely working
-* Add correct Combat Sickle melee sounds
-* Get Thundergun weapon files completely working
-* Make it so Death Machine and FG42 weapon models look better with higher FOV
-* Fix sprint and dive anims on ray gun
-* Fix Der Riese Nikolai viewhands for FG42
-* Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
@@ -994,6 +985,21 @@
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
+
+### Weapons Todo
+* Get WaW weapon files of classic map weapons working
+* Fix trench gun 3rd person sounds being too loud
+* Get Ballistic Sickle weapon files completely working
+* Add correct Combat Sickle melee sounds
+* Get Thundergun weapon files completely working
+* Make it so Death Machine and FG42 weapon models look better with higher FOV
+* Fix sprint and dive anims on Ray Gun
+* Fix Der Riese Nikolai viewhands for FG42
+* Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
+* Change type 100 reserve ammo to 180 unupgraded, 240 upgraded
+* Upgraded Kar98k: 50 round clip, no reserve ammo
+* Add sprint and dive anims on WaW weapons
+* Reduce max recoil on PPSH
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1015,9 +1021,6 @@
 * Add fast ADS to Speed Cola (when it becomes possible through game_mod)
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
-* Change type 100 reserve ammo to 180 unupgraded, 240 upgraded (need weapon file)
-* Upgraded Kar98k: 50 round clip, no reserve ammo (need weapon file)
-* Add sprint and dive anims on waw weapons (need weapon files)
 
 ### Maybe 
 * Verruckt: replace Kar98k with Springfield? (WaW version has Springfield)
