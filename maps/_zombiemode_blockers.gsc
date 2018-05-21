@@ -1533,7 +1533,17 @@ blocker_trigger_think()
 				break;
 			}
 
-			if( !player UseButtonPressed())
+			if( !player UseButtonPressed() )
+			{
+				break;
+			}
+
+			if( player IsSprinting() )
+			{
+				break;
+			}
+
+			if( is_true(player.divetoprone) )
 			{
 				break;
 			}
