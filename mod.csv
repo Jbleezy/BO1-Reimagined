@@ -216,8 +216,6 @@ weapon,sp/mk_aug_upgraded_zm
 weapon,sp/tesla_gun_zm
 weapon,sp/tesla_gun_upgraded_zm
 weapon,sp/tesla_gun_new_upgraded_zm
-//weapon,sp/zombie_stg44
-//weapon,sp/zombie_stg44_upgraded
 weapon,sp/freezegun_zm
 weapon,sp/freezegun_upgraded_zm
 weapon,sp/knife_ballistic_zm
@@ -235,8 +233,10 @@ weapon,sp\explosive_bolt_zm
 weapon,sp\explosive_bolt_upgraded_zm
 weapon,sp\mp40_zm
 weapon,sp\mp40_upgraded_zm
-weapon,sp\zombie_type99_rifle
 weapon,sp\minigun_zm
+weapon,sp\zombie_type99_rifle
+//weapon,sp/zombie_stg44
+//weapon,sp/zombie_stg44_upgraded
 weapon,sp/starburst_ray_gun_zm
 weapon,sp/starburst_m72_law_zm
 weapon,sp/starburst_china_lake_zm
