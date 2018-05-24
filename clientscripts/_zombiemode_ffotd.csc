@@ -114,6 +114,8 @@ include_weapons()
 	}
 	else if(GetDvar("mapname") == "zombie_coast")
 	{
+		include_weapon( "sticky_grenade_zm", false );
+		
 		include_weapon( "ak47_zm" );
 		include_weapon( "ak47_upgraded_zm", false );
 		include_weapon( "stoner63_zm" );
@@ -125,11 +127,11 @@ include_weapons()
 
 		include_weapon( "combat_knife_zm", false );
 		include_weapon( "combat_sickle_knife_zm", false );
-
-		check_for_include_weapon( "sticky_grenade_zm", false );
 	}
 	else if(GetDvar("mapname") == "zombie_temple")
 	{
+		include_weapon( "sticky_grenade_zm", false );
+
 		include_weapon( "ak47_zm" );
 		include_weapon( "ak47_upgraded_zm", false );
 		include_weapon( "stoner63_zm" );
@@ -141,8 +143,6 @@ include_weapons()
 
 		include_weapon( "combat_knife_zm", false );
 		include_weapon( "combat_bowie_knife_zm", false );
-
-		check_for_include_weapon( "sticky_grenade_zm", false );
 	}
 	else if(GetDvar("mapname") == "zombie_moon")
 	{
@@ -157,32 +157,6 @@ include_weapons()
 
 		include_weapon( "combat_knife_zm", false );
 		include_weapon( "combat_bowie_knife_zm", false );
-
-		check_for_include_weapon( "sticky_grenade_zm", false );
-	}
-}
-
-check_for_include_weapon(weapon, in_box)
-{
-	if(!IsDefined(in_box))
-	{
-		in_box = true;
-	}
-
-	found = false;
-
-	for(i = 0; i < level._included_weapons.size; i++)
-	{
-		if(level._included_weapons[i] == weapon)
-		{
-			found = true;
-			break;
-		}
-	}
-
-	if(!found)
-	{
-		include_weapon(weapon, false);
 	}
 }
 
