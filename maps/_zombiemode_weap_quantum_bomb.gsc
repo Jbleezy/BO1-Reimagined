@@ -49,12 +49,9 @@ init()
 		return;
 	}
 
-/#
+	/#
 	level.zombiemode_devgui_quantum_bomb_give = ::player_give_quantum_bomb;
-#/
-
-	// client flags
-
+	#/
 }
 
 
@@ -310,7 +307,11 @@ player_handle_quantum_bomb()
 			return;
 		}
 
+		player_angles = self GetPlayerAngles();
+		grenade.angles = (0, player_angles[1], 0);
+
 		grenade waittill( "explode", position );
+
 		playsoundatposition( "wpn_quantum_exp", position );
 		result = self quantum_bomb_select_result( position );
 		//self thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "quant_good" );
@@ -319,12 +320,10 @@ player_handle_quantum_bomb()
 	}
 }
 
-
 quantum_bomb_exists()
 {
 	return IsDefined( level.zombie_weapons["zombie_quantum_bomb"] );
 }
-
 
 get_thrown_quantum_bomb()
 {

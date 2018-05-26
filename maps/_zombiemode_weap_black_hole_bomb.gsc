@@ -93,11 +93,15 @@ player_handle_black_hole_bomb()
 			grenade delete();
 			return;
 		}
+
 		grenade hide();
+		player_angles = self GetPlayerAngles();
+		grenade.angles = (0, player_angles[1], 0);
+
 		model = spawn( "script_model", grenade.origin );
+		model.angles = grenade.angles;
 		model SetModel( "t5_bh_bomb_world" );
 		model linkTo( grenade );
-		model.angles = grenade.angles;
 
 		info = spawnStruct();
 		info.sound_attractors = [];
@@ -118,12 +122,9 @@ player_handle_black_hole_bomb()
 			oldPos = grenade.origin;
 			grenade.angles = (grenade.angles[0], grenade.angles[1], 0);
 		}
+
 		if( isDefined( grenade ) )
 		{
-			model unlink();
-			model.origin = grenade.origin;
-			model.angles = (0, model.angles[1], 0);
-			//model.angles = grenade.angles;
 			model._black_hole_bomb_player = self; // saves who threw the grenade, used to assign the damage when zombies die
 			model.targetname = "zm_bhb";
 			model._new_ground_trace = true;

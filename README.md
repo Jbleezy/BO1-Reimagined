@@ -346,9 +346,10 @@
 
 ### Equipment
 * Limit of 120 mines placed on the map at once (each player can place equal amount of mines in coop)
-* Fixed a bug where a tactical grenade wouldn't work if it was thrown before a previously thrown tactical grenade had activated
 * Grenades now cannot be thrown faster than intended when throwing a grenade right after after throwing one
 * Lethal grenades: impact damage - 30
+* Fixed a bug where tactical grenades wouldn't work if they were thrown before a previously thrown tactical grenade had activated
+* Tactical grenades now always stay upright
 
 #### Bouncing Betty
 * Can now explode after being placed for 1 second (previously 2 seconds)
@@ -359,7 +360,6 @@
 
 #### Gersch Device
 * Zombies now get attracted immediately
-* Stays upright more while being thrown
 * Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
 
 #### Hacker
@@ -385,13 +385,11 @@
 #### Matroyshka Dolls
 * Deal infinite damage (except for the Director)
 * Damage increased from 4500 to 9000 on the Director
-* Stays upright more while being thrown
 
 #### Monkey Bombs
 * Zombies now get attracted immediately
 * Zombies will now taunt when near a Monkey Bomb
 * Will not activate if thrown outside the map
-* Stays upright more while being thrown
 * Removed on Nacht, Verruckt, and Shi No Numa
 
 #### P.E.S.
@@ -961,12 +959,13 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
+* Five: try linking powerups and meat to elevator if spawned in elevator
+* COTD: fix Director not doing anim when initially getting angry
 * Fix being able to cancel melee animation by switching weapons with a weapon that has an empty clip
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
 * Five: get wall barrier tear down sound and metal vent barrier rebuild sound from other maps working
-* Five: try linking powerups and meat to elevator if spawned in elevator
 * Try making dvars unchangeable from console
 * Fix bouncing betties from repeating place sound on Der Riese added curb collision
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
@@ -981,6 +980,7 @@
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
+* Moon: use BO3 PES mask model and anims
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1034,7 +1034,7 @@
 * Should NML have insta kill rounds? No
 * If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
 * Should special rounds always be 5 rounds apart?
-* Remove shellshock from lethal grenade explosions?
+* Remove shellshock from lethal grenade explosions? Yes
 * Health bar for player's health?
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo?
 

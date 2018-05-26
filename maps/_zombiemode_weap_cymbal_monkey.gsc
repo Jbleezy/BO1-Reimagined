@@ -55,18 +55,23 @@ player_handle_cymbal_monkey()
 			grenade delete();
 			return;
 		}
+
 		grenade hide();
+		player_angles = self GetPlayerAngles();
+		grenade.angles = (0, player_angles[1], 0);
+
 		model = spawn( "script_model", grenade.origin );
+		model.angles = grenade.angles;
 		model SetModel( "weapon_zombie_monkey_bomb" );
 		model UseAnimTree( #animtree );
 		model linkTo( grenade );
-		model.angles = grenade.angles;
 
 		info = spawnStruct();
 		info.sound_attractors = [];
 		grenade thread monitor_zombie_groans( info );
 		velocitySq = 10000*10000;
 		oldPos = grenade.origin;
+
 		while( velocitySq != 0 )
 		{
 			wait( 0.05 );
@@ -78,18 +83,14 @@ player_handle_cymbal_monkey()
 
 			velocitySq = distanceSquared( grenade.origin, oldPos );
 			oldPos = grenade.origin;
-
-			grenade.angles = (grenade.angles[0], grenade.angles[1], 0);
 		}
+		
 		if( isDefined( grenade ) )
 		{
 			model thread monkey_cleanup( grenade );
 
-			model unlink();
-			model.origin = grenade.origin;
-			model.angles = (0, model.angles[1], 0);
-
 			grenade resetmissiledetonationtime();
+
 			PlayFxOnTag( level._effect["monkey_glow"], model, "origin_animate_jnt" );
 
 			valid_poi = check_point_in_active_zone( grenade.origin );

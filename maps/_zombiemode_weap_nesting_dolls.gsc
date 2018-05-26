@@ -209,9 +209,13 @@ doll_spawner_cluster( start_grenade )
 	self thread nesting_dolls_track_achievement( self.doll_id );
 	self thread nesting_dolls_check_achievement( self.doll_id );
 
+	player_angles = self GetPlayerAngles();
+
 	// so the compiler doesn't puke
 	if ( IsDefined( start_grenade ) )
 	{
+		start_grenade.angles = (0, player_angles[1], 0);
+
 		start_grenade spawn_doll_model( self.doll_id, 0, self );
 		start_grenade thread doll_behavior_explode_when_stopped( self, self.doll_id, 0 );
 	}
@@ -226,6 +230,7 @@ doll_spawner_cluster( start_grenade )
 
 		// spawn a magic grenade
 		grenade = self MagicGrenadeType( "zombie_nesting_doll_single", origin, grenade_vel );
+		grenade.angles = (0, player_angles[1], 0);
 		grenade spawn_doll_model( self.doll_id, num_dolls, self );
 
 		grenade PlaySound( "wpn_nesting_pop_npc" );
@@ -380,6 +385,7 @@ spawn_doll_model( id, index, parent )
 
 	// spawn the doll model
 	self.doll_model = spawn( "script_model", self.origin );
+	self.doll_model.angles = self.angles + (0, 180, 0);
 
 	// fix out the index
 	data_index = parent.nesting_dolls_randomized_indices[ id ][ index ];
@@ -395,7 +401,6 @@ spawn_doll_model( id, index, parent )
 	self.doll_model SetModel( model_name );
 	self.doll_model UseAnimTree( #animtree );
 	self.doll_model LinkTo( self );
-	self.doll_model.angles = self.angles;
 
 	// attach the effect
 	PlayFxOnTag( level.nesting_dolls_data[ data_index ].trailFx, self.doll_model, "tag_origin" );
@@ -422,15 +427,10 @@ doll_behavior_explode_when_stopped( parent, doll_id, index )
 
 		velocitySq = distanceSquared( self.origin, oldPos );
 		oldPos = self.origin;
-		self.angles = (self.angles[0], self.angles[1], 0);
 	}
 
 	if( isDefined( self ) )
 	{
-		self.doll_model unlink();
-		self.doll_model.origin = self.origin;
-		self.doll_model.angles = (0, self.doll_model.angles[1], 0);
-
 		// spawn a new doll
 		self notify( "spawn_doll", self.origin, self.angles );
 
