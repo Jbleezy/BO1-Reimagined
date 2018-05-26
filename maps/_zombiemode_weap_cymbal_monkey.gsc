@@ -84,14 +84,12 @@ player_handle_cymbal_monkey()
 			velocitySq = distanceSquared( grenade.origin, oldPos );
 			oldPos = grenade.origin;
 		}
-		
+
 		if( isDefined( grenade ) )
 		{
 			model thread monkey_cleanup( grenade );
 
 			grenade resetmissiledetonationtime();
-
-			PlayFxOnTag( level._effect["monkey_glow"], model, "origin_animate_jnt" );
 
 			valid_poi = check_point_in_active_zone( grenade.origin );
 
@@ -102,6 +100,7 @@ player_handle_cymbal_monkey()
 
 			if(valid_poi)
 			{
+				PlayFxOnTag( level._effect["monkey_glow"], model, "origin_animate_jnt" );
 				model SetAnim( %o_monkey_bomb );
 				grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 0 );
 				level notify("attractor_positions_generated");
@@ -111,7 +110,7 @@ player_handle_cymbal_monkey()
 		}
 
 		self.script_noteworthy = undefined;
-		level thread cymbal_monkey_stolen_by_sam( grenade, model );
+		level thread maps\_zombiemode_weapons::entity_stolen_by_sam( grenade, model );
 	}
 }
 
@@ -269,60 +268,4 @@ play_zombie_groans()
 cymbal_monkey_exists()
 {
 	return IsDefined( level.zombie_weapons["zombie_cymbal_monkey"] );
-}
-
-// if the player throws it to an unplayable area samantha steals it
-cymbal_monkey_stolen_by_sam( ent_grenade, ent_model )
-{
-	if( !IsDefined( ent_model ) )
-	{
-		return;
-	}
-
-	direction = ent_model.origin;
-	direction = (direction[1], direction[0], 0);
-
-	if(direction[1] < 0 || (direction[0] > 0 && direction[1] > 0))
-	{
-		direction = (direction[0], direction[1] * -1, 0);
-	}
-	else if(direction[0] < 0)
-	{
-		direction = (direction[0] * -1, direction[1], 0);
-	}
-
-	// Play laugh sound here, players should connect the laugh with the movement which will tell the story of who is moving it
-	players = GetPlayers();
-	for( i = 0; i < players.size; i++ )
-	{
-		if( IsAlive( players[i] ) )
-		{
-			if( is_true( level.player_4_vox_override ) )
-			{
-				players[i] playlocalsound( "zmb_laugh_rich" );
-			}
-			else
-			{
-				players[i] playlocalsound( "zmb_laugh_child" );
-			}
-		}
-	}
-
-	// play the fx on the model
-	PlayFXOnTag( level._effect[ "black_hole_samantha_steal" ], ent_model, "tag_origin" );
-
-	// raise the model
-	ent_model MoveZ( 60, 1.0, 0.25, 0.25 );
-
-	// spin it
-	ent_model Vibrate( direction, 1.5,  2.5, 1.0 );
-
-	ent_model waittill( "movedone" );
-
-	// delete it
-	ent_model Delete();
-	if( IsDefined(ent_grenade) )
-	{
-		ent_grenade Delete();
-	}
 }

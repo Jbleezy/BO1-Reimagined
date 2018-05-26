@@ -75,8 +75,8 @@ grief_precache()
 	PrecacheString( &"REIMAGINED_CIA_WON" );
 	PrecacheString( &"REIMAGINED_FINAL_ROUND" );
 
-	level._effect["grief_shock"] = LoadFX("grief/fx_grief_shock");
-	level._effect["meat_fx"] = Loadfx( "grief/fx_meat_stink" );
+	level._effect["grief_shock"] = LoadFX("maps/zombie/grief/fx_grief_shock");
+	level._effect["meat_fx"] = Loadfx( "weapon/meat/fx_meat_stink" );
 
 	PrecacheShader("waypoint_cia");
 	PrecacheShader("waypoint_cdc");

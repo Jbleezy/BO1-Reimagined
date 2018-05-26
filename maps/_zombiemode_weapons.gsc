@@ -4020,3 +4020,53 @@ init_includes()
  		include_weapon("combat_bowie_knife_zm", false);
  	}
 }
+
+// if the player throws an entity to an unplayable area samantha steals it
+entity_stolen_by_sam( ent_grenade, ent_model )
+{
+	if( !IsDefined( ent_model ) )
+	{
+		return;
+	}
+
+	ent_model UnLink();
+
+	direction = ent_model.origin;
+	direction = (direction[1], direction[0], 0);
+
+	if(direction[1] < 0 || (direction[0] > 0 && direction[1] > 0))
+	{
+		direction = (direction[0], direction[1] * -1, 0);
+	}
+	else if(direction[0] < 0)
+	{
+		direction = (direction[0] * -1, direction[1], 0);
+	}
+
+	if( is_true( level.player_4_vox_override ) )
+	{
+		ent_model playsound( "zmb_laugh_rich" );
+	}
+	else
+	{
+		ent_model playsound( "zmb_laugh_child" );
+	}
+
+	// play the fx on the model
+	PlayFXOnTag( level._effect["ent_stolen"], ent_model, "tag_origin" );
+
+	// raise the model
+	ent_model MoveZ( 60, 1.0, 0.25, 0.25 );
+
+	// spin it
+	ent_model Vibrate( direction, 1.5,  2.5, 1.0 );
+
+	ent_model waittill( "movedone" );
+
+	// delete it
+	ent_model Delete();
+	if( IsDefined(ent_grenade) )
+	{
+		ent_grenade Delete();
+	}
+}

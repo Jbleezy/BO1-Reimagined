@@ -959,7 +959,7 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Five: try linking powerups and meat to elevator if spawned in elevator
+* Moon: use BO3 PES mask model and anims
 * COTD: fix Director not doing anim when initially getting angry
 * Fix being able to cancel melee animation by switching weapons with a weapon that has an empty clip
 * Five: fix zombies getting stuck after teleporting
@@ -980,7 +980,6 @@
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
-* Moon: use BO3 PES mask model and anims
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)

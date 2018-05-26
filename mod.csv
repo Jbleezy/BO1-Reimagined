@@ -248,11 +248,12 @@ sound,reimagined
 stringtable,weaponoptions.csv
 
 //FX
-fx,grief/fx_grief_shock
-fx,grief/fx_meat_stink
+fx,maps/zombie/grief/fx_grief_shock
+fx,weapon/meat/fx_meat_stink
 fx,misc/fx_zombie_powerup_on_red
 fx,misc/fx_zombie_powerup_red_grab
 fx,misc/fx_zombie_powerup_red_wave
+fx,maps/zombie/fx_zmb_ent_stolen
 
 //MATERIALS
 //material,specialty_ads_zombies

@@ -4079,28 +4079,23 @@ create_meat_stink(player)
 		}
 	}
 
-	self Delete();
-
-	//trace = BulletTrace(origin, origin + (20, 20, 100), false, undefined);
-
 	origin = groundpos(origin);
 
 	model = Spawn("script_model", origin);
 	model.angles = angles;
 
-	playable_area = getentarray("player_volume", "script_noteworthy");
-	valid_drop = false;
-	for (i = 0; i < playable_area.size; i++)
+	valid_poi = check_point_in_active_zone( origin );
+
+	if(valid_poi)
 	{
-		if(model istouching(playable_area[i]))
-		{
-			valid_drop = true;
-			break;
-		}
+		valid_poi = check_point_in_playable_area( origin );
 	}
-	if(!valid_drop)
+
+	if(!valid_poi)
 	{
-		model Delete();
+		model SetModel(GetWeaponModel("meat_zm"));
+		self Hide();
+		maps\_zombiemode_weapons::entity_stolen_by_sam( self, model );
 		return;
 	}
 
@@ -4117,6 +4112,7 @@ create_meat_stink(player)
 			ent = Spawn("script_model", model.origin + (0, 20, 0));
 		else
 			ent = Spawn("script_model", model.origin - (0, 20, 0));
+
 		ent SetModel("tag_origin");
 		ent LinkTo(model);
 
@@ -4125,30 +4121,26 @@ create_meat_stink(player)
 		model.fx[model.fx.size] = ent;
 	}
 
-	/*if(isdefined(trace["entity"]))
-	{
-		model LinkTo(trace["entity"]);
-	}*/
-
 	time = 15;
 
 	if(IsDefined(player_stuck))
 	{
-		model EnableLinkTo();
+		self Delete();
+		model.origin = player_stuck.origin;
 		model LinkTo(player_stuck);
 
 		player_stuck activate_meat_on_player(time);
 	}
 	else
 	{
+		self.origin = origin;
+		model LinkTo(self);
+
 		attract_dist_diff = 45;
 		num_attractors = 96;
 		max_attract_dist = 1536;
 
-		model SetModel("t6_wpn_zmb_meat_world");
 		model create_zombie_point_of_interest(max_attract_dist, num_attractors, 0);
-		//model thread create_zombie_point_of_interest_attractor_positions(4, attract_dist_diff);
-		//model thread maps\_zombiemode_weap_cymbal_monkey::wait_for_attractor_positions_complete();
 
 		level notify("attractor_positions_generated");
 
@@ -4161,11 +4153,22 @@ create_meat_stink(player)
 	{
 		for(i = 0; i < model.fx.size; i++)
 		{
-			model.fx[i] Delete();
+			if(IsDefined(model.fx[i]))
+			{
+				model.fx[i] Delete();
+			}
 		}
 	}
 
-	model Delete();
+	if(IsDefined(model))
+	{
+		model Delete();
+	}
+
+	if(IsDefined(self))
+	{
+		self Delete();
+	}
 }
 
 activate_meat_on_player(time)

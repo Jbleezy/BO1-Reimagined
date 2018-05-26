@@ -173,13 +173,13 @@ player_handle_black_hole_bomb()
 			else
 			{
 				self.script_noteworthy = undefined;
-				level thread black_hole_bomb_stolen_by_sam( self, model );
+				level thread maps\_zombiemode_weapons::entity_stolen_by_sam( self, model );
 			}
 		}
 		else
 		{
 			self.script_noteworthy = undefined;
-			level thread black_hole_bomb_stolen_by_sam( self, model );
+			level thread maps\_zombiemode_weapons::entity_stolen_by_sam( self, model );
 		}
 	}
 }
@@ -1236,6 +1236,13 @@ black_hole_bomb_stolen_by_sam( ent_grenade, ent_model )
 
 	//ent_grenade notify( "sam_stole_it" );
 
+	ent_model UnLink();
+
+	if(IsDefined(ent_grenade))
+	{
+		ent_grenade resetmissiledetonationtime();
+	}
+
 	direction = ent_model.origin;
 	direction = (direction[1], direction[0], 0);
 
@@ -1248,21 +1255,13 @@ black_hole_bomb_stolen_by_sam( ent_grenade, ent_model )
 		direction = (direction[0] * -1, direction[1], 0);
 	}
 
-	// Play laugh sound here, players should connect the laugh with the movement which will tell the story of who is moving it
-	players = GetPlayers();
-	for( i = 0; i < players.size; i++ )
+	if( is_true( level.player_4_vox_override ) )
 	{
-		if( IsAlive( players[i] ) )
-		{
-			if( is_true( level.player_4_vox_override ) )
-			{
-				players[i] playlocalsound( "zmb_laugh_rich" );
-			}
-			else
-			{
-				players[i] playlocalsound( "zmb_laugh_child" );
-			}
-		}
+		ent_model playsound( "zmb_laugh_rich" );
+	}
+	else
+	{
+		ent_model playsound( "zmb_laugh_child" );
 	}
 
 	// play the fx on the model
