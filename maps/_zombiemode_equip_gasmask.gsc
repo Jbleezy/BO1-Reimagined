@@ -67,7 +67,6 @@ gasmask_removed_watcher_thread()
 	}*/
 
 	self clearclientflag(level._CF_PLAYER_GASMASK_OVERLAY);
-
 }
 
 /*
@@ -133,9 +132,6 @@ gasmask_activation_watcher_thread()
 			self GiveWeapon("equip_gasmask_zm");
 			self SwitchToWeapon("equip_gasmask_zm");
 
-			// clear the actionslot during the anim to prevent the player breaking the anims by spamming the dpad
-			self SetActionSlot( 1, "" );
-
 			// Switch to hazmat suited player model, with gasmask here.
 			if ( IsDefined( level.zombiemode_gasmask_set_player_model ) )
 			{
@@ -149,12 +145,11 @@ gasmask_activation_watcher_thread()
 				self [[level.zombiemode_gasmask_change_player_headmodel]]( ent_num, true );
 			}
 
-			//wait(2.1);
+			wait 1.1;
 			clientnotify( "gmsk2" );
+			wait 1.5;
 
-			wait .05;
-
-			self waittill( "weapon_change_complete" );
+			//self waittill( "weapon_change_complete" );
 
 			// Start overlay on client.
 
@@ -167,11 +162,9 @@ gasmask_activation_watcher_thread()
 			self increment_is_drinking();
 
 			self TakeWeapon("equip_gasmask_zm");
+			self GiveWeapon("equip_gasmask_zm");
 			self GiveWeapon("lower_equip_gasmask_zm");
 			self SwitchToWeapon("lower_equip_gasmask_zm");
-
-			// clear the actionslot during the anim to prevent the player breaking the anims by spamming the dpad
-			self SetActionSlot( 1, "" );
 
 			// Switch to hazmat suited player model, without gasmask here.
 			if ( IsDefined( level.zombiemode_gasmask_set_player_model ) )
@@ -186,12 +179,21 @@ gasmask_activation_watcher_thread()
 				self [[level.zombiemode_gasmask_change_player_headmodel]]( ent_num, false );
 			}
 
-			wait(0.05);
+			// wait until the gasmask is the player's current weapon, or else the "weapon_change_complete" notify can go off for the previous weapon and cause problems
+			while(self GetCurrentWeapon() != "lower_equip_gasmask_zm")
+			{
+				wait_network_frame();
+			}
+
 			self clearclientflag(level._CF_PLAYER_GASMASK_OVERLAY);
 			self waittill( "weapon_change_complete" );
 
 			self TakeWeapon("lower_equip_gasmask_zm");
-			self GiveWeapon("equip_gasmask_zm");
+		}
+
+		if(has_fastswitch)
+		{
+			self SetPerk("specialty_fastswitch");
 		}
 
 		if ( !self maps\_laststand::player_is_in_laststand() )
@@ -199,8 +201,6 @@ gasmask_activation_watcher_thread()
 			if( self is_multiple_drinking() )
 			{
 				self decrement_is_drinking();
-				// now re-set the cleared the actionslot during the anim to prevent the player breaking the anims by spamming the dpad
-				self setactionslot( 1, "weapon", "equip_gasmask_zm" );
 				self notify("equipment_select_response_done");
 				continue;
 			}
@@ -233,17 +233,9 @@ gasmask_activation_watcher_thread()
 			}
 		}
 
-		// now re-set the cleared the actionslot during the anim to prevent the player breaking the anims by spamming the dpad
-		self setactionslot( 1, "weapon", "equip_gasmask_zm" );
-
 		if ( !self maps\_laststand::player_is_in_laststand() && !is_true( self.intermission ) )
 		{
 			self decrement_is_drinking();
-
-			if(has_fastswitch)
-			{
-				self SetPerk("specialty_fastswitch");
-			}
 		}
 
 		self notify("equipment_select_response_done");

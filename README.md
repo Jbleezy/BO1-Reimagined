@@ -393,8 +393,11 @@
 * Removed on Nacht, Verruckt, and Shi No Numa
 
 #### P.E.S.
-* If a player has the P.E.S. suit on while taking a different piece of equipment, the player only loses their helmet when taking the equipment (keep the rest of the suit)
-* Fixed a bug where players were able to get no weapon in their hand by pressing the gas mask button repeatedly
+* Added BO3 model and animations
+* Players now only lose their helmet when taking different equipment
+* Fixed a bug where players were able to get no weapon in their hand by pressing the P.E.S. helmet button repeatedly
+* Changed name from "P.E.S" to "P.E.S."
+* D-pad now stays highlighted while putting on and taking off the P.E.S. helmet
 
 #### Semtex
 * Now always cost 250 points to buy (previously costed 130 points after first buy)
@@ -959,7 +962,10 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Moon: use BO3 PES mask model and anims
+* Make all HUD D-Pad input text align in the center
+* Add death hands from BO2 when you die
+* Make players drink perks correctly in third person (fixed in BO2)
+* Change perk bottle weapons to only use one weapon file using worldModel and gunModel
 * COTD: fix Director not doing anim when initially getting angry
 * Fix being able to cancel melee animation by switching weapons with a weapon that has an empty clip
 * Five: fix zombies getting stuck after teleporting
@@ -978,16 +984,6 @@
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Show player's perks when spectating (player.spectatorclient?)
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
-* Use Sleepy when game crashes on map load
-* Remove zombie failsafe death print before release
-
-### Versus Todo
-* Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
-* Add new grief damage fx
-* Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
-* Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
-
-### Weapons Todo
 * Get WaW weapon files of classic map weapons working
 * Fix trench gun 3rd person sounds being too loud
 * Get Ballistic Sickle weapon files completely working
@@ -1001,6 +997,16 @@
 * Upgraded Kar98k: 50 round clip, no reserve ammo
 * Add sprint and dive anims on WaW weapons
 * Reduce max recoil on PPSH
+* Fix China Lake rechamber when ADS (anim needs to be sped up in Maya)
+* Fix Ray Gun first raise sound not working on some maps
+* Use Sleepy when game crashes on map load
+* Remove zombie failsafe death print before release
+
+### Versus Todo
+* Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
+* Add new grief damage fx
+* Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
+* Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1036,6 +1042,7 @@
 * Remove shellshock from lethal grenade explosions? Yes
 * Health bar for player's health?
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo?
+* Moon on Grief: should you be able to break windows? Yes
 
 ### Testing
 * Moon sidequest dialog in coop without Richtofen

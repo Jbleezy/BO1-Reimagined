@@ -240,6 +240,8 @@ weapon,sp\zombie_type99_rifle
 weapon,sp/starburst_ray_gun_zm
 weapon,sp/starburst_m72_law_zm
 weapon,sp/starburst_china_lake_zm
+weapon,sp/equip_gasmask_zm
+weapon,sp/lower_equip_gasmask_zm
 
 //SOUNDS
 sound,reimagined
