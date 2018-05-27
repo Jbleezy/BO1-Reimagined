@@ -866,6 +866,8 @@ treasure_chest_init()
 			// default chest cost
 			level.chests[i].old_cost = 950;
 		}
+
+		level.chests[i] thread decide_hide_show_hint();
 	}
 
 	level.chest_accessed = 0;
@@ -1173,17 +1175,7 @@ default_pandora_show_func( anchor, anchorTarget, pieces )
 treasure_chest_think()
 {
 	self endon("kill_chest_think");
-	// Change to only use 1 hint string
-	/*
-	if( IsDefined(level.zombie_vars["zombie_powerup_fire_sale_on"]) && level.zombie_vars["zombie_powerup_fire_sale_on"] && self [[level._zombiemode_check_firesale_loc_valid_func]]())
-	{
-		self set_hint_string( self, "reimagined_random_weapon_fire_sale_cost" );
-	}
-	else
-	{
-		self set_hint_string( self, "reimagined_treasure_chest_" + self.zombie_cost );
-	}
-	*/
+
 	self SetHintString(&"REIMAGINED_MYSTERY_BOX", self.zombie_cost);
 	self setCursorHint( "HINT_NOICON" );
 
@@ -1320,7 +1312,6 @@ treasure_chest_think()
 		}
 		self setCursorHint( "HINT_NOICON" );
 
-		self	thread decide_hide_show_hint( "weapon_grabbed");
 		//self setvisibletoplayer( user );
 
 		// Limit its visibility to the player who bought the box

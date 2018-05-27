@@ -1255,9 +1255,6 @@ init_fx()
 	level._effect["def_explosion"]				= LoadFX("explosions/fx_default_explosion");
 	level._effect["betty_explode"]				= LoadFX("weapon/bouncing_betty/fx_explosion_betty_generic");
 
-	level._effect["equipment_damage"] 			= loadfx( "env/electrical/fx_elec_sparking_oneshot" );
-	level._effect["equipment_damage"] 			= LoadFX( "env/electrical/fx_elec_sparking_oneshot" );
-
 	level._effect["ent_stolen"] 				= LoadFX( "maps/zombie/fx_zmb_ent_stolen" );
 }
 

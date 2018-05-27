@@ -307,8 +307,7 @@ player_handle_quantum_bomb()
 			return;
 		}
 
-		player_angles = self GetPlayerAngles();
-		grenade.angles = (0, player_angles[1], 0);
+		grenade.angles = (0, grenade.angles[1], 0);
 
 		grenade waittill( "explode", position );
 

@@ -209,12 +209,10 @@ doll_spawner_cluster( start_grenade )
 	self thread nesting_dolls_track_achievement( self.doll_id );
 	self thread nesting_dolls_check_achievement( self.doll_id );
 
-	player_angles = self GetPlayerAngles();
-
 	// so the compiler doesn't puke
 	if ( IsDefined( start_grenade ) )
 	{
-		start_grenade.angles = (0, player_angles[1], 0);
+		start_grenade.angles = (0, start_grenade.angles[1], 0);
 
 		start_grenade spawn_doll_model( self.doll_id, 0, self );
 		start_grenade thread doll_behavior_explode_when_stopped( self, self.doll_id, 0 );
@@ -230,7 +228,7 @@ doll_spawner_cluster( start_grenade )
 
 		// spawn a magic grenade
 		grenade = self MagicGrenadeType( "zombie_nesting_doll_single", origin, grenade_vel );
-		grenade.angles = (0, player_angles[1], 0);
+		grenade.angles = (0, grenade.angles[1], 0);
 		grenade spawn_doll_model( self.doll_id, num_dolls, self );
 
 		grenade PlaySound( "wpn_nesting_pop_npc" );

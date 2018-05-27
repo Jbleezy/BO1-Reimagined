@@ -57,8 +57,7 @@ player_handle_cymbal_monkey()
 		}
 
 		grenade hide();
-		player_angles = self GetPlayerAngles();
-		grenade.angles = (0, player_angles[1], 0);
+		grenade.angles = (0, grenade.angles[1], 0);
 
 		model = spawn( "script_model", grenade.origin );
 		model.angles = grenade.angles;

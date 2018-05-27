@@ -4008,9 +4008,12 @@ meat_powerup( drop_item )
 	self GiveMaxAmmo("meat_zm");
 	self SwitchToWeapon("meat_zm");
 	self DisableWeaponCycling();
+	self.has_powerup_weapon = true;
 	self.has_meat = true;
 
 	self thread meat_powerup_check_for_player_downed();
+
+	self thread meat_powerup_check_for_meat_fail();
 
 	while(1)
 	{
@@ -4019,6 +4022,8 @@ meat_powerup( drop_item )
 		if(weapon == "meat_zm")
 		{
 			grenade thread create_meat_stink(self);
+
+			grenade.angles = (0, grenade.angles[1], 0);
 
 			if(is_true(self.has_meat))
 			{
@@ -4035,6 +4040,7 @@ meat_powerup( drop_item )
 					self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
 				}
 				self EnableWeaponCycling();
+				self.has_powerup_weapon = false;
 				self.has_meat = undefined;
 				self notify("threw meat");
 
@@ -4059,6 +4065,22 @@ meat_powerup_check_for_player_downed()
 	self TakeWeapon("meat_zm");
 	self.has_meat = undefined;
 	self.gg_wep_changed = undefined;
+}
+
+// if the player has a weapon fail with the meat powerup, they will be stuck with the meat powerup in their hand; this will prevent that
+meat_powerup_check_for_meat_fail()
+{
+	self endon("threw meat");
+
+	while(1)
+	{
+		if(self GetWeaponAmmoClip("meat_zm") == 0)
+		{
+			self SetWeaponAmmoClip("meat_zm", 1);
+		}
+
+		wait_network_frame();
+	}
 }
 
 create_meat_stink(player)
@@ -4116,7 +4138,7 @@ create_meat_stink(player)
 		ent SetModel("tag_origin");
 		ent LinkTo(model);
 
-		PlayFXOnTag(level._effect["meat_fx"], ent, "tag_origin");
+		PlayFXOnTag(level._effect["meat_stink"], ent, "tag_origin");
 
 		model.fx[model.fx.size] = ent;
 	}
