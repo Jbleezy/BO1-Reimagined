@@ -3076,7 +3076,7 @@ minigun_weapon_powerup( ent_player, time )
 	ent_player.has_minigun = true;
 	ent_player.has_powerup_weapon = true;
 
-	ent_player increment_is_drinking(true);
+	ent_player increment_is_drinking();
 	ent_player._zombie_gun_before_minigun = ent_player GetCurrentWeapon();
 
 	// give player a minigun
@@ -3190,7 +3190,6 @@ minigun_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
 			}
 		}
 	}
-
 }
 
 minigun_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
@@ -3202,17 +3201,56 @@ minigun_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
 	ent_player endon( "replace_weapon_powerup" );
 
 	//ent_player thread get_player_weapon(str_gun_return_notify);
-	ent_player DisableWeaponCycling();
-	while(ent_player GetCurrentWeapon() != "minigun_zm")
+
+	ent_player waittill("weapon_change_complete");
+	ent_player EnableWeaponCycling();
+
+	while(!ent_player IsSwitchingWeapons())
 	{
-		wait .05;
+		wait_network_frame();
 	}
 
-	ent_player EnableWeaponCycling();
-	while(ent_player GetCurrentWeapon() == "minigun_zm")
+	switched_weapons = false;
+
+	if( IsDefined( ent_player._zombie_gun_before_minigun ) )
 	{
-		wait .05;
+		player_weapons = ent_player GetWeaponsListPrimaries();
+		for( i = 0; i < player_weapons.size; i++ )
+		{
+			if( player_weapons[i] == ent_player._zombie_gun_before_minigun )
+			{
+				ent_player SwitchToWeapon( ent_player._zombie_gun_before_minigun );
+				switched_weapons = true;
+				break;
+			}
+		}
 	}
+
+	// if the player got through all that without getting a weapon back give them the first one
+	if(!switched_weapons)
+	{
+		primaryWeapons = ent_player GetWeaponsListPrimaries();
+		if( primaryWeapons.size > 0 )
+		{
+			ent_player SwitchToWeapon( primaryWeapons[0] );
+		}
+		else
+		{
+			allWeapons = ent_player GetWeaponsList();
+			for( i = 0; i < allWeapons.size; i++ )
+			{
+				if( is_melee_weapon( allWeapons[i] ) )
+				{
+					ent_player SwitchToWeapon( allWeapons[i] );
+					return;
+				}
+			}
+		}
+	}
+
+	ent_player DisableWeaponCycling();
+	ent_player waittill("weapon_change");
+	ent_player EnableWeaponCycling();
 
 	level thread minigun_weapon_powerup_remove( ent_player, str_gun_return_notify, true );
 }
@@ -3459,17 +3497,56 @@ tesla_weapon_powerup_weapon_change( ent_player, str_gun_return_notify, weapon )
 	ent_player endon( "replace_weapon_powerup" );
 
 	//ent_player thread get_player_weapon(str_gun_return_notify);
-	ent_player DisableWeaponCycling();
-	while(ent_player GetCurrentWeapon() != weapon)
+	
+	ent_player waittill("weapon_change_complete");
+	ent_player EnableWeaponCycling();
+
+	while(!ent_player IsSwitchingWeapons())
 	{
-		wait .05;
+		wait_network_frame();
 	}
 
-	ent_player EnableWeaponCycling();
-	while(ent_player GetCurrentWeapon() == weapon)
+	switched_weapons = false;
+
+	if( IsDefined( ent_player._zombie_gun_before_tesla ) )
 	{
-		wait .05;
+		player_weapons = ent_player GetWeaponsListPrimaries();
+		for( i = 0; i < player_weapons.size; i++ )
+		{
+			if( player_weapons[i] == ent_player._zombie_gun_before_tesla )
+			{
+				ent_player SwitchToWeapon( ent_player._zombie_gun_before_tesla );
+				switched_weapons = true;
+				break;
+			}
+		}
 	}
+
+	// if the player got through all that without getting a weapon back give them the first one
+	if(!switched_weapons)
+	{
+		primaryWeapons = ent_player GetWeaponsListPrimaries();
+		if( primaryWeapons.size > 0 )
+		{
+			ent_player SwitchToWeapon( primaryWeapons[0] );
+		}
+		else
+		{
+			allWeapons = ent_player GetWeaponsList();
+			for( i = 0; i < allWeapons.size; i++ )
+			{
+				if( is_melee_weapon( allWeapons[i] ) )
+				{
+					ent_player SwitchToWeapon( allWeapons[i] );
+					return;
+				}
+			}
+		}
+	}
+
+	ent_player DisableWeaponCycling();
+	ent_player waittill("weapon_change");
+	ent_player EnableWeaponCycling();
 
 	level thread tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon, true );
 }
@@ -4007,11 +4084,12 @@ meat_powerup( drop_item )
 	self GiveWeapon("meat_zm");
 	self GiveMaxAmmo("meat_zm");
 	self SwitchToWeapon("meat_zm");
-	self DisableWeaponCycling();
 	self.has_powerup_weapon = true;
 	self.has_meat = true;
 
 	self thread meat_powerup_check_for_player_downed();
+
+	self thread meat_powerup_check_for_weapon_switch(prev_wep);
 
 	self thread meat_powerup_check_for_meat_fail();
 
@@ -4029,8 +4107,6 @@ meat_powerup( drop_item )
 			{
 				wait(WeaponFireTime("meat_zm"));
 
-				self decrement_is_drinking();
-				self TakeWeapon("meat_zm");
 				if(self HasWeapon(prev_wep))
 				{
 					self SwitchToWeapon(prev_wep);
@@ -4039,16 +4115,8 @@ meat_powerup( drop_item )
 				{
 					self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
 				}
-				self EnableWeaponCycling();
-				self.has_powerup_weapon = false;
-				self.has_meat = undefined;
-				self notify("threw meat");
 
-				if(level.gamemode == "gg" && IsDefined(self.gg_wep_changed))
-				{
-					self.gg_wep_changed = undefined;
-					self maps\_zombiemode_grief::update_gungame_weapon(true);
-				}
+				self meat_powerup_take_weapon();
 
 				return;
 			}
@@ -4067,6 +4135,34 @@ meat_powerup_check_for_player_downed()
 	self.gg_wep_changed = undefined;
 }
 
+meat_powerup_check_for_weapon_switch(prev_wep)
+{
+	self endon("threw meat");
+
+	self waittill("weapon_change_complete");
+	self EnableWeaponCycling();
+
+	while(!self IsSwitchingWeapons())
+	{
+		wait_network_frame();
+	}
+
+	if(self HasWeapon(prev_wep))
+	{
+		self SwitchToWeapon(prev_wep);
+	}
+	else
+	{
+		self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
+	}
+
+	self DisableWeaponCycling();
+	self waittill("weapon_change");
+	self EnableWeaponCycling();
+	
+	self meat_powerup_take_weapon();
+}
+
 // if the player has a weapon fail with the meat powerup, they will be stuck with the meat powerup in their hand; this will prevent that
 meat_powerup_check_for_meat_fail()
 {
@@ -4080,6 +4176,22 @@ meat_powerup_check_for_meat_fail()
 		}
 
 		wait_network_frame();
+	}
+}
+
+meat_powerup_take_weapon()
+{
+	self TakeWeapon("meat_zm");
+
+	self decrement_is_drinking();
+	self.has_powerup_weapon = false;
+	self.has_meat = undefined;
+	self notify("threw meat");
+
+	if(level.gamemode == "gg" && IsDefined(self.gg_wep_changed))
+	{
+		self.gg_wep_changed = undefined;
+		self maps\_zombiemode_grief::update_gungame_weapon(true);
 	}
 }
 
