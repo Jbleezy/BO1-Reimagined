@@ -1121,6 +1121,8 @@
 * **_MasadaDRM_** - assisted with weapons and sounds
 * **_xSanchez78_** - assisted with client scripting and localized strings
 * **_Kody_** - Wunderwaffe gold camo, fixed CIA player viewmodel, assisted with animations
+* **_UltraZombieDino_** - BO3 P.E.S. model and animations
+* **_KagamineAddict_** - updated P.E.S. visor texture
 * **_ZeRoY_** - function list
 * **_SE2Dev_** - LinkerMod
 * **_Nukem_** - LinkerMod
