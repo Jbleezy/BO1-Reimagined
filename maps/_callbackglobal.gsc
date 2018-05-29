@@ -500,11 +500,11 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 		}
 	}
 
-	//remove shellshock from all weapons except primary grenades
-	if((sWeapon != "frag_grenade_zm" && sWeapon != "sticky_grenade_zm" && sWeapon != "stielhandgranate") && sMeansOfDeath == "MOD_GRENADE_SPLASH")
+	// Remove shellshock from explosive weapons (using "MOD_MELEE" since it automatically makes players stop sprinting)
+	if(sMeansOfDeath == "MOD_GRENADE_SPLASH" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH")
 	{
-		sMeansOfDeath = "MOD_PROJECTILE_SPLASH";
-		self thread stop_running();
+		sMeansOfDeath = "MOD_MELEE"; // TODO - make sure this doesn't have any unintended side effects
+		//self thread stop_running();
 	}
 
 	if ( isdefined(eAttacker) && eAttacker != self )
@@ -1047,6 +1047,6 @@ stop_running()
 	self endon( "disconnect" );
 
 	self AllowSprint(false);
-	wait .5;
+	wait 1;
 	self AllowSprint(true);
 }

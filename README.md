@@ -141,7 +141,7 @@
 * Unupgraded: headshot damage - 690
 
 ### Explosive weapons
-* Removed shellshock effect from explosive damage (except for lethal grenades)
+* Removed shellshock effect from all explosive weapon damage
 * Removed damage scaling over rounds (except for lethal grenades and mines)
 
 ### Snipers
@@ -1040,7 +1040,6 @@
 * Should NML have insta kill rounds? No
 * If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
 * Should special rounds always be 5 rounds apart?
-* Remove shellshock from lethal grenade explosions? Yes
 * Health bar for player's health?
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo?
 * Moon on Grief: should you be able to break windows? Yes
