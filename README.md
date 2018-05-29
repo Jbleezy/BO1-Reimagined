@@ -257,6 +257,7 @@
 * Fixed sprinting animation not playing correctly when clip is empty
 
 ### Olympia
+* Now adds 1 ammo to the clip during the reload if reloaded with no ammo in the clip
 * Unupgraded: deals 1.5x more damage
 * Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
 

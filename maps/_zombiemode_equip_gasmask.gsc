@@ -145,9 +145,9 @@ gasmask_activation_watcher_thread()
 				self [[level.zombiemode_gasmask_change_player_headmodel]]( ent_num, true );
 			}
 
-			wait 1.1;
+			wait .8;
 			clientnotify( "gmsk2" );
-			wait 1.5;
+			wait 1.8;
 
 			//self waittill( "weapon_change_complete" );
 

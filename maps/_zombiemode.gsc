@@ -1759,6 +1759,7 @@ onPlayerConnect()
 		player thread switch_weapons_notify();
 		player thread is_reloading_check();
 		player thread store_last_held_primary_weapon();
+		player thread olympia_reload_fix();
 	}
 }
 
@@ -2067,8 +2068,6 @@ onPlayerSpawned()
 		self thread revive_grace_period();
 
 		self thread no_weapon_watcher();
-
-		//self thread disable_melee_watcher();
 
 		self.move_speed = 1;
 
@@ -8777,22 +8776,22 @@ give_weapons_test()
 	wait_network_frame();
 	self SwitchToWeapon(wep);*/
 
-	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
-
 	//self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
 
 	//self thread maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
 
 	//self thread maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
 
+	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
+
 	//self giveweapon( "molotov_zm" );
 	//self set_player_tactical_grenade( "molotov_zm" );
 
 	//wait 5;
 
-	//self giveweapon( "molotov_zm" );
-	//self set_player_tactical_grenade( "molotov_zm" );
-	//self SetWeaponAmmoClip("molotov_zm", 3);
+	/*self giveweapon( "molotov_zm" );
+	self set_player_tactical_grenade( "molotov_zm" );
+	self SetWeaponAmmoClip("molotov_zm", 3);*/
 
 	/*while(1)
 	{
@@ -8826,11 +8825,17 @@ give_weapons_test()
 	origin = self.origin;
 	wait 5;
 	level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "minigun", origin, true );*/
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "meat", origin, true );*/
 
-	//origin = self.origin;
+	/*wait 10;
+	iprintln("spawning");
+	origin = self.origin;
+	wait 5;
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "fire_sale", origin, true );*/
+
+	//self thread spectator_test();
 	//wait 5;
-	//level thread maps\_zombiemode_powerups::specific_powerup_drop( "insta_kill", origin, true );
+	//self.sessionstate = "spectator";
 
 	/*wait 5;
 
@@ -8840,6 +8845,16 @@ give_weapons_test()
 
 		wait 40;
 	}*/
+}
+
+spectator_test()
+{
+	while(1)
+	{
+		//iprintln(GetDvar("ui_test_spectator_name"));
+		iprintln(self GetCurrentWeapon());
+		wait 1;
+	}
 }
 
 //removes idle sway on sniper scopes
@@ -9313,11 +9328,11 @@ is_reloading_check()
 
 reload_complete_check(empty_clip)
 {
+	self endon("disconnect");
 	self endon("melee");
 	self endon("sprint");
 	self endon("switch_weapons");
 	self endon("weapon_fired");
-	self endon("disconnect");
 
 	weapon = self GetCurrentWeapon();
 	reload_time = WeaponReloadTime(weapon);
@@ -9331,40 +9346,55 @@ reload_complete_check(empty_clip)
 	wait reload_time;
 }
 
-disable_melee_watcher()
+// adds 1 ammo to the clip for the olympia during the reload as long as the player is still reloading and has at least 1 ammo in the stock and 0 ammo in the clip
+olympia_reload_fix()
 {
-	self endon("death");
 	self endon("disconnect");
-
-	flag_wait("all_players_spawned");
 
 	while(1)
 	{
-		self waittill("melee");
+		self waittill("reload_start");
 
 		current_wep = self GetCurrentWeapon();
-		if(self GetCurrentWeaponClipAmmo() == 0 && WeaponClipSize(current_wep) >= 1)
+
+		if(current_wep == "rottweil72_zm" || current_wep == "rottweil72_upgraded_zm")
 		{
-			self DisableWeaponCycling();
-			while(self IsMeleeing())
+			if(self GetWeaponAmmoClip(current_wep) == 0)
 			{
-				wait_network_frame();
-			}
-			self EnableWeaponCycling();
-		}
-		else if(self AttackButtonPressed())
-		{
-			self AllowMelee(false);
-			wait 1;
-			self AllowMelee(true);
-		}
-		else
-		{
-			while(self IsMeleeing())
-			{
-				wait_network_frame();
+				self wait_reload_olympia(current_wep);
 			}
 		}
+	}
+}
+
+wait_reload_olympia(current_wep)
+{
+	self endon("disconnect");
+	self endon("melee");
+	self endon("sprint");
+	self endon("switch_weapons");
+
+	time = 1.75;
+
+	if(current_wep == "rottweil72_upgraded_zm")
+	{
+		time = 1.1;
+	}
+
+	if(self HasPerk("specialty_fastreload"))
+	{
+		time *= .5;
+	}
+
+	wait time;
+
+	clip_ammo = self GetWeaponAmmoClip(current_wep);
+	stock_ammo = self GetWeaponAmmoStock(current_wep);
+
+	if(clip_ammo == 0 && stock_ammo >= 1)
+	{
+		self SetWeaponAmmoClip(current_wep, 1);
+		self SetWeaponAmmoStock(current_wep, stock_ammo - 1);
 	}
 }
 
