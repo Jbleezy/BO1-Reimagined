@@ -234,14 +234,19 @@ weapon,sp\explosive_bolt_upgraded_zm
 weapon,sp\mp40_zm
 weapon,sp\mp40_upgraded_zm
 weapon,sp\minigun_zm
-weapon,sp\zombie_type99_rifle
-//weapon,sp/zombie_stg44
-//weapon,sp/zombie_stg44_upgraded
 weapon,sp/starburst_ray_gun_zm
 weapon,sp/starburst_m72_law_zm
 weapon,sp/starburst_china_lake_zm
 weapon,sp/equip_gasmask_zm
 weapon,sp/lower_equip_gasmask_zm
+weapon,sp/zombie_perk_bottle
+
+//WAW WEAPONS
+weapon,sp\zombie_type99_rifle
+weapon,sp/zombie_stg44
+weapon,sp/zombie_stg44_upgraded
+weapon,sp/zombie_thompson
+weapon,sp/zombie_thompson_upgraded
 
 //SOUNDS
 sound,reimagined
@@ -290,6 +295,14 @@ xmodel,bo2_c_zom_player_cdc_fb
 xmodel,bo2_c_zom_player_cia_fb
 xmodel,p_rus_boots_sloppy
 //xmodel,t5_weapon_carry_minigun_viewmodel
+
+//ANIMS
+//xanim,p_zombie_perkacola_drink
+
+//PLAYER ANIMS
+//rawfile,mp\playeranim.script
+//rawfile,mp\playeranimtypes.txt
+//rawfile,animtrees\multiplayer.atr
 
 //CHARACTERS
 rawfile,character/c_ger_richtofen_dlc5.gsc

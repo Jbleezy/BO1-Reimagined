@@ -1002,6 +1002,10 @@
 * Fix Ray Gun first raise sound not working on some maps
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
+* Try setting armorPiercing to 1 to see if bullets don't lose damage through multiple zombies
+* Disable melee when using Hacker
+* Replace WaW weapon viewmodels in BO1 with their equivalents in WaW so they their model is more correct
+* Add WaW weapon files with correct stats
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1043,12 +1047,14 @@
 * Health bar for player's health?
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo?
 * Moon on Grief: should you be able to break windows? Yes
+* Use tactical grenade models from Chronicles?
 
 ### Testing
 * Moon sidequest dialog in coop without Richtofen
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
+* Grief: make sure explosive weapon damage from enemies still works properly with change to explosive damage means of death
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds
