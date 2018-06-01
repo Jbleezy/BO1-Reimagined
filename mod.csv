@@ -299,7 +299,8 @@ xmodel,p_rus_boots_sloppy
 //xmodel,t5_weapon_carry_minigun_viewmodel
 
 //ANIMS
-//xanim,p_zombie_perkacola_drink
+//xanim,pt_radio_stand_raise
+//xanim,pt_radio_crouch_raise
 
 //PLAYER ANIMS
 //rawfile,mp\playeranim.script

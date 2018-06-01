@@ -1012,7 +1012,6 @@
 * Try setting armorPiercing to 1 to see if bullets don't lose damage through multiple zombies
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW so they their model is more correct
 * Add WaW weapon files with correct stats
-* PPSH: add original fire sounds
 * Do impact damage from steilhandgranate from weapon file
 
 ### Versus Todo
