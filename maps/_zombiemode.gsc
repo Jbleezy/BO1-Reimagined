@@ -9509,11 +9509,9 @@ store_last_held_primary_weapon()
 
 		current_wep = self GetCurrentWeapon();
 
-		wep_prefix = GetSubStr(current_wep, 0, 3);
-		alt_wep = WeaponAltWeaponName(current_wep);
-		if(alt_wep != "none" && (wep_prefix == "gl_" || wep_prefix == "mk_" || wep_prefix == "ft_"))
+		if(WeaponInventoryType(current_wep) == "altmode")
 		{
-			current_wep = alt_wep;
+			current_wep = WeaponAltWeaponName(current_wep);
 		}
 
 		if(is_in_array(self GetWeaponsListPrimaries(), current_wep))

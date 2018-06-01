@@ -273,11 +273,9 @@ store_player_weapons()
 	}
 
 	//dont store the weapon attachment name as the last active weapon or can't switch to it
-	wep_prefix = GetSubStr(self.lastActiveStoredWeap, 0, 3);
-	alt_wep = WeaponAltWeaponName(self.lastActiveStoredWeap);
-	if(alt_wep != "none" && (wep_prefix == "gl_" || wep_prefix == "mk_" || wep_prefix == "ft_"))
+	if(WeaponInventoryType(self.lastActiveStoredWeap) == "altmode")
 	{
-		self.lastActiveStoredWeap = alt_wep;
+		self.lastActiveStoredWeap = WeaponAltWeaponName(self.lastActiveStoredWeap);
 	}
 
 	self SetLastStandPrevWeap( self.lastActiveStoredWeap );

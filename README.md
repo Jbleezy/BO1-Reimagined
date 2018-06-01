@@ -1012,7 +1012,6 @@
 * Add WaW weapon files with correct stats
 * PPSH: add original fire sounds
 * Do impact damage from steilhandgranate from weapon file
-* Use WeaponInventoryType() == "altmode" to check for alt weapons
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
