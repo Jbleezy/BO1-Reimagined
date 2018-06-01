@@ -174,18 +174,6 @@ weapon,sp/china_lake_zm
 weapon,sp/china_lake_upgraded_zm
 weapon,sp/m72_law_zm
 weapon,sp/m72_law_upgraded_zm
-weapon,sp/ak47_zm
-weapon,sp/ak47_ft_upgraded_zm
-weapon,sp/ft_ak47_upgraded_zm
-weapon,sp/stoner63_zm
-weapon,sp/stoner63_upgraded_zm
-weapon,sp/psg1_zm
-weapon,sp/psg1_upgraded_zm
-weapon,sp/ppsh_zm
-weapon,sp/ppsh_upgraded_zm
-//weapon,sp/kiparis_zm
-//weapon,sp/kiparislh_upgraded_zm
-//weapon,sp/kiparisdw_upgraded_zm
 weapon,sp/l96a1_zm
 weapon,sp/l96a1_upgraded_zm
 weapon,sp/g11_lps_zm
@@ -204,7 +192,6 @@ weapon,sp/cz75lh_upgraded_zm
 weapon,sp/cz75dw_zm
 weapon,sp/cz75lh_zm
 weapon,sp/claymore_zm
-weapon,sp/molotov_zm
 weapon,sp/rpk_zm
 weapon,sp/rpk_upgraded_zm
 weapon,sp/combat_knife_zm
@@ -215,7 +202,6 @@ weapon,sp/zombie_bullet_crouch
 weapon,sp/mk_aug_upgraded_zm
 weapon,sp/tesla_gun_zm
 weapon,sp/tesla_gun_upgraded_zm
-weapon,sp/tesla_gun_new_upgraded_zm
 weapon,sp/freezegun_zm
 weapon,sp/freezegun_upgraded_zm
 weapon,sp/knife_ballistic_zm
@@ -226,7 +212,6 @@ weapon,sp/knife_ballistic_bowie_upgraded_zm
 //weapon,sp/knife_ballistic_sickle_upgraded_zm
 //weapon,sp/thundergun_zm
 //weapon,sp/thundergun_upgraded_zm
-weapon,sp\meat_zm
 weapon,sp\crossbow_explosive_zm
 weapon,sp\crossbow_explosive_upgraded_zm
 weapon,sp\explosive_bolt_zm
@@ -234,12 +219,8 @@ weapon,sp\explosive_bolt_upgraded_zm
 weapon,sp\mp40_zm
 weapon,sp\mp40_upgraded_zm
 weapon,sp\minigun_zm
-weapon,sp/starburst_ray_gun_zm
-weapon,sp/starburst_m72_law_zm
-weapon,sp/starburst_china_lake_zm
 weapon,sp/equip_gasmask_zm
 weapon,sp/lower_equip_gasmask_zm
-weapon,sp/zombie_perk_bottle
 
 //WAW WEAPONS
 weapon,sp\zombie_type99_rifle
@@ -247,6 +228,27 @@ weapon,sp/zombie_stg44
 weapon,sp/zombie_stg44_upgraded
 weapon,sp/zombie_thompson
 weapon,sp/zombie_thompson_upgraded
+
+//NEW WEAPONS
+weapon,sp\meat_zm
+weapon,sp/starburst_ray_gun_zm
+weapon,sp/starburst_m72_law_zm
+weapon,sp/starburst_china_lake_zm
+weapon,sp/zombie_perk_bottle
+weapon,sp/tesla_gun_new_upgraded_zm
+weapon,sp/molotov_zm
+weapon,sp/ak47_zm
+weapon,sp/ak47_ft_upgraded_zm
+weapon,sp/ft_ak47_upgraded_zm
+weapon,sp/stoner63_zm
+weapon,sp/stoner63_upgraded_zm
+weapon,sp/psg1_zm
+weapon,sp/psg1_upgraded_zm
+weapon,sp/ppsh_zm
+weapon,sp/ppsh_upgraded_zm
+//weapon,sp/kiparis_zm
+//weapon,sp/kiparislh_upgraded_zm
+//weapon,sp/kiparisdw_upgraded_zm
 
 //SOUNDS
 sound,reimagined

@@ -275,6 +275,10 @@
 * Unupgraded: increased reserve ammo from 120 to 240
 * Upgraded: increased reserve ammo from 225 to 360
 
+### Thompson
+* Ammo now gets added to the clip at the same time that it does in the reload animation
+* Upgraded: decreased reserve ammo from 250 to 240
+
 ### Wonder Weapons
 
 ### Ray Gun
@@ -1006,6 +1010,9 @@
 * Disable melee when using Hacker
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW so they their model is more correct
 * Add WaW weapon files with correct stats
+* PPSH: add original fire sounds
+* Do impact damage from steilhandgranate from weapon file
+* Use WeaponInventoryType() == "altmode" to check for alt weapons
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
