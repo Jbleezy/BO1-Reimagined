@@ -368,23 +368,26 @@
 * Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
 
 #### Hacker
+* Every player can have the hacker
+* Does not move locations when picked up
+* Can now only hack one item at a time
+* Melee disabled during hack
+* Pressing the lethal grenade button or ADS button will no longer restart a hack
 * Removed points reward given between rounds
 * Hacking a Max Ammo gives a Perk Bottle
 * Hacking a powerup will reset its timer
 * Hacking a Death Machine will now make the Max Ammo glow its correct color
 * Powerup hack trigger radius increased by 30%
-* Every player can have the hacker
-* Does not move locations
 * Cost to hack wall weapons increased from 3000 points to 5000 points
 * Can now unhack wall weapons (costs the same amount to unhack them)
 * Buying a hacked wallbuy will give you the upgraded version of that weapon
 * Unupgraded and upgraded ammo both cost the price of unupgraded ammo when hacked
 * Wallbuy hintstring now updates when hacked to reflect their current prices
 * Doors are free to hack
-* Time to hack doors decreased from 32.7 seconds to 30 seconds
+* Time to hack doors decreased from 32.7 seconds to 15 seconds
+* Time to hack players decreased from 10 seconds to 1.5 seconds
 * Hacking the box twice no longer gives you 950 points
 * Hacking a teddy bear location will now only lock that box for the remainder of the current round
-* Time to hack players decreased from 10 seconds to 1.5 seconds
 * Fire sale box can spawn at locations where the box has been hacked
 
 #### Matroyshka Dolls
@@ -1007,7 +1010,6 @@
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Try setting armorPiercing to 1 to see if bullets don't lose damage through multiple zombies
-* Disable melee when using Hacker
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW so they their model is more correct
 * Add WaW weapon files with correct stats
 * PPSH: add original fire sounds

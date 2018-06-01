@@ -263,14 +263,6 @@ store_player_weapons()
 	self.weaponInventory = self GetWeaponsList();
 
 	self.lastActiveStoredWeap = self GetCurrentWeapon();
-	if(self.lastActiveStoredWeap == "microwavegun_zm")
-	{
-		self.lastActiveStoredWeap = "microwavegundw_zm";
-	}
-	else if(self.lastActiveStoredWeap == "microwavegun_upgraded_zm")
-	{
-		self.lastActiveStoredWeap = "microwavegundw_upgraded_zm";
-	}
 
 	//dont store the weapon attachment name as the last active weapon or can't switch to it
 	if(WeaponInventoryType(self.lastActiveStoredWeap) == "altmode")

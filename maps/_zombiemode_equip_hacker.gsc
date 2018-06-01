@@ -277,8 +277,16 @@ add_eligable_pooled_items()
 			height = candidate.height;
 		}
 
-		trigger = Spawn( "trigger_radius", candidate.origin, 0, radius, height);
-		//trigger UseTriggerRequireLookAt();
+		trigger = undefined;
+		if(IsDefined(candidate.powerup))
+		{
+			trigger = Spawn( "trigger_radius", candidate.origin, 0, radius, height);
+		}
+		else
+		{
+			trigger = Spawn( "trigger_radius_use", candidate.origin, 0, radius, height);
+		}
+		trigger UseTriggerRequireLookAt();
 		trigger SetCursorHint( "HINT_NOICON" );
 		trigger.radius = radius;
 		trigger.height = height;
@@ -543,16 +551,6 @@ can_hack( hackable )
 		}
 	}
 
-	if(self throwbuttonpressed())
-	{
-		return false;
-	}
-
-	if(self FragButtonPressed())
-	{
-		return false;
-	}
-
 	if(IsDefined(hackable._hack_qualifier_func))
 	{
 		if(!hackable [[hackable._hack_qualifier_func]](self))
@@ -605,14 +603,18 @@ can_hack( hackable )
 		return false;
 	}
 
-		return true;
+	if(IsDefined(self.hackable_being_hacked) && self.hackable_being_hacked != hackable)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 is_hacking( hackable )
 {
 	return ( self can_hack( hackable ) && self UseButtonPressed() );
 }
-
 
 set_hack_hint_string()
 {
@@ -651,6 +653,7 @@ tidy_on_deregister(hackable)
 		self.hackerTextHud destroy();
 	}
 
+	self.hackable_being_hacked = undefined;
 }
 
 hacker_do_hack( hackable )
@@ -664,6 +667,7 @@ hacker_do_hack( hackable )
 	hacked = false;
 
 	hackable._trigger.beingHacked = true;
+	self.hackable_being_hacked = hackable;
 
 	if( !isdefined(self.hackerProgressBar) )
 	{
@@ -756,6 +760,8 @@ hacker_do_hack( hackable )
 		hackable._trigger.beingHacked = false;
 	}
 
+	self.hackable_being_hacked = undefined;
+
 	self notify("clean_up_tidy_up");
 
 	return hacked;
@@ -777,6 +783,7 @@ lowreadywatcher(player)
 	self waittill("hackable_deregistered");
 
 	player setlowready(0);
+	player AllowMelee(true);
 }
 
 hackable_object_thread()
@@ -872,6 +879,7 @@ hackable_object_thread()
 			{
 
 				hacker setlowready(1);
+				hacker AllowMelee(false);
 
 				self thread lowreadywatcher(hacker);
 
@@ -881,6 +889,7 @@ hackable_object_thread()
 				if(IsDefined(hacker))
 				{
 					hacker setlowready(0);
+					hacker AllowMelee(true);
 				}
 
 				if(IsDefined(hacker) && hack_success)
@@ -922,7 +931,7 @@ hacker_on_zombies()
 		zombs = GetAiSpeciesArray( "axis", "all" );
 		for(i=0;i<zombs.size;i++)
 		{
-			if(!IsDefined(zombs[i].can_be_hacked))
+			if(!IsDefined(zombs[i].can_be_hacked) && (zombs[i].animname != "astro_zombie"))
 			{
 				zombs[i].can_be_hacked = true;
 
@@ -930,14 +939,14 @@ hacker_on_zombies()
 				struct.origin = zombs[i].origin;
 				struct.radius = 96;
 				struct.height = 96;
-				struct.script_float = 1;
+				struct.script_float = 1.5;
 				struct.script_int = 0;
 				struct.entity = zombs[i];
-				struct.trigger_offset = (0,0,64);
+				struct.trigger_offset = (0,0,40);
 
 				register_pooled_hackable_struct(struct, ::zombie_hack, ::zombie_qualifier);
 
-				struct thread zombie_hack_death_watcher(zombs[i]);
+				struct thread zombie_hack_death_watcher();
 			}
 		}
 		wait .05;
@@ -946,11 +955,30 @@ hacker_on_zombies()
 
 zombie_hack(hacker)
 {
-	if(IsDefined(self.entity))
+	self.entity.no_powerups = true;
+	self.entity DoDamage( self.entity.health + 1000, self.entity.origin, hacker );
+
+	/*self.entity endon("death");
+
+	self.entity notify( "stop_find_flesh" );
+	self.entity notify( "zombie_acquire_enemy" );
+	self.entity.ignoreall = true;
+
+	points = int(10 * self.zombie_vars["zombie_point_scalar"]);
+	hacker maps\_zombiemode_score::add_to_player_score( points );
+	self.entity thread maps\_zombiemode_spawner::do_a_taunt();
+
+	health = self.entity.health;
+
+	while(self.entity.health == health && is_true(self.entity.is_taunting))
 	{
-		self.entity DoDamage( self.entity.health + 666, self.entity.origin );
-		hacker maps\_zombiemode_score::add_to_player_score( 50 );
+		wait_network_frame();
 	}
+
+	self.entity.is_taunting = false;
+	self.entity.ignoreall = false;
+	self.entity StopAnimScripted();
+	self.entity thread maps\_zombiemode_spawner::find_flesh();*/
 }
 
 zombie_qualifier()
@@ -958,9 +986,9 @@ zombie_qualifier()
 	return true;
 }
 
-zombie_hack_death_watcher(zomb)
+zombie_hack_death_watcher()
 {
-	zomb waittill("death");
+	self.entity waittill("death");
 	deregister_hackable_struct(self);
 }
 

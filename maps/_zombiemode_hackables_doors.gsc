@@ -52,7 +52,7 @@ hack_doors(targetname, door_activate_func)
 		struct.origin = door.origin + (AnglesToForward(door.angles) * 2);
 		struct.radius = 48;
 		struct.height = 72;
-		struct.script_float = 30;
+		struct.script_float = 15;
 		struct.script_int = 0;
 		struct.door = door;
 		struct.no_bullet_trace = true;

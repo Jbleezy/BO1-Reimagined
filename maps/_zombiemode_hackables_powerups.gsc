@@ -36,6 +36,7 @@ hack_powerups()
 			struct.script_float = 5;
 			struct.script_int = 5000;
 			struct.powerup = powerup;
+			struct.entity = powerup;
 
 			powerup thread powerup_pickup_watcher(struct);
 

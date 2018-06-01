@@ -448,8 +448,7 @@ quantum_bomb_random_weapon_starburst_result( position )
 	weapon_model waittill( "movedone" );
 
 	attacker = self;
-	//weapon_model.magic_bullet_damage = true;
-	//attacker = weapon_model;
+
 	for ( i = 0; i < 36; i++ )
 	{
 		yaw = start_yaw + (RandomIntRange( -3, 3 ), i * 10, 0);
@@ -474,7 +473,7 @@ quantum_bomb_random_weapon_starburst_result( position )
 
 quantum_bomb_pack_or_unpack_current_weapon_validation( position )
 {
-	if ( !quantum_bomb_get_cached_in_playable_area( position ) || maps\_zombiemode_weapons::is_weapon_upgraded(self GetCurrentWeapon()) )
+	if ( !quantum_bomb_get_cached_in_playable_area( position ) || maps\_zombiemode_weapons::is_weapon_upgraded(self GetCurrentWeapon()) || !IsDefined(level.zombie_weapons[self GetCurrentWeapon()].upgrade_name) )
 	{
 		return false;
 	}
