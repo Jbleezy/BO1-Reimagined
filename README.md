@@ -276,17 +276,16 @@
 * Upgraded: increased reserve ammo from 225 to 360
 
 ### Thompson
-* Ammo now gets added to the clip at the same time that it does in the reload animation
+* Ammo now gets added to the clip at the same time that it does in the reload animation when reloading with an empty clip
 * Upgraded: decreased reserve ammo from 250 to 240
 
 ### Wonder Weapons
 
 ### Ray Gun
 * Ammo now gets added to the clip at the same time that it does in the reload animation
-* Always makes crawlers on first damage on an enemy
 * Removed weapon bob from movement
 * Added sprint and dive animations
-* Decreased first raise time from 2.4 seconds to 1.2 seconds
+* Decreased first raise time from 2.4 seconds to 1.8 seconds
 * Unupgraded: impact damage - 2500
 * Unupgraded: maximum explosion damage - 2500
 * Unupgraded: minimum explosion damage - 1250
@@ -1006,13 +1005,17 @@
 * Add sprint and dive anims on WaW weapons
 * Reduce max recoil on PPSH
 * Fix China Lake rechamber when ADS (anim needs to be sped up in Maya)
-* Fix Ray Gun first raise sound not working on some maps
+* Fix Ray Gun first raise sound not working
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Try setting armorPiercing to 1 to see if bullets don't lose damage through multiple zombies
-* Replace WaW weapon viewmodels in BO1 with their equivalents in WaW so they their model is more correct
+* Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
 * Add WaW weapon files with correct stats
-* Do impact damage from steilhandgranate from weapon file
+* Do impact damage from steilhandgranate in weapon file
+* Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
+* Make it so mystery box sound plays for wonder weapon, not Ray Gun
+* Make it so players can look up and down 90 degrees (currently at 85)
+* Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)

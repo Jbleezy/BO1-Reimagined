@@ -3197,10 +3197,10 @@ zombie_gib_on_damage()
 				self.a.gib_ref = animscripts\zombie_death::get_random( refs );
 
 				//ray gun - always make crawlers
-				if( (type == "MOD_PROJECTILE" || type == "MOD_PROJECTILE_SPLASH") && (self.damageweapon == "ray_gun_zm" || self.damageweapon == "ray_gun_upgraded_zm") && self.health > 0 && self.has_legs )
+				/*if( (type == "MOD_PROJECTILE" || type == "MOD_PROJECTILE_SPLASH") && (self.damageweapon == "ray_gun_zm" || self.damageweapon == "ray_gun_upgraded_zm") && self.health > 0 && self.has_legs )
 				{
 					self.a.gib_ref = "no_legs";
-				}
+				}*/
 
 				// Don't stand if a leg is gone
 				if( ( self.a.gib_ref == "no_legs" || self.a.gib_ref == "right_leg" || self.a.gib_ref == "left_leg" ) && self.health > 0 )
@@ -3365,7 +3365,7 @@ zombie_should_gib( amount, attacker, type )
 	}
 
 	//ray gun - always gib
-	if(self.animname == "zombie" || self.animname == "quad_zombie")
+	/*if(self.animname == "zombie" || self.animname == "quad_zombie")
 	{
 		if( type == "MOD_PROJECTILE" || type == "MOD_PROJECTILE_SPLASH" )
 		{
@@ -3374,7 +3374,7 @@ zombie_should_gib( amount, attacker, type )
 				return true;
 			}
 		}
-	}
+	}*/
 
 //	println( "**DEBUG amount = ", amount );
 //	println( "**DEBUG self.head_gibbed = ", self.head_gibbed );

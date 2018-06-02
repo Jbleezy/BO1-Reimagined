@@ -3140,6 +3140,7 @@ treasure_chest_give_weapon( weapon_string )
 	{
 		weapon_string = "knife_ballistic_sickle_zm";
 	}
+	
 	if (weapon_string == "ray_gun_zm")
 	{
 		playsoundatposition("mus_raygun_stinger", (0,0,0));
