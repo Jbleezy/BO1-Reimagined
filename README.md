@@ -362,6 +362,9 @@
 #### Claymore
 * Added placing sound
 
+### Frag Grenade
+* Changed upwards projectile speed
+
 #### Gersch Device
 * Zombies now get attracted immediately
 * Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
@@ -409,6 +412,7 @@
 #### Semtex
 * Now always cost 250 points to buy (previously costed 130 points after first buy)
 * Semtex beeping rate no longer changes depending on your FPS
+* Changed upwards projectile speed
 
 #### Stielhandgranate
 * Now deals damage on impact
