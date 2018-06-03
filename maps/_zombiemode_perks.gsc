@@ -726,7 +726,13 @@ wait_for_player_to_take( player, weapon, packa_timer )
 				}
 				else
 				{
-					player GiveWeapon( upgrade_weapon, 0, player maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( upgrade_weapon ) );
+					index = 0;
+					if(upgrade_weapon == "tesla_gun_upgraded_zm" && IsSubStr(level.script, "zombie_cod5_"))
+					{
+						index = 1;
+					}
+
+					player GiveWeapon( upgrade_weapon, index, player maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( upgrade_weapon ) );
 					player GiveStartAmmo( upgrade_weapon );
 				}
 
@@ -1731,7 +1737,7 @@ give_perk( perk, bought )
 	{
 		self SetClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
 		perk_str = perk + "_stop";
-		self thread move_faster_while_ads(perk_str);
+		//self thread move_faster_while_ads(perk_str);
 		self SetPerk("specialty_sprintrecovery");
 	}
 	else if( perk == "specialty_deadshot_upgrade" )
@@ -1854,13 +1860,36 @@ give_back_mule_weapon()
 	unupgrade_name = self.weapon_taken_by_losing_additionalprimaryweapon[0];
 	if(maps\_zombiemode_weapons::is_weapon_upgraded(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
 	{
-		//removes "_upgraded" from weapon name
+		// removes "_upgraded" from weapon name
 		unupgrade_name = GetSubStr(unupgrade_name, 0, unupgrade_name.size - 12) + GetSubStr(unupgrade_name, unupgrade_name.size - 3);
 	}
 
+	// cant give wep back if player has the wep or player has upgraded version and we're trying to give them unupgraded version
 	if(self HasWeapon(level.zombie_weapons[unupgrade_name].upgrade_name) || (self HasWeapon(unupgrade_name) && !maps\_zombiemode_weapons::is_weapon_upgraded(self.weapon_taken_by_losing_additionalprimaryweapon[0])))
 	{
-		//cant give wep back if player has the wep or player has upgraded version and we're trying to give them unupgraded version
+		// give the player the ammo from their mule kick weapon if they have less than their mule kick weapon had
+		if(self HasWeapon(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
+		{
+			if(self GetWeaponAmmoClip(self.weapon_taken_by_losing_additionalprimaryweapon[0]) < self.weapon_taken_by_losing_additionalprimaryweapon[1])
+			{
+				self SetWeaponAmmoClip(self.weapon_taken_by_losing_additionalprimaryweapon[0], self.weapon_taken_by_losing_additionalprimaryweapon[1]);
+			}
+
+			if(self GetWeaponAmmoStock(self.weapon_taken_by_losing_additionalprimaryweapon[0]) < self.weapon_taken_by_losing_additionalprimaryweapon[2])
+			{
+				self SetWeaponAmmoStock(self.weapon_taken_by_losing_additionalprimaryweapon[0], self.weapon_taken_by_losing_additionalprimaryweapon[2]);
+			}
+
+			dual_wield_name = WeaponDualWieldWeaponName( self.weapon_taken_by_losing_additionalprimaryweapon[0] );
+			if ( "none" != dual_wield_name )
+			{
+				if(self GetWeaponAmmoClip(dual_wield_name) < self.weapon_taken_by_losing_additionalprimaryweapon[3])
+				{
+					self SetWeaponAmmoClip(dual_wield_name, self.weapon_taken_by_losing_additionalprimaryweapon[3]);
+				}
+			}
+		}
+
 		self.weapon_taken_by_losing_additionalprimaryweapon = [];
 		return;
 	}
@@ -1870,7 +1899,13 @@ give_back_mule_weapon()
 		self TakeWeapon(unupgrade_name);
 	}
 
-	self GiveWeapon(self.weapon_taken_by_losing_additionalprimaryweapon[0], 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( self.weapon_taken_by_losing_additionalprimaryweapon[0] ));
+	index = 0;
+	if(self.weapon_taken_by_losing_additionalprimaryweapon[0] == "tesla_gun_upgraded_zm" && IsSubStr(level.script, "zombie_cod5_"))
+	{
+		index = 1;
+	}
+
+	self GiveWeapon(self.weapon_taken_by_losing_additionalprimaryweapon[0], index, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( self.weapon_taken_by_losing_additionalprimaryweapon[0] ));
 	self SetWeaponAmmoClip(self.weapon_taken_by_losing_additionalprimaryweapon[0], self.weapon_taken_by_losing_additionalprimaryweapon[1]);
 	self SetWeaponAmmoStock(self.weapon_taken_by_losing_additionalprimaryweapon[0], self.weapon_taken_by_losing_additionalprimaryweapon[2]);
 	dual_wield_name = WeaponDualWieldWeaponName( self.weapon_taken_by_losing_additionalprimaryweapon[0] );
@@ -2590,7 +2625,7 @@ additional_weapon_indicator(perk, perk_str)
 		primaryWeapons = self GetWeaponsListPrimaries();
 		for ( i = 0; i < primaryWeapons.size; i++ )
 		{
-			if((primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_new_upgraded_zm") && IsDefined(self.has_tesla) && self.has_tesla)
+			if((primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_upgraded_zm") && IsDefined(self.has_tesla) && self.has_tesla)
 			{
 				continue;
 			}

@@ -1144,7 +1144,7 @@ powerup_setup( powerup_override )
 	{
 		if(IsDefined(level.upgraded_tesla_reward) && level.upgraded_tesla_reward)
 		{
-			self.weapon = "tesla_gun_new_upgraded_zm";
+			self.weapon = "tesla_gun_upgraded_zm";
 		}
 		else
 		{
@@ -1549,7 +1549,7 @@ powerup_grab()
 				continue;
 
 			//no picking up unupgraded waffe if upgraded waffe is active
-			if(self.powerup_name == "tesla" && IsDefined(players[i].has_tesla) && players[i].has_tesla && players[i] GetCurrentWeapon() == "tesla_gun_new_upgraded_zm" && self.weapon == "tesla_gun_zm")
+			if(self.powerup_name == "tesla" && IsDefined(players[i].has_tesla) && players[i].has_tesla && players[i] GetCurrentWeapon() == "tesla_gun_upgraded_zm" && self.weapon == "tesla_gun_zm")
 				continue;
 
 			//no picking up qed random weapon powerup if player the hasn't triggered it
@@ -3354,7 +3354,7 @@ tesla_weapon_powerup( ent_player, powerup, time )
 	ent_player GiveMaxAmmo( weapon );
 	ent_player SwitchToWeapon( weapon );
 
-	if(weapon == "tesla_gun_new_upgraded_zm" && ent_player HasWeapon("tesla_gun_zm"))
+	if(weapon == "tesla_gun_upgraded_zm" && ent_player HasWeapon("tesla_gun_zm"))
 	{
 		ent_player TakeWeapon("tesla_gun_zm");
 	}
@@ -3567,7 +3567,7 @@ tesla_watch_gunner_downed()
 
 	for( i = 0; i < primaryWeapons.size; i++ )
 	{
-		if( primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_new_upgraded_zm")
+		if( primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_upgraded_zm")
 		{
 			self TakeWeapon( primaryWeapons[i] );
 		}

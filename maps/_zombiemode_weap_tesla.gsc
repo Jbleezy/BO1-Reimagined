@@ -54,9 +54,7 @@ tesla_damage_init( hit_location, hit_origin, player )
 	{
 		if(IsDefined(zombs[i].attacker) && zombs[i].attacker == player)
 		{
-			if(IsDefined(zombs[i].damageweapon) && 
-				(zombs[i].damageweapon == "tesla_gun_zm" || zombs[i].damageweapon == "tesla_gun_upgraded_zm" || 
-				zombs[i].damageweapon == "tesla_gun_new_upgraded_zm"))
+			if(IsDefined(zombs[i].damageweapon) && (zombs[i].damageweapon == "tesla_gun_zm" || zombs[i].damageweapon == "tesla_gun_upgraded_zm"))
 			{
 				if(!is_true(zombs[i].zombie_tesla_hit) && !is_true(zombs[i].humangun_zombie_1st_hit_response))
 				{
@@ -96,7 +94,7 @@ tesla_damage_init( hit_location, hit_origin, player )
 	player.tesla_powerup_dropped = false;
 	player.tesla_arc_count = 0;
 
-	upgraded = (self.damageweapon == "tesla_gun_upgraded_zm" || self.damageweapon == "tesla_gun_new_upgraded_zm");
+	upgraded = (self.damageweapon == "tesla_gun_upgraded_zm");
 
 	self tesla_arc_damage( self, player, 1, upgraded );
 
@@ -450,7 +448,7 @@ tesla_debug_arc( origin, distance )
 
 is_tesla_damage( mod )
 {
-	return ( ( IsDefined( self.damageweapon ) && (self.damageweapon == "tesla_gun_zm" || self.damageweapon == "tesla_gun_upgraded_zm" || self.damageweapon == "tesla_gun_new_upgraded_zm" ) ) && ( mod == "MOD_PROJECTILE" || mod == "MOD_PROJECTILE_SPLASH" ) );
+	return ( ( IsDefined( self.damageweapon ) && (self.damageweapon == "tesla_gun_zm" || self.damageweapon == "tesla_gun_upgraded_zm") ) && ( mod == "MOD_PROJECTILE" || mod == "MOD_PROJECTILE_SPLASH" ) );
 }
 
 enemy_killed_by_tesla()
@@ -477,7 +475,6 @@ tesla_sound_thread()
 	self endon( "disconnect" );
 	self waittill( "spawned_player" );
 
-
 	for( ;; )
 	{
 		result = self waittill_any_return( "grenade_fire", "death", "player_downed", "weapon_change", "grenade_pullback" );
@@ -487,33 +484,28 @@ tesla_sound_thread()
 			continue;
 		}
 
-		if( ( result == "weapon_change" || result == "grenade_fire" ) && (self GetCurrentWeapon() == "tesla_gun_zm" || self GetCurrentWeapon() == "tesla_gun_upgraded_zm" || self GetCurrentWeapon() == "tesla_gun_new_upgraded_zm") )
+		if( ( result == "weapon_change" || result == "grenade_fire" ) && (self GetCurrentWeapon() == "tesla_gun_zm" || self GetCurrentWeapon() == "tesla_gun_upgraded_zm") )
 		{
 			self PlayLoopSound( "wpn_tesla_idle", 0.25 );
 			//self thread tesla_engine_sweets();
-
 		}
 		else
 		{
 			self notify ("weap_away");
 			self StopLoopSound(0.25);
-
-
 		}
 	}
 }
 tesla_engine_sweets()
 {
-
 	self endon( "disconnect" );
 	self endon ("weap_away");
+
 	while(1)
 	{
 		wait(randomintrange(7,15));
 		self play_tesla_sound ("wpn_tesla_sweeps_idle");
-
 	}
-
 }
 
 
@@ -532,7 +524,7 @@ tesla_pvp_thread()
 			continue;
 		}
 
-		if ( weapon != "tesla_gun_zm" && weapon != "tesla_gun_upgraded_zm" && weapon != "tesla_gun_new_upgraded_zm" )
+		if ( weapon != "tesla_gun_zm" && weapon != "tesla_gun_upgraded_zm" )
 		{
 			continue;
 		}

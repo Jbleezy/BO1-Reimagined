@@ -493,14 +493,14 @@
 ### Deadshot
 * Increased cost from 1000 to 1500
 * 2x headshot damage (stacks with Double Tap)
-* Move faster when aiming
 
 ### Mule Kick
 * Removed from Nacht Der Untoten
 * Added jingle
 * Third weapon slot will now always be the correct weapon
 * Name of weapon that will be lost when downed is shown in yellow text
-* Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, or if the player already has the weapon, or if the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or if the player bled out)
+* Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, the player already has the weapon, the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or the player bled out)
+* Gives ammo back if the player already has the weapon that they had previously lost when perk is rebought
 
 ## Powerups
 * Powerups allign on the center of the HUD
@@ -974,6 +974,8 @@
 
 ## TODO
 * Make all HUD D-Pad input text align in the center
+* Use weaponOptions.csv for multiple camos
+* Use WaW pap camo for all weapons on Der Riese except Wunderwaffe
 * Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)
 * Change perk bottle weapons to only use one weapon file using worldModel and gunModel
@@ -993,6 +995,7 @@
 * Find a way to be able to shoot through more than 3 zombies
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
+* Deadshot: add fast ADS move speed correctly
 * Show player's perks when spectating (player.spectatorclient?)
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Get WaW weapon files of classic map weapons working
@@ -1018,7 +1021,6 @@
 * Do impact damage from steilhandgranate in weapon file
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Make it so mystery box sound plays for wonder weapon, not Ray Gun
-* Make it so players can look up and down 90 degrees (currently at 85)
 * Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
 
 ### Versus Todo
@@ -1134,6 +1136,7 @@
 * Fix freeze on map load on Ascension
 * Fix player names getting changed to "Unknown Soldier" on scoreboard and chat after fast_restart if name is too short
 * Make it so perks that are not engine based only use 1 bit
+* Make it so players can look up and down 90 degrees (currently at 85)
 
 ## SPECIAL THANKS
 * **_WARDOG_** - co-developer

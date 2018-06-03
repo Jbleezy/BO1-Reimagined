@@ -20,6 +20,8 @@ a0,b1,c2,d3,e4,f5,g6,f7,g8,h9
 17,camo,t5_weapon_nesting_bomb_nikolai_c,t5_weapon_nesting_bomb_nikolai_c,t5_weapon_nesting_bomb_nikolai_c,t5_weapon_nesting_bomb_nikolai_c,t5_weapon_nesting_bomb_nikolai_c,,,
 18,camo,t5_weapon_nesting_bomb_takeo_c,t5_weapon_nesting_bomb_takeo_c,t5_weapon_nesting_bomb_takeo_c,t5_weapon_nesting_bomb_takeo_c,t5_weapon_nesting_bomb_takeo_c,,,
 19,camo,t5_weapon_nesting_bomb_richtofen_c,t5_weapon_nesting_bomb_richtofen_c,t5_weapon_nesting_bomb_richtofen_c,t5_weapon_nesting_bomb_richtofen_c,t5_weapon_nesting_bomb_richtofen_c,,,
+20,camo,real_gold,,,,,,,
+21,camo,silver,,,,,,,
 ,,,,,,,,,
 0,lens,255 255 255,~-gmtl_weapon_reflex_lens_c,~-gmtl_weapon_acog_lens_c,,,,,
 1,lens,255 0 0,~-gmtl_weapon_reflex_lens_red_c,weapon_acog_lens_red_c,,,,,
@@ -62,6 +64,7 @@ a0,b1,c2,d3,e4,f5,g6,f7,g8,h9
 ,,# diffuse,# specular ,# reflection/AO,# camo,,,,
 1,gold,camo_packapunch_c,camo_packapunch_spec,camo_packapunch_env,weapon_camo_neutral,,,,
 2,real_gold,camo_gold_c,camo_gold_spec,camo_gold_env,weapon_camo_neutral,,,,
+3,silver,~-gsilver_etching_c,~~-gsilver_etching_s-rgb&~-rs~caffa418,~$white-rgb&silver_etching_o-l,weapon_camo_neutral
 ,,,,,,,,,
 ,,# weapon name,# Pattern base texture,# solid base texture,# material to turn gold,,,,
 1,weapon,ak47,cammo_gunmetal,cammo_wood_tile_red,t5_weapon_mtl_ak47_gunset,,,,

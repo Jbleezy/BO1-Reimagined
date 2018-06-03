@@ -2653,7 +2653,7 @@ take_additionalprimaryweapon()
 	primaryWeapons = self GetWeaponsListPrimaries();
 	for ( i = 0; i < primaryWeapons.size; i++ )
 	{
-		if((primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_new_upgraded_zm") && IsDefined(self.has_tesla) && self.has_tesla)
+		if((primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_upgraded_zm") && IsDefined(self.has_tesla) && self.has_tesla)
 		{
 			continue;
 		}
@@ -5519,7 +5519,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 			}
 
 			// dont do damage to self from tesla if bolt was more than 64 units away (didnt change in weapon file because that also changed the radius zombies could take damage from tesla which was not wanted)
-			if((IsDefined(sWeapon) && (sWeapon == "tesla_gun_zm" || sWeapon == "tesla_gun_upgraded_zm" || sWeapon == "tesla_gun_new_upgraded_zm")) && (sMeansOfDeath == "MOD_PROJECTILE" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH"))
+			if((IsDefined(sWeapon) && (sWeapon == "tesla_gun_zm" || sWeapon == "tesla_gun_upgraded_zm")) && (sMeansOfDeath == "MOD_PROJECTILE" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH"))
 			{
 				if(IsDefined(eInflictor) && DistanceSquared(eInflictor.origin, self.origin) > 64*64)
 				{
@@ -5949,7 +5949,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
 	{
 		//insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
-		no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "tesla_gun_new_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
+		no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
 
 		if(!is_in_array(no_insta_kill_on_weps, weapon))
 		{
