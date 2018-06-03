@@ -973,7 +973,6 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Make all HUD D-Pad input text align in the center
 * Use weaponOptions.csv for multiple camos
 * Use WaW pap camo for all weapons on Der Riese except Wunderwaffe
 * Add death hands from BO2 when you die

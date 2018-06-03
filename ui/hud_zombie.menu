@@ -976,10 +976,9 @@
 		//RIGHT
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+20) (DPAD_BG_Y_START+33) (-26) 26
+			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+33) (-26) 26
 			type			ITEM_TYPE_OWNERDRAW
 			ownerdraw		CG_PLAYER_ACTIONSLOT_ARROW_3
-			rect			(DPAD_BG_X_START+45) (DPAD_BG_Y_START+33) (-26) 26
 			background		"hud_frame_arrow_right"
 			forecolor		1 1 1 0.3
 			visible 		when( DPAD_ENABLED )
@@ -987,15 +986,13 @@
 		}
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+20) (DPAD_BG_Y_START+31) (-26) 26
+			rect			(DPAD_BG_X_START+65.5) (DPAD_BG_Y_START+33) (-26) 26
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			ownerdraw		CG_PLAYER_ACTIONSLOT_BIND_3
 			exp text		( "[" + KeyBinding( "+actionslot 3" ) + "]" );
 			textfont		UI_FONT_NORMAL
 			textscale		0.25
-			textalign		ITEM_ALIGN_BOTTOM_LEFT
-			textaligny		-5
-			textalignx		10
+			textalign		ITEM_ALIGN_MIDDLE_RIGHT
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			forecolor		1 1 1 0.3
 			visible 		when( !DPAD_ENABLED )
@@ -1008,7 +1005,6 @@
 			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+33) 26 26
 			type			ITEM_TYPE_OWNERDRAW
 			ownerdraw		CG_PLAYER_ACTIONSLOT_ARROW_4
-			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+33) 26 26
 			background		"hud_frame_arrow_right"
 			forecolor		1 1 1 0.3
 			visible 		when( DPAD_ENABLED )
@@ -1016,15 +1012,13 @@
 		}
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+31) 26 26
+			rect			(DPAD_BG_X_START+52.5) (DPAD_BG_Y_START+33) 26 26
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			ownerdraw		CG_PLAYER_ACTIONSLOT_BIND_4
 			exp text		( "[" + KeyBinding( "+actionslot 4" ) + "]" );
 			textfont		UI_FONT_NORMAL
 			textscale		0.25
-			textalign		ITEM_ALIGN_BOTTOM_RIGHT
-			textaligny		-5
-			textalignx		-10
+			textalign		ITEM_ALIGN_MIDDLE_LEFT
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			forecolor		1 1 1 0.3
 			visible 		when( !DPAD_ENABLED )
@@ -1037,7 +1031,6 @@
 			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 (-26)
 			type			ITEM_TYPE_OWNERDRAW
 			ownerdraw		CG_PLAYER_ACTIONSLOT_ARROW_1
-			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 (-26)
 			background		"hud_frame_arrow"
 			forecolor		1 1 1 0.3
 			visible 		when( DPAD_ENABLED )
@@ -1045,15 +1038,13 @@
 		}
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+51) (DPAD_BG_Y_START+20) 26 26
+			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 (-26)
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			ownerdraw		CG_PLAYER_ACTIONSLOT_BIND_1
 			exp text		( "[" + KeyBinding( "+actionslot 1" ) + "]" );
 			textfont		UI_FONT_NORMAL
 			textscale		0.25
-			textalign		ITEM_ALIGN_BOTTOM
-			textaligny		-5
-			textalignx		-10
+			textalign		ITEM_ALIGN_MIDDLE_CENTER
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			forecolor		1 1 1 0.3
 			visible 		when( !DPAD_ENABLED )
@@ -1066,7 +1057,6 @@
 			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 26
 			type			ITEM_TYPE_OWNERDRAW
 			ownerdraw		CG_PLAYER_ACTIONSLOT_ARROW_2
-			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 26
 			background		"hud_frame_arrow"
 			forecolor		1 1 1 0.3
 			visible 		when( DPAD_ENABLED )
@@ -1074,15 +1064,13 @@
 		}
 		itemDef
 		{
-			rect			(DPAD_BG_X_START+51) (DPAD_BG_Y_START+42) 26 26
+			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 26
 			type			ITEM_TYPE_OWNERDRAW_TEXT
 			ownerdraw		CG_PLAYER_ACTIONSLOT_BIND_2
 			exp text		( "[" + KeyBinding( "+actionslot 2" ) + "]" );
 			textfont		UI_FONT_NORMAL
 			textscale		0.25
-			textalign		ITEM_ALIGN_BOTTOM
-			textaligny		-5
-			textalignx		-10
+			textalign		ITEM_ALIGN_MIDDLE_CENTER
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			forecolor		(207/255) (166/255) (84/255) 1
 			visible 		when( !DPAD_ENABLED )
