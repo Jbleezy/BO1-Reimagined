@@ -446,7 +446,7 @@
 * Sniper cabinet: weapon ammo now costs exactly 25% the cost of the weapon
 
 ## Mystery Box
-* Re-hitting the Mystery Box is now faster (only 1 second delay between box hits)
+* Decreased time between uses from 3 seconds to 1.5 seconds
 * Decreased weapon pickup time from 12 seconds to 9 seconds
 * Flies up twice as high when moving
 * Now plays an animation when spawning in (except for Fire Sale Mystery Boxes)
@@ -458,10 +458,12 @@
 * If a player does not grab a weapon from the box, then it will be put back into the list of weapons the player can get
 * All weapons have the same probability to be obtained
 * Ray Gun can now be obtained without moving the Mystery Box on all maps
-* Mystery Box weapons will not appear again in a row while floating up (unless it is the final weapon)
-* Mystery Box will now cycle through all locations before going to a previous location again
-* Mystery Box has a different hintstring for taking tactical grenades
+* Weapons will not appear again in a row while floating up (unless it is the final weapon)
+* Cycles through all locations before going to a previous location again
 * Hintstring now says "Mystery Box" instead of "Random Weapon"
+* Added a separate hintstring for tactical grenades
+* Removed sound that plays when obtaining the Ray Gun
+* Added sound that plays when obtaining the wonder weapon of the map
 * Fixed a bug that would cause there to sometimes be no Mystery Box or multiple Mystery Boxes if a Fire Sale was activated right after the Mystery Box started to move
 * Fixed a bug where the Mystery Box weapon would fly away if the Mystery Box was activated as a Fire Sale was ending and the Fire Sale was grabbed as the box was starting to move
 * Fixed a bug where weapons would be cycled through faster on higher FPS
@@ -1019,7 +1021,6 @@
 * Add WaW weapon files with correct stats
 * Do impact damage from steilhandgranate in weapon file
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
-* Make it so mystery box sound plays for wonder weapon, not Ray Gun
 * Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
 
 ### Versus Todo

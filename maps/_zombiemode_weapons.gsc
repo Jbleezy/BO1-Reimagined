@@ -3140,10 +3140,10 @@ treasure_chest_give_weapon( weapon_string )
 	{
 		weapon_string = "knife_ballistic_sickle_zm";
 	}
-	
-	if (weapon_string == "ray_gun_zm")
+
+	if (weapon_string == "tesla_gun_zm" || weapon_string == "thundergun_zm" || weapon_string == "freezegun_zm" || weapon_string == "sniper_explosive_zm" || weapon_string == "humangun_zm" || weapon_string == "shrink_ray_zm" || weapon_string == "microwavegundw_zm")
 	{
-		playsoundatposition("mus_raygun_stinger", (0,0,0));
+		playsoundatposition("mus_wonder_weapon_stinger", (0,0,0));
 	}
 
 	self GiveWeapon( weapon_string, 0 );
