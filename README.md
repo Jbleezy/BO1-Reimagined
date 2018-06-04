@@ -167,10 +167,12 @@
 * Increased headshot damage from 270 to 400
 
 ### China Lake
+* Can now fire without aiming
+* Now rechambers while aiming
 * Decreased time to start rechambering after firing from .4 seconds to .2 seconds
-* Instantly starts reloading after firing the last shot
 * Unupgraded: decreased chamber time from 2 seconds to 1 second
 * Upgraded: decreased chamber time from 1.4 seconds to .7 seconds
+* Instantly starts reloading after firing the last shot
 * Unupgraded: impact damage - 1250
 * Unupgraded: maximum explosion damage - 1000
 * Unupgraded: minimum explosion damage - 500
@@ -244,6 +246,7 @@
 * Upgraded: minimum explosion damage - 1000
 
 ### M72 LAW
+* Can now fire without aiming
 * Fixed dive to prone animation from looping
 * Instantly starts reloading after firing the last shot
 * Unupgraded: impact damage - 2000
@@ -975,6 +978,7 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
+* Increase raise time for Bowie and Sickle?
 * Use weaponOptions.csv for multiple camos
 * Use WaW pap camo for all weapons on Der Riese except Wunderwaffe
 * Add death hands from BO2 when you die
@@ -1016,12 +1020,12 @@
 * Fix Ray Gun first raise sound not working
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
-* Try setting armorPiercing to 1 to see if bullets don't lose damage through multiple zombies
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
 * Add WaW weapon files with correct stats
 * Do impact damage from steilhandgranate in weapon file
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
+* Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1070,7 +1074,6 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
-* Grief: make sure explosive weapon damage from enemies still works properly with change to explosive damage means of death
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds

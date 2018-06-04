@@ -8302,48 +8302,48 @@ update_time(level_var, client_var)
 {
 	time = to_mins_short(level_var);
 
-	if(IsDefined(level.total_time) && level_var != level.total_time)
+	/*if(IsDefined(level.total_time) && level_var != level.total_time)
 	{
 		if(level.total_time >= 36000) //10 hours (10:00:00)
 		{
 			if(level_var < 600)
 			{
-				//time = "       " + time; //7 spaces (9:59)
-				time = "00:0" + time;
+				time = "       " + time; //7 spaces (9:59)
+				//time = "00:0" + time;
 			}
 			else if(level_var < 3600)
 			{
-				//time = "     " + time;	//5 spaces (59:59)
-				time = "00:" + time;
+				time = "     " + time;	//5 spaces (59:59)
+				//time = "00:" + time;
 			}
 			else if(level_var < 36000)
 			{
-				//time = "  " + time;	//2 spaces (9:59:59)
-				time = "0" + time;
+				time = "  " + time;	//2 spaces (9:59:59)
+				//time = "0" + time;
 			}
 		}
 		else if(level.total_time >= 3600) //1 hour (1:00:00)
 		{
 			if(level_var < 600)
 			{
-				//time = "     " + time;	//5 spaces (9:59)
-				time = "0:0" + time;
+				time = "     " + time;	//5 spaces (9:59)
+				//time = "0:0" + time;
 			}
 			else if(level_var < 3600)
 			{
-				//time = "   " + time; //3 spaces (59:59)
-				time = "0:" + time;
+				time = "   " + time; //3 spaces (59:59)
+				//time = "0:" + time;
 			}
 		}
 		else if(level.total_time >= 600) //10 mins (10:00)
 		{
 			if(level_var < 600)
 			{
-				//time = "  " + time; //2 spaces (9:59)
-				time = "0" + time;
+				time = "  " + time; //2 spaces (9:59)
+				//time = "0" + time;
 			}
 		}
-	}
+	}*/
 
 	players = get_players();
 	for(i=0;i<players.size;i++)

@@ -18,8 +18,9 @@ rawfile,maps/_zombiemode_weap_sickle.gsc
 rawfile,maps/_zombiemode_weap_freezegun.gsc
 rawfile,maps/_zombiemode_weap_tesla.gsc
 rawfile,maps/_zombiemode_weap_thundergun.gsc
-rawfile,maps/_zombiemode_score.gsc
 rawfile,maps/_zombiemode_weap_black_hole_bomb.gsc
+rawfile,maps/_zombiemode_weap_nesting_dolls.gsc
+rawfile,maps/_zombiemode_score.gsc
 rawfile,maps/_zombiemode_claymore.gsc
 rawfile,maps/_zombiemode_betty.gsc
 rawfile,maps/_zombiemode_ai_dogs.gsc
