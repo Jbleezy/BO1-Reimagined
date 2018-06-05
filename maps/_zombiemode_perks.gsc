@@ -868,7 +868,8 @@ upgrade_knuckle_crack_end( gun )
 	}
 	else
 	{
-		self SwitchToWeapon( level.laststandpistol );
+		melee_wep = "combat_" + self get_player_melee_weapon();
+		self SwitchToWeapon( melee_wep );
 	}
 }
 

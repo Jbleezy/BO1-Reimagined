@@ -758,6 +758,7 @@
 * If all players on a floor use an elevator or get downed when the power is on, all zombies will now go through teleporters
 * Fixed lighting in the top floor being incorrect
 * All characters now use the CIA viewmodel except Castro
+* Fixed a bug that crashed the game if the thief attempted to steal a player's weapon while they were using Pack-a-Punch
 
 #### Elevators
 * Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1 second
@@ -1033,7 +1034,6 @@
 * Fix bug with picking up Meat powerup as soon as you have no weapons and are being auto switch to combat knife
 * Increase fire times on new upgraded weapons
 * Make it so throwing meat to teammates makes them catch it
-* Try to get projectiles to travel straight up if player is looking 85 degrees up
 * Add BO2 meat FX and grief FX in game
 * Fix BO1 ray gun first raise anim lasting too long at the end
 

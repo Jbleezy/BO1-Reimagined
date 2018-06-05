@@ -966,7 +966,7 @@ thief_take_loot()
 	is_laststand = player maps\_laststand::player_is_in_laststand();
 
 	// don't take these items...choose random primary instead
-	if ( is_offhand_weapon( weapon ) || weapon == "zombie_bowie_flourish" || weapon == "none" || isSubStr( weapon, "zombie_perk_bottle" ) || is_laststand )
+	if ( is_offhand_weapon( weapon ) || weapon == "zombie_bowie_flourish" || weapon == "none" || isSubStr( weapon, "zombie_perk_bottle" ) || is_laststand || weapon == "zombie_knuckle_crack" )
 	{
 		primaries = player GetWeaponsListPrimaries();
 		if( isDefined( primaries ) )
@@ -1025,11 +1025,6 @@ thief_take_loot()
 		if ( weapon == "minigun_zm" )
 		{
 			player maps\_zombiemode_powerups::minigun_weapon_powerup_off();
-			weapon = undefined;
-		}
-
-		if(weapon == "combat_knife_zm" || weapon == "combat_bowie_knife_zm" || weapon == "combat_sickle_knife_zm")
-		{
 			weapon = undefined;
 		}
 	}

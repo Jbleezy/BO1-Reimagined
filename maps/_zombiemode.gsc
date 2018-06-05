@@ -2067,8 +2067,6 @@ onPlayerSpawned()
 
 		self thread revive_grace_period();
 
-		self thread no_weapon_watcher();
-
 		self.move_speed = 1;
 
 		if( isdefined( self.initialized ) )
@@ -8765,7 +8763,7 @@ give_weapons_test()
 	//wep = "freezegun_upgraded_zm";
 	//wep = "thundergun_zm";
 	//wep = "sniper_explosive_upgraded_zm";
-	wep = "humangun_upgraded_zm";
+	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_upgraded_zm";
 	//wep = "tesla_gun_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
@@ -8852,7 +8850,6 @@ spectator_test()
 	while(1)
 	{
 		//iprintln(GetDvar("ui_test_spectator_name"));
-		iprintln(self GetCurrentWeapon());
 		wait 1;
 	}
 }
@@ -9047,163 +9044,6 @@ set_melee_actionslot()
 		wep = "combat_" + melee;
 		self GiveWeapon(wep);
 		self SetActionSlot(2, "weapon", wep);
-	}
-}
-
-//gives player knife in hand when they have no weapon
-no_weapon_watcher()
-{
-	self endon("death");
-	self endon("disconnect");
-
-	flag_wait("all_players_spawned");
-
-	self.has_combat_knife = false;
-
-	wait 1;
-
-	actual_weapons = [];
-	primaryWeapons = self GetWeaponsListPrimaries();
-	for ( i = 0; i < primaryWeapons.size; i++ )
-	{
-		if ( maps\_zombiemode_weapons::is_weapon_included( primaryWeapons[i] ) || maps\_zombiemode_weapons::is_weapon_upgraded( primaryWeapons[i] ) )
-		{
-			actual_weapons[actual_weapons.size] = primaryWeapons[i];
-		}
-	}
-
-	while(actual_weapons.size == 0)
-	{
-		wait_network_frame();
-	}
-
-	//additional wait time to make sure player doesn't spawn with the knife
-
-	while(1)
-	{
-		if(self maps\_laststand::player_is_in_laststand())
-		{
-			wait_network_frame();
-			continue;
-		}
-
-		if(self is_drinking())
-		{
-			wait_network_frame();
-			continue;
-		}
-
-		if(self GetCurrentWeapon() == "combat_knife_zm" || self GetCurrentWeapon() == "combat_bowie_knife_zm" || self GetCurrentWeapon() == "combat_sickle_knife_zm")
-		{
-			wait_network_frame();
-			continue;
-		}
-
-		actual_weapons = [];
-		primaryWeapons = self GetWeaponsListPrimaries();
-		for ( i = 0; i < primaryWeapons.size; i++ )
-		{
-			if ( maps\_zombiemode_weapons::is_weapon_included( primaryWeapons[i] ) || maps\_zombiemode_weapons::is_weapon_upgraded( primaryWeapons[i] ) )
-			{
-				actual_weapons[actual_weapons.size] = primaryWeapons[i];
-			}
-		}
-
-		if(actual_weapons.size == 0)
-		{
-			wait_network_frame();
-			//self TakeWeapon(self get_player_melee_weapon());
-			if(self GetCurrentWeapon() == "zombie_knuckle_crack" || self GetCurrentWeapon() == "zombie_gunstolen")
-			{
-				continue;
-			}
-			self.has_combat_knife = true;
-
-			self thread take_actual_melee_weapon();
-
-			while(actual_weapons.size < 1)
-			{
-				wait_network_frame();
-				actual_weapons = [];
-				primaryWeapons = self GetWeaponsListPrimaries();
-				for ( i = 0; i < primaryWeapons.size; i++ )
-				{
-					if ( maps\_zombiemode_weapons::is_weapon_included( primaryWeapons[i] ) || maps\_zombiemode_weapons::is_weapon_upgraded( primaryWeapons[i] ) )
-					{
-						actual_weapons[actual_weapons.size] = primaryWeapons[i];
-					}
-				}
-			}
-
-			self notify("gotweapon");
-
-			if(!self HasWeapon(self get_player_melee_weapon()))
-				self GiveWeapon(self get_player_melee_weapon());
-		}
-
-
-
-		//check for player buying bowie/sickle while combat knife is equipped
-		/*if(self HasWeapon("combat_knife_zm") && ((IsDefined( self._bowie_zm_equipped ) && self._bowie_zm_equipped) || (IsDefined( self._sickle_zm_equipped ) && self._sickle_zm_equipped)))
-		{
-			wait .4;
-			self TakeWeapon("combat_knife_zm");
-			while(IsSubStr(self GetCurrentWeapon(), "_flourish"))
-			{
-				wait_network_frame();
-				continue;
-			}
-			if(IsDefined( self._bowie_zm_equipped ) && self._bowie_zm_equipped)
-			{
-				//wait_network_frame();
-				self SwitchToWeapon("combat_bowie_knife_zm");
-			}
-			else if(IsDefined( self._sickle_zm_equipped ) && self._sickle_zm_equipped)
-			{
-				//wait_network_frame();
-				self SwitchToWeapon("combat_sickle_knife_zm");
-			}
-		}*/
-
-		wait_network_frame();
-	}
-}
-
-//must take actual melee weapon when player has no primary weapon or else you will be able to switch to the actual melee weapon (which has no viewmodel)
-take_actual_melee_weapon()
-{
-	self endon("death");
-	self endon("disconnect");
-	self endon("gotweapon");
-
-	while(1)
-	{
-		self TakeWeapon(self get_player_melee_weapon());
-
-		if(IsDefined( self._bowie_zm_equipped ) && self._bowie_zm_equipped)
-		{
-			self SwitchToWeapon("combat_bowie_knife_zm");
-		}
-		else if(IsDefined( self._sickle_zm_equipped ) && self._sickle_zm_equipped)
-		{
-			self SwitchToWeapon("combat_sickle_knife_zm");
-		}
-		else
-		{
-			self SwitchToWeapon("combat_knife_zm");
-		}
-
-		//wait for it to actually switch to the weapon
-		while(!(self GetCurrentWeapon() == "combat_knife_zm" || self GetCurrentWeapon() == "combat_bowie_knife_zm" || self GetCurrentWeapon() == "combat_sickle_knife_zm"))
-			wait_network_frame();
-
-		while(self GetCurrentWeapon() == "combat_knife_zm" || self GetCurrentWeapon() == "combat_bowie_knife_zm" || self GetCurrentWeapon() == "combat_sickle_knife_zm")
-			wait_network_frame();
-
-		self GiveWeapon(self get_player_melee_weapon());
-
-		while(!(self GetCurrentWeapon() == "combat_knife_zm" || self GetCurrentWeapon() == "combat_bowie_knife_zm" || self GetCurrentWeapon() == "combat_sickle_knife_zm" || self GetCurrentWeapon() == self get_player_melee_weapon()))
-			wait_network_frame();
 	}
 }
 

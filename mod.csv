@@ -193,12 +193,8 @@ weapon,sp/cz75dw_upgraded_zm
 weapon,sp/cz75lh_upgraded_zm
 weapon,sp/cz75dw_zm
 weapon,sp/cz75lh_zm
-weapon,sp/claymore_zm
 weapon,sp/rpk_zm
 weapon,sp/rpk_upgraded_zm
-weapon,sp/combat_knife_zm
-weapon,sp/combat_bowie_knife_zm
-weapon,sp/combat_sickle_knife_zm
 weapon,sp/rottweil72_upgraded_zm
 weapon,sp/zombie_bullet_crouch
 weapon,sp/mk_aug_upgraded_zm
@@ -221,11 +217,20 @@ weapon,sp/explosive_bolt_upgraded_zm
 weapon,sp/mp40_zm
 weapon,sp/mp40_upgraded_zm
 weapon,sp/minigun_zm
-weapon,sp/equip_gasmask_zm
-weapon,sp/lower_equip_gasmask_zm
+
+//EQUIPMENT
+weapon,sp/knife_zm
+weapon,sp/bowie_knife_zm
+weapon,sp/sickle_knife_zm
+weapon,sp/combat_knife_zm
+weapon,sp/combat_bowie_knife_zm
+weapon,sp/combat_sickle_knife_zm
 weapon,sp/frag_grenade_zm
 weapon,sp/sticky_grenade_zm
 weapon,sp/mine_bouncing_betty
+weapon,sp/claymore_zm
+weapon,sp/equip_gasmask_zm
+weapon,sp/lower_equip_gasmask_zm
 
 //WAW WEAPONS
 weapon,sp/zombie_type99_rifle
