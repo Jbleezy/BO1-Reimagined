@@ -4076,6 +4076,7 @@ grief_slow_down_powerup( drop_item )
 
 meat_powerup( drop_item )
 {
+	self endon("disconnect");
 	self endon("player_downed");
 
 	prev_wep = self GetCurrentWeapon();
@@ -4091,17 +4092,17 @@ meat_powerup( drop_item )
 
 	self thread meat_powerup_check_for_weapon_switch(prev_wep);
 
-	self thread meat_powerup_check_for_meat_fail();
-
 	while(1)
 	{
 		self waittill("grenade_fire", grenade, weapon);
 
 		if(weapon == "meat_zm")
 		{
-			grenade thread create_meat_stink(self);
-
 			grenade.angles = (0, grenade.angles[1], 0);
+
+			grenade thread meat_powerup_create_meat_stink(self);
+
+			grenade thread meat_powerup_create_meat_stink_player(self);
 
 			if(is_true(self.has_meat))
 			{
@@ -4126,6 +4127,7 @@ meat_powerup( drop_item )
 
 meat_powerup_check_for_player_downed()
 {
+	self endon("disconnect");
 	self endon("threw meat");
 
 	self waittill("player_meat_end");
@@ -4137,6 +4139,7 @@ meat_powerup_check_for_player_downed()
 
 meat_powerup_check_for_weapon_switch(prev_wep)
 {
+	self endon("disconnect");
 	self endon("threw meat");
 
 	self waittill("weapon_change_complete");
@@ -4163,22 +4166,6 @@ meat_powerup_check_for_weapon_switch(prev_wep)
 	self meat_powerup_take_weapon();
 }
 
-// if the player has a weapon fail with the meat powerup, they will be stuck with the meat powerup in their hand; this will prevent that
-meat_powerup_check_for_meat_fail()
-{
-	self endon("threw meat");
-
-	while(1)
-	{
-		if(self GetWeaponAmmoClip("meat_zm") == 0)
-		{
-			self SetWeaponAmmoClip("meat_zm", 1);
-		}
-
-		wait_network_frame();
-	}
-}
-
 meat_powerup_take_weapon()
 {
 	self TakeWeapon("meat_zm");
@@ -4195,28 +4182,94 @@ meat_powerup_take_weapon()
 	}
 }
 
-create_meat_stink(player)
+meat_powerup_create_meat_stink_player(player)
 {
+	self endon("stationary");
+
+	team = player.vsteam;
+	player_stuck = undefined;
+
+	while(1)
+	{
+		players = get_players();
+		for(i=0;i<players.size;i++)
+		{
+			if(is_player_valid(players[i]) && players[i].vsteam != team && self IsTouching(players[i]))
+			{
+				player_stuck = players[i];
+				break;
+			}
+		}
+
+		if(IsDefined(player_stuck))
+		{
+			break;
+		}
+
+		wait_network_frame();
+	}
+
+	self notify("player meat");
+	self Delete();
+
+	model = Spawn("script_model", player_stuck.origin);
+	model.angles = player_stuck GetPlayerAngles();
+	model LinkTo(player_stuck);
+
+	model.fx = [];
+	for(i = 1; i <= 5; i++)
+	{
+		if(i == 1)
+			ent = Spawn("script_model", model.origin);
+		else if(i == 2)
+			ent = Spawn("script_model", model.origin + (20, 0, 0));
+		else if(i == 3)
+			ent = Spawn("script_model", model.origin - (20, 0, 0));
+		else if(i == 4)
+			ent = Spawn("script_model", model.origin + (0, 20, 0));
+		else
+			ent = Spawn("script_model", model.origin - (0, 20, 0));
+
+		ent.angles = model.angles;
+		ent SetModel("tag_origin");
+		ent LinkTo(model);
+
+		PlayFXOnTag(level._effect["meat_stink"], ent, "tag_origin");
+
+		model.fx[model.fx.size] = ent;
+	}
+
+	player_stuck meat_powerup_activate_meat_on_player(15);
+
+	if(IsDefined(model.fx))
+	{
+		for(i = 0; i < model.fx.size; i++)
+		{
+			if(IsDefined(model.fx[i]))
+			{
+				model.fx[i] Delete();
+			}
+		}
+	}
+
+	if(IsDefined(model))
+	{
+		model Delete();
+	}
+}
+
+meat_powerup_create_meat_stink(player)
+{
+	self endon("player meat");
+
 	self waittill( "stationary", endpos, normal, angles, attacker, prey, bone );
 
 	origin = self.origin;
 	angles = self.angles;
 
-	players = get_players();
-	player_stuck = undefined;
-	for(i=0;i<players.size;i++)
-	{
-		if(DistanceSquared(origin, players[i].origin) < 64*64 && players[i].vsteam != player.vsteam && is_player_valid(players[i]))
-		{
-			player_stuck = players[i];
-			break;
-		}
-	}
-
-	origin = groundpos(origin);
-
 	model = Spawn("script_model", origin);
 	model.angles = angles;
+	model LinkTo(self);
 
 	valid_poi = check_point_in_active_zone( origin );
 
@@ -4247,6 +4300,7 @@ create_meat_stink(player)
 		else
 			ent = Spawn("script_model", model.origin - (0, 20, 0));
 
+		ent.angles = model.angles;
 		ent SetModel("tag_origin");
 		ent LinkTo(model);
 
@@ -4255,33 +4309,17 @@ create_meat_stink(player)
 		model.fx[model.fx.size] = ent;
 	}
 
-	time = 15;
+	attract_dist_diff = 45;
+	num_attractors = 96;
+	max_attract_dist = 1536;
 
-	if(IsDefined(player_stuck))
-	{
-		self Delete();
-		model.origin = player_stuck.origin;
-		model LinkTo(player_stuck);
+	model create_zombie_point_of_interest(max_attract_dist, num_attractors, 0);
 
-		player_stuck activate_meat_on_player(time);
-	}
-	else
-	{
-		self.origin = origin;
-		model LinkTo(self);
+	level notify("attractor_positions_generated");
 
-		attract_dist_diff = 45;
-		num_attractors = 96;
-		max_attract_dist = 1536;
+	wait 15;
 
-		model create_zombie_point_of_interest(max_attract_dist, num_attractors, 0);
-
-		level notify("attractor_positions_generated");
-
-		wait time;
-
-		level notify("attractor_positions_generated");
-	}
+	level notify("attractor_positions_generated");
 
 	if(IsDefined(model.fx))
 	{
@@ -4305,7 +4343,7 @@ create_meat_stink(player)
 	}
 }
 
-activate_meat_on_player(time)
+meat_powerup_activate_meat_on_player(time)
 {
 	self notify("meat active");
 	self endon("meat active");
@@ -4313,29 +4351,12 @@ activate_meat_on_player(time)
 
 	self.meat_stink_active = true;
 	level notify("meat_powerup_active");
-
 	level notify("attractor_positions_generated");
 
 	self waittill_notify_or_timeout("player_meat_end", time);
 
 	self.meat_stink_active = undefined;
-
 	level notify("attractor_positions_generated");
-}
-
-ignore_player_for_time(time, player_stuck)
-{
-	self notify("meat ignore player");
-	self endon("meat ignore player");
-
-	self.ignoreme = true;
-
-	player_stuck waittill_notify_or_timeout("player_downed", time);
-
-	if(is_player_valid(self))
-	{
-		self.ignoreme = false;
-	}
 }
 
 timeout_on_down()

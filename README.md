@@ -1026,6 +1026,8 @@
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
+* Add notetrack to Wunderwaffe when starting to sprint so that lights will turn back when sprinting from sprint reload cancel
+* Try using mtl_silver_etching images for WaW pap camo
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1074,6 +1076,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
+* Test meat in coop (now using IsTouching() on players)
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds

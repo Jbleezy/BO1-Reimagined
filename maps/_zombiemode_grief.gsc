@@ -353,7 +353,13 @@ giveback_player_weapons()
 		}
 		else
 		{
-			self GiveWeapon( weapon, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( weapon ) );
+			index = 0;
+			if(weapon == "tesla_gun_upgraded_zm" && IsSubStr(level.script, "zombie_cod5_"))
+			{
+				index = 1;
+			}
+
+			self GiveWeapon( weapon, index, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( weapon ) );
 		}
 		self SetWeaponAmmoClip( weapon, self.weaponAmmo[weapon]["clip"] );
 
@@ -2137,7 +2143,14 @@ update_gungame_weapon(decrement, upgrade)
 	if(self.zombie_vars["zombie_powerup_upgrade_weapon_on"] || IsDefined(self.player_bought_pack))
 	{
 		weapon_string = level.zombie_weapons[weapon_string].upgrade_name;
-		self GiveWeapon( weapon_string, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( weapon_string ) );
+
+		index = 0;
+		if(weapon_string == "tesla_gun_upgraded_zm" && IsSubStr(level.script, "zombie_cod5_"))
+		{
+			index = 1;
+		}
+
+		self GiveWeapon( weapon_string, index, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( weapon_string ) );
 	}
 	else
 	{
