@@ -12,6 +12,8 @@ init()
 {
 	PrecacheString(&"REIMAGINED_BETTY_PURCHASE");
 	PrecacheString(&"REIMAGINED_BETTY_PICKUP");
+
+	maps\_weaponobjects::create_retrievable_hint("mine_bouncing_betty", &"REIMAGINED_BETTY_PICKUP");
 	
 	trigs = getentarray("betty_purchase","targetname");
 	for(i=0; i<trigs.size; i++)
@@ -118,7 +120,7 @@ bouncing_betty_watch()
 			betty.owner = self;
 			betty thread betty_think();
 			self thread betty_death_think();
-			betty thread pickup_betty();
+			//betty thread pickup_betty();
 
 			if(level.gamemode != "survival")
 			{
@@ -148,7 +150,7 @@ bouncing_betty_setup()
 	self giveweapon("mine_bouncing_betty");
 	self set_player_placeable_mine("mine_bouncing_betty");
 	self setactionslot(4,"weapon","mine_bouncing_betty");
-	self setweaponammostock("mine_bouncing_betty",5);
+	self setweaponammostock("mine_bouncing_betty",2);
 }
 
 betty_think()
@@ -170,15 +172,15 @@ betty_think()
 
 	self waittill_not_moving();
 
-	trigger = spawn("trigger_radius_use",self.origin,9,80,64);//9
-	trigger thread make_radius_trigger();
+	trigger = spawn("trigger_radius",self.origin,9,80,64);//9
+	//trigger thread make_radius_trigger();
 	self.trigger = trigger;
 
 	wait(1);
 
 	while(1)
 	{
-		trigger waittill( "trigger_touch", ent );
+		trigger waittill( "trigger", ent );
 
 		if(IsDefined(self.too_many_mines_explode) && self.too_many_mines_explode)
 			break;

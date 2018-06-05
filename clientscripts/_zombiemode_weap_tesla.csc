@@ -62,7 +62,7 @@ tesla_fx_rail( localclientnum )
 		}
 
 		currentweapon = GetCurrentWeapon( localclientnum ); 
-		if ( currentweapon != "tesla_gun_zm" && currentweapon != "tesla_gun_upgraded_zm" && currentweapon != "tesla_gun_new_upgraded_zm" )
+		if ( currentweapon != "tesla_gun_zm" && currentweapon != "tesla_gun_upgraded_zm" )
 		{
 			continue;
 		}
@@ -79,7 +79,7 @@ tesla_fx_rail( localclientnum )
 		
 		fx = level._effect["tesla_viewmodel_rail"];
 		
-		if ( currentweapon == "tesla_gun_upgraded_zm" || currentweapon == "tesla_gun_new_upgraded_zm" )
+		if ( currentweapon == "tesla_gun_upgraded_zm" )
 		{
 			fx = level._effect["tesla_viewmodel_rail_upgraded"];
 		}
@@ -103,7 +103,7 @@ tesla_fx_tube( localclientnum )
 		}
 
 		currentweapon = GetCurrentWeapon( localclientnum ); 
-		if ( currentweapon != "tesla_gun_zm" && currentweapon != "tesla_gun_upgraded_zm" && currentweapon != "tesla_gun_new_upgraded_zm" )
+		if ( currentweapon != "tesla_gun_zm" && currentweapon != "tesla_gun_upgraded_zm" )
 		{
 			continue;
 		}
@@ -122,7 +122,7 @@ tesla_fx_tube( localclientnum )
 		
 		fx = level._effect["tesla_viewmodel_tube"];
 		
-		if ( currentweapon == "tesla_gun_upgraded_zm" || currentweapon == "tesla_gun_new_upgraded_zm" )
+		if ( currentweapon == "tesla_gun_upgraded_zm" )
 		{
 			if ( ammo == 3 || ammo == 4 )
 			{
@@ -186,7 +186,7 @@ tesla_happy( localclientnum )
 	{
 		level waittill ("TGH");
 		currentweapon = GetCurrentWeapon( localclientnum ); 
-		if ( currentweapon == "tesla_gun_zm" || currentweapon == "tesla_gun_upgraded_zm" || currentweapon == "tesla_gun_new_upgraded_zm" )
+		if ( currentweapon == "tesla_gun_zm" || currentweapon == "tesla_gun_upgraded_zm" )
 		{
 			playsound(localclientnum,"wpn_tesla_happy", (0,0,0));
 			level.tesla_play_rail = false;

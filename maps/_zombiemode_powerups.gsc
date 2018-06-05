@@ -3202,7 +3202,10 @@ minigun_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
 
 	//ent_player thread get_player_weapon(str_gun_return_notify);
 
-	ent_player waittill("weapon_change_complete");
+	while(ent_player GetCurrentWeapon() != "minigun_zm")
+	{
+		ent_player waittill("weapon_change_complete");
+	}
 	ent_player EnableWeaponCycling();
 
 	while(!ent_player IsSwitchingWeapons())
@@ -3498,7 +3501,10 @@ tesla_weapon_powerup_weapon_change( ent_player, str_gun_return_notify, weapon )
 
 	//ent_player thread get_player_weapon(str_gun_return_notify);
 	
-	ent_player waittill("weapon_change_complete");
+	while(ent_player GetCurrentWeapon() != weapon)
+	{
+		ent_player waittill("weapon_change_complete");
+	}
 	ent_player EnableWeaponCycling();
 
 	while(!ent_player IsSwitchingWeapons())
@@ -4141,8 +4147,12 @@ meat_powerup_check_for_weapon_switch(prev_wep)
 {
 	self endon("disconnect");
 	self endon("threw meat");
+	self endon("player_meat_end");
 
-	self waittill("weapon_change_complete");
+	while(self GetCurrentWeapon() != "meat_zm")
+	{
+		self waittill("weapon_change_complete");
+	}
 	self EnableWeaponCycling();
 
 	while(!self IsSwitchingWeapons())

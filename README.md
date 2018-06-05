@@ -361,6 +361,7 @@
 * Lethal grenades: impact damage - 30
 * Fixed a bug where tactical grenades wouldn't work if they were thrown before a previously thrown tactical grenade had activated
 * Tactical grenades now always stay upright
+* Mines can now be picked up while pressing the melee button
 
 #### Bouncing Betty
 * Can now explode after being placed for 1 second (previously 2 seconds)

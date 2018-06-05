@@ -453,7 +453,6 @@ do anything here to the player that needs to happen just before he starts ziplin
 ------------------------------------*/
 player_exit_zipline(vehicle,zip_trig)
 {
-	
 	vehicle.in_use = undefined;
 	vehicle notify("player_unlinked");
 	self DisableInvulnerability();
