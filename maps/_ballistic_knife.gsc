@@ -43,11 +43,12 @@ on_spawn( watcher, player )
 			{
 				retrievable_model LinkTo( prey, bone );
 				retrievable_model thread force_drop_knives_to_ground_on_death( player, prey );
+				retrievable_model thread force_drop_knives_to_ground_on_gib( player, prey );
 			}
 			else if( isFriendly )
 			{
 				//launchVec = normal * -1;
-				retrievable_model physicslaunch( normal, (randomint(10),randomint(10),randomint(10)) );
+				retrievable_model physicslaunch();
 
 				//Since the impact normal is not what we want anymore, and the knife will fall to the ground, send the world up normal.
 				normal = (0,0,1);
@@ -67,14 +68,22 @@ on_spawn( watcher, player )
 
 		if ( isFriendly )
 		{
-			player notify( "ballistic_knife_stationary", retrievable_model, normal );
+			retrievable_model notify( "ballistic_knife_stationary", player, normal );
 		}
 		else
 		{
-			player notify( "ballistic_knife_stationary", retrievable_model, normal, prey );
+			retrievable_model notify( "ballistic_knife_stationary", retrievable_model, normal, prey );
 		}
 
 		retrievable_model thread wait_to_show_glowing_model( prey );
+
+		pickup_trigger = SpawnStruct();
+		pickup_trigger.owner = player;
+		pickup_trigger.triggerTeam = player.team;
+		pickup_trigger.calimedBy = player;
+
+		retrievable_model thread watch_use_trigger( pickup_trigger, retrievable_model, ::pick_up, watcher.weapon, watcher.pickUpSoundPlayer, watcher.pickUpSound );
+		player thread watch_shutdown( pickup_trigger, retrievable_model );
 	}
 }
 
@@ -89,17 +98,17 @@ wait_to_show_glowing_model( prey ) // self == retrievable_model
 	glowing_retrievable_model LinkTo( self );
 
 	// we don't want to show the glowing retrievable model until the ragdoll finishes, this will keep the glow out of the kill cam
-	if( IsDefined( prey ) )
+	/*if( IsDefined( prey ) )
 	{
 		wait( 2 );
-	}
+	}*/
 
 	glowing_retrievable_model SetModel( "t5_weapon_ballistic_knife_blade_retrieve" );
 }
 
 on_spawn_retrieve_trigger( watcher, player )
 {
-	player endon( "death" );
+	/*player endon( "death" );
 	player endon( "disconnect" );
 	player endon( "zmb_lost_knife" ); // occurs when the player gives up or changes the type of ballistic_knife they are carrying
 	level endon( "game_ended" );
@@ -123,7 +132,7 @@ on_spawn_retrieve_trigger( watcher, player )
 		trigger_pos[1] = retrievable_model.origin[1] + (vec_scale * normal[1]);
 		trigger_pos[2] = retrievable_model.origin[2] + (vec_scale * normal[2]);
 	}
-	pickup_trigger = Spawn( "trigger_radius_use", (trigger_pos[0], trigger_pos[1], trigger_pos[2]) );
+	pickup_trigger = Spawn( "trigger_radius", (trigger_pos[0], trigger_pos[1], trigger_pos[2]), 0, 64, 72 );
 	pickup_trigger SetCursorHint( "HINT_NOICON" );
 	pickup_trigger.owner = player;
 	retrievable_model.retrievableTrigger = pickup_trigger;
@@ -131,7 +140,7 @@ on_spawn_retrieve_trigger( watcher, player )
 
 	//retrievable_model thread debug_print( endpos );
 
-	/*hint_string = &"WEAPON_BALLISTIC_KNIFE_PICKUP";
+	hint_string = &"WEAPON_BALLISTIC_KNIFE_PICKUP";
 	if( IsDefined( hint_string ) )
 	{
 		pickup_trigger SetHintString( hint_string );
@@ -139,7 +148,7 @@ on_spawn_retrieve_trigger( watcher, player )
 	else
 	{
 		pickup_trigger SetHintString( &"GENERIC_PICKUP" );
-	}*/
+	}
 	pickup_trigger SetHintString( "" );
 
 
@@ -159,7 +168,7 @@ on_spawn_retrieve_trigger( watcher, player )
 	}
 
 	retrievable_model thread watch_use_trigger( pickup_trigger, retrievable_model, ::pick_up, watcher.weapon, watcher.pickUpSoundPlayer, watcher.pickUpSound );
-	player thread watch_shutdown( pickup_trigger, retrievable_model );
+	player thread watch_shutdown( pickup_trigger, retrievable_model );*/
 }
 
 debug_print( endpos )
@@ -180,10 +189,30 @@ watch_use_trigger( trigger, model, callback, weapon, playerSoundOnUse, npcSoundO
 
 	while ( true )
 	{
-		//trigger waittill( "trigger", player );
-		wait(.05);
+		wait_network_frame();
 
-		if(distance(self.origin, self.owner.origin) > 64)
+		// player got the bowie or sickle
+		if(!self.owner HasWeapon(weapon))
+		{
+			if(self HasWeapon("knife_ballistic_bowie_zm"))
+			{
+				weapon = "knife_ballistic_bowie_zm";
+			}
+			else if(self HasWeapon("knife_ballistic_bowie_upgraded_zm"))
+			{
+				weapon = "knife_ballistic_bowie_upgraded_zm";
+			}
+			else if(self HasWeapon("knife_ballistic_sickle_zm"))
+			{
+				weapon = "knife_ballistic_sickle_zm";
+			}
+			else if(self HasWeapon("knife_ballistic_sickle_upgraded_zm"))
+			{
+				weapon = "knife_ballistic_sickle_upgraded_zm";
+			}
+		}
+
+		if(DistanceSquared(self.origin, self.owner.origin + (0,0,32)) > 64*64)
 			continue;
 
 		if(self.owner GetFractionMaxAmmo(weapon) == 1)
@@ -192,24 +221,18 @@ watch_use_trigger( trigger, model, callback, weapon, playerSoundOnUse, npcSoundO
 		if ( !IsAlive( self.owner ) )
 			continue;
 
-		//if ( !self.owner IsOnGround() )
-			//continue;
-
 		if ( IsDefined( trigger.triggerTeam ) && ( self.owner.team != trigger.triggerTeam ) )
 			continue;
 
 		if ( IsDefined( trigger.claimedBy ) && ( self.owner != trigger.claimedBy ) )
 			continue;
 
-		//if ( player UseButtonPressed() && !player.throwingGrenade && !player meleeButtonPressed() )
-		{
-			if ( isdefined( playerSoundOnUse ) )
-				self.owner playLocalSound( playerSoundOnUse );
-			if ( isdefined( npcSoundOnUse ) )
-				self.owner playSound( npcSoundOnUse );
-			self.owner thread [[callback]]( weapon, model, trigger );
-			break;
-		}
+		if ( isdefined( playerSoundOnUse ) )
+			self.owner playLocalSound( playerSoundOnUse );
+		if ( isdefined( npcSoundOnUse ) )
+			self.owner playSound( npcSoundOnUse );
+		self.owner thread [[callback]]( weapon, model, trigger );
+		break;
 	}
 }
 
@@ -282,8 +305,8 @@ drop_knives_to_ground( player )
 		level waittill( "drop_objects_to_ground", origin, radius );
 		if( DistanceSquared( origin, self.origin )< radius * radius )
 		{
-			self physicslaunch( (0,0,1), (5,5,5));
-			self thread update_retrieve_trigger( player );
+			self physicslaunch();
+			//self thread update_retrieve_trigger( player );
 		}
 	}
 }
@@ -292,11 +315,33 @@ force_drop_knives_to_ground_on_death( player, prey )
 {
 	self endon("death");
 	player endon( "zmb_lost_knife" ); // occurs when the player gives up or changes the type of ballistic_knife they are carrying
+	self endon("gibbed");
 
 	prey waittill( "death" );
 	self Unlink();
-	self physicslaunch( (0,0,1), (5,5,5));
-	self thread update_retrieve_trigger( player );
+	self physicslaunch();
+	//self thread update_retrieve_trigger( player );
+}
+
+force_drop_knives_to_ground_on_gib( player, prey )
+{
+	self endon("death");
+	player endon( "zmb_lost_knife" ); // occurs when the player gives up or changes the type of ballistic_knife they are carrying
+	prey endon("death");
+
+	while(1)
+	{
+		if(!self IsTouching(prey))
+		{
+			break;
+		}
+
+		wait_network_frame();
+	}
+
+	self notify("gibbed");
+	self Unlink();
+	self physicslaunch();
 }
 
 update_retrieve_trigger( player )

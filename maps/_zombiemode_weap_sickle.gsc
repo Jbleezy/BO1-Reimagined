@@ -260,7 +260,10 @@ do_sickle_flourish_end( gun )
 
 	if ( self HasWeapon( "knife_ballistic_zm" ) )
 	{
-		self notify( "zmb_lost_knife" );
+		ballistic_clip_ammo = self GetWeaponAmmoClip("knife_ballistic_zm");
+		ballistic_stock_ammo = self GetWeaponAmmoStock("knife_ballistic_zm");
+		
+		//self notify( "zmb_lost_knife" );
 		self TakeWeapon( "knife_ballistic_zm" );
 		self GiveWeapon( "knife_ballistic_sickle_zm" );
 
@@ -268,10 +271,16 @@ do_sickle_flourish_end( gun )
 		{
 			gun = "knife_ballistic_sickle_zm";
 		}
+
+		self SetWeaponAmmoClip("knife_ballistic_sickle_zm", ballistic_clip_ammo);
+		self SetWeaponAmmoStock("knife_ballistic_sickle_zm", ballistic_stock_ammo);
 	}
 	else if ( self HasWeapon( "knife_ballistic_upgraded_zm" ) )
 	{
-		self notify( "zmb_lost_knife" );
+		ballistic_clip_ammo = self GetWeaponAmmoClip("knife_ballistic_upgraded_zm");
+		ballistic_stock_ammo = self GetWeaponAmmoStock("knife_ballistic_upgraded_zm");
+
+		//self notify( "zmb_lost_knife" );
 		self TakeWeapon( "knife_ballistic_upgraded_zm" );
 		self GiveWeapon( "knife_ballistic_sickle_upgraded_zm", 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( "knife_ballistic_sickle_upgraded_zm" ) );
 
@@ -279,6 +288,9 @@ do_sickle_flourish_end( gun )
 		{
 			gun = "knife_ballistic_sickle_upgraded_zm";
 		}
+
+		self SetWeaponAmmoClip("knife_ballistic_sickle_upgraded_zm", ballistic_clip_ammo);
+		self SetWeaponAmmoStock("knife_ballistic_sickle_upgraded_zm", ballistic_stock_ammo);
 	}
 
 	self TakeWeapon(weapon);

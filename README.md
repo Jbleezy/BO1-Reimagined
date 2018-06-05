@@ -158,6 +158,10 @@
 ### Ballistic Knife
 * Knives pick up automatically when close to them
 * Instantly starts reloading after firing the knife
+* Obtaining the Bowie Knife or Sickle no longer gives you more ammo
+* Fixed a bug where a knife could not be picked up if another knife is fired after the first knife and lands before the first knife
+* Knife now glows as soon as it is attached to a zombie
+* Knife now detaches from a zombie if the limb it was attached to is gibbed off
 * Unupgraded: increased impact damage from 450 to 500 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Upgraded: increased impact damage from 900 to 1000 (weapon file shows it is suppose to do this amount of damage but it does not)
 
@@ -978,8 +982,6 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Increase raise time for Bowie and Sickle?
-* Use weaponOptions.csv for multiple camos
 * Use WaW pap camo for all weapons on Der Riese except Wunderwaffe
 * Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)
@@ -1005,8 +1007,6 @@
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Get WaW weapon files of classic map weapons working
 * Fix trench gun 3rd person sounds being too loud
-* Get Ballistic Sickle weapon files completely working
-* Add correct Combat Sickle melee sounds
 * Get Thundergun weapon files completely working
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Fix sprint and dive anims on Ray Gun
@@ -1028,6 +1028,13 @@
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
 * Add notetrack to Wunderwaffe when starting to sprint so that lights will turn back when sprinting from sprint reload cancel
 * Try using mtl_silver_etching images for WaW pap camo
+* Get Ballistic Sickle viewmodel (viewmodel_ballistic_knife_w_sickle)
+* Fix bug with picking up Meat powerup as soon as you have no weapons and are being auto switch to combat knife
+* Increase fire times on new upgraded weapons
+* Make it so throwing meat to teammates makes them catch it
+* Try to get projectiles to travel straight up if player is looking 85 degrees up
+* Add BO2 meat FX and grief FX in game
+* Fix BO1 ray gun first raise anim lasting too long at the end
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1143,6 +1150,7 @@
 * Fix player names getting changed to "Unknown Soldier" on scoreboard and chat after fast_restart if name is too short
 * Make it so perks that are not engine based only use 1 bit
 * Make it so players can look up and down 90 degrees (currently at 85)
+* Allow multiple pap camos to be used from weaponOptions.csv (currently only looks for the keyword "gold")
 
 ## SPECIAL THANKS
 * **_WARDOG_** - co-developer
