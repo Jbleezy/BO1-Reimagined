@@ -3898,10 +3898,6 @@ init_player_equipment()
 
 register_offhand_weapons_for_level_defaults()
 {
-	register_melee_weapon_for_level( "combat_knife_zm" );
-	register_melee_weapon_for_level( "combat_bowie_knife_zm" );
-	register_melee_weapon_for_level( "combat_sickle_knife_zm" );
-
 	if ( isdefined( level.register_offhand_weapons_for_level_defaults_override ) )
 	{
 		[[ level.register_offhand_weapons_for_level_defaults_override ]]();

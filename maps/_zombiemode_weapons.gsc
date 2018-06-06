@@ -4003,13 +4003,17 @@ init_includes()
  	}
 
  	include_weapon("combat_knife_zm", false);
- 	if(level.script == "zombie_cosmodrome" || level.script == "zombie_coast")
- 	{
- 		include_weapon("combat_sickle_knife_zm", false);
- 	}
- 	else if(level.script == "zombie_cod5_factory" || level.script == "zombie_theater" || level.script == "zombie_pentagon" || level.script == "zombie_temple" || level.script == "zombie_moon")
+ 	register_melee_weapon_for_level( "combat_knife_zm" );
+
+ 	if(level.script == "zombie_cod5_factory" || level.script == "zombie_theater" || level.script == "zombie_pentagon" || level.script == "zombie_temple" || level.script == "zombie_moon")
  	{
  		include_weapon("combat_bowie_knife_zm", false);
+ 		register_melee_weapon_for_level( "combat_bowie_knife_zm" );
+ 	}
+ 	else if(level.script == "zombie_cosmodrome" || level.script == "zombie_coast")
+ 	{
+ 		include_weapon("combat_sickle_knife_zm", false);
+ 		register_melee_weapon_for_level( "combat_sickle_knife_zm" );
  	}
 }
 

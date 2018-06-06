@@ -12,8 +12,6 @@ init()
 {
 	PrecacheString(&"REIMAGINED_BETTY_PURCHASE");
 	PrecacheString(&"REIMAGINED_BETTY_PICKUP");
-
-	maps\_weaponobjects::create_retrievable_hint("mine_bouncing_betty", &"REIMAGINED_BETTY_PICKUP");
 	
 	trigs = getentarray("betty_purchase","targetname");
 	for(i=0; i<trigs.size; i++)
@@ -24,6 +22,17 @@ init()
 
 	array_thread(trigs,::buy_bouncing_betties);
 	level thread give_betties_after_rounds();
+
+	maps\_weaponobjects::create_retrievable_hint("mine_bouncing_betty", &"REIMAGINED_BETTY_PICKUP");
+	level.create_level_specific_weaponobject_watchers = ::create_betty_watcher_zm;
+}
+
+create_betty_watcher_zm() // self == player
+{
+	watcher = self maps\_weaponobjects::create_use_weapon_object_watcher( "mine_bouncing_betty", "mine_bouncing_betty", self.team );
+	watcher.pickup = ::pickup_betty;
+	watcher.pickup_trigger_listener = ::pickup_betty_trigger_listener;
+	watcher.skip_weapon_object_damage = true;
 }
 
 buy_bouncing_betties()
@@ -126,6 +135,8 @@ bouncing_betty_watch()
 			{
 				betty thread betty_damage();
 			}
+
+			self notify( "zmb_enable_betty_prompt" );
 		}
 	}
 }
@@ -319,7 +330,7 @@ show_betty_hint(string)
 }
 
 //self = betty
-pickup_betty()
+/*pickup_betty()
 {
 	self endon("death");
 
@@ -349,7 +360,7 @@ pickup_betty()
 	self.trigger waittill("trigger", who);
 
 	self thread give_betty();
-}
+}*/
 
 trigger_hintstring_think()
 {
@@ -418,5 +429,82 @@ betty_damage()
 			}
 			self delete();
 		}
+	}
+}
+
+pickup_betty()
+{
+	player = self.owner;
+
+	if ( !player hasweapon( self.name ) )
+	{
+		//player thread claymore_watch();
+
+		player giveweapon(self.name);
+		player set_player_placeable_mine(self.name);
+		player setactionslot(4,"weapon",self.name);
+		player setweaponammoclip(self.name,0);
+		player notify( "zmb_enable_betty_prompt" );
+	}
+	else
+	{
+		clip_ammo = player GetWeaponAmmoClip( self.name );
+		clip_max_ammo = WeaponClipSize( self.name );
+		if ( clip_ammo >= clip_max_ammo )
+		{
+			player notify( "zmb_disable_betty_prompt" ); // just to be safe
+			return;
+		}
+	}
+
+	self maps\_weaponobjects::pick_up();
+
+	clip_ammo = player GetWeaponAmmoClip( self.name );
+	clip_max_ammo = WeaponClipSize( self.name );
+	if ( clip_ammo >= clip_max_ammo )
+	{
+		player notify( "zmb_disable_betty_prompt" );
+	}
+}
+
+pickup_betty_trigger_listener( trigger, player )
+{
+	self thread pickup_betty_trigger_listener_enable( trigger, player );
+	self thread pickup_betty_trigger_listener_disable( trigger, player );
+}
+
+pickup_betty_trigger_listener_enable( trigger, player )
+{
+	self endon( "delete" );
+
+	while ( true )
+	{
+		player waittill_any( "zmb_enable_betty_prompt", "spawned_player" );
+
+		if ( !isDefined( trigger ) )
+		{
+			return;
+		}
+
+		trigger trigger_on();
+		trigger linkto( self );
+	}
+}
+
+pickup_betty_trigger_listener_disable( trigger, player )
+{
+	self endon( "delete" );
+
+	while ( true )
+	{
+		player waittill( "zmb_disable_betty_prompt" );
+
+		if ( !isDefined( trigger ) )
+		{
+			return;
+		}
+
+		trigger unlink();
+		trigger trigger_off();
 	}
 }

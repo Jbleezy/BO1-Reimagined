@@ -2342,6 +2342,7 @@ full_ammo_powerup( drop_item )
 	self notify( "zmb_lost_knife" );
 	self notify( "zmb_disable_claymore_prompt" );
 	self notify( "zmb_disable_spikemore_prompt" );
+	self notify( "zmb_disable_betty_prompt" );
 	for( x = 0; x < primary_weapons.size; x++ )
 	{
 		// Fill the clip
