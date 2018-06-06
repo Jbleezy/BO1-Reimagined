@@ -206,8 +206,8 @@ weapon,sp/knife_ballistic_zm
 weapon,sp/knife_ballistic_upgraded_zm
 weapon,sp/knife_ballistic_bowie_zm
 weapon,sp/knife_ballistic_bowie_upgraded_zm
-//weapon,sp/knife_ballistic_sickle_zm
-//weapon,sp/knife_ballistic_sickle_upgraded_zm
+weapon,sp/knife_ballistic_sickle_zm
+weapon,sp/knife_ballistic_sickle_upgraded_zm
 //weapon,sp/thundergun_zm
 //weapon,sp/thundergun_upgraded_zm
 weapon,sp/crossbow_explosive_zm
@@ -222,6 +222,7 @@ weapon,sp/minigun_zm
 weapon,sp/knife_zm
 weapon,sp/bowie_knife_zm
 weapon,sp/sickle_knife_zm
+weapon,sp/stielhandgranate
 weapon,sp/frag_grenade_zm
 weapon,sp/sticky_grenade_zm
 weapon,sp/mine_bouncing_betty

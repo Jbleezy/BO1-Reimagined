@@ -205,6 +205,7 @@ betty_think()
 		self.owner.mines = array_remove_nokeys(self.owner.mines,self);
 	}
 
+	self notify("pickUpTrigger_death");
 	if ( isdefined( trigger ) )
 	{
 		trigger delete();

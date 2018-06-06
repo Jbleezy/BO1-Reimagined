@@ -364,8 +364,10 @@
 * Mines can now be picked up while pressing the melee button
 
 #### Bouncing Betty
+* Increased placing speed
 * Can now explode after being placed for 1 second (previously 2 seconds)
 * Can now be picked up
+* Fixed a bug where Bouncing Betties would keep moving and making sounds after being placed
 
 #### Claymore
 * Added placing sound
@@ -995,7 +997,6 @@
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
 * Five: get wall barrier tear down sound and metal vent barrier rebuild sound from other maps working
 * Try making dvars unchangeable from console
-* Fix bouncing betties from repeating place sound on Der Riese added curb collision
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
 * Make better last powerup FX
@@ -1024,7 +1025,6 @@
 * Remove zombie failsafe death print before release
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
 * Add WaW weapon files with correct stats
-* Do impact damage from steilhandgranate in weapon file
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
@@ -1035,6 +1035,7 @@
 * Make it so throwing meat to teammates makes them catch it
 * Add BO2 meat FX and grief FX in game
 * Fix BO1 ray gun first raise anim lasting too long at the end
+* Bouncing Betty: get grenade_pull_pin soundtrack working correctly
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1077,6 +1078,7 @@
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo?
 * Moon on Grief: should you be able to break windows? Yes
 * Use tactical grenade models from Chronicles?
+* Add C4?
 
 ### Testing
 * Moon sidequest dialog in coop without Richtofen

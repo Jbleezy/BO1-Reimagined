@@ -627,6 +627,7 @@ watch_use_trigger( trigger, callback )
 {
 	self endon( "delete" );
 	self endon( "death" );
+	self endon("pickUpTrigger_death");
 
 	while ( true )
 	{
@@ -644,7 +645,7 @@ watch_use_trigger( trigger, callback )
 		if ( IsDefined( trigger.claimedBy ) && ( player != trigger.claimedBy ) )
 			continue;
 
-		if ( player UseButtonPressed() && !player.throwingGrenade )
+		if ( player UseButtonPressed() )
 			self thread [[callback]]();
 	}
 }
@@ -655,7 +656,7 @@ watch_shutdown( player )
 
 	pickUpTrigger = self.pickUpTrigger;
 
-	self waittill( "death" );
+	self waittill_any( "death", "pickUpTrigger_death" );
 
 	pickUpTrigger delete();
 }

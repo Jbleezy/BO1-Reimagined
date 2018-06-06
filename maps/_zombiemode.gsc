@@ -2469,12 +2469,6 @@ player_grenade_watcher()
 			grenade.team = self.team;
 		}
 
-		//Stielhandgranate - add impact damage through script
-		if(weapName == "stielhandgranate")
-		{
-			grenade thread do_damage_on_impact(self);
-		}
-
 		//disable grenades for a short period after just throwing a grenade
 		//to fix a bug that caused players to be able to throw a second grenade faster than intended
 		if(is_lethal_grenade(weapName) || is_tactical_grenade(weapName))
@@ -8898,33 +8892,6 @@ velocity_test()
 		vel = self GetVelocity();
 		iprintln(vel);
 		wait .0001;
-	}
-}
-
-//self = grenade
-do_damage_on_impact(player)
-{
-	self endon("death");
-
-	nade_already_touched = [];
-
-	while(1)
-	{
-		prev_origin = self.origin;
-		wait .001;
-		vel = Distance(prev_origin, self.origin);
-		if(vel >= 1)
-		{
-			zombs = GetAiSpeciesArray( "axis", "all" );
-			for (i = 0; i < zombs.size; i++)
-			{
-				if(self IsTouching(zombs[i]) && !is_in_array(nade_already_touched, zombs[i]))
-				{
-					zombs[i] DoDamage( 30, self.origin, player, 0, "impact" );
-					nade_already_touched[nade_already_touched.size] = zombs[i];
-				}
-			}
-		}
 	}
 }
 
