@@ -1031,7 +1031,6 @@
 * Add notetrack to Wunderwaffe when starting to sprint so that lights will turn back when sprinting from sprint reload cancel
 * Try using mtl_silver_etching images for WaW pap camo
 * Get Ballistic Sickle viewmodel (viewmodel_ballistic_knife_w_sickle)
-* Fix bug with picking up Meat powerup as soon as you have no weapons and are being auto switch to combat knife
 * Increase fire times on new upgraded weapons
 * Make it so throwing meat to teammates makes them catch it
 * Add BO2 meat FX and grief FX in game

@@ -1377,7 +1377,7 @@ treasure_chest_think()
 					current_weapon = user GetCurrentWeapon();
 				}
 
-				if( grabber == user && is_player_valid( user ) && !user is_drinking() && !is_placeable_mine( current_weapon ) && !is_equipment( current_weapon ) && "syrette_sp" != current_weapon)
+				if( grabber == user && is_player_valid( user ) && !user is_drinking() && !is_equipment( current_weapon ) && "syrette_sp" != current_weapon)
 				{
 					//don't let player take weapon from box if they have the upgraded verison of the weapon
 					if(grabber has_upgrade(self.chest_origin.weapon_string))

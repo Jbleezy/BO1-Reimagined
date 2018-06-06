@@ -256,7 +256,7 @@ custom_add_weapons()
 {
  	maps\_zombiemode_weapons::add_zombie_weapon( "humangun_zm",				"humangun_upgraded_zm",					&"ZOMBIE_WEAPON_HUMANGUN", 				10,		"human",			"",		undefined );
 	maps\_zombiemode_weapons::add_zombie_weapon( "sniper_explosive_zm",		"sniper_explosive_upgraded_zm",			&"ZOMBIE_WEAPON_SNIPER_EXPLOSIVE",		2500,	"ubersniper",		"",		undefined );
-	maps\_zombiemode_weapons::add_zombie_weapon( "tesla_gun_zm",			"tesla_gun_upgraded_zm",			&"ZOMBIE_WEAPON_TESLA", 				10,		"tesla",			"",		undefined, true ); //true - adds weapon without including it
+	maps\_zombiemode_weapons::add_zombie_weapon( "tesla_gun_powerup_zm",			"tesla_gun_powerup_upgraded_zm",			&"ZOMBIE_WEAPON_TESLA", 				10,		"tesla",			"",		undefined, true ); //true - adds weapon without including it
 }
 
 coast_spawn_init_delay(director)
@@ -493,6 +493,8 @@ include_weapons()
 	include_weapon( "knife_ballistic_sickle_upgraded_zm", false );
 	level._uses_retrievable_ballisitic_knives = true;
 
+	include_weapon( "tesla_gun_powerup_zm", false );
+	include_weapon( "tesla_gun_powerup_upgraded_zm", false );
 
 	// limited weapons
 	maps\_zombiemode_weapons::add_limited_weapon( "m1911_zm", 0 );
@@ -602,8 +604,8 @@ include_powerups()
 	include_powerup( "minigun" );
 
 	// WW (03-14-11): Added Tesla
-	PreCacheItem( "tesla_gun_zm" );
-	PrecacheItem( "tesla_gun_upgraded_zm" );
+	//PreCacheItem( "tesla_gun_powerup_zm" );
+	//PrecacheItem( "tesla_gun_powerup_upgraded_zm" );
 	include_powerup( "tesla" );
 
 	include_powerup( "free_perk" );

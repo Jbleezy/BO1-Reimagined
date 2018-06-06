@@ -1144,11 +1144,11 @@ powerup_setup( powerup_override )
 	{
 		if(IsDefined(level.upgraded_tesla_reward) && level.upgraded_tesla_reward)
 		{
-			self.weapon = "tesla_gun_upgraded_zm";
+			self.weapon = "tesla_gun_powerup_upgraded_zm";
 		}
 		else
 		{
-			self.weapon = "tesla_gun_zm";
+			self.weapon = "tesla_gun_powerup_zm";
 		}
 
 		self.base_weapon = self.weapon;
@@ -1549,7 +1549,7 @@ powerup_grab()
 				continue;
 
 			//no picking up unupgraded waffe if upgraded waffe is active
-			if(self.powerup_name == "tesla" && IsDefined(players[i].has_tesla) && players[i].has_tesla && players[i] GetCurrentWeapon() == "tesla_gun_upgraded_zm" && self.weapon == "tesla_gun_zm")
+			if(self.powerup_name == "tesla" && IsDefined(players[i].has_tesla) && players[i].has_tesla && players[i] GetCurrentWeapon() == "tesla_gun_powerup_upgraded_zm" && self.weapon == "tesla_gun_powerup_zm")
 				continue;
 
 			//no picking up qed random weapon powerup if player the hasn't triggered it
@@ -3140,56 +3140,42 @@ minigun_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
 	ent_player endon( "death" );
 	ent_player endon( "player_downed" );
 
-	// take the minigun back
-	ent_player TakeWeapon( "minigun_zm" );
+	if(!IsDefined(weapon_swap))
+	{
+		weapon_swap = true;
+	}
 
 	ent_player.zombie_vars[ "zombie_powerup_minigun_on" ] = false;
 	ent_player._show_solo_hud = false;
 
+	if(weapon_swap)
+	{
+		primaryWeapons = ent_player GetWeaponsListPrimaries();
+		if( IsDefined( ent_player._zombie_gun_before_minigun ) && ent_player HasWeapon(ent_player._zombie_gun_before_minigun) )
+		{
+			ent_player SwitchToWeapon( ent_player._zombie_gun_before_minigun );
+		}
+		else if( primaryWeapons.size > 0 )
+		{
+			ent_player SwitchToWeapon( primaryWeapons[0] );
+		}
+		else
+		{
+			ent_player SwitchToWeapon("combat_" + ent_player get_player_melee_weapon());
+		}
+	}
+
+	ent_player DisableWeaponCycling();
+	ent_player waittill("weapon_change");
+
+	ent_player TakeWeapon( "minigun_zm" );
+
 	ent_player.has_minigun = false;
 	ent_player.has_powerup_weapon = false;
 
-	// this gives the player back their weapons
 	ent_player notify( str_gun_return_notify );
 
 	ent_player decrement_is_drinking();
-
-	if(IsDefined(weapon_swap) && weapon_swap)
-	{
-		return;
-	}
-
-	if( IsDefined( ent_player._zombie_gun_before_minigun ) )
-	{
-		player_weapons = ent_player GetWeaponsListPrimaries();
-		for( i = 0; i < player_weapons.size; i++ )
-		{
-			if( player_weapons[i] == ent_player._zombie_gun_before_minigun )
-			{
-				ent_player SwitchToWeapon( ent_player._zombie_gun_before_minigun );
-				return;
-			}
-		}
-	}
-
-	// if the player got through all that without getting a weapon back give them the first one
-	primaryWeapons = ent_player GetWeaponsListPrimaries();
-	if( primaryWeapons.size > 0 )
-	{
-		ent_player SwitchToWeapon( primaryWeapons[0] );
-	}
-	else
-	{
-		allWeapons = ent_player GetWeaponsList();
-		for( i = 0; i < allWeapons.size; i++ )
-		{
-			if( is_melee_weapon( allWeapons[i] ) )
-			{
-				ent_player SwitchToWeapon( allWeapons[i] );
-				return;
-			}
-		}
-	}
 }
 
 minigun_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
@@ -3199,8 +3185,6 @@ minigun_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
 	ent_player endon( "player_downed" );
 	ent_player endon( str_gun_return_notify );
 	ent_player endon( "replace_weapon_powerup" );
-
-	//ent_player thread get_player_weapon(str_gun_return_notify);
 
 	while(ent_player GetCurrentWeapon() != "minigun_zm")
 	{
@@ -3213,62 +3197,7 @@ minigun_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
 		wait_network_frame();
 	}
 
-	switched_weapons = false;
-
-	if( IsDefined( ent_player._zombie_gun_before_minigun ) )
-	{
-		player_weapons = ent_player GetWeaponsListPrimaries();
-		for( i = 0; i < player_weapons.size; i++ )
-		{
-			if( player_weapons[i] == ent_player._zombie_gun_before_minigun )
-			{
-				ent_player SwitchToWeapon( ent_player._zombie_gun_before_minigun );
-				switched_weapons = true;
-				break;
-			}
-		}
-	}
-
-	// if the player got through all that without getting a weapon back give them the first one
-	if(!switched_weapons)
-	{
-		primaryWeapons = ent_player GetWeaponsListPrimaries();
-		if( primaryWeapons.size > 0 )
-		{
-			ent_player SwitchToWeapon( primaryWeapons[0] );
-		}
-		else
-		{
-			allWeapons = ent_player GetWeaponsList();
-			for( i = 0; i < allWeapons.size; i++ )
-			{
-				if( is_melee_weapon( allWeapons[i] ) )
-				{
-					ent_player SwitchToWeapon( allWeapons[i] );
-					return;
-				}
-			}
-		}
-	}
-
-	ent_player DisableWeaponCycling();
-	ent_player waittill("weapon_change");
-	ent_player EnableWeaponCycling();
-
-	level thread minigun_weapon_powerup_remove( ent_player, str_gun_return_notify, true );
-}
-
-get_player_weapon(str_gun_return_notify)
-{
-	self endon( "death" );
-	self endon( "disconnect" );
-	self endon( "player_downed" );
-	self endon( str_gun_return_notify );
-	while(1)
-	{
-		iprintln(self GetCurrentWeapon());
-		wait .05;
-	}
+	level thread minigun_weapon_powerup_remove( ent_player, str_gun_return_notify, false );
 }
 
 minigun_weapon_powerup_off()
@@ -3283,14 +3212,9 @@ minigun_watch_gunner_downed()
 		return;
 	}
 
-	primaryWeapons = self GetWeaponsListPrimaries();
-
-	for( i = 0; i < primaryWeapons.size; i++ )
+	if(self HasWeapon("minigun_zm"))
 	{
-		if( primaryWeapons[i] == "minigun_zm" )
-		{
-			self TakeWeapon( "minigun_zm" );
-		}
+		self TakeWeapon( "minigun_zm" );
 	}
 
 	// self decrement_is_drinking();
@@ -3357,9 +3281,9 @@ tesla_weapon_powerup( ent_player, powerup, time )
 	ent_player GiveMaxAmmo( weapon );
 	ent_player SwitchToWeapon( weapon );
 
-	if(weapon == "tesla_gun_upgraded_zm" && ent_player HasWeapon("tesla_gun_zm"))
+	if(weapon == "tesla_gun_powerup_upgraded_zm" && ent_player HasWeapon("tesla_gun_powerup_zm"))
 	{
-		ent_player TakeWeapon("tesla_gun_zm");
+		ent_player TakeWeapon("tesla_gun_powerup_zm");
 	}
 
 	ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] = true;
@@ -3439,10 +3363,35 @@ tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon, weapon_s
 	ent_player endon( "death" );
 	ent_player endon( "player_downed" );
 
-	ent_player TakeWeapon( weapon );
+	if(!IsDefined(weapon_swap))
+	{
+		weapon_swap = true;
+	}
 
 	ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] = false;
 	ent_player._show_solo_hud = false;
+
+	if(weapon_swap)
+	{
+		primaryWeapons = ent_player GetWeaponsListPrimaries();
+		if( IsDefined( ent_player._zombie_gun_before_tesla ) && ent_player HasWeapon(ent_player._zombie_gun_before_tesla) )
+		{
+			ent_player SwitchToWeapon( ent_player._zombie_gun_before_tesla );
+		}
+		else if( primaryWeapons.size > 0 )
+		{
+			ent_player SwitchToWeapon( primaryWeapons[0] );
+		}
+		else
+		{
+			ent_player SwitchToWeapon("combat_" + ent_player get_player_melee_weapon());
+		}
+	}
+
+	ent_player TakeWeapon( weapon );
+
+	ent_player DisableWeaponCycling();
+	ent_player waittill("weapon_change");
 
 	ent_player.has_tesla = false;
 	ent_player.has_powerup_weapon = false;
@@ -3451,43 +3400,6 @@ tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon, weapon_s
 	ent_player notify( str_gun_return_notify );
 
 	ent_player decrement_is_drinking();
-
-	if(IsDefined(weapon_swap) && weapon_swap)
-	{
-		return;
-	}
-
-	if( IsDefined( ent_player._zombie_gun_before_tesla ) )
-	{
-		player_weapons = ent_player GetWeaponsListPrimaries();
-		for( i = 0; i < player_weapons.size; i++ )
-		{
-			if( player_weapons[i] == ent_player._zombie_gun_before_tesla )
-			{
-				ent_player SwitchToWeapon( ent_player._zombie_gun_before_tesla );
-				return;
-			}
-		}
-	}
-
-	// if the player got through all that without getting a weapon back give them the first one
-	primaryWeapons = ent_player GetWeaponsListPrimaries();
-	if( primaryWeapons.size > 0 )
-	{
-		ent_player SwitchToWeapon( primaryWeapons[0] );
-	}
-	else
-	{
-		allWeapons = ent_player GetWeaponsList();
-		for( i = 0; i < allWeapons.size; i++ )
-		{
-			if( is_melee_weapon( allWeapons[i] ) )
-			{
-				ent_player SwitchToWeapon( allWeapons[i] );
-				return;
-			}
-		}
-	}
 
 }
 
@@ -3499,8 +3411,6 @@ tesla_weapon_powerup_weapon_change( ent_player, str_gun_return_notify, weapon )
 	ent_player endon( str_gun_return_notify );
 	ent_player endon( "replace_weapon_powerup" );
 
-	//ent_player thread get_player_weapon(str_gun_return_notify);
-	
 	while(ent_player GetCurrentWeapon() != weapon)
 	{
 		ent_player waittill("weapon_change_complete");
@@ -3512,49 +3422,7 @@ tesla_weapon_powerup_weapon_change( ent_player, str_gun_return_notify, weapon )
 		wait_network_frame();
 	}
 
-	switched_weapons = false;
-
-	if( IsDefined( ent_player._zombie_gun_before_tesla ) )
-	{
-		player_weapons = ent_player GetWeaponsListPrimaries();
-		for( i = 0; i < player_weapons.size; i++ )
-		{
-			if( player_weapons[i] == ent_player._zombie_gun_before_tesla )
-			{
-				ent_player SwitchToWeapon( ent_player._zombie_gun_before_tesla );
-				switched_weapons = true;
-				break;
-			}
-		}
-	}
-
-	// if the player got through all that without getting a weapon back give them the first one
-	if(!switched_weapons)
-	{
-		primaryWeapons = ent_player GetWeaponsListPrimaries();
-		if( primaryWeapons.size > 0 )
-		{
-			ent_player SwitchToWeapon( primaryWeapons[0] );
-		}
-		else
-		{
-			allWeapons = ent_player GetWeaponsList();
-			for( i = 0; i < allWeapons.size; i++ )
-			{
-				if( is_melee_weapon( allWeapons[i] ) )
-				{
-					ent_player SwitchToWeapon( allWeapons[i] );
-					return;
-				}
-			}
-		}
-	}
-
-	ent_player DisableWeaponCycling();
-	ent_player waittill("weapon_change");
-	ent_player EnableWeaponCycling();
-
-	level thread tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon, true );
+	level thread tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon, false );
 }
 
 tesla_weapon_powerup_off()
@@ -3571,12 +3439,14 @@ tesla_watch_gunner_downed()
 
 	primaryWeapons = self GetWeaponsListPrimaries();
 
-	for( i = 0; i < primaryWeapons.size; i++ )
+	if(self HasWeapon("tesla_gun_powerup_zm"))
 	{
-		if( primaryWeapons[i] == "tesla_gun_zm" || primaryWeapons[i] == "tesla_gun_upgraded_zm")
-		{
-			self TakeWeapon( primaryWeapons[i] );
-		}
+		self TakeWeapon( "tesla_gun_powerup_zm" );
+	}
+
+	if(self HasWeapon("tesla_gun_powerup_upgraded_zm"))
+	{
+		self TakeWeapon( "tesla_gun_powerup_upgraded_zm" );
 	}
 
 	// self decrement_is_drinking();
@@ -4006,12 +3876,7 @@ grief_empty_clip_powerup( item )
 			}
 			else
 			{
-				melee = self get_player_melee_weapon();
-				if(IsDefined(melee))
-				{
-					wep = "combat_" + melee;
-					self SwitchToWeapon(wep);
-				}
+				self SwitchToWeapon("combat_" + self get_player_melee_weapon());
 			}
 		}
 	}
@@ -4096,7 +3961,7 @@ meat_powerup( drop_item )
 
 	self thread meat_powerup_check_for_player_downed();
 
-	self thread meat_powerup_check_for_weapon_switch(prev_wep);
+	self thread meat_powerup_weapon_change();
 
 	while(1)
 	{
@@ -4112,18 +3977,10 @@ meat_powerup( drop_item )
 
 			if(is_true(self.has_meat))
 			{
-				wait(WeaponFireTime("meat_zm"));
+				self DisableWeaponCycling();
+				wait(WeaponFireTime("meat_zm") * 2);
 
-				if(self HasWeapon(prev_wep))
-				{
-					self SwitchToWeapon(prev_wep);
-				}
-				else
-				{
-					self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
-				}
-
-				self meat_powerup_take_weapon();
+				self meat_powerup_take_weapon(true, prev_wep);
 
 				return;
 			}
@@ -4143,7 +4000,7 @@ meat_powerup_check_for_player_downed()
 	self.gg_wep_changed = undefined;
 }
 
-meat_powerup_check_for_weapon_switch(prev_wep)
+meat_powerup_weapon_change()
 {
 	self endon("disconnect");
 	self endon("threw meat");
@@ -4160,24 +4017,36 @@ meat_powerup_check_for_weapon_switch(prev_wep)
 		wait_network_frame();
 	}
 
-	if(self HasWeapon(prev_wep))
-	{
-		self SwitchToWeapon(prev_wep);
-	}
-	else
-	{
-		self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
-	}
-
 	self DisableWeaponCycling();
 	self waittill("weapon_change");
-	self EnableWeaponCycling();
 	
 	self meat_powerup_take_weapon();
 }
 
-meat_powerup_take_weapon()
+meat_powerup_take_weapon(weapon_swap, prev_wep)
 {
+	if(!IsDefined(weapon_swap))
+	{
+		weapon_swap = false;
+	}
+
+	if(weapon_swap)
+	{
+		weps = self GetWeaponsListPrimaries();
+		if(self HasWeapon(prev_wep))
+		{
+			self SwitchToWeapon(prev_wep);
+		}
+		else if(weps.size > 0)
+		{
+			self SwitchToWeapon(weps[0]);
+		}
+		else
+		{
+			self SwitchToWeapon("combat_" + self get_player_melee_weapon());
+		}
+	}
+
 	self TakeWeapon("meat_zm");
 
 	self decrement_is_drinking();

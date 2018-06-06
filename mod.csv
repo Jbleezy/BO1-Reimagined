@@ -222,9 +222,6 @@ weapon,sp/minigun_zm
 weapon,sp/knife_zm
 weapon,sp/bowie_knife_zm
 weapon,sp/sickle_knife_zm
-weapon,sp/combat_knife_zm
-weapon,sp/combat_bowie_knife_zm
-weapon,sp/combat_sickle_knife_zm
 weapon,sp/frag_grenade_zm
 weapon,sp/sticky_grenade_zm
 weapon,sp/mine_bouncing_betty
@@ -240,12 +237,12 @@ weapon,sp/zombie_thompson
 weapon,sp/zombie_thompson_upgraded
 
 //NEW WEAPONS
-weapon,sp/meat_zm
-weapon,sp/starburst_ray_gun_zm
-weapon,sp/starburst_m72_law_zm
-weapon,sp/starburst_china_lake_zm
-weapon,sp/zombie_perk_bottle
 weapon,sp/molotov_zm
+weapon,sp/combat_knife_zm
+weapon,sp/combat_bowie_knife_zm
+weapon,sp/combat_sickle_knife_zm
+weapon,sp/ppsh_zm
+weapon,sp/ppsh_upgraded_zm
 weapon,sp/ak47_zm
 weapon,sp/ak47_ft_upgraded_zm
 weapon,sp/ft_ak47_upgraded_zm
@@ -253,8 +250,13 @@ weapon,sp/stoner63_zm
 weapon,sp/stoner63_upgraded_zm
 weapon,sp/psg1_zm
 weapon,sp/psg1_upgraded_zm
-weapon,sp/ppsh_zm
-weapon,sp/ppsh_upgraded_zm
+weapon,sp/zombie_perk_bottle
+weapon,sp/meat_zm
+weapon,sp/starburst_ray_gun_zm
+weapon,sp/starburst_m72_law_zm
+weapon,sp/starburst_china_lake_zm
+weapon,sp/tesla_gun_powerup_zm
+weapon,sp/tesla_gun_powerup_upgraded_zm
 //weapon,sp/kiparis_zm
 //weapon,sp/kiparislh_upgraded_zm
 //weapon,sp/kiparisdw_upgraded_zm
