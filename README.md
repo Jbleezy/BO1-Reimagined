@@ -426,6 +426,7 @@
 
 #### Stielhandgranate
 * Now deals damage on impact
+* Added projectile trail effect
 
 #### QED
 * 100% chance of fling effect when thrown near Cosmonaut or zombie
@@ -1036,6 +1037,7 @@
 * Add BO2 meat FX and grief FX in game
 * Fix BO1 ray gun first raise anim lasting too long at the end
 * Bouncing Betty: get grenade_pull_pin soundtrack working correctly
+* Bouncing Betty: add HUD icon to weapon file
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
