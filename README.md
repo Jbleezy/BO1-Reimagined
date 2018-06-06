@@ -1019,7 +1019,6 @@
 * Change type 100 reserve ammo to 180 unupgraded, 240 upgraded
 * Upgraded Kar98k: 50 round clip, no reserve ammo
 * Add sprint and dive anims on WaW weapons
-* Reduce max recoil on PPSH
 * Fix China Lake rechamber when ADS (anim needs to be sped up in Maya)
 * Fix Ray Gun first raise sound not working
 * Use Sleepy when game crashes on map load
@@ -1029,10 +1028,9 @@
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
-* Add notetrack to Wunderwaffe when starting to sprint so that lights will turn back when sprinting from sprint reload cancel
+* Add notetrack to Wunderwaffe when starting to sprint and switch weapons so that lights will turn back when sprinting from sprint reload cancel
 * Try using mtl_silver_etching images for WaW pap camo
 * Get Ballistic Sickle viewmodel (viewmodel_ballistic_knife_w_sickle)
-* Increase fire times on new upgraded weapons
 * Make it so throwing meat to teammates makes them catch it
 * Add BO2 meat FX and grief FX in game
 * Fix BO1 ray gun first raise anim lasting too long at the end

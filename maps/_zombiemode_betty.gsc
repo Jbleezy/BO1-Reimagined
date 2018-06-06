@@ -166,14 +166,13 @@ betty_think()
 	if( self.owner.mines.size > amount )
 	{
 		self.owner.mines[0].too_many_mines_explode = true;
-		self.owner.mines[0].trigger notify("trigger_touch");
+		self.owner.mines[0].trigger notify("trigger");
 		self.owner.mines = array_remove_nokeys( self.owner.mines, self.owner.mines[0] );
 	}
 
 	self waittill_not_moving();
 
 	trigger = spawn("trigger_radius",self.origin,9,80,64);//9
-	//trigger thread make_radius_trigger();
 	self.trigger = trigger;
 
 	wait(1);
@@ -398,42 +397,6 @@ give_betty()
 	}
 
 	self delete();
-}
-
-make_radius_trigger()
-{
-	self endon("death");
-
-	while(1)
-	{
-		wait .05;
-
-		zombs = GetAiSpeciesArray( "axis", "all" );
-		for (i = 0; i < zombs.size; i++)
-		{
-			if(!isdefined(zombs[i]))
-				continue;
-			if(!IsAlive(zombs[i]))
-				continue;
-
-			if(zombs[i] IsTouching(self))
-			{
-				self notify("trigger_touch", zombs[i]);
-			}
-		}
-
-		players = get_players();
-		for(i = 0; i < players.size; i++)
-		{
-			if(IsDefined(self.owner) && players[i] == self.owner)
-				continue;
-
-			if(players[i] IsTouching(self))
-			{
-				self notify("trigger_touch", players[i]);
-			}
-		}
-	}
 }
 
 betty_damage()
