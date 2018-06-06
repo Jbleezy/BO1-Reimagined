@@ -424,6 +424,9 @@
 * Semtex beeping rate no longer changes depending on your FPS
 * Changed upwards projectile speed
 
+#### Sickle
+* Now uses model from BO3
+
 #### Stielhandgranate
 * Now deals damage on impact
 * Added projectile trail effect
@@ -1030,8 +1033,6 @@
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
 * Add notetrack to Wunderwaffe when starting to sprint and switch weapons so that lights will turn back when sprinting from sprint reload cancel
 * Try using mtl_silver_etching images for WaW pap camo
-* Get Ballistic Sickle viewmodel (viewmodel_ballistic_knife_w_sickle)
-* Make it so throwing meat to teammates makes them catch it
 * Add BO2 meat FX and grief FX in game
 * Fix BO1 ray gun first raise anim lasting too long at the end
 * Bouncing Betty: get grenade_pull_pin soundtrack working correctly

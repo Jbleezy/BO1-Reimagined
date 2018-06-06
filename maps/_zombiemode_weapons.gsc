@@ -318,7 +318,6 @@ init_weapons()
  	add_zombie_weapon( "combat_bowie_knife_zm",		undefined,								&"ZOMBIE_WEAPON_KNIFE_BALLISTIC",		50,		"bowie",			"",		undefined );
  	add_zombie_weapon( "combat_sickle_knife_zm",	undefined,								&"ZOMBIE_WEAPON_KNIFE_BALLISTIC",		50,		"sickle",			"",		undefined );
 
-
 	if(IsDefined(level._zombie_custom_add_weapons))
 	{
 		[[level._zombie_custom_add_weapons]]();
