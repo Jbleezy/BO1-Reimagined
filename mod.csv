@@ -239,6 +239,8 @@ weapon,sp/zombie_thompson
 weapon,sp/zombie_thompson_upgraded
 weapon,sp/zombie_shotgun
 weapon,sp/zombie_shotgun_upgraded
+weapon,sp/zombie_doublebarrel
+weapon,sp/zombie_doublebarrel_upgraded
 
 //NEW WEAPONS
 weapon,sp/molotov_zm

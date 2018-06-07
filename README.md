@@ -199,6 +199,12 @@
 ### CZ75 Dual Wield
 * Reduced recoil
 
+### Double-Barreled Shotgun
+* Ammo now gets added at the same time that it does in the reload animation
+* Fixed shell eject effect showing 2 shells
+* Upgraded: changed name from "24 Bore long range" to "24 Bore"
+* Upgraded: removed additional headshot damage
+
 ### Dragunov
 * Removed (replaced by PSG1)
 
@@ -264,9 +270,9 @@
 * Fixed sprinting animation not playing correctly when clip is empty
 
 ### Olympia
-* Now adds 1 ammo to the clip during the reload if reloaded with no ammo in the clip
+* Now adds 1 ammo during the reload if reloaded with no ammo
 * Unupgraded: deals 1.5x more damage
-* Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
+* Upgraded: ammo now gets added at the same time that it does in the reload animation
 
 ### PM63
 * Unupgraded: increased reserve ammo from 100 to 120
@@ -283,17 +289,17 @@
 * Upgraded: increased reserve ammo from 225 to 360
 
 ### Thompson
-* Ammo now gets added to the clip at the same time that it does in the reload animation when reloading with an empty clip
+* Ammo now gets added at the same time that it does in the reload animation when reloading with an empty clip
 * Upgraded: decreased reserve ammo from 250 to 240
 
 ### Trench Gun
-* Ammo now gets added to the clip at the same time that it does in the reload animation
+* Ammo now gets added at the same time that it does in the reload animation
 * Fixed shell eject effect showing 2 shells
 
 ### Wonder Weapons
 
 ### Ray Gun
-* Ammo now gets added to the clip at the same time that it does in the reload animation
+* Ammo now gets added at the same time that it does in the reload animation
 * Removed weapon bob from movement
 * Added sprint and dive animations
 * Decreased first raise time from 2.4 seconds to 1.8 seconds
@@ -314,7 +320,7 @@
 * Unupgraded and upgraded versions now have the same zombie damage radius and self damage radius
 * Upgraded: increased maximum amount of kills from 10 to 24
 * Upgraded: decreased time between kills by 50%
-* Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
+* Upgraded: ammo now gets added at the same time that it does in the reload animation
 * Upgraded: gold camo on Der Riese, regular camo on Call of the Dead
 * Upgraded: gold camo is now shinier
 * Added sprint and dive animations on classic maps
@@ -336,7 +342,7 @@
 * Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
 * Enemies that die from the Winter's Howl will now crumple away faster after being frozen
 * Upgraded camo now displays on more of the weapon
-* Ammo now gets added to the clip at the same time that it does in the reload animation
+* Ammo now gets added at the same time that it does in the reload animation
 * Decreased first raise time by 50%
 
 #### Scavenger
@@ -436,6 +442,7 @@
 #### Stielhandgranate
 * Now deals damage on impact
 * Added projectile trail effect
+* Added throw back animation
 
 #### QED
 * 100% chance of fling effect when thrown near Cosmonaut or zombie
