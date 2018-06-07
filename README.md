@@ -318,6 +318,7 @@
 #### Thundergun
 * Gives 50 points for each kill
 * No longer does any damage to any enemies that are knocked down and not killed
+* Decreased time to start reloading after firing the last shot
 
 #### Winter's Howl
 * Unupgraded: minimum damage - 500
@@ -1014,7 +1015,6 @@
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Get WaW weapon files of classic map weapons working
 * Fix trench gun 3rd person sounds being too loud
-* Get Thundergun weapon files completely working
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Fix sprint and dive anims on Ray Gun
 * Fix Der Riese Nikolai viewhands for FG42
@@ -1035,8 +1035,8 @@
 * Try using mtl_silver_etching images for WaW pap camo
 * Add BO2 meat FX and grief FX in game
 * Fix BO1 ray gun first raise anim lasting too long at the end
-* Bouncing Betty: get grenade_pull_pin soundtrack working correctly
-* Bouncing Betty: add HUD icon to weapon file
+* Bouncing Betty: get grenade_pull_pin soundtrack working
+* Thundergun: speed up last shot anim
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1154,6 +1154,7 @@
 * Make it so perks that are not engine based only use 1 bit
 * Make it so players can look up and down 90 degrees (currently at 85)
 * Allow multiple pap camos to be used from weaponOptions.csv (currently only looks for the keyword "gold")
+* Don't allow reload to start during fire time or last fire time
 
 ## SPECIAL THANKS
 * **_WARDOG_** - co-developer
