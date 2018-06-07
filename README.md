@@ -288,7 +288,7 @@
 
 ### Trench Gun
 * Ammo now gets added to the clip at the same time that it does in the reload animation
-* Fixed shell eject effect
+* Fixed shell eject effect showing 2 shells
 
 ### Wonder Weapons
 
@@ -922,8 +922,6 @@
 * Shangri-La: minecart disabled
 * Moon: No Man's Land disabled
 * Moon: first room door is open from the start of the match
-* Moon: players can survive forever in low gravity
-* Moon: windows are indestructible
 * Moon: hacker and PES disabled
 * Moon: teleporter disabled
 
@@ -996,8 +994,8 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Get BO2 Bowie Knife model
-* Get BO2 weapon models of weapons that are in BO1
+* Add BO2 weapon models (FN FAL, Galil, Python, Ballistic Knife, Bowie Knife)
+* Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim
 * Thundergun: speed up last shot anim
 * Use WaW pap camo for all weapons on Der Riese except Wunderwaffe
@@ -1016,7 +1014,6 @@
 * Make better last powerup FX
 * Give players the same basic model on Nacht and Verruckt
 * Add stielhandgranate icon on HUD
-* Find a way to be able to shoot through more than 3 zombies
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Deadshot: add fast ADS move speed correctly
@@ -1037,9 +1034,14 @@
 * Add WaW weapon files with correct stats
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
+* Find a way to be able to shoot through more than 3 zombies
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
 * Add BO2 meat FX and grief FX in game
 * Fix BO1 ray gun first raise anim lasting too long at the end
+* Rename some zone names
+* Add WaW pap camo on MP40 on Der Riese (so all wall weapons on Der Riese use WaW pap camo)
+* Verruckt: replace Kar98k with Springfield (WaW version has Springfield)
+* COTD: make ice bottle damageable from the start
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1068,20 +1070,15 @@
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 
-### Maybe 
-* Verruckt: replace Kar98k with Springfield? (WaW version has Springfield)
-* Der Riese: use WaW camo on MP40?
+### Maybe
 * Shangri-La: should mud pit sidequest step need the radio to be activated to work? No
 * Moon: should teleporter gate start going down before power is on? No
 * Should there be a zombie spawn delay?
-* Kiparis as box weapon?
 * Should NML have insta kill rounds? No
 * If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
 * Should special rounds always be 5 rounds apart?
 * Health bar for player's health?
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo?
-* Moon on Grief: should you be able to break windows? Yes
-* Use tactical grenade models from Chronicles?
 * Add C4?
 
 ### Testing

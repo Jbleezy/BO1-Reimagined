@@ -670,11 +670,6 @@ zombie_moon_player_float()
 //----------------------------------------------------------------------------------------------
 check_player_gravity()
 {
-	if(level.gamemode != "survival")
-	{
-		return;
-	}
-
 	flag_wait( "all_players_connected" );
 
 	players = getplayers();

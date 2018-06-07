@@ -777,11 +777,6 @@ hacker_position_cleanup()
 // ------------------------------------------------------------------------------------------------
 moon_glass_breach_init()
 {
-	if(level.gamemode != "survival")
-	{
-		return;
-	}
-
 	level.glass = GetEntArray("moon_breach_glass","targetname");
 	array_thread(level.glass, ::glass_breach_think);
 
