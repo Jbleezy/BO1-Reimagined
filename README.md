@@ -313,7 +313,8 @@
 * Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
 * Upgraded: gold camo on Der Riese, regular camo on Call of the Dead
 * Upgraded: gold camo is now shinier
-* Fixed sprinting, diving, and reload cancelling animations on classic maps
+* Added sprinting and diving animations on classic maps
+* Bulbs now light up correctly after reload cancelling
 
 #### Thundergun
 * Gives 50 points for each kill
@@ -991,6 +992,10 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
+* Get BO2 Bowie Knife model
+* Get BO2 weapon models of weapons that are in BO1
+* China Lake: speed up rechamber anim
+* Thundergun: speed up last shot anim
 * Use WaW pap camo for all weapons on Der Riese except Wunderwaffe
 * Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)
@@ -1022,7 +1027,6 @@
 * Change type 100 reserve ammo to 180 unupgraded, 240 upgraded
 * Upgraded Kar98k: 50 round clip, no reserve ammo
 * Add sprint and dive anims on WaW weapons
-* Fix China Lake rechamber when ADS (anim needs to be sped up in Maya)
 * Fix Ray Gun first raise sound not working
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
@@ -1031,12 +1035,9 @@
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
-* Add notetrack to Wunderwaffe when starting to sprint and switch weapons so that lights will turn back when sprinting from sprint reload cancel
 * Try using mtl_silver_etching images for WaW pap camo
 * Add BO2 meat FX and grief FX in game
 * Fix BO1 ray gun first raise anim lasting too long at the end
-* Bouncing Betty: get grenade_pull_pin soundtrack working
-* Thundergun: speed up last shot anim
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)

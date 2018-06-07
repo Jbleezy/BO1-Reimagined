@@ -174,6 +174,9 @@ tesla_notetrack_think()
 		case "sndnt#wpn_tesla_switch_flip_on":
 		case "sndnt#wpn_tesla_pullout_start":
 		case "tesla_idle_start":
+		case "tesla_pullout_start":
+		case "tesla_putaway_start":
+		case "tesla_sprint_in_start":
 			level.tesla_play_fx[localclientnum] = true;			
 		break;			
 		
