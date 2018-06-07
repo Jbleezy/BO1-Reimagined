@@ -286,6 +286,10 @@
 * Ammo now gets added to the clip at the same time that it does in the reload animation when reloading with an empty clip
 * Upgraded: decreased reserve ammo from 250 to 240
 
+### Trench Gun
+* Ammo now gets added to the clip at the same time that it does in the reload animation
+* Fixed shell eject effect
+
 ### Wonder Weapons
 
 ### Ray Gun
@@ -313,7 +317,7 @@
 * Upgraded: ammo now gets added to the clip at the same time that it does in the reload animation
 * Upgraded: gold camo on Der Riese, regular camo on Call of the Dead
 * Upgraded: gold camo is now shinier
-* Added sprinting and diving animations on classic maps
+* Added sprint and dive animations on classic maps
 * Bulbs now light up correctly after reload cancelling
 
 #### Thundergun
@@ -1018,7 +1022,6 @@
 * Deadshot: add fast ADS move speed correctly
 * Show player's perks when spectating (player.spectatorclient?)
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
-* Get WaW weapon files of classic map weapons working
 * Fix trench gun 3rd person sounds being too loud
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Fix sprint and dive anims on Ray Gun
@@ -1035,7 +1038,6 @@
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
-* Try using mtl_silver_etching images for WaW pap camo
 * Add BO2 meat FX and grief FX in game
 * Fix BO1 ray gun first raise anim lasting too long at the end
 
