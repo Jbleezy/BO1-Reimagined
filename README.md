@@ -389,6 +389,8 @@
 
 #### Claymore
 * Added placing sound
+* Added activation sound
+* Can no longer be picked up after being triggered
 
 ### Frag Grenade
 * Changed upwards projectile speed
@@ -444,6 +446,10 @@
 
 #### Sickle
 * Now uses model from BO3
+
+#### Spikemore
+* Added activation sound
+* Can no longer be picked up after being triggered
 
 #### Stielhandgranate
 * Now deals damage on impact
@@ -1010,6 +1016,15 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
+* STG upgraded: remove "+" from end of name
+* Der Riese: fix curb near power
+* Ray Gun: make 3rd person dry fire sound
+* Ray Gun: add pistol dryfire
+* Fix being able to buy perks/knives when placeable mine is current weapon and placeable mine ammo is at 0
+* Make it so zombies don't gib from ballistic knife
+* Make it so buying semtex for first time doesn't switch weapons with equipment out
+* Make it so taking tac nades from box doesn't switch weapons with equipment out
+* Olympia upgraded: make flame fx play on damage
 * Add BO2 weapon models (FN FAL, Galil, Python, Ballistic Knife, Bowie Knife)
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim
@@ -1053,16 +1068,15 @@
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
 * Add BO2 meat FX and grief FX in game
 * Rename some zone names
-* Verruckt: replace Kar98k with Springfield (WaW version has Springfield)
-* Der Riese: fix curb near power
 * Fix Nikolai viewhands
-* Moon: fix space helmet teddy bear model for box
+* Verruckt: replace Kar98k with Springfield (WaW version has Springfield)
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
+* Shangri-La: add monkeys?
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1102,6 +1116,7 @@
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
 * Test meat in coop (now using IsTouching() on players)
+* Test Trench Gun 3rd person sounds
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds

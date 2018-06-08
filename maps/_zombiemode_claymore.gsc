@@ -312,6 +312,7 @@ claymore_detonation()
 
 		if ( ent damageConeTrace(self.origin, self) > 0 )
 		{
+			self notify("pickUpTrigger_death");
 			self playsound ("claymore_activated_SP");
 			wait 0.4;
 			if ( isdefined( self.owner ) )

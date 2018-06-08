@@ -164,7 +164,7 @@ spikemore_watch()
 			spikemore.owner = self;
 			if ( is_true( self.is_on_minecart ) )
 			{
-				spikemore maps\_zombiemode_spikemore::_spikemore_SmallSpearActivate();
+				spikemore maps\_zombiemode_spikemore::_spikemore_SmallSpearDetonate();
 			}
 			else
 			{
@@ -320,7 +320,7 @@ spikemore_detonation()
 
 	if( self.owner.mines.size > amount )
 	{
-		self.owner.mines[0] _spikemore_SmallSpearActivate();
+		self.owner.mines[0] _spikemore_SmallSpearDetonate();
 	}
 
 	while(1)
@@ -341,7 +341,7 @@ spikemore_detonation()
 
 		if ( ent damageConeTrace(self.origin, self) > 0 )
 		{
-			self _spikemore_SmallSpearActivate();
+			self _spikemore_SmallSpearDetonate();
 			return;
 		}
 	}
@@ -477,7 +477,8 @@ _spikemore_filterTargetsByFOV( targets )
 	ret = [];
 	for ( i = 0; i < targets.size; i++ )
 	{
-		if ( self _spikemore_TargetInFOV(targets[i]) )
+		//if( self _spikemore_TargetInFOV(targets[i]) )
+		if( targets[i] shouldAffectWeaponObject( self ) )
 		{
 			ret[ret.size] = targets[i];
 		}
@@ -504,12 +505,22 @@ _spikemore_SmallSpearActivate()
 
 _spikemore_SmallSpearDetonate(targets)
 {
+	_wait_to_fire_spikemore();
+
+	self notify("pickUpTrigger_death");
 	self playsound ("claymore_activated_SP");
 	wait 0.4;
 
 	//tell the spikemore to detonate on the client
 	self SetClientFlag( level._CF_SCRIPTMOVER_CLIENT_FLAG_SPIKEMORE );
 	self playsound( "wpn_spikemore_exp" );
+
+	targets = self _getZombiesInRange(level.spikemore_fire_radius);
+	targets = self _spikemore_FilterTargetsByFOV(targets);
+	if ( !IsDefined( targets ) )
+	{
+		targets = [];
+	}
 
 	//simply damage all the targets--firing of projectile will be done on client
 	for ( i = 0; i < targets.size; i++ )
@@ -525,6 +536,7 @@ _spikemore_SmallSpearDetonate(targets)
 	}
 
 	wait(0.1);
+	self Delete();
 }
 
 _spikemore_damage(fromOrigin, fromOwner)
@@ -550,7 +562,9 @@ _spikemore_damage(fromOrigin, fromOwner)
 		{
 			fromOwner thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "spikemore" );
 		}
+		self.spikemore_damage = true;
 		self DoDamage( 100, fromOrigin, fromOwner, -1, "projectile", "torso_upper" );
+		self.spikemore_damage = undefined;
 		self SetClientFlag( level._CF_ACTOR_CLIENT_FLAG_SPIKEMORE );
 	}
 }

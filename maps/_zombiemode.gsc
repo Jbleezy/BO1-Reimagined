@@ -5964,7 +5964,8 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 
 	//damage scaling for grenades and mines
 	//consistent damage and scales for zombies farther away from explosion better
-	if(is_placeable_mine(weapon) )
+	//spikemores do damage from script, so had to set .spikemore_damage var on the zombie before damage
+	if(is_placeable_mine(weapon) || is_true(self.spikemore_damage))
 	{
 		final_damage += 150 * level.round_number;
 		if(final_damage < 1500)
