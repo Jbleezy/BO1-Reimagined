@@ -6,9 +6,7 @@
  * Author : 	Dan L
  *
  */
-
-
-
+ 
 #include maps\_utility;
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
@@ -16,7 +14,6 @@
 
 init()
 {
-
 	PreCacheModel("p_zom_moon_py_collector_fill");
 	PreCacheModel("p_zom_moon_py_collector");
 	PreCacheModel("p_zom_moon_py_capacitor");

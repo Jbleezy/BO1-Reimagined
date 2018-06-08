@@ -6,6 +6,7 @@
 #include maps\_music;
 #include maps\_busing;
 #include maps\_zombiemode_audio;
+#include maps\_zombiemode_sidequests;
 
 /*
 // Egg descriptions
@@ -56,6 +57,11 @@ init()
 	// egg control
 	level thread c_overseer();
 
+	declare_sidequest("sq");
+
+	declare_sidequest_icon( "sq", "zom_hud_icon_fuse", "zom_hud_icon_fuse" );
+	declare_sidequest_icon( "sq", "zom_hud_icon_bottle", "zom_hud_icon_bottle" );
+	declare_sidequest_icon(	"sq", "zom_hud_icon_vril", "zom_hud_icon_vril");
 }
 
 // -- Flags for egg completion
@@ -295,11 +301,10 @@ knock_on_door()
 			{
 				if( flag( "ffd" ) && flag( "hgd" ) && !flag( "bs" ) )
 				{
-					flag_set( "bs" );
-
 					level.egg_sound_ent StopLoopSound( 1.5 );
 					level maps\zombie_coast_amb::play_characters_skits_etc( e_inflictor, knock_trig, 4, 3, 5, undefined );
 					level.egg_sound_ent PlayLoopSound( "zmb_fantastical_worlds_loop", 1.5 );
+					flag_set( "bs" );
 
 					wait( 1.0 ); // This needs to wait the lenght of the sound playing
 					continue;
@@ -640,12 +645,12 @@ gargoyle_speaks( knock_trig )
 				{
 				    knock_trig waittill( "trigger", knocker );
 				    if( is_player_valid( knocker ) )
-            {
-	            level._end_door_intro = true;
-	            break;
-            }
+		            {
+			            level._end_door_intro = true;
+			            break;
+		            }
 
-		        wait(.05);
+		        	wait(.05);
 				}
 			}
 
@@ -859,7 +864,7 @@ coast_egg_fuse_box_think()
 				}
 			}
 
-			who thread coast_remove_eggs_hud();
+			who thread coast_remove_eggs_hud("zom_hud_icon_fuse");
 
 			// spawn model and attach to fuse box model
 			fuse_placed = true;
@@ -1248,21 +1253,21 @@ coast_egg_bottle_think()
 	e_bottle SetModel( "p_zom_vodka_bottle" );
 
 	e_icebreaker = Spawn( "trigger_damage", self.origin, 0, 11, 13 ); // org, flags, radius, height
-	e_catch_trig = Spawn( "trigger_radius", e_bottle.origin, 0, 10, 10 );
+	//e_catch_trig = Spawn( "trigger_radius", e_bottle.origin, 0, 10, 10 );
 	e_inflictor = undefined;
 
 	Assert( IsDefined( e_icebreaker ) );
 	Assert( IsDefined( e_bottle ) );
-	Assert( IsDefined( e_catch_trig ) );
+	//Assert( IsDefined( e_catch_trig ) );
 
 	// link the trigger to the bottle
-	e_catch_trig EnableLinkTo();
-	e_catch_trig LinkTo( e_bottle );
+	//e_catch_trig EnableLinkTo();
+	//e_catch_trig LinkTo( e_bottle );
 
 	e_icebreaker EnableLinkTo();
 	e_icebreaker LinkTo( e_ice_block );
 
-	bottle_end = e_bottle.origin + ( 0, 0, -500 );
+	//bottle_end = e_bottle.origin + ( 0, 0, -500 );
 
 
 	/#
@@ -1272,9 +1277,10 @@ coast_egg_bottle_think()
 	}
 	#/
 
-	flag_wait( "bs" );
+	//flag_wait( "bs" );
 
 	ice_solid = true;
+	player_caught = undefined;
 	while( ice_solid )
 	{
 		// watch for the trigger to take the right damage from a player
@@ -1283,6 +1289,7 @@ coast_egg_bottle_think()
 		if( is_player_valid( e_inflictor ) && mod_type == level.trials[2] )
 		{
 			ice_solid = false;
+			player_caught = e_inflictor;
 		}
 	}
 
@@ -1290,7 +1297,7 @@ coast_egg_bottle_think()
 	e_ice_block Delete();
 	e_icebreaker Delete();
 
-	// figure out where the bottle falls
+	/*// figure out where the bottle falls
 	end_point = PhysicsTrace( e_bottle.origin, bottle_end );
 	// should figure out the speed here
 
@@ -1310,7 +1317,7 @@ coast_egg_bottle_think()
 	// watch to see if the bottle is caught
 	player_caught = e_bottle coast_egg_bottle_caught( e_catch_trig );
 
-	level notify( "stop_egg_debug" );
+	level notify( "stop_egg_debug" );*/
 
 	if( IsDefined( player_caught ) && is_player_valid( player_caught ) )
 	{
@@ -1331,8 +1338,8 @@ coast_egg_bottle_think()
 		player_caught thread coast_eggs_hud( "zom_hud_icon_bottle", "bd" );
 
 		// clean up the bottle and trigger
-		e_catch_trig Unlink();
-		e_catch_trig Delete();
+		//e_catch_trig Unlink();
+		//e_catch_trig Delete();
 
 		e_bottle Hide();
 		e_bottle Delete();
@@ -1355,22 +1362,20 @@ coast_egg_bottle_think()
 		}
 		e_bottle PlaySound( "zmb_worf_speed_fail" );
 
-		e_catch_trig Unlink();
-		e_catch_trig Delete();
+		//e_catch_trig Unlink();
+		//e_catch_trig Delete();
 
 		e_bottle Hide();
 		e_bottle Delete();
 
 		return false;
 	}
-
-
 }
 
 // returns if bottle is caught, returns undefined if it hit the ground
 coast_egg_bottle_caught( e_trigger )
 {
-	//self endon( "movedone" );
+	self endon( "movedone" );
 
 	while( IsDefined( e_trigger ) )
 	{
@@ -1446,7 +1451,7 @@ coast_egg_bottle_delivered()
 			#/
 
 			// remove hud material
-			who thread coast_remove_eggs_hud();
+			who thread coast_remove_eggs_hud("zom_hud_icon_bottle");
 
 			who._bottle_acquired = 0;
 
@@ -2570,7 +2575,7 @@ coast_egg_device_delivered()
 			delivered = true;
 			shorts_man._has_device = false;
 
-			shorts_man thread coast_remove_eggs_hud();
+			shorts_man thread coast_remove_eggs_hud("zom_hud_icon_vril");
 
 			// show object in the chute then move up and away
 			if( IsDefined( delivery_tube ) )
@@ -2685,7 +2690,7 @@ consequences_will_never_be_the_same()
 // WW: hud element for any coast egg item the player needs to know they have
 coast_eggs_hud( str_shader, str_endon )
 {
-	self.eggHud = create_simple_hud( self );
+	/*self.eggHud = create_simple_hud( self );
 
 	self.eggHud.foreground = true;
 	self.eggHud.sort = 2;
@@ -2698,34 +2703,35 @@ coast_eggs_hud( str_shader, str_endon )
 	self.eggHud.y = 0;
 
 	self.eggHud.alpha = 1;
-	self.eggHud setshader( str_shader, 32, 32 );
+	self.eggHud setshader( str_shader, 32, 32 );*/
 
-	self thread	coast_eggs_hud_remove_on_death( str_endon );
+	self add_sidequest_icon("sq", str_shader);
+
+	self thread	coast_eggs_hud_remove_on_death( str_shader, str_endon );
 
 }
 
 // WW: remove the egg hud element
-coast_remove_eggs_hud()
+coast_remove_eggs_hud(str_shader)
 {
-	self endon( "death" );
+	/*self endon( "death" );
 
 	if( IsDefined( self.eggHud ) )
 	{
 		self.eggHud Destroy();
-	}
+	}*/
 
-	// level notify?
+	self remove_sidequest_icon("sq", str_shader);
 }
 
 // WW: removes hud element if player dies
-coast_eggs_hud_remove_on_death( str_endon )
+coast_eggs_hud_remove_on_death( str_shader, str_endon )
 {
 	level endon( str_endon ); // the flag is set when the bottle is delivered
 
 	self waittill_any( "death", "_zombie_game_over", "spawned_spectator" );
 
-	self thread coast_remove_eggs_hud();
-
+	self thread coast_remove_eggs_hud(str_shader);
 }
 
 coast_egg_debug_print3d( str_text )

@@ -232,6 +232,11 @@ weapon,sp/equip_gasmask_zm
 weapon,sp/lower_equip_gasmask_zm
 
 //WAW WEAPONS
+//weapon,sp/kar98k_scoped_zombie
+//weapon,sp/zombie_m1garand
+//weapon,sp/zombie_springfield
+//weapon,sp/zombie_doublebarrel_sawed
+//weapon,sp/zombie_bar
 weapon,sp/zombie_type99_rifle
 weapon,sp/zombie_stg44
 weapon,sp/zombie_stg44_upgraded
@@ -241,6 +246,18 @@ weapon,sp/zombie_shotgun
 weapon,sp/zombie_shotgun_upgraded
 weapon,sp/zombie_doublebarrel
 weapon,sp/zombie_doublebarrel_upgraded
+//weapon,sp/zombie_fg42
+//weapon,sp/zombie_fg42_upgraded
+//weapon,sp/zombie_m1carbine
+//weapon,sp/zombie_m1carbine_upgraded
+//weapon,sp/zombie_kar98k
+//weapon,sp/zombie_kar98k_upgraded
+//weapon,sp/zombie_gewehr43
+//weapon,sp/zombie_gewehr43_upgraded
+//weapon,sp/zombie_type100_smg
+//weapon,sp/zombie_type100_smg_upgraded
+
+//weapon,sp/zombie_fg42_upgraded
 
 //NEW WEAPONS
 weapon,sp/molotov_zm

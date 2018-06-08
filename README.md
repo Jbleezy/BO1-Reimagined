@@ -157,6 +157,7 @@
 
 ### Ballistic Knife
 * Knives pick up automatically when close to them
+* Fixed a bug where a knife could be picked up if the player had max reserve ammo
 * Instantly starts reloading after firing the knife
 * Obtaining the Bowie Knife or Sickle no longer gives you more ammo
 * Fixed a bug where a knife could not be picked up if another knife is fired after the first knife and lands before the first knife
@@ -167,7 +168,7 @@
 
 ### BAR
 * Replaced BAR + Bipod with BAR
-* All BAR wallbuys cost 1800 now
+* All BAR wallbuys now cost 1800
 * Increased headshot damage from 270 to 400
 
 ### China Lake
@@ -804,9 +805,10 @@
 
 #### Sidequest
 * Steps in solo are now the same as in coop
-* Fuse spawns before starting the sidequest
+* Fuse spawns at the beginning of the match
 * Generators' damage hitbox is now more accurate
-* Bottle no longer breaks when it hits the ground
+* Bottle spawns at the beginning of the match
+* Bottle is now given to the player who breaks the ice
 * Lighthouse dials can now be rotated faster
 * Rotating a lighthouse dial no longer rotates other lighthouse dials
 * Radio order now resets after a wrong radio is activated
@@ -1034,7 +1036,6 @@
 * Change type 100 reserve ammo to 180 unupgraded, 240 upgraded
 * Upgraded Kar98k: 50 round clip, no reserve ammo
 * Add sprint and dive anims on WaW weapons
-* Fix Ray Gun first raise sound not working
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
@@ -1048,7 +1049,7 @@
 * Rename some zone names
 * Add WaW pap camo on MP40 on Der Riese (so all wall weapons on Der Riese use WaW pap camo)
 * Verruckt: replace Kar98k with Springfield (WaW version has Springfield)
-* COTD: make ice bottle damageable from the start
+* Add Ray Gun first raise sound
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)

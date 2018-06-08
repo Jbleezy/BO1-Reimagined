@@ -18,14 +18,15 @@ on_spawn( watcher, player )
 	level endon( "game_ended" );
 
 	self waittill( "stationary", endpos, normal, angles, attacker, prey, bone );
-
+	
 	isFriendly = false;
 
 	if( isDefined(endpos) )
 	{
 		// once the missile dies, spawn a model there to be retrieved
 		retrievable_model = Spawn( "script_model", endpos );
-		retrievable_model SetModel( "t5_weapon_ballistic_knife_blade" );
+		//retrievable_model SetModel( "t5_weapon_ballistic_knife_blade" );
+		retrievable_model SetModel( "t5_weapon_ballistic_knife_blade_retrieve" );
 		retrievable_model SetOwner( player );
 		retrievable_model.owner = player;
 		retrievable_model.angles = angles;
@@ -66,21 +67,51 @@ on_spawn( watcher, player )
 
 		retrievable_model thread drop_knives_to_ground( player );
 
-		if ( isFriendly )
+		/*if ( isFriendly )
 		{
-			retrievable_model notify( "ballistic_knife_stationary", player, normal );
+			player notify( "ballistic_knife_stationary", retrievable_model, normal );
 		}
 		else
 		{
-			retrievable_model notify( "ballistic_knife_stationary", retrievable_model, normal, prey );
+			player notify( "ballistic_knife_stationary", retrievable_model, normal, prey );
+		}*/
+
+		//retrievable_model thread wait_to_show_glowing_model( prey );
+
+		/*vec_scale = 10;
+		trigger_pos = [];
+		if ( IsDefined( prey ) && ( isPlayer( prey ) || isAI( prey ) ) )
+		{
+			trigger_pos[0] = prey.origin[0];
+			trigger_pos[1] = prey.origin[1];
+			trigger_pos[2] = prey.origin[2] + vec_scale;
 		}
+		else
+		{
+			trigger_pos[0] = retrievable_model.origin[0] + (vec_scale * normal[0]);
+			trigger_pos[1] = retrievable_model.origin[1] + (vec_scale * normal[1]);
+			trigger_pos[2] = retrievable_model.origin[2] + (vec_scale * normal[2]);
+		}*/
 
-		retrievable_model thread wait_to_show_glowing_model( prey );
-
-		pickup_trigger = SpawnStruct();
+		pickup_trigger = Spawn( "trigger_radius", retrievable_model.origin, 0, 64, 128 );
+		pickup_trigger SetCursorHint( "HINT_NOICON" );
 		pickup_trigger.owner = player;
-		pickup_trigger.triggerTeam = player.team;
-		pickup_trigger.calimedBy = player;
+		retrievable_model.retrievableTrigger = pickup_trigger;
+
+		pickup_trigger SetTeamForTrigger( player.team );
+		
+		player ClientClaimTrigger( pickup_trigger );
+
+		// link the model and trigger, then link them to the ragdoll if needed
+		pickup_trigger EnableLinkTo();
+		if ( IsDefined( prey ) )
+		{
+			pickup_trigger LinkTo( prey );
+		}
+		else
+		{
+			pickup_trigger LinkTo( retrievable_model );
+		}
 
 		retrievable_model thread watch_use_trigger( pickup_trigger, retrievable_model, ::pick_up, watcher.weapon, watcher.pickUpSoundPlayer, watcher.pickUpSound );
 		player thread watch_shutdown( pickup_trigger, retrievable_model );
@@ -98,10 +129,10 @@ wait_to_show_glowing_model( prey ) // self == retrievable_model
 	glowing_retrievable_model LinkTo( self );
 
 	// we don't want to show the glowing retrievable model until the ragdoll finishes, this will keep the glow out of the kill cam
-	/*if( IsDefined( prey ) )
+	if( IsDefined( prey ) )
 	{
 		wait( 2 );
-	}*/
+	}
 
 	glowing_retrievable_model SetModel( "t5_weapon_ballistic_knife_blade_retrieve" );
 }
@@ -132,7 +163,7 @@ on_spawn_retrieve_trigger( watcher, player )
 		trigger_pos[1] = retrievable_model.origin[1] + (vec_scale * normal[1]);
 		trigger_pos[2] = retrievable_model.origin[2] + (vec_scale * normal[2]);
 	}
-	pickup_trigger = Spawn( "trigger_radius", (trigger_pos[0], trigger_pos[1], trigger_pos[2]), 0, 64, 72 );
+	pickup_trigger = Spawn( "trigger_radius", (trigger_pos[0], trigger_pos[1], trigger_pos[2]) );
 	pickup_trigger SetCursorHint( "HINT_NOICON" );
 	pickup_trigger.owner = player;
 	retrievable_model.retrievableTrigger = pickup_trigger;
@@ -149,11 +180,10 @@ on_spawn_retrieve_trigger( watcher, player )
 	{
 		pickup_trigger SetHintString( &"GENERIC_PICKUP" );
 	}
-	pickup_trigger SetHintString( "" );
 
 
 	pickup_trigger SetTeamForTrigger( player.team );
-
+	
 	player ClientClaimTrigger( pickup_trigger );
 
 	// link the model and trigger, then link them to the ragdoll if needed
@@ -189,49 +219,46 @@ watch_use_trigger( trigger, model, callback, weapon, playerSoundOnUse, npcSoundO
 
 	while ( true )
 	{
-		wait_network_frame();
+		trigger waittill( "trigger", player );
+
+		if ( !IsAlive( player ) )
+			continue;
+
+		if ( IsDefined( trigger.triggerTeam ) && ( player.team != trigger.triggerTeam ) )
+			continue;
+
+		if ( IsDefined( trigger.claimedBy ) && ( player != trigger.claimedBy ) )
+			continue;
 
 		// player got the bowie or sickle
-		if(!self.owner HasWeapon(weapon))
+		if(!player HasWeapon(weapon))
 		{
-			if(self HasWeapon("knife_ballistic_bowie_zm"))
+			if(player HasWeapon("knife_ballistic_bowie_zm"))
 			{
 				weapon = "knife_ballistic_bowie_zm";
 			}
-			else if(self HasWeapon("knife_ballistic_bowie_upgraded_zm"))
+			else if(player HasWeapon("knife_ballistic_bowie_upgraded_zm"))
 			{
 				weapon = "knife_ballistic_bowie_upgraded_zm";
 			}
-			else if(self HasWeapon("knife_ballistic_sickle_zm"))
+			else if(player HasWeapon("knife_ballistic_sickle_zm"))
 			{
 				weapon = "knife_ballistic_sickle_zm";
 			}
-			else if(self HasWeapon("knife_ballistic_sickle_upgraded_zm"))
+			else if(player HasWeapon("knife_ballistic_sickle_upgraded_zm"))
 			{
 				weapon = "knife_ballistic_sickle_upgraded_zm";
 			}
 		}
 
-		if(DistanceSquared(self.origin, self.owner.origin + (0,0,32)) > 64*64)
-			continue;
-
-		if(self.owner GetFractionMaxAmmo(weapon) == 1)
-			continue;
-
-		if ( !IsAlive( self.owner ) )
-			continue;
-
-		if ( IsDefined( trigger.triggerTeam ) && ( self.owner.team != trigger.triggerTeam ) )
-			continue;
-
-		if ( IsDefined( trigger.claimedBy ) && ( self.owner != trigger.claimedBy ) )
+		if(player GetFractionMaxAmmo(weapon) == 1)
 			continue;
 
 		if ( isdefined( playerSoundOnUse ) )
-			self.owner playLocalSound( playerSoundOnUse );
+			player playLocalSound( playerSoundOnUse );
 		if ( isdefined( npcSoundOnUse ) )
-			self.owner playSound( npcSoundOnUse );
-		self.owner thread [[callback]]( weapon, model, trigger );
+			player playSound( npcSoundOnUse );
+		player thread [[callback]]( weapon, model, trigger );
 		break;
 	}
 }
@@ -251,27 +278,17 @@ pick_up( weapon, model, trigger ) // self == player
 		else
 		{
 			new_ammo_stock = self GetWeaponAmmoStock( weapon ) + 1;
-			self SetWeaponAmmoStock( weapon , new_ammo_stock );
+			self SetWeaponAmmoStock( weapon , new_ammo_stock );		
 		}
 	}
 	else
 	{
 		new_ammo_stock = self GetWeaponAmmoStock( weapon ) + 1;
-		self SetWeaponAmmoStock( weapon, new_ammo_stock );
+		self SetWeaponAmmoStock( weapon, new_ammo_stock );		
 	}
 
 	model destroy_ent();
 	trigger destroy_ent();
-}
-
-give_extra_ammo_after_ammo_used(weapon)
-{
-	while(self GetFractionMaxAmmo(weapon) == 1)
-	{
-		wait(.05);
-	}
-	new_ammo_stock = self GetWeaponAmmoStock( weapon ) + 1;
-	self SetWeaponAmmoStock( weapon, new_ammo_stock );
 }
 
 destroy_ent()
@@ -306,7 +323,7 @@ drop_knives_to_ground( player )
 		if( DistanceSquared( origin, self.origin )< radius * radius )
 		{
 			self physicslaunch();
-			//self thread update_retrieve_trigger( player );
+			self thread update_retrieve_trigger( player );
 		}
 	}
 }
@@ -318,9 +335,10 @@ force_drop_knives_to_ground_on_death( player, prey )
 	self endon("gibbed");
 
 	prey waittill( "death" );
+
 	self Unlink();
 	self physicslaunch();
-	//self thread update_retrieve_trigger( player );
+	self thread update_retrieve_trigger( player );
 }
 
 force_drop_knives_to_ground_on_gib( player, prey )
@@ -342,6 +360,7 @@ force_drop_knives_to_ground_on_gib( player, prey )
 	self notify("gibbed");
 	self Unlink();
 	self physicslaunch();
+	self thread update_retrieve_trigger( player );
 }
 
 update_retrieve_trigger( player )
