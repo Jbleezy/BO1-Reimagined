@@ -4065,3 +4065,16 @@ entity_stolen_by_sam( ent_grenade, ent_model )
 		ent_grenade Delete();
 	}
 }
+
+get_upgraded_weapon_model_index(weapon)
+{
+	if(IsSubStr(level.script, "zombie_cod5_"))
+	{
+		if(weapon == "tesla_gun_upgraded_zm" || weapon == "mp40_upgraded_zm")
+		{
+			return 1;
+		}
+	}
+
+	return 0;
+}

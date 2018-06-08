@@ -726,11 +726,7 @@ wait_for_player_to_take( player, weapon, packa_timer )
 				}
 				else
 				{
-					index = 0;
-					if(upgrade_weapon == "tesla_gun_upgraded_zm" && IsSubStr(level.script, "zombie_cod5_"))
-					{
-						index = 1;
-					}
+					index = maps\_zombiemode_weapons::get_upgraded_weapon_model_index(upgrade_weapon);
 
 					player GiveWeapon( upgrade_weapon, index, player maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( upgrade_weapon ) );
 					player GiveStartAmmo( upgrade_weapon );
@@ -1900,11 +1896,7 @@ give_back_mule_weapon()
 		self TakeWeapon(unupgrade_name);
 	}
 
-	index = 0;
-	if(self.weapon_taken_by_losing_additionalprimaryweapon[0] == "tesla_gun_upgraded_zm" && IsSubStr(level.script, "zombie_cod5_"))
-	{
-		index = 1;
-	}
+	index = maps\_zombiemode_weapons::get_upgraded_weapon_model_index(self.weapon_taken_by_losing_additionalprimaryweapon[0]);
 
 	self GiveWeapon(self.weapon_taken_by_losing_additionalprimaryweapon[0], index, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( self.weapon_taken_by_losing_additionalprimaryweapon[0] ));
 	self SetWeaponAmmoClip(self.weapon_taken_by_losing_additionalprimaryweapon[0], self.weapon_taken_by_losing_additionalprimaryweapon[1]);

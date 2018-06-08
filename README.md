@@ -269,6 +269,7 @@
 
 ### MP40
 * Fixed sprinting animation not playing correctly when clip is empty
+* Now uses WaW camo on Der Riese
 
 ### Olympia
 * Now adds 1 ammo during the reload if reloaded with no ammo
@@ -303,6 +304,7 @@
 * Ammo now gets added at the same time that it does in the reload animation
 * Removed weapon bob from movement
 * Added sprint and dive animations
+* Added sound from BO2 that plays when attempting to fire when out of ammo
 * Decreased first raise time from 2.4 seconds to 1.8 seconds
 * Unupgraded: impact damage - 2500
 * Unupgraded: maximum explosion damage - 2500
