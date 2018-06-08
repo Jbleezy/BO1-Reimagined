@@ -303,9 +303,11 @@
 ### Ray Gun
 * Ammo now gets added at the same time that it does in the reload animation
 * Removed weapon bob from movement
-* Added sprint and dive animations
-* Added sound from BO2 that plays when attempting to fire when out of ammo
+* Added sprint and dive animations from BO2
+* Added sound from BO2 that plays when first obtaining
+* Added sound from BO2 that plays when attempting to fire without any ammo
 * Decreased first raise time from 2.4 seconds to 1.8 seconds
+* Fixed first raise animation lasting too long at the end
 * Unupgraded: impact damage - 2500
 * Unupgraded: maximum explosion damage - 2500
 * Unupgraded: minimum explosion damage - 1250
@@ -347,6 +349,7 @@
 * Upgraded camo now displays on more of the weapon
 * Ammo now gets added at the same time that it does in the reload animation
 * Decreased first raise time by 50%
+* Fixed an error in the sprint out animation
 
 #### Scavenger
 * Infinite damage
@@ -498,6 +501,8 @@
 * Fixed a bug where the Mystery Box weapon would fly away if the Mystery Box was activated as a Fire Sale was ending and the Fire Sale was grabbed as the box was starting to move
 * Fixed a bug where weapons would be cycled through faster on higher FPS
 * Fixed a bug where the teddy bear would spawn in facing the wrong direction
+* Ascension: teddy bear now has sickle
+* Moon: teddy bear now has space helmet
 
 ## Perks
 * Perks now become active as soon as the player starts to put away the perk bottle
@@ -1009,7 +1014,7 @@
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim
 * Thundergun: speed up last shot anim
-* Use WaW pap camo for all weapons on Der Riese except Wunderwaffe
+* Der Riese: use WaW pap camo for all weapons except Wunderwaffe
 * Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)
 * Change perk bottle weapons to only use one weapon file using worldModel and gunModel
@@ -1047,11 +1052,11 @@
 * Find a way to be able to shoot through more than 3 zombies
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
 * Add BO2 meat FX and grief FX in game
-* Fix BO1 ray gun first raise anim lasting too long at the end
 * Rename some zone names
-* Add WaW pap camo on MP40 on Der Riese (so all wall weapons on Der Riese use WaW pap camo)
 * Verruckt: replace Kar98k with Springfield (WaW version has Springfield)
-* Add Ray Gun first raise sound
+* Der Riese: fix curb near power
+* Fix Nikolai viewhands
+* Moon: fix space helmet teddy bear model for box
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
