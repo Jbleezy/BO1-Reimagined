@@ -3736,7 +3736,8 @@ damage_on_fire( player )
 {
 	self endon ("death");
 	self endon ("stop_flame_damage");
-	wait( 2 );
+	//wait( 2 );
+	wait( randomfloatrange( 1.0, 3.0 ) );
 
 	while( isdefined( self.is_on_fire) && self.is_on_fire )
 	{
@@ -3807,7 +3808,7 @@ zombie_damage( mod, hit_location, hit_origin, player, amount )
 	}
 	else if( self zombie_flame_damage( mod, player ) )
 	{
-		if( self zombie_give_flame_damage_points() )
+		if( self zombie_give_flame_damage_points() && !is_true( self.no_damage_points ) )
 		{
 			player maps\_zombiemode_score::player_add_points( "damage", mod, hit_location, self.isdog );
 		}
@@ -3945,7 +3946,7 @@ zombie_damage_ads( mod, hit_location, hit_origin, player, amount )
 	}
 	else if( self zombie_flame_damage( mod, player ) )
 	{
-		if( self zombie_give_flame_damage_points() )
+		if( self zombie_give_flame_damage_points() && !is_true( self.no_damage_points ) )
 		{
 			player maps\_zombiemode_score::player_add_points( "damage_ads", mod, hit_location );
 		}

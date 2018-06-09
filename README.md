@@ -1024,7 +1024,7 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Add BO2 weapon models (FN FAL, Galil, Python, Ballistic Knife, Bowie Knife)
+* Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, Ballistic Knife, Bowie Knife)
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim
 * Thundergun: speed up last shot anim
@@ -1069,6 +1069,7 @@
 * Rename some zone names
 * Fix Nikolai viewhands
 * Verruckt: replace Kar98k with Springfield (WaW version has Springfield)
+* Fix textures getting changed when getting sprayed with flamethrower attachment
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1088,7 +1089,6 @@
 * Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge
 * Fix Ascension monkey pathing
 * Fix kino round skip bug
-* Fix barrel textures on Der Riese
 * COTD: fix bug where director does not do angry anim when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
 * Fix Wunderwaffe not arcing after first kill rarely
 * Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
