@@ -216,6 +216,10 @@
 * Unupgraded: increased reserve ammo from 150 to 300
 * Upgraded: increased reserve ammo from 225 to 450
 
+### FG42
+* Ammo now gets added at the same time that it does in the reload animation when reloading with an empty clip
+* Upgraded: decreased reserve ammo from 400 to 384
+
 ### G11
 * Unupgraded: increased reserve ammo from 144 to 192
 * Upgraded: increased reserve ammo from 288 to 384
@@ -1070,6 +1074,8 @@
 * Fix Nikolai viewhands
 * Verruckt: replace Kar98k with Springfield (WaW version has Springfield)
 * Fix textures getting changed when getting sprayed with flamethrower attachment
+* Optimize Gersch Device code
+* Optimize zombies in barrier and traversing barrier code
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1077,6 +1083,7 @@
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 * Shangri-La: add monkeys?
+* Make mines damageable from _weaponobjects.gsc
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated

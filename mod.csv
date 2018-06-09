@@ -248,8 +248,8 @@ weapon,sp/zombie_shotgun
 weapon,sp/zombie_shotgun_upgraded
 weapon,sp/zombie_doublebarrel
 weapon,sp/zombie_doublebarrel_upgraded
-//weapon,sp/zombie_fg42
-//weapon,sp/zombie_fg42_upgraded
+weapon,sp/zombie_fg42
+weapon,sp/zombie_fg42_upgraded
 //weapon,sp/zombie_m1carbine
 //weapon,sp/zombie_m1carbine_upgraded
 //weapon,sp/zombie_kar98k
