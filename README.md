@@ -161,10 +161,12 @@
 * Instantly starts reloading after firing the knife
 * Obtaining the Bowie Knife or Sickle no longer gives you more ammo
 * Fixed a bug where a knife could not be picked up if another knife is fired after the first knife and lands before the first knife
+* No longer gibs zombies on impact
 * Knife now glows as soon as it is attached to a zombie
 * Knife now detaches from a zombie if the limb it was attached to is gibbed off
 * Unupgraded: increased impact damage from 450 to 500 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Upgraded: increased impact damage from 900 to 1000 (weapon file shows it is suppose to do this amount of damage but it does not)
+* Upgraded: ammo now gets added at the same time that it does in the reload animation
 
 ### BAR
 * Replaced BAR + Bipod with BAR
@@ -188,6 +190,7 @@
 ### Crossbow
 * Instantly starts reloading after firing the bolt
 * Crossbow bolt beeping rate no longer changes depending on your FPS
+* No longer gibs zombies on impact
 * Unupgraded: increased impact damage from 675 to 750 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Unupgraded: maximum explosion damage - 800
 * Unupgraded: minimum explosion damage - 400
@@ -289,6 +292,9 @@
 ### Spectre
 * Unupgraded: increased reserve ammo from 120 to 240
 * Upgraded: increased reserve ammo from 225 to 360
+
+### STG-44
+* Upgraded: changed name from "Spatz-447 +" to "Spatz-447"
 
 ### Thompson
 * Ammo now gets added at the same time that it does in the reload animation when reloading with an empty clip
@@ -1016,14 +1022,7 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* STG upgraded: remove "+" from end of name
-* Der Riese: fix curb near power
-* Ray Gun: make 3rd person dry fire sound
-* Ray Gun: add pistol dryfire
-* Fix being able to buy perks/knives when placeable mine is current weapon and placeable mine ammo is at 0
-* Make it so zombies don't gib from ballistic knife
-* Make it so buying semtex for first time doesn't switch weapons with equipment out
-* Make it so taking tac nades from box doesn't switch weapons with equipment out
+* Nacht: check weapon cabinet with combat knife out
 * Olympia upgraded: make flame fx play on damage
 * Add BO2 weapon models (FN FAL, Galil, Python, Ballistic Knife, Bowie Knife)
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
@@ -1117,6 +1116,7 @@
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
 * Test meat in coop (now using IsTouching() on players)
 * Test Trench Gun 3rd person sounds
+* Ray Gun: test 3rd person dry fire sound
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds

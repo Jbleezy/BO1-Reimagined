@@ -517,22 +517,18 @@ vending_weapon_upgrade()
 
 		if( is_melee_weapon(current_weapon) || is_placeable_mine(current_weapon) )
 		{
+			primaries = player GetWeaponsListPrimaries();
 			if(IsDefined(player.last_held_primary_weapon) && player HasWeapon(player.last_held_primary_weapon))
 			{
 				player SwitchToWeapon(player.last_held_primary_weapon);
 			}
-			else if(IsDefined(player GetWeaponsListPrimaries()[0]))
+			else if(IsDefined(primaries) && primaries.size > 0)
 			{
-				player SwitchToWeapon(player GetWeaponsListPrimaries()[0]);
+				player SwitchToWeapon(primaries[0]);
 			}
 			else if(!is_melee_weapon(current_weapon))
 			{
-				melee = player get_player_melee_weapon();
-				if(IsDefined(melee))
-				{
-					wep = "combat_" + melee;
-					player SwitchToWeapon(wep);
-				}
+				player SwitchToWeapon("combat_" + self get_player_melee_weapon());
 			}
 			
  			continue;
@@ -686,22 +682,18 @@ wait_for_player_to_take( player, weapon, packa_timer )
 
 			if( ( is_melee_weapon(current_weapon) || is_placeable_mine(current_weapon) ) && primaryWeapons.size >= weapon_limit )
 			{
+				primaries = player GetWeaponsListPrimaries();
 				if(IsDefined(player.last_held_primary_weapon) && player HasWeapon(player.last_held_primary_weapon))
 				{
 					player SwitchToWeapon(player.last_held_primary_weapon);
 				}
-				else if(IsDefined(player GetWeaponsListPrimaries()[0]))
+				else if(IsDefined(primaries) && primaries.size > 0)
 				{
-					player SwitchToWeapon(player GetWeaponsListPrimaries()[0]);
+					player SwitchToWeapon(primaries[0]);
 				}
 				else if(!is_melee_weapon(current_weapon))
 				{
-					melee = player get_player_melee_weapon();
-					if(IsDefined(melee))
-					{
-						wep = "combat_" + melee;
-						player SwitchToWeapon(wep);
-					}
+					player SwitchToWeapon("combat_" + player get_player_melee_weapon());
 				}
 				
 	 			continue;
@@ -864,8 +856,7 @@ upgrade_knuckle_crack_end( gun )
 	}
 	else
 	{
-		melee_wep = "combat_" + self get_player_melee_weapon();
-		self SwitchToWeapon( melee_wep );
+		self SwitchToWeapon( "combat_" + self get_player_melee_weapon() );
 	}
 }
 
@@ -1623,8 +1614,16 @@ give_perk_think(player, gun, perk, cost, has_fastswitch)
 {
 	player waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
 
+	if ( !( player maps\_laststand::player_is_in_laststand() || is_true( player.intermission ) ) )
+	{
+		if(has_fastswitch)
+		{
+			self SetPerk("specialty_fastswitch");
+		}
+	}
+
 	// restore player controls and movement
-	player perk_give_bottle_end( gun, perk, has_fastswitch );
+	player perk_give_bottle_end( gun, perk );
 
 	// TODO: race condition?
 	if ( player maps\_laststand::player_is_in_laststand() || is_true( player.intermission ) )
@@ -2331,7 +2330,7 @@ perk_give_bottle_begin( perk )
 }
 
 
-perk_give_bottle_end( gun, perk, has_fastswitch )
+perk_give_bottle_end( gun, perk )
 {
 	assert( gun != "zombie_perk_bottle_doubletap" );
 	assert( gun != "zombie_perk_bottle_jugg" );
@@ -2404,9 +2403,9 @@ perk_give_bottle_end( gun, perk, has_fastswitch )
 
 	self give_perk(perk, true);
 
-	if(has_fastswitch)
+	if(self HasWeapon(gun) && is_placeable_mine(gun) && self GetWeaponAmmoClip(gun) == 0)
 	{
-		self SetPerk("specialty_fastswitch");
+		gun = "none";
 	}
 
 	self TakeWeapon(weapon);
@@ -2416,7 +2415,7 @@ perk_give_bottle_end( gun, perk, has_fastswitch )
 		self decrement_is_drinking();
 		return;
 	}
-	else if( gun != "none" && !is_equipment( gun ) && self HasWeapon(gun) ) // && !is_placeable_mine( gun )
+	else if( gun != "none" && !is_equipment( gun ) && self HasWeapon(gun) )
 	{
 		self SwitchToWeapon( gun );
 		// ww: the knives have no first raise anim so they will never get a "weapon_change_complete" notify
@@ -2434,6 +2433,10 @@ perk_give_bottle_end( gun, perk, has_fastswitch )
 		if( IsDefined( primaryWeapons ) && primaryWeapons.size > 0 )
 		{
 			self SwitchToWeapon( primaryWeapons[0] );
+		}
+		else
+		{
+			self SwitchToWeapon( "combat_" + self get_player_melee_weapon() );
 		}
 	}
 

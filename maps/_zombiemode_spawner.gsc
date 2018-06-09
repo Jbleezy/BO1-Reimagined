@@ -3336,12 +3336,13 @@ zombie_should_gib( amount, attacker, type )
 		case "MOD_SUICIDE":
 		case "MOD_TRIGGER_HURT":
 		case "MOD_BURNED":
+		case "MOD_IMPACT":
 			return false;
 		case "MOD_MELEE":
-		if(!((IsDefined(attacker._bowie_zm_equipped) && attacker._bowie_zm_equipped) || (IsDefined( attacker._sickle_zm_equipped ) && attacker._sickle_zm_equipped)))
-		{
-			return false;
-		}
+			if(!((IsDefined(attacker._bowie_zm_equipped) && attacker._bowie_zm_equipped) || (IsDefined( attacker._sickle_zm_equipped ) && attacker._sickle_zm_equipped)))
+			{
+				return false;
+			}
 	}
 
 	if( type == "MOD_PISTOL_BULLET" || type == "MOD_RIFLE_BULLET" )

@@ -1347,7 +1347,7 @@ treasure_chest_think()
 		 		weapon_limit = 3;
 		 	}
 
-			if( grabber != level && ( is_melee_weapon(grabber GetCurrentWeapon()) || is_placeable_mine(grabber GetCurrentWeapon()) ) && primaryWeapons.size >= weapon_limit )
+			if( grabber != level && ( is_melee_weapon(grabber GetCurrentWeapon()) || is_placeable_mine(grabber GetCurrentWeapon()) ) && primaryWeapons.size >= weapon_limit && !is_tactical_grenade(self.chest_origin.weapon_string) )
 			{
 				if(IsDefined(grabber.last_held_primary_weapon) && grabber HasWeapon(grabber.last_held_primary_weapon))
 				{
@@ -1647,7 +1647,7 @@ decide_hide_show_hint( endon_notify )
 
 		last_update = GetTime();
 
-		if(IsDefined(self.chest_user) && !IsDefined(self.box_rerespun)) //box when it is up
+		if(IsDefined(self.chest_user) && !IsDefined(self.box_rerespun)) //box when it is open
 		{
 			primaryWeapons = self.chest_user GetWeaponsListPrimaries();
 			if( self.chest_user can_buy_weapon())
@@ -3426,7 +3426,7 @@ weapon_spawn_think()
 			 		weapon_limit = 3;
 			 	}
 
-				if( ( is_melee_weapon(player GetCurrentWeapon()) || is_placeable_mine(player GetCurrentWeapon()) ) && primaryWeapons.size >= weapon_limit )
+				if( ( is_melee_weapon(player GetCurrentWeapon()) || is_placeable_mine(player GetCurrentWeapon()) ) && primaryWeapons.size >= weapon_limit && !is_grenade )
 				{
 					if(IsDefined(player.last_held_primary_weapon) && player HasWeapon(player.last_held_primary_weapon))
 					{

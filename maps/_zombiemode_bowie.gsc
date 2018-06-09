@@ -251,6 +251,11 @@ do_bowie_flourish_end( gun )
 		self SetWeaponAmmoStock("knife_ballistic_bowie_upgraded_zm", ballistic_stock_ammo);
 	}
 
+	if(self HasWeapon(gun) && is_placeable_mine(gun) && self GetWeaponAmmoClip(gun) == 0)
+	{
+		gun = "none";
+	}
+
 	self TakeWeapon(weapon);
 
 	self GiveWeapon( "bowie_knife_zm" );
