@@ -178,7 +178,9 @@ weapon_cabinet_think()
 		doors[i] NotSolid();
 	}
 
-	self.has_been_used_once = false; 
+	self.has_been_used_once = false;
+
+	self.zombie_weapon_cabinet = true;
 
 	self thread maps\_zombiemode_weapons::decide_hide_show_hint();
 
@@ -191,6 +193,35 @@ weapon_cabinet_think()
 			wait( 0.1 );
 			continue;
 		}
+
+		current_wep = player GetCurrentWeapon();
+		primaries = player GetWeaponsListPrimaries();
+		weapon_limit = 2;
+
+		if ( player HasPerk( "specialty_additionalprimaryweapon" ) )
+	 	{
+	 		weapon_limit = 3;
+	 	}
+
+	 	if(!player maps\_zombiemode_weapons::has_weapon_or_upgrade(self.zombie_weapon_upgrade))
+	 	{
+	 		if( is_melee_weapon(current_wep) || is_placeable_mine(current_wep) )
+			{
+				if(IsDefined(primaries) && primaries.size >= weapon_limit)
+				{
+					if(IsDefined(player.last_held_primary_weapon) && player HasWeapon(player.last_held_primary_weapon))
+					{
+						player SwitchToWeapon(player.last_held_primary_weapon);
+					}
+					else
+					{
+						player SwitchToWeapon(primaries[0]);
+					}
+					wait( 0.1 );
+					continue;
+				}
+			}
+	 	}
 
 		cost = 1500;
 		if( self.has_been_used_once )

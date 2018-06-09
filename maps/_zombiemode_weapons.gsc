@@ -694,13 +694,12 @@ init_weapon_cabinet()
 
 	for( i = 0; i < weapon_cabs.size; i++ )
 	{
-
 		weapon_cabs[i] SetHintString( &"ZOMBIE_CABINET_OPEN_1500" );
 		weapon_cabs[i] setCursorHint( "HINT_NOICON" );
 		weapon_cabs[i] UseTriggerRequireLookAt();
 	}
 
-//	array_thread( weapon_cabs, ::weapon_cabinet_think );
+	//array_thread( weapon_cabs, ::weapon_cabinet_think );
 }
 
 // returns the trigger hint string for the given weapon
@@ -1347,7 +1346,7 @@ treasure_chest_think()
 		 		weapon_limit = 3;
 		 	}
 
-			if( grabber != level && ( is_melee_weapon(grabber GetCurrentWeapon()) || is_placeable_mine(grabber GetCurrentWeapon()) ) && primaryWeapons.size >= weapon_limit && !is_tactical_grenade(self.chest_origin.weapon_string) )
+			if( grabber != level && ( is_melee_weapon(grabber GetCurrentWeapon()) || is_placeable_mine(grabber GetCurrentWeapon()) ) && IsDefined(primaryWeapons) && primaryWeapons.size >= weapon_limit && !is_tactical_grenade(self.chest_origin.weapon_string) )
 			{
 				if(IsDefined(grabber.last_held_primary_weapon) && grabber HasWeapon(grabber.last_held_primary_weapon))
 				{
@@ -1716,7 +1715,7 @@ decide_hide_show_hint( endon_notify )
 				}
 			}
 		}
-		else if(IsDefined(self.zombie_weapon_upgrade)) //wall weapons
+		else if(IsDefined(self.zombie_weapon_upgrade) || IsDefined(self.zombie_weapon_cabinet)) //wall weapons
 		{
 			players = get_players();
 			for( i = 0; i < players.size; i++ )
@@ -3084,7 +3083,7 @@ treasure_chest_give_weapon( weapon_string )
 	// This should never be true for the first time.
 	if( primaryWeapons.size >= weapon_limit )
 	{
-		current_weapon = self getCurrentWeapon(); // get hiss current weapon
+		current_weapon = self getCurrentWeapon(); // get his current weapon
 
 		if ( is_placeable_mine( current_weapon ) || is_equipment( current_weapon ) )
 		{
@@ -3371,7 +3370,6 @@ weapon_set_first_time_hint( cost, ammo_cost )
 		else
 		{
 			self SetHintString(&"REIMAGINED_WEAPONCOSTAMMO_UPGRADE", cost, ammo_cost );
-			//self SetHintString( "Hold ^3[{+activate}]^7 to buy Weapon [Cost: &&1], Ammo [Cost: &&2], Upgraded Ammo [Cost: 2500]", cost, ammo_cost );
 		}
 		//self SetHintString( &"ZOMBIE_WEAPONCOSTAMMO_UPGRADE", cost, ammo_cost );
 	}
@@ -3426,7 +3424,7 @@ weapon_spawn_think()
 			 		weapon_limit = 3;
 			 	}
 
-				if( ( is_melee_weapon(player GetCurrentWeapon()) || is_placeable_mine(player GetCurrentWeapon()) ) && primaryWeapons.size >= weapon_limit && !is_grenade )
+				if( ( is_melee_weapon(player GetCurrentWeapon()) || is_placeable_mine(player GetCurrentWeapon()) ) && IsDefined(primaryWeapons) && primaryWeapons.size >= weapon_limit && !is_grenade )
 				{
 					if(IsDefined(player.last_held_primary_weapon) && player HasWeapon(player.last_held_primary_weapon))
 					{

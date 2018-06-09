@@ -276,7 +276,9 @@
 
 ### Olympia
 * Now adds 1 ammo during the reload if reloaded with no ammo
-* Unupgraded: deals 1.5x more damage
+* Unupgraded: max damage per pellet increased from 120 to 180
+* Upgraded: max damage per pellet increased from 200 to 300
+* Upgraded: fire effect now plays when damaging a zombie
 * Upgraded: ammo now gets added at the same time that it does in the reload animation
 
 ### PM63
@@ -1022,8 +1024,6 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Nacht: check weapon cabinet with combat knife out
-* Olympia upgraded: make flame fx play on damage
 * Add BO2 weapon models (FN FAL, Galil, Python, Ballistic Knife, Bowie Knife)
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim

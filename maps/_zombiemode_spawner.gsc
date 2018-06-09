@@ -3843,6 +3843,11 @@ zombie_damage( mod, hit_location, hit_origin, player, amount )
 		}
 	}
 
+	if( "rottweil72_upgraded_zm" == self.damageweapon && "MOD_RIFLE_BULLET" == self.damagemod )
+	{
+		self thread dragons_breath_flame_death_fx();
+	}
+
 	if ( IsDefined( self.zombie_damage_fx_func ) )
 	{
 		self [[ self.zombie_damage_fx_func ]]( mod, hit_location, hit_origin, player );

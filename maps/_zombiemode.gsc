@@ -6234,12 +6234,6 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			break;
 		}
 
-		//+50% damage on Olympia, easier to do it from here
-		if(weapon == "rottweil72_zm" || weapon == "rottweil72_upgraded_zm")
-		{
-			final_damage = int(final_damage * 1.5);
-		}
-
 		//Death Machine - always does at least 1/4 damage on regular shots and 1/2 damage on headshots
 		if(weapon == "minigun_zm" && self.animname != "director_zombie" && self.animname != "astro_zombie")
 		{
