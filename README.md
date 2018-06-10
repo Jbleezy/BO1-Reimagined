@@ -1031,7 +1031,8 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Fix Double Barrel anims by using WaW anim versions
+* Try adding double barrel shotgun grip anims to sawed off double barrel
+* Have hitman redo Double Barrel sprint and dive anims
 * Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife)
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim
