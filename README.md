@@ -121,7 +121,7 @@
 * Unupgraded: headshot damage - 700
 
 #### PSG1
-* Upgraded name: Psycho Sexy Genius 115
+* Upgraded name: Psychotic Salient Genius 115
 * Replaces the Dragunov
 * 10 rounds per clip unupgraded and upgraded
 * Unupgraded: damage - 500
@@ -149,7 +149,10 @@
 * Increased FOV when aiming from 15 to 30
 * Variable zoom scopes now only have one scope option
 
-### Ak74u
+### Shotguns
+* Reduced spread when aiming
+
+### AK74u
 * Upgraded: fixed fire sound
 
 ### AUG
@@ -204,6 +207,8 @@
 * Reduced recoil
 
 ### Double-Barreled Shotgun
+* Spread increases while moving
+* Fixed animations
 * Ammo now gets added at the same time that it does in the reload animation
 * Fixed shell eject effect showing 2 shells
 * Upgraded: changed name from "24 Bore long range" to "24 Bore"
@@ -298,6 +303,17 @@
 * Fixed animation bug when switching weapons from the RPK with an empty clip
 * Fixed dive to prone animation from looping
 
+### Sawed-Off Double-Barreled Shotgun
+* Decreased range by 25%
+* Increased spread by 25%
+* Decreased recoil by 33%
+* Decreased reload time from 3 seconds to 2.5 seconds
+* Spread increases while moving
+* Fixed animations
+* Ammo now gets added at the same time that it does in the reload animation
+* Fixed shell eject effect showing 2 shells
+* Changed name from "Sawed-Off Double-Barreled Shotgun w/ Grip" to "Sawed-Off Double-Barreled Shotgun"
+
 ### Spectre
 * Unupgraded: increased reserve ammo from 120 to 240
 * Upgraded: increased reserve ammo from 225 to 360
@@ -310,6 +326,7 @@
 * Upgraded: decreased reserve ammo from 250 to 240
 
 ### Trench Gun
+* Spread increases while moving
 * Ammo now gets added at the same time that it does in the reload animation
 * Fixed shell eject effect showing 2 shells
 
@@ -1031,8 +1048,8 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Try adding double barrel shotgun grip anims to sawed off double barrel
 * Have hitman redo Double Barrel sprint and dive anims
+* Add separate sprint and dive anims to Sawed Off Double Barrel
 * Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife)
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim

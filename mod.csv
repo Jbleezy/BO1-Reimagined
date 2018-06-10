@@ -197,6 +197,8 @@ weapon,sp/rpk_zm
 weapon,sp/rpk_upgraded_zm
 weapon,sp/rottweil72_zm
 weapon,sp/rottweil72_upgraded_zm
+weapon,sp/spas_zm
+weapon,sp/spas_upgraded_zm
 //weapon,sp/zombie_bullet_crouch
 weapon,sp/mk_aug_upgraded_zm
 weapon,sp/tesla_gun_zm
@@ -237,7 +239,7 @@ weapon,sp/lower_equip_gasmask_zm
 //weapon,sp/kar98k_scoped_zombie
 //weapon,sp/zombie_m1garand
 //weapon,sp/zombie_springfield
-//weapon,sp/zombie_doublebarrel_sawed
+weapon,sp/zombie_doublebarrel_sawed
 //weapon,sp/zombie_bar
 weapon,sp/zombie_type99_rifle
 weapon,sp/zombie_stg44
