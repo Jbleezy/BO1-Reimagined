@@ -1028,7 +1028,8 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, Ballistic Knife, Bowie Knife)
+* Fix Double Barrel anims by using WaW anim versions
+* Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife)
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim
 * Thundergun: speed up last shot anim

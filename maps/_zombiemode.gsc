@@ -6034,7 +6034,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 4;
 			break;
-		case "aug_acog_zm":
+		case "aug_mk_acog_zm":
 			final_damage = 140;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 4;
@@ -6138,7 +6138,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 5;
 			break;
-		case "m16_upgraded_zm":
+		case "m16_gl_upgraded_zm":
 		case "famas_upgraded_zm":
 			final_damage = 150;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
@@ -6155,7 +6155,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 				final_damage *= 5;
 			break;
 		case "commando_upgraded_zm":
-		case "ak47_upgraded_zm":
+		case "ak47_ft_upgraded_zm":
 			final_damage = 210;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 5;
