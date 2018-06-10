@@ -6207,10 +6207,14 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 				final_damage *= 2;
 			break;
 		case "zombie_gewehr43_upgraded":
-		case "zombie_m1carbine_upgraded":
 			final_damage = 400;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 3;
+			break;
+		case "zombie_m1carbine_upgraded":
+			final_damage = 300;
+			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
+				final_damage *= 4;
 			break;
 		case "zombie_type100_smg_upgraded":
 			final_damage = 200;
