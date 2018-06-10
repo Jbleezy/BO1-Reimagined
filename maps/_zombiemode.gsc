@@ -6034,7 +6034,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 4;
 			break;
-		case "aug_mk_acog_zm":
+		case "aug_acog_mk_acog_zm":
 			final_damage = 140;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 4;

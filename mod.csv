@@ -306,6 +306,11 @@ material,waypoint_cia
 material,waypoint_revive
 material,waypoint_second_chance
 material,specialty_slowdown_zombies
+material,terrain_scorch_default
+material,terrain_scorch_dirt
+material,terrain_scorch_grass
+material,terrain_scorch_sand
+material,terrain_scorch_mud
 
 //XMODELS
 xmodel,zombie_perk_bottle_jugg
