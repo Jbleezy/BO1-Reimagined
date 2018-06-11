@@ -388,7 +388,19 @@ init_weapon_upgrade()
 	for( i = 0; i < weapon_spawns.size; i++ )
 	{
         if(weapon_spawns[i].zombie_weapon_upgrade == "zombie_bar_bipod")
-			weapon_spawns[i].zombie_weapon_upgrade = "zombie_bar";
+        {
+        	weapon_spawns[i].zombie_weapon_upgrade = "zombie_bar";
+        	weapon_spawns[i].override_weapon_model = true;
+        }
+
+		if(level.script == "zombie_cod5_asylum")
+		{
+			if(weapon_spawns[i].zombie_weapon_upgrade == "zombie_kar98k" && i == 16)
+			{
+				weapon_spawns[i].zombie_weapon_upgrade = "zombie_springfield";
+				weapon_spawns[i].override_weapon_model = true;
+			}
+		}
 
 		hint_string = get_weapon_hint( weapon_spawns[i].zombie_weapon_upgrade );
 		cost = get_weapon_cost( weapon_spawns[i].zombie_weapon_upgrade );
@@ -3407,8 +3419,6 @@ weapon_spawn_think()
 			continue;
 		}
 
-		//iprintln(self.zombie_weapon_upgrade);
-
 		// Allow people to get ammo off the wall for upgraded weapons
 		player_has_weapon = player has_weapon_or_upgrade( self.zombie_weapon_upgrade );
 
@@ -3439,19 +3449,20 @@ weapon_spawn_think()
 
 				if( self.first_time_triggered == false )
 				{
-					if(self.zombie_weapon_upgrade == "kiparis_zm")
+					if(IsDefined(self.override_weapon_model))
 					{
-						temp_model = getent( self.target, "targetname" );
-						origin = temp_model.origin + (2,0,-.5);
-						//thread print_origin(origin);
-						model = spawn( "script_model", origin);
-						model.angles = temp_model.angles;
-						modelname = GetWeaponModel( self.zombie_weapon_upgrade );
-						model setmodel( modelname );
+						old_model = getent( self.target, "targetname" );
+						model = Spawn( "script_model", old_model.origin );
+						model.angles = old_model.angles;
+						model SetModel( GetWeaponModel( self.zombie_weapon_upgrade ) );
 						model useweaponhidetags( self.zombie_weapon_upgrade );
+						model hide();
+						old_model Delete();
 					}
 					else
+					{
 						model = getent( self.target, "targetname" );
+					}
 					//model show();
 					model thread weapon_show( player );
 					self.first_time_triggered = true;
@@ -3522,15 +3533,15 @@ weapon_spawn_think()
 			{
 				if( self.first_time_triggered == false )
 				{
-					if(self.zombie_weapon_upgrade == "kiparis_zm")
+					if(IsDefined(self.override_weapon_model))
 					{
-						temp_model = getent( self.target, "targetname" );
-						origin = temp_model.origin + (10,0,0);
-						model = spawn( "script_model", origin);
-						model.angles = temp_model.angles;
-						modelname = GetWeaponModel( self.zombie_weapon_upgrade );
-						model setmodel( modelname );
+						old_model = getent( self.target, "targetname" );
+						model = Spawn( "script_model", old_model.origin );
+						model.angles = old_model.angles;
+						model SetModel( GetWeaponModel( self.zombie_weapon_upgrade ) );
 						model useweaponhidetags( self.zombie_weapon_upgrade );
+						model hide();
+						old_model Delete();
 					}
 					else
 					{
@@ -3576,17 +3587,6 @@ weapon_spawn_think()
 				player maps\_zombiemode_audio::create_and_play_dialog( "general", "no_money", undefined, 0 );
 			}
 		}
-	}
-}
-
-print_origin(origin)
-{
-	players = get_players();
-	while(1)
-	{
-		iprintln(origin);
-		iprintln(players[0].origin);
-		wait 1;
 	}
 }
 

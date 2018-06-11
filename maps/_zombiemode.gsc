@@ -6079,6 +6079,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		//CLASSIC WEAPONS
 		case "zombie_kar98k":
 		case "zombie_type99_rifle":
+		case "zombie_springfield":
 			final_damage = 500;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 2;
@@ -8683,6 +8684,7 @@ box_weapon_changes()
 		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
 		level.zombie_weapons["zombie_bar"].is_in_box = true;
 		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
+		level.zombie_weapons["zombie_springfield"].is_in_box = true;
 		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
 		level.zombie_weapons["zombie_m1garand"].is_in_box = true;
 		level.zombie_weapons["mp40_zm"].is_in_box = true;

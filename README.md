@@ -103,6 +103,9 @@
 * Added in classic maps
 * Deal infinite damage on impact
 
+#### Springfield
+* Added in Verruckt on the wall in replace of the Kar98k wallbuy on the Quick Revive side
+
 #### AK47
 * Upgraded name: The Red Mist
 * Upgraded version has flamethrower attachment
@@ -145,7 +148,7 @@
 * Removed damage scaling over rounds (except for lethal grenades and mines)
 
 ### Snipers
-* Removed idle sway
+* Removed idle sway while aiming
 * Increased FOV when aiming from 15 to 30
 * Variable zoom scopes now only have one scope option
 
@@ -1050,6 +1053,7 @@
 ## TODO
 * Have hitman redo Double Barrel sprint and dive anims
 * Add separate sprint and dive anims to Sawed Off Double Barrel
+* Add Springfield chalk
 * Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife)
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim
@@ -1094,7 +1098,6 @@
 * Add BO2 meat FX and grief FX in game
 * Rename some zone names
 * Fix Nikolai viewhands
-* Verruckt: replace Kar98k with Springfield (WaW version has Springfield)
 * Fix textures getting changed when getting sprayed with flamethrower attachment
 * Optimize Gersch Device code
 * Optimize zombies in barrier and traversing barrier code

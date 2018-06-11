@@ -483,6 +483,7 @@ include_weapons()
 	include_weapon("knife_ballistic_zm");
 
 	// Bolt Action
+	include_weapon( "zombie_springfield", false, true );
 	include_weapon( "zombie_kar98k", false, true );
 	include_weapon( "stielhandgranate", false, true );
 	include_weapon( "zombie_gewehr43", false, true );
@@ -497,7 +498,6 @@ include_weapons()
 	include_weapon( "zombie_bar", false, true );
 
 	include_weapon( "zombie_cymbal_monkey");
-
 
 	// Special
 	include_weapon( "freezegun_zm" );
@@ -517,10 +517,9 @@ include_weapons()
 	precacheItem( "explosive_bolt_zm" );
 	precacheItem( "explosive_bolt_upgraded_zm" );
 
-
-
-	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_kar98k", "zombie_kar98k_upgraded", 						&"WAW_ZOMBIE_WEAPON_KAR98K_200", 				200,	"rifle");
-	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_type99_rifle", "",					&"WAW_ZOMBIE_WEAPON_TYPE99_200", 			    200,	"rifle" );
+	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_springfield", "", 						&"WAW_ZOMBIE_WEAPON_SPRINGFIELD_200", 			200,	"rifle");
+	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_kar98k", "zombie_kar98k_upgraded", 	&"WAW_ZOMBIE_WEAPON_KAR98K_200", 				200,	"rifle");
+	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_type99_rifle", "",						&"WAW_ZOMBIE_WEAPON_TYPE99_200", 			    200,	"rifle" );
 
 	// Semi Auto
 	maps\_zombiemode_weapons::add_zombie_weapon( "zombie_gewehr43", "zombie_gewehr43_upgraded",						&"WAW_ZOMBIE_WEAPON_GEWEHR43_600", 				600,	"rifle" );

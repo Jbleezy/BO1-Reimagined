@@ -291,7 +291,11 @@ do_bowie_flourish_end( gun )
 	{
 		// try to switch to first primary weapon
 		primaryWeapons = self GetWeaponsListPrimaries();
-		if( IsDefined( primaryWeapons ) && primaryWeapons.size > 0 )
+		if(IsDefined(self.last_held_primary_weapon) && self HasWeapon(self.last_held_primary_weapon))
+		{
+			self SwitchToWeapon(self.last_held_primary_weapon);
+		}
+		else if( IsDefined( primaryWeapons ) && primaryWeapons.size > 0 )
 		{
 			self SwitchToWeapon( primaryWeapons[0] );
 		}
