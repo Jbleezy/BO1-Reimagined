@@ -1614,11 +1614,11 @@ give_perk_think(player, gun, perk, cost, has_fastswitch)
 {
 	player waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
 
-	if ( !( player maps\_laststand::player_is_in_laststand() || is_true( player.intermission ) ) )
+	if ( !player maps\_laststand::player_is_in_laststand() && !is_true( player.intermission ) )
 	{
 		if(has_fastswitch)
 		{
-			self SetPerk("specialty_fastswitch");
+			player SetPerk("specialty_fastswitch");
 		}
 	}
 
@@ -1725,7 +1725,7 @@ give_perk( perk, bought )
 	//increase burst fire rate with double tap
 	if(perk == "specialty_rof")
 	{
-		self SetClientDvar("player_burstFireCoolDown", .14);
+		self SetClientDvar("player_burstFireCoolDown", .2 * GetDvarFloat("perk_weapRateMultiplier"));
 	}
 
 	// WW (02-03-11): Deadshot csc call

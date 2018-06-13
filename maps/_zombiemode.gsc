@@ -1794,7 +1794,7 @@ onPlayerConnect_clientDvars()
 	self setClientDvar("cg_drawFriendlyFireCrosshair", "1");
 
 	//increase game_mod's default perk multipliers
-	self SetClientDvar("perk_weapRateMultiplier", .7);
+	self SetClientDvar("perk_weapRateMultiplier", .75);
 	self SetClientDvar("perk_sprintRecoveryMultiplier", .5);
 
 	//reset dvar that changes when double tap is bought
@@ -2110,7 +2110,6 @@ onPlayerSpawned()
 				//self thread player_health_watcher();
 				self thread points_cap();
 				self thread give_weapons_test();
-				//self thread button_pressed_test();
 				//self thread velocity_test();
 
 				self thread character_names_on_hud();
@@ -6297,7 +6296,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 
 	if(attacker HasPerk("specialty_rof") && (meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET"))
 		final_damage = int(final_damage * 1.5);
-	if(attacker HasPerk("specialty_deadshot") && (meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET") && (sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck"))
+	if(attacker HasPerk("specialty_deadshot") && (meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET") && WeaponClass(weapon) != "spread" && (sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck"))
 		final_damage = int(final_damage * 2);
 
 	if(is_true(attacker.zombie_vars["zombie_powerup_half_damage_on"]))
@@ -6731,7 +6730,7 @@ end_game()
 	{
 		map_names = array("zombie_cod5_prototype", "zombie_cod5_asylum", "zombie_cod5_sumpf", "zombie_cod5_factory", "zombie_theater", "zombie_pentagon", "zombie_cosmodrome", "zombie_coast", "zombie_temple", "zombie_moon");
 		map_name = random(map_names);
-		if(map_name == level.script || GetDvar("gm_version") == "1.1.0")
+		if(map_name == level.script)
 		{
 			Map_Restart();
 		}
@@ -8667,52 +8666,51 @@ box_weapon_changes()
 
 	if(level.script == "zombie_cod5_prototype")
 	{
+		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
+		level.zombie_weapons["zombie_m1carbine"].is_in_box = true;
 		level.zombie_weapons["zombie_thompson"].is_in_box = true;
 		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
 		level.zombie_weapons["zombie_doublebarrel_sawed"].is_in_box = true;
 		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
 		level.zombie_weapons["zombie_bar"].is_in_box = true;
-		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
-		level.zombie_weapons["zombie_m1carbine"].is_in_box = true;
 		level.zombie_weapons["zombie_cymbal_monkey"].is_in_box = false;
 	}
 	if(level.script == "zombie_cod5_asylum")
 	{
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel_sawed"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
-		level.zombie_weapons["zombie_bar"].is_in_box = true;
 		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
 		level.zombie_weapons["zombie_springfield"].is_in_box = true;
 		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
 		level.zombie_weapons["zombie_m1garand"].is_in_box = true;
 		level.zombie_weapons["mp40_zm"].is_in_box = true;
+		level.zombie_weapons["zombie_thompson"].is_in_box = true;
+		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
+		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
 		level.zombie_weapons["zombie_stg44"].is_in_box = true;
+		level.zombie_weapons["zombie_bar"].is_in_box = true;
 		level.zombie_weapons["zombie_cymbal_monkey"].is_in_box = false;
 	}
 	if(level.script == "zombie_cod5_sumpf")
 	{
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
-		level.zombie_weapons["zombie_bar"].is_in_box = true;
 		level.zombie_weapons["zombie_type99_rifle"].is_in_box = true;
 		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
 		level.zombie_weapons["zombie_m1carbine"].is_in_box = true;
 		level.zombie_weapons["zombie_m1garand"].is_in_box = true;
+		level.zombie_weapons["zombie_thompson"].is_in_box = true;
+		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
 		level.zombie_weapons["mp40_zm"].is_in_box = true;
 		level.zombie_weapons["zombie_stg44"].is_in_box = true;
 		level.zombie_weapons["zombie_type100_smg"].is_in_box = true;
+		level.zombie_weapons["zombie_bar"].is_in_box = true;
 		level.zombie_weapons["zombie_cymbal_monkey"].is_in_box = false;
 	}
 	if(level.script == "zombie_cod5_factory")
 	{
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
 		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
 		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
 		level.zombie_weapons["zombie_m1carbine"].is_in_box = true;
+		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
+		level.zombie_weapons["zombie_thompson"].is_in_box = true;
+		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
 		level.zombie_weapons["mp40_zm"].is_in_box = true;
 		level.zombie_weapons["zombie_stg44"].is_in_box = true;
 		level.zombie_weapons["zombie_type100_smg"].is_in_box = true;
@@ -8763,6 +8761,7 @@ give_weapons_test()
 	//wep = "tesla_gun_upgraded_zm";
 	//wep = "ray_gun_upgraded_zm";
 	//wep = "crossbow_explosive_zm";
+	//wep = "ak47_ft_upgraded_zm";
 
 	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
@@ -8776,9 +8775,6 @@ give_weapons_test()
 	//self thread maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
 
 	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
-
-	//self giveweapon( "molotov_zm" );
-	//self set_player_tactical_grenade( "molotov_zm" );
 
 	//wait 5;
 
@@ -8817,8 +8813,8 @@ give_weapons_test()
 	/*wait 1;
 	origin = self.origin;
 	wait 5;
-	level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "meat", origin, true );*/
+	//level.upgraded_tesla_reward = true;
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "full_ammo", origin, true );*/
 
 	/*wait 10;
 	iprintln("spawning");
@@ -8987,19 +8983,6 @@ character_names_on_hud()
 			self SetClientDvar( "hud_player_zm_name_offset_" + color, offset * 20 );
 			self SetClientDvar( "hud_player_zm_name_on_" + color, true );
 		}
-	}
-}
-
-button_pressed_test()
-{
-	flag_wait("all_players_spawned");
-	while(1)
-	{
-		if(self ButtonPressed("[{+forward}]"))
-		{
-			IPrintLn("moving forward");
-		}
-		wait_network_frame();
 	}
 }
 
@@ -9199,7 +9182,7 @@ wait_reload_olympia(current_wep)
 	clip_ammo = self GetWeaponAmmoClip(current_wep);
 	stock_ammo = self GetWeaponAmmoStock(current_wep);
 
-	if(clip_ammo == 0 && stock_ammo >= 1)
+	if(self GetCurrentWeapon() == current_wep && clip_ammo == 0 && stock_ammo >= 1)
 	{
 		self SetWeaponAmmoClip(current_wep, 1);
 		self SetWeaponAmmoStock(current_wep, stock_ammo - 1);

@@ -353,11 +353,7 @@ giveback_player_weapons()
 		}
 		else
 		{
-			index = 0;
-			if(weapon == "tesla_gun_upgraded_zm" && IsSubStr(level.script, "zombie_cod5_"))
-			{
-				index = 1;
-			}
+			index = maps\_zombiemode_weapons::get_upgraded_weapon_model_index(weapon);
 
 			self GiveWeapon( weapon, index, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( weapon ) );
 		}

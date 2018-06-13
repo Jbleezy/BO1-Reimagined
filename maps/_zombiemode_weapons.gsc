@@ -395,10 +395,14 @@ init_weapon_upgrade()
 
 		if(level.script == "zombie_cod5_asylum")
 		{
-			if(weapon_spawns[i].zombie_weapon_upgrade == "zombie_kar98k" && i == 16)
+			if(weapon_spawns[i].zombie_weapon_upgrade == "zombie_kar98k" && IsDefined(weapon_spawns[i].target) && weapon_spawns[i].target == "pf178_auto1")
 			{
 				weapon_spawns[i].zombie_weapon_upgrade = "zombie_springfield";
 				weapon_spawns[i].override_weapon_model = true;
+				weapon_spawns[i].script_noteworthy = "springfield";
+
+				//brushmodels = GetEntArray("script_brushmodel", "classname");
+				//brushmodels[202] Hide();
 			}
 		}
 
@@ -1759,10 +1763,6 @@ decide_hide_show_hint( endon_notify )
 						if(weapon_type != "grenade")
 						{
 							max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
-						}
-						else if((GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2") && weapon_type == "grenade")
-						{
-							max_ammo = 4;
 						}
 
 						dual_wield_weapon = WeaponDualWieldWeaponName(self.zombie_weapon_upgrade);
@@ -3145,10 +3145,6 @@ treasure_chest_give_weapon( weapon_string )
 			self TakeWeapon( self get_player_tactical_grenade() );
 		}
 		self maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
-		if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2")
-		{
-			self SetWeaponAmmoClip(weapon_string, 3);
-		}
 		self play_weapon_vo(weapon_string);
 		return;
 	}
@@ -3161,10 +3157,6 @@ treasure_chest_give_weapon( weapon_string )
 		}
 		self giveweapon( "molotov_zm" );
 		self set_player_tactical_grenade( "molotov_zm" );
-		if(GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2")
-		{
-			self SetWeaponAmmoClip(weapon_string, 3);
-		}
 		self play_weapon_vo(weapon_string);
 		return;
 	}
@@ -3879,11 +3871,6 @@ ammo_give( weapon )
 		max_ammo += WeaponClipSize(weapon);
 	}
 
-	if(is_offhand_weapon(weapon) && (GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2"))
-	{
-		max_ammo = 4;
-	}
-
 	ammo_count = self GetAmmoCount( weapon );
 
 	dual_wield_weapon = WeaponDualWieldWeaponName( weapon );
@@ -3934,11 +3921,6 @@ ammo_give( weapon )
 				max_ammo += WeaponClipSize(weapon);
 			}
 
-			if(GetDvar("gm_version") == "1.1.0" && is_offhand_weapon(weapon))
-			{
-				max_ammo = 4;
-			}
-
 			// compare it with the ammo player actually has, if more or equal just dont give the ammo, else do
 			if( self getammocount( weapon ) < max_ammo )
 			{
@@ -3951,24 +3933,11 @@ ammo_give( weapon )
 		// Ammo belongs to secondary weapon
 		if( self has_weapon_or_upgrade( weapon ) )
 		{
-			//silly game_mod giving more nades then it should
-			if(GetDvar("gm_version") == "1.1.0")
+			// Check if the player has less than max stock, if no give ammo
+			if( self getammocount( weapon ) < WeaponMaxAmmo( weapon ) )
 			{
-				// Check if the player has less than max stock, if no give ammo
-				if( self getammocount( weapon ) < 4 )
-				{
-					// give the ammo to the player
-					give_ammo = true;
-				}
-			}
-			else
-			{
-				// Check if the player has less than max stock, if no give ammo
-				if( self getammocount( weapon ) < WeaponMaxAmmo( weapon ) )
-				{
-					// give the ammo to the player
-					give_ammo = true;
-				}
+				// give the ammo to the player
+				give_ammo = true;
 			}
 		}
 	}*/
@@ -3983,14 +3952,7 @@ ammo_give( weapon )
 			ammo_to_remove = WeaponClipSize(weapon) + WeaponClipSize(dual_wield_weapon) - self GetWeaponAmmoClip(weapon) - self GetWeaponAmmoClip(dual_wield_weapon);
 		}
 
-		if((GetDvar("gm_version") == "1.1.0" || GetDvar("gm_version") == "1.2.1" || GetDvar("gm_version") == "1.2.2") && is_offhand_weapon( weapon ))
-		{
-			self SetWeaponAmmoClip( weapon, 4 );
-		}
-		else
-		{
-			self GiveStartAmmo( weapon );
-		}
+		self GiveStartAmmo( weapon );
 
 		// on dual wield weapons, ammo from stock isn't removed when filling clips
 		if(dual_wield_weapon != "none")

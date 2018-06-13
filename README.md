@@ -243,6 +243,7 @@
 ### Kar98k
 * Unupgraded: increased damage from 170 to 500
 * Unupgraded: increased headshot damage from 350 to 1000
+* Upgraded: 50 round clip, no reserve ammo
 * Upgraded: increased damage from 1200 to 3000
 * Upgraded: increased headshot damage from 2000 to 6000
 
@@ -566,7 +567,7 @@
 
 ### Double Tap
 * 1.5x bullet damage (stacks with Deadshot)
-* Time between burst fire shots reduced by 30%
+* Time between burst fire shots reduced by 25%
 
 ### Deadshot
 * Increased cost from 1000 to 1500
@@ -1051,6 +1052,8 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
+* Verruckt: fix one of the traps not working
+* Bouncing Betty: add back line of sight check
 * Have hitman redo Double Barrel sprint and dive anims
 * Add separate sprint and dive anims to Sawed Off Double Barrel
 * Add Springfield chalk
@@ -1085,7 +1088,6 @@
 * Fix Der Riese Nikolai viewhands for FG42
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
 * Change type 100 reserve ammo to 180 unupgraded, 240 upgraded
-* Upgraded Kar98k: 50 round clip, no reserve ammo
 * Add sprint and dive anims on WaW weapons
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
@@ -1101,6 +1103,8 @@
 * Fix textures getting changed when getting sprayed with flamethrower attachment
 * Optimize Gersch Device code
 * Optimize zombies in barrier and traversing barrier code
+* Make it so switching to weapon powerup doesn't take fast switch perk into account
+* Verruckt: replace one of the Double Barrel wall buys with sawed off Double Barrel?
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1131,6 +1135,7 @@
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 
 ### Maybe
+* Remove switching weapons check from perks, knives, and pack-a-punch?
 * Shangri-La: should mud pit sidequest step need the radio to be activated to work? No
 * Moon: should teleporter gate start going down before power is on? No
 * Should there be a zombie spawn delay?
