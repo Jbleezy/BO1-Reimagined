@@ -236,11 +236,11 @@ weapon,sp/equip_gasmask_zm
 weapon,sp/lower_equip_gasmask_zm
 
 //WAW WEAPONS
-//weapon,sp/kar98k_scoped_zombie
-//weapon,sp/zombie_m1garand
+weapon,sp/kar98k_scoped_zombie
+weapon,sp/zombie_m1garand
 weapon,sp/zombie_springfield
 weapon,sp/zombie_doublebarrel_sawed
-//weapon,sp/zombie_bar
+weapon,sp/zombie_bar
 weapon,sp/zombie_type99_rifle
 weapon,sp/zombie_stg44
 weapon,sp/zombie_stg44_upgraded
