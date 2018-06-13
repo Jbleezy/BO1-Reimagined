@@ -194,9 +194,6 @@ betty_think()
 
 		if(IsDefined(self.too_many_mines_explode) && self.too_many_mines_explode)
 			break;
-		
-		if ( ent damageConeTrace(self.origin, self) == 0 )
-			continue;
 
 		if ( isdefined( self.owner ) && ent == self.owner )
 			continue;
@@ -205,6 +202,9 @@ betty_think()
 			continue;
 
 		if( level.gamemode != "survival" && IsPlayer(ent) && ent.vsteam == self.owner.vsteam )
+			continue;
+
+		if ( ent damageConeTrace(self.origin, self) == 0 )
 			continue;
 
 		break;

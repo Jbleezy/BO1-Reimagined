@@ -1052,8 +1052,6 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Verruckt: fix one of the traps not working
-* Bouncing Betty: add back line of sight check
 * Have hitman redo Double Barrel sprint and dive anims
 * Add separate sprint and dive anims to Sawed Off Double Barrel
 * Add Springfield chalk
@@ -1104,7 +1102,8 @@
 * Optimize Gersch Device code
 * Optimize zombies in barrier and traversing barrier code
 * Make it so switching to weapon powerup doesn't take fast switch perk into account
-* Verruckt: replace one of the Double Barrel wall buys with sawed off Double Barrel?
+* Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
+* Fix zombies making sounds after death
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
@@ -1145,6 +1144,7 @@
 * Health bar for player's health?
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo?
 * Add C4?
+* Verruckt: replace one of the Double Barrel wall buys with sawed off Double Barrel?
 
 ### Testing
 * Moon sidequest dialog in coop without Richtofen

@@ -1241,16 +1241,22 @@ trap_model_type_init()
 }
 
 // move trap handle based on its current position so it ends up at the correct spot
-move_trap_handle(end_angle, rotate_amount)
+move_trap_handle(end_angle, rotate_amount, negative)
 {
 	if(!IsDefined(rotate_amount))
 	{
 		rotate_amount = 180;
 	}
 
+	direction = 1;
+	if(IsDefined(negative) && negative)
+	{
+		direction = -1;
+	}
+
 	angle = int(self.angles[0]);
 
-	//round up angle, some trap handles are slightly off
+	// round up angle, some trap handles are slightly off
 	if(self.angles[0] - angle >= .5)
 	{
 		angle += 1;
@@ -1258,7 +1264,7 @@ move_trap_handle(end_angle, rotate_amount)
 
 	angle = angle % 360;
 
-	//bind angle between -180 and 180
+	// bind angle between -180 and 180
 	if(angle <= -180)
 	{
 		angle += 360;
@@ -1282,9 +1288,9 @@ move_trap_handle(end_angle, rotate_amount)
 	percent = 1 - (angle / rotate_amount);
 	time = .5 * percent;
 	extra_time = .5 - time;
-	self RotatePitch(rotate_amount * percent, time);
+	self RotatePitch(rotate_amount * percent * direction, time);
 
-	//return extra time so trap still ativates at same time
+	// return extra time so trap still ativates at same time
 	return extra_time;
 }
 
