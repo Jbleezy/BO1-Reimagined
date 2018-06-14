@@ -24,6 +24,9 @@ LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy Weapon [Cost: &&1], Ammo [Cos
 REFERENCE           WEAPONCOSTAMMO_UPGRADE_HACKED
 LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy Upgraded Weapon [Cost: &&1], Ammo [Cost: &&2],\n                         Upgraded Ammo [Cost: &&3]"
 
+REFERENCE           BUY_DOUBLEBARREL_SAWED
+LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy Sawed-Off Double-Barreled Shotgun [Cost: &&1]"
+
 REFERENCE          	ZIPLINE_ACTIVATE
 LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to activate the Zipline"
 

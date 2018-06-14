@@ -208,6 +208,7 @@
 
 ### CZ75 Dual Wield
 * Reduced recoil
+* Unupgraded: increased reserve ammo from 228 to 240
 
 ### Double-Barreled Shotgun
 * Spread increases while moving
@@ -232,8 +233,9 @@
 * Unupgraded: increased reserve ammo from 144 to 192
 * Upgraded: increased reserve ammo from 288 to 384
 
-### Gewehr43
+### Gewehr 43
 * Unupgraded: increased damage from 120 to 130
+* Upgraded: decreased reserve ammo from 170 to 168
 
 ### HS10
 * Upgraded: fixed right weapon fire sound
@@ -268,7 +270,7 @@
 * Upgraded: grenade launcher maximum damage - 1500
 * Upgraded: grenade launcher instantly starts reloading after firing the last shot
 * Upgraded: added name of weapon attachment on HUD
-* Upgraded: added name of weapon attachment on HUD
+* Upgraded: ammo for weapon attachment now shows on HUD
 
 ### M1911
 * Upgraded: impact damage - 2500
@@ -317,6 +319,7 @@
 * Ammo now gets added at the same time that it does in the reload animation
 * Fixed shell eject effect showing 2 shells
 * Changed name from "Sawed-Off Double-Barreled Shotgun w/ Grip" to "Sawed-Off Double-Barreled Shotgun"
+* Changed buy hintstring from "Sawed-Off Shotgun" to "Sawed-Off Double-Barreled Shotgun"
 
 ### Spectre
 * Unupgraded: increased reserve ammo from 120 to 240
@@ -333,6 +336,10 @@
 * Spread increases while moving
 * Ammo now gets added at the same time that it does in the reload animation
 * Fixed shell eject effect showing 2 shells
+
+### Type 100
+* Unupgraded: increased reserve ammo from 160 to 180
+* Upgraded: increased reserve ammo from 220 to 240
 
 ### Wonder Weapons
 
@@ -1085,7 +1092,6 @@
 * Fix sprint and dive anims on Ray Gun
 * Fix Der Riese Nikolai viewhands for FG42
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
-* Change type 100 reserve ammo to 180 unupgraded, 240 upgraded
 * Add sprint and dive anims on WaW weapons
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
@@ -1104,6 +1110,7 @@
 * Make it so switching to weapon powerup doesn't take fast switch perk into account
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
+* Five: fix bug where zombies don't go through traps if a trap is turned on during a thief round and stays on until the beginning of the next round
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
