@@ -169,7 +169,7 @@
 * Fixed a bug where a knife could not be picked up if another knife is fired after the first knife and lands before the first knife
 * No longer gibs zombies on impact
 * Knife now glows as soon as it is attached to a zombie
-* Knife now detaches from a zombie if the limb it was attached to is gibbed off
+* Knife no longer attaches to a zombie if the knife kills the zombie
 * Unupgraded: increased impact damage from 450 to 500 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Upgraded: increased impact damage from 900 to 1000 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Upgraded: ammo now gets added at the same time that it does in the reload animation
@@ -1119,6 +1119,7 @@
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 * Shangri-La: add monkeys?
 * Make mines damageable from _weaponobjects.gsc
+* Grief: after enemy team downs, only zombies left for the round are the zombies that are currently spawned in
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated

@@ -44,7 +44,7 @@ on_spawn( watcher, player )
 			{
 				retrievable_model LinkTo( prey, bone );
 				retrievable_model thread force_drop_knives_to_ground_on_death( player, prey );
-				retrievable_model thread force_drop_knives_to_ground_on_gib( player, prey );
+				//retrievable_model thread force_drop_knives_to_ground_on_gib( player, prey );
 			}
 			else if( isFriendly )
 			{
@@ -334,7 +334,10 @@ force_drop_knives_to_ground_on_death( player, prey )
 	player endon( "zmb_lost_knife" ); // occurs when the player gives up or changes the type of ballistic_knife they are carrying
 	self endon("gibbed");
 
-	prey waittill( "death" );
+	if(prey.health > 0)
+	{
+		prey waittill( "death" );
+	}
 
 	self Unlink();
 	self physicslaunch();
