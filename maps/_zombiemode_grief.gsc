@@ -465,7 +465,7 @@ slowdown(weapon, mod, eAttacker, loc)
 		return;
 
 	//shotguns were being called here for each pellet that hit a player, causing players to earn more grief points than they should have, this prevents that from happening
-	if(WeaponClass(weapon) == "spread")
+	/*if(WeaponClass(weapon) == "spread")
 	{
 		if(!IsDefined(eAttacker.spread_already_damaged))
 		{
@@ -481,9 +481,7 @@ slowdown(weapon, mod, eAttacker, loc)
 			eAttacker.spread_already_damaged[self GetEntityNumber()] = true;
 			self thread set_undamaged_after_frame(eAttacker);
 		}
-	}
-
-	eAttacker thread grief_damage_points(self);
+	}*/
 
 	//player is already slowed down, don't slow them down again
 	if(self.slowdown_wait)
@@ -492,6 +490,8 @@ slowdown(weapon, mod, eAttacker, loc)
 	}
 
 	self.slowdown_wait = true;
+
+	eAttacker thread grief_damage_points(self);
 
 	eAttacker thread grief_downed_points(self);
 

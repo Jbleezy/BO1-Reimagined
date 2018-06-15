@@ -1116,7 +1116,6 @@
 * Make it so switching to weapon powerup doesn't take fast switch perk into account
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
-* Use WaW weapon anims from WaW using Tom's Xanim Exporter
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
