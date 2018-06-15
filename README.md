@@ -985,7 +985,6 @@
 * Call of the Dead: director spawns 2 random powerdowns on death
 * Shangri-La: Pack-a-Punch stairs are open from the start of the match
 * Shangri-La: geyser in the start room is open from the start of the match
-* Shangri-La: monkeys disabled
 * Shangri-La: minecart disabled
 * Moon: No Man's Land disabled
 * Moon: first room door is open from the start of the match
@@ -1119,7 +1118,6 @@
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
-* Shangri-La: add monkeys?
 * Grief: after enemy team downs, only zombies left for the round are the zombies that are currently spawned in?
 
 ### Cannot Find Fix

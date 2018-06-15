@@ -46,10 +46,10 @@ init()
 	}
     #/
 
-    if(level.gamemode != "survival")
+    /*if(level.gamemode != "survival")
     {
     	return;
-    }
+    }*/
 
 	// make all barriers with the zone they are in
 	level thread _setup_zone_info();
@@ -1212,9 +1212,31 @@ _powerup_Randomize(monkey)
 	monkey endon("remove");
 
 	//powerup_cycle = array_randomize_knuth(level.zombie_powerup_array);
-	powerup_cycle = array("fire_sale","nuke","double_points","insta_kill");
+	powerup_cycle = undefined;
+	if(is_in_array(level.normal_powerups, self.powerup_name))
+    {
+		powerup_cycle = array("fire_sale","nuke","double_points","insta_kill");
+	}
+	else
+    {
+    	powerup_cycle = array("grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_slow_down");
+
+    	if(level.gamemode == "gg")
+		{
+			powerup_cycle = add_to_array(powerup_cycle, "upgrade_weapon");
+		}
+    }
+
 	powerup_cycle = array_randomize_knuth(powerup_cycle);
-	powerup_cycle[powerup_cycle.size] = "full_ammo"; //Ammo is always last
+
+	if(is_in_array(level.normal_powerups, self.powerup_name))
+    {
+		powerup_cycle[powerup_cycle.size] = "full_ammo"; //Ammo is always last
+	}
+	else
+	{
+		powerup_cycle[powerup_cycle.size] = "meat";
+	}
 
 	//Remove fire sale so the players can not get firesale too early.
 	//if(level.chest_moves < 1)
@@ -1232,7 +1254,7 @@ _powerup_Randomize(monkey)
 	keys = GetArrayKeys( level.zombie_powerups );
 	for(i=0;i<keys.size;i++)
 	{
-		if(level.zombie_powerups[keys[i]].model_name == self.model)
+		if(level.zombie_powerups[keys[i]].powerup_name == self.powerup_name)
 		{
 			currentPowerUp = keys[i];
 			break;
@@ -1245,7 +1267,7 @@ _powerup_Randomize(monkey)
 		powerup_cycle = array_insert(powerup_cycle, currentPowerUp, 0);
 	}
 	//Add Perk bottel if this is a max ammo and its the f
-	if(currentPowerUp == "full_ammo")//&& self.grab_count == 1
+	if(currentPowerUp == "full_ammo" && level.gamemode == "survival")//&& self.grab_count == 1
 	{
 		index = randomintrange(1, powerup_cycle.size - 1);
 		powerup_cycle = array_insert(powerup_cycle, "free_perk", index);
