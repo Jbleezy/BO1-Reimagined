@@ -334,6 +334,7 @@ xmodel,bo2_c_zom_suit_viewhands
 xmodel,bo2_c_zom_player_cdc_fb
 xmodel,bo2_c_zom_player_cia_fb
 xmodel,p_rus_boots_sloppy
+xmodel,model_springfield_chalk
 
 //ANIMS
 //xanim,pt_radio_stand_raise
@@ -352,9 +353,6 @@ rawfile,character/c_usa_dempsey_dlc5.gsc
 
 //STRINGS
 localize,reimagined
-
-//IMAGES
-//image,springfield_chalk_c
 
 //IGNORE FILES THAT ARE ALREADY LOADED IN THE BASE GAME
 ignore,ignorefiles

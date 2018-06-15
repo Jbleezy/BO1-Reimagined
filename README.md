@@ -430,7 +430,7 @@
 * Increased placing speed
 * Can now explode after being placed for 1 second (previously 2 seconds)
 * Can now be picked up
-* Fixed a bug where Bouncing Betties would keep moving and making sounds after being placed
+* No longer keeps moving and making sounds after being placed
 
 #### Claymore
 * Added placing sound

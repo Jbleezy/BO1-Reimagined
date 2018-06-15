@@ -385,6 +385,8 @@ init_weapon_upgrade()
 	weapon_spawns = [];
 	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" );
 
+	//PrecacheModel("model_springfield_chalk");
+
 	for( i = 0; i < weapon_spawns.size; i++ )
 	{
         if(weapon_spawns[i].zombie_weapon_upgrade == "zombie_bar_bipod")
@@ -401,8 +403,11 @@ init_weapon_upgrade()
 				weapon_spawns[i].override_weapon_model = true;
 				weapon_spawns[i].script_noteworthy = "springfield";
 
-				//brushmodels = GetEntArray("script_brushmodel", "classname");
-				//brushmodels[202] Hide();
+				/*brushmodels = GetEntArray("script_brushmodel", "classname");
+				chalk = Spawn("script_brushmodel", brushmodels[202].origin);
+				chalk.angles = brushmodels[202].angles;
+				chalk SetModel("model_springfield_chalk");
+				brushmodels[202] Hide();*/
 			}
 		}
 
