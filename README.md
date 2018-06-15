@@ -266,6 +266,9 @@
 ### M1 Carbine
 * Ammo now gets added at the same time that it does in the reload animation
 
+### M1 Garand
+* Added sound that plays when first obtaining
+
 ### M16
 * Unupgraded: increased reserve ammo from 120 to 150
 * Upgraded: decreased grenade launcher explosion radius by 36%
