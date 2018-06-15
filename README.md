@@ -836,6 +836,7 @@
 * If all players on a floor use an elevator or get downed when the power is on, all zombies will now go through teleporters
 * Fixed lighting in the top floor being incorrect
 * All characters now use the CIA viewmodel except Castro
+* Fixed a bug that caused zombies to not go through a trap if the trap was active when a thief round ends
 * Fixed a bug that crashed the game if the thief attempted to steal a player's weapon while they were using Pack-a-Punch
 
 #### Elevators
@@ -1111,7 +1112,6 @@
 * Make it so switching to weapon powerup doesn't take fast switch perk into account
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
-* Five: fix bug where zombies don't go through traps if a trap is turned on during a thief round and stays on until the beginning of the next round
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
