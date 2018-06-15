@@ -70,6 +70,8 @@
 * Removed popup menu when changing graphic content to unrestricted
 * Combat settings: removed Sprint/Hold Breath option and Steady Sniper option (sniper scopes are always steady now)
 * Combat settings: added Previous Weapon option
+* Combat settings: changed name of "USE EQUIPMENT" to "EQUIPMENT"
+* Combat settings: changed name of "GROUND SUPPORT" to "PLACEABLE MINE"
 * Option to change FOV (65-120 in intervals of 5)
 * Option to show FPS on HUD
 * Option to change max FPS
@@ -183,8 +185,8 @@
 * Can now fire without aiming
 * Now rechambers while aiming
 * Decreased time to start rechambering after firing from .4 seconds to .2 seconds
-* Unupgraded: decreased chamber time from 2 seconds to 1 second
-* Upgraded: decreased chamber time from 1.4 seconds to .7 seconds
+* Unupgraded: decreased rechamber time from 2 seconds to 1 second
+* Upgraded: decreased rechamber time from 1.4 seconds to .7 seconds
 * Instantly starts reloading after firing the last shot
 * Unupgraded: impact damage - 1250
 * Unupgraded: maximum explosion damage - 1000
@@ -1118,8 +1120,7 @@
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 * Shangri-La: add monkeys?
-* Make mines damageable from _weaponobjects.gsc
-* Grief: after enemy team downs, only zombies left for the round are the zombies that are currently spawned in
+* Grief: after enemy team downs, only zombies left for the round are the zombies that are currently spawned in?
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
