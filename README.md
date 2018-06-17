@@ -435,11 +435,14 @@
 * Can now explode after being placed for 1 second (previously 2 seconds)
 * Can now be picked up
 * No longer keeps moving and making sounds after being placed
+* First raise time is now the same as regular raise time
 
 #### Claymore
 * Added placing sound
 * Added activation sound
 * Can no longer be picked up after being triggered
+* First raise animation is now the same as regular raise animation
+* First raise time is now the same as regular raise time
 
 ### Frag Grenade
 * Changed upwards projectile speed
@@ -499,6 +502,8 @@
 #### Spikemore
 * Added activation sound
 * Can no longer be picked up after being triggered
+* First raise animation is now the same as regular raise animation
+* First raise time is now the same as regular raise time
 
 #### Stielhandgranate
 * Now deals damage on impact
@@ -1065,8 +1070,6 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Have hitman redo Double Barrel sprint and dive anims
-* Add separate sprint and dive anims to Sawed Off Double Barrel
 * Add Springfield chalk
 * Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife)
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
