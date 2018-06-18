@@ -172,8 +172,6 @@ give_player_model_override( entity_num )
 		entity_num = self.zm_random_char;
 	}
 
-	iprintln(entity_num);
-
 	switch( entity_num )
 	{
 		case 0:
