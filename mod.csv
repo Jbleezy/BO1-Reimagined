@@ -335,6 +335,17 @@ xmodel,bo2_c_zom_player_cdc_fb
 xmodel,bo2_c_zom_player_cia_fb
 xmodel,p_rus_boots_sloppy
 xmodel,model_springfield_chalk
+xmodel,t4_viewhands_usa_marine
+xmodel,t4_char_usa_marine_player_body1_1
+xmodel,t4_char_usa_marine_player_body2_1
+xmodel,t4_char_usa_marine_head_1_1
+xmodel,t4_char_usa_marine_head_2_2
+xmodel,t4_char_usa_marine_head_3_3
+xmodel,t4_char_usa_marine_head_4_4
+xmodel,t4_char_usa_raider_gear2
+xmodel,t4_char_usa_raider_gear3
+xmodel,t4_char_usa_raider_helm1
+xmodel,t4_char_usa_raider_helm2
 
 //ANIMS
 //xanim,pt_radio_stand_raise
@@ -350,6 +361,11 @@ rawfile,character/c_ger_richtofen_dlc5.gsc
 rawfile,character/c_jap_takeo_dlc5.gsc
 rawfile,character/c_rus_nikolai_dlc5.gsc
 rawfile,character/c_usa_dempsey_dlc5.gsc
+rawfile,mptype\player_t4_zm_asylum.gsc
+rawfile,character\c_usa_marine1_dlc5.gsc
+rawfile,character\c_usa_marine2_dlc5.gsc
+rawfile,character\c_usa_marine3_dlc5.gsc
+rawfile,character\c_usa_marine4_dlc5.gsc
 
 //STRINGS
 localize,reimagined

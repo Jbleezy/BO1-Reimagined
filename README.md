@@ -807,9 +807,11 @@
 * Added out of bounds death barriers to all maps
 
 ### Nacht Der Untoten
+* Now uses marine characters from World at War
 * Removed character dialog
 
 ### Verruckt
+* Now uses marine characters from World at War
 * Fixed zombie pathing near Speed Cola
 * Removed character dialog
 * Removed intro text
@@ -1089,7 +1091,6 @@
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
 * Make better last powerup FX
-* Give players the same basic model on Nacht and Verruckt
 * Add stielhandgranate icon on HUD
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
@@ -1119,6 +1120,9 @@
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
 * M1 Garand: try out WaW sprint anims
+* Scoped Kar98k: use original scope overlay?
+* Molotov Cocktail: fix flame not going on bottle (Use WaW model/anims)
+* Get voicelines from WaW for marine characters on Nacht and Verruckt
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)

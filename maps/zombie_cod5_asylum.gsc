@@ -13,10 +13,11 @@ main()
 	maps\zombie_cod5_asylum_fx::main();
 
 	// viewmodel arms for the level
-	PreCacheModel( "viewmodel_usa_pow_arms" ); // Dempsey
-	PreCacheModel( "viewmodel_rus_prisoner_arms" ); // Nikolai
-	PreCacheModel( "viewmodel_vtn_nva_standard_arms" );// Takeo
-	PreCacheModel( "viewmodel_usa_hazmat_arms" );// Richtofen
+	//PreCacheModel( "viewmodel_usa_pow_arms" ); // Dempsey
+	//PreCacheModel( "viewmodel_rus_prisoner_arms" ); // Nikolai
+	//PreCacheModel( "viewmodel_vtn_nva_standard_arms" );// Takeo
+	//PreCacheModel( "viewmodel_usa_hazmat_arms" );// Richtofen
+	PreCacheModel( "t4_viewhands_usa_marine" );
 
 	// DCS: not mature settings models without blood or gore.
 	PreCacheModel( "zombie_asylum_chair_nogore" );
@@ -161,7 +162,7 @@ asylum_zone_init()
 
 precache_player_model_override()
 {
-	mptype\player_t5_zm_theater::precache();
+	mptype\player_t4_zm_asylum::precache();
 }
 
 give_player_model_override( entity_num )
@@ -171,20 +172,22 @@ give_player_model_override( entity_num )
 		entity_num = self.zm_random_char;
 	}
 
+	iprintln(entity_num);
+
 	switch( entity_num )
 	{
 		case 0:
-			character\c_usa_dempsey_zt::main();// Dempsy
+			character\c_usa_marine1_dlc5::main();// Dempsey
 			break;
 		case 1:
-			character\c_rus_nikolai_zt::main();// Nikolai
+			character\c_usa_marine2_dlc5::main();// John
 			break;
 		case 2:
-			character\c_jap_takeo_zt::main();// Takeo
+			character\c_usa_marine3_dlc5::main();// Smokey
 			break;
 		case 3:
-			character\c_ger_richtofen_zt::main();// Richtofen
-			break;
+			character\c_usa_marine4_dlc5::main();// Marine4
+			break;	
 	}
 }
 
@@ -194,20 +197,20 @@ player_set_viewmodel_override( entity_num )
 	{
 		case 0:
 			// Dempsey
-			self SetViewModel( "viewmodel_usa_pow_arms" );
+			self SetViewModel( "t4_viewhands_usa_marine" );
 			break;
 		case 1:
 			// Nikolai
-			self SetViewModel( "viewmodel_rus_prisoner_arms" );
+			self SetViewModel( "t4_viewhands_usa_marine" );
 			break;
 		case 2:
 			// Takeo
-			self SetViewModel( "viewmodel_vtn_nva_standard_arms" );
+			self SetViewModel( "t4_viewhands_usa_marine" );
 			break;
 		case 3:
 			// Richtofen
-			self SetViewModel( "viewmodel_usa_hazmat_arms" );
-			break;
+			self SetViewModel( "t4_viewhands_usa_marine" );
+			break;		
 	}
 }
 
