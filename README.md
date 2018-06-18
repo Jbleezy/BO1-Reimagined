@@ -1105,7 +1105,6 @@
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
-* Add WaW weapon files with correct stats
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
 * Find a way to be able to shoot through more than 3 zombies
@@ -1119,6 +1118,7 @@
 * Make it so switching to weapon powerup doesn't take fast switch perk into account
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
+* M1 Garand: try out WaW sprint anims
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
