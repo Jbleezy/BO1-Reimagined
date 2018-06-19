@@ -268,6 +268,9 @@
 
 ### M1 Garand
 * Added sound that plays when first obtaining
+* Ammo now gets added at the same time that it does in the reload animation when reloading with an empty clip
+* Fixed raise animation
+* Decreased raise time from .8 seconds to .6 seconds
 
 ### M16
 * Unupgraded: increased reserve ammo from 120 to 150

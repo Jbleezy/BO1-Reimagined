@@ -973,7 +973,7 @@
 
 		// Arrows
 
-		//RIGHT
+		// RIGHT
 		itemDef
 		{
 			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+33) (-26) 26
@@ -999,7 +999,7 @@
 			decoration
 		}
 
-		//LEFT
+		// LEFT
 		itemDef
 		{
 			rect			(DPAD_BG_X_START+46) (DPAD_BG_Y_START+33) 26 26
@@ -1025,7 +1025,7 @@
 			decoration
 		}
 
-		//BOTTOM
+		// TOP
 		itemDef
 		{
 			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 (-26)
@@ -1051,7 +1051,7 @@
 			decoration
 		}
 
-		//TOP
+		// BOTTOM
 		itemDef
 		{
 			rect			(DPAD_BG_X_START+33) (DPAD_BG_Y_START+46) 26 26
@@ -1076,6 +1076,18 @@
 			visible 		when( !DPAD_ENABLED )
 			decoration
 		}
+
+		/*itemDef
+        {
+            name            "tickerRound"
+            type            ITEM_TYPE_OWNERDRAW
+            rect            (WEAPINFO_X-1) (WEAPINFO_Y-33) 104 104
+            forecolor        1 1 1 1
+            background        "hud_border_dpad_compass"
+            ownerdraw        CG_PLAYER_COMPASS_ROUND
+            visible            1
+            decoration
+        }*/
     }
 
 	menuDef
