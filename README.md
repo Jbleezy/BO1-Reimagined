@@ -238,6 +238,7 @@
 * Upgraded: increased reserve ammo from 288 to 384
 
 ### Gewehr 43
+* Ammo now gets added at the same time that it does in the reload animation
 * Unupgraded: increased damage from 120 to 130
 * Upgraded: decreased reserve ammo from 170 to 168
 
