@@ -178,8 +178,10 @@
 
 ### BAR
 * Replaced BAR + Bipod with BAR
+* Removed bipod from weapon model
 * All BAR wallbuys now cost 1800
 * Increased headshot damage from 270 to 400
+* Ammo now gets added at the same time that it does in the reload animation
 
 ### China Lake
 * Can now fire without aiming
@@ -1125,6 +1127,7 @@
 * Scoped Kar98k: use original scope overlay?
 * Molotov Cocktail: fix flame not going on bottle (Use WaW model/anims)
 * Get voicelines from WaW for marine characters on Nacht and Verruckt
+* Add correct weapon models to all WaW weapons
 
 ### Versus Todo
 * Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
