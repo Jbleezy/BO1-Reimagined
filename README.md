@@ -302,7 +302,7 @@
 
 ### MP40
 * Fixed sprinting animation not playing correctly when clip is empty
-* Now uses WaW camo on Der Riese
+* Now uses World at War upgraded camo on Der Riese
 
 ### Olympia
 * Now adds 1 ammo during the reload if reloaded with no ammo
@@ -359,9 +359,9 @@
 ### Ray Gun
 * Ammo now gets added at the same time that it does in the reload animation
 * Removed weapon bob from movement
-* Added sprint and dive animations from BO2
-* Added sound from BO2 that plays when first obtaining
-* Added sound from BO2 that plays when attempting to fire without any ammo
+* Added sprint and dive animations from Black Ops 2
+* Added sound from Black Ops 2 that plays when first obtaining
+* Added sound from Black Ops 2 that plays when attempting to fire without any ammo
 * Decreased first raise time from 2.4 seconds to 1.8 seconds
 * Fixed first raise animation lasting too long at the end
 * Unupgraded: impact damage - 2500
@@ -492,7 +492,7 @@
 * Removed on Nacht, Verruckt, and Shi No Numa
 
 #### P.E.S.
-* Added BO3 model and animations
+* Added Black Ops 3 model and animations
 * Players now only lose their helmet when taking different equipment
 * Fixed a bug where players were able to get no weapon in their hand by pressing the P.E.S. helmet button repeatedly
 * Changed name from "P.E.S" to "P.E.S."
@@ -504,7 +504,7 @@
 * Changed upwards projectile speed
 
 #### Sickle
-* Now uses model from BO3
+* Now uses model from Black Ops 3
 
 #### Spikemore
 * Added activation sound
@@ -1130,6 +1130,7 @@
 * Get voicelines from WaW for marine characters on Nacht and Verruckt
 * Type 100: add empty sprint and dive anims
 * Thompson: add empty sprint and dive anims
+* Bouncing Betty: add better sprint and dive anims
 
 ### Versus Todo
 * Add new grief damage fx
@@ -1248,14 +1249,16 @@
 * Don't allow reload to start during fire time or last fire time
 
 ## SPECIAL THANKS
-* **_WARDOG_** - co-developer
+* **_ApexModder_** - perk bump sounds, assisted with localized strings, assisted with client scripting, assisted with menu scripting
 * **_lilrifa_** - assisted with menu scripting
 * **_MasadaDRM_** - assisted with weapons and sounds
 * **_xSanchez78_** - assisted with client scripting and localized strings
-* **_Kody_** - Wunderwaffe gold camo, fixed CIA player viewmodel, assisted with animations
-* **_UltraZombieDino_** - BO3 P.E.S. model and animations
+* **_Kody_** - Wunderwaffe gold camo, fixed CIA and CDC viewmodels, assisted with animations
+* **_HitmanVere_** - sprint and dive animations for World at War weapons
+* **_UltraZombieDino_** - Black Ops 3 P.E.S. model and animations, Black Ops 2 Ray Gun first raise and dry fire sounds, World at War marine models, assisted with World at War weapon models
 * **_KagamineAddict_** - updated P.E.S. visor texture
 * **_ZeRoY_** - function list
+* **_UGX_** - scripting reference
 * **_SE2Dev_** - LinkerMod
 * **_Nukem_** - LinkerMod
 * **_DTZxPorter_** - Wraith
