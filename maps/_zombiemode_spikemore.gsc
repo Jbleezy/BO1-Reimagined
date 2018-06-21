@@ -373,10 +373,11 @@ give_spikemores_after_rounds()
 			{
 				if ( players[i] is_player_placeable_mine( "spikemore_zm" ) )
 				{
-					players[i]  giveweapon("spikemore_zm");
-					players[i]  set_player_placeable_mine("spikemore_zm");
-					players[i]  setactionslot(4,"weapon","spikemore_zm");
-					players[i]  setweaponammoclip("spikemore_zm",2);
+					players[i] giveweapon("spikemore_zm");
+					players[i] set_player_placeable_mine("spikemore_zm");
+					players[i] setactionslot(4,"weapon","spikemore_zm");
+					players[i] setweaponammoclip("spikemore_zm",2);
+					players[i] notify( "zmb_disable_spikemore_prompt" );
 				}
 			}
 		}

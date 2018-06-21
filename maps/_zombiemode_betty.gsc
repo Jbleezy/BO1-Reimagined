@@ -277,10 +277,11 @@ give_betties_after_rounds()
 			{
 				if ( players[i] is_player_placeable_mine( "mine_bouncing_betty" ) )
 				{
-					players[i]  giveweapon("mine_bouncing_betty");
-					players[i]  set_player_placeable_mine("mine_bouncing_betty");
-					players[i]  setactionslot(4,"weapon","mine_bouncing_betty");
-					players[i]  setweaponammoclip("mine_bouncing_betty",2);
+					players[i] giveweapon("mine_bouncing_betty");
+					players[i] set_player_placeable_mine("mine_bouncing_betty");
+					players[i] setactionslot(4,"weapon","mine_bouncing_betty");
+					players[i] setweaponammoclip("mine_bouncing_betty",2);
+					players[i] notify( "zmb_disable_betty_prompt" );
 				}
 			}
 		}

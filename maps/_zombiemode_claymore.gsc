@@ -422,10 +422,11 @@ give_claymores_after_rounds()
 			{
 				if ( players[i] is_player_placeable_mine( "claymore_zm" ) )
 				{
-					players[i]  giveweapon("claymore_zm");
-					players[i]  set_player_placeable_mine("claymore_zm");
-					players[i]  setactionslot(4,"weapon","claymore_zm");
-					players[i]  setweaponammoclip("claymore_zm",2);
+					players[i] giveweapon("claymore_zm");
+					players[i] set_player_placeable_mine("claymore_zm");
+					players[i] setactionslot(4,"weapon","claymore_zm");
+					players[i] setweaponammoclip("claymore_zm",2);
+					players[i] notify( "zmb_disable_claymore_prompt" );
 				}
 			}
 		}

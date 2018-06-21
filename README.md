@@ -350,6 +350,7 @@
 * Fixed shell eject effect showing 2 shells
 
 ### Type 100
+* Ammo now gets added at the same time that it does in the reload animation
 * Unupgraded: increased reserve ammo from 160 to 180
 * Upgraded: increased reserve ammo from 220 to 240
 
@@ -1108,7 +1109,6 @@
 * Fix sprint and dive anims on Ray Gun
 * Fix Der Riese Nikolai viewhands for FG42
 * Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
-* Add sprint and dive anims on WaW weapons
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
@@ -1128,10 +1128,10 @@
 * Scoped Kar98k: use original scope overlay?
 * Molotov Cocktail: fix flame not going on bottle (Use WaW model/anims)
 * Get voicelines from WaW for marine characters on Nacht and Verruckt
-* Add correct weapon models to all WaW weapons
+* Type 100: add empty sprint and dive anims
+* Thompson: add empty sprint and dive anims
 
 ### Versus Todo
-* Meat: fix dive to prone anim from looping (tried to fix same way as other weapons but didn't work)
 * Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
