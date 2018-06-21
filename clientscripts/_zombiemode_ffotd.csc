@@ -362,7 +362,7 @@ get_grenade_icon(weapon, nade_type)
 		}
 		else if(weapon == "stielhandgranate")
 		{
-			icon = "hud_grenadeicon";
+			icon = "hud_icon_stielhandgranate";
 		}
 	}
 	else if(nade_type == "tactical")

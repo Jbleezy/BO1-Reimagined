@@ -513,6 +513,7 @@
 * First raise time is now the same as regular raise time
 
 #### Stielhandgranate
+* Added HUD icon from Call of Duty: WWII
 * Now deals damage on impact
 * Added projectile trail effect
 * Added throw back animation
@@ -1098,7 +1099,6 @@
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
 * Make better last powerup FX
-* Add stielhandgranate icon on HUD
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Deadshot: add fast ADS move speed correctly
