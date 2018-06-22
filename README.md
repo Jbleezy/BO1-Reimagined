@@ -455,8 +455,10 @@
 * Changed upwards projectile speed
 
 #### Gersch Device
+* Now uses model from Black Ops 3
 * Zombies now get attracted immediately
 * Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
+* Changed upwards projectile speed
 
 #### Hacker
 * Every player can have the hacker
@@ -1081,8 +1083,8 @@
 
 ## TODO
 * Add Springfield chalk
-* Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife)
-* Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Gersch, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
+* Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife, Molotov)
+* Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim
 * Thundergun: speed up last shot anim
 * Der Riese: use WaW pap camo for all weapons except Wunderwaffe
@@ -1113,7 +1115,6 @@
 * Remove zombie failsafe death print before release
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
-* Modify Gersch Device to use projectileSpeedUp instead of projectileSpeedRelativeUp
 * Find a way to be able to shoot through more than 3 zombies
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
 * Add BO2 meat FX and grief FX in game
@@ -1177,8 +1178,9 @@
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
 * Test meat in coop (now using IsTouching() on players)
-* Test Trench Gun 3rd person sounds
+* Trench Gun: test 3rd person sounds
 * Ray Gun: test 3rd person dry fire sound
+* Gersh Device: test 3rd person sounds
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds
@@ -1255,8 +1257,10 @@
 * **_xSanchez78_** - assisted with client scripting and localized strings
 * **_Kody_** - Wunderwaffe gold camo, fixed CIA and CDC viewmodels, assisted with animations
 * **_HitmanVere_** - sprint and dive animations for World at War weapons
-* **_UltraZombieDino_** - Black Ops 3 P.E.S. model and animations, Black Ops 2 Ray Gun first raise and dry fire sounds, World at War marine models, assisted with World at War weapon models
+* **_UltraZombieDino_** - Black Ops 3 P.E.S. model and animations, Black Ops 3 Gersch Device model, Black Ops 2 Ray Gun first raise and dry fire sounds, World at War marine models, assisted with World at War weapon models
 * **_KagamineAddict_** - updated P.E.S. visor texture
+* **_Killer Potato_** - Call of Duty: WWII Stielhandgranate HUD icon
+* **_Jerri13_** - Black Ops 3 Gersch Device model
 * **_ZeRoY_** - function list
 * **_UGX_** - scripting reference
 * **_SE2Dev_** - LinkerMod
