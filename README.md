@@ -1127,7 +1127,6 @@
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
 * Scoped Kar98k: use original scope overlay?
-* Molotov Cocktail: fix flame not going on bottle (Use WaW model/anims)
 * Get voicelines from WaW for marine characters on Nacht and Verruckt
 * Type 100: add empty sprint and dive anims
 * Thompson: add empty sprint and dive anims
