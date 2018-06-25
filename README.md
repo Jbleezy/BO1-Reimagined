@@ -166,7 +166,6 @@
 ### Ballistic Knife
 * Knives pick up automatically when close to them
 * Fixed a bug where a knife could be picked up if the player had max reserve ammo
-* Instantly starts reloading after firing the knife
 * Obtaining the Bowie Knife or Sickle no longer gives you more ammo
 * Fixed a bug where a knife could not be picked up if another knife is fired after the first knife and lands before the first knife
 * No longer gibs zombies on impact
@@ -186,10 +185,9 @@
 ### China Lake
 * Can now fire without aiming
 * Now rechambers while aiming
-* Decreased time to start rechambering after firing from .4 seconds to .2 seconds
+* Decreased time to start rechambering and reloading after firing from 1 second to .5 seconds
 * Unupgraded: decreased rechamber time from 2 seconds to 1 second
 * Upgraded: decreased rechamber time from 1.4 seconds to .7 seconds
-* Instantly starts reloading after firing the last shot
 * Unupgraded: impact damage - 1250
 * Unupgraded: maximum explosion damage - 1000
 * Unupgraded: minimum explosion damage - 500
@@ -198,7 +196,6 @@
 * Upgraded: minimum explosion damage - 1000
 
 ### Crossbow
-* Instantly starts reloading after firing the bolt
 * Crossbow bolt beeping rate no longer changes depending on your FPS
 * No longer gibs zombies on impact
 * Unupgraded: increased impact damage from 675 to 750 (weapon file shows it is suppose to do this amount of damage but it does not)
@@ -280,7 +277,6 @@
 * Upgraded: decreased grenade launcher explosion radius by 36%
 * Upgraded: grenade launcher impact damage - 1500
 * Upgraded: grenade launcher maximum damage - 1500
-* Upgraded: grenade launcher instantly starts reloading after firing the last shot
 * Upgraded: added name of weapon attachment on HUD
 * Upgraded: ammo for weapon attachment now shows on HUD
 
@@ -292,7 +288,6 @@
 ### M72 LAW
 * Can now fire without aiming
 * Fixed dive to prone animation from looping
-* Instantly starts reloading after firing the last shot
 * Unupgraded: impact damage - 2000
 * Unupgraded: maximum explosion damage - 1500
 * Unupgraded: minimum explosion damage - 1000
@@ -390,7 +385,6 @@
 #### Thundergun
 * Gives 50 points for each kill
 * No longer does any damage to any enemies that are knocked down and not killed
-* Decreased time to start reloading after firing the last shot
 
 #### Winter's Howl
 * Unupgraded: minimum damage - 500
@@ -1091,7 +1085,7 @@
 * Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)
 * Change perk bottle weapons to only use one weapon file using worldModel and gunModel
-* COTD: fix Director not doing anim when initially getting angry
+* COTD: fix Director not doing anim when getting angry
 * Fix being able to cancel melee animation by switching weapons with a weapon that has an empty clip
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
@@ -1106,11 +1100,10 @@
 * Deadshot: add fast ADS move speed correctly
 * Show player's perks when spectating (player.spectatorclient?)
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
-* Fix trench gun 3rd person sounds being too loud
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Fix sprint and dive anims on Ray Gun
 * Fix Der Riese Nikolai viewhands for FG42
-* Fix Ballistic Knife first raise anim (shows knife at very bottom center of screen at end of anim)
+* Fix Ballistic Knife first raise anim (shows ring at very bottom center of screen at end of anim)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
@@ -1137,6 +1130,7 @@
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 * Grief: after enemy team downs, only zombies left for the round are the zombies that are currently spawned in?
+* Add Richtofen announcer sounds from Black Ops 2
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1149,7 +1143,6 @@
 * Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge
 * Fix Ascension monkey pathing
 * Fix kino round skip bug
-* COTD: fix bug where director does not do angry anim when he should (happened with upgraded waffe powerup but can't reproduce, might be fixed)
 * Fix Wunderwaffe not arcing after first kill rarely
 * Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
 
@@ -1176,10 +1169,6 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
-* Test meat in coop (now using IsTouching() on players)
-* Trench Gun: test 3rd person sounds
-* Ray Gun: test 3rd person dry fire sound
-* Gersh Device: test 3rd person sounds
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds

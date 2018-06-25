@@ -211,8 +211,8 @@ weapon,sp/knife_ballistic_bowie_zm
 weapon,sp/knife_ballistic_bowie_upgraded_zm
 weapon,sp/knife_ballistic_sickle_zm
 weapon,sp/knife_ballistic_sickle_upgraded_zm
-weapon,sp/thundergun_zm
-weapon,sp/thundergun_upgraded_zm
+//weapon,sp/thundergun_zm
+//weapon,sp/thundergun_upgraded_zm
 weapon,sp/crossbow_explosive_zm
 weapon,sp/crossbow_explosive_upgraded_zm
 weapon,sp/explosive_bolt_zm
