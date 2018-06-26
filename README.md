@@ -7,7 +7,7 @@
 
 [Twitter](https://twitter.com/jbird_justin)
 
-[Donate](https://www.paypal.me/Jbleezy/10)
+[Donate](https://streamlabs.com/jbleezy)
 
 ## Change Notes
 
@@ -634,7 +634,7 @@
 * Zombies killed from a Nuke count as kills for the player who grabbed the Nuke
 
 ### Wunderwaffe (Powerup)
-* Powerup model now shows Wunderwaffe weapon model
+* Now displays lightning bolt model
 * Switch weapons to end powerup duration
 * Powerup can now drop while one is already active
 
@@ -1080,7 +1080,6 @@
 * Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife, Molotov)
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim
-* Thundergun: speed up last shot anim
 * Der Riese: use WaW pap camo for all weapons except Wunderwaffe
 * Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)

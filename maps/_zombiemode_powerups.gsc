@@ -126,7 +126,7 @@ init_powerups()
 	add_zombie_powerup( "free_perk", "zombie_pickup_perk_bottle", &"ZOMBIE_POWERUP_FREE_PERK", false, false, false );
 
 	// tesla
-	add_zombie_powerup( "tesla", "zombie_pickup_minigun", &"ZOMBIE_POWERUP_MINIGUN", true, false, false );
+	add_zombie_powerup( "tesla", "lightning_bolt", &"ZOMBIE_POWERUP_MINIGUN", true, false, false );
 
 	// random weapon
 	add_zombie_powerup( "random_weapon", "zombie_pickup_minigun", &"ZOMBIE_POWERUP_MAX_AMMO", true, false, false );
@@ -1140,7 +1140,12 @@ powerup_setup( powerup_override )
 			self thread powerup_weapon_trigger_cleanup(trigger);
 		}
 	}
-	else if(powerup == "tesla")
+	else
+	{
+		self SetModel( struct.model_name );
+	}
+
+	if(powerup == "tesla")
 	{
 		if(IsDefined(level.upgraded_tesla_reward) && level.upgraded_tesla_reward)
 		{
@@ -1153,13 +1158,6 @@ powerup_setup( powerup_override )
 
 		self.base_weapon = self.weapon;
 		struct.weapon = self.weapon;
-
-		self SetModel( GetWeaponModel( self.weapon ) );
-		self useweaponhidetags( self.weapon );
-	}
-	else
-	{
-		self SetModel( struct.model_name );
 	}
 
 	//TUEY Spawn Powerup
@@ -3379,10 +3377,10 @@ tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon, weapon_s
 		}
 	}
 
-	ent_player TakeWeapon( weapon );
-
 	ent_player DisableWeaponCycling();
 	ent_player waittill("weapon_change");
+
+	ent_player TakeWeapon( weapon );
 
 	ent_player.has_tesla = false;
 	ent_player.has_powerup_weapon = false;
