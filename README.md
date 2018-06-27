@@ -478,6 +478,7 @@
 * Fire sale box can spawn at locations where the box has been hacked
 
 #### Matroyshka Dolls
+* Now uses model from Black Ops 3
 * Deal infinite damage (except for the Director)
 * Damage increased from 4500 to 9000 on the Director
 
@@ -488,7 +489,7 @@
 * Removed on Nacht, Verruckt, and Shi No Numa
 
 #### P.E.S.
-* Added Black Ops 3 model and animations
+* Now uses model and animations from Black Ops 3
 * Players now only lose their helmet when taking different equipment
 * Fixed a bug where players were able to get no weapon in their hand by pressing the P.E.S. helmet button repeatedly
 * Changed name from "P.E.S" to "P.E.S."
@@ -1078,7 +1079,7 @@
 ## TODO
 * Add Springfield chalk
 * Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife, Molotov)
-* Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Matroyshka Dolls, QED, Monkey Bomb, Hacker)
+* Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, QED, Monkey Bomb, Hacker)
 * China Lake: speed up rechamber anim
 * Der Riese: use WaW pap camo for all weapons except Wunderwaffe
 * Add death hands from BO2 when you die
