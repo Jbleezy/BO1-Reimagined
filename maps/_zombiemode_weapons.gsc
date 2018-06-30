@@ -3810,35 +3810,38 @@ weapon_type_check(weapon)
     if( !IsDefined( self.entity_num ) )
         return "crappy";
 
-    switch(self.entity_num)
+    if(level.script != "zombie_cod5_prototype" && level.script != "zombie_cod5_asylum")
     {
-        case 0:   //DEMPSEY'S FAVORITE WEAPON: M16 UPGRADED: ROTTWEIL72
-            if( weapon == "m16_zm" )
-                return "favorite";
-            else if( weapon == "rottweil72_upgraded_zm" )
-                return "favorite_upgrade";
-            break;
+    	switch(self.entity_num)
+	    {
+	        case 0:   //DEMPSEY'S FAVORITE WEAPON: M16 UPGRADED: ROTTWEIL72
+	            if( weapon == "m16_zm" )
+	                return "favorite";
+	            else if( weapon == "rottweil72_upgraded_zm" )
+	                return "favorite_upgrade";
+	            break;
 
-        case 1:   //NIKOLAI'S FAVORITE WEAPON: FNFAL UPGRADED: HK21
-            if( weapon == "fnfal_zm" )
-                return "favorite";
-            else if( weapon == "hk21_upgraded_zm" )
-                return "favorite_upgrade";
-            break;
+	        case 1:   //NIKOLAI'S FAVORITE WEAPON: FNFAL UPGRADED: HK21
+	            if( weapon == "fnfal_zm" )
+	                return "favorite";
+	            else if( weapon == "hk21_upgraded_zm" )
+	                return "favorite_upgrade";
+	            break;
 
-        case 2:   //TAKEO'S FAVORITE WEAPON: M202 UPGRADED: THUNDERGUN
-            if( weapon == "china_lake_zm" )
-                return "favorite";
-            else if( weapon == "thundergun_upgraded_zm" )
-                return "favorite_upgrade";
-            break;
+	        case 2:   //TAKEO'S FAVORITE WEAPON: M202 UPGRADED: THUNDERGUN
+	            if( weapon == "china_lake_zm" )
+	                return "favorite";
+	            else if( weapon == "thundergun_upgraded_zm" )
+	                return "favorite_upgrade";
+	            break;
 
-        case 3:   //RICHTOFEN'S FAVORITE WEAPON: MP40 UPGRADED: CROSSBOW
-            if( weapon == "mp40_zm" )
-                return "favorite";
-            else if( weapon == "crossbow_explosive_upgraded_zm" )
-                return "favorite_upgrade";
-            break;
+	        case 3:   //RICHTOFEN'S FAVORITE WEAPON: MP40 UPGRADED: CROSSBOW
+	            if( weapon == "mp40_zm" )
+	                return "favorite";
+	            else if( weapon == "crossbow_explosive_upgraded_zm" )
+	                return "favorite_upgrade";
+	            break;
+	    }
     }
 
     if( IsSubStr( weapon, "upgraded" ) )

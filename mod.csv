@@ -5,6 +5,7 @@ rawfile,maps/_gameskill.gsc
 rawfile,maps/_laststand.gsc
 rawfile,maps/_weaponobjects.gsc
 rawfile,maps/_zombiemode.gsc
+rawfile,maps/_zombiemode_audio.gsc
 rawfile,maps/_zombiemode_auto_turret.gsc
 rawfile,maps/_zombiemode_blockers.gsc
 rawfile,maps/_zombiemode_bowie.gsc

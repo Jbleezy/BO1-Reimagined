@@ -686,6 +686,19 @@ create_and_play_dialog( category, type, response, force_variant, override )
 		self.sound_dialog = [];
 		self.sound_dialog_available = [];
 	}
+
+	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum")
+	{
+		if(level.script == "zombie_cod5_prototype" && IsSubStr(alias_suffix, "level_start"))
+		{
+			return;
+		}
+
+		alias_suffix += "_cod5_asylum";
+		prefix = "vox_plr_0_";
+	}
+
+	//iprintln(alias_suffix);
 				
 	if ( !IsDefined ( self.sound_dialog[ alias_suffix ] ) )
 	{
@@ -756,6 +769,8 @@ do_player_playvox( prefix, index, sound_to_play, waittime, category, type, overr
 	
 	if( level.player_is_speaking != 1 )
 	{
+		//iprintln("playing - " + sound_to_play);
+
 		level.player_is_speaking = 1;
 		self playsound( prefix + sound_to_play, "sound_done" + sound_to_play );			
 		self waittill( "sound_done" + sound_to_play );
