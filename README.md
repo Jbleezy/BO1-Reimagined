@@ -1123,7 +1123,6 @@
 * Type 100: add empty sprint and dive anims
 * Thompson: add empty sprint and dive anims
 * Bouncing Betty: add better sprint and dive anims
-* Molotov: speed up hold fire sound
 
 ### Versus Todo
 * Add new grief damage fx
