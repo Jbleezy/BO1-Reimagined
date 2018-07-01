@@ -8664,57 +8664,21 @@ box_weapon_changes()
 {
 	flag_wait("all_players_connected");
 
-	if(level.script == "zombie_cod5_prototype")
+	if(IsSubStr(level.script, "zombie_cod5_"))
 	{
-		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
-		level.zombie_weapons["zombie_m1carbine"].is_in_box = true;
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel_sawed"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
-		level.zombie_weapons["zombie_bar"].is_in_box = true;
-		level.zombie_weapons["zombie_cymbal_monkey"].is_in_box = false;
+		weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" );
+		for( i = 0; i < weapon_spawns.size; i++ )
+		{
+	        if(WeaponType(weapon_spawns[i].zombie_weapon_upgrade) != "grenade" && !level.zombie_weapons[weapon_spawns[i].zombie_weapon_upgrade].is_in_box)
+	        {
+	        	level.zombie_weapons[weapon_spawns[i].zombie_weapon_upgrade].is_in_box = true;
+	        }
+		}
 	}
-	if(level.script == "zombie_cod5_asylum")
+
+	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.script == "zombie_cod5_sumpf")
 	{
-		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
-		level.zombie_weapons["zombie_springfield"].is_in_box = true;
-		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
-		level.zombie_weapons["zombie_m1garand"].is_in_box = true;
-		level.zombie_weapons["mp40_zm"].is_in_box = true;
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
-		level.zombie_weapons["zombie_stg44"].is_in_box = true;
-		level.zombie_weapons["zombie_bar"].is_in_box = true;
 		level.zombie_weapons["zombie_cymbal_monkey"].is_in_box = false;
-	}
-	if(level.script == "zombie_cod5_sumpf")
-	{
-		level.zombie_weapons["zombie_type99_rifle"].is_in_box = true;
-		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
-		level.zombie_weapons["zombie_m1carbine"].is_in_box = true;
-		level.zombie_weapons["zombie_m1garand"].is_in_box = true;
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
-		level.zombie_weapons["mp40_zm"].is_in_box = true;
-		level.zombie_weapons["zombie_stg44"].is_in_box = true;
-		level.zombie_weapons["zombie_type100_smg"].is_in_box = true;
-		level.zombie_weapons["zombie_bar"].is_in_box = true;
-		level.zombie_weapons["zombie_cymbal_monkey"].is_in_box = false;
-	}
-	if(level.script == "zombie_cod5_factory")
-	{
-		level.zombie_weapons["zombie_kar98k"].is_in_box = true;
-		level.zombie_weapons["zombie_gewehr43"].is_in_box = true;
-		level.zombie_weapons["zombie_m1carbine"].is_in_box = true;
-		level.zombie_weapons["zombie_doublebarrel"].is_in_box = true;
-		level.zombie_weapons["zombie_thompson"].is_in_box = true;
-		level.zombie_weapons["zombie_shotgun"].is_in_box = true;
-		level.zombie_weapons["mp40_zm"].is_in_box = true;
-		level.zombie_weapons["zombie_stg44"].is_in_box = true;
-		level.zombie_weapons["zombie_type100_smg"].is_in_box = true;
-		level.zombie_weapons["zombie_fg42"].is_in_box = true;
 	}
 }
 
@@ -8755,13 +8719,14 @@ give_weapons_test()
 {
 	//wep = "freezegun_upgraded_zm";
 	//wep = "thundergun_zm";
-	//wep = "sniper_explosive_upgraded_zm";
+	//wep = "sniper_explosive_zm";
 	//wep = "humangun_upgraded_zm";
 	//wep = "shrink_ray_upgraded_zm";
 	//wep = "tesla_gun_upgraded_zm";
-	//wep = "ray_gun_upgraded_zm";
+	//wep = "china_lake_zm";
 	//wep = "crossbow_explosive_zm";
 	//wep = "ak47_ft_upgraded_zm";
+	wep = "ray_gun_zm";
 
 	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
@@ -8814,7 +8779,7 @@ give_weapons_test()
 	origin = self.origin;
 	wait 5;
 	//level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "full_ammo", origin, true );*/
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );*/
 
 	/*wait 10;
 	iprintln("spawning");
@@ -8895,7 +8860,7 @@ velocity_test()
 disable_character_dialog()
 {
 	flag_wait("all_players_connected");
-	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.gamemode != "survival")
+	if(level.gamemode != "survival")
 	{
 		while(1)
 		{
@@ -8933,7 +8898,7 @@ character_names_on_hud()
 	self SetClientDvar( "hud_player_zm_name_on_yellow", false );
 	self SetClientDvar( "hud_player_zm_name_on_green", false );
 
-	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.gamemode != "survival")
+	if(level.gamemode != "survival")
 		return;
 
 	flag_wait("all_players_spawned");
@@ -8946,6 +8911,10 @@ character_names_on_hud()
 		{
 			name = players[j] [[level._zombiemode_get_player_name_string]](players[j].entity_num);
 		}
+		else if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum")
+		{
+			name = "REIMAGINED_ZOMBIE_COD5_ASYLUM_PLAYER_NAME_" + players[j].entity_num;
+		} 
 		else if(level.script == "zombie_pentagon")
 		{
 			name = "REIMAGINED_ZOMBIE_PENTAGON_PLAYER_NAME_" + players[j].entity_num;

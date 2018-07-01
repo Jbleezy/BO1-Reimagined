@@ -812,11 +812,11 @@
 * Added out of bounds death barriers to all maps
 
 ### Nacht Der Untoten
-* Now uses marine characters from World at War
+* Now uses marine characters and voicelines from World at War
 * Removed character dialog
 
 ### Verruckt
-* Now uses marine characters from World at War
+* Now uses marine characters and voicelines from World at War
 * Fixed zombie pathing near Speed Cola
 * Removed character dialog
 * Removed intro text
@@ -1120,7 +1120,6 @@
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
 * Scoped Kar98k: use original scope overlay?
-* Get voicelines from WaW for marine characters on Nacht and Verruckt
 * Type 100: add empty sprint and dive anims
 * Thompson: add empty sprint and dive anims
 * Bouncing Betty: add better sprint and dive anims
@@ -1163,7 +1162,6 @@
 * Health bar for player's health?
 * Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo?
 * Add C4?
-* Verruckt: replace one of the Double Barrel wall buys with sawed off Double Barrel?
 
 ### Testing
 * Moon sidequest dialog in coop without Richtofen
