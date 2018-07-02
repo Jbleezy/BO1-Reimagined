@@ -4612,6 +4612,7 @@ zombie_follow_enemy()
 				{
 					already_at_override = true;
 					wait(RandomFloat(1.0));
+					continue;
 				}
 				self do_a_taunt();
 			}

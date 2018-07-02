@@ -205,6 +205,10 @@ black_hole_bomb_cleanup( parent, model )
 			{
 				model Delete();
 
+				level notify("attractor_positions_generated");
+
+				//level thread anims_test();
+
 				wait_network_frame();
 			}
 			break;
@@ -214,6 +218,20 @@ black_hole_bomb_cleanup( parent, model )
 	}
 
 	level thread black_hole_bomb_corpse_collect( grenade_org );
+}
+
+anims_test()
+{
+	wait .2;
+
+	zombs = GetAiSpeciesArray("axis");
+	for(i=0;i<zombs.size;i++)
+	{
+		if(IsSubStr(zombs[i] black_hole_bomb_store_movement_anim(), "fast_pull"))
+		{
+			iprintln("anim didnt switch");
+		}
+	}
 }
 
 black_hole_bomb_corpse_collect( vec_origin )
