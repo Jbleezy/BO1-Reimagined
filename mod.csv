@@ -226,10 +226,12 @@ weapon,sp/minigun_zm
 weapon,sp/knife_zm
 weapon,sp/bowie_knife_zm
 weapon,sp/sickle_knife_zm
+weapon,sp/zombie_bowie_flourish
 weapon,sp/zombie_sickle_flourish
 weapon,sp/stielhandgranate
 weapon,sp/frag_grenade_zm
 weapon,sp/sticky_grenade_zm
+weapon,sp/zombie_cymbal_monkey
 weapon,sp/zombie_black_hole_bomb
 weapon,sp/mine_bouncing_betty
 weapon,sp/claymore_zm
@@ -366,6 +368,8 @@ xmodel,t5_nesting_bomb_world_doll4_dempsey
 xmodel,t5_nesting_bomb_world_doll4_nikolai
 xmodel,t5_nesting_bomb_world_doll4_takeo
 xmodel,t5_nesting_bomb_world_doll4_richtofen
+xmodel,t5_weapon_quantum_bomb_viewmodel
+xmodel,t5_weapon_quantum_bomb_world
 
 //ANIMS
 //xanim,pt_radio_stand_raise

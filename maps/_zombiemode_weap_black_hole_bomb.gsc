@@ -222,7 +222,7 @@ black_hole_bomb_cleanup( parent, model )
 
 anims_test()
 {
-	wait .2;
+	wait 1;
 
 	zombs = GetAiSpeciesArray("axis");
 	for(i=0;i<zombs.size;i++)

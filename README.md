@@ -516,6 +516,7 @@
 * Added throw back animation
 
 #### QED
+* Now uses model from Black Ops 3
 * 100% chance of fling effect when thrown near Cosmonaut or zombie
 * 100% chance of reviving player when thrown near downed player
 * 100% chance of giving perk when thrown near a perk machine that is powered on
@@ -1078,8 +1079,8 @@
 
 ## TODO
 * Add Springfield chalk
-* Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife, Molotov)
-* Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, QED, Monkey Bomb, Hacker)
+* Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife, Molotov, Tranzit Monkey Bomb)
+* Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Hacker)
 * China Lake: speed up rechamber anim
 * Der Riese: use WaW pap camo for all weapons except Wunderwaffe
 * Add death hands from BO2 when you die
@@ -1114,7 +1115,6 @@
 * Rename some zone names
 * Fix Nikolai viewhands
 * Fix textures getting changed when getting sprayed with flamethrower attachment
-* Optimize Gersch Device code
 * Optimize zombies in barrier and traversing barrier code
 * Make it so switching to weapon powerup doesn't take fast switch perk into account
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
@@ -1123,6 +1123,7 @@
 * Type 100: add empty sprint and dive anims
 * Thompson: add empty sprint and dive anims
 * Bouncing Betty: add better sprint and dive anims
+* Gersch Device: fix zombies not always switching back to normal run anim when Gersch Device ends
 
 ### Versus Todo
 * Add new grief damage fx
