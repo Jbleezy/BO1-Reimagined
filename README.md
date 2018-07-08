@@ -275,6 +275,9 @@
 * Fixed raise animation
 * Decreased raise time from .8 seconds to .6 seconds
 
+### M14
+* Added empty clip animations
+
 ### M16
 * Unupgraded: increased reserve ammo from 120 to 150
 * Upgraded: decreased grenade launcher explosion radius by 36%
@@ -1107,7 +1110,7 @@
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Fix sprint and dive anims on Ray Gun
 * Fix Der Riese Nikolai viewhands for FG42
-* Fix Ballistic Knife first raise anim (shows ring at very bottom center of screen at end of anim)
+* Fix Ballistic Knife first raise anim (shows ring at very bottom center of screen at end of anim, modify from .xanim_export file)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
@@ -1123,9 +1126,8 @@
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
 * Scoped Kar98k: use original scope overlay?
-* Type 100: add empty sprint and dive anims
 * Thompson: add empty sprint and dive anims
-* Add empty sprint, dive, pullout, and putaway anims to M14 (regular and grip), PM63 (regular and dual wield), CZ75 Dual Wield
+* Add empty sprint, dive, pullout, and putaway anims to PM63 (regular and dual wield), Ballistic Knife, CZ75 Dual Wield, M1911 Dual Wield
 * Bouncing Betty: add better sprint and dive anims
 * Gersch Device: fix zombies not always switching back to normal run anim when Gersch Device ends
 * Revert how high the teddybear and box move up

@@ -166,6 +166,8 @@ menufile,ui/hud.menu
 menufile,ui/hud_zombie.menu
 
 //WEAPONS
+weapon,sp/m14_zm
+weapon,sp/m14_upgraded_zm
 weapon,sp/m16_zm
 weapon,sp/m16_gl_upgraded_zm
 weapon,sp/gl_m16_upgraded_zm
