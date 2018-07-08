@@ -207,6 +207,9 @@
 * Upgraded: minimum explosion damage - 1250
 * Upgraded: zombies now get attracted immediately
 
+### CZ75
+* Added empty clip animations
+
 ### CZ75 Dual Wield
 * Reduced recoil
 * Unupgraded: increased reserve ammo from 228 to 240
@@ -1122,8 +1125,10 @@
 * Scoped Kar98k: use original scope overlay?
 * Type 100: add empty sprint and dive anims
 * Thompson: add empty sprint and dive anims
+* Add empty sprint, dive, pullout, and putaway anims to M14 (regular and grip), PM63 (regular and dual wield), CZ75 Dual Wield
 * Bouncing Betty: add better sprint and dive anims
 * Gersch Device: fix zombies not always switching back to normal run anim when Gersch Device ends
+* Revert how high the teddybear and box move up
 
 ### Versus Todo
 * Add new grief damage fx
