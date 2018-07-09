@@ -171,7 +171,8 @@
 * No longer gibs zombies on impact
 * Knife now glows as soon as it is attached to a zombie
 * Knife no longer attaches to a zombie if the knife kills the zombie
-* Fixed first raise animation
+* Fixed first raise animation from showing the ring floating
+* Fixed empty clip animations with Bowie Knife still showing the blade
 * Unupgraded: increased impact damage from 450 to 500 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Upgraded: increased impact damage from 900 to 1000 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Upgraded: ammo now gets added at the same time that it does in the reload animation
@@ -1128,7 +1129,6 @@
 * Scoped Kar98k: use original scope overlay?
 * Thompson: add empty sprint and dive anims
 * Add empty sprint, dive, pullout, and putaway anims to PM63 Dual Wield, CZ75 Dual Wield, M1911 Dual Wield
-* Fix Ballistic Knife w/ Bowie from showing blade on viewmodel when blade is not in
 * Bouncing Betty: add better sprint and dive anims
 * Gersch Device: fix zombies not always switching back to normal run anim when Gersch Device ends
 * Revert how high the teddybear and box move up
