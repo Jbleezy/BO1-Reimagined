@@ -171,6 +171,7 @@
 * No longer gibs zombies on impact
 * Knife now glows as soon as it is attached to a zombie
 * Knife no longer attaches to a zombie if the knife kills the zombie
+* Fixed first raise animation
 * Unupgraded: increased impact damage from 450 to 500 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Upgraded: increased impact damage from 900 to 1000 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Upgraded: ammo now gets added at the same time that it does in the reload animation
@@ -1110,7 +1111,6 @@
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Fix sprint and dive anims on Ray Gun
 * Fix Der Riese Nikolai viewhands for FG42
-* Fix Ballistic Knife first raise anim (shows ring at very bottom center of screen at end of anim, modify from .xanim_export file)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
@@ -1127,11 +1127,12 @@
 * Fix zombies making sounds after death
 * Scoped Kar98k: use original scope overlay?
 * Thompson: add empty sprint and dive anims
-* Add empty sprint, dive, pullout, and putaway anims to Ballistic Knife, PM63 Dual Wield, CZ75 Dual Wield, M1911 Dual Wield
+* Add empty sprint, dive, pullout, and putaway anims to PM63 Dual Wield, CZ75 Dual Wield, M1911 Dual Wield
+* Fix Ballistic Knife w/ Bowie from showing blade on viewmodel when blade is not in
 * Bouncing Betty: add better sprint and dive anims
 * Gersch Device: fix zombies not always switching back to normal run anim when Gersch Device ends
 * Revert how high the teddybear and box move up
-* Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after chaning the number, press Enter then press S
+* Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 
 ### Versus Todo
 * Add new grief damage fx
