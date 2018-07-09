@@ -1127,10 +1127,11 @@
 * Fix zombies making sounds after death
 * Scoped Kar98k: use original scope overlay?
 * Thompson: add empty sprint and dive anims
-* Add empty sprint, dive, pullout, and putaway anims to PM63 (regular and dual wield), Ballistic Knife, CZ75 Dual Wield, M1911 Dual Wield
+* Add empty sprint, dive, pullout, and putaway anims to Ballistic Knife, PM63 Dual Wield, CZ75 Dual Wield, M1911 Dual Wield
 * Bouncing Betty: add better sprint and dive anims
 * Gersch Device: fix zombies not always switching back to normal run anim when Gersch Device ends
 * Revert how high the teddybear and box move up
+* Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after chaning the number, press Enter then press S
 
 ### Versus Todo
 * Add new grief damage fx
@@ -1243,6 +1244,7 @@
 * Make it so players can look up and down 90 degrees (currently at 85)
 * Allow multiple pap camos to be used from weaponOptions.csv (currently only looks for the keyword "gold")
 * Don't allow reload to start during fire time or last fire time
+* Always use empty drop/raise anim if empty (currently quick drop/raise anim will play even when empty)
 
 ## SPECIAL THANKS
 * **_ApexModder_** - perk bump sounds, assisted with localized strings, assisted with client scripting, assisted with menu scripting
