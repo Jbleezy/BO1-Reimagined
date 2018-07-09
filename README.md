@@ -214,6 +214,7 @@
 
 ### CZ75 Dual Wield
 * Reduced recoil
+* Fixed empty drop and raise animations
 * Unupgraded: increased reserve ammo from 228 to 240
 
 ### Double-Barreled Shotgun
