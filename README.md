@@ -1127,7 +1127,6 @@
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
 * Scoped Kar98k: use original scope overlay?
-* Thompson: add empty sprint and dive anims
 * Add empty sprint, dive, pullout, and putaway anims to PM63 Dual Wield, CZ75 Dual Wield, M1911 Dual Wield
 * Bouncing Betty: add better sprint and dive anims
 * Gersch Device: fix zombies not always switching back to normal run anim when Gersch Device ends
