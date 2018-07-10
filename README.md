@@ -214,7 +214,8 @@
 
 ### CZ75 Dual Wield
 * Reduced recoil
-* Fixed empty drop and raise animations
+* Fixed empty clip idle, drop, and raise animations
+* Ammo now gets added at the same time that it does in the reload animation
 * Unupgraded: increased reserve ammo from 228 to 240
 
 ### Double-Barreled Shotgun
@@ -293,6 +294,7 @@
 * Upgraded: impact damage - 2500
 * Upgraded: maximum explosion damage - 2500
 * Upgraded: minimum explosion damage - 1000
+* Upgraded: ammo now gets added at the same time that it does in the reload animation
 
 ### M72 LAW
 * Can now fire without aiming
@@ -320,6 +322,7 @@
 * Upgraded: increased reserve ammo from 225 to 250
 * Upgraded: reduced hipfire spread
 * Upgraded: reduced recoil
+* Upgraded: ammo now gets added at the same time that it does in the reload animation when reloading with an empty clip
 
 ### RPK
 * Fixed animation bug when switching weapons from the RPK with an empty clip
@@ -1128,7 +1131,6 @@
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
 * Scoped Kar98k: use original scope overlay?
-* Add empty sprint, dive, pullout, and putaway anims to PM63 Dual Wield, CZ75 Dual Wield, M1911 Dual Wield
 * Bouncing Betty: add better sprint and dive anims
 * Gersch Device: fix zombies not always switching back to normal run anim when Gersch Device ends
 * Revert how high the teddybear and box move up
@@ -1159,6 +1161,7 @@
 * Add fast ADS to Speed Cola (when it becomes possible through game_mod)
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
+* Add left and right empty idle, drop, raise, sprint, and dive anims for dual wields weapons (engine currently uses only main weapon anims for these)
 
 ### Maybe
 * Remove switching weapons check from perks, knives, and pack-a-punch?
@@ -1246,6 +1249,7 @@
 * Allow multiple pap camos to be used from weaponOptions.csv (currently only looks for the keyword "gold")
 * Don't allow reload to start during fire time or last fire time
 * Always use empty drop/raise anim if empty (currently quick drop/raise anim will play even when empty)
+* Make all dual wield anims work separately for each weapon (currently empty idle, raise, drop, sprint, and dive anims are not separate)
 
 ## SPECIAL THANKS
 * **_ApexModder_** - perk bump sounds, assisted with localized strings, assisted with client scripting, assisted with menu scripting
