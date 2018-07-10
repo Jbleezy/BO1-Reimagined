@@ -559,7 +559,7 @@
 ## Mystery Box
 * Decreased time between uses from 3 seconds to 1.5 seconds
 * Decreased weapon pickup time from 12 seconds to 9 seconds
-* Flies up twice as high when moving
+* Box flies up higher when moving
 * Now plays an animation when spawning in (except for Fire Sale Mystery Boxes)
 * Instantly appears at its new location when moving instead of waiting 8 seconds
 * Wall weapons are in the Mystery Box on classic maps
@@ -1133,7 +1133,6 @@
 * Scoped Kar98k: use original scope overlay?
 * Bouncing Betty: add better sprint and dive anims
 * Gersch Device: fix zombies not always switching back to normal run anim when Gersch Device ends
-* Revert how high the teddybear and box move up
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 
 ### Versus Todo

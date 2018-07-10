@@ -2067,6 +2067,8 @@ treasure_chest_fly_away(up)
 		fake_pieces[i] linkto(anchor);
 	}
 
+	dist = (0,0,75);
+
 	if(up)
 	{
 		self hide_chest();
@@ -2082,7 +2084,7 @@ treasure_chest_fly_away(up)
 			playsoundatposition ("zmb_vox_ann_magicbox", soundpoint.origin );
 		}
 
-		anchor moveto(anchor.origin + (0,0,100), 5);
+		anchor moveto(anchor.origin + dist, 5);
 	}
 	else
 	{
@@ -2091,8 +2093,8 @@ treasure_chest_fly_away(up)
 		playfx(level._effect["poltergeist"], self.chest_origin.origin);
 		playsoundatposition ("zmb_box_poof", soundpoint.origin);
 
-		anchor.origin = anchor.origin + (0,0,100);
-		anchor moveto(anchor.origin - (0,0,100), 2.5);
+		anchor.origin = anchor.origin + dist;
+		anchor moveto(anchor.origin - dist, 2.5);
 	}
 
 	//anchor rotateyaw(360 * 10,5,5);
