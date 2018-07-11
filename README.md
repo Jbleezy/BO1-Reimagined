@@ -464,6 +464,7 @@
 * Now uses model from Black Ops 3
 * Zombies now get attracted immediately
 * Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
+* Fixed a bug where zombies would not always switch back to their normal run animation after a Gersch Device ends
 * Changed upwards projectile speed
 
 #### Hacker
@@ -1132,7 +1133,6 @@
 * Fix zombies making sounds after death
 * Scoped Kar98k: use original scope overlay?
 * Bouncing Betty: add better sprint and dive anims
-* Gersch Device: fix zombies not always switching back to normal run anim when Gersch Device ends
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 
 ### Versus Todo

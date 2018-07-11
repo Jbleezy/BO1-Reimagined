@@ -706,7 +706,7 @@ black_hole_bomb_event_horizon_death( vec_black_hole_org, grenade )
 
 	if(!IsDefined(grenade))
 	{
-		//level notify("attractor_positions_generated");
+		level notify("attractor_positions_generated");
 		return;
 	}
 
@@ -876,6 +876,13 @@ black_hole_bomb_escaped_zombie_reset()
 
 	self._had_legs = undefined;
 	self._bhb_ent_flag_init = 0;
+
+	// run anim doesn't always switch for some reason, if we keep setting self.needs_run_update to true it will eventually change
+	for(i=0;i<30;i++)
+	{
+		wait_network_frame();
+		self.needs_run_update = true;
+	}
 }
 
 // -- black hole bomb anim change throttling
