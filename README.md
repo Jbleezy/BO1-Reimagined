@@ -1092,7 +1092,8 @@
 
 ## TODO
 * Add Springfield chalk
-* Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife, Molotov, Tranzit Monkey Bomb)
+* Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife, Molotov, Tranzit Monkey Bomb) (probably not going to do, look almost exactly the same)
+* Find out how to attach mag model to weapon model for BO2 weapon models
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Hacker)
 * China Lake: speed up rechamber anim
 * Der Riese: use WaW pap camo for all weapons except Wunderwaffe
@@ -1119,7 +1120,6 @@
 * Fix Der Riese Nikolai viewhands for FG42
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
-* Replace WaW weapon viewmodels in BO1 with their equivalents in WaW to see if their model is more correct
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Find a way to be able to shoot through more than 3 zombies
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
@@ -1128,12 +1128,14 @@
 * Fix Nikolai viewhands
 * Fix textures getting changed when getting sprayed with flamethrower attachment
 * Optimize zombies in barrier and traversing barrier code
-* Make it so switching to weapon powerup doesn't take fast switch perk into account
+* Make it so switching to weapon powerup doesn't take fast switch perk into account?
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Fix zombies making sounds after death
 * Scoped Kar98k: use original scope overlay?
 * Bouncing Betty: add better sprint and dive anims
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
+* Fix Thompson viewmodel (problem is degenerate tris discarded, part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
+* Get fx "maps/zombie/fx_zombie_tesla_ug_elec_bolt" from someone (verified integrity of mod tools and now it's gone)
 
 ### Versus Todo
 * Add new grief damage fx
