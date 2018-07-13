@@ -4078,51 +4078,23 @@ meat_powerup_create_meat_stink_player(player)
 	}
 
 	self notify("player meat");
+	if(IsDefined(self.fx))
+	{
+		self.fx Delete();
+	}
 	self Delete();
 
-	model = Spawn("script_model", player_stuck.origin);
-	model.angles = player_stuck GetPlayerAngles();
-	model LinkTo(player_stuck);
-
-	model.fx = [];
-	for(i = 1; i <= 5; i++)
-	{
-		if(i == 1)
-			ent = Spawn("script_model", model.origin);
-		else if(i == 2)
-			ent = Spawn("script_model", model.origin + (20, 0, 0));
-		else if(i == 3)
-			ent = Spawn("script_model", model.origin - (20, 0, 0));
-		else if(i == 4)
-			ent = Spawn("script_model", model.origin + (0, 20, 0));
-		else
-			ent = Spawn("script_model", model.origin - (0, 20, 0));
-
-		ent.angles = model.angles;
-		ent SetModel("tag_origin");
-		ent LinkTo(model);
-
-		PlayFXOnTag(level._effect["meat_stink"], ent, "tag_origin");
-
-		model.fx[model.fx.size] = ent;
-	}
+	fx = Spawn("script_model", player_stuck.origin);
+	fx.angles = player_stuck GetPlayerAngles();
+	fx SetModel("tag_origin");
+	fx LinkTo(player_stuck);
+	PlayFXOnTag(level._effect["meat_stink"], fx, "tag_origin");
 
 	player_stuck meat_powerup_activate_meat_on_player(15);
 
-	if(IsDefined(model.fx))
+	if(IsDefined(fx))
 	{
-		for(i = 0; i < model.fx.size; i++)
-		{
-			if(IsDefined(model.fx[i]))
-			{
-				model.fx[i] Delete();
-			}
-		}
-	}
-
-	if(IsDefined(model))
-	{
-		model Delete();
+		fx Delete();
 	}
 }
 
@@ -4130,14 +4102,17 @@ meat_powerup_create_meat_stink(player)
 {
 	self endon("player meat");
 
+	model = Spawn("script_model", self.origin);
+	model.angles = self.angles;
+	model SetModel("tag_origin");
+	model LinkTo(self);
+	self.fx = model;
+	PlayFXOnTag(level._effect["meat_stink"], model, "tag_origin");
+
 	self waittill( "stationary", endpos, normal, angles, attacker, prey, bone );
 
 	origin = self.origin;
 	angles = self.angles;
-
-	model = Spawn("script_model", origin);
-	model.angles = angles;
-	model LinkTo(self);
 
 	valid_poi = check_point_in_active_zone( origin );
 
@@ -4154,29 +4129,6 @@ meat_powerup_create_meat_stink(player)
 		return;
 	}
 
-	model.fx = [];
-	for(i = 1; i <= 5; i++)
-	{
-		if(i == 1)
-			ent = Spawn("script_model", model.origin);
-		else if(i == 2)
-			ent = Spawn("script_model", model.origin + (20, 0, 0));
-		else if(i == 3)
-			ent = Spawn("script_model", model.origin - (20, 0, 0));
-		else if(i == 4)
-			ent = Spawn("script_model", model.origin + (0, 20, 0));
-		else
-			ent = Spawn("script_model", model.origin - (0, 20, 0));
-
-		ent.angles = model.angles;
-		ent SetModel("tag_origin");
-		ent LinkTo(model);
-
-		PlayFXOnTag(level._effect["meat_stink"], ent, "tag_origin");
-
-		model.fx[model.fx.size] = ent;
-	}
-
 	attract_dist_diff = 45;
 	num_attractors = 96;
 	max_attract_dist = 1536;
@@ -4188,17 +4140,6 @@ meat_powerup_create_meat_stink(player)
 	wait 15;
 
 	level notify("attractor_positions_generated");
-
-	if(IsDefined(model.fx))
-	{
-		for(i = 0; i < model.fx.size; i++)
-		{
-			if(IsDefined(model.fx[i]))
-			{
-				model.fx[i] Delete();
-			}
-		}
-	}
 
 	if(IsDefined(model))
 	{

@@ -4726,6 +4726,7 @@ round_think()
 			level.round_number = 100;
 			level.zombie_vars["zombie_spawn_delay"] = .08;
 			level.zombie_move_speed = 100;
+			//level.zombie_ai_limit = 1;
 		}
 
 		//////////////////////////////////////////
@@ -5523,7 +5524,30 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		{
 			if(level.gamemode != "survival" && eAttacker.vsteam != self.vsteam)
 			{
+				if(sWeapon == "mine_bouncing_betty" && self GetStance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
+					return 0;
+
 				self thread maps\_zombiemode_grief::grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc);
+
+				//only nades, mines, and flops do actual damage
+				if(!self HasPerk( "specialty_flakjacket" ))
+				{
+					if(sMeansOfDeath == "MOD_GRENADE_SPLASH" && (sWeapon == "frag_grenade_zm" || sWeapon == "sticky_grenade_zm" || sWeapon == "stielhandgranate"))
+					{
+						//nades
+						return 25;
+					}
+					else if( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" )
+					{
+						//for flops, the origin of the player must be used
+						return 25;
+					}
+					else if( sMeansOfDeath == "MOD_GRENADE_SPLASH" && (is_placeable_mine( sWeapon ) || is_tactical_grenade( sWeapon )) )
+					{
+						//tactical nades and mines
+						return 25;
+					}
+				}
 			}
 			return 0;
 		}
@@ -8726,10 +8750,11 @@ give_weapons_test()
 	//wep = "china_lake_zm";
 	//wep = "crossbow_explosive_zm";
 	//wep = "ak47_ft_upgraded_zm";
-	wep = "ray_gun_zm";
+	wep = "cz75dw_zm";
 
 	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
+	//self SetWeaponAmmoStock(wep, 0);
 	wait_network_frame();
 	self SwitchToWeapon(wep);*/
 
@@ -8775,11 +8800,11 @@ give_weapons_test()
 
 	//level thread maps\_zombiemode_grief::turn_power_on();
 
-	/*wait 1;
+	wait 1;
 	origin = self.origin;
 	wait 5;
 	//level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", origin, true );*/
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "meat", origin, true );
 
 	/*wait 10;
 	iprintln("spawning");
@@ -8806,6 +8831,7 @@ spectator_test()
 	while(1)
 	{
 		//iprintln(GetDvar("ui_test_spectator_name"));
+		//PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
 		wait 1;
 	}
 }

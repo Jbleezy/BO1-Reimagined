@@ -1105,7 +1105,7 @@
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
-* Five: get wall barrier tear down sound and metal vent barrier rebuild sound from other maps working
+* Five: get wall barrier and metal vent barrier tear down and rebuild sounds from other maps working (zmb_rock_fix, zmb_vent_fix, zmb_break_rock_barrier, evt_vent_slat_remove)
 * Try making dvars unchangeable from console
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
@@ -1123,7 +1123,6 @@
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Find a way to be able to shoot through more than 3 zombies
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
-* Add BO2 meat FX and grief FX in game
 * Rename some zone names
 * Fix Nikolai viewhands
 * Fix textures getting changed when getting sprayed with flamethrower attachment
@@ -1135,14 +1134,13 @@
 * Bouncing Betty: add better sprint and dive anims
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (problem is degenerate tris discarded, part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
-* Get fx "maps/zombie/fx_zombie_tesla_ug_elec_bolt" from someone (verified integrity of mod tools and now it's gone)
 
 ### Versus Todo
-* Add new grief damage fx
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 * Grief: after enemy team downs, only zombies left for the round are the zombies that are currently spawned in?
-* Add Richtofen announcer sounds from Black Ops 2
+* Get BO2 sounds: zmb_land_meat, zmb_pickup_meat, zmb_meat_flies, vox_zmba_grief_intro_0, restart, lose, win, 1rivup, 2rivup, 3rivup, solo, 1rivdown, 2rivdown, 3rivdown, 4rivdown
+* Meat: get fx_zmb_meat_impact fx
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1181,6 +1179,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
+* Grief: make sure enemy grief damage still works with new code
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds

@@ -421,30 +421,6 @@ switch_to_combat_knife()
 
 grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 {
-	if(sWeapon == "mine_bouncing_betty" && self getstance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
-		return;
-
-	//only nades, mines, and flops do actual damage
-	if(!self HasPerk( "specialty_flakjacket" ))
-	{
-		//80 DoDamage = 25 actual damage
-		if(sMeansOfDeath == "MOD_GRENADE_SPLASH" && (sWeapon == "frag_grenade_zm" || sWeapon == "sticky_grenade_zm" || sWeapon == "stielhandgranate"))
-		{
-			//nades
-			self DoDamage( 80, eInflictor.origin );
-		}
-		else if( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" )
-		{
-			//for flops, the origin of the player must be used
-			self DoDamage( 80, eAttacker.origin );
-		}
-		else if( sMeansOfDeath == "MOD_GRENADE_SPLASH" && (is_placeable_mine( sWeapon ) || is_tactical_grenade( sWeapon )) )
-		{
-			//tactical nades and mines
-			self DoDamage( 80, eInflictor.origin );
-		}
-	}
-
 	self thread slowdown(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
 
 	if(sMeansOfDeath == "MOD_MELEE" 
@@ -460,9 +436,6 @@ slowdown(weapon, mod, eAttacker, loc)
 	{
 		self.slowdown_wait = false;
 	}
-
-	if(weapon == "mine_bouncing_betty" && self GetStance() == "prone")
-		return;
 
 	//shotguns were being called here for each pellet that hit a player, causing players to earn more grief points than they should have, this prevents that from happening
 	/*if(WeaponClass(weapon) == "spread")
@@ -496,6 +469,7 @@ slowdown(weapon, mod, eAttacker, loc)
 	eAttacker thread grief_downed_points(self);
 
 	PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
+
 	self AllowSprint(false);
 	self SetBlur( 1, .1 );
 
@@ -526,17 +500,21 @@ set_undamaged_after_frame(eAttacker)
 
 push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/ballistic, crouch, regular
 {
-	if(self.push_wait == false)
+	if(!IsDefined(self.push_wait))
 	{
-		amount = 0;
-		self.push_wait = true;
-		if( self GetStance() == "prone" )
-		{
-			wait .75;
-			self.push_wait = false;
-			return;
-		}
-		else if(eAttacker._bowie_zm_equipped || eAttacker._sickle_zm_equipped || sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm")
+		self.push_wait = false;
+	}
+
+	if(self.push_wait == true)
+	{
+		return;
+	}
+
+	self.push_wait = true;
+	amount = 0;
+	if( self GetStance() != "prone" )
+	{
+		if(eAttacker._bowie_zm_equipped || eAttacker._sickle_zm_equipped || sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm")
 		{
 			if(self GetStance() == "crouch")
 			{
@@ -558,10 +536,14 @@ push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/b
 				amount = 300;	
 			}
 		}
-		self SetVelocity( VectorNormalize( self.origin - eAttacker.origin ) * (amount, amount, amount) );
-		wait .75;
-		self.push_wait = false;
 	}
+	
+	if(amount != 0)
+	{
+		self SetVelocity( VectorNormalize( self.origin - eAttacker.origin ) * (amount, amount, amount) );
+	}
+	wait .75;
+	self.push_wait = false;
 }
 
 grief_damage_points(gotgriefed)

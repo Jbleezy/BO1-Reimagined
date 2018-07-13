@@ -2192,7 +2192,7 @@ zombie_boardtear_audio_offset(chunk)
 	else if( IsDefined(chunk.material) && chunk.material == "rock" )
 	{
 	    if(!is_true(level.use_clientside_rock_tearin_fx))
-			{
+		{
 	    	chunk PlaySound( "zmb_break_rock_barrier" );
 	    	wait( randomfloat( 0.3, 0.6 ));
 	    	chunk PlaySound( "zmb_break_rock_barrier" );
