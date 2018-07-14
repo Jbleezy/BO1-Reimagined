@@ -756,6 +756,7 @@
 
 ## Zombies
 * Removed collision from zombies as soon as they are dead
+* No longer make sounds after death
 * Fixed a bug where zombies would bleed out occasionally if they were standing in the same spot they were 30 seconds ago
 * For zombies to not bleed out, a player must now have line of sight to the zombie in addition to looking at the zombie
 * Zombies will now not bleed out if they are in an active zone in addition to being close to a player
@@ -1109,7 +1110,6 @@
 * Try making dvars unchangeable from console
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
-* Make better last powerup FX
 * Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Deadshot: add fast ADS move speed correctly
@@ -1129,12 +1129,10 @@
 * Optimize zombies in barrier and traversing barrier code
 * Make it so switching to weapon powerup doesn't take fast switch perk into account?
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
-* Fix zombies making sounds after death
 * Scoped Kar98k: use original scope overlay?
 * Bouncing Betty: add better sprint and dive anims
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (problem is degenerate tris discarded, part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
-* M1 Carbine: fix non-empty sprint and dive anims (using wrong idle anim)
 
 ### Versus Todo
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
@@ -1142,7 +1140,8 @@
 * Grief: after enemy team downs, only zombies left for the round are the zombies that are currently spawned in?
 * Get BO2 sounds: zmb_land_meat, zmb_pickup_meat, zmb_meat_flies
 * Meat: get fx_zmb_meat_impact fx
-* Rip red powerup fx from BO1
+* Make red powerup FX from Moon work properly
+* Gun Game: change last ending powerup model
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1165,6 +1164,7 @@
 * Add left and right empty idle, drop, raise, sprint, and dive anims for dual wields weapons (engine currently uses only main weapon anims for these)
 
 ### Maybe
+* Ascension: obtain Double Tap by getting perk bottle with all other perks already?
 * Remove switching weapons check from perks, knives, and pack-a-punch?
 * Shangri-La: should mud pit sidequest step need the radio to be activated to work? No
 * Moon: should teleporter gate start going down before power is on? No

@@ -6334,6 +6334,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		return;
 
 	self SetPlayerCollision(0);
+	self StopSounds();
 
 	if( isai(attacker) && isDefined( attacker.script_owner ) )
 	{
