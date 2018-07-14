@@ -59,6 +59,8 @@ init()
 		level thread unlimited_barrier_points();
 		level thread unlimited_zombies();
 	}
+
+	level thread intro_vox();
 }
 
 grief_precache()
@@ -147,6 +149,25 @@ post_all_players_connected()
 	}
 }
 
+intro_vox()
+{
+	flag_wait( "begin_spawning" );
+
+	wait 3;
+
+	sound = "vs_intro_short";
+	if(level.gamemode == "ffa" || level.gamemode == "gg")
+	{
+		sound = "vs_intro_short_ffa";
+	}
+
+	players = GetPlayers();
+	for( i = 0; i < players.size; i++ )
+	{
+		players[i] playlocalsound( sound );
+	}
+}
+
 instant_bleedout()
 {
 	self.bleedout_time = 0;
@@ -172,7 +193,7 @@ setup_grief_teams()
 	array = array_randomize(array);
 	for(i=0;i<players.size;i++)
 	{
-		if(level.gamemode == "ffa" || level.gamemode == "gg" || level.gamemode == "turned")
+		if(level.gamemode == "ffa" || level.gamemode == "gg")
 		{
 			if(!IsDefined(level.vsteam))
 			{
@@ -421,6 +442,31 @@ switch_to_combat_knife()
 
 grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 {
+
+	if(sWeapon == "mine_bouncing_betty" && self getstance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
+		return;
+
+	//only nades, mines, and flops do actual damage
+	if(!self HasPerk( "specialty_flakjacket" ))
+	{
+		//80 DoDamage = 25 actual damage
+		if(sMeansOfDeath == "MOD_GRENADE_SPLASH" && (sWeapon == "frag_grenade_zm" || sWeapon == "sticky_grenade_zm" || sWeapon == "stielhandgranate"))
+		{
+			//nades
+			self DoDamage( 80, eInflictor.origin );
+		}
+		else if( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" )
+		{
+			//for flops, the origin of the player must be used
+			self DoDamage( 80, eAttacker.origin );
+		}
+		else if( sMeansOfDeath == "MOD_GRENADE_SPLASH" && (is_placeable_mine( sWeapon ) || is_tactical_grenade( sWeapon )) )
+		{
+			//tactical nades and mines
+			self DoDamage( 80, eInflictor.origin );
+		}
+	}
+
 	self thread slowdown(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
 
 	if(sMeansOfDeath == "MOD_MELEE" 
@@ -671,6 +717,7 @@ grief_msg(msg)
 		self.grief_hud1 FadeOverTime( 1 );
 		self.grief_hud1.alpha = 1;
 		self thread grief_msg_fade_away(self.grief_hud1);
+		self playlocalsound( "vs_" + enemies_alive + "rivup" );
 	}
 	else if (enemies_alive == 0 && players_alive >= 1)
 	{
@@ -678,6 +725,7 @@ grief_msg(msg)
 		self.grief_hud1 FadeOverTime( 1 );
 		self.grief_hud1.alpha = 1;
 		self thread grief_msg_fade_away(self.grief_hud1);
+		self playlocalsound( "vs_0rivup" );
 		wait(2.5);
 		self.grief_hud2 SetText( &"REIMAGINED_SURVIVE_TO_WIN" );
 		self.grief_hud2 FadeOverTime( 1 );
@@ -788,6 +836,7 @@ round_restart(same_round)
 		if(level.gamemode != "snr")
 		{
 			players[i] thread grief_msg(&"REIMAGINED_ANOTHER_CHANCE");
+			players[i] playlocalsound( "vs_restart" );
 		}
 
 		if(level.gamemode == "snr")

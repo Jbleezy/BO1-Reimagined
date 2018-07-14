@@ -482,7 +482,7 @@ iwfx 2
 	billboardPivot 0.000000 -0.000000;
 	billboardSprite
 	{
-		"gfx_fxt_smk_puff"
+		"gfx_fxt_smk_cigar"
 	};
 }
 
@@ -812,7 +812,7 @@ iwfx 2
 	billboardPivot 0.000000 -0.000000;
 	billboardSprite
 	{
-		"gfx_fxt_smk_puff"
+		"gfx_fxt_smk_cigar"
 	};
 }
 

@@ -1926,7 +1926,7 @@ onPlayerDowned()
 			players = get_players();
 			for(i = 0; i < players.size; i++)
 			{
-				//only show grief message from a down if there are no other enemies still alive
+				// only show grief message from a down if there are no other enemies still alive
 				if(players[i].vsteam != self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0)
 				{
 					if(level.gamemode != "race" && level.gamemode != "gg")
@@ -1996,10 +1996,15 @@ onPlayerDeath()
 			players = get_players();
 			for(i = 0; i < players.size; i++)
 			{
-				//only show grief message from a bleed out if there are other enemies still alive
+				// only show grief message from a bleed out if there are other enemies still alive
 				if(players[i].vsteam != self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() > 0)
 				{
 					players[i] thread maps\_zombiemode_grief::grief_msg();
+				}
+
+				if(players[i].vsteam == self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_friendly_players() == 0)
+				{
+					players[i] playlocalsound( "vs_solo" );
 				}
 			}
 		}
@@ -2112,6 +2117,8 @@ onPlayerSpawned()
 				self thread give_weapons_test();
 				//self thread velocity_test();
 
+				self thread player_gravity_fix();
+
 				self thread character_names_on_hud();
 
 				self thread zone_hud();
@@ -2126,7 +2133,7 @@ onPlayerSpawned()
 	}
 }
 
-//unfreeze after a frame so players cant become "frozen" when spawning in if they are holding attack button
+// unfreeze after a frame so players cant become "frozen" when spawning in if they are holding attack button
 unfreeze_controls_after_frame()
 {
 	wait_network_frame();
@@ -3741,7 +3748,7 @@ default_max_zombie_func( max_num )
 {
 	max = max_num;
 
-	if ( level.round_number == 1 ) //fix for moon, level.first_round is being set to false too quick on moon
+	if ( level.round_number == 1 ) // fix for moon, level.first_round is being set to false too quick on moon
 	{
 		max = int( max_num * 0.25 );
 	}
@@ -5524,30 +5531,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		{
 			if(level.gamemode != "survival" && eAttacker.vsteam != self.vsteam)
 			{
-				if(sWeapon == "mine_bouncing_betty" && self GetStance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
-					return 0;
-
 				self thread maps\_zombiemode_grief::grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc);
-
-				//only nades, mines, and flops do actual damage
-				if(!self HasPerk( "specialty_flakjacket" ))
-				{
-					if(sMeansOfDeath == "MOD_GRENADE_SPLASH" && (sWeapon == "frag_grenade_zm" || sWeapon == "sticky_grenade_zm" || sWeapon == "stielhandgranate"))
-					{
-						//nades
-						return 25;
-					}
-					else if( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" )
-					{
-						//for flops, the origin of the player must be used
-						return 25;
-					}
-					else if( sMeansOfDeath == "MOD_GRENADE_SPLASH" && (is_placeable_mine( sWeapon ) || is_tactical_grenade( sWeapon )) )
-					{
-						//tactical nades and mines
-						return 25;
-					}
-				}
 			}
 			return 0;
 		}
@@ -6632,14 +6616,17 @@ end_game()
 			if(!IsDefined(level.vs_winning_team))
 			{
 				survived[i] SetText( &"REIMAGINED_YOU_TIED" );
+				players[i] playlocalsound( "vs_lose" );
 			}
 			else if(players[i].vsteam == level.vs_winning_team)
 			{
 				survived[i] SetText( &"REIMAGINED_YOU_WIN" );
+				players[i] playlocalsound( "vs_win" );
 			}
 			else
 			{
 				survived[i] SetText( &"REIMAGINED_YOU_LOSE" );
+				players[i] playlocalsound( "vs_lose" );
 			}
 		}
 		else if( level.round_number < 2 )
@@ -8800,11 +8787,11 @@ give_weapons_test()
 
 	//level thread maps\_zombiemode_grief::turn_power_on();
 
-	wait 1;
+	/*wait 1;
 	origin = self.origin;
 	wait 5;
 	//level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "meat", origin, true );
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "meat", origin, true );*/
 
 	/*wait 10;
 	iprintln("spawning");
@@ -9304,5 +9291,31 @@ store_last_held_primary_weapon()
 		{
 			self.last_held_primary_weapon = current_wep;
 		}
+	}
+}
+
+// fix for players getting stuck in the air with high fps
+player_gravity_fix()
+{
+	self endon("disconnect");
+
+	force = 1;
+
+	while(1)
+	{
+		vel = self GetVelocity();
+
+		if(!self IsOnGround() && vel[2] == 0)
+		{
+			self SetVelocity( vel + (0, 0, -1 * force) );
+
+			force *= 2;
+		}
+		else if(force != 1)
+		{
+			force = 1;
+		}
+
+		wait_network_frame();
 	}
 }

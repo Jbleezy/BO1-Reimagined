@@ -4123,9 +4123,20 @@ meat_powerup_create_meat_stink(player)
 
 	if(!valid_poi)
 	{
+		if(IsDefined(model))
+		{
+			model Delete();
+		}
+
+		model = Spawn("script_model", self.origin);
+		model.angles = self.angles;
+		model SetModel("tag_origin");
+		model LinkTo(self);
 		model SetModel(GetWeaponModel("meat_zm"));
 		self Hide();
+
 		maps\_zombiemode_weapons::entity_stolen_by_sam( self, model );
+		
 		return;
 	}
 

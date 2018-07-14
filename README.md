@@ -1134,13 +1134,15 @@
 * Bouncing Betty: add better sprint and dive anims
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (problem is degenerate tris discarded, part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
+* M1 Carbine: fix non-empty sprint and dive anims (using wrong idle anim)
 
 ### Versus Todo
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 * Grief: after enemy team downs, only zombies left for the round are the zombies that are currently spawned in?
-* Get BO2 sounds: zmb_land_meat, zmb_pickup_meat, zmb_meat_flies, vox_zmba_grief_intro_0, restart, lose, win, 1rivup, 2rivup, 3rivup, solo, 1rivdown, 2rivdown, 3rivdown, 4rivdown
+* Get BO2 sounds: zmb_land_meat, zmb_pickup_meat, zmb_meat_flies
 * Meat: get fx_zmb_meat_impact fx
+* Rip red powerup fx from BO1
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1179,7 +1181,6 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
-* Grief: make sure enemy grief damage still works with new code
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds
