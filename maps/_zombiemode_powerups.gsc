@@ -1102,7 +1102,7 @@ powerup_setup( powerup_override )
 
 		if(self.weapon == "none")
 		{
-			self SetModel( "zombie_revive" );
+			self SetModel( "void" );
 		}
 		else
 		{
@@ -4086,6 +4086,7 @@ meat_powerup_create_meat_stink_player(player)
 	fx SetModel("tag_origin");
 	fx LinkTo(player_stuck);
 	PlayFXOnTag(level._effect["meat_stink"], fx, "tag_origin");
+	fx PlayLoopSound( "zmb_meat_flies" );
 
 	player_stuck meat_powerup_activate_meat_on_player(15);
 
@@ -4128,6 +4129,7 @@ meat_powerup_create_meat_stink(player)
 
 	PlayFX( level._effect[ "meat_impact" ], self.origin );
 	PlayFXOnTag(level._effect["meat_stink"], model, "tag_origin");
+	model PlayLoopSound( "zmb_meat_flies" );
 
 	attract_dist_diff = 45;
 	num_attractors = 96;

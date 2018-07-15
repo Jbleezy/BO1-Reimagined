@@ -1113,7 +1113,6 @@
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Fix sprint and dive anims on Ray Gun
-* Fix Der Riese Nikolai viewhands for FG42
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
@@ -1133,9 +1132,8 @@
 
 ### Versus Todo
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
-* Get BO2 sounds: zmb_land_meat, zmb_pickup_meat, zmb_meat_flies
+* Get BO2 sounds: zmb_land_meat, zmb_pickup_meat
 * Make red powerup FX from Moon work properly
-* Gun Game: change last ending powerup model
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
