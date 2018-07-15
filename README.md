@@ -44,7 +44,7 @@
 * Round now ends immediately when last zombie is killed (previously up to a one second delay)
 * Players can now red screen after bleeding out and respawning
 * Red screens now start at 25% health (previously 20% health)
-* Reduced self explosive damage from 75 to 70
+* Fixed players getting stuck in the air with high FPS
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
@@ -929,7 +929,6 @@
 ### Moon
 * Added Fire Sale, Max Ammo, and Perk Bottle to jump pad powerup cycle
 * Removed the forced jumping in low gravity
-* Fixed players getting stuck in the air in low gravity with high FPS
 * Excavators will not reactivate for places that have already been breached
 * Fixed the invisible digger glitch
 * Gersch Devices and QEDs no longer breach windows
@@ -1097,12 +1096,10 @@
 * Find out how to attach mag model to weapon model for BO2 weapon models
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Hacker)
 * China Lake: speed up rechamber anim
-* Der Riese: use WaW pap camo for all weapons except Wunderwaffe
 * Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)
 * Change perk bottle weapons to only use one weapon file using worldModel and gunModel
 * COTD: fix Director not doing anim when getting angry
-* Fix being able to cancel melee animation by switching weapons with a weapon that has an empty clip
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
@@ -1110,7 +1107,6 @@
 * Try making dvars unchangeable from console
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
 * Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
-* Look into fixing zombies not going to barriers if they have multiple to choose from (self.entrance_nodes?)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Deadshot: add fast ADS move speed correctly
 * Show player's perks when spectating (player.spectatorclient?)
@@ -1133,13 +1129,11 @@
 * Bouncing Betty: add better sprint and dive anims
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (problem is degenerate tris discarded, part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
+* Look into fixing zombies not going to barriers if they have multiple to choose from (self.target and self.entrance_nodes)
 
 ### Versus Todo
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
-* Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
-* Grief: after enemy team downs, only zombies left for the round are the zombies that are currently spawned in?
 * Get BO2 sounds: zmb_land_meat, zmb_pickup_meat, zmb_meat_flies
-* Meat: get fx_zmb_meat_impact fx
 * Make red powerup FX from Moon work properly
 * Gun Game: change last ending powerup model
 
@@ -1156,6 +1150,7 @@
 * Fix kino round skip bug
 * Fix Wunderwaffe not arcing after first kill rarely
 * Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
+* Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
 
 ### Cannot Do Yet
 * Add fast ADS to Speed Cola (when it becomes possible through game_mod)
@@ -1251,6 +1246,7 @@
 * Don't allow reload to start during fire time or last fire time
 * Always use empty drop/raise anim if empty (currently quick drop/raise anim will play even when empty)
 * Make all dual wield anims work separately for each weapon (currently empty idle, raise, drop, sprint, and dive anims are not separate)
+* Fix being able to cancel melee animation by switching weapons with a weapon that has an empty clip
 
 ## SPECIAL THANKS
 * **_ApexModder_** - perk bump sounds, assisted with localized strings, assisted with client scripting, assisted with menu scripting

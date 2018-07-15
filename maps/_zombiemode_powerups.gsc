@@ -4078,12 +4078,9 @@ meat_powerup_create_meat_stink_player(player)
 	}
 
 	self notify("player meat");
-	if(IsDefined(self.fx))
-	{
-		self.fx Delete();
-	}
 	self Delete();
 
+	PlayFX( level._effect[ "meat_impact" ], self.origin );
 	fx = Spawn("script_model", player_stuck.origin);
 	fx.angles = player_stuck GetPlayerAngles();
 	fx SetModel("tag_origin");
@@ -4102,14 +4099,12 @@ meat_powerup_create_meat_stink(player)
 {
 	self endon("player meat");
 
+	self waittill( "stationary", endpos, normal, angles, attacker, prey, bone );
+
 	model = Spawn("script_model", self.origin);
 	model.angles = self.angles;
 	model SetModel("tag_origin");
 	model LinkTo(self);
-	self.fx = model;
-	PlayFXOnTag(level._effect["meat_stink"], model, "tag_origin");
-
-	self waittill( "stationary", endpos, normal, angles, attacker, prey, bone );
 
 	origin = self.origin;
 	angles = self.angles;
@@ -4123,22 +4118,16 @@ meat_powerup_create_meat_stink(player)
 
 	if(!valid_poi)
 	{
-		if(IsDefined(model))
-		{
-			model Delete();
-		}
-
-		model = Spawn("script_model", self.origin);
-		model.angles = self.angles;
-		model SetModel("tag_origin");
-		model LinkTo(self);
 		model SetModel(GetWeaponModel("meat_zm"));
-		self Hide();
+		self Delete();
 
 		maps\_zombiemode_weapons::entity_stolen_by_sam( self, model );
-		
+
 		return;
 	}
+
+	PlayFX( level._effect[ "meat_impact" ], self.origin );
+	PlayFXOnTag(level._effect["meat_stink"], model, "tag_origin");
 
 	attract_dist_diff = 45;
 	num_attractors = 96;

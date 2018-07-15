@@ -301,6 +301,7 @@ stringtable,weaponoptions.csv
 //FX
 fx,maps/zombie/grief/fx_grief_shock
 fx,weapon/meat/fx_meat_stink
+fx,weapon/meat/fx_meat_impact
 fx,misc/fx_zombie_powerup_on_red
 fx,misc/fx_zombie_powerup_red_grab
 fx,misc/fx_zombie_powerup_red_wave

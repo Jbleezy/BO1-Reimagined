@@ -80,6 +80,7 @@ grief_precache()
 	level._effect["equipment_damage"] = LoadFX( "env/electrical/fx_elec_sparking_oneshot" );
 	level._effect["grief_shock"] = LoadFX("maps/zombie/grief/fx_grief_shock");
 	level._effect["meat_stink"] = Loadfx( "weapon/meat/fx_meat_stink" );
+	level._effect["meat_impact"] = Loadfx( "weapon/meat/fx_meat_impact" );
 
 	PrecacheShader("waypoint_cia");
 	PrecacheShader("waypoint_cdc");
