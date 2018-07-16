@@ -2151,6 +2151,11 @@ update_gungame_weapon(decrement, upgrade)
 			holding_primary = true;
 		}
 
+		if(is_placeable_mine(self GetCurrentWeapon()) && self GetWeaponAmmoClip(self GetCurrentWeapon()) == 0)
+		{
+			holding_primary = true;
+		}
+
 		if ( IsSubStr( primaryWeapons[j], "knife_ballistic_" ) )
 		{
 			self notify( "zmb_lost_knife" );

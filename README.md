@@ -843,8 +843,9 @@
 * Objects can now be seen from farther away
 
 ### Der Riese
-* Fixed Mystery Box use trigger in Trench Gun room
 * Players will no longer get stuck on curbs
+* Zombies now go to the barrier on the right outside of the warehouse more frequently
+* Fixed Mystery Box use trigger in the laboratory
 * Easter egg song now plays the whole song
 * Removed intro text
 
@@ -1128,7 +1129,6 @@
 * Bouncing Betty: add better sprint and dive anims
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (problem is degenerate tris discarded, part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
-* Look into fixing zombies not going to barriers if they have multiple to choose from (self.target and self.entrance_nodes)
 
 ### Versus Todo
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
