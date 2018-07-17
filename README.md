@@ -1096,7 +1096,6 @@
 * Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife, Molotov, Tranzit Monkey Bomb) (probably not going to do, look almost exactly the same)
 * Find out how to attach mag model to weapon model for BO2 weapon models
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Hacker)
-* China Lake: speed up rechamber anim
 * Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)
 * Change perk bottle weapons to only use one weapon file using worldModel and gunModel
@@ -1221,7 +1220,7 @@
 * Add specialty_sprintrecovery perk
 * Add specialty_stalker perk (fast movement while ads)
 * Add perk for faster movement while ads
-* Fix rechamber times changed for existing weapons not showing correct anim when ads (try making legacy mod with modified rechamber time and see if it works how it should)
+* Make ADS rechamber anim speed relative to rechamber time in weapon file (currently only non-ADS rechamber anim speed is changed)
 * Fix being able to throw another grenade at the of another grenades anim
 * Allow fire button to be used to melee with melee weapons
 * Fix alive players movement being stopped when other players spawn in (caused from .sessionstate change)
