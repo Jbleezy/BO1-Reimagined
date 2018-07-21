@@ -415,9 +415,9 @@ set_zombie_run_cycle( new_move_speed )
 		break;
 	case "sprint":
 		var = 1;
-		if(level.script == "zombie_cod5_asylum" && is_true(self.zombie_move_speed_supersprint))
+		if(is_true(self.zombie_move_speed_supersprint))
 		{
-			var = randomintrange(5, 10);
+			var = randomintrange(5, 7);
 		}
 		else
 		{
@@ -450,7 +450,10 @@ set_run_speed()
 
 		if(rand > 100)
 		{
-			self.zombie_move_speed_supersprint = true;
+			if(level.script == "zombie_cod5_asylum" && flag("power_on"))
+			{
+				self.zombie_move_speed_supersprint = true;
+			}
 		}
 	}
 }

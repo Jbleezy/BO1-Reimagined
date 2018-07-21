@@ -136,9 +136,6 @@ main()
 	// added for zombie speed buff
 	level.scr_anim["zombie"]["sprint5"] = %ai_zombie_fast_sprint_01;
 	level.scr_anim["zombie"]["sprint6"] = %ai_zombie_fast_sprint_02;
-	level.scr_anim["zombie"]["sprint7"] = %ai_zombie_sprint_v3;
-	level.scr_anim["zombie"]["sprint8"] = %ai_zombie_sprint_v4;
-	level.scr_anim["zombie"]["sprint9"] = %ai_zombie_sprint_v5;
 }
 
 //*****************************************************************************

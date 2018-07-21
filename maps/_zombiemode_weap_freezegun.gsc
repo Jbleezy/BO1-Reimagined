@@ -322,6 +322,9 @@ freezegun_do_damage( upgraded, player, dist_ratio )
 	if(!IsDefined(self.original_move_speed))
 		self.original_move_speed = self.zombie_move_speed;
 
+	if(!IsDefined(self.original_move_speed_supersprint))
+		self.original_move_speed_supersprint = self.zombie_move_speed_supersprint;
+
 	if(self.original_move_speed == "sprint")
 	{
 		damage = int(level.zombie_health/3) + 1;
@@ -411,7 +414,7 @@ freezegun_damage_response( player, amount )
 	}
 	else if ( 0.33 <= percent_dmg )
 	{
-		if ( "sprint" == self.zombie_move_speed )
+		if ( self.zombie_move_speed == "sprint" )
 		{
 			new_move_speed = "run";
 		}
@@ -421,7 +424,13 @@ freezegun_damage_response( player, amount )
 		}
 	}
 
-	if ( !self.isdog && self.zombie_move_speed != new_move_speed )
+	if ( is_true(self.zombie_move_speed_supersprint) )
+	{
+		self.zombie_move_speed_supersprint = false;
+
+		maps\_zombiemode_spawner::set_zombie_run_cycle( new_move_speed );
+	}
+	else if ( !self.isdog && self.zombie_move_speed != new_move_speed )
 	{
 		maps\_zombiemode_spawner::set_zombie_run_cycle( new_move_speed );
 	}
@@ -576,7 +585,6 @@ freezegun_death( hit_location, hit_origin, player )
 
 	self PlaySound( "wpn_freezegun_impact_zombie" );
 
-
 	if ( IsPlayer( player ) )
 	{
 		if( RandomIntRange(0,101) >= 88 )
@@ -588,7 +596,7 @@ freezegun_death( hit_location, hit_origin, player )
 	anim_len = getanimlength( self.deathanim );
 
 	self thread freezegun_set_extremity_damage_fx();
-	self thread freezegun_set_torso_damage_fx();
+	//self thread freezegun_set_torso_damage_fx();
 
 	shatter_trigger = spawn( "trigger_damage", self.origin, 0, 15, 72 );
 	shatter_trigger enablelinkto();
@@ -601,15 +609,18 @@ freezegun_death( hit_location, hit_origin, player )
 
 	weap = self.damageweapon;
 
-	//self thread freezegun_do_crumple( weap );
+	// wait a frame before shatter for gibs to function properly and not be stuck floating in the air
+	wait_network_frame();
 
-	self thread freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger );
-	self thread freezegun_wait_for_crumple( weap, shatter_trigger, crumple_trigger );
-	self endon( "cleanup_freezegun_triggers" );
+	self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
 
-	wait( RandomFloatRange(2, 2.5) ); // force the zombie to crumple if he is untouched after time
+	//self thread freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger );
+	//self thread freezegun_wait_for_crumple( weap, shatter_trigger, crumple_trigger );
+	//self endon( "cleanup_freezegun_triggers" );
 
-	self thread freezegun_do_crumple( weap, shatter_trigger, crumple_trigger );
+	//wait( RandomFloatRange(2, 2.5) ); // force the zombie to crumple if he is untouched after time
+
+	//self thread freezegun_do_crumple( weap, shatter_trigger, crumple_trigger );
 }
 
 

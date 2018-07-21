@@ -13,7 +13,7 @@
 
 ## General
 * Zombies now only have an additonal spawn delay when a full horde is spawned in
-* Additional spawn delay time reduced from 1.2 seconds to 1 second
+* Decreased additional spawn delay time from 1.2 seconds to 1 second
 * 1 second of immunity to zombies after getting revived (solo and coop)
 * Insta kill rounds (Rounds where zombies have round 1 health) start at round 163 and happen every odd round thereafter
 * All players are attracted equally
@@ -155,7 +155,7 @@
 * Variable zoom scopes now only have one scope option
 
 ### Shotguns
-* Reduced spread when aiming
+* Decreased spread when aiming
 
 ### AK74u
 * Upgraded: fixed fire sound
@@ -213,7 +213,7 @@
 * Added empty clip animations
 
 ### CZ75 Dual Wield
-* Reduced recoil
+* Decreased recoil
 * Fixed empty clip idle, drop, and raise animations
 * Ammo now gets added at the same time that it does in the reload animation
 * Unupgraded: increased reserve ammo from 228 to 240
@@ -248,8 +248,8 @@
 
 ### HS10
 * Upgraded: fixed right weapon fire sound
-* Upgraded: reduced hipfire spread
-* Upgraded: reduced recoil
+* Upgraded: decreased hipfire spread
+* Upgraded: decreased recoil
 
 ### Kar98k
 * Unupgraded: increased damage from 170 to 500
@@ -320,8 +320,8 @@
 ### PM63
 * Unupgraded: increased reserve ammo from 100 to 120
 * Upgraded: increased reserve ammo from 225 to 250
-* Upgraded: reduced hipfire spread
-* Upgraded: reduced recoil
+* Upgraded: decreased hipfire spread
+* Upgraded: decreased recoil
 * Upgraded: ammo now gets added at the same time that it does in the reload animation when reloading with an empty clip
 
 ### RPK
@@ -409,8 +409,8 @@
 * Kills enemies when they are at their slowest move speed (3 shots to kill sprinting enemies)
 * Enemies will only be able to do slow hits after taking damage from the Winter's Howl
 * Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
-* Enemies that die from the Winter's Howl will now crumple away faster after being frozen
-* Upgraded camo now displays on more of the weapon
+* Enemies that die from the Winter's Howl will now shatter immediately
+* Upgraded: camo now displays on more of the weapon
 * Ammo now gets added at the same time that it does in the reload animation
 * Decreased first raise time by 50%
 * Fixed an error in the sprint out animation
@@ -550,7 +550,7 @@
 * All other effects and random powerup effect have a chance of spawning when none of the forced effects are activated
 
 ## Wallbuys
-* Upgraded ammo cost reduced from 4500 points to 2500 points
+* Decreased upgraded ammo cost from 4500 points to 2500 points
 * Can now purchase ammo if reserve ammo is full but clip ammo is not full
 * Can now purchase ammo for weapons with attachments if only the attachment ammo is not full
 * Can now purchase ammo for dual wield weapons if only the left weapon clip is not full
@@ -606,7 +606,7 @@
 
 ### Double Tap
 * 1.5x bullet damage (stacks with Deadshot)
-* Time between burst fire shots reduced by 25%
+* Decreased time between burst fire shots by 25%
 
 ### Deadshot
 * Increased cost from 1000 to 1500
@@ -664,11 +664,11 @@
 * Fixed traps showing damage fx when player is spectating if the player bled out in a trap and the trap is active
 
 ### Electric Traps (All Maps)
-* Stun duration reduced from 2.5 seconds to 1.5 seconds (now matches the duration of the electricity being on screen)
+* Decreased stun duration from 2.5 seconds to 1.5 seconds (now matches the duration of the electricity being on screen)
 * Only the trap handle that was activated now moves down
 
 ### Electric Traps (Shi No Numa)
-* Cooldown time reduced from 90 seconds to 25 seconds (same as Verruckt and Der Riese)
+* Decreased cooldown time from 90 seconds to 25 seconds (same as Verruckt and Der Riese)
 
 ### Flogger (Shi No Numa)
 * Both triggers are now completely independent of eachother
@@ -833,7 +833,7 @@
 * Now uses marine characters and voicelines from World at War
 
 ### Verruckt
-* Added super-sprinters (start spawning on round 10, all super-sprinters by round 13)
+* Added super-sprinters (only spawn after the power is on, start spawning on round 10, all super-sprinters by round 13)
 * Now uses marine characters and voicelines from World at War
 * Fixed zombie pathing near Speed Cola
 * Removed intro text
