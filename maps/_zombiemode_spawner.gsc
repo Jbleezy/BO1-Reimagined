@@ -395,17 +395,34 @@ set_zombie_run_cycle( new_move_speed )
 	switch(self.zombie_move_speed)
 	{
 	case "walk":
-		var = randomintrange(1, 8);
+		var = randomintrange(1, 9);
 		self set_run_anim( "walk" + var );
 		self.run_combatanim = level.scr_anim[self.animname]["walk" + var];
 		break;
 	case "run":
-		var = randomintrange(1, 6);
+		var = 1;
+		// zombies have one extra run anim now
+		if(self.animname == "zombie")
+		{
+			var = randomintrange(1, 8);
+		}
+		else
+		{
+			var = randomintrange(1, 7);
+		}
 		self set_run_anim( "run" + var );
 		self.run_combatanim = level.scr_anim[self.animname]["run" + var];
 		break;
 	case "sprint":
-		var = randomintrange(1, 4);
+		var = 1;
+		if(level.script == "zombie_cod5_asylum" && is_true(self.zombie_move_speed_supersprint))
+		{
+			var = randomintrange(5, 10);
+		}
+		else
+		{
+			var = randomintrange(1, 5);
+		}
 		self set_run_anim( "sprint" + var );
 		self.run_combatanim = level.scr_anim[self.animname]["sprint" + var];
 		break;
@@ -430,6 +447,11 @@ set_run_speed()
 	else
 	{
 		self.zombie_move_speed = "sprint";
+
+		if(rand > 100)
+		{
+			self.zombie_move_speed_supersprint = true;
+		}
 	}
 }
 

@@ -757,6 +757,7 @@
 * Zombies now randomly choose between two animations when tearing down wall barriers
 
 ## Zombies
+* Added 2 previously unused run animations
 * Removed collision from zombies as soon as they are dead
 * No longer make sounds after death
 * Fixed a bug where zombies would bleed out occasionally if they were standing in the same spot they were 30 seconds ago
@@ -830,12 +831,11 @@
 
 ### Nacht Der Untoten
 * Now uses marine characters and voicelines from World at War
-* Removed character dialog
 
 ### Verruckt
+* Added super-sprinters (start spawning on round 10, all super-sprinters by round 13)
 * Now uses marine characters and voicelines from World at War
 * Fixed zombie pathing near Speed Cola
-* Removed character dialog
 * Removed intro text
 
 ### Shi No Numa

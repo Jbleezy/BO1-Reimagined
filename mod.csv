@@ -380,6 +380,11 @@ xmodel,t5_weapon_quantum_bomb_world
 //ANIMS
 //xanim,pt_radio_stand_raise
 //xanim,pt_radio_crouch_raise
+xanim,ai_zombie_fast_sprint_01
+xanim,ai_zombie_fast_sprint_02
+xanim,ai_zombie_sprint_v3
+xanim,ai_zombie_sprint_v4
+xanim,ai_zombie_sprint_v5
 
 //PLAYER ANIMS
 //rawfile,mp/playeranim.script
