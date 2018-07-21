@@ -960,6 +960,7 @@
 #### Sidequest
 * Full sidequest completable in solo
 * Full sidequest completable without Richtofen
+* No longer requires the completion of previous sidequests
 * Part 1 reward - 90 second Death Machines for the rest of the match
 * Full reward - permament perks (Quick Revive goes away when downed in solo, can be rebought with all perks)
 
@@ -1096,6 +1097,7 @@
 * Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife, Molotov, Tranzit Monkey Bomb) (probably not going to do, look almost exactly the same)
 * Find out how to attach mag model to weapon model for BO2 weapon models
 * Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Hacker)
+* Thundergun: add 4th power cell FX
 * Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)
 * Change perk bottle weapons to only use one weapon file using worldModel and gunModel
@@ -1127,7 +1129,8 @@
 * Scoped Kar98k: use original scope overlay?
 * Bouncing Betty: add better sprint and dive anims
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
-* Fix Thompson viewmodel (problem is degenerate tris discarded, part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
+* Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
+* Fix M1 Garand viewmodel (textures are too dark)
 
 ### Versus Todo
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)

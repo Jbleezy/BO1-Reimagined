@@ -145,6 +145,7 @@ rawfile,clientscripts/_sticky_grenade.csc
 rawfile,clientscripts/_zombiemode_ffotd.csc
 rawfile,clientscripts/_zombiemode_perks.csc
 rawfile,clientscripts/_zombiemode_weap_tesla.csc
+rawfile,clientscripts/_zombiemode_weap_thundergun.csc
 rawfile,clientscripts/zombie_cod5_factory_teleporter.csc
 rawfile,clientscripts/zombie_theater.csc
 rawfile,clientscripts/zombie_theater_teleporter.csc

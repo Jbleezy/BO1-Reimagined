@@ -668,6 +668,16 @@ create_and_play_dialog( category, type, response, force_variant, override )
 	}
 	
 	alias_suffix = level.plr_vox[category][type];
+
+	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum")
+	{
+		if(level.script == "zombie_cod5_prototype" && IsSubStr(alias_suffix, "level_start"))
+		{
+			return;
+		}
+
+		alias_suffix += "_cod5_asylum";
+	}
 	
 	if( IsDefined( response ) )
 	    alias_suffix = response + alias_suffix;
@@ -685,16 +695,6 @@ create_and_play_dialog( category, type, response, force_variant, override )
 	{
 		self.sound_dialog = [];
 		self.sound_dialog_available = [];
-	}
-
-	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum")
-	{
-		if(level.script == "zombie_cod5_prototype" && IsSubStr(alias_suffix, "level_start"))
-		{
-			return;
-		}
-
-		alias_suffix += "_cod5_asylum";
 	}
 				
 	if ( !IsDefined ( self.sound_dialog[ alias_suffix ] ) )
