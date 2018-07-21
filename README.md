@@ -395,10 +395,12 @@
 * Bulbs now light up correctly after reload cancelling
 
 #### Thundergun
+* Changed fire type to full auto
 * Gives 50 points for each kill
 * No longer does any damage to any enemies that are knocked down and not killed
 
 #### Winter's Howl
+* Changed fire type to full auto
 * Unupgraded: minimum damage - 500
 * Upgraded: minimum damage - 1000
 * Unupgraded: damage to thief - 1000
@@ -1094,9 +1096,7 @@
 
 ## TODO
 * Add Springfield chalk
-* Add BO2 weapon models (M14, M16, Olympia, FN FAL, Galil, Python, AK47, Ballistic Knife, Bowie Knife, Molotov, Tranzit Monkey Bomb) (probably not going to do, look almost exactly the same)
-* Find out how to attach mag model to weapon model for BO2 weapon models
-* Add BO3 weapon models (Frag, Semtex, Claymore, Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Hacker)
+* Add BO3 weapon models (Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Hacker)
 * Thundergun: add 4th power cell FX
 * Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)
@@ -1131,6 +1131,7 @@
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
 * Fix M1 Garand viewmodel (textures are too dark)
+* Verruckt: add super-sprinters?
 
 ### Versus Todo
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
