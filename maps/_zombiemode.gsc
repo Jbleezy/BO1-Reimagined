@@ -406,7 +406,8 @@ track_players_ammo_count()
 					weap == "combat_knife_zm" ||
 					weap == "combat_bowie_knife_zm" ||
 					weap == "combat_sickle_knife_zm" ||
-					weap == "meat_zm" )
+					weap == "meat_zm" ||
+					weap == "falling_hands_zm" )
 			{
 				continue;
 			}
@@ -1793,35 +1794,35 @@ onPlayerConnect_clientDvars()
 	self SetClientDvar("perk_weapRateMultiplier", .75);
 	self SetClientDvar("perk_sprintRecoveryMultiplier", .5);
 
-	//reset dvar that changes when double tap is bought
+	// reset dvar that changes when double tap is bought
 	self SetClientDvar("player_burstFireCooldown", .2);
 
-	//self setClientDvar("cg_weaponCycleDelay", "100"); //added in menu options
+	//self setClientDvar("cg_weaponCycleDelay", "100"); // added in menu options
 
 	self setClientDvar( "aim_lockon_pitch_strength", 0.0 );
 	self setClientDvar( "aim_automelee_enabled", 0 );
 
-	self SetClientDvar("r_zombieNameAllowDevList", 0); //disable dev names on cosmonaut
+	self SetClientDvar("r_zombieNameAllowDevList", 0); // disable dev names on cosmonaut
 
-	self SetClientDvar("cg_drawFPSLabels", 0); //makes FPS area in corner smaller
+	self SetClientDvar("cg_drawFPSLabels", 0); // makes FPS area in corner smaller
 
-	//self SetClientDvar("sv_cheats", 0); //uncomment on release
+	//self SetClientDvar("sv_cheats", 0); // uncomment on release
 
 	self SetClientDvar("g_friendlyFireDist", 0);
 
-	//dtp buffs
+	// dtp buffs
 	self SetClientDvars("dtp_post_move_pause", 0,
 		"dtp_exhaustion_window", 100,
 		"dtp_startup_delay", 100);
 
-	//set minimum fov (so sniper scopes dont go below this)
+	// set minimum fov (so sniper scopes dont go below this)
 	self SetClientDvar("cg_fovMin", 30);
 
-	//turn zombies remaining HUD off initially
+	// turn zombies remaining HUD off initially
 	self SetClientDvar("hud_zombs_remaining_on_game", false);
 	self SetClientDvar("zombs_remaining", "");
 
-	//reset versus HUD dvars
+	// reset versus HUD dvars
 	self SetClientDvar("vs_logo_on", 0);
 	self SetClientDvar("vs_top_logos_on", 0);
 	self SetClientDvar("vs_top_playernames_on", 0);
@@ -1832,7 +1833,7 @@ onPlayerConnect_clientDvars()
 	self SetClientDvar("vs_friendly_playername", "");
 	self SetClientDvar("vs_enemy_playername", "");
 
-	//ammo on HUD never fades away
+	// ammo on HUD never fades away
 	self SetClientDvar("hud_fade_ammodisplay", 0);
 
 	if(!level.wii)
@@ -3836,8 +3837,6 @@ round_spawning()
 			wait 1;
 		}
 
-		//iprintln("spawn");
-
 		// added ability to pause zombie spawning
 		if ( !flag("spawn_zombies" ) )
 		{
@@ -4726,10 +4725,10 @@ round_think()
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
-			level.round_number = 100;
+			level.round_number = 5;
 			level.zombie_vars["zombie_spawn_delay"] = .08;
-			level.zombie_move_speed = 100;
-			//level.zombie_ai_limit = 1;
+			level.zombie_move_speed = 36;
+			//level.zombie_ai_limit = 5;
 		}
 
 		//////////////////////////////////////////
@@ -6810,11 +6809,12 @@ player_fake_death()
 	self notify ("fake_death");
 
 	self TakeAllWeapons();
+	self GiveWeapon("falling_hands_zm");
+
 	self AllowProne( true );
 	self AllowStand( false );
 	self AllowCrouch( false );
-
-	self SetStance("prone");
+	self SetStance("prone"); // force prone otherwise players will stay up if near an entity
 
 	self.ignoreme = true;
 	self EnableInvulnerability();
@@ -8734,7 +8734,7 @@ give_weapons_test()
 	//wep = "china_lake_zm";
 	//wep = "crossbow_explosive_zm";
 	//wep = "ak47_ft_upgraded_zm";
-	wep = "cz75dw_zm";
+	wep = "m1911_upgraded_zm";
 
 	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
 	self GiveMaxAmmo(wep);
@@ -8788,7 +8788,7 @@ give_weapons_test()
 	origin = self.origin;
 	wait 5;
 	//level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "meat", origin, true );*/
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "grief_empty_clip", origin, true );*/
 
 	/*wait 10;
 	iprintln("spawning");

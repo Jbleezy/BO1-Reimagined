@@ -45,6 +45,7 @@
 * Players can now red screen after bleeding out and respawning
 * Red screens now start at 25% health (previously 20% health)
 * Fixed players getting stuck in the air with high FPS
+* Added death hands animation from Black Ops 2
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
@@ -1096,11 +1097,9 @@
 
 ## TODO
 * Add Springfield chalk
-* Add BO3 weapon models (Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun, Hacker)
+* Add BO3 weapon models (Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun)
 * Thundergun: add 4th power cell FX
-* Add death hands from BO2 when you die
 * Make players drink perks correctly in third person (fixed in BO2)
-* Change perk bottle weapons to only use one weapon file using worldModel and gunModel
 * COTD: fix Director not doing anim when getting angry
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
@@ -1115,8 +1114,6 @@
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Fix sprint and dive anims on Ray Gun
-* Use Sleepy when game crashes on map load
-* Remove zombie failsafe death print before release
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Find a way to be able to shoot through more than 3 zombies
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
@@ -1124,14 +1121,12 @@
 * Fix Nikolai viewhands
 * Fix textures getting changed when getting sprayed with flamethrower attachment
 * Optimize zombies in barrier and traversing barrier code
-* Make it so switching to weapon powerup doesn't take fast switch perk into account?
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
-* Scoped Kar98k: use original scope overlay?
 * Bouncing Betty: add better sprint and dive anims
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
-* Fix M1 Garand viewmodel (textures are too dark)
-* Verruckt: add super-sprinters?
+* Use Sleepy when game crashes on map load
+* Remove zombie failsafe death print before release
 
 ### Versus Todo
 * Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
