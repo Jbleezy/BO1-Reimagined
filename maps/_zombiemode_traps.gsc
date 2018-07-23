@@ -1274,8 +1274,11 @@ move_trap_handle(end_angle, rotate_amount, negative)
 		angle -= 360;
 	}
 
+	// make the angle positive if going in negative direction
+	angle *= direction;
+
 	// already in correct position, handle was activated right away
-	if(angle == end_angle)
+	if(angle == end_angle * direction)
 	{
 		self RotateTo((end_angle, self.angles[1], self.angles[2]), .05);
 		return .45;
@@ -1290,7 +1293,7 @@ move_trap_handle(end_angle, rotate_amount, negative)
 	extra_time = .5 - time;
 	self RotatePitch(rotate_amount * percent * direction, time);
 
-	// return extra time so trap still ativates at same time
+	// return extra time so trap still activates at same time
 	return extra_time;
 }
 
