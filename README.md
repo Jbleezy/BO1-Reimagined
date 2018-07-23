@@ -1096,7 +1096,7 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Add Springfield chalk
+* Add Springfield chalk? (chalk is much brighter than the other chalks, and kar98k chalk fits the model just as well)
 * Add BO3 weapon models (Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun)
 * Thundergun: add 4th power cell FX
 * Make players drink perks correctly in third person (fixed in BO2)

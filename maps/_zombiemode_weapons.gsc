@@ -415,7 +415,7 @@ init_weapon_upgrade()
 				weapon_spawns[i].script_noteworthy = "springfield";
 
 				old_model = getent( weapon_spawns[i].target, "targetname" );
-				weapon_spawns[i].override_weapon_model = Spawn( "script_model", old_model.origin + (-1.5, 0, 0) );
+				weapon_spawns[i].override_weapon_model = Spawn( "script_model", old_model.origin + (-1.5, 0, 0.5) );
 				weapon_spawns[i].override_weapon_model.angles = old_model.angles;
 				weapon_spawns[i].override_weapon_model SetModel( GetWeaponModel( weapon_spawns[i].zombie_weapon_upgrade ) );
 				weapon_spawns[i].override_weapon_model useweaponhidetags( weapon_spawns[i].zombie_weapon_upgrade );
@@ -423,7 +423,7 @@ init_weapon_upgrade()
 				old_model Delete();
 
 				/*brushmodels = GetEntArray("script_brushmodel", "classname");
-				chalk = Spawn("script_model", brushmodels[202].origin + (0, 1, 0)); // origin = (1235, 57, 131)
+				chalk = Spawn("script_model", brushmodels[202].origin + (0, 0.01, 0)); // origin = (1234, 56, 132)
 				chalk.angles = brushmodels[202].angles + (0, 180, 0);
 				chalk SetModel("model_springfield_chalk");
 				brushmodels[202] Hide();*/
