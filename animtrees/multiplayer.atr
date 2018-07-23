@@ -1,0 +1,1397 @@
+//
+// Player xanims refix convention:
+//
+// Torso only animation are prefixed with pt_
+// Legs only animations are prefixed with pl_
+// Full body animations (both) are prefixed with pb_
+//
+
+head : client separate
+{
+	pf_casual_idle
+	pf_alert_idle
+	pf_firing
+	pf_melee
+	pf_pain
+	pf_death
+}
+
+main
+{
+	//
+	// Torso Animations
+	//
+	torso
+	{
+		// Temp placeholder anims
+		pt_chicken_dance		 // Animation which indicates another animation is not completed yet
+		pt_chicken_dance_crouch // ditto for this one
+	
+		//
+		// FIREWEAPON ANIMS
+		//
+		
+		// Standing
+		pt_stand_shoot
+		pt_stand_shoot_auto
+		pt_stand_shoot_pistol
+		pt_dw_botharms_fire
+		pt_stand_shoot_ads
+		pt_stand_shoot_auto_ads
+		pt_stand_shoot_ads_pistol
+		pt_stand_grenade_pullpin
+		pt_stand_shoot_shotgun
+		pt_rifle_fire_ads
+		pt_rifle_fire
+		pt_stand_shoot_RPG
+		pt_minigun_stand_fire
+		pt_hold_throw
+		p_revive_reviving
+		pt_grenade_stand_throw
+		pt_b_knife_stand_fire
+		pt_tomahawk_stand_throw
+
+		
+		// Crouching
+		pt_crouch_shoot
+		pt_crouch_shoot_auto
+		pt_crouch_shoot_pistol
+		pt_crouch_dw_botharms_fire
+		pt_minigun_crouch_fire
+		pt_crouch_shoot_ads
+		pt_crouch_shoot_auto_ads
+		pt_crouch_shoot_ads_pistol
+		pt_crouch_grenade_throw
+		p_crouch_revive_reviving
+		pt_b_knife_crouch_fire
+		pt_tomahawk_crouch_throw
+
+		// Prone
+		pt_prone_shoot
+		pt_prone_shoot_pistol
+		pt_prone_shoot_auto
+		pt_prone_dw_botharms_fire
+		pt_prone_ads_shoot
+		pt_prone_ads_shoot_pistol
+		pt_prone_ads_shoot_auto
+		pt_prone_grenade_throw
+		pt_prone_grenade_pullpin
+		pt_rifle_fire_prone
+		pt_prone_shoot_RPG
+		pt_hold_prone_throw
+		p_prone_revive_reviving
+		pt_b_knife_prone_fire
+		pt_tomahawk_prone_throw
+		
+		// Last Stand
+		pt_laststand_fire
+
+		//
+		// RELOAD ANIMS
+		//
+		
+		// Stand
+		pt_minigun_stand_reload
+		pt_m202_stand_reload
+		pt_rifle_stand_reload_rearclip
+		pt_lmg_stand_reload
+		pt_g11_stand_reload
+		pt_shot_stand_reload
+		pt_reload_stand_RPG
+		pt_reload_stand_pistol
+		pt_dw_botharms_reload
+		pt_reload_stand_rifle
+		pt_reload_stand_auto
+		pt_reload_stand_auto_mp40
+		pt_crossbow_stand_reload
+		pt_b_knife_stand_reload
+		
+		// Crouch
+		pt_minigun_crouch_reload
+		pt_m202_crouch_reload
+		pt_rifle_crouch_reload_rearclip
+		pt_lmg_crouch_reload
+		pt_g11_crouch_reload
+		pt_shot_crouch_reload
+		pt_reload_crouch_pistol
+		pt_crouch_dw_botharms_reload
+		pt_reload_crouch_rifle
+		pt_reload_crouchwalk
+		pt_reload_crouchwalk_pistol
+		pt_crossbow_crouch_reload
+		pt_b_knife_crouch_reload
+		
+		// Prone
+		pt_m202_prone_reload
+		pt_rifle_prone_reload_rearclip
+		pt_lmg_prone_reload
+		pt_g11_prone_reload
+		pt_shot_prone_reload
+		pt_reload_prone_pistol
+		pt_prone_dw_botharms_reload
+		pt_reload_prone_auto
+		pt_reload_prone_RPG
+		pt_crossbow_prone_reload
+		pt_b_knife_prone_reload
+		
+		// Last Stand
+		pt_laststand_reload
+
+		//
+		// MELEE ANIMS
+		//
+	
+		// Standing
+		pt_melee_right2right_1
+		pt_melee_right2right_2
+		pt_melee_right2left
+		pt_melee_left2left_1
+		pt_melee_left2right
+		pt_melee_pistol_1
+		pt_melee_pistol_2
+		pt_melee_pistol_3
+		pt_melee_pistol_4
+		pt_melee_hold_1
+		pt_melee_hold_2
+		pt_dw_stand_melee_swipe
+		pt_dw_stand_melee_stick
+		p_knife_stand_bazooka
+		p_knife_stand_bazooka_swipe
+		p_knife_stand_pistol
+		p_knife_stand_pistol_swipe
+		p_knife_stand_rifle
+		p_knife_stand_rifle_swipe
+		pt_b_knife_stand_melee
+
+		// Crouch
+		pt_melee_crouch_left2left
+		pt_melee_crouch_left2right
+		pt_melee_crouch_right2left
+		p_knife_crouch_bazooka
+		p_knife_crouch_bazooka_swipe
+		p_knife_crouch_pistol
+		p_knife_crouch_pistol_swipe
+		p_knife_crouch_rifle
+		p_knife_crouch_rifle_swipe
+		pt_b_knife_crouch_melee
+
+
+		// Prone
+		pt_melee_prone
+		pt_melee_prone_pistol
+		pt_hold_melee_prone
+		pt_dw_prone_melee
+		p_knife_prone_bazooka
+		p_knife_prone_bazooka_swipe
+		p_knife_prone_pistol
+		p_knife_prone_pistol_swipe
+		p_knife_prone_rifle
+		p_knife_prone_rifle_swipe
+		p_revive_down_melee_swipe
+		pt_b_knife_prone_melee
+
+
+		//
+		// SHELLSHOCK ANIMS
+		// 
+		
+		pb_stand_shellshock
+		pb_stand_shellshock_hold
+		pb_dw_stand_shellshock
+		pb_crouch_shellshock
+		pb_crouch_shellshock_hold
+		pb_dw_crouch_shellshock
+		pb_rifle_prone_shellshock
+		pb_hold_prone_shellshock
+		pb_dw_prone_shellshock
+		
+		//
+		// FLARED ANIMS
+		//
+		pb_dw_stand_flare_loop
+		pb_dw_crouch_flare_loop
+		pb_dw_prone_flare_loop
+		pb_hold_stand_flare_loop
+		pb_hold_crouch_flare_loop
+		pb_hold_prone_flare_loop
+		pb_rifle_stand_flare_loop
+		pb_rifle_crouch_flare_loop
+		pb_rifle_prone_flare_loop
+
+		//
+		// FLINCH ANIMS
+		//
+
+		// Stand
+		pt_stand_flinch_forward			// PI - RIFLE
+		pt_stand_flinch_back
+		pt_stand_flinch_left
+		pt_stand_flinch_right
+		pt_stand_flinch_pistol_left		// PI - PISTOL
+		pt_stand_flinch_pistol_forward
+		pt_stand_flinch_pistol_back
+		pt_stand_flinch_pistol_right
+		pt_stand_flinch_grenade_right
+		pt_stand_flinch_grenade_left
+		pt_stand_flinch_grenade_forward
+		pt_stand_flinch_grenade_back
+		pt_hold_stand_flinch_right
+		pt_hold_stand_flinch_left
+		pt_hold_stand_flinch_forward
+		pt_hold_stand_flinch_back
+		pt_dw_stand_flinch_right
+		pt_dw_stand_flinch_left
+		pt_dw_stand_flinch_forward
+		pt_dw_stand_flinch_back
+		pt_rc_stand_flinch_back
+        pt_rc_stand_flinch_forward
+        pt_rc_stand_flinch_left
+        pt_rc_stand_flinch_right
+		
+		// Crouch
+		pt_crouch_flinch_forward			// PI - RIFLE
+		pt_crouch_flinch_back
+		pt_crouch_flinch_left
+		pt_crouch_flinch_right
+		pt_crouch_flinch_pistol_left		// PI - PISTOL
+		pt_crouch_flinch_pistol_forward
+		pt_crouch_flinch_pistol_back
+		pt_crouch_flinch_pistol_right
+		pt_crouch_flinch_grenade_right
+		pt_crouch_flinch_grenade_left
+		pt_crouch_flinch_grenade_forward
+		pt_crouch_flinch_grenade_back
+		pt_hold_crouch_flinch_right
+		pt_hold_crouch_flinch_left
+		pt_hold_crouch_flinch_forward
+		pt_hold_crouch_flinch_back
+		pt_dw_crouch_flinch_right
+		pt_dw_crouch_flinch_left
+		pt_dw_crouch_flinch_forward
+		pt_dw_crouch_flinch_back
+		pt_rc_crouch_flinch_back
+        pt_rc_crouch_flinch_forward
+        pt_rc_crouch_flinch_left
+        pt_rc_crouch_flinch_right
+		
+		// Prone
+		pt_prone_flinch_forward			// PI - RIFLE
+		pt_prone_flinch_back
+		pt_prone_flinch_left
+		pt_prone_flinch_right
+		pt_prone_flinch_pistol_left		// PI - PISTOL
+		pt_prone_flinch_pistol_forward
+		pt_prone_flinch_pistol_back
+		pt_prone_flinch_pistol_right
+		pt_prone_flinch_grenade_right
+		pt_prone_flinch_grenade_left
+		pt_prone_flinch_grenade_forward
+		pt_prone_flinch_grenade_back
+		pt_hold_prone_flinch_right
+		pt_hold_prone_flinch_left
+		pt_hold_prone_flinch_forward
+		pt_hold_prone_flinch_back
+		pt_dw_prone_flinch_right
+		pt_dw_prone_flinch_left
+		pt_dw_prone_flinch_forward
+		pt_dw_prone_flinch_back
+		pt_rc_prone_flinch_back
+        pt_rc_prone_flinch_forward
+        pt_rc_prone_flinch_left
+        pt_rc_prone_flinch_right
+		
+		//
+		// RAISEWEAPON ANIMS
+		//
+		
+		// Stand
+		pt_minigun_stand_raise
+        pt_pistol_stand_raise
+        pt_rifle_stand_raise
+		pt_satchel_stand_raise
+		pt_dw_full_pullout
+		pb_zipline_grab
+		pt_rpg_stand_raise
+		pt_rc_stand_raise
+		pt_radio_stand_raise
+		pt_tomahawk_stand_pullout
+		p_zombie_perkacola_drink
+
+		// Crouch
+		pt_minigun_crouch_raise
+		pt_rifle_crouch_raise
+		pt_pistol_crouch_raise
+		pt_crouch_dw_raise
+		pt_rc_crouch_raise
+		pt_radio_crouch_raise
+		pt_tomahawk_crouch_pullout
+
+		// Prone
+		pt_rifle_prone_raise
+		pt_pistol_prone_raise
+		pt_satchel_prone_raise
+		pt_prone_dw_raise
+		pt_rpg_prone_raise
+		pt_rc_prone_raise
+		pt_radio_prone_raise
+		pt_tomahawk_prone_pullout
+
+		//
+		// DROPWEAPON ANIMS
+		// 
+		
+		// Stand
+		pt_minigun_stand_putaway
+        pt_pistol_stand_putaway
+		pt_rifle_stand_putaway
+		pt_satchel_stand_putaway
+		pt_dw_full_putaway
+		pb_zipline_release
+		pt_rpg_stand_putaway
+		pt_rc_stand_putaway
+		pt_radio_stand_putaway
+
+		// Crouch
+		pt_minigun_crouch_putaway
+		pt_rifle_crouch_putaway
+		pt_pistol_crouch_putaway
+		pt_crouch_dw_putaway
+		pt_rc_crouch_putaway
+		pt_radio_crouch_putaway
+
+		// Prone
+		pt_rifle_prone_putaway
+		pt_pistol_prone_putaway
+		pt_satchel_prone_putaway
+		pt_prone_dw_putaway
+		pt_rpg_prone_putaway
+		pt_rc_prone_putaway
+		pt_radio_prone_putaway
+		
+		//
+		// GRENADE PRIME ANIMS
+		//
+		pt_grenade_stand_prime
+		pt_grenade_crouch_prime
+		pt_grenade_prone_prime
+	}
+	
+	//
+	// Legs Animations (also full body anims)
+	//
+	legs
+	{
+		// Placeholder anims
+		pb_chicken_dance		 // Animation which indicates another animation is not completed yet
+		pb_chicken_dance_crouch // ditto for this one
+
+		//
+		// IDLE ANIMS
+		//
+	
+		// IDLE
+		pb_stand_alert
+		pb_stand_ads
+		pb_stand_alert_pistol
+		pb_stand_ads_pistol
+		pb_stand_alert_RPG
+		pb_stand_ads_RPG
+		pb_hold_idle
+		pb_minigun_stand_idle
+		pb_dw_botharms_idle_v1
+		pb_stand_bombplant
+		p_bomb_stand_loop
+		p_handheldradio_idle
+		pb_rc_stand_idle
+		pb_zipline_loop
+		pb_grenade_stand_idle
+		pb_rifle_stand_cac_idle
+		pb_pistol_stand_cac_idle
+		pb_dw_stand_cac_idle
+		pb_lmg_stand_cac_idle
+		pb_shot_stand_cac_idle
+		pb_uzi_stand_cac_idle
+		pb_sniper_stand_cac_idle
+		pb_rpg_stand_cac_idle
+		pb_b_knife_cac_idle
+		pb_b_knife_stand_idle
+		pb_tomahawk_stand_idle
+		
+		// IDLECR
+		pb_crouch_alert
+		pb_crouch_ads
+		pb_crouch_alert_pistol
+		pb_crouch_ads_pistol
+		pb_crouch_alert_RPG
+		pb_crouch_ads_RPG
+		pb_crouch_hold_idle
+		pb_minigun_crouch_idle
+		pb_crouch_dw_idle_v1
+		pb_crouch_bombplant
+		p_bomb_crouch_loop
+		p_handheldradio_crouch_idle
+		pb_rc_crouch_idle
+		pb_grenade_crouch_idle
+		pb_b_knife_crouch_idle
+		pb_tomahawk_crouch_idle
+	
+		// IDLEPRONE
+		pb_prone_aim
+		pb_prone_aim_ads
+		pb_prone_aim_pistol
+		pb_prone_aim_ads_pistol
+		pb_prone_aim_RPG
+		pb_prone_hold
+		pb_prone_dw_idle_v1
+		pb_prone_bombplant
+		p_bomb_prone_loop
+		p_handheldradio_prone_idle
+		pb_rc_prone_idle
+		pb_grenade_prone_idle
+		pb_b_knife_prone_idle
+		pb_tomahawk_prone_idle
+
+		// Last Stand
+		pb_laststand_idle
+	
+		// FLAMETHROWER, DEPRECATED?
+		//pb_flamethrower_stand_idle
+		//pb_flamethrower_crouch_idle
+		//pb_flamethrower_fire_center
+		//pb_flamethrower_crouch_fire_center
+		//pb_flamethrower_crouch_2_stand
+		//pb_flamethrower_stand_2_crouch
+	
+		//
+		// SPRINT ANIMS
+		//
+		pb_sprint
+		pb_sprint_RPG
+		pb_sprint_pistol
+		pb_grenade_sprint
+		pb_sprint_hold
+		pb_dw_sprint
+
+		//
+		// JUMP, JUMPBK ANIMS
+		//
+		pb_runjump_takeoff
+		pb_standjump_takeoff
+		pb_grenade_runjump_takeoff
+		pb_grenade_standjump_takeoff
+		pb_rpg_runjump_takeoff
+		pb_rpg_standjump_takeoff
+		pb_minigun_runjump_takeoff
+		pb_minigun_standjump_takeoff
+		pb_runjump_takeoff_pistol
+		pb_standjump_takeoff_pistol
+        pb_standjump_takeoff_satchel
+		pb_dw_standjump_takeoff
+
+		//
+		// LAND ANIMS
+		//
+		pb_runjump_land
+		pb_standjump_land
+		pb_rifle_pronejump_land
+		pb_grenade_runjump_land
+		pb_grenade_standjump_land
+		pb_rpg_runjump_land
+		pb_rpg_standjump_land
+		pb_minigun_runjump_land
+		pb_minigun_standjump_land
+		pb_runjump_land_pistol
+		pb_standjump_land_pistol
+		pb_standjump_land_satchel
+		pb_dw_standjump_land
+		
+
+		//
+		// RUN, RUNBK ANIMS
+		//
+		pb_combatrun_forward_loop
+		pb_combatrun_back_loop
+		pb_combatrun_left_loop
+		pb_combatrun_right_loop
+		pb_rifle_stand_run_slopeup
+		pb_rifle_stand_run_slopedown
+		pb_minigun_stand_run
+		pb_minigun_stand_run_back
+		pb_minigun_stand_run_left
+		pb_minigun_stand_run_right
+		pb_pistol_run_fast // used instead of pb_combatrun_forward_loop_pistol
+		pb_combatrun_back_loop_pistol
+		pb_combatrun_left_loop_pistol
+		pb_combatrun_right_loop_pistol
+		pb_pistol_stand_run_slopeup
+		pb_pistol_stand_run_slopedown
+		pb_combatrun_forward_loop_stickgrenade
+		pb_combatrun_left_loop_grenade
+		pb_combatrun_right_loop_grenade
+		pb_combatrun_back_loop_grenade
+		pb_combatrun_forward_RPG
+		pb_combatrun_back_RPG
+		pb_combatrun_left_RPG
+		pb_combatrun_right_RPG
+		pb_hold_run
+		pb_hold_run_back
+		pb_hold_run_right
+		pb_hold_run_left
+		pb_dw_run_right
+		pb_dw_run_left
+		pb_dw_run_forward
+		pb_dw_run_back
+		pb_dw_stand_run_slopeup
+		pb_dw_stand_run_slopedown
+		pb_b_knife_run_right
+		pb_b_knife_run_left
+		pb_b_knife_run_forward
+		pb_b_knife_run_back
+
+		// FLAMETHROWER ANIMS, DEPRECATED?
+		//pb_flamethrower_combatrun_c
+		//pl_flamethrower_combatrun_c
+
+		//
+		// RUNCR, RUNCRBK ANIMS
+		//
+		pb_crouch_run_forward
+		pb_crouch_run_back
+		pb_crouch_run_left
+		pb_crouch_run_right
+		pb_minigun_crouch_run_forward
+		pb_minigun_crouch_run_back
+		pb_minigun_crouch_run_left
+		pb_minigun_crouch_run_right
+		pb_crouch_run_forward_pistol
+		pb_crouch_run_back_pistol
+		pb_crouch_run_left_pistol
+		pb_crouch_run_right_pistol
+		pb_crouch_run_forward_grenade
+		pb_crouch_run_back_grenade
+		pb_crouch_run_left_grenade
+		pb_crouch_run_right_grenade
+		pb_crouch_run_back_RPG
+		pb_crouch_run_forward_RPG
+		pb_crouch_run_left_RPG
+		pb_crouch_run_right_RPG
+		pb_crouch_hold_run
+		pb_crouch_hold_run_back
+		pb_crouch_hold_run_left
+		pb_crouch_hold_run_right
+		pb_crouch_dw_run_left
+		pb_crouch_dw_run_right
+		pb_crouch_dw_run_forward
+		pb_crouch_dw_run_back
+		pb_b_knife_crouch_run_right
+		pb_b_knife_crouch_run_left
+		pb_b_knife_crouch_run_forward
+		pb_b_knife_crouch_run_back
+		
+		//
+		// SHUFFLE ANIMS
+		//
+		pb_rifle_stand_shuffle_f
+		pb_rifle_stand_shuffle_b
+		pb_rifle_stand_shuffle_l
+		pb_rifle_stand_shuffle_r
+		
+		//
+		// WALK, WALKBK ANIMS
+		//
+		pb_stand_shoot_walk_forward
+		pb_stand_shoot_walk_back
+		pb_stand_shoot_walk_left
+		pb_stand_shoot_walk_right
+		pb_minigun_stand_walk
+		pb_minigun_stand_walk_back
+		pb_minigun_stand_walk_left
+		pb_minigun_stand_walk_right
+		pb_combatwalk_forward_loop_pistol
+		pb_combatwalk_back_loop_pistol
+		pb_combatwalk_left_loop_pistol
+		pb_combatwalk_right_loop_pistol
+		pb_walk_forward_RPG_ads
+		pb_walk_back_RPG_ads
+		pb_walk_left_RPG_ads
+		pb_walk_right_RPG_ads
+		pb_dw_walk_left
+		pb_dw_walk_right
+		pb_dw_walk_forward
+		pb_dw_walk_back
+		pb_b_knife_walk_left
+		pb_b_knife_walk_right
+		pb_b_knife_walk_forward
+		pb_b_knife_walk_back
+		pb_stand_shoot_walk_forward_unarmed		// Not really shooting.  Named the same as rifle anim so it'd sort alphabetically.
+		pb_laststand_crawl_back
+        pb_laststand_crawl_forward
+        pb_laststand_crawl_left
+        pb_laststand_crawl_right
+
+
+		//
+		// WALKCR, WALKCRBK ANIMS
+		//
+		pb_crouch_shoot_run_forward
+		pb_crouch_shoot_run_back
+		pb_crouch_shoot_run_left
+		pb_crouch_shoot_run_right
+		pb_crouch_walk_forward_pistol
+		pb_crouch_walk_back_pistol
+		pb_crouch_walk_left_pistol
+		pb_crouch_walk_right_pistol
+		pb_crouch_walk_right_RPG
+		pb_crouch_walk_left_RPG
+		pb_crouch_walk_forward_RPG
+		pb_crouch_walk_back_RPG
+		pb_crouch_walk_forward_unarmed
+
+		// WALKPRONE, WALKPRONEBK
+		pb_prone_crawl
+		pb_prone_crawl_left
+		pb_prone_crawl_right
+		pb_prone_crawl_back
+		pb_prone_crawl_pistol
+		pb_prone_crawl_pistol_back
+		pb_prone_pistol_crawl_left
+		pb_prone_pistol_crawl_right
+		pb_prone_grenade_crawl
+		pb_prone_grenade_crawl_back
+		pb_prone_grenade_crawl_left
+		pb_prone_grenade_crawl_right
+		pb_prone_crawl_hold
+		pb_prone_crawl_back_hold
+		pb_prone_crawl_left_hold
+		pb_prone_crawl_right_hold
+		pb_prone_dw_crawl_forward
+		pb_prone_dw_crawl_back
+		pb_prone_dw_crawl_left
+		pb_prone_dw_crawl_right
+		pb_rpg_prone_crawl_backward
+		pb_rpg_prone_crawl_forward
+		pb_rpg_prone_crawl_left
+		pb_rpg_prone_crawl_right
+
+		//
+		// SWIM, SWIMBK ANIMS
+		//
+		p_swim_left
+		p_swim_right
+		p_swim_forward
+		p_swim_tread
+		
+		//
+		// CLIMBUP, CLIMBDOWN ANIMS
+		//
+		pb_climbdown
+		pb_climbup
+	
+		//
+		// CROUCH_TO_PRONE ANIMS
+		//
+		pb_briefcase_crouch2prone
+		pb_crouch2prone
+		pb_rpg_crouch2prone
+		pb_hold_crouch2prone
+		pb_crouch2prone_pistol
+		pb_dw_crouch2prone
+		pb_grenade_crouch2prone
+
+		//
+		// PRONE_TO_CROUCH ANIMS
+		pb_briefcase_prone2crouch
+		pb_prone2crouch
+		pb_prone2crouchrun
+		pb_prone2crouchrun_back
+		pb_prone2crouchrun_left
+		pb_prone2crouchrun_right
+		pb_prone2crouch_pistol
+		pb_prone2crouchrun_pistol
+		pb_rpg_prone2crouch
+		pb_hold_prone2crouch
+		pb_hold_prone2crouchrun
+		pb_dw_prone2crouch
+		pb_dw_prone2crouchrun
+		pb_grenade_prone2crouch
+		pb_grenade_prone2crouchrun
+
+		//
+		// PRONE_TO_STAND ANIMS
+		//
+		pb_prone2stand
+		pb_prone2sprint
+		pb_prone2stand_pistol
+		pb_prone2sprint_pistol
+		pb_hold_prone2stand
+		pb_hold_prone2sprint
+		pb_dw_prone2stand
+		pb_dw_prone2sprint
+		pb_grenade_prone2stand
+		pb_grenade_prone2sprint
+
+		//
+		// STAND_TO_CROUCH ANIMS
+		//
+		pb_rifle_stand2crouch
+		pb_pistol_stand2crouch
+		pb_hold_stand2crouch
+		pb_dw_stand2crouch
+
+		//
+		// CROUCH_TO_STAND ANIMS
+		//
+		pb_rifle_crouch2stand
+		pb_pistol_crouch2stand
+		pb_hold_crouch2stand
+		pb_dw_crouch2stand
+
+
+		//
+		// STAND_TO_LASTSTAND, CROUCH_TO_LASTSTAND, PRONE_TO_LASTSTAND
+		//
+		pb_stand2laststand
+		pb_crouch2laststand
+		pb_prone2laststand
+
+		//
+		// LASTSTAND_TO_STAND, LASTSTAND_TO_CROUCH, LASTSTAND_TO_PRONE
+		pb_laststand2stand
+		pb_laststand2crouch
+		pb_laststand2prone
+
+		// 
+		// MANTLE ANIMS
+		//
+		mp_mantle_up_57
+		mp_mantle_up_51
+		mp_mantle_up_45
+		mp_mantle_up_39
+		mp_mantle_up_33
+		mp_mantle_up_27
+		mp_mantle_up_21
+		mp_mantle_over_high
+		mp_mantle_over_mid
+		mp_mantle_over_low 
+		
+		//
+		// DTP_MOVE ANIMS
+		//
+		pb_dive_prone
+		pb_dive_prone_pistol
+		pb_dw_dive_prone
+		pb_hold_dive_prone
+		pb_rpg_dive_prone
+
+		//
+		// DTP_LAND ANIMS
+		//
+		pb_dive_prone_land
+		pb_pistol_dive_prone_land
+		pb_dw_dive_prone_land
+		pb_hold_dive_prone_land
+		pb_rpg_dive_prone_land
+	
+		//
+		// SCRIPTEVENT ANIMS
+		//		
+
+		// Breach
+		pb_breach_shoulder
+		pb_breach_slide
+		pb_breach_lift
+		
+		//
+		// SLIDE_MOVE ANIMS
+		//
+		pb_terrain_slide
+		
+		//
+		// MG42 ANIMS
+		//
+		standSAWgunner_aim : complete nonloopsync
+		{
+			standSAWgunner_aim_15down
+			{
+				pb_saw_gunner_aim_down_right45
+				pb_saw_gunner_aim_down_right30
+				pb_saw_gunner_aim_down_right15
+				pb_saw_gunner_aim_down_center
+				pb_saw_gunner_aim_down_left15
+				pb_saw_gunner_aim_down_left30
+				pb_saw_gunner_aim_down_left45
+			}
+
+			standSAWgunner_aim_level
+			{
+				pb_saw_gunner_aim_level_right45
+				pb_saw_gunner_aim_level_right30
+				pb_saw_gunner_aim_level_right15
+				pb_saw_gunner_aim_level_center
+				pb_saw_gunner_aim_level_left15
+				pb_saw_gunner_aim_level_left30
+				pb_saw_gunner_aim_level_left45
+			}
+
+			standSAWgunner_aim_15up
+			{
+				pb_saw_gunner_aim_up_right45
+				pb_saw_gunner_aim_up_right30
+				pb_saw_gunner_aim_up_right15
+				pb_saw_gunner_aim_up_center
+				pb_saw_gunner_aim_up_left15
+				pb_saw_gunner_aim_up_left30
+				pb_saw_gunner_aim_up_left45
+			}
+		}
+
+		proneSAWgunner_aim : complete nonloopsync
+		{
+			proneSAWgunner_aim_15down
+			{
+				pb_saw_gunner_prone_aim_down_left40
+				pb_saw_gunner_prone_aim_down_left20
+				pb_saw_gunner_prone_aim_down_center
+				pb_saw_gunner_prone_aim_down_right20
+				pb_saw_gunner_prone_aim_down_right40
+			}
+
+			proneSAWgunner_aim_level
+			{
+				pb_saw_gunner_prone_aim_level_left40
+				pb_saw_gunner_prone_aim_level_left20
+				pb_saw_gunner_prone_aim_level_center
+				pb_saw_gunner_prone_aim_level_right20
+				pb_saw_gunner_prone_aim_level_right40
+			}
+
+			proneSAWgunner_aim_15up
+			{
+				pb_saw_gunner_prone_aim_up_left40
+				pb_saw_gunner_prone_aim_up_left20
+				pb_saw_gunner_prone_aim_up_center
+				pb_saw_gunner_prone_aim_up_right20
+				pb_saw_gunner_prone_aim_up_right40
+			}
+		}
+
+		crouchSAWgunner_aim : complete nonloopsync
+		{
+			crouchSAWgunner_aim_15down
+			{
+				pb_saw_gunner_lowwall_aim_down_left45
+				pb_saw_gunner_lowwall_aim_down_left30
+				pb_saw_gunner_lowwall_aim_down_left15
+				pb_saw_gunner_lowwall_aim_down_center
+				pb_saw_gunner_lowwall_aim_down_right15
+				pb_saw_gunner_lowwall_aim_down_right30
+				pb_saw_gunner_lowwall_aim_down_right45
+			}
+
+			crouchSAWgunner_aim_level
+			{
+				pb_saw_gunner_lowwall_aim_level_left45
+				pb_saw_gunner_lowwall_aim_level_left30
+				pb_saw_gunner_lowwall_aim_level_left15
+				pb_saw_gunner_lowwall_aim_level_center
+				pb_saw_gunner_lowwall_aim_level_right15
+				pb_saw_gunner_lowwall_aim_level_right30
+				pb_saw_gunner_lowwall_aim_level_right45
+			}
+
+			crouchSAWgunner_aim_15up
+			{
+				pb_saw_gunner_lowwall_aim_up_left45
+				pb_saw_gunner_lowwall_aim_up_left30
+				pb_saw_gunner_lowwall_aim_up_left15
+				pb_saw_gunner_lowwall_aim_up_center
+				pb_saw_gunner_lowwall_aim_up_right15
+				pb_saw_gunner_lowwall_aim_up_right30
+				pb_saw_gunner_lowwall_aim_up_right45
+			}
+		}
+
+		proneMG42_fire : complete loopsync
+		{
+			proneMG42_fire_15down
+			{
+				pb_proneMG42gunner_fire_40left_15down
+				pb_proneMG42gunner_fire_20left_15down
+				pb_proneMG42gunner_fire_forward_15down
+				pb_proneMG42gunner_fire_20right_15down
+				pb_proneMG42gunner_fire_40right_15down
+			}
+
+			proneMG42_fire_level
+			{
+				pb_proneMG42gunner_fire_40left_level
+				pb_proneMG42gunner_fire_20left_level
+				pb_proneMG42gunner_fire_forward_level
+				pb_proneMG42gunner_fire_20right_level
+				pb_proneMG42gunner_fire_40right_level
+			}
+
+			proneMG42_fire_15up
+			{
+				pb_proneMG42gunner_fire_40left_15up
+				pb_proneMG42gunner_fire_20left_15up
+				pb_proneMG42gunner_fire_forward_15up
+				pb_proneMG42gunner_fire_20right_15up
+				pb_proneMG42gunner_fire_40right_15up
+			}
+		}
+
+		proneMG42_aim : complete nonloopsync
+		{
+			proneMG42_aim_15down
+			{
+				pb_proneMG42gunner_aim_40left_15down
+				pb_proneMG42gunner_aim_20left_15down
+				pb_proneMG42gunner_aim_forward_15down
+				pb_proneMG42gunner_aim_20right_15down
+				pb_proneMG42gunner_aim_40right_15down
+			}
+
+			proneMG42_aim_level
+			{
+				pb_proneMG42gunner_aim_40left_level
+				pb_proneMG42gunner_aim_20left_level
+				pb_proneMG42gunner_aim_forward_level
+				pb_proneMG42gunner_aim_20right_level
+				pb_proneMG42gunner_aim_40right_level
+			}
+
+			proneMG42_aim_15up
+			{
+				pb_proneMG42gunner_aim_40left_15up
+				pb_proneMG42gunner_aim_20left_15up
+				pb_proneMG42gunner_aim_forward_15up
+				pb_proneMG42gunner_aim_20right_15up
+				pb_proneMG42gunner_aim_40right_15up
+			}
+		}
+
+
+		standMG42_fire : complete loopsync
+		{
+			standMG42_fire_15down
+			{
+				pb_standMG42gunner_fire_45left_15down
+				pb_standMG42gunner_fire_30left_15down
+				pb_standMG42gunner_fire_15left_15down
+				pb_standMG42gunner_fire_forward_15down
+				pb_standMG42gunner_fire_15right_15down
+				pb_standMG42gunner_fire_30right_15down
+				pb_standMG42gunner_fire_45right_15down
+			}
+
+			standMG42_fire_level
+			{
+				pb_standMG42gunner_fire_45left_level
+				pb_standMG42gunner_fire_30left_level
+				pb_standMG42gunner_fire_15left_level
+				pb_standMG42gunner_fire_forward_level
+				pb_standMG42gunner_fire_15right_level
+				pb_standMG42gunner_fire_30right_level
+				pb_standMG42gunner_fire_45right_level
+			}
+
+			standMG42_fire_15up
+			{
+				pb_standMG42gunner_fire_45left_15up
+				pb_standMG42gunner_fire_30left_15up
+				pb_standMG42gunner_fire_15left_15up
+				pb_standMG42gunner_fire_forward_15up
+				pb_standMG42gunner_fire_15right_15up
+				pb_standMG42gunner_fire_30right_15up
+				pb_standMG42gunner_fire_45right_15up
+			}
+		}
+
+		standMG42_aim : complete nonloopsync
+		{
+			standMG42_aim_15down
+			{
+				pb_standMG42gunner_aim_45left_15down
+				pb_standMG42gunner_aim_30left_15down
+				pb_standMG42gunner_aim_15left_15down
+				pb_standMG42gunner_aim_forward_15down
+				pb_standMG42gunner_aim_15right_15down
+				pb_standMG42gunner_aim_30right_15down
+				pb_standMG42gunner_aim_45right_15down
+			}
+
+			standMG42_aim_level
+			{
+				pb_standMG42gunner_aim_45left_level
+				pb_standMG42gunner_aim_30left_level
+				pb_standMG42gunner_aim_15left_level
+				pb_standMG42gunner_aim_forward_level
+				pb_standMG42gunner_aim_15right_level
+				pb_standMG42gunner_aim_30right_level
+				pb_standMG42gunner_aim_45right_level
+			}
+
+			standMG42_aim_15up
+			{
+				pb_standMG42gunner_aim_45left_15up
+				pb_standMG42gunner_aim_30left_15up
+				pb_standMG42gunner_aim_15left_15up
+				pb_standMG42gunner_aim_forward_15up
+				pb_standMG42gunner_aim_15right_15up
+				pb_standMG42gunner_aim_30right_15up
+				pb_standMG42gunner_aim_45right_15up
+			}
+		}
+
+		//
+		// DEATH ANIMS
+		//
+
+		// Explosive
+		pb_death_flyback
+		pb_death_flatonback
+		pb_death_forwardtoface
+		pb_death_jackiespin_inplace
+		pb_death_legsout_left
+		pb_death_legsout_right
+		// ExplosiveHeavy
+		pb_death_flyback_far
+		pb_death_armslegsforward
+		pb_death_armslegsforward_b
+		pb_death_upontoback
+		pb_death_faceplant
+		pb_death_jackiespin_vertical
+		pb_death_jackiespin_left
+		pb_death_jackiespin_right
+		// Prone
+		pb_prone_death_quickdeath
+		pb_laststand_death
+		// Crouch
+		pb_crouch_death_headshot_front
+		pb_crouch_death_clutchchest
+		pb_crouch_death_flip
+		pb_crouch_death_fetal
+		pb_crouch_death_falltohands
+		// Crouch run
+		pb_crouchrun_death_drop
+		pb_crouchrun_death_crumple
+		// Stand
+		pb_stand_death_spin
+		pb_stand_death_legs
+		pb_stand_death_lowerback
+		pb_stand_death_head_collapse
+		pb_stand_death_neckdeath_thrash
+		pb_stand_death_neckdeath				
+		pb_stand_death_nervedeath			
+		pb_stand_death_frontspin			// Hit from front in head, upper chest or right shoulder.
+		pb_stand_death_headchest_topple	// Hit in head or chest from any direction.  Falls back, one leg goes up.		
+		// Run
+		pb_death_run_forward_crumple
+		pb_death_run_onfront
+		pb_death_run_stumble
+		pb_death_run_back
+		pb_death_run_left
+		pb_death_run_right
+		// Martyrdom
+		pb_stand_martyrdom_death
+		pb_crouch_martyrdom_death
+		pb_prone_martyrdom_death
+		// Coward's Way Out
+		pb_laststand_suicide
+		pb_laststand_suicide_death
+	
+		//
+		// STUMBLE, STUMBLEBK ANIMS
+		//
+		pb_stumble_forward
+		pb_stumble_back
+		pb_stumble_left
+		pb_stumble_right
+		pb_stumble_pistol_right	
+		pb_stumble_pistol_left
+		pb_stumble_pistol_forward
+		pb_stumble_pistol_back
+		pb_stumble_grenade_right
+		pb_stumble_grenade_left
+		pb_stumble_grenade_forward
+		pb_stumble_grenade_back
+		pb_hold_stumble_right
+		pb_hold_stumble_left
+		pb_hold_stumble_forward
+		pb_hold_stumble_back
+		pb_dw_stumble_right
+		pb_dw_stumble_left
+		pb_dw_stumble_forward
+		pb_dw_stumble_back
+
+		//
+		// STUMBLEWALK, STUMBLEWALKBK ANIMS
+		//
+		pb_stumble_walk_forward
+		pb_stumble_walk_back
+		pb_stumble_walk_left
+		pb_stumble_walk_right
+		pb_stumble_pistol_walk_right	// WALKING w/pistol
+		pb_stumble_pistol_walk_left
+		pb_stumble_pistol_walk_forward
+		pb_stumble_pistol_walk_back
+		pb_hold_stumble_walk_right	
+		pb_hold_stumble_walk_left
+		pb_hold_stumble_walk_forward
+		pb_hold_stumble_walk_back
+		pb_dw_stumble_walk_right	
+		pb_dw_stumble_walk_left
+		pb_dw_stumble_walk_forward
+		pb_dw_stumble_walk_back	
+		
+		//
+		// TURNING ANIMS
+		//
+		pb_briefcase_stand_turn_l90 [turn = 217.0]
+		pb_briefcase_stand_turn_r90 [turn = 217.0]
+		pb_briefcase_crouch_turn_l90 [turn = 90.0]
+		pb_briefcase_crouch_turn_r90 [turn = 90.0]
+		pb_briefcase_prone_turn_l90 [turn = 72.0]
+		pb_briefcase_prone_turn_r90 [turn = 72.0]
+		pb_hold_turn_90left [turn = 217.0]
+		pb_hold_turn_90right [turn = 217.0]
+		pb_hold_crouchturn_90left [turn = 90.0]
+		pb_hold_crouchturn_90right [turn = 90.0]
+		pb_minigun_stand_turn_90left [turn = 217.0]
+		pb_minigun_stand_turn_90right [turn = 217.0]
+		pb_minigun_crouch_turn_90left [turn = 90.0]
+		pb_minigun_crouch_turn_90right [turn = 90.0]
+		pb_rpg_stand_turn90L [turn = 217.0]
+		pb_rpg_stand_turn90R [turn = 217.0]
+		pb_rpg_crouch_turn90L [turn = 90.0]
+		pb_rpg_crouch_turn90R [turn = 90.0]
+		pb_dw_turn_90left [turn = 217.0]		
+		pb_dw_turn_90right [turn = 217.0]
+		pb_dw_crouchturn_90right [turn = 90.0]
+		pb_dw_crouchturn_90left [turn = 90.0]
+		pb_pistol_turn_90left [turn = 217.0]		
+		pb_pistol_turn_90right [turn = 217.0]
+		pb_pistol_crouchturn_90right [turn = 90.0]
+		pb_pistol_crouchturn_90left [turn = 90.0]
+		pb_pistol_crouch_start_turn_90right [turn = 217.0]
+		pb_pistol_crouch_start_turn_90left [turn = 217.0]
+		pb_grenade_turn_90left [turn = 217.0]			
+		pb_grenade_turn_90right	[turn = 217.0]
+		pb_grenade_crouchturn_90right [turn = 90.0]
+		pb_grenade_crouchturn_90left [turn = 90.0]
+		pb_turn_90left [turn = 217.0]
+		pb_turn_90right	[turn = 217.0]
+		pb_crouchturn_90right [turn = 90.0]
+		pb_crouchturn_90left [turn = 90.0]
+		pb_prone_turn_90left [turn = 72.0]
+		pb_prone_turn_90right [turn = 72.0]
+		pb_grenade_prone_turn_90left [turn = 72.0]
+		pb_grenade_prone_turn_90right [turn = 72.0]
+		pb_pistol_prone_turn_90left [turn = 72.0]	
+		pb_pistol_prone_turn_90right [turn = 72.0]
+		pb_dw_prone_turn_90right [turn = 72.0]
+		pb_dw_prone_turn_90left [turn = 72.0]
+		pb_rpg_prone_turn90L [turn = 72.0]
+		pb_rpg_prone_turn90R [turn = 72.0]
+		pb_hold_prone_turn_90left [turn = 72.0]
+		pb_hold_prone_turn_90right [turn = 72.0]
+		pb_laststand_turn_l90 [turn = 72.0]
+		pb_laststand_turn_r90 [turn = 72.0]
+
+		//
+		// VEHICLE ANIMS
+		//
+
+		// jeep
+		sitting_jeepgunner_aim : complete nonloopsync
+		{
+			sitting_jeepgunner_aim_center
+			{
+				p_driver_jeep_seated
+			}
+		}
+		
+		// huey
+//		hueygunner1_aim : complete nonloopsync
+//		{
+//			hueygunner1_aim_60down
+//			{
+//				pb_huey_gunner_aim_60down_60left
+//				pb_huey_gunner_aim_forward_60down
+//				pb_huey_gunner_aim_60down_60right
+//			}
+//			hueygunner1_aim_center
+//			{
+//				pb_huey_gunner_aim_60left_level
+//				pb_huey_gunner_aim_forward_level
+//				pb_huey_gunner_aim_60right_level
+//			}
+//			hueygunner1_aim_60up
+//			{
+//				pb_huey_gunner_aim_60up_60left
+//				pb_huey_gunner_aim_forward_60up
+//				pb_huey_gunner_aim_60up_60right
+//			}
+//		}
+//		hueygunner2_aim : complete nonloopsync
+//		{
+//			hueygunner2_aim_60down
+//			{
+//				pb_huey_gunner_aim_60down_60left
+//				pb_huey_gunner_aim_forward_60down
+//				pb_huey_gunner_aim_60down_60right
+//			}
+//			hueygunner2_aim_center
+//			{
+//				pb_huey_gunner_aim_60left_level
+//				pb_huey_gunner_aim_forward_level
+//				pb_huey_gunner_aim_60right_level
+//			}
+//			hueygunner2_aim_60up
+//			{
+//				pb_huey_gunner_aim_60up_60left
+//				pb_huey_gunner_aim_forward_60up
+//				pb_huey_gunner_aim_60up_60right
+//			}
+//		}
+		hueypassenger1_aim : complete nonloopsync
+		{
+			huey_passenger_b_lt_aim_60down
+			{
+				pb_huey_passenger_b_lt_aim_60down_60left
+				pb_huey_passenger_b_lt_aim_forward_60down
+				pb_huey_passenger_b_lt_aim_60down_60right
+			}
+			huey_passenger_b_lt_aim_center
+			{
+				pb_huey_passenger_b_lt_aim_60left_level
+				pb_huey_passenger_b_lt_aim_forward_level
+				pb_huey_passenger_b_lt_aim_60right_level
+			}
+			huey_passenger_b_lt_aim_60up
+			{
+				pb_huey_passenger_b_lt_aim_60up_60left
+				pb_huey_passenger_b_lt_aim_forward_60up
+				pb_huey_passenger_b_lt_aim_60up_60right
+			}
+		}
+		hueypassenger2_aim : complete nonloopsync
+		{
+			sitting_huey_passenger_f_lt_aim_center
+			{
+				pb_huey_passenger_f_lt
+			}
+		}
+		hueypassenger3_aim : complete nonloopsync
+		{
+			sitting_huey_passenger_m_lt_aim_center
+			{
+				pb_huey_passenger_m_lt
+			}
+		}
+		hueypassenger4_aim : complete nonloopsync
+		{
+			sitting_huey_passenger_m_rt_aim_center
+			{
+				pb_huey_passenger_m_rt
+			}
+		}
+		hueypassenger5_aim : complete nonloopsync
+		{
+			sitting_huey_passenger_f_rt_aim_center
+			{
+				pb_huey_passenger_f_rt
+			}
+		}
+		hueypassenger6_aim : complete nonloopsync
+		{
+			sitting_huey_passenger_b_rt_aim_center
+			{
+				pb_huey_passenger_b_rt
+			}
+		}
+		
+		// pbr - boat
+		pbrdriver : complete nonloopsync
+		{
+			pbrdriver_aim_center
+			{
+				pb_pbr_driver_idle
+			}
+		}
+		pbrgunner1_aim : complete nonloopsync
+		{
+			pbrgunner1_aim_60down
+			{
+				pb_huey_gunner_aim_forward_60down
+			}
+			pbrgunner1_aim_center
+			{
+				pb_huey_gunner_aim_forward_level
+			}
+			pbrgunner1_aim_60up
+			{
+				pb_huey_gunner_aim_forward_60up
+			}
+		}
+//		pbrgunner2_aim : complete nonloopsync
+//		{
+//			pbrgunner2_aim_60down
+//			{
+//				pb_huey_gunner_aim_60down_60left
+//				pb_huey_gunner_aim_forward_60down
+//				pb_huey_gunner_aim_60down_60right
+//			}
+//			pbrgunner2_aim_center
+//			{
+//				pb_huey_gunner_aim_60left_level
+//				pb_huey_gunner_aim_forward_level
+//				pb_huey_gunner_aim_60right_level
+//			}
+//			pbrgunner2_aim_60up
+//			{
+//				pb_huey_gunner_aim_60up_60left
+//				pb_huey_gunner_aim_forward_60up
+//				pb_huey_gunner_aim_60up_60right
+//			}
+//		}
+		fake_gunner_aim : complete nonloopsync
+		{
+			fake_gunner_aim_60down
+			{
+				pb_huey_gunner_aim_60down_60left
+				pb_huey_minigun_aim_down
+				pb_huey_gunner_aim_60down_60right
+			}
+			fake_gunner_aim_center
+			{
+				pb_huey_gunner_aim_60left_level
+				pb_huey_minigun_aim
+				pb_huey_gunner_aim_60right_level
+			}
+			fake_gunner_aim_60up
+			{
+				pb_huey_gunner_aim_60up_60left
+				pb_huey_minigun_aim_up
+				pb_huey_gunner_aim_60up_60right
+			}
+		}
+		
+		// chopper gunner anims
+//		pb_huey_minigun_aim
+//		pb_huey_minigun_aim_down
+//		pb_huey_minigun_aim_up
+//		pb_huey_gunner_aim_60left_level
+//		pb_huey_gunner_aim_60right_level
+//		pb_huey_gunner_aim_60down_60left
+//		pb_huey_gunner_aim_60down_60right
+//		pb_huey_gunner_aim_60up_60left
+//		pb_huey_gunner_aim_60up_60right
+	}
+}
+
+turning
+{
+	placeholder
+}

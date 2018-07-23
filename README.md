@@ -1107,11 +1107,9 @@
 * Five: get wall barrier and metal vent barrier tear down and rebuild sounds from other maps working (zmb_rock_fix, zmb_vent_fix, zmb_break_rock_barrier, evt_vent_slat_remove)
 * Try making dvars unchangeable from console
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
-* Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Deadshot: add fast ADS move speed correctly
 * Show player's perks when spectating (player.spectatorclient?)
-* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Fix sprint and dive anims on Ray Gun
 * Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
@@ -1125,13 +1123,10 @@
 * Bouncing Betty: add better sprint and dive anims
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
+* Versus: fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
+* Versus: fix red powerup grab FX
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
-
-### Versus Todo
-* Fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
-* Get BO2 sounds: zmb_land_meat, zmb_pickup_meat
-* Make red powerup FX from Moon work properly
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1147,6 +1142,8 @@
 * Fix Wunderwaffe not arcing after first kill rarely
 * Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
 * Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
+* Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
+* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 
 ### Cannot Do Yet
 * Add fast ADS to Speed Cola (when it becomes possible through game_mod)
@@ -1155,17 +1152,10 @@
 * Add left and right empty idle, drop, raise, sprint, and dive anims for dual wields weapons (engine currently uses only main weapon anims for these)
 
 ### Maybe
-* Ascension: obtain Double Tap by getting perk bottle with all other perks already?
-* Remove switching weapons check from perks, knives, and pack-a-punch?
 * Shangri-La: should mud pit sidequest step need the radio to be activated to work? No
 * Moon: should teleporter gate start going down before power is on? No
-* Should there be a zombie spawn delay?
-* Should NML have insta kill rounds? No
 * If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
 * Should special rounds always be 5 rounds apart?
-* Health bar for player's health?
-* Make wallbuy hintstrings show only buy weapon, buy ammo, or buy upgraded ammo?
-* Add C4?
 
 ### Testing
 * Moon sidequest dialog in coop without Richtofen
@@ -1253,6 +1243,7 @@
 * **_HitmanVere_** - sprint and dive animations for World at War weapons
 * **_UltraZombieDino_** - Black Ops 3 P.E.S. model and animations, Black Ops 3 Gersch Device model, Black Ops 2 Ray Gun first raise and dry fire sounds, World at War marine models, assisted with World at War weapon models
 * **_KagamineAddict_** - updated P.E.S. visor texture
+* **_Joshwoocool_** - Black Ops 2 grief shock FX and meat FX
 * **_Killer Potato_** - Call of Duty: WWII Stielhandgranate HUD icon
 * **_Jerri13_** - Black Ops 3 Gersch Device model
 * **_ZeRoY_** - function list

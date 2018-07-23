@@ -284,14 +284,14 @@ weapon,sp/stoner63_zm
 weapon,sp/stoner63_upgraded_zm
 weapon,sp/psg1_zm
 weapon,sp/psg1_upgraded_zm
-weapon,sp/zombie_perk_bottle
+weapon,sp/falling_hands_zm
+//weapon,sp/zombie_perk_bottle
 weapon,sp/meat_zm
 weapon,sp/starburst_ray_gun_zm
 weapon,sp/starburst_m72_law_zm
 weapon,sp/starburst_china_lake_zm
 weapon,sp/tesla_gun_powerup_zm
 weapon,sp/tesla_gun_powerup_upgraded_zm
-weapon,sp/falling_hands_zm
 
 //SOUNDS
 sound,reimagined
@@ -379,14 +379,13 @@ xmodel,t5_weapon_quantum_bomb_viewmodel
 xmodel,t5_weapon_quantum_bomb_world
 
 //ANIMS
-//xanim,pt_radio_stand_raise
-//xanim,pt_radio_crouch_raise
+//xanim,p_zombie_perkacola_drink
 xanim,ai_zombie_fast_sprint_01
 xanim,ai_zombie_fast_sprint_02
 
 //PLAYER ANIMS
-//rawfile,mp/playeranim.script
 //rawfile,mp/playeranimtypes.txt
+//rawfile,mp/playeranim.script
 //rawfile,animtrees/multiplayer.atr
 
 //CHARACTERS

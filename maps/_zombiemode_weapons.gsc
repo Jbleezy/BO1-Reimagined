@@ -384,17 +384,27 @@ init_pay_turret()
 // For buying weapon upgrades in the environment
 init_weapon_upgrade()
 {
+	if(level.script == "zombie_cod5_asylum")
+	{
+		PrecacheModel("model_springfield_chalk");
+	}
+
 	weapon_spawns = [];
 	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" );
-
-	//PrecacheModel("model_springfield_chalk");
 
 	for( i = 0; i < weapon_spawns.size; i++ )
 	{
         if(weapon_spawns[i].zombie_weapon_upgrade == "zombie_bar_bipod")
         {
         	weapon_spawns[i].zombie_weapon_upgrade = "zombie_bar";
-        	weapon_spawns[i].override_weapon_model = true;
+
+        	old_model = GetEnt( weapon_spawns[i].target, "targetname" );
+			weapon_spawns[i].override_weapon_model = Spawn( "script_model", old_model.origin );
+			weapon_spawns[i].override_weapon_model.angles = old_model.angles;
+			weapon_spawns[i].override_weapon_model SetModel( GetWeaponModel( weapon_spawns[i].zombie_weapon_upgrade ) );
+			weapon_spawns[i].override_weapon_model useweaponhidetags( weapon_spawns[i].zombie_weapon_upgrade );
+			weapon_spawns[i].override_weapon_model Hide();
+			old_model Delete();
         }
 
 		if(level.script == "zombie_cod5_asylum")
@@ -402,12 +412,19 @@ init_weapon_upgrade()
 			if(weapon_spawns[i].zombie_weapon_upgrade == "zombie_kar98k" && IsDefined(weapon_spawns[i].target) && weapon_spawns[i].target == "pf178_auto1")
 			{
 				weapon_spawns[i].zombie_weapon_upgrade = "zombie_springfield";
-				weapon_spawns[i].override_weapon_model = true;
 				weapon_spawns[i].script_noteworthy = "springfield";
 
+				old_model = getent( weapon_spawns[i].target, "targetname" );
+				weapon_spawns[i].override_weapon_model = Spawn( "script_model", old_model.origin + (-1.5, 0, 0) );
+				weapon_spawns[i].override_weapon_model.angles = old_model.angles;
+				weapon_spawns[i].override_weapon_model SetModel( GetWeaponModel( weapon_spawns[i].zombie_weapon_upgrade ) );
+				weapon_spawns[i].override_weapon_model useweaponhidetags( weapon_spawns[i].zombie_weapon_upgrade );
+				weapon_spawns[i].override_weapon_model hide();
+				old_model Delete();
+
 				/*brushmodels = GetEntArray("script_brushmodel", "classname");
-				chalk = Spawn("script_brushmodel", brushmodels[202].origin);
-				chalk.angles = brushmodels[202].angles;
+				chalk = Spawn("script_model", brushmodels[202].origin + (0, 1, 0)); // origin = (1235, 57, 131)
+				chalk.angles = brushmodels[202].angles + (0, 180, 0);
 				chalk SetModel("model_springfield_chalk");
 				brushmodels[202] Hide();*/
 			}
@@ -3452,13 +3469,7 @@ weapon_spawn_think()
 				{
 					if(IsDefined(self.override_weapon_model))
 					{
-						old_model = getent( self.target, "targetname" );
-						model = Spawn( "script_model", old_model.origin );
-						model.angles = old_model.angles;
-						model SetModel( GetWeaponModel( self.zombie_weapon_upgrade ) );
-						model useweaponhidetags( self.zombie_weapon_upgrade );
-						model hide();
-						old_model Delete();
+						model = self.override_weapon_model;
 					}
 					else
 					{
@@ -3536,13 +3547,7 @@ weapon_spawn_think()
 				{
 					if(IsDefined(self.override_weapon_model))
 					{
-						old_model = getent( self.target, "targetname" );
-						model = Spawn( "script_model", old_model.origin );
-						model.angles = old_model.angles;
-						model SetModel( GetWeaponModel( self.zombie_weapon_upgrade ) );
-						model useweaponhidetags( self.zombie_weapon_upgrade );
-						model hide();
-						old_model Delete();
+						model = self.override_weapon_model;
 					}
 					else
 					{
