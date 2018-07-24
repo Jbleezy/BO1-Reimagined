@@ -1096,7 +1096,6 @@
 * Win by being a survivor after the time limit or get all players infected
 
 ## TODO
-* Add Springfield chalk? (chalk is much brighter than the other chalks, and kar98k chalk fits the model just as well)
 * Add BO3 weapon models (Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun)
 * Thundergun: add 4th power cell FX
 * Make players drink perks correctly in third person (fixed in BO2)
@@ -1246,16 +1245,10 @@
 * **_Joshwoocool_** - Black Ops 2 grief shock FX and meat FX
 * **_Killer Potato_** - Call of Duty: WWII Stielhandgranate HUD icon
 * **_Jerri13_** - Black Ops 3 Gersch Device model
+* **_KHEL MHO_** - assisted with Springfield chalk model
 * **_ZeRoY_** - function list
 * **_UGX_** - scripting reference
 * **_SE2Dev_** - LinkerMod
 * **_Nukem_** - LinkerMod
 * **_DTZxPorter_** - Wraith
 * **_Treyarch_** - Assets, source code, and an amazing base game
-
-## TESTERS
-* **_FleshCrunch_**
-* **_Ph3Nix_**
-* **_WECoyote99_**
-* **_Pure_**
-* **_donnellyian1995_**
