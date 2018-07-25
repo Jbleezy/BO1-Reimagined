@@ -589,6 +589,7 @@
 ## Perks
 * Perks now become active as soon as the player starts to put away the perk bottle
 * Added gloss to all perk bottles
+* Now uses 3rd person perk drink animation from Black Ops 2
 * Multiple players can now buy the same perk at the same time
 * Perks now fade in on the HUD when obtained
 * Removed blur effect that previously happened after buying a perk
@@ -616,6 +617,7 @@
 ### Mule Kick
 * Removed from Nacht Der Untoten
 * Added jingle
+* Fixed 3rd person model
 * Third weapon slot will now always be the correct weapon
 * Name of weapon that will be lost when downed is shown in yellow text
 * Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, the player already has the weapon, the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or the player bled out)
@@ -1045,8 +1047,8 @@
 * Win a round by killing the remainder of the zombies spawned on the map after all enemies have downed
 * If both teams die on a round, neither team will get a point
 * Win the game by winning 3 rounds
-* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time though)
-* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time though)
+* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
+* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
 
 #### Race
 * Unlimited zombies
@@ -1054,8 +1056,8 @@
 * Starts at round 1, every 45 seconds round increases until round 20
 * Gain 500 points on each round increase if you are alive
 * First team to 250 kills, or team with most kills after round 20 wins
-* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time though)
-* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time though)
+* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
+* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
 
 #### Gun Game
 * Unlimited zombies
@@ -1073,32 +1075,12 @@
 * Zombies will drop a gun increment powerup after getting 10 kills with your current weapon
 * New powerup: upgrade weapon powerup (for 30 seconds get the upgraded version of any weapon you are currently on)
 * Only the player who killed the zombie can grab and see the gun increment powerup
-* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time though)
-* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time though)
-
-#### King of the Hill (scrapped)
-* Unlimited zombies
-* Gain points by controlling an area of the map without any enemies contesting the area
-* Win the game by reaching the score limit
-
-#### Capture (scrapped)
-* Unlimited zombies
-* Gain points by capturing the enemy team's meat
-* 2 rounds (switch side after the first round)
-* Win the game by having the most points at the end of the game
-* First round ends if a team scores 3 points
-
-#### Turned (scrapped)
-* Unlimited zombies
-* Every player starts off not infected
-* When a player dies, they become infected
-* Infected player must attempt to infect the uninfected player
-* Win by being a survivor after the time limit or get all players infected
+* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
+* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
 
 ## TODO
 * Add BO3 weapon models (Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun)
 * Thundergun: add 4th power cell FX
-* Make players drink perks correctly in third person (fixed in BO2)
 * COTD: fix Director not doing anim when getting angry
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
@@ -1126,6 +1108,8 @@
 * Versus: fix red powerup grab FX
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
+* Fix Mule Kick perk bottle material
+* Fix _out perk bottle materials
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated

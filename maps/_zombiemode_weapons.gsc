@@ -3989,7 +3989,7 @@ init_includes()
  	include_weapon("stoner63_zm");
  	include_weapon("psg1_zm");
  	include_weapon("ppsh_zm");
- 	include_weapon("falling_hands_zm");
+ 	include_weapon("falling_hands_zm", false);
 
  	if(!(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.script == "zombie_cod5_sumpf"))
  	{
