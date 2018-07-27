@@ -1105,7 +1105,6 @@
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
 * Versus: fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
-* Versus: fix red powerup grab FX
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 
