@@ -1636,8 +1636,8 @@ difficulty_init()
 		}
 		else
 		{
-			players[p].score = 500000;
-			//players[p].score = 500;
+			//players[p].score = 500000;
+			players[p].score = 500;
 		}
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
@@ -1806,7 +1806,7 @@ onPlayerConnect_clientDvars()
 
 	self SetClientDvar("cg_drawFPSLabels", 0); // makes FPS area in corner smaller
 
-	//self SetClientDvar("sv_cheats", 0); // uncomment on release
+	self SetClientDvar("sv_cheats", 0); // uncomment on release
 
 	self SetClientDvar("g_friendlyFireDist", 0);
 
@@ -2111,7 +2111,7 @@ onPlayerSpawned()
 
 				//self thread player_health_watcher();
 				self thread points_cap();
-				self thread give_weapons_test();
+				//self thread give_weapons_test();
 				//self thread velocity_test();
 
 				self thread player_gravity_fix();
@@ -4725,9 +4725,9 @@ round_think()
 		if(!IsDefined(level.test_variable))
 		{
 			level.test_variable = true;
-			level.round_number = 5;
+			level.round_number = 100;
 			level.zombie_vars["zombie_spawn_delay"] = .08;
-			level.zombie_move_speed = 36;
+			level.zombie_move_speed = 101;
 			//level.zombie_ai_limit = 5;
 		}
 

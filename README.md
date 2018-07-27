@@ -593,8 +593,8 @@
 * Multiple players can now buy the same perk at the same time
 * Perks now fade in on the HUD when obtained
 * Removed blur effect that previously happened after buying a perk
-* Perk order will no longer be changed when losing a perk
-* All perk machines on all maps now make a sound when bumping into them
+* Perk order no longer changes when losing a perk
+* All perk machines now make a sound when bumping into them
 
 ### Quick Revive
 * Hintstring now says "Quick Revive" in solo and coop
@@ -1108,8 +1108,6 @@
 * Versus: fix red powerup grab FX
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
-* Fix Mule Kick perk bottle material
-* Fix _out perk bottle materials
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1145,6 +1143,7 @@
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
+* Test 3rd person perk drink anim
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds
