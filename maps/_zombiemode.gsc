@@ -1797,16 +1797,19 @@ onPlayerConnect_clientDvars()
 	// reset dvar that changes when double tap is bought
 	self SetClientDvar("player_burstFireCooldown", .2);
 
-	//self setClientDvar("cg_weaponCycleDelay", "100"); // added in menu options
+	self setClientDvar("cg_weaponCycleDelay", "100");
 
 	self setClientDvar( "aim_lockon_pitch_strength", 0.0 );
 	self setClientDvar( "aim_automelee_enabled", 0 );
 
-	self SetClientDvar("r_zombieNameAllowDevList", 0); // disable dev names on cosmonaut
+	// disable dev names on cosmonaut
+	self SetClientDvar("r_zombieNameAllowDevList", 0);
 
-	self SetClientDvar("cg_drawFPSLabels", 0); // makes FPS area in corner smaller
+	// makes FPS area in corner smaller
+	self SetClientDvar("cg_drawFPSLabels", 0);
 
-	self SetClientDvar("sv_cheats", 0); // uncomment on release
+	// uncomment on release
+	self SetClientDvar("sv_cheats", 0);
 
 	self SetClientDvar("g_friendlyFireDist", 0);
 
