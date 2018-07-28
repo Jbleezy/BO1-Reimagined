@@ -45,6 +45,7 @@ init()
 			level thread unlimited_ammo();
 			level thread increase_round_number();
 			level thread increase_zombie_health();
+			level thread increase_zombie_move_speed();
 			level thread increase_zombie_spawn_rate();
 			level thread setup_gungame_weapons();
 			level thread setup_grief_top_playernames();
@@ -1228,7 +1229,7 @@ unlimited_zombies()
 increase_zombie_move_speed()
 {
 	wait 1;
-	level.zombie_move_speed = 100;
+	level.zombie_move_speed = 101;
 }
 
 increase_zombie_spawn_rate()

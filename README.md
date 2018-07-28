@@ -1101,12 +1101,21 @@
 * Fix textures getting changed when getting sprayed with flamethrower attachment
 * Optimize zombies in barrier and traversing barrier code
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
-* Bouncing Betty: add better sprint and dive anims
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
 * Versus: fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
+* Add way to tell to when box cycle is done
+* Five: make it so wooden boards are down from the beginning but can be rebuilt immediately
+* FPS counter: move down one more line in coop due to host
+* Search and Rezurrect: fix bug where win/round restart happens twice after a team wins a round
+* Gun Game: make all sprinters instead of all runners
+* Versus: make it so normal powerups only effect team that picked them up
+* Versus: fix betties not being triggered by enemies
+* Versus: negative nuke powerdown - does 50 damage to all enemy players
+* Versus: positive points powerup - gives every teammate points
+* Make placeable mines buyable after already buying them to refill ammo
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1143,6 +1152,7 @@
 * Test if players are able to grief teammates (need 3-4 players)
 * Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
 * Test 3rd person perk drink anim
+* Test if Springfield wall chalk still has z-fighting
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds

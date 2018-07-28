@@ -1344,10 +1344,8 @@ player_elec_damage()
 		}
 		if(!self hasperk("specialty_armorvest") || self.health - 100 < 1)
 		{
-
 			radiusdamage(self.origin,10,self.health + 100,self.health + 100);
 			self.is_burning = undefined;
-
 		}
 		else
 		{

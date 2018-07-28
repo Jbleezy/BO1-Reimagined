@@ -9305,7 +9305,7 @@ player_gravity_fix()
 	{
 		vel = self GetVelocity();
 
-		if(!self IsOnGround() && vel[2] == 0)
+		if(!self IsOnGround() && vel[2] == 0 && !is_true(self.inteleportation))
 		{
 			self SetVelocity( vel + (0, 0, -1 * force) );
 
