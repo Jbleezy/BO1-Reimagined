@@ -132,25 +132,22 @@ init_powerups()
 	add_zombie_powerup( "random_weapon", "zombie_pickup_minigun", &"ZOMBIE_POWERUP_MAX_AMMO", true, false, false );
 
 	// bonus points
-	add_zombie_powerup( "bonus_points_player", "zombie_z_money_icon", &"ZOMBIE_POWERUP_BONUS_POINTS", true, false, false );
-	add_zombie_powerup( "bonus_points_team", "zombie_z_money_icon", &"ZOMBIE_POWERUP_BONUS_POINTS", false, false, false );
-	add_zombie_powerup( "lose_points_team", "zombie_z_money_icon", &"ZOMBIE_POWERUP_LOSE_POINTS", false, false, true );
+	add_zombie_powerup( "bonus_points_player", "zombie_z_money_icon", &"REIMAGINED_BONUS_POINTS", true, false, false );
+	add_zombie_powerup( "bonus_points_team", "zombie_z_money_icon", &"REIMAGINED_BONUS_POINTS", false, false, false );
 
 	// lose perk
 	add_zombie_powerup( "lose_perk", "zombie_pickup_perk_bottle", &"ZOMBIE_POWERUP_MAX_AMMO", false, false, true );
+	
+	// grief powerdowns
+	add_zombie_powerup( "lose_points_team", "zombie_z_money_icon", &"REIMAGINED_LOSE_POINTS", false, true, false );
+	add_zombie_powerup( "empty_clip", "zombie_ammocan", &"REIMAGINED_CLIP_UNLOAD", false, true, false );
+	add_zombie_powerup( "half_points", "zombie_x2_icon", &"REIMAGINED_HALF_POINTS", false, true, false );
+	add_zombie_powerup( "half_damage", "zombie_skull", &"REIMAGINED_HALF_DAMAGE", false, true, false );
+	add_zombie_powerup( "hurt_players", "zombie_bomb", &"ZOMBIE_POWERUP_NUKE", false, true, false, "misc/fx_zombie_mini_nuke_hotness" );
+	//add_zombie_powerup( "slow_down", "p_rus_boots_sloppy", &"REIMAGINED_SLOW_DOWN", false, true, false );
 
-	// empty clip
-	add_zombie_powerup( "empty_clip", "zombie_ammocan", &"ZOMBIE_POWERUP_MAX_AMMO", false, false, true );
-
-	//grief powerdowns
-	add_zombie_powerup( "grief_empty_clip", "zombie_ammocan", &"REIMAGINED_CLIP_UNLOAD", false, true, false );
-	add_zombie_powerup( "grief_lose_points", "zombie_z_money_icon", &"REIMAGINED_LOSE_POINTS", false, true, false );
-	add_zombie_powerup( "grief_half_points", "zombie_x2_icon", &"REIMAGINED_HALF_POINTS", false, true, false );
-	add_zombie_powerup( "grief_half_damage", "zombie_skull", &"REIMAGINED_HALF_DAMAGE", false, true, false );
-	add_zombie_powerup( "grief_slow_down", "p_rus_boots_sloppy", &"REIMAGINED_SLOW_DOWN", false, true, false );
-
+	// grief powerups
 	add_zombie_powerup( "meat", GetWeaponModel("meat_zm"), &"REIMAGINED_CLIP_UNLOAD", false, false, false );
-
 	add_zombie_powerup( "upgrade_weapon", "zombie_pickup_bonfire", &"REIMAGINED_CLIP_UNLOAD", false, false, false );
 
 	// Randomize the order
@@ -537,23 +534,7 @@ is_valid_powerup(powerup_name)
 	{
 		return false;
 	}
-	else if( powerup_name == "bonus_points_player" )					// never drops with regular powerups
-	{
-		return false;
-	}
-	else if( powerup_name == "bonus_points_team" )					// never drops with regular powerups
-	{
-		return false;
-	}
-	else if( powerup_name == "lose_points_team" )					// never drops with regular powerups
-	{
-		return false;
-	}
 	else if( powerup_name == "lose_perk" )					// never drops with regular powerups
-	{
-		return false;
-	}
-	else if( powerup_name == "empty_clip" )					// never drops with regular powerups
 	{
 		return false;
 	}
@@ -1577,43 +1558,23 @@ powerup_grab()
 						zombies = getaiarray("axis");
 						players[i].zombie_nuked = get_array_of_closest( self.origin, zombies );
 						players[i] notify("nuke_triggered");
-
 						break;
+
 					case "full_ammo":
-						for(j=0;j<players.size;j++)
-						{
-							if(level.gamemode != "survival" && players[j].vsteam != players[i].vsteam)
-							{
-								continue;
-							}
-							players[j] thread full_ammo_powerup( self );
-						}
+						level thread full_ammo_powerup( self, players[i] );
 						players[i] thread powerup_vo("full_ammo");
 						break;
-					case "double_points":
-						for(j=0;j<players.size;j++)
-						{
-							if(level.gamemode != "survival" && players[j].vsteam != players[i].vsteam)
-							{
-								continue;
-							}
 
-							players[j] thread double_points_powerup( self );
-						}
+					case "double_points":
+						level thread double_points_powerup( self, players[i] );
 						players[i] thread powerup_vo("double_points");
 						break;
-					case "insta_kill":
-						for(j=0;j<players.size;j++)
-						{
-							if(level.gamemode != "survival" && players[j].vsteam != players[i].vsteam)
-							{
-								continue;
-							}
 
-							players[j] thread insta_kill_powerup( self );
-						}
+					case "insta_kill":
+						level thread insta_kill_powerup( self, players[i] );
 						players[i] thread powerup_vo("insta_kill");
 						break;
+
 					case "carpenter":
 						if(isDefined(level.use_new_carpenter_func))
 						{
@@ -1665,76 +1626,49 @@ powerup_grab()
 						//players[i] thread powerup_vo( "random_weapon" ); // TODO: Audio should uncomment this once the sounds have been set up
 						break;
 						
-
 					case "bonus_points_player":
 						level thread bonus_points_player_powerup( self, players[i] );
 						players[i] thread powerup_vo( "bonus_points_solo" ); // TODO: Audio should uncomment this once the sounds have been set up
 						break;
 
 					case "bonus_points_team":
-						level thread bonus_points_team_powerup( self );
+						points = RandomIntRange( 5, 25 ) * 100;
+						level thread bonus_points_team_powerup( self, players[i], points );
 						players[i] thread powerup_vo( "bonus_points_team" ); // TODO: Audio should uncomment this once the sounds have been set up
 						break;
 
-					case "grief_empty_clip":
-						for(j=0;j<players.size;j++)
-						{
-							if(players[j].vsteam != players[i].vsteam)
-							{
-								players[j] thread grief_empty_clip_powerup( self );
-							}
-						}
-						break;
-
-					case "grief_lose_points":
+					case "lose_points_team":
 						points = RandomIntRange( 5, 25 ) * 100;
-						for(j=0;j<players.size;j++)
-						{
-							if(players[j].vsteam != players[i].vsteam)
-							{
-								players[j] thread grief_lose_points_powerup( self, points );
-							}
-						}
+						level thread lose_points_team_powerup( self, players[i], points );
 						break;
 
-					case "grief_half_points":
-						for(j=0;j<players.size;j++)
-						{
-							if(players[j].vsteam != players[i].vsteam)
-							{
-								players[j] thread grief_half_points_powerup( self );
-							}
-						}
+					case "empty_clip":
+						level thread empty_clip_powerup( self, players[i] );
 						break;
 
-					case "grief_half_damage":
-						for(j=0;j<players.size;j++)
-						{
-							if(players[j].vsteam != players[i].vsteam)
-							{
-								players[j] thread grief_half_damage_powerup( self );
-							}
-						}
+					case "half_points":
+						level thread half_points_powerup( self, players[i] );
 						break;
 
-					case "grief_slow_down":
-						for(j=0;j<players.size;j++)
-						{
-							if(players[j].vsteam != players[i].vsteam)
-							{
-								players[j] thread grief_slow_down_powerup( self );
-							}
-						}
+					case "half_damage":
+						level thread half_damage_powerup( self, players[i] );
+						break;
+
+					case "slow_down":
+						level thread slow_down_powerup( self, players[i] );
+						break;
+
+					case "hurt_players":
+						level thread hurt_players_powerup( self, players[i] );
 						break;
 
 					case "meat":
-						players[i] thread meat_powerup( self );
+						level thread meat_powerup( self, players[i] );
 						break;
 
 					case "upgrade_weapon":
-						players[i] thread upgrade_weapon_powerup( self );
+						level thread upgrade_weapon_powerup( self, players[i] );
 						break;
-
 
 					default:
 						// RAVEN BEGIN bhackbarth: callback for level specific powerups
@@ -1749,7 +1683,6 @@ powerup_grab()
 						}
 
 						break;
-
 					}
 				}
 
@@ -2197,7 +2130,6 @@ nuke_powerup( drop_item, grabber )
 
 	wait( 0.5 );
 
-
 	zombies = get_array_of_closest( location, zombies );
 	zombies_nuked = [];
 
@@ -2281,7 +2213,6 @@ nuke_flash()
 	}
 	level thread devil_dialog_delay();
 
-
 	fadetowhite = newhudelem();
 
 	fadetowhite.x = 0;
@@ -2305,9 +2236,47 @@ nuke_flash()
 	fadetowhite destroy();
 }
 
+nuke_flash_player()
+{
+	fadetowhite = newclienthudelem(self);
+
+	fadetowhite.x = 0;
+	fadetowhite.y = 0;
+	fadetowhite.alpha = 0;
+
+	fadetowhite.horzAlign = "fullscreen";
+	fadetowhite.vertAlign = "fullscreen";
+	fadetowhite.foreground = true;
+	fadetowhite SetShader( "white", 640, 480 );
+
+	// Fade into white
+	fadetowhite FadeOverTime( 0.2 );
+	fadetowhite.alpha = 0.8;
+
+	wait 0.5;
+	fadetowhite FadeOverTime( 1.0 );
+	fadetowhite.alpha = 0;
+
+	wait 1.1;
+	fadetowhite destroy();
+}
+
+double_points_powerup( drop_item, player )
+{
+	players = get_players();
+	for(i = 0; i < players.size; i++)
+	{
+		if(level.gamemode != "survival" && players[i].vsteam != player.vsteam)
+		{
+			continue;
+		}
+
+		players[i] thread double_points_powerup_player( drop_item );
+	}
+}
 
 // double the points
-double_points_powerup( drop_item )
+double_points_powerup_player( drop_item )
 {
 	self notify ("powerup points scaled");
 	self endon ("powerup points scaled");
@@ -2326,46 +2295,70 @@ double_points_powerup( drop_item )
 	self.zombie_vars["zombie_point_scalar"] = 1;
 }
 
-full_ammo_powerup( drop_item )
+full_ammo_powerup( drop_item, player )
 {
-	// skip players in last stand
-	if ( self maps\_laststand::player_is_in_laststand() )
+	players = get_players();
+	for(i = 0; i < players.size; i++)
 	{
-		return;
+		if(level.gamemode != "survival" && players[i].vsteam != player.vsteam)
+		{
+			continue;
+		}
+		
+		// skip players in last stand
+		if ( players[i] maps\_laststand::player_is_in_laststand() )
+		{
+			return;
+		}
+
+		primary_weapons = players[i] GetWeaponsList();
+
+		players[i] notify( "zmb_max_ammo" );
+		players[i] notify( "zmb_lost_knife" );
+		players[i] notify( "zmb_disable_claymore_prompt" );
+		players[i] notify( "zmb_disable_spikemore_prompt" );
+		players[i] notify( "zmb_disable_betty_prompt" );
+		for( x = 0; x < primary_weapons.size; x++ )
+		{
+			// Fill the clip
+			//players[i] SetWeaponAmmoClip( primary_weapons[x], WeaponClipSize( primary_weapons[x] ) );
+
+			// weapon only uses clip ammo, so GiveMaxAmmo() won't work
+			if(WeaponMaxAmmo(primary_weapons[x]) == 0)
+			{
+				players[i] SetWeaponAmmoClip(primary_weapons[x], WeaponClipSize(primary_weapons[x]));
+				continue;
+			}
+
+			players[i] GiveMaxAmmo( primary_weapons[x] );
+		}
+
+		players[i] thread powerup_hint_on_hud(drop_item);
 	}
 
-	primary_weapons = self GetWeaponsList();
+	//array_thread (players, ::full_ammo_on_hud, drop_item);
+	//level thread full_ammo_on_hud( drop_item );
+}
 
-	self notify( "zmb_max_ammo" );
-	self notify( "zmb_lost_knife" );
-	self notify( "zmb_disable_claymore_prompt" );
-	self notify( "zmb_disable_spikemore_prompt" );
-	self notify( "zmb_disable_betty_prompt" );
-	for( x = 0; x < primary_weapons.size; x++ )
+insta_kill_powerup( drop_item, player )
+{
+	players = get_players();
+	for(i = 0; i < players.size; i++)
 	{
-		// Fill the clip
-		//players[i] SetWeaponAmmoClip( primary_weapons[x], WeaponClipSize( primary_weapons[x] ) );
-
-		// weapon only uses clip ammo, so GiveMaxAmmo() won't work
-		if(WeaponMaxAmmo(primary_weapons[x]) == 0)
+		if(level.gamemode != "survival" && players[i].vsteam != player.vsteam)
 		{
-			self SetWeaponAmmoClip(primary_weapons[x], WeaponClipSize(primary_weapons[x]));
 			continue;
 		}
 
-		self GiveMaxAmmo( primary_weapons[x] );
+		players[i] thread insta_kill_powerup_player( drop_item );
 	}
-
-	//	array_thread (players, ::full_ammo_on_hud, drop_item);
-	level thread full_ammo_on_hud( drop_item );
 }
 
-insta_kill_powerup( drop_item )
+insta_kill_powerup_player( drop_item )
 {
 	self notify( "powerup instakill" );
 	self endon( "powerup instakill" );
 	self endon ("disconnect");
-
 
 	//	array_thread (players, ::insta_kill_on_hud, drop_item);
 	//self thread insta_kill_on_hud( drop_item );
@@ -2958,27 +2951,35 @@ bonus_points_player_powerup( item, player )
 	}
 }
 
-bonus_points_team_powerup( item )
+bonus_points_team_powerup( item, player, points )
 {
-	points = RandomIntRange( 1, 25 ) * 100;
-
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
+		if(level.gamemode != "survival" && players[i].vsteam != player.vsteam)
+		{
+			continue;
+		}
+
 		if ( !players[i] maps\_laststand::player_is_in_laststand() && !(players[i].sessionstate == "spectator") )
 		{
 			players[i] maps\_zombiemode_score::player_add_points( "bonus_points_powerup", points );
 		}
+
+		players[i] thread powerup_hint_on_hud(item);
 	}
 }
 
-lose_points_team_powerup( item )
+lose_points_team_powerup( item, player, points )
 {
-	points = RandomIntRange( 1, 25 ) * 100;
-
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
+		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
+		{
+			//continue;
+		}
+
 		if ( !players[i] maps\_laststand::player_is_in_laststand() && !(players[i].sessionstate == "spectator") )
 		{
 			if ( 0 > (players[i].score - points) )
@@ -2989,6 +2990,8 @@ lose_points_team_powerup( item )
 			{
 				players[i] maps\_zombiemode_score::minus_to_player_score( points );
 			}
+
+			players[i] thread powerup_hint_on_hud(item);
 		}
 	}
 }
@@ -3013,17 +3016,45 @@ lose_perk_powerup( item )
 //******************************************************************************
 // empty clip powerup
 //******************************************************************************
-empty_clip_powerup( item )
+empty_clip_powerup( item, player )
 {
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
-		player = players[i];
-
-		if ( !player maps\_laststand::player_is_in_laststand() && !(player.sessionstate == "spectator") )
+		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
 		{
-			weapon = player GetCurrentWeapon();
-			player SetWeaponAmmoClip( weapon, 0 );
+			continue;
+		}
+
+		if ( !players[i] maps\_laststand::player_is_in_laststand() && players[i].sessionstate != "spectator" )
+		{
+			players[i] thread powerup_hint_on_hud(item);
+
+			weapon = players[i] GetCurrentWeapon();
+
+			if(weapon == "syrette_sp" || weapon == "zombie_perk_bottle_doubletap" || weapon == "zombie_perk_bottle_revive" || weapon == "zombie_perk_bottle_jugg" || weapon == "zombie_perk_bottle_sleight" || weapon == "zombie_perk_bottle_marathon" || weapon == "zombie_perk_bottle_nuke" || weapon == "zombie_perk_bottle_deadshot" || weapon == "zombie_perk_bottle_additionalprimaryweapon" || weapon == "zombie_knuckle_crack" || weapon == "zombie_bowie_flourish" || weapon == "zombie_sickle_flourish" || weapon == "meat_zm")
+			{
+				return;
+			}
+
+			players[i] SetWeaponAmmoClip( weapon, 0 );
+
+			// if player has mines out, switch weapons since it doesn't happen automatically
+			if(is_player_placeable_mine(weapon))
+			{
+				if(IsDefined(players[i].last_held_primary_weapon) && players[i] HasWeapon(players[i].last_held_primary_weapon))
+				{
+					players[i] SwitchToWeapon(players[i].last_held_primary_weapon);
+				}
+				else if(IsDefined(players[i] GetWeaponsListPrimaries()[0]))
+				{
+					players[i] SwitchToWeapon(players[i] GetWeaponsListPrimaries()[0]);
+				}
+				else
+				{
+					players[i] SwitchToWeapon("combat_" + players[i] get_player_melee_weapon());
+				}
+			}
 		}
 	}
 }
@@ -3774,7 +3805,12 @@ powerup_hint_on_hud( item )
 	hudelem maps\_hud_util::setPoint( "TOP", undefined, 0, level.zombie_vars["zombie_timer_offset"] - (level.zombie_vars["zombie_timer_offset_interval"] * 2));
 	hudelem.sort = 0.5;
 	hudelem.alpha = 0;
-	hudelem.color = (.6,0,0);
+
+	if(item.caution)
+	{
+		hudelem.color = (.6,0,0);
+	}
+	
 	hudelem fadeovertime(0.5);
 	hudelem.alpha = 1;
 	hudelem.label = item.hint;
@@ -3837,57 +3873,21 @@ add_powerup_later(powerup_name)
 	level.zombie_powerup_array = array_insert(level.zombie_powerup_array, powerup_name, index);
 }
 
-grief_empty_clip_powerup( item )
+half_points_powerup( drop_item, player )
 {
-	if ( !self maps\_laststand::player_is_in_laststand() && self.sessionstate != "spectator" )
+	players = get_players();
+	for(i = 0; i < players.size; i++)
 	{
-		self thread powerup_hint_on_hud(item);
-
-		weapon = self GetCurrentWeapon();
-
-		if(weapon == "syrette_sp" || weapon == "zombie_perk_bottle_doubletap" || weapon == "zombie_perk_bottle_revive" || weapon == "zombie_perk_bottle_jugg" || weapon == "zombie_perk_bottle_sleight" || weapon == "zombie_perk_bottle_marathon" || weapon == "zombie_perk_bottle_nuke" || weapon == "zombie_perk_bottle_deadshot" || weapon == "zombie_perk_bottle_additionalprimaryweapon" || weapon == "zombie_knuckle_crack" || weapon == "zombie_bowie_flourish" || weapon == "zombie_sickle_flourish" || weapon == "meat_zm")
+		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
 		{
-			return;
+			continue;
 		}
 
-		self SetWeaponAmmoClip( weapon, 0 );
-
-		// if player has mines out, switch weapons since it doesn't happen automatically
-		if(is_player_placeable_mine(weapon))
-		{
-			if(IsDefined(self.last_held_primary_weapon) && self HasWeapon(self.last_held_primary_weapon))
-			{
-				self SwitchToWeapon(self.last_held_primary_weapon);
-			}
-			else if(IsDefined(self GetWeaponsListPrimaries()[0]))
-			{
-				self SwitchToWeapon(self GetWeaponsListPrimaries()[0]);
-			}
-			else
-			{
-				self SwitchToWeapon("combat_" + self get_player_melee_weapon());
-			}
-		}
+		players[i] thread half_points_powerup_player( drop_item );
 	}
 }
 
-grief_lose_points_powerup( item, points )
-{
-	if ( !self maps\_laststand::player_is_in_laststand() && self.sessionstate != "spectator" )
-	{
-		if ( 0 > (self.score - points) )
-		{
-			self maps\_zombiemode_score::minus_to_player_score( self.score );
-		}
-		else
-		{
-			self maps\_zombiemode_score::minus_to_player_score( points );
-		}
-		self thread powerup_hint_on_hud(item);
-	}
-}
-
-grief_half_points_powerup( drop_item )
+half_points_powerup_player( drop_item )
 {
 	self notify ("grief powerup points scaled");
 	self endon ("grief powerup points scaled");
@@ -3902,7 +3902,21 @@ grief_half_points_powerup( drop_item )
 	self.zombie_vars["zombie_point_scalar"] = 1;
 }
 
-grief_half_damage_powerup( drop_item )
+half_damage_powerup( drop_item, player )
+{
+	players = get_players();
+	for(i = 0; i < players.size; i++)
+	{
+		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
+		{
+			continue;
+		}
+
+		players[i] thread half_damage_powerup_player( drop_item );
+	}
+}
+
+half_damage_powerup_player( drop_item )
 {
 	self notify( "powerup half damage" );
 	self endon( "powerup half damage" );
@@ -3913,7 +3927,51 @@ grief_half_damage_powerup( drop_item )
 	wait self.zombie_vars["zombie_powerup_half_damage_time"];
 }
 
-grief_slow_down_powerup( drop_item )
+hurt_players_powerup( drop_item, player )
+{
+	location = drop_item.origin;
+	PlayFx( drop_item.fx, location );
+
+	players = get_players();
+	for(i = 0; i < players.size; i++)
+	{
+		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
+		{
+			//continue;
+		}
+
+		players[i] thread nuke_flash_player();
+	}
+
+	wait .5;
+
+	players = get_players();
+	for(i = 0; i < players.size; i++)
+	{
+		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
+		{
+			//continue;
+		}
+
+		players[i] DoDamage(80, players[i].origin);
+	}
+}
+
+slow_down_powerup( drop_item, player )
+{
+	players = get_players();
+	for(i = 0; i < players.size; i++)
+	{
+		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
+		{
+			//continue;
+		}
+
+		players[i] thread slow_down_powerup_player( drop_item );
+	}
+}
+
+slow_down_powerup_player( drop_item )
 {
 	self notify( "powerup half damage" );
 	self endon( "powerup half damage" );
@@ -3934,42 +3992,42 @@ grief_slow_down_powerup( drop_item )
 	self SetMoveSpeedScale(1);
 }
 
-meat_powerup( drop_item )
+meat_powerup( drop_item, player )
 {
-	self endon("disconnect");
-	self endon("player_downed");
+	player endon("disconnect");
+	player endon("player_downed");
 
-	prev_wep = self GetCurrentWeapon();
+	prev_wep = player GetCurrentWeapon();
 
-	self increment_is_drinking();
-	self GiveWeapon("meat_zm");
-	self GiveMaxAmmo("meat_zm");
-	self SwitchToWeapon("meat_zm");
-	self.has_powerup_weapon = true;
-	self.has_meat = true;
+	player increment_is_drinking();
+	player GiveWeapon("meat_zm");
+	player GiveMaxAmmo("meat_zm");
+	player SwitchToWeapon("meat_zm");
+	player.has_powerup_weapon = true;
+	player.has_meat = true;
 
-	self thread meat_powerup_check_for_player_downed();
+	player thread meat_powerup_check_for_player_downed();
 
-	self thread meat_powerup_weapon_change();
+	player thread meat_powerup_weapon_change();
 
 	while(1)
 	{
-		self waittill("grenade_fire", grenade, weapon);
+		player waittill("grenade_fire", grenade, weapon);
 
 		if(weapon == "meat_zm")
 		{
 			grenade.angles = (0, grenade.angles[1], 0);
 
-			grenade thread meat_powerup_create_meat_stink(self);
+			grenade thread meat_powerup_create_meat_stink(player);
 
-			grenade thread meat_powerup_create_meat_stink_player(self);
+			grenade thread meat_powerup_create_meat_stink_player(player);
 
-			if(is_true(self.has_meat))
+			if(is_true(player.has_meat))
 			{
-				self DisableWeaponCycling();
+				player DisableWeaponCycling();
 				wait(WeaponFireTime("meat_zm") * 2);
 
-				self meat_powerup_take_weapon(true, prev_wep);
+				player meat_powerup_take_weapon(true, prev_wep);
 
 				return;
 			}
@@ -4185,48 +4243,48 @@ timeout_on_down()
 	self delete();
 }
 
-upgrade_weapon_powerup( drop_item )
+upgrade_weapon_powerup( drop_item, player )
 {
-	self notify( "powerup upgrade weapon" );
-	self endon( "powerup upgrade weapon" );
-	self endon ("disconnect");
+	player notify( "powerup upgrade weapon" );
+	player endon( "powerup upgrade weapon" );
+	player endon ("disconnect");
 
-	current_wep = self GetWeaponsListPrimaries();
+	current_wep = player GetWeaponsListPrimaries();
 
 	already_active = false;
-	if(IsDefined(self.player_bought_pack))
+	if(IsDefined(player.player_bought_pack))
 	{
 		already_active = true;
 	}
-	else if(maps\_zombiemode_weapons::is_weapon_upgraded(current_wep[0]) && !self.zombie_vars["zombie_powerup_upgrade_weapon_on"])
+	else if(maps\_zombiemode_weapons::is_weapon_upgraded(current_wep[0]) && !player.zombie_vars["zombie_powerup_upgrade_weapon_on"])
 	{
-		self.player_bought_pack = true;
+		player.player_bought_pack = true;
 		already_active = true;
 	}
-	else if(self.zombie_vars["zombie_powerup_upgrade_weapon_on"])
+	else if(player.zombie_vars["zombie_powerup_upgrade_weapon_on"])
 	{
 		already_active = true;
 	}
 
-	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_upgrade_weapon_on", "zombie_powerup_upgrade_weapon_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
+	player thread powerup_shader_on_hud( drop_item, "zombie_powerup_upgrade_weapon_on", "zombie_powerup_upgrade_weapon_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
 
 	if(!already_active)
 	{
-		self maps\_zombiemode_grief::update_gungame_weapon(false, true);
+		player maps\_zombiemode_grief::update_gungame_weapon(false, true);
 	}
 
-	self waittill_notify_or_timeout("player_downed", self.zombie_vars["zombie_powerup_upgrade_weapon_time"]);
+	player waittill_notify_or_timeout("player_downed", player.zombie_vars["zombie_powerup_upgrade_weapon_time"]);
 
-	if(self.zombie_vars["zombie_powerup_upgrade_weapon_on"])
+	if(player.zombie_vars["zombie_powerup_upgrade_weapon_on"])
 	{
-		self.zombie_vars["zombie_powerup_upgrade_weapon_on"] = false;
-		self.zombie_vars["zombie_powerup_upgrade_weapon_time"] = 0;
+		player.zombie_vars["zombie_powerup_upgrade_weapon_on"] = false;
+		player.zombie_vars["zombie_powerup_upgrade_weapon_time"] = 0;
 	}
 
-	if(self maps\_laststand::player_is_in_laststand() || IsDefined(self.player_bought_pack))
+	if(player maps\_laststand::player_is_in_laststand() || IsDefined(player.player_bought_pack))
 	{
 		return;
 	}
 
-	self maps\_zombiemode_grief::update_gungame_weapon(false, true);
+	player maps\_zombiemode_grief::update_gungame_weapon(false, true);
 }

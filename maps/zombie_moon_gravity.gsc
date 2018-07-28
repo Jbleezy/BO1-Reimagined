@@ -730,7 +730,7 @@ low_gravity_watch()
 
 		if ( ( !flag( "power_on" ) || is_true( self.in_low_gravity ) ) && !self maps\_zombiemode_equip_gasmask::gasmask_active() )
 		{
-			if(GetDvarInt("character_dialog"))
+			if(level.gamemode == "survival" && GetDvarInt("character_dialog"))
 			{
 				self thread airless_vox_without_repeat();
 			}

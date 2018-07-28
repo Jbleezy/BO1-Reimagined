@@ -26,10 +26,10 @@ rawfile,maps/_zombiemode_score.gsc
 rawfile,maps/_zombiemode_claymore.gsc
 rawfile,maps/_zombiemode_betty.gsc
 rawfile,maps/_zombiemode_ai_dogs.gsc
+rawfile,maps/_zombiemode_ai_faller.gsc
 rawfile,maps/_zombiemode_ai_quad.gsc
 rawfile,maps/_zombiemode_zone_manager.gsc
 rawfile,maps/_zombiemode_sidequests.gsc
-rawfile,maps/_zombiemode_ai_faller.gsc
 rawfile,maps/_zombiemode_grief.gsc
 
 //NACHT

@@ -998,14 +998,14 @@
 * Players gain 10 points for slowing down a player if they are below full health
 * If an enemy player assisted in getting a player down, the player will gain 5% of the player's points who downed
 * When a enemy player bleeds out, players gain 10% of their current points
-* Removed all normal powerups except for Fire Sale
 * Fire Sale: makes traps cost 10 points
+* Bones Points Powerup: players gain a random amount of points between 500 and 2500 points
 * Added Powerdowns: powerups that do negative effects to the enemy team
-* Clip Unload Powerdown: unloads players' clips of the weapon they are currently holding
-* Half Damage Powerdown: players do half damage to zombies for 30 seconds
-* Half Points Powerdown: players earn half points for 30 seconds
-* Punishment Points Powerdown: players lose a random amount of points between 500 and 2500 points
-* Slow Down Powerdown: Players move slower for 30 seconds
+* Clip Unload Powerdown: unloads enemy players' clips of the weapon they are currently holding
+* Half Damage Powerdown: enemy players do half damage to zombies for 30 seconds
+* Half Points Powerdown: enemy players earn half points for 30 seconds
+* Hurt Players Powerdown: does 50 damage to enemy players
+* Punishment Points Powerdown: enemy players lose a random amount of points between 500 and 2500 points
 * Added Meat Powerup
 * Nacht Der Untoten: all doors are open from the start of the match
 * Shi No Numa: first room doors are open from the start of the match
@@ -1108,13 +1108,9 @@
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Add way to tell to when box cycle is done
-* Five: make it so wooden boards are down from the beginning but can be rebuilt immediately
+* Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
 * Search and Rezurrect: fix bug where win/round restart happens twice after a team wins a round
-* Versus: make it so normal powerups only effect team that picked them up
 * Versus: fix betties not being triggered by enemies
-* Versus: negative nuke powerdown - does 50 damage to all enemy players
-* Versus: positive points powerup - gives every teammate points
-* Versus on Moon: fix voicelines playing when outside without mask
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
