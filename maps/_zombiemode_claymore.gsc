@@ -60,32 +60,35 @@ buy_claymores()
 			{
 				if ( !who is_player_placeable_mine( "claymore_zm" ) )
 				{
-					play_sound_at_pos( "purchase", self.origin );
-
-					//set the score
-					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 					who maps\_zombiemode_weapons::check_collector_achievement( "claymore_zm" );
-					who thread claymore_setup();
 					who thread show_claymore_hint("claymore_purchased");
 					who thread maps\_zombiemode_audio::create_and_play_dialog( "weapon_pickup", "grenade" );
 
-					// JMA - display the claymores
-					if( self.claymores_triggered == false )
-					{
-						model = getent( self.target, "targetname" );
-						model thread maps\_zombiemode_weapons::weapon_show( who );
-						self.claymores_triggered = true;
-					}
+					who thread claymore_watch();
 
-					trigs = getentarray("claymore_purchase","targetname");
+					/*trigs = getentarray("claymore_purchase","targetname");
 					for(i = 0; i < trigs.size; i++)
 					{
 						trigs[i] SetInvisibleToPlayer(who);
-					}
+					}*/
 				}
-				else
+				/*else
 				{
 					who thread show_claymore_hint("already_purchased");
+				}*/
+
+				play_sound_at_pos( "purchase", self.origin );
+
+				//set the score
+				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
+				who thread claymore_setup();
+
+				// JMA - display the claymores
+				if( self.claymores_triggered == false )
+				{
+					model = getent( self.target, "targetname" );
+					model thread maps\_zombiemode_weapons::weapon_show( who );
+					self.claymores_triggered = true;
 				}
 			}
 		}
@@ -141,8 +144,6 @@ claymore_watch()
 
 claymore_setup()
 {
-	self thread claymore_watch();
-
 	self giveweapon("claymore_zm");
 	self set_player_placeable_mine("claymore_zm");
 	self setactionslot(4,"weapon","claymore_zm");
@@ -156,11 +157,8 @@ pickup_claymores()
 	if ( !player hasweapon( "claymore_zm" ) )
 	{
 		player thread claymore_watch();
-
-		player giveweapon("claymore_zm");
-		player set_player_placeable_mine("claymore_zm");
-		player setactionslot(4,"weapon","claymore_zm");
-		player setweaponammoclip("claymore_zm",0);
+		player thread claymore_setup();
+		
 		player notify( "zmb_enable_claymore_prompt" );
 	}
 	else

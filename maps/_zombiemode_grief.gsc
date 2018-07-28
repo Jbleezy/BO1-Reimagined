@@ -1229,7 +1229,7 @@ unlimited_zombies()
 increase_zombie_move_speed()
 {
 	wait 1;
-	level.zombie_move_speed = 101;
+	level.zombie_move_speed = 106;
 }
 
 increase_zombie_spawn_rate()

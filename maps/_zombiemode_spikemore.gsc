@@ -94,36 +94,41 @@ buy_spikemores()
 			{
 				if ( !who is_player_placeable_mine( "spikemore_zm" ) )
 				{
-					play_sound_at_pos( "purchase", self.origin );
-
-					//set the score
-					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 					who maps\_zombiemode_weapons::check_collector_achievement( "spikemore_zm" );
-					who thread spikemore_setup();
 					who thread show_spikemore_hint("spikemore_purchased");
 					who thread maps\_zombiemode_audio::create_and_play_dialog( "weapon_pickup", "spikemore" );
 
-					if( self.spikemores_triggered == false )
-					{
-						model = getent( self.target, "targetname" );
-						model thread maps\_zombiemode_weapons::weapon_show( who );
-						self.spikemores_triggered = true;
-					}
+					who thread spikemore_watch();
 
-					trigs = getentarray("spikemore_purchase","targetname");
+					/*trigs = getentarray("spikemore_purchase","targetname");
 					for(i = 0; i < trigs.size; i++)
 					{
 						trigs[i] SetInvisibleToPlayer(who);
-					}
+					}*/
 				}
-				else
+				/*else
 				{
 					who thread show_spikemore_hint("already_purchased");
-				}
+				}*/
+
+
 			}
 			else
 			{
 				who maps\_zombiemode_audio::create_and_play_dialog( "general", "no_money", undefined, 1 );
+			}
+
+			play_sound_at_pos( "purchase", self.origin );
+
+			//set the score
+			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
+			who thread spikemore_setup();
+
+			if( self.spikemores_triggered == false )
+			{
+				model = getent( self.target, "targetname" );
+				model thread maps\_zombiemode_weapons::weapon_show( who );
+				self.spikemores_triggered = true;
 			}
 		}
 	}
@@ -182,8 +187,6 @@ spikemore_watch()
 
 spikemore_setup()
 {
-	self thread spikemore_watch();
-
 	self giveweapon("spikemore_zm");
 	self set_player_placeable_mine("spikemore_zm");
 	self setactionslot(4,"weapon","spikemore_zm");
@@ -197,11 +200,8 @@ pickup_spikemores()
 	if ( !player hasweapon( "spikemore_zm" ) )
 	{
 		player thread spikemore_watch();
-
-		player giveweapon("spikemore_zm");
-		player set_player_placeable_mine("spikemore_zm");
-		player setactionslot(4,"weapon","spikemore_zm");
-		player setweaponammoclip("spikemore_zm",0);
+		player thread spikemore_setup();
+		
 		player notify( "zmb_enable_spikemore_prompt" );
 	}
 	else

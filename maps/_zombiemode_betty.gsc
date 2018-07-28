@@ -57,37 +57,38 @@ buy_bouncing_betties()
 
 		if( is_player_valid( who ) )
 		{
-
 			if( who.score >= self.zombie_cost )
 			{
 				if ( !who is_player_placeable_mine( "mine_bouncing_betty" ) )
 				{
-					play_sound_at_pos( "purchase", self.origin );
-
-					//set the score
-					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 					who maps\_zombiemode_weapons::check_collector_achievement( "mine_bouncing_betty" );
-					who thread bouncing_betty_setup();
 					who thread show_betty_hint("betty_purchased");
 
-					// JMA - display the bouncing betties
-					if( self.betties_triggered == false )
-					{
-						model = getent( self.target, "targetname" );
-						model thread maps\_zombiemode_weapons::weapon_show( who );
-						self.betties_triggered = true;
-					}
+					who thread bouncing_betty_watch();
 
-					trigs = getentarray("betty_purchase","targetname");
+					/*trigs = getentarray("betty_purchase","targetname");
 					for(i = 0; i < trigs.size; i++)
 					{
 						trigs[i] SetInvisibleToPlayer(who);
-					}
+					}*/
 				}
-				else
+				/*else
 				{
 					//who thread show_betty_hint("already_purchased");
+				}*/
+				
+				play_sound_at_pos( "purchase", self.origin );
 
+				//set the score
+				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
+				who thread bouncing_betty_setup();
+
+				// JMA - display the bouncing betties
+				if( self.betties_triggered == false )
+				{
+					model = getent( self.target, "targetname" );
+					model thread maps\_zombiemode_weapons::weapon_show( who );
+					self.betties_triggered = true;
 				}
 			}
 		}
@@ -156,8 +157,6 @@ betty_death_think()
 
 bouncing_betty_setup()
 {
-	self thread bouncing_betty_watch();
-
 	self giveweapon("mine_bouncing_betty");
 	self set_player_placeable_mine("mine_bouncing_betty");
 	self setactionslot(4,"weapon","mine_bouncing_betty");
@@ -330,87 +329,6 @@ show_betty_hint(string)
 	self.hintelem settext("");
 }
 
-//self = betty
-/*pickup_betty()
-{
-	self endon("death");
-
-	//self waittill_not_moving();
-
-	while(!IsDefined(self.trigger))
-	{
-		wait .05;
-	}
-
-	self.trigger endon("death");
-
-	self.trigger SetHintString(&"REIMAGINED_BETTY_PICKUP");
-	self.trigger setCursorHint( "HINT_NOICON" );
-
-	players = get_players();
-	for(i=0;i<players.size;i++)
-	{
-		if(players[i] != self.owner)
-		{
-			self.trigger SetInvisibleToPlayer(players[i]);
-		}
-	}
-
-	self thread trigger_hintstring_think();
-
-	self.trigger waittill("trigger", who);
-
-	self thread give_betty();
-}*/
-
-trigger_hintstring_think()
-{
-	self.trigger endon("death");
-
-	while(1)
-	{
-		if(self.owner maps\_laststand::player_is_in_laststand() || self.owner.sessionstate == "spectator" || self.owner GetWeaponAmmoClip("mine_bouncing_betty") == 2)
-		{
-			self.trigger SetInvisibleToPlayer(self.owner, true);
-		}
-		else
-		{
-			self.trigger SetInvisibleToPlayer(self.owner, false);
-		}
-
-		wait .05;
-	}
-}
-
-give_betty()
-{
-	if ( !self.owner hasweapon( "mine_bouncing_betty" ) )
-	{
-		self.owner thread bouncing_betty_watch();
-
-		self.owner giveweapon("mine_bouncing_betty");
-		self.owner set_player_placeable_mine("mine_bouncing_betty");
-		self.owner setactionslot(4,"weapon","mine_bouncing_betty");
-		self.owner setweaponammoclip("mine_bouncing_betty",1);
-	}
-	else
-	{
-		self.owner SetWeaponAmmoClip("mine_bouncing_betty", self.owner GetWeaponAmmoClip("mine_bouncing_betty") + 1);
-	}
-
-	if(is_in_array(self.owner.mines,self))
-	{
-		self.owner.mines = array_remove_nokeys(self.owner.mines,self);
-	}
-
-	if(isDefined(self.trigger))
-	{
-		self.trigger delete();
-	}
-
-	self delete();
-}
-
 betty_damage()
 {
 	self endon("death");
@@ -439,12 +357,9 @@ pickup_betty()
 
 	if ( !player hasweapon( self.name ) )
 	{
-		//player thread claymore_watch();
+		player thread bouncing_betty_watch();
+		player thread bouncing_betty_setup();
 
-		player giveweapon(self.name);
-		player set_player_placeable_mine(self.name);
-		player setactionslot(4,"weapon",self.name);
-		player setweaponammoclip(self.name,0);
 		player notify( "zmb_enable_betty_prompt" );
 	}
 	else

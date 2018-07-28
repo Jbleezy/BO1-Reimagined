@@ -348,7 +348,9 @@ do_player_zipline(vehicle,zip_path,zip_trig)
 	
 	has_perk = isDefined(self.perk_purchased);
 
-	has_weapon_powerup = is_true(self.has_minigun) || is_true(self.has_tesla);
+	has_weapon_powerup = is_true(self.has_minigun) || is_true(self.has_tesla) || is_true(self.has_meat);
+
+	weaponname = self getcurrentweapon();
 	
 	//set properties on the player for starting the zipline
 	self player_enter_zipline(vehicle,zip_path);
@@ -371,7 +373,7 @@ do_player_zipline(vehicle,zip_path,zip_trig)
 		
 	/*if(!has_perk) //the perk system already re-enables the weapons
 	{
-		//make sure the player doesn't enter the zipline carrying a claymore
+		//make sure the player doesn't enter the zipline carrying these
 		weaponname = self getcurrentweapon();
 		if ( is_placeable_mine( weaponname ) || is_equipment( weaponname ) || weaponname == "syrette_sp" )
 		{
@@ -404,14 +406,21 @@ do_player_zipline(vehicle,zip_path,zip_trig)
 	
 	self thread player_exit_zipline(vehicle,zip_trig);
 
-	//make sure the player doesn't enter the zipline carrying a claymore
-	weaponname = self getcurrentweapon();
+	//make sure the player doesn't enter the zipline carrying these
 	if ( is_equipment( weaponname ) || weaponname == "syrette_sp" || has_weapon_powerup )
 	{
 		primaryWeapons = self GetWeaponsListPrimaries();
-		if ( IsDefined( primaryWeapons ) && primaryWeapons.size > 0 )
+		if(IsDefined(self.last_held_primary_weapon) && self HasWeapon(self.last_held_primary_weapon))
+		{
+			self SwitchToWeapon(self.last_held_primary_weapon);
+		}
+		else if ( IsDefined( primaryWeapons ) && primaryWeapons.size > 0 )
 		{
 			self SwitchToWeapon( primaryWeapons[0] );
+		}
+		else
+		{
+			self SwitchToWeapon( "combat_" + self get_player_melee_weapon() );
 		}
 	}
 	

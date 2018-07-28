@@ -448,7 +448,7 @@ set_run_speed()
 	{
 		self.zombie_move_speed = "sprint";
 
-		if(rand > 100)
+		if(rand > 105)
 		{
 			if(level.script == "zombie_cod5_asylum" && flag("power_on"))
 			{

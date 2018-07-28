@@ -1714,7 +1714,7 @@ decide_hide_show_hint( endon_notify )
 				if(DistanceSquared( players[i].origin, self.origin ) < dist)
 				{
 					current_weapon = players[i] GetCurrentWeapon();
-					if( players[i] is_player_placeable_mine( self.placeable_mine_name ) )
+					if( players[i] is_player_placeable_mine( self.placeable_mine_name ) && players[i] GetWeaponAmmoClip(self.placeable_mine_name) == WeaponClipSize(self.placeable_mine_name) )
 					{
 						self SetInvisibleToPlayer( players[i], true );
 					}

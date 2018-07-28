@@ -12,7 +12,7 @@
 		name				nameArg \
 		type				ITEM_TYPE_TEXT \
 		rect 				xArg yArg 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_TOP \
-		exp					rect Y(yArg + ((FPS_ENABLED) * 18)) \
+		exp					rect Y(yArg + ((FPS_ENABLED) * 18) + ((FPS_ENABLED) * (ONLINE_GAME) * 9)) \
 		exp 				rect X(xArg - GetTextWidth(dvarArg, fontArg, textSizeArg)) \
 		forecolor			1 1 1 1 \
 		textscale			textSizeArg \
@@ -29,7 +29,7 @@
 		name				nameArg \
 		type				ITEM_TYPE_TEXT \
 		rect 				xArg yArg 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_TOP \
-		exp					rect Y(yArg + ((FPS_ENABLED) * 18)) \
+		exp					rect Y(yArg + ((FPS_ENABLED) * 18) + ((FPS_ENABLED) * (ONLINE_GAME) * 9)) \
 		forecolor			1 1 1 1 \
 		textscale			textSizeArg \
 		textstyle			ITEM_TEXTSTYLE_SHADOWED \
@@ -470,6 +470,8 @@
 		ZOMBIE_COUNTER_TEXT_VIS("hud_zombs_remaining", 4, 2, "REIMAGINED_ZOMBIES_REMAINING", DvarString("zombs_remaining"), (dvarBool( "hud_zombs_remaining_on" ) && dvarBool( "hud_zombs_remaining_on_game") ))
 
 		#define FPS_ENABLED dvarInt( cg_drawFPS ) == 1
+
+		#define ONLINE_GAME dvarInt( onlinegame ) == 1
 
 		//Change Total time to use 2 itemDef's
 		/*
