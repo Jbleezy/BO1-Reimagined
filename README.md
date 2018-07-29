@@ -1149,6 +1149,7 @@
 * Test 3rd person perk drink anim
 * Test if Springfield wall chalk still has z-fighting in coop
 * Test FPS counter with timer in coop
+* Versus: test if betties can be triggered
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds

@@ -2977,7 +2977,7 @@ lose_points_team_powerup( item, player, points )
 	{
 		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
 		{
-			//continue;
+			continue;
 		}
 
 		if ( !players[i] maps\_laststand::player_is_in_laststand() && !(players[i].sessionstate == "spectator") )
@@ -3937,7 +3937,7 @@ hurt_players_powerup( drop_item, player )
 	{
 		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
 		{
-			//continue;
+			continue;
 		}
 
 		players[i] thread nuke_flash_player();
@@ -3950,7 +3950,7 @@ hurt_players_powerup( drop_item, player )
 	{
 		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
 		{
-			//continue;
+			continue;
 		}
 
 		players[i] DoDamage(80, players[i].origin);
@@ -3964,7 +3964,7 @@ slow_down_powerup( drop_item, player )
 	{
 		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
 		{
-			//continue;
+			continue;
 		}
 
 		players[i] thread slow_down_powerup_player( drop_item );
