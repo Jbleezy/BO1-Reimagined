@@ -1100,7 +1100,8 @@
 * Rename some zone names
 * Fix Nikolai viewhands
 * Fix textures getting changed when getting sprayed with flamethrower attachment
-* Optimize zombies in barrier and traversing barrier code
+* Optimize zombies in barrier and traversing barrier code (sometimes zombies still get stuck in barrier)
+* Five: optimize zombie respawn from elevator use code (sometimes zombies still bleed out)
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
@@ -1110,7 +1111,7 @@
 * Add way to tell to when box cycle is done
 * Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
 * Search and Rezurrect: fix bug where win/round restart happens twice after a team wins a round
-* Versus: fix betties not being triggered by enemies
+* Betty: fix floating betties after being detonated
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1144,11 +1145,6 @@
 ### Testing
 * Moon sidequest dialog in coop without Richtofen
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-* Test if players are able to grief teammates (need 3-4 players)
-* Test if zombies are attracted towards players on Verruckt on other side when power door is closed (need 3-4 players)
-* Test 3rd person perk drink anim
-* Test if Springfield wall chalk still has z-fighting in coop
-* Test FPS counter with timer in coop
 * Versus: test if betties can be triggered
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)

@@ -423,7 +423,7 @@ init_weapon_upgrade()
 				old_model Delete();
 
 				brushmodels = GetEntArray("script_brushmodel", "classname");
-				chalk = Spawn("script_model", brushmodels[202].origin + (0, 0.1, 0)); // have to move it out slightly or else there is z-fighting, origin = (1234, 56, 132)
+				chalk = Spawn("script_model", brushmodels[202].origin + (0, 1, 0)); // have to move it out slightly or else there is z-fighting, origin = (1234, 56, 132)
 				chalk.angles = brushmodels[202].angles + (0, 180, 0);
 				chalk SetModel("model_springfield_chalk");
 				brushmodels[202] Delete();

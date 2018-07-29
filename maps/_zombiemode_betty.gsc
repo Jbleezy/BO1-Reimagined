@@ -182,7 +182,7 @@ betty_think()
 
 	self waittill_not_moving();
 
-	trigger = spawn("trigger_radius",self.origin,9,80,64);//9
+	trigger = spawn("trigger_radius",self.origin,1,80,64);//9
 	self.trigger = trigger;
 
 	wait(1);
@@ -195,16 +195,24 @@ betty_think()
 			break;
 
 		if ( isdefined( self.owner ) && ent == self.owner )
+		{
 			continue;
+		}
 
 		if( level.gamemode == "survival" && isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != "axis" )
+		{
 			continue;
+		}
 
 		if( level.gamemode != "survival" && IsPlayer(ent) && ent.vsteam == self.owner.vsteam )
+		{
 			continue;
+		}
 
 		if ( ent damageConeTrace(self.origin, self) == 0 )
+		{
 			continue;
+		}
 
 		break;
 	}
