@@ -200,6 +200,9 @@ init_player_zombie_vars()
 		players[p].zombie_vars[ "zombie_powerup_bonfire_sale_on" ] = false; // bonfire
 		players[p].zombie_vars[ "zombie_powerup_bonfire_sale_time" ] = 0;
 
+		players[p].zombie_vars[ "zombie_powerup_insta_kill_round_on" ] = false; // insta kill round
+		players[p].zombie_vars[ "zombie_powerup_insta_kill_round_time" ] = 0;
+
 		players[p].zombie_vars[ "zombie_powerup_half_points_on" ] = false; // half points
 		players[p].zombie_vars[ "zombie_powerup_half_points_time" ] = 0;
 
@@ -258,16 +261,13 @@ powerup_hud_overlay()
 		players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // double
 		players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // fire
 		players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // bonfire
-		if(level.gamemode != "survival")
-		{
-			players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // half points
-			players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // half damage
-			players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // slow down
-			if(level.gamemode == "gg")
-			{
-				players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // upgrade weapon
-			}
-		}
+
+		players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // insta kill round
+
+		players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // half points
+		players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // half damage
+		players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // slow down
+		players[p].powerup_hud_array[ players[p].powerup_hud_array.size ] = true; // upgrade weapon
 
 		players[p].powerup_hud = [];
 		players[p].powerup_hud_cover = [];
@@ -296,23 +296,18 @@ powerup_hud_overlay()
 		players[p] thread power_up_hud( "specialty_firesale_zombies", players[p].powerup_hud[4], "zombie_powerup_fire_sale_time", "zombie_powerup_fire_sale_on" );
 		players[p] thread power_up_hud( "zom_icon_bonfire", players[p].powerup_hud[5], "zombie_powerup_bonfire_sale_time", "zombie_powerup_bonfire_sale_on" );
 
-		if(level.gamemode != "survival")
-		{
-			players[p] thread power_up_hud( "specialty_doublepoints_zombies", players[p].powerup_hud[6], "zombie_powerup_half_points_time", "zombie_powerup_half_points_on", true );
-			players[p] thread power_up_hud( "specialty_instakill_zombies", players[p].powerup_hud[7], "zombie_powerup_half_damage_time", "zombie_powerup_half_damage_on", true );
-			players[p] thread power_up_hud( "specialty_slowdown_zombies", players[p].powerup_hud[8], "zombie_powerup_slow_down_time", "zombie_powerup_slow_down_on", true );
+		players[p] thread power_up_hud( "specialty_instakill_zombies", players[p].powerup_hud[6], "zombie_powerup_insta_kill_round_time", "zombie_powerup_insta_kill_round_on", false, true );
 
-			if(level.gamemode == "gg")
-			{
-				players[p] thread power_up_hud( "zom_icon_bonfire", players[p].powerup_hud[9], "zombie_powerup_upgrade_weapon_time", "zombie_powerup_upgrade_weapon_on" );
-			}
-		}
+		players[p] thread power_up_hud( "specialty_doublepoints_zombies", players[p].powerup_hud[7], "zombie_powerup_half_points_time", "zombie_powerup_half_points_on", true );
+		players[p] thread power_up_hud( "specialty_instakill_zombies", players[p].powerup_hud[8], "zombie_powerup_half_damage_time", "zombie_powerup_half_damage_on", true );
+		players[p] thread power_up_hud( "specialty_slowdown_zombies", players[p].powerup_hud[9], "zombie_powerup_slow_down_time", "zombie_powerup_slow_down_on", true );
+		players[p] thread power_up_hud( "zom_icon_bonfire", players[p].powerup_hud[10], "zombie_powerup_upgrade_weapon_time", "zombie_powerup_upgrade_weapon_on" );
 	}
 }
 
 
 //
-power_up_hud( Shader, PowerUp_Hud, PowerUp_timer, PowerUp_Var, red )
+power_up_hud( Shader, PowerUp_Hud, PowerUp_timer, PowerUp_Var, red, yellow )
 {
 	self endon( "disconnect" );
 
@@ -321,8 +316,27 @@ power_up_hud( Shader, PowerUp_Hud, PowerUp_timer, PowerUp_Var, red )
 		red = false;
 	}
 
+	if(!IsDefined(yellow))
+	{
+		yellow = false;
+	}
+
 	while(true)
 	{
+		if(PowerUp_Var == "zombie_powerup_insta_kill_round_on")
+		{
+			if(flag("insta_kill_round"))
+			{
+				self.zombie_vars[PowerUp_Var] = true;
+				self.zombie_vars[PowerUp_timer] = 30;
+			}
+			else
+			{
+				self.zombie_vars[PowerUp_Var] = false;
+				self.zombie_vars[PowerUp_timer] = 0;
+			}
+		}
+
 		if(self.zombie_vars[PowerUp_timer] < 5 ) //&& ( IsDefined( self._show_solo_hud ) && self._show_solo_hud == true )
 		{
 			wait(0.1);
@@ -344,20 +358,13 @@ power_up_hud( Shader, PowerUp_Hud, PowerUp_timer, PowerUp_Var, red )
 			{
 				PowerUp_Hud.color = (.6,0,0);
 			}
-			else if(Shader == "specialty_instakill_zombies" && !flag("insta_kill_round"))
+			else if(yellow)
 			{
-				if(flag("insta_kill_round"))
-				{
-					if(self.zombie_vars[PowerUp_timer] != 30)
-					{
-						self.zombie_vars[PowerUp_timer] = 30;
-					}
-					PowerUp_Hud.color = (1,1,0);
-				}
-				else
-				{
-					PowerUp_Hud.color = (1,1,1);
-				}
+				PowerUp_Hud.color = (1,1,0);
+			}
+			else
+			{
+				PowerUp_Hud.color = (1,1,1);
 			}
 
 			if(self.zombie_vars[PowerUp_timer] < 5)
