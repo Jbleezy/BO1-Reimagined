@@ -132,19 +132,24 @@ init_powerups()
 	add_zombie_powerup( "random_weapon", "zombie_pickup_minigun", &"ZOMBIE_POWERUP_MAX_AMMO", true, false, false );
 
 	// bonus points
-	add_zombie_powerup( "bonus_points_player", "zombie_z_money_icon", &"REIMAGINED_BONUS_POINTS", true, false, false );
-	add_zombie_powerup( "bonus_points_team", "zombie_z_money_icon", &"REIMAGINED_BONUS_POINTS", false, false, false );
+	add_zombie_powerup( "bonus_points_player", "zombie_z_money_icon", &"ZOMBIE_POWERUP_BONUS_POINTS", true, false, false );
+	add_zombie_powerup( "bonus_points_team", "zombie_z_money_icon", &"ZOMBIE_POWERUP_BONUS_POINTS", false, false, false );
+	add_zombie_powerup( "lose_points_team", "zombie_z_money_icon", &"ZOMBIE_POWERUP_LOSE_POINTS", false, false, true );
 
 	// lose perk
 	add_zombie_powerup( "lose_perk", "zombie_pickup_perk_bottle", &"ZOMBIE_POWERUP_MAX_AMMO", false, false, true );
+
+	// empty clip
+	add_zombie_powerup( "empty_clip", "zombie_ammocan", &"ZOMBIE_POWERUP_MAX_AMMO", false, false, true );
 	
 	// grief powerdowns
-	add_zombie_powerup( "lose_points_team", "zombie_z_money_icon", &"REIMAGINED_LOSE_POINTS", false, true, false );
-	add_zombie_powerup( "empty_clip", "zombie_ammocan", &"REIMAGINED_CLIP_UNLOAD", false, true, false );
-	add_zombie_powerup( "half_points", "zombie_x2_icon", &"REIMAGINED_HALF_POINTS", false, true, false );
-	add_zombie_powerup( "half_damage", "zombie_skull", &"REIMAGINED_HALF_DAMAGE", false, true, false );
-	add_zombie_powerup( "hurt_players", "zombie_bomb", &"ZOMBIE_POWERUP_NUKE", false, true, false, "misc/fx_zombie_mini_nuke_hotness" );
-	//add_zombie_powerup( "slow_down", "p_rus_boots_sloppy", &"REIMAGINED_SLOW_DOWN", false, true, false );
+	add_zombie_powerup( "grief_bonus_points", "zombie_z_money_icon", &"REIMAGINED_BONUS_POINTS", false, false, false );
+	add_zombie_powerup( "grief_lose_points", "zombie_z_money_icon", &"REIMAGINED_LOSE_POINTS", false, true, false );
+	add_zombie_powerup( "grief_empty_clip", "zombie_ammocan", &"REIMAGINED_CLIP_UNLOAD", false, true, false );
+	add_zombie_powerup( "grief_half_points", "zombie_x2_icon", &"REIMAGINED_HALF_POINTS", false, true, false );
+	add_zombie_powerup( "grief_half_damage", "zombie_skull", &"REIMAGINED_HALF_DAMAGE", false, true, false );
+	add_zombie_powerup( "grief_hurt_players", "zombie_bomb", &"ZOMBIE_POWERUP_NUKE", false, true, false, "misc/fx_zombie_mini_nuke_hotness" );
+	//add_zombie_powerup( "grief_slow_down", "p_rus_boots_sloppy", &"REIMAGINED_SLOW_DOWN", false, true, false );
 
 	// grief powerups
 	add_zombie_powerup( "meat", GetWeaponModel("meat_zm"), &"REIMAGINED_CLIP_UNLOAD", false, false, false );
@@ -541,7 +546,23 @@ is_valid_powerup(powerup_name)
 	{
 		return false;
 	}
+	else if( powerup_name == "bonus_points_player" )					// never drops with regular powerups
+	{
+		return false;
+	}
+	else if( powerup_name == "bonus_points_team" )					// never drops with regular powerups
+	{
+		return false;
+	}
+	else if( powerup_name == "lose_points_team" )					// never drops with regular powerups
+	{
+		return false;
+	}
 	else if( powerup_name == "lose_perk" )					// never drops with regular powerups
+	{
+		return false;
+	}
+	else if( powerup_name == "empty_clip" )					// never drops with regular powerups
 	{
 		return false;
 	}
@@ -1639,21 +1660,24 @@ powerup_grab()
 						break;
 
 					case "bonus_points_team":
+					case "grief_bonus_points":
 						points = RandomIntRange( 5, 25 ) * 100;
 						level thread bonus_points_team_powerup( self, players[i], points );
 						players[i] thread powerup_vo( "bonus_points_team" ); // TODO: Audio should uncomment this once the sounds have been set up
 						break;
 
 					case "lose_points_team":
+					case "grief_lose_points":
 						points = RandomIntRange( 5, 25 ) * 100;
 						level thread lose_points_team_powerup( self, players[i], points );
 						break;
 
 					case "empty_clip":
+					case "grief_empty_clip":
 						level thread empty_clip_powerup( self, players[i] );
 						break;
 
-					case "half_points":
+					case "grief_half_points":
 						level thread half_points_powerup( self, players[i] );
 						break;
 
@@ -1661,12 +1685,12 @@ powerup_grab()
 						level thread half_damage_powerup( self, players[i] );
 						break;
 
-					case "slow_down":
-						level thread slow_down_powerup( self, players[i] );
+					case "grief_hurt_players":
+						level thread hurt_players_powerup( self, players[i] );
 						break;
 
-					case "hurt_players":
-						level thread hurt_players_powerup( self, players[i] );
+					case "grief_slow_down":
+						level thread slow_down_powerup( self, players[i] );
 						break;
 
 					case "meat":

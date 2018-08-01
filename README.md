@@ -1111,6 +1111,7 @@
 * Add way to tell to when box cycle is done
 * Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
 * Search and Rezurrect: fix bug where win/round restart happens twice after a team wins a round
+* Moon sidequest: fix placing VRIL into pyramid not working correctly with characters besides Richtofen
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
