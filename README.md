@@ -1111,7 +1111,6 @@
 * Add way to tell to when box cycle is done
 * Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
 * Search and Rezurrect: fix bug where win/round restart happens twice after a team wins a round
-* Betty: fix floating betties after being detonated
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1145,7 +1144,6 @@
 ### Testing
 * Moon sidequest dialog in coop without Richtofen
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-* Versus: test if betties can be triggered
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds

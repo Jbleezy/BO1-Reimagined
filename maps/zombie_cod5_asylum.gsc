@@ -1917,5 +1917,5 @@ recalculate_pathing(good_spot)
 
 life_brush()
 {
-	maps\_zombiemode::spawn_life_brush( (-2, -648, 302), 64, 256 );
+	maps\_zombiemode::spawn_life_brush( (-2, -648, 252), 256, 256 );
 }

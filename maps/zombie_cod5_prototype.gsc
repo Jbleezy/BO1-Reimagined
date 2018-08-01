@@ -869,5 +869,5 @@ zombie_collision_patch()
 
 life_brush()
 {
-	maps\_zombiemode::spawn_life_brush( (321, 356, 63), 256, 256 );
+	maps\_zombiemode::spawn_life_brush( (321, 356, 10), 256, 256 );
 }

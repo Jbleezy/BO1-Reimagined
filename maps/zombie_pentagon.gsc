@@ -965,5 +965,5 @@ barricade_glitch_fix()
 
 life_brush()
 {
-	maps\_zombiemode::spawn_life_brush( (-1089, 2509, 84), 256, 256 );
+	maps\_zombiemode::spawn_life_brush( (-1089, 2509, 35), 256, 256 );
 }
