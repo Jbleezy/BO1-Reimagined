@@ -969,6 +969,7 @@
 * No longer requires the completion of previous sidequests
 * Part 1 reward - 90 second Death Machines for the rest of the match
 * Full reward - permament perks (Quick Revive goes away when downed in solo, can be rebought with all perks)
+* Richtofen now does not get the full reward until the end with everyone else
 
 ### Dead Ops Arcade
 * Fates are now always in the same order (Fate of Fortune - top, Fate of Firepower - right, Fate of Friendship - bottom, Fate of Furious Feet - left)
@@ -1111,7 +1112,8 @@
 * Add way to tell to when box cycle is done
 * Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
 * Search and Rezurrect: fix bug where win/round restart happens twice after a team wins a round
-* Moon sidequest: fix placing VRIL into pyramid not working correctly with characters besides Richtofen
+* Moon: fix mask on teddybear from box
+* Moon sidequest: fix black egg position in pyramid
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1143,7 +1145,6 @@
 * Should special rounds always be 5 rounds apart?
 
 ### Testing
-* Moon sidequest dialog in coop without Richtofen
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)

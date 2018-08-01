@@ -164,7 +164,11 @@ poweron_vox()
 {
 	wait(3);
 	flag_wait( "power_on" );
-	level thread maps\zombie_moon_amb::play_mooncomp_vox( "vox_mcomp_power" );
+
+	if(level.gamemode == "survival")
+	{
+		level thread maps\zombie_moon_amb::play_mooncomp_vox( "vox_mcomp_power" );
+	}
 	
 	/*
 	players = get_players();

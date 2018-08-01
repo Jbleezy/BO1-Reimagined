@@ -211,7 +211,7 @@ do_soul_swap(who)
 			who setclientflag(level._CLIENTFLAG_PLAYER_SOUL_SWAP);
 		}
 
-		who maps\zombie_moon_sq::give_perk_reward();
+		//who maps\zombie_moon_sq::give_perk_reward();
 	}
 
 	wait(2.0);
