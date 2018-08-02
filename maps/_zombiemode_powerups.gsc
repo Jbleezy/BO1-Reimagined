@@ -2985,7 +2985,7 @@ bonus_points_player_powerup( item, player )
 bonus_points_team_powerup( item, player, points )
 {
 	level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["bonus_points_team"] );
-	
+
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
@@ -4179,6 +4179,7 @@ meat_powerup_create_meat_stink_player(player)
 	fx SetModel("tag_origin");
 	fx LinkTo(player_stuck);
 	PlayFXOnTag(level._effect["meat_stink"], fx, "tag_origin");
+	fx PlaySound("zmb_meat_land");
 	fx PlayLoopSound( "zmb_meat_flies" );
 
 	player_stuck meat_powerup_activate_meat_on_player(15);
@@ -4222,6 +4223,7 @@ meat_powerup_create_meat_stink(player)
 
 	PlayFX( level._effect[ "meat_impact" ], self.origin );
 	PlayFXOnTag(level._effect["meat_stink"], model, "tag_origin");
+	model PlaySound("zmb_meat_land");
 	model PlayLoopSound( "zmb_meat_flies" );
 
 	attract_dist_diff = 45;
