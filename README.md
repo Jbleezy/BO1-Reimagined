@@ -1006,7 +1006,7 @@
 * Clip Unload Powerdown: unloads enemy players' clips of the weapon they are currently holding
 * Half Damage Powerdown: enemy players do half damage to zombies for 30 seconds
 * Half Points Powerdown: enemy players earn half points for 30 seconds
-* Hurt Players Powerdown: does 50 damage to enemy players
+* Hurt Players Powerdown: damages enemy players down to 1 health
 * Punishment Points Powerdown: enemy players lose a random amount of points between 500 and 2500 points
 * Added Meat Powerup
 * Nacht Der Untoten: all doors are open from the start of the match
@@ -1063,16 +1063,16 @@
 * Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
 
 #### Gun Game
-* Unlimited zombies
 * Unlimited ammo
+* Unlimited zombies
+* 2,000 health zombies
+* 2 second zombie spawn rate
+* Only sprinting zombies
+* Auto revive after 10 seoconds
 * Quick Revive disabled
 * Wall weapons disabled
 * Mystery box disabled
 * Mule Kick disabled
-* 2,000 health zombies
-* 2 second zombie spawn rate
-* Only running zombies
-* Auto revive after 10 seoconds
 * Win the game the game by progressing through all the weapons
 * Weapon order: pistols, shotguns, smg's, assault rifles, lmg's, snipers, explosives, wonder weapons, ballistic knife
 * Zombies will drop a gun increment powerup after getting 10 kills with your current weapon
@@ -1111,7 +1111,18 @@
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
-* Search and Rezurrect: fix bug where win/round restart happens twice after a team wins a round
+* M1 Garand: fix model
+
+### Testing
+* Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
+* Gun Game: see if top enemy player name is updating (need 3-4 players)
+* Search and Rezurrect: see if bug happens where win/round restart happens twice after a team wins a round (need 4 players)
+
+### Maybe
+* Shangri-La: should mud pit sidequest step need the radio to be activated to work? No
+* Moon: should teleporter gate start going down before power is on? No
+* If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
+* Should special rounds always be 5 rounds apart?
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated
@@ -1135,15 +1146,6 @@
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Add left and right empty idle, drop, raise, sprint, and dive anims for dual wields weapons (engine currently uses only main weapon anims for these)
-
-### Maybe
-* Shangri-La: should mud pit sidequest step need the radio to be activated to work? No
-* Moon: should teleporter gate start going down before power is on? No
-* If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
-* Should special rounds always be 5 rounds apart?
-
-### Testing
-* Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
 
 ## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
 * Insta kill rounds

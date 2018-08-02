@@ -750,6 +750,11 @@ grief_msg_fade_away(text)
 
 round_restart(same_round)
 {
+	if(flag("round_restarting"))
+	{
+		return;
+	}
+
 	flag_set("round_restarting");
 	flag_clear( "spawn_zombies");
 
@@ -1463,6 +1468,8 @@ reduce_survive_zombie_amount()
 
 snr_round_win_watcher()
 {
+	level endon( "round_restarted" );
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
@@ -2272,13 +2279,13 @@ update_gungame_hud()
 			if(IsDefined(second_highest_player))
 			{
 				players[i] SetClientDvar("vs_counter_enemy_num", second_highest_wep);
-				players[i] SetClientDvar("vs_enemy_playername", second_highest_player);
+				players[i] SetClientDvar("vs_enemy_playername", second_highest_player.playername);
 			}
 		}
 		else
 		{
 			players[i] SetClientDvar("vs_counter_enemy_num", highest_wep);
-			players[i] SetClientDvar("vs_enemy_playername", highest_player);
+			players[i] SetClientDvar("vs_enemy_playername", highest_player.playername);
 		}
 	}
 }
