@@ -576,6 +576,7 @@
 * Ray Gun can now be obtained without moving the Mystery Box on all maps
 * Weapons will not appear again in a row while floating up (unless it is the final weapon)
 * Cycles through all locations before going to a previous location again
+* An effect now plays when the Mystery Box is moving if it is the last Mystery Box location of a Mystery Box location cycle
 * Hintstring now says "Mystery Box" instead of "Random Weapon"
 * Added a separate hintstring for tactical grenades
 * Removed sound that plays when obtaining the Ray Gun
@@ -1109,11 +1110,8 @@
 * Versus: fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
-* Add way to tell to when box cycle is done
 * Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
 * Search and Rezurrect: fix bug where win/round restart happens twice after a team wins a round
-* Moon: fix mask on teddybear from box
-* Moon sidequest: fix black egg position in pyramid
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated

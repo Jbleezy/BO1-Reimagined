@@ -2755,6 +2755,11 @@ treasure_chest_weapon_spawn( chest, player, respin )
 
 			//allow power weapon to be accessed.
 			level.chest_moves++;
+
+			if(level.chest_index + 1 >= level.chests.size)
+			{
+				PlayFX( level._effect["powerup_grabbed"], self.weapon_model.origin + (0, 0, 18) );
+			}
 		}
 	}
 
@@ -3991,8 +3996,9 @@ init_includes()
  	include_weapon("ppsh_zm");
  	include_weapon("falling_hands_zm", false);
 
- 	if(!(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.script == "zombie_cod5_sumpf"))
- 	{
+ 	vending_weapon_upgrade_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
+	if(vending_weapon_upgrade_trigger.size >= 1)
+	{
  		include_weapon("ak47_ft_upgraded_zm", false);
 	 	include_weapon("stoner63_upgraded_zm", false);
 	 	include_weapon("psg1_upgraded_zm", false);
