@@ -1003,7 +1003,7 @@
 * Fire Sale: makes traps cost 10 points
 * Bones Points Powerup: players gain a random amount of points between 500 and 2500 points
 * Added Powerdowns: powerups that do negative effects to the enemy team
-* Clip Unload Powerdown: unloads enemy players' clips of the weapon they are currently holding
+* Clip Unload Powerdown: unloads the clips of all the enemy players' weapons
 * Half Damage Powerdown: enemy players do half damage to zombies for 30 seconds
 * Half Points Powerdown: enemy players earn half points for 30 seconds
 * Hurt Players Powerdown: damages enemy players down to 1 health
@@ -1112,6 +1112,7 @@
 * Remove zombie failsafe death print before release
 * Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
 * Fix the rest of the WaW weapon models (use Photoshop to make _g from alpha channel of _s and _ao from alpha channel of _env)
+* Add Fire Sale Powerdown
 
 ### Testing
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)

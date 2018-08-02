@@ -3063,30 +3063,10 @@ empty_clip_powerup( item, player )
 		{
 			players[i] thread powerup_hint_on_hud(item);
 
-			weapon = players[i] GetCurrentWeapon();
-
-			if(weapon == "syrette_sp" || weapon == "zombie_perk_bottle_doubletap" || weapon == "zombie_perk_bottle_revive" || weapon == "zombie_perk_bottle_jugg" || weapon == "zombie_perk_bottle_sleight" || weapon == "zombie_perk_bottle_marathon" || weapon == "zombie_perk_bottle_nuke" || weapon == "zombie_perk_bottle_deadshot" || weapon == "zombie_perk_bottle_additionalprimaryweapon" || weapon == "zombie_knuckle_crack" || weapon == "zombie_bowie_flourish" || weapon == "zombie_sickle_flourish" || weapon == "meat_zm")
+			primaryWeapons = players[i] GetWeaponsListPrimaries();
+			for ( j = 0; j < primaryWeapons.size; j++ )
 			{
-				return;
-			}
-
-			players[i] SetWeaponAmmoClip( weapon, 0 );
-
-			// if player has mines out, switch weapons since it doesn't happen automatically
-			if(is_player_placeable_mine(weapon))
-			{
-				if(IsDefined(players[i].last_held_primary_weapon) && players[i] HasWeapon(players[i].last_held_primary_weapon))
-				{
-					players[i] SwitchToWeapon(players[i].last_held_primary_weapon);
-				}
-				else if(IsDefined(players[i] GetWeaponsListPrimaries()[0]))
-				{
-					players[i] SwitchToWeapon(players[i] GetWeaponsListPrimaries()[0]);
-				}
-				else
-				{
-					players[i] SwitchToWeapon("combat_" + players[i] get_player_melee_weapon());
-				}
+				players[i] SetWeaponAmmoClip( primaryWeapons[j], 0 );
 			}
 		}
 	}
