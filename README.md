@@ -1111,7 +1111,6 @@
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
-* Fix the rest of the WaW weapon models (use Photoshop to make _g from alpha channel of _s and _ao from alpha channel of _env)
 * Add Fire Sale Powerdown
 
 ### Testing
