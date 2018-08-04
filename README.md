@@ -1111,7 +1111,6 @@
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
-* Add Fire Sale Powerdown
 
 ### Testing
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
