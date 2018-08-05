@@ -1111,15 +1111,12 @@
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
+* Versus: fix powerup sounds playing for players that aren't effected by the powerup
 
 ### Testing
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-* Gun Game: see if top enemy player name is updating (need 3-4 players)
-* Search and Rezurrect: see if bug happens where win/round restart happens twice after a team wins a round (need 4 players)
 
 ### Maybe
-* Shangri-La: should mud pit sidequest step need the radio to be activated to work? No
-* Moon: should teleporter gate start going down before power is on? No
 * If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
 * Should special rounds always be 5 rounds apart?
 
@@ -1145,18 +1142,6 @@
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
 * Add left and right empty idle, drop, raise, sprint, and dive anims for dual wields weapons (engine currently uses only main weapon anims for these)
-
-## BUGS THAT ARE STAYING (IT'S A FEATURE, NOT A BUG)
-* Insta kill rounds
-* Powerup limit per round reset by teleporting on Moon
-* Damaging a zombie resets its hit animation
-* Dogs on No Man's Land have 150 health for 1.5 seconds after spawning in
-* Trapping the cosmonaut via excavator
-* Shi No Numa Flogger double trap activation
-
-## FEATURES THAT WILL NOT BE ADDED
-* Additional perk machines on maps
-* No more new weapons
 
 ## GAME_MOD TODO
 * Fix grenades giving more ammo than they should (made fix)

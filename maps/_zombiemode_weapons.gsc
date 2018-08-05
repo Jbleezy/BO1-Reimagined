@@ -1982,7 +1982,7 @@ default_box_move_logic()
 		// JMA - want to avoid an infinite loop, so we use an if statement
 		if (temp_chest_name == level.chests[level.chest_index].script_noteworthy)
 		{
-			array_swap(level.chests,0,1);
+			level.chests = array_swap(level.chests, 0, RandomIntRange(1, level.chests.size));
 		}
 		//END PI CHANGE
 	}
