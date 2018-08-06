@@ -833,6 +833,7 @@ _monkey_watch_for_death()
 	}
 
 }
+
 powerup_red(monkey)
 {
 	monkey endon("death");
@@ -1216,15 +1217,21 @@ _powerup_Randomize(monkey)
 	if(is_in_array(level.normal_powerups, self.powerup_name))
     {
 		powerup_cycle = array("fire_sale","nuke","double_points","insta_kill");
-	}
-	else
-    {
-    	powerup_cycle = array("grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_slow_down");
 
-    	if(level.gamemode == "gg")
+		if(level.gamemode != "survival")
+		{
+			powerup_cycle = add_to_array(powerup_cycle, "grief_bonus_points");
+			powerup_cycle = add_to_array(powerup_cycle, "meat");
+		}
+
+		if(level.gamemode == "gg")
 		{
 			powerup_cycle = add_to_array(powerup_cycle, "upgrade_weapon");
 		}
+	}
+	else
+    {
+    	powerup_cycle = array("grief_lose_points", "grief_hurt_players", "grief_half_points", "grief_half_damage");
     }
 
 	powerup_cycle = array_randomize_knuth(powerup_cycle);
@@ -1235,7 +1242,7 @@ _powerup_Randomize(monkey)
 	}
 	else
 	{
-		powerup_cycle[powerup_cycle.size] = "meat";
+		powerup_cycle[powerup_cycle.size] = "grief_empty_clip";
 	}
 
 	//Remove fire sale so the players can not get firesale too early.
