@@ -1054,7 +1054,7 @@ player_set_viewmodel( zm_random_solo_char )
 
 			case 3:
 			// Castro
-				self SetViewModel( "viewmodel_usa_pow_arms" );
+				self SetViewModel( "t4_viewhands_usa_marine" );
 				break;
 		}
 	}

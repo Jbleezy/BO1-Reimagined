@@ -780,7 +780,8 @@ pentagon_precache()
 	PreCacheShellShock( "electrocution" );
 
 	// ww: temp viewmodel arms for pentagon until we get the right ones
-	PreCacheModel( "viewmodel_usa_pow_arms" ); // TEMP
+	PreCacheModel( "viewmodel_usa_pow_arms" );
+	PreCacheModel( "t4_viewhands_usa_marine" );
 	// TODO: PUT THE REAL VIEWMODEL ARMS IN FOR PENTAGON
 	// ww: these pieces are used for the death-con switches
 	PreCacheModel( "zombie_trap_switch" );

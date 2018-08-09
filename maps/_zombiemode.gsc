@@ -8512,12 +8512,6 @@ zone_hud()
 
 		name = choose_zone_name(self get_current_zone(), current_name);
 
-		// Five - these 2 zone names are the same area just depends on if the elevator is up or down, so use the same HUD name for both
-		if(name == "reimagined_zombie_pentagon_labs_elevator")
-		{
-			name = "reimagined_zombie_pentagon_war_room_zone_elevator";
-		}
-
 		if(current_name == name)
 		{
 			continue;

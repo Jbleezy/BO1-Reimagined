@@ -873,8 +873,8 @@
 * Pack-a-Punch machine will stay available for as long as the defcon room is active
 * If all players on a floor use an elevator or get downed when the power is off, all zombies will now respawn
 * If all players on a floor use an elevator or get downed when the power is on, all zombies will now go through teleporters
-* Fixed lighting in the top floor being incorrect
-* All characters now use the CIA viewmodel except Castro
+* Fixed lighting on the top floor being incorrect
+* All characters now use the correct viewmodel arms
 * Fixed a bug that caused zombies to not go through a trap if the trap was active when a thief round ends
 * Fixed a bug that crashed the game if the thief attempted to steal a player's weapon while they were using Pack-a-Punch
 
