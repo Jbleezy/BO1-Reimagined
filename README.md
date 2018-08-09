@@ -1110,7 +1110,6 @@
 * Versus: fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
-* Five: make it so wooden boards are down from the beginning but can be rebuilt immediately?
 * Versus: fix powerup sounds playing for players that aren't effected by the powerup
 
 ### Testing

@@ -827,7 +827,7 @@ round_restart(same_round)
 		players[i] [[level.spawnPlayer]]();
 	}
 
-	wait_network_frame(); //needed for stored weapons to work correctly and round_restarting flag was being cleared too soon
+	wait_network_frame(); // needed for stored weapons to work correctly and round_restarting flag was being cleared too soon
 
 	players = get_players();
 	for(i=0;i<players.size;i++)
@@ -835,7 +835,7 @@ round_restart(same_round)
 		players[i] notify( "round_restarted" );
 		players[i] DisableInvulnerability();
 		players[i].rebuild_barrier_reward = 0;
-		players[i] DoDamage( 0, (0,0,0) ); //fix for health not being correct
+		players[i] DoDamage( 0, (0,0,0) ); // fix for health not being correct
 		players[i] TakeAllWeapons();
 		players[i] giveback_player_weapons();
 		players[i].is_drinking = false;
@@ -873,14 +873,9 @@ round_restart(same_round)
 		}
 	}
 
-	level thread maps\_zombiemode::award_grenades_for_survivors(); //get 2 extra grenades when you spawn back in
+	level thread maps\_zombiemode::award_grenades_for_survivors(); // get 2 extra grenades when you spawn back in
 
-	/*if(level.script == "zombie_pentagon")
-		level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_defcon_reset" );
-	else
-		level thread play_sound_2d( "sam_nospawn" );*/
-
-	//had to put here instead of the very end, since display_round_number is a timed function and if this flag isnt cleared players cant take damage from traps (and at this point players are spawned back in)
+	// had to put here instead of the very end, since display_round_number is a timed function and if this flag isnt cleared players cant take damage from traps (and at this point players are spawned back in)
 	flag_clear("round_restarting");
 
 	level thread fade_in(0, 1, true);
