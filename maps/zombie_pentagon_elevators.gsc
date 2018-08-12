@@ -461,7 +461,7 @@ elevator_move_to(elevator)
 
 	//unlock_players();
 
-	wait(1);
+	wait(1.5);
 	//DCS 091610: Clean up any zombies that spawned while elevator moved.
 	elevator.called = false;
 	elevator.active = false;

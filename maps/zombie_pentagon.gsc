@@ -410,7 +410,10 @@ wait_for_power()
 	//Sound - Shawn J  - adding temp sound to looping sparks & turning on power sources
 	master_switch playsound("zmb_turn_on");
 
-	level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_poweron" );
+	if(level.gamemode == "survival")
+	{
+		level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_poweron" );
+	}
 }
 
 //*****************************************************************************
@@ -733,7 +736,10 @@ lab_shutters_think()
 play_starting_vox()
 {
     flag_wait( "all_players_connected" );
-    level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_levelstart" );
+    if(level.gamemode == "survival")
+	{
+    	level thread maps\zombie_pentagon_amb::play_pentagon_announcer_vox( "zmb_vox_pentann_levelstart" );
+    }
 }
 
 // WW: script brush model lights for the office floor

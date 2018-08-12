@@ -27,6 +27,111 @@
 
 		onOpen
 		{
+			if(dvarString(asylum_start_room) == "")
+			{
+				setDvar asylum_start_room "random";
+			}
+
+			if(dvarString(cg_drawFPSLabels) == "1") // default setting
+			{
+				setDvar cg_drawFPSLabels 0;
+			}
+
+			if(dvarString(cg_fov_settings) == "")
+			{
+				setDvar cg_fov_settings 90;
+			}
+
+			if(dvarString(character_dialog) == "")
+			{
+				setDvar character_dialog 1;
+			}
+
+			if(dvarString(com_maxfps) == "85") // default setting
+			{
+				setDvar com_maxfps 90;
+			}
+
+			if(dvarString(hud_playernames_on) == "")
+			{
+				setDvar hud_playernames_on 1;
+			}
+
+			if(dvarString(hud_time_on) == "")
+			{
+				setDvar hud_time_on 1;
+			}
+
+			if(dvarString(hud_zombs_remaining_on) == "")
+			{
+				setDvar hud_zombs_remaining_on 1;
+			}
+
+			if(dvarString(hud_zone_name_on) == "")
+			{
+				setDvar hud_zone_name_on 1;
+			}
+
+			if(dvarString(map_rotation) == "")
+			{
+				setDvar map_rotation "single";
+			}
+
+			if(dvarString(mule_kick_enabled) == "")
+			{
+				setDvar mule_kick_enabled 1;
+			}
+
+			if(dvarString(nml_start_perk) == "")
+			{
+				setDvar nml_start_perk "random";
+			}
+
+			if(dvarString(r_fog_settings) == "")
+			{
+				setDvar r_fog_settings 1;
+			}
+
+			if(dvarString(zm_gamemode) == "")
+			{
+				setDvar zm_gamemode "survival";
+			}
+
+			if(dvarString(zombie_coast_initial_box_location) == "")
+			{
+				setDvar zombie_coast_initial_box_location "random";
+			}
+
+			if(dvarString(zombie_moon_initial_box_location) == "")
+			{
+				setDvar zombie_moon_initial_box_location "random";
+			}
+
+			if(dvarString(zombie_pentagon_disabled_window1) == "")
+			{
+				setDvar zombie_pentagon_disabled_window1 "random";
+			}
+
+			if(dvarString(zombie_pentagon_disabled_window2) == "")
+			{
+				setDvar zombie_pentagon_disabled_window2 "random";
+			}
+
+			if(dvarString(zombie_pentagon_initial_box_location) == "")
+			{
+				setDvar zombie_pentagon_initial_box_location "random";
+			}
+
+			if(dvarString(zombie_temple_initial_box_location) == "")
+			{
+				setDvar zombie_temple_initial_box_location "random";
+			}
+
+			if(dvarString(zombie_theater_initial_box_location) == "")
+			{
+				setDvar zombie_theater_initial_box_location "random";
+			}
+
 			LOCAL_CLOSE_ALL_BUT( options_game )
 
 			setLocalVarBool ui_hideBack 1;
