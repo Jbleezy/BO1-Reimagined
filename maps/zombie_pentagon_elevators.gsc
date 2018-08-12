@@ -246,17 +246,8 @@ elevator_buy_think(elevator)
 
 		elev_clear = is_elevator_clear(elevator);
 
-		//delay for top elevator to be able to use it without riding it
-		if(!elev_clear && !flag("thief_round") && elevator.targetname == "elevator2")
-		{
-			self SetHintString("");
-			wait .2;
-			elev_clear = is_elevator_clear(elevator);
-		}
-
 		if(!elev_clear)
 		{
-
 			play_sound_at_pos( "no_purchase", self.origin );
 			self SetHintString( &"ZOMBIE_PENTAGON_ELEV_BLOCKED" );
 			wait(1.0);

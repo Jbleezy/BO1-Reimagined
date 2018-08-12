@@ -112,7 +112,7 @@
 #### AK47
 * Upgraded name: The Red Mist
 * Upgraded version has flamethrower attachment
-* 30 rounds per clip unupgraded and upgraded
+* 30 rounds per clip
 * Unupgraded: damage - 150
 * Unupgraded: headshot damage - 600
 * Unupgraded: damage - 210
@@ -120,7 +120,7 @@
 
 #### PPSH
 * Upgraded name: The Reaper
-* 71 rounds per clip unupgraded and upgraded
+* 71 rounds per clip
 * Unupgraded: damage - 100
 * Unupgraded: headshot damage - 400
 * Unupgraded: damage - 140
@@ -129,7 +129,7 @@
 #### PSG1
 * Upgraded name: Psychotic Salient Genius 115
 * Replaces the Dragunov
-* 10 rounds per clip unupgraded and upgraded
+* 10 rounds per clip
 * Unupgraded: damage - 500
 * Unupgraded: headshot damage - 2500
 * Unupgraded: damage - 1000
@@ -770,7 +770,7 @@
 * Zombies will now not bleed out if they are in an active zone in addition to being close to a player
 * Zombies that bleed out from being too far away will now be killed instead of deleted
 * Zombies can no longer be alive and headless
-* 4 round and 5 round special rounds will happen more equally now
+* 4 round and 5 round special rounds will now happen more equally
 * Max health: 1 million
 * Fixed a bug that caused ceiling spawns to be able to be disabled
 * Fixed a bug that caused spawning zombies to be able to collide with players while they were still invisible to the player
@@ -881,7 +881,6 @@
 #### Elevators
 * Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1 second
 * Hintstring for elevators will now not show up until the elvator becomes usable again
-* Added .2 second delay for the top elevator to activate after it has been triggered if there is a player blocking it so the elevator can move without the player having to ride it
 
 #### Teleporters
 * Teleporting no longer takes players' weapons away temporarily
@@ -1082,8 +1081,6 @@
 * Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
 
 ## TODO
-* Add BO3 weapon models (Ray Gun, Wunderwaffe, Thundergun, Baby Gun, Wave Gun)
-* Thundergun: add 4th power cell FX
 * COTD: fix Director not doing anim when getting angry
 * Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
@@ -1094,13 +1091,10 @@
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Deadshot: add fast ADS move speed correctly
 * Show player's perks when spectating (player.spectatorclient?)
-* Make it so Death Machine and FG42 weapon models look better with higher FOV
 * Fix sprint and dive anims on Ray Gun
-* Try to use BO1 Thompson sprint and dive anims (need to be adjusted)
 * Find a way to be able to shoot through more than 3 zombies
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
 * Rename some zone names
-* Fix Nikolai viewhands
 * Fix textures getting changed when getting sprayed with flamethrower attachment
 * Optimize zombies in barrier and traversing barrier code (sometimes zombies still get stuck in barrier)
 * Five: optimize zombie respawn from elevator use code (sometimes zombies still bleed out)
@@ -1114,10 +1108,11 @@
 
 ### Testing
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
+* Five: see if elevator can be broken in coop by someone calling it and the other using it from inside
+* Versus: check if turrets work correctly
 
 ### Maybe
 * If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
-* Should special rounds always be 5 rounds apart?
 
 ### Cannot Find Fix
 * Turn off Der Riese easter egg song noises after they have been activated

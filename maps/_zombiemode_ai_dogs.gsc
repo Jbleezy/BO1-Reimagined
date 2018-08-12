@@ -452,19 +452,6 @@ dog_round_tracker()
 	old_spawn_func = level.round_spawn_func;
 	old_wait_func  = level.round_wait_func;
 
-	if(level.next_dog_round == 5)
-	{
-		level.prev_dog_round_amount = 4;
-	}
-	else if(level.next_dog_round == 6)
-	{
-		level.prev_dog_round_amount = randomintrange( 4, 6 );
-	}
-	else
-	{
-		level.prev_dog_round_amount = 5;
-	}
-
 	while ( 1 )
 	{
 		level waittill ( "between_round_over" );
@@ -486,8 +473,8 @@ dog_round_tracker()
 
 			if(!IsDefined(level.prev_dog_round_amount))
 			{
-				level.next_dog_round = level.round_number + randomintrange( 4, 6 );
-				level.prev_dog_round_amount = level.next_dog_round - level.round_number;
+				level.prev_dog_round_amount = RandomIntRange( 4, 6 );
+				level.next_dog_round = level.round_number + level.prev_dog_round_amount;
 			}
 			else
 			{

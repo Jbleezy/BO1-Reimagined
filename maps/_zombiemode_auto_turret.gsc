@@ -295,13 +295,13 @@ auto_turret_attack_think()
 				} 
 			}
 
-			/*if(IsDefined(targets))
+			if(IsDefined(targets) && targets.size > 0)
 			{
 				self.turret SetTurretTeam( "axis" );
-				self.turret SetTargetEntity( target );
-			}*/
-			self.turret SetTurretTeam( "axis" );
+				self.turret SetTargetEntity( targets[0] );
+			}
 		}
+
 		if(targets.size == 0) //if no closeby enemy player, attack the zombies
 		{
 			zombs = getaispeciesarray("axis");
@@ -315,22 +315,12 @@ auto_turret_attack_think()
 				}
 			}
 
-			/*if(IsDefined(target))
+			if(IsDefined(targets) && targets.size > 0)
 			{
 				self.turret SetTurretTeam( "allies" );
-				//self.turret SetTargetEntity( target );
-			}*/
-
-			self.turret SetTurretTeam( "allies" );
+				self.turret SetTargetEntity( targets[0] );
+			}
 		}
-
-		//turret_target = self.turret GetTurretTarget();
-
-		/*if(level.gamemode != "survival" && IsDefined(turret_target) && IsPlayer(turret_target) && turret_target.vsteam == self.owner.vsteam)
-		{
-			self.turret ClearTargetEntity();
-			self.turret SetTargetEntity( targets[0] );
-		}*/
 
 		if(targets.size > 0)
 		{

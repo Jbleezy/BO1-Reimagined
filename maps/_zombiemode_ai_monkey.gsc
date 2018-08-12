@@ -1064,20 +1064,6 @@ monkey_round_tracker()
 	level.next_monkey_round = level.round_number + randomintrange( 1, 4 );
 	level.prev_monkey_round = level.next_monkey_round;
 
-	amount = level.next_monkey_round - level.round_number;
-	if(amount == 1)
-	{
-		level.prev_thief_round_amount = 4;
-	}
-	else if(amount == 2)
-	{
-		level.prev_thief_round_amount = randomintrange( 4, 6 );
-	}
-	else
-	{
-		level.prev_thief_round_amount = 5;
-	}
-
 	while ( 1 )
 	{
 		level waittill( "between_round_over" );
@@ -1104,8 +1090,8 @@ monkey_round_tracker()
 			if(!IsDefined(level.prev_monkey_round_amount))
 			{
 				level.prev_monkey_round = level.next_monkey_round;
-				level.next_monkey_round = level.round_number + randomintrange( 4, 6 );
-				level.prev_monkey_round_amount = level.next_monkey_round - level.round_number;
+				level.prev_monkey_round_amount = RandomIntRange( 4, 6 );
+				level.next_monkey_round = level.round_number + level.prev_monkey_round_amount;
 			}
 			else
 			{
