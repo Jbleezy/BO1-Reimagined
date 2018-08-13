@@ -185,12 +185,14 @@ burst_fire_unmanned()
 	turretState = "start";
 	self.script_shooting = false;
 	self.convergence_amount = 0;
+	target = undefined;
 
 	for( ;; )
 	{
-		self.manual_targets = [];
+		prev_target = target;
+		target = undefined;
 
-		dist = 1024 * 1024;
+		dist = 1500 * 1500;
 
 		if(level.gamemode != "survival")
 		{
@@ -212,7 +214,7 @@ burst_fire_unmanned()
 					continue;
 				}
 
-				if(!BulletTracePassed(self.origin + (0,0,30), players[i] GetEye(), false, undefined))
+				if(!SightTracePassed(self.origin + (0,0,40), players[i].origin + (0,0,30), false, undefined))
 				{
 					continue;
 				}
@@ -220,12 +222,12 @@ burst_fire_unmanned()
 				if(DistanceSquared(players[i].origin, self.origin) < dist) // attack the closest player
 				{
 					dist = DistanceSquared(players[i].origin, self.origin);
-					self.manual_targets[0] = players[i];
+					target = players[i];
 				} 
 			}
 		}
 
-		if(self.manual_targets.size == 0) // if no closeby enemy player, attack the zombies
+		if(!IsDefined(target)) // if no closeby enemy player, attack the zombies
 		{
 			zombs = GetAiSpeciesArray("axis");
 			for(i=0;i<zombs.size;i++)
@@ -235,7 +237,7 @@ burst_fire_unmanned()
 					continue;
 				}
 
-				if(!BulletTracePassed(self.origin + (0,0,30), zombs[i] GetEye(), false, undefined))
+				if(!SightTracePassed(self.origin + (0,0,40), zombs[i].origin + (0,0,30), false, undefined))
 				{
 					continue;
 				}
@@ -243,15 +245,31 @@ burst_fire_unmanned()
 				if(DistanceSquared(zombs[i].origin, self.origin) < dist) 
 				{
 					dist = DistanceSquared(zombs[i].origin, self.origin);
-					self.manual_targets[0] = zombs[i];
+					target = zombs[i];
 				}
 			}
 		}
 
 		self ClearTargetEntity();
-		if(IsDefined(self.manual_targets) && self.manual_targets.size > 0)
+		if(IsDefined(target))
 		{
 			self SetMode("manual");
+
+			if(!IsDefined(prev_target) || prev_target != target)
+			{
+				if(IsDefined(self.manual_targets))
+				{
+					for(i=0; i<self.manual_targets.size; i++)
+					{
+						self.manual_targets[i] Delete();
+					}
+				}
+
+				self.manual_targets = [];
+				self.manual_targets[0] = Spawn("script_origin", target.origin + (0,0,30));
+				self.manual_targets[0] EnableLinkTo();
+				self.manual_targets[0] LinkTo(target);
+			}
 
 			self SetTargetEntity( self.manual_targets[RandomInt( self.manual_targets.size )] );
 

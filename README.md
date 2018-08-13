@@ -1106,6 +1106,7 @@
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Versus: fix powerup sounds playing for players that aren't effected by the powerup
+* Turrets: remove damage markers from players
 
 ### Testing
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)

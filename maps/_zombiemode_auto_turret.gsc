@@ -243,6 +243,14 @@ auto_turret_activate()
 
 auto_turret_deactivate()
 {
+	if(IsDefined(self.turret.manual_targets))
+	{
+		for(i=0; i<self.turret.manual_targets.size; i++)
+		{
+			self.turret.manual_targets[i] Delete();
+		}
+	}
+	
 	self.turret_active = false;
 	self.curr_time = -1;
 	self.turret SetMode( "auto_ai" );
