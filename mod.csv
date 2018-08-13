@@ -3,6 +3,7 @@ rawfile,maps/_ballistic_knife.gsc
 rawfile,maps/_callbackglobal.gsc
 rawfile,maps/_gameskill.gsc
 rawfile,maps/_laststand.gsc
+rawfile,maps/_mgturret.gsc
 rawfile,maps/_weaponobjects.gsc
 rawfile,maps/_zombiemode.gsc
 rawfile,maps/_zombiemode_audio.gsc
@@ -145,7 +146,6 @@ rawfile,clientscripts/_sticky_grenade.csc
 rawfile,clientscripts/_zombiemode_ffotd.csc
 rawfile,clientscripts/_zombiemode_perks.csc
 rawfile,clientscripts/_zombiemode_weap_tesla.csc
-//rawfile,clientscripts/_zombiemode_weap_thundergun.csc
 rawfile,clientscripts/zombie_cod5_factory_teleporter.csc
 rawfile,clientscripts/zombie_theater.csc
 rawfile,clientscripts/zombie_theater_teleporter.csc
@@ -243,6 +243,7 @@ weapon,sp/claymore_zm
 weapon,sp/spikemore_zm
 weapon,sp/equip_gasmask_zm
 weapon,sp/lower_equip_gasmask_zm
+weapon,sp/zombie_bullet_crouch
 
 //WAW WEAPONS
 weapon,sp/kar98k_scoped_zombie
@@ -285,7 +286,6 @@ weapon,sp/stoner63_upgraded_zm
 weapon,sp/psg1_zm
 weapon,sp/psg1_upgraded_zm
 weapon,sp/falling_hands_zm
-//weapon,sp/zombie_perk_bottle
 weapon,sp/meat_zm
 weapon,sp/starburst_ray_gun_zm
 weapon,sp/starburst_m72_law_zm
@@ -309,7 +309,6 @@ fx,misc/fx_zombie_powerup_red_wave
 fx,maps/zombie/fx_zmb_ent_stolen
 
 //MATERIALS
-//material,specialty_ads_zombies
 material,cdc_logo
 material,cia_logo
 material,waypoint_cdc

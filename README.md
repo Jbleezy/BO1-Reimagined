@@ -702,10 +702,11 @@
 * Mainframe no longer displays a hintstring for needing power or needing to activate a link
 
 ### Turrets (Kino Der Toten and Ascension)
-* No longer deal damage to players
+* No longer deals damage to players
 * Kills zombies in one shot
-* Turrets now lockon to a new target quicker
-* Turrets now target the zombie that is closest to the turret
+* Now locks on to a new target quicker
+* Now targets the zombie that is closest to the turret
+* Nova crawlers now do not explode from turret damage
 
 ### Lunar Lander (Ascension)
 * Added a short delay for the lander to activate after triggering it (so you can activate the lander without having to ride it)
@@ -879,7 +880,7 @@
 * Fixed a bug that crashed the game if the thief attempted to steal a player's weapon while they were using Pack-a-Punch
 
 #### Elevators
-* Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1 second
+* Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1.25 seconds
 * Hintstring for elevators will now not show up until the elvator becomes usable again
 
 #### Teleporters
@@ -1108,8 +1109,6 @@
 
 ### Testing
 * Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-* Five: see if elevator can be broken in coop by someone calling it and the other using it from inside
-* Versus: check if turrets work correctly
 
 ### Maybe
 * If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?

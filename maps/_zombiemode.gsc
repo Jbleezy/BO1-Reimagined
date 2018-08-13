@@ -5491,7 +5491,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 	}
 
 	// turrets - don't damage players
-	if(sWeapon == "zombie_bullet_crouch" && sMeansOfDeath == "MOD_RIFLE_BULLET")
+	if(sMeansOfDeath == "MOD_RIFLE_BULLET" && sWeapon == "zombie_bullet_crouch")
 	{
 		if(level.gamemode != "survival")
 		{
@@ -6401,16 +6401,16 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	if(sWeapon == "zombie_bullet_crouch" && sMeansofdeath == "MOD_RIFLE_BULLET")
 	{
 		//figure out which turret killed the zombie
-		if(!IsDefined(level.auto_turret_array[1].owner))
-			turret = level.auto_turret_array[0];
-		else if(!IsDefined(level.auto_turret_array[0].owner))
-			turret = level.auto_turret_array[1];
-		else if(level.script == "zombie_cosmodrome" && DistanceSquared(self.origin, level.auto_turret_array[1].origin) < DistanceSquared(self.origin, level.auto_turret_array[0].origin))
-			turret = level.auto_turret_array[1];
+		if(!IsDefined(level.auto_turret_array[1].turret.owner))
+			turret = level.auto_turret_array[0].turret;
+		else if(!IsDefined(level.auto_turret_array[0].turret.owner))
+			turret = level.auto_turret_array[1].turret;
+		else if(level.script == "zombie_cosmodrome" && DistanceSquared(self.origin, level.auto_turret_array[1].turret.origin) < DistanceSquared(self.origin, level.auto_turret_array[0].turret.origin))
+			turret = level.auto_turret_array[1].turret;
 		else if(level.script == "zombie_theater" && (self get_current_zone() == "dressing_zone" || self get_current_zone() == "dining_zone")) //zombies can sometimes be closer to the other turret on kino so have to use the zone that the zombie is in to determine owner
-			turret = level.auto_turret_array[1];
+			turret = level.auto_turret_array[1].turret;
 		else
-			turret = level.auto_turret_array[0];
+			turret = level.auto_turret_array[0].turret;
 		if(IsDefined(turret.owner))
 			turret.owner.kills++;
 	}

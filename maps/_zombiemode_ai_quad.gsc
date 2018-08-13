@@ -840,7 +840,7 @@ quad_post_death()
 
 quad_killed_override( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime )
 {
-	if ( sMeansOfDeath == "MOD_PISTOL_BULLET" || sMeansOfDeath == "MOD_RIFLE_BULLET" )
+	if( (sMeansOfDeath == "MOD_PISTOL_BULLET" || sMeansOfDeath == "MOD_RIFLE_BULLET") && sWeapon != "zombie_bullet_crouch" )
 	{
 		self.can_explode = true;
 	}

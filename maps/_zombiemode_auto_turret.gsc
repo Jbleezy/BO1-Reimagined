@@ -92,7 +92,7 @@ auto_turret_think()
 
 	for( ;; )
 	{
-		self.owner = undefined;
+		self.turret.owner = undefined;
 
 		//cost = level.auto_turret_cost;
 		self SetHintString( &"ZOMBIE_AUTO_TURRET", level.auto_turret_cost );
@@ -123,7 +123,7 @@ auto_turret_think()
 		}
 
 		player maps\_zombiemode_score::minus_to_player_score( level.auto_turret_cost );
-		self.owner = player;
+		self.turret.owner = player;
 
 		bbPrint( "zombie_uses: playername %s playerscore %d teamscore %d round %d cost %d name %s x %f y %f z %f type autoturret", player.playername, player.score, level.team_pool[ player.team_num ].score, level.round_number, level.auto_turret_cost, self.target, self.origin );
 
@@ -223,9 +223,8 @@ auto_turret_activate()
 		}
 	}
 
-	self.turret SetMode( "auto_nonai" );
+	self.turret SetMode( "manual" );
 	self.turret thread maps\_mgturret::burst_fire_unmanned();
-	self thread auto_turret_attack_think();
 	self.turret_active = true;
 
 	self.turret_fx = Spawn( "script_model", self.turret.origin );
@@ -248,6 +247,7 @@ auto_turret_deactivate()
 	self.curr_time = -1;
 	self.turret SetMode( "auto_ai" );
 	self.turret notify( "stop_burst_fire_unmanned" );
+	self.turret notify( "turretstatechange" );
 
 	self.turret_fx delete();
 
@@ -262,74 +262,6 @@ auto_turret_update_timeout()
 	{
 		wait( 1 );
 		self.curr_time--;
-	}
-}
-
-auto_turret_attack_think()
-{
-	self endon( "turret_deactivated" );
-
-	while(1)
-	{
-		//self.turret ClearTargetEntity();
-		dist = 1024 * 1024;
-		//target = undefined;
-		targets = [];
-		//self.turret.manual_targets chooses a random element from an array, but we want to target the closest entity, so always replace targets[0] with closest entity
-
-		if(level.gamemode != "survival")
-		{
-			players = get_players();
-			for( i = 0; i < players.size; i++ )
-			{
-				if(players[i].vsteam == self.owner.vsteam)
-				{
-					continue;
-				}
-
-				if(is_player_valid(players[i]) && BulletTracePassed(self.turret.origin + (0,0,30), players[i] GetEye(), false, undefined) && DistanceSquared(players[i].origin, self.turret.origin) < dist) //attack the closest player
-				{
-					dist = DistanceSquared(players[i].origin, self.turret.origin);
-					//target = players[i];
-					targets[0] = players[i];
-				} 
-			}
-
-			if(IsDefined(targets) && targets.size > 0)
-			{
-				self.turret SetTurretTeam( "axis" );
-				self.turret SetTargetEntity( targets[0] );
-			}
-		}
-
-		if(targets.size == 0) //if no closeby enemy player, attack the zombies
-		{
-			zombs = getaispeciesarray("axis");
-			for(i=0;i<zombs.size;i++)
-			{
-				if(zombs[i].health > 0 && BulletTracePassed(self.turret.origin + (0,0,30), zombs[i] GetEye(), false, undefined) && DistanceSquared(zombs[i].origin, self.turret.origin) < dist) 
-				{
-					dist = DistanceSquared(zombs[i].origin, self.turret.origin);
-					//target = zombs[i];
-					targets[0] = zombs[i];
-				}
-			}
-
-			if(IsDefined(targets) && targets.size > 0)
-			{
-				self.turret SetTurretTeam( "allies" );
-				self.turret SetTargetEntity( targets[0] );
-			}
-		}
-
-		if(targets.size > 0)
-		{
-			//target = random(targets);
-			//self.turret SetTargetEntity(target);
-			self.turret.manual_targets = targets;
-		}
-
-		wait .05;
 	}
 }
 
