@@ -237,7 +237,13 @@ burst_fire_unmanned()
 					continue;
 				}
 
-				if(!SightTracePassed(self.origin + (0,0,40), zombs[i].origin + (0,0,30), false, undefined))
+				zomb_origin = zombs[i].origin;
+				if(zombs[i].animname == "zombie" || zombs[i].animname == "quad_zombie" || zombs[i].animname == "zombie_dog")
+				{
+					zomb_origin += (0,0,30);
+				}
+
+				if(!SightTracePassed(self.origin + (0,0,40), zomb_origin, false, undefined))
 				{
 					continue;
 				}
@@ -265,8 +271,14 @@ burst_fire_unmanned()
 					}
 				}
 
+				target_origin = target.origin;
+				if(IsAI(target) && (target.animname == "zombie" || target.animname == "quad_zombie" || target.animname == "zombie_dog"))
+				{
+					target_origin += (0,0,30);
+				}
+
 				self.manual_targets = [];
-				self.manual_targets[0] = Spawn("script_origin", target.origin + (0,0,30));
+				self.manual_targets[0] = Spawn("script_origin", target_origin);
 				self.manual_targets[0] EnableLinkTo();
 				self.manual_targets[0] LinkTo(target);
 			}
