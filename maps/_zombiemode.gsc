@@ -1923,13 +1923,13 @@ onPlayerDowned()
 
 		if(level.gamemode != "survival" && get_number_of_valid_players() > 0)
 		{
-			players = get_players();
-			for(i = 0; i < players.size; i++)
+			if(level.gamemode != "race" && level.gamemode != "gg" && level.gamemode != "snr")
 			{
-				// only show grief message from a down if there are no other enemies still alive
-				if(players[i].vsteam != self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0)
+				players = get_players();
+				for(i = 0; i < players.size; i++)
 				{
-					if(level.gamemode != "race" && level.gamemode != "gg")
+					// only show grief message from a down if there are no other enemies still alive
+					if(players[i].vsteam != self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0)
 					{
 						players[i] thread maps\_zombiemode_grief::grief_msg();
 					}
@@ -1938,7 +1938,7 @@ onPlayerDowned()
 
 			if(level.gamemode == "snr" && self maps\_zombiemode_grief::get_number_of_valid_friendly_players() == 0)
 			{
-				level thread maps\_zombiemode_grief::snr_round_win_watcher();
+				level thread maps\_zombiemode_grief::snr_round_win();
 			}
 		}
 

@@ -773,9 +773,14 @@ round_restart(same_round)
 		}
 	}
 
+	if(level.gamemode == "snr")
+	{
+		display_round_won();
+	}
+
 	SetTimeScale(.5);
 
-	wait(1);
+	wait 1;
 
 	fade_out(1, false);
 
@@ -788,9 +793,9 @@ round_restart(same_round)
 			zombs[i] DoDamage( zombs[i].health + 2000, (0,0,0) );
 	}
 
-	maps\_zombiemode::ai_calculate_amount(); //reset the amount of zombies in a round
+	maps\_zombiemode::ai_calculate_amount(); // reset the amount of zombies in a round
 
-	level.powerup_drop_count = 0; //restarts the amount of powerups you can earn this round
+	level.powerup_drop_count = 0; // restarts the amount of powerups you can earn this round
 
 	if( !IsDefined( level.custom_spawnPlayer ) )
 	{
@@ -806,7 +811,6 @@ round_restart(same_round)
 		if(is_player_valid( players[i] ))
 		{
 			vending_triggers = GetEntArray( "zombie_vending", "targetname" );
-
 			for ( j = 0; j < vending_triggers.size; j++ )
 			{
 				perk = vending_triggers[j].script_noteworthy;
@@ -839,6 +843,7 @@ round_restart(same_round)
 		players[i] TakeAllWeapons();
 		players[i] giveback_player_weapons();
 		players[i].is_drinking = false;
+		players[i].num_perks = 0;
 		players[i] SetStance("stand");
 
 		if(level.gamemode != "snr")
@@ -1461,8 +1466,62 @@ reduce_survive_zombie_amount()
 	}
 }
 
+snr_round_win()
+{
+	team = undefined;
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		if(is_player_valid( players[i] ))
+		{
+			team = players[i].vsteam;
+			break;
+		}
+	}
+
+	if(IsDefined(team))
+	{
+		if(!IsDefined(level.round_wins))
+		{
+			level.rounds_wins = [];
+		}
+
+		if(!IsDefined(level.round_wins[team]))
+		{
+			level.round_wins[team] = 0;
+		}
+
+		level.round_wins[team]++;
+
+		for(i=0;i<players.size;i++)
+		{
+			if(players[i].vsteam == team)
+			{
+				players[i] SetClientDvar("vs_counter_friendly_num", level.round_wins[team]);
+			}
+			else
+			{
+				players[i] SetClientDvar("vs_counter_enemy_num", level.round_wins[team]);
+			}
+		}
+
+		level.vs_winning_team = team;
+
+		if(level.round_wins[team] == 3)
+		{
+			level notify( "end_game" );
+		}
+		else
+		{
+			level thread round_restart();
+		}
+	}
+}
+
 snr_round_win_watcher()
 {
+	level notify( "snr_round_win_watcher" );
+	level endon( "snr_round_win_watcher" );
 	level endon( "round_restarted" );
 
 	players = get_players();
@@ -1587,10 +1646,16 @@ snr_round_win_watcher()
 display_round_won(team)
 {
 	flag_wait("all_players_spawned");
+
+	if(!IsDefined(level.vs_winning_team))
+	{
+		return;
+	}
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		if(team == "cdc")
+		if(level.vs_winning_team == "cdc")
 		{
 			players[i] thread grief_msg(&"REIMAGINED_CDC_WON");
 		}
@@ -1600,50 +1665,7 @@ display_round_won(team)
 		}
 	}
 
-	/*round = create_simple_hud();
-	round.alignX = "center";
-	round.alignY = "bottom";
-	round.horzAlign = "user_center";
-	round.vertAlign = "user_bottom";
-	round.fontscale = 16;
-	round.color = ( 0.4, 0, 0 );
-	round.x = 0;
-	round.y = -300;
-	round.alpha = 0;
-	if(team == "cdc")
-	{
-		round SetText( &"REIMAGINED_CDC_WON" );
-	}
-	else
-	{
-		round SetText( &"REIMAGINED_CIA_WON" );
-	}
-
-	// Fade in white
-	round FadeOverTime( 1 );
-	round.alpha = 1;
-
-	wait( 1 );
-
-	// Fade to red
-	//round FadeOverTime( 2 );
-	//round.color = ( 0.21, 0, 0 );
-
-	wait(2);
-
-	wait( 3 );
-
-	if( IsDefined( round ) )
-	{
-		round FadeOverTime( 1 );
-		round.alpha = 0;
-	}
-
-	wait( 0.25 );
-
-	wait( 2 );
-
-	round destroy_hud();*/
+	wait 2;
 }
 
 setup_grief_top_logos()

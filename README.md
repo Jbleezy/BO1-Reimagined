@@ -1047,8 +1047,7 @@
 * .5 second zombie spawn rate
 * Only sprinting zombies
 * Every player starts with 5,000 points and will get 5,000 points at the beginning of each new round if they have less than 5,000 points
-* Win a round by killing the remainder of the zombies spawned on the map after all enemies have downed
-* If both teams die on a round, neither team will get a point
+* Win a round by getting all enemy players down
 * Win the game by winning 3 rounds
 * Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
 * Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
