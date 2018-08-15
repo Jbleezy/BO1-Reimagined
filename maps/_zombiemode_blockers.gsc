@@ -597,12 +597,7 @@ door_activate( time, open, door )
 		open = true;
 	}
 
-	//Der Riese first room doors - make solid
 	zombie_doors = GetEntArray( "zombie_door", "targetname" );
-	/*if(level.script == "zombie_cod5_factory" && (door == zombie_doors[2] || door == zombie_doors[3] || door == zombie_doors[9]))
-		self Solid();
-	else
-		self NotSolid();*/
 	self NotSolid();
 
 	if(self.classname == "script_brushmodel")

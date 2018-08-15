@@ -5860,20 +5860,13 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		}
 	}
 
-	//iprintln(attacker);
-	//iprintln(weapon);
-	//iprintln(damage);
-
-	//kino and ascension turrets
+	// kino and ascension turrets - kill in 3 bullets
 	if(weapon == "zombie_bullet_crouch" && meansofdeath == "MOD_RIFLE_BULLET")
 	{
-		//damage = int(self.maxhealth/3) + 1;
-		//if(damage < 500)
-		//	damage = 500;
-		return self.health + 1000;
+		damage = int(self.maxhealth/3) + 1;
 	}
 
-	//gersch, skip damage if they dead do full damage
+	// gersch - skip damage if they dead do full damage
 	if( IsDefined( self._black_hole_bomb_collapse_death ) && self._black_hole_bomb_collapse_death == 1 )
 	{
 		return self.health + 1000;

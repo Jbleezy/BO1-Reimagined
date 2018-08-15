@@ -531,7 +531,7 @@ zombie_think()
 		// Der Riese - switch between the 2 spawn points in Outside Warehouse, since one of them barely gets any zombies coming to it
 		if(level.script == "zombie_cod5_factory" && self.target == "outside_west_spawners_goal_0" && RandomInt(100) < 50)
 		{
-			desired_origin = (-703, 32, 129);
+			desired_origin = (-703, 32, 129); // this origin is closer to the side barrier so it will choose that barrier
 		}
 
 		AssertEx( IsDefined( desired_origin ), "Spawner @ " + self.origin + " has a .target but did not find a target" );

@@ -703,7 +703,7 @@
 
 ### Turrets (Kino Der Toten and Ascension)
 * No longer deals damage to players
-* Kills zombies in one shot
+* Kills zombies in three shots
 * Now locks on to a new target quicker
 * Now targets the zombie that is closest to the turret
 * Nova crawlers now do not explode from turret damage
@@ -1102,7 +1102,6 @@
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
-* Versus: fix turret attacking team of player that activated turret (if cant fix, then make turrets attack anyone to make it fair)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
 * Versus: fix powerup sounds playing for players that aren't effected by the powerup

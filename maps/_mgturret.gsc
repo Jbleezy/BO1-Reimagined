@@ -191,6 +191,7 @@ burst_fire_unmanned()
 	{
 		prev_target = target;
 		target = undefined;
+		target_origin = undefined;
 
 		dist = 1500 * 1500;
 
@@ -214,15 +215,18 @@ burst_fire_unmanned()
 					continue;
 				}
 
-				if(!SightTracePassed(self.origin + (0,0,40), players[i].origin + (0,0,30), false, undefined))
+				temp_origin = players[i] GetTagOrigin("J_SpineUpper");
+
+				if(!SightTracePassed(self.origin + (0,0,40), temp_origin, false, undefined))
 				{
 					continue;
 				}
 
-				if(DistanceSquared(players[i].origin, self.origin) < dist) // attack the closest player
+				if(DistanceSquared(self.origin + (0,0,40), temp_origin) < dist) // attack the closest player
 				{
 					dist = DistanceSquared(players[i].origin, self.origin);
 					target = players[i];
+					target_origin = temp_origin;
 				} 
 			}
 		}
@@ -237,21 +241,26 @@ burst_fire_unmanned()
 					continue;
 				}
 
-				zomb_origin = zombs[i].origin;
-				if(zombs[i].animname == "zombie" || zombs[i].animname == "quad_zombie" || zombs[i].animname == "zombie_dog")
+				temp_origin = zombs[i].origin;
+				if(zombs[i].animname == "zombie_dog")
 				{
-					zomb_origin += (0,0,30);
+					temp_origin = zombs[i] GetTagOrigin("J_Spine3");
+				}
+				else
+				{
+					temp_origin = zombs[i] GetTagOrigin("J_SpineUpper");
 				}
 
-				if(!SightTracePassed(self.origin + (0,0,40), zomb_origin, false, undefined))
+				if(!SightTracePassed(self.origin + (0,0,40), temp_origin, false, undefined))
 				{
 					continue;
 				}
 
-				if(DistanceSquared(zombs[i].origin, self.origin) < dist) 
+				if(DistanceSquared(self.origin + (0,0,40), temp_origin) < dist) 
 				{
 					dist = DistanceSquared(zombs[i].origin, self.origin);
 					target = zombs[i];
+					target_origin = temp_origin;
 				}
 			}
 		}
@@ -269,12 +278,6 @@ burst_fire_unmanned()
 					{
 						self.manual_targets[i] Delete();
 					}
-				}
-
-				target_origin = target.origin;
-				if(IsAI(target) && (target.animname == "zombie" || target.animname == "quad_zombie" || target.animname == "zombie_dog"))
-				{
-					target_origin += (0,0,30);
 				}
 
 				self.manual_targets = [];
@@ -303,6 +306,14 @@ burst_fire_unmanned()
 		{
 			self SetMode("auto_ai");
 			self.convergence_amount = 0;
+
+			if(IsDefined(self.manual_targets))
+			{
+				for(i=0; i<self.manual_targets.size; i++)
+				{
+					self.manual_targets[i] Delete();
+				}
+			}
 
 			if( turretState != "aim" )
 			{

@@ -517,7 +517,7 @@ slowdown(weapon, mod, eAttacker, loc)
 
 	eAttacker thread grief_downed_points(self);
 
-	PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
+	PlayFXOnTag( level._effect["grief_shock"], self, "J_SpineUpper" );
 
 	self AllowSprint(false);
 	self SetBlur( 1, .1 );
