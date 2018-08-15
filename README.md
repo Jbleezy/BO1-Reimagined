@@ -1104,7 +1104,6 @@
 * Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
 * Use Sleepy when game crashes on map load
 * Remove zombie failsafe death print before release
-* Versus: fix powerup sounds playing for players that aren't effected by the powerup
 * Turrets: remove damage markers from players
 
 ### Testing

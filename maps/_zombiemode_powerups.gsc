@@ -1753,7 +1753,7 @@ powerup_grab()
 				//Preventing the line from playing AGAIN if fire sale becomes active before it runs out
 				if( self.powerup_name != "fire_sale" && self.powerup_name != "grief_bonus_points" && !IsDefined(self.gg_powerup) )
 				{
-				    level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"][self.powerup_name] );
+				    level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"][self.powerup_name], players[i] );
 				}
 
 				if ( isdefined( self.worldgundw ) )
@@ -2984,7 +2984,7 @@ bonus_points_player_powerup( item, player )
 
 bonus_points_team_powerup( item, player, points )
 {
-	level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["bonus_points_team"] );
+	level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["bonus_points_team"], player );
 
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )

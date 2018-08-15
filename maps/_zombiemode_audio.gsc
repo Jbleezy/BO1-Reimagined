@@ -869,7 +869,7 @@ setup_hero_rival( player, hero, rival, category, type )
 }
 
 //For any 2d Announcer Line
-do_announcer_playvox( category )
+do_announcer_playvox( category, player )
 {
 	if( !IsDefined( category ) )
 		return;
@@ -884,7 +884,17 @@ do_announcer_playvox( category )
 	if( level.devil_is_speaking == 0 )
 	{
 		level.devil_is_speaking = 1;
-		level play_sound_2D( alias );
+		players = get_players(); 
+		for( i = 0; i < players.size; i++ )
+		{
+			if(IsDefined(player) && level.gamemode != "survival" && player.vsteam != players[i].vsteam)
+			{
+				continue;
+			}
+
+			players[i] PlaySoundToPlayer(alias, players[i]);
+		}
+		//level play_sound_2D( alias );
 		wait 2.0;
 		level.devil_is_speaking =0;
 	}
