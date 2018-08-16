@@ -533,8 +533,6 @@ teleport_player(user)
 		desired_origin += (0,0,self.origin[2]-user.origin[2]);
 	}
 
-
-
 	wait_network_frame();
 	PlayFX(level._effect["transporter_start"], user.origin);
 	playsoundatposition( "evt_teleporter_out", user.origin );
@@ -1357,18 +1355,21 @@ check_if_empty_floors()
 		}
 		else if(IsDefined(zombies[i].floor) && zombies[i].floor == 1)
 		{
-			if(num_floor1 == num_floor1_laststand && players.size > 1 && flag("power_on") && level.gamemode == "survival")
-			{
-				zombies[i] thread send_zombies_out(level.portal_top);
-			}
 			if(num_floor1 == num_floor1_laststand && players.size > 1)
 			{
-				level.zombie_total++;
-				zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
+				if(is_true(zombies[i].completed_emerging_into_playable_area) && flag("power_on") && level.gamemode == "survival")
+				{
+					zombies[i] thread send_zombies_out(level.portal_top);
+				}
+				else
+				{
+					level.zombie_total++;
+					zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
+				}
 			}
 			else if(num_floor1 == 0)
 			{
-				if(flag("power_on") && level.gamemode == "survival")
+				if(is_true(zombies[i].completed_emerging_into_playable_area) && flag("power_on") && level.gamemode == "survival")
 				{
 					zombies[i] thread send_zombies_out(level.portal_top);
 				}
@@ -1385,18 +1386,21 @@ check_if_empty_floors()
 		}
 		else if(IsDefined(zombies[i].floor) && zombies[i].floor == 2)
 		{
-			if(num_floor2 == num_floor2_laststand && players.size > 1 && flag("power_on") && level.gamemode == "survival")
+			if(num_floor2 == num_floor2_laststand && players.size > 1)
 			{
-				zombies[i] thread send_zombies_out(level.portal_mid);
-			}
-			else if(num_floor2 == num_floor2_laststand && players.size > 1)
-			{
-				level.zombie_total++;
-				zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
+				if(is_true(zombies[i].completed_emerging_into_playable_area) && flag("power_on") && level.gamemode == "survival")
+				{
+					zombies[i] thread send_zombies_out(level.portal_mid);
+				}
+				else
+				{
+					level.zombie_total++;
+					zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
+				}
 			}
 			else if(num_floor2 == 0)
 			{
-				if(flag("power_on") && level.gamemode == "survival")
+				if(is_true(zombies[i].completed_emerging_into_playable_area) && flag("power_on") && level.gamemode == "survival")
 				{
 					zombies[i] thread send_zombies_out(level.portal_mid);
 				}
@@ -1413,18 +1417,21 @@ check_if_empty_floors()
 		}
 		else if(IsDefined(zombies[i].floor) && zombies[i].floor == 3)
 		{
-			if(num_floor3 == num_floor3_laststand && players.size > 1 && flag("power_on") && level.gamemode == "survival")
+			if(num_floor3 == num_floor3_laststand && players.size > 1)
 			{
-				zombies[i] thread send_zombies_out(level.portal_power);
-			}
-			else if(num_floor3 == num_floor3_laststand && players.size > 1)
-			{
-				level.zombie_total++;
-				zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
+				if(is_true(zombies[i].completed_emerging_into_playable_area) && flag("power_on") && level.gamemode == "survival")
+				{
+					zombies[i] thread send_zombies_out(level.portal_power);
+				}
+				else
+				{
+					level.zombie_total++;
+					zombies[i] DoDamage(zombies[i].health + 100, zombies[i].origin);
+				}
 			}
 			else if(num_floor3 == 0)
 			{
-				if(flag("power_on") && level.gamemode == "survival")
+				if(is_true(zombies[i].completed_emerging_into_playable_area) && flag("power_on") && level.gamemode == "survival")
 				{
 					zombies[i] thread send_zombies_out(level.portal_power);
 				}
@@ -1453,6 +1460,8 @@ check_if_empty_floors()
 //-------------------------------------------------------------------------------
 send_zombies_out(portal)
 {
+	self notify("send_zombies_out");
+	self endon("send_zombies_out");
 	self endon("death");
 
 	move_speed = undefined;
@@ -1463,6 +1472,7 @@ send_zombies_out(portal)
 
 	self.ignoreall = true;
 	self.teleporting = true;
+	self.goalradius = 32;
 
 	self notify( "stop_find_flesh" );
 	self notify( "zombie_acquire_enemy" );
@@ -1470,10 +1480,13 @@ send_zombies_out(portal)
 
 	self.timed_out = false;
 	self thread teleportation_timed_out();
-	while(Distance(self.origin, portal.origin) > self.goalradius && self.timed_out == false)
+
+	/*while(Distance(self.origin, portal.origin) > self.goalradius && self.timed_out == false)
 	{
 		wait(0.1);
-	}
+	}*/
+	self waittill_any("goal", "timed_out");
+	self notify("teleportation_timed_out");
 
 	PlayFX(level._effect["transporter_start"], self.origin);
 	playsoundatposition( "evt_teleporter_out", self.origin );
@@ -1493,6 +1506,10 @@ send_zombies_out(portal)
 }
 teleportation_timed_out()
 {
+	self notify("teleportation_timed_out");
+	self endon("teleportation_timed_out");
+	self endon("death");
+
 	time = 0;
 	while(IsDefined(self) && !self.timed_out && time < 20 )
 	{
@@ -1502,6 +1519,7 @@ teleportation_timed_out()
 	if(IsDefined(self))
 	{
 		self.timed_out = true;
+		self notify("timed_out");
 	}
 }
 //-------------------------------------------------------------------------------

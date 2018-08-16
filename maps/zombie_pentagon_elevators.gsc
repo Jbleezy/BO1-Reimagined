@@ -672,7 +672,7 @@ move_zombies_elevator(going_up)
 		{
 			continue;
 		}
-		//or in elevator.
+		// or in elevator.
 		else if(zombies[i] IsTouching(in_elevator))
 		{
 			continue;
@@ -683,17 +683,20 @@ move_zombies_elevator(going_up)
 		}
 		else
 		{
-			if(IsDefined(current_floor) && current_floor == 1 && flag("power_on") && level.gamemode == "survival")
+			if(IsDefined(current_floor) && is_true(zombies[i].completed_emerging_into_playable_area) && flag("power_on") && level.gamemode == "survival")
 			{
-				zombies[i] thread send_zombies_out(level.portal_top);
-			}
-			else if(IsDefined(current_floor) && current_floor == 2 && flag("power_on") && level.gamemode == "survival")
-			{
-				zombies[i] thread send_zombies_out(level.portal_mid);
-			}
-			else if(IsDefined(current_floor) && current_floor == 3 && flag("power_on") && level.gamemode == "survival")
-			{
-				zombies[i] thread send_zombies_out(level.portal_power);
+				if(current_floor == 1)
+				{
+					zombies[i] thread send_zombies_out(level.portal_top);
+				}
+				else if(current_floor == 2)
+				{
+					zombies[i] thread send_zombies_out(level.portal_mid);
+				}
+				else if(current_floor == 3)
+				{
+					zombies[i] thread send_zombies_out(level.portal_power);
+				}
 			}
 			else
 			{
@@ -820,17 +823,20 @@ laststand_elev_zombies_away(current_floor,next_floor)
 
 		if(IsDefined(zombies[i].floor) && zombies[i].floor == self.floor)
 		{
-			if(zombies[i].floor == 1 && flag("power_on") && level.gamemode == "survival")
+			if(is_true(zombies[i].completed_emerging_into_playable_area) && flag("power_on") && level.gamemode == "survival")
 			{
-				zombies[i] thread send_zombies_out(level.portal_top);
-			}
-			else if(zombies[i].floor == 2 && flag("power_on") && level.gamemode == "survival")
-			{
-				zombies[i] thread send_zombies_out(level.portal_mid);
-			}
-			else if(zombies[i].floor == 3 && flag("power_on") && level.gamemode == "survival")
-			{
-				zombies[i] thread send_zombies_out(level.portal_power);
+				if(zombies[i].floor == 1)
+				{
+					zombies[i] thread send_zombies_out(level.portal_top);
+				}
+				else if(zombies[i].floor == 2)
+				{
+					zombies[i] thread send_zombies_out(level.portal_mid);
+				}
+				else if(zombies[i].floor == 3)
+				{
+					zombies[i] thread send_zombies_out(level.portal_power);
+				}
 			}
 			else
 			{
