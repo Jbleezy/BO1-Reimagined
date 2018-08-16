@@ -75,18 +75,12 @@ spear_trap_think()
 			continue;
 		}
 
-		touching = true;
-		for(i=1;i<=2;i++)
+		if(!who IsOnGround())
 		{
-			if(!who IsTouching(self) || !who IsOnGround())
-			{
-				touching = false;
-				break;
-			}
-			wait .05;
+			continue;
 		}
 
-		if(!touching)
+		if(who GetStance() != "stand")
 		{
 			continue;
 		}

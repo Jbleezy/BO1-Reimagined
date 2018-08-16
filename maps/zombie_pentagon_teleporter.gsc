@@ -528,9 +528,9 @@ teleport_player(user)
 	desired_origin = destination.origin;
 
 	//add player jump height
-	if(self.origin[2]-user.origin[2] > 0)
+	if(user.origin[2]-groundpos(user.origin)[2] > 0)
 	{
-		desired_origin += (0,0,self.origin[2]-user.origin[2]);
+		desired_origin += (0,0,user.origin[2]-groundpos(user.origin)[2]);
 	}
 
 	wait_network_frame();
@@ -931,6 +931,7 @@ zombie_through_portal(portal_enter, portal_exit, targeted_player)
 	}
 
 	self.ignoreall = true;
+	self.goalradius = 32;
 	self notify( "stop_find_flesh" );
 	self notify( "zombie_acquire_enemy" );
 	self SetGoalPos(portal_enter.origin);
@@ -939,13 +940,14 @@ zombie_through_portal(portal_enter, portal_exit, targeted_player)
 
 	self.timed_out = false;
 	self thread teleportation_timed_out();
-	while(Distance(self.origin, portal_enter.origin) > self.goalradius && self.timed_out == false)
+
+	/*while(Distance(self.origin, portal_enter.origin) > self.goalradius && self.timed_out == false)
 	{
 		wait(0.1);
-	}
-
-//	self waittill("goal");
-//	wait(RandomFloatRange(1.5,4.0));
+	}*/
+	self waittill_any("goal", "timed_out");
+	self notify("teleportation_timed_out");
+	wait(RandomFloatRange(1,2));
 
 	//IPrintLnBold("zombie followed through portal");
 
@@ -1487,6 +1489,7 @@ send_zombies_out(portal)
 	}*/
 	self waittill_any("goal", "timed_out");
 	self notify("teleportation_timed_out");
+	wait(RandomFloatRange(1,2));
 
 	PlayFX(level._effect["transporter_start"], self.origin);
 	playsoundatposition( "evt_teleporter_out", self.origin );
@@ -1511,7 +1514,7 @@ teleportation_timed_out()
 	self endon("death");
 
 	time = 0;
-	while(IsDefined(self) && !self.timed_out && time < 20 )
+	while(IsDefined(self) && !self.timed_out && time < 15 )
 	{
 		wait(1);
 		time++;

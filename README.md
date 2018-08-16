@@ -682,24 +682,9 @@
 * Now deals 50 damage to players (in solo and coop)
 * Cannot damage a player again if the player is still touching the flogger and has already been damaged by the flogger
 
-### Zipline (Sho No Numa)
-* Cost decreased from 1500 to 750
-* Cooldown time decreased from 40 seconds to 5 seconds
-* Hintstrings now display when the zipline is active and cooling down
-* The zipline trigger near the hut can now be activated when the zipline is on either side
-
 ### Electric Traps (Der Riese)
 * Fixed a bug that caused the Trench Gun trap to turn on when opening the door to the teleporter room next to the Trench Gun room while still having the door for next tot the trap closed
 * Traps now display a hintstring when the power is on but the trap cannot be activated due to a door being closed
-
-### Teleporters (Der Riese)
-* Teleporters now kill zombies on any round
-* Guranteed teleporter powerup when first linking teleporter
-* Powerup spawned from teleporters stays on the map until picked up or after teleporting again
-* Amount of dogs spawned in from teleporter is now 2 multiplied by the amount of players (previously 4)
-* Max ammo now has the same chance of spawning from the teleporter as all other drops
-* Fixed a bug that allowed players to link teleporters while the teleporters were on cooldown
-* Mainframe no longer displays a hintstring for needing power or needing to activate a link
 
 ### Turrets (Kino Der Toten and Ascension)
 * No longer deals damage to players
@@ -708,38 +693,24 @@
 * Now targets the zombie that is closest to the turret
 * Nova crawlers now do not explode from turret damage
 
-### Lunar Lander (Ascension)
-* Added a short delay for the lander to activate after triggering it (so you can activate the lander without having to ride it)
-* Lander station no longer kills or moves players if the lander station moves down while the player is standing on it
-* Kills from the lunar lander now count as actual kills
-* Zombies now have a better death animation when killed by the lunar lander
-
 ### Centrifuge (Ascension)
 * Cooldown time has been doubled
 * No longer stops spinning for entire rounds
 * Deals 50 damage to players in solo and coop
-* Fixed a bug where zombies that were killed from the Centrifuge in higher round became invisible and invincible
+* Fixed a bug where zombies that were killed from the Centrifuge in higher rounds became invisible and invincible
 * The player that is closest to a zombie that is killed from the Centrifuge gets the kill
 
 ### Flinger (Call of the Dead)
 * Zombies flung now count as actual kills
 
-### Zipline (Call of the Dead)
-* FOV no longer changes while riding the zipline
-* Weapon is no longer out while riding the zipline
-
 ### Spikes (Shangri-La)
 * Deal 50 damage to players
 * 50% change of Killing a zombie
-* Spikes will not activate if the player is down or if the player jumping over them
+* Spikes will not activate if the player is in the air, crouch, prone, or down
 
 ### Waterfall (Shangri-La)
 * Now kills zombies (except for Shrieker and Napalm)
 * Displays a hintstring when active
-
-### Minecart (Shangri-La)
-* Kills from the minecart now count as actual kills
-* Travels back up 4x faster
 
 ## Blockers
 ### Doors
@@ -850,12 +821,27 @@
 * Last perk is buyable while it is spawning
 * Objects can now be seen from farther away
 
+#### Zipline
+* Cost decreased from 1500 to 750
+* Cooldown time decreased from 40 seconds to 5 seconds
+* Hintstrings now display when the zipline is active and cooling down
+* The zipline trigger near the hut can now be activated when the zipline is on either side
+
 ### Der Riese
 * Players will no longer get stuck on curbs
 * Zombies now go to the barrier on the right outside of the warehouse more frequently
 * Fixed Mystery Box use trigger in the laboratory
 * Easter egg song now plays the whole song
 * Removed intro text
+
+#### Teleporters
+* Teleporters now kill zombies on any round
+* Guranteed teleporter powerup when first linking teleporter
+* Powerup spawned from teleporters stays on the map until picked up or after teleporting again
+* Amount of dogs spawned in from teleporter is now 2 multiplied by the amount of players (previously always 4)
+* Max ammo now has the same chance of spawning from the teleporter as all other drops
+* Fixed a bug that allowed players to link teleporters while the teleporters were on cooldown
+* Mainframe no longer displays a hintstring for needing power or needing to activate a link
 
 #### Sidequest
 * Reward: spawns a random powerup at the teleporter powerup spawn location
@@ -864,6 +850,9 @@
 * Players no longer get teleported to special rooms unless both radios on the map have been activated
 * Players no longer get teleported out of the Pack-a-Punch room if there is a weapon currently in the Pack-a-Punch machine
 * Box lights now blink correctly with higher FPS
+
+#### Teleporter
+* Teleporter now kills zombies on any round
 * Teleporter light is now green initially after turning on the power
 * Teleporter mainframe pad no longer displays the need power hintstring
 * Teleporter mainframe pad will now display the link not active hintstring every time the teleporter needs to be linked
@@ -873,7 +862,7 @@
 * Active barriers in the spawn room stay the same throughout the entire match
 * Pack-a-Punch machine will stay available for as long as the defcon room is active
 * If all players on a floor use an elevator or get downed when the power is off, all zombies will now respawn
-* If all players on a floor use an elevator or get downed when the power is on, all zombies will now go through teleporters
+* If all players on a floor use an elevator or get downed when the power is on, all zombies that were in the map will now go through teleporters and all zombies that were in barriers will now respawn
 * Fixed lighting on the top floor being incorrect
 * All characters now use the correct viewmodel arms
 * Fixed a bug that caused zombies to not go through a trap if the trap was active when a thief round ends
@@ -887,9 +876,18 @@
 * Teleporting no longer takes players' weapons away temporarily
 * Teleporting no longer freezes players' controls
 * Fixed teleporters showing they were ready to use again too early after teleporting through them
+* Player height position is now more accurate when exiting the teleporter
+* Added 1 second delay before zombies can come through the teleporter after a player teleports
+* Decreased maximum time for zombies to teleport from 20 seconds to 15 seconds
 
 ### Ascension
 * The easter egg song teddy bears will float up and rotate around while the song is active
+
+#### Lunar Lander
+* Added a short delay for the lander to activate after triggering it (so you can activate the lander without having to ride it)
+* Lander station no longer kills or moves players if the lander station moves down while the player is standing on it
+* Kills from the lunar lander now count as actual kills
+* Zombies now have a better death animation when killed by the lunar lander
 
 #### Sidequest
 * Completable with 1-4 players
@@ -900,6 +898,10 @@
 
 ### Call of the Dead
 * Removed zombie spawn delay at the beginning of a match
+
+#### Zipline
+* FOV no longer changes while riding the zipline
+* Weapon is no longer out while riding the zipline
 
 #### Sidequest
 * Steps in solo are now the same as in coop
@@ -923,6 +925,10 @@
 * Gongs now move and make a sound when meleed if they have already been meleed recently
 * Mud pit walls now only activate when a player is on the ground
 * Fixed a bug where players were able to sprint and enter prone in the mud pit if they were drinking a perk while entering the mud pit
+
+#### Minecart
+* Kills from the minecart now count as actual kills
+* Travels back up 4x faster
 
 #### Sidequest
 * Completable with 1-4 players
@@ -1097,7 +1103,6 @@
 * Rename some zone names
 * Fix textures getting changed when getting sprayed with flamethrower attachment
 * Optimize zombies in barrier and traversing barrier code (sometimes zombies still get stuck in barrier)
-* Five: optimize zombie respawn from elevator use code (sometimes zombies still bleed out)
 * Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
 * Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
 * Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
