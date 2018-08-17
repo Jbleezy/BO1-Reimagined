@@ -406,7 +406,6 @@ Laststand_Bleedout( delay )
 	self notify("bled_out");
 	wait_network_frame(); //to guarantee the notify gets sent and processed before the rest of this script continues to turn the guy into a spectator
 
-
 	setClientSysState("lsm", "0", self);	// Notify client last stand ended.
 
 	level notify("bleed_out", self GetEntityNumber());

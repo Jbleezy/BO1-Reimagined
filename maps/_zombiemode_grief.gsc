@@ -838,10 +838,10 @@ round_restart(same_round)
 	{
 		players[i] notify( "round_restarted" );
 		players[i] DisableInvulnerability();
-		players[i].rebuild_barrier_reward = 0;
-		players[i] DoDamage( 0, (0,0,0) ); // fix for health not being correct
 		players[i] TakeAllWeapons();
 		players[i] giveback_player_weapons();
+		players[i].rebuild_barrier_reward = 0;
+		players[i] DoDamage( 0, (0,0,0) ); // fix for health not being correct
 		players[i].is_drinking = false;
 		players[i].num_perks = 0;
 		players[i] SetStance("stand");

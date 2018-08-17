@@ -1088,12 +1088,11 @@
 
 ## TODO
 * COTD: fix Director not doing anim when getting angry
-* Five: fix zombies getting stuck after teleporting
 * Add collision boxes near invincibilty spots on maps
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
 * Five: get wall barrier and metal vent barrier tear down and rebuild sounds from other maps working (zmb_rock_fix, zmb_vent_fix, zmb_break_rock_barrier, evt_vent_slat_remove)
 * Try making dvars unchangeable from console
-* Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player
+* Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player (only happens when last damage taken was from player and first damage after spawn/revive is from player also, health goes down for 1 frame but then goes right back to max health next frame)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Deadshot: add fast ADS move speed correctly
 * Show player's perks when spectating (player.spectatorclient?)
