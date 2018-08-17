@@ -86,7 +86,6 @@
 * Options to set which barriers in Five spawn room you want disabled (host only)
 * Option to choose the initial box location on maps that have a random initial box location (host only)
 * Option to choose which gamemode you want to play, including random which includes every gamemode except Survival
-* Option for random map rotation on versus gamemodes, automatically loads new map after intermission screen
 
 ## Weapons
 * All bullet damage (except for shotguns) will now deal full damage through multiple enemies or thin walls
@@ -312,7 +311,6 @@
 * Now uses World at War upgraded camo on Der Riese
 
 ### Olympia
-* Now adds 1 ammo during the reload if reloaded with no ammo
 * Unupgraded: max damage per pellet increased from 120 to 180
 * Upgraded: max damage per pellet increased from 200 to 300
 * Upgraded: fire effect now plays when damaging a zombie
@@ -775,6 +773,7 @@
 * Max health is now 250,000 no matter how many players are in the match
 * Only slows down players close to him when shot at while calm
 * Fixed a bug that caused the Director to not be able to electrify a player anymore after the player knifed an electrified zombie during an insta kill
+* Now only electrifies zombies that are within a certain radius
 * No longer plays audio after exiting the map due to being hit by the upgraded V-R11
 * Fixed a bug that would sometimes cause the Director to sream in the water after already being killed
 * No longer screams in the water if damaged while attacking
@@ -1085,117 +1084,6 @@
 * Only the player who killed the zombie can grab and see the gun increment powerup
 * Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
 * Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
-
-## TODO
-* COTD: fix Director not doing anim when getting angry
-* Add collision boxes near invincibilty spots on maps
-* Fix zombies sounds on classic maps to sound like they are coming from the correct direction
-* Five: get wall barrier and metal vent barrier tear down and rebuild sounds from other maps working (zmb_rock_fix, zmb_vent_fix, zmb_break_rock_barrier, evt_vent_slat_remove)
-* Try making dvars unchangeable from console
-* Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player (only happens when last damage taken was from player and first damage after spawn/revive is from player also, health goes down for 1 frame but then goes right back to max health next frame)
-* Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
-* Deadshot: add fast ADS move speed correctly
-* Show player's perks when spectating
-* Fix sprint and dive anims on Ray Gun
-* Find a way to be able to shoot through more than 3 zombies
-* Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)
-* Rename some zone names
-* Fix textures getting changed when getting sprayed with flamethrower attachment
-* Optimize zombies in barrier and traversing barrier code (sometimes zombies still get stuck in barrier)
-* Kino: fix noises in dressing room being tied to FPS (could not find in any gsc or csc)
-* Maya - to be able to change a number that is red, right click on the number and select 'Break Connection' OR after changing the number, press Enter then press S
-* Fix Thompson viewmodel (part of the model doesn't show on right side of weapon, can be seen on empty reload, is not like that on base BO1 or WaW)
-* Use Sleepy when game crashes on map load
-* Remove zombie failsafe death print before release
-* Turrets: remove damage markers from players
-
-### Testing
-* Check if zombies are bleeding out on any maps while doing normal strats (add print statement to zombie failsafe death)
-
-### Maybe
-* If you have 4 perks or more, still allow players to buy perks but bought perk will replace oldest perk?
-
-### Cannot Find Fix
-* Turn off Der Riese easter egg song noises after they have been activated
-* Moon: fix sliding sound keep playing when off object
-
-### Might Be Fixed
-* Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off (need to test if fixed)
-* Figure out bug that causes cosmonaut to delete himself occasionally
-* Make insta kill powerups work in high rounds
-* Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge
-* Fix Ascension monkey pathing
-* Fix kino round skip bug
-* Fix Wunderwaffe not arcing after first kill rarely
-* Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
-* Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
-* Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
-* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
-
-### Cannot Do Yet
-* Add fast ADS to Speed Cola (when it becomes possible through game_mod)
-* Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
-* Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
-* Add left and right empty idle, drop, raise, sprint, and dive anims for dual wields weapons (engine currently uses only main weapon anims for these)
-
-## GAME_MOD TODO
-* Fix grenades giving more ammo than they should (made fix)
-* Fix being able to buy grenades when you already have max amount (made fix)
-* Fix grenade not throwing when holding fire button with a non-auto weapon (made fix)
-* Add check for client dvars in server code
-* Allow changing FOV to 65
-* Make friends list alphabetical order
-* 8 player zombies
-* Options - fix performance tab issues
-* Add the rest of the multiplayer perks
-* Fix Connecting... issue
-* Fix weapon swap on player leave
-* Fix COTD outro showing on all maps after loading COTD in a session
-* Get actionslot 2 highlighting to work
-* Fix demigod
-* Make online version of the scoreboard show in solo
-* Get brightness to work without having to be in fullscreen
-* Add LAN
-* Make dual wield weapons use attack bind for left weapon and ADS bind for right weapon
-* Allow changing timescale from GetTimeScale() function when sv_cheats dvar is set to 0
-* Add GetMoveSpeedScale() function
-* Add ActionSlotOneButtonPressed() function
-* Fix ActionSlotTwoButtonPressed() function
-* Add ActionSlotThreeButtonPressed() function
-* Add ActionSlotFourButtonPressed() function
-* Add WeaponSwitchButtonPressed() function
-* Add WeaponReloadEndTime() function
-* Add IsReloading() function
-* Fix ChangeLevel() causing weapon index mismatch error
-* Add specialty_fastads perk
-* Add specialty_fastinteract perk
-* Add specialty_sprintrecovery perk
-* Add specialty_stalker perk (fast movement while ads)
-* Add perk for faster movement while ads
-* Make ADS rechamber anim speed relative to rechamber time in weapon file (currently only non-ADS rechamber anim speed is changed)
-* Fix being able to throw another grenade at the of another grenades anim
-* Allow fire button to be used to melee with melee weapons
-* Fix alive players movement being stopped when other players spawn in (caused from .sessionstate change)
-* Fix projectiles not spawning occasionally when shooting weapons
-* Make it so shooting the last bullet of a rechamber weapon will rechamber the bullet before auto switching
-* Find out how to send something from client to server
-* Dual wield weapon fire input - add dvar "gpad_enabled" check that works for all players
-* Make dual wield weapons fire left weapon with fire button and right right weapon with ads button
-* Death Machine: don't allow spin up by pressing ADS
-* Death Machine: check if Stamin-Up increases move speed with Death Machine
-* 007EF7D0 - iprintln address (try it out)
-* Allow melee while ADS with a sniper scope
-* Add space between grenades on HUD (CG_OFFHAND_WEAPON_ICON_FRAG - 103 and CG_OFFHAND_WEAPON_ICON_SMOKEFLASH - 104)
-* Make it so you can queue another shot on non-auto weapons by pressing the fire button during the fire time of the current shot (similar to BO3)
-* Fix freeze on map load on Ascension
-* Fix player names getting changed to "Unknown Soldier" on scoreboard and chat after fast_restart if name is too short
-* Make it so perks that are not engine based only use 1 bit
-* Make it so players can look up and down 90 degrees (currently at 85)
-* Allow multiple pap camos to be used from weaponOptions.csv (currently only looks for the keyword "gold")
-* Don't allow reload to start during fire time or last fire time
-* Always use empty drop/raise anim if empty (currently quick drop/raise anim will play even when empty)
-* Make all dual wield anims work separately for each weapon (currently empty idle, raise, drop, sprint, and dive anims are not separate)
-* Fix being able to cancel melee animation by switching weapons with a weapon that has an empty clip
 
 ## SPECIAL THANKS
 * **_ApexModder_** - perk bump sounds, assisted with localized strings, assisted with client scripting, assisted with menu scripting

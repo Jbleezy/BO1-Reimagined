@@ -195,8 +195,6 @@ main()
 	// registerClientSys("hud");
 
 	level thread box_weapon_changes();
-
-	level thread increase_revive_radius();
 }
 
 post_all_players_connected()
@@ -979,7 +977,7 @@ init_dvars()
 		SetDvar( "magic_box_explore_only", "1" );
 	}
 
-	//SetDvar( "revive_trigger_radius", "75" );
+	SetDvar( "revive_trigger_radius", "75" );
 	SetDvar( "player_lastStandBleedoutTime", "45" );
 
 	SetDvar( "scr_deleteexplosivesonspawn", "0" );
@@ -1636,7 +1634,6 @@ difficulty_init()
 		}
 		else
 		{
-			//players[p].score = 500000;
 			players[p].score = 500;
 		}
 		players[p].score_total = players[p].score;
@@ -1756,7 +1753,6 @@ onPlayerConnect()
 		player thread switch_weapons_notify();
 		player thread is_reloading_check();
 		player thread store_last_held_primary_weapon();
-		player thread olympia_reload_fix();
 	}
 }
 
@@ -1808,9 +1804,10 @@ onPlayerConnect_clientDvars()
 	// makes FPS area in corner smaller
 	self SetClientDvar("cg_drawFPSLabels", 0);
 
-	// uncomment on release
+	// no cheats
 	self SetClientDvar("sv_cheats", 0);
 
+	// allows shooting while looking at players
 	self SetClientDvar("g_friendlyFireDist", 0);
 
 	// dtp buffs
@@ -1909,7 +1906,7 @@ onPlayerDisconnect()
 	players = get_players();
 	for(i = 0; i < players.size; i++)
 	{
-		players[i] thread character_names_on_hud();
+		players[i] thread character_names_hud();
 	}
 }
 
@@ -2112,14 +2109,11 @@ onPlayerSpawned()
 
 				self thread player_grenade_watcher();
 
-				//self thread player_health_watcher();
 				self thread points_cap();
-				//self thread give_weapons_test();
-				//self thread velocity_test();
 
 				self thread player_gravity_fix();
 
-				self thread character_names_on_hud();
+				self thread character_names_hud();
 
 				self thread zone_hud();
 
@@ -4725,16 +4719,6 @@ round_think()
 {
 	for( ;; )
 	{
-		level.test_variable = true;
-		if(!IsDefined(level.test_variable))
-		{
-			level.test_variable = true;
-			level.round_number = 100;
-			level.zombie_vars["zombie_spawn_delay"] = .08;
-			level.zombie_move_speed = 101;
-			//level.zombie_ai_limit = 5;
-		}
-
 		//////////////////////////////////////////
 		//designed by prod DT#36173
 		maxreward = 50 * level.round_number;
@@ -5017,11 +5001,6 @@ round_spawn_failsafe()
 			{
 				level.zombie_total++;
 			}
-		}
-
-		if(self.freezegun_damage == 0)
-		{
-			iprintln("Zombie died due to failsafe at: " + self.origin);
 		}
 
 		//add this to the stats even tho he really didn't 'die'
@@ -8165,7 +8144,6 @@ total_time()
 {
 	level endon( "intermission" );
 
-	//flag_wait("all_players_spawned");
 	flag_wait( "begin_spawning" );
 
 	level.total_time = 0;
@@ -8645,26 +8623,6 @@ grenade_hud()
 	}
 }
 
-player_health_watcher()
-{
-	while(1)
-	{
-		exited_loop = false;
-		i = 0;
-		while(self.health < 100)
-		{
-			i++;
-			wait .1;
-			exited_loop = true;
-		}
-		if(exited_loop)
-		{
-			//IPrintLn(i);
-		}
-		wait .05;
-	}
-}
-
 box_weapon_changes()
 {
 	flag_wait("all_players_connected");
@@ -8715,108 +8673,6 @@ revive_grace_period()
 	}
 }
 
-increase_revive_radius()
-{
-	SetDvar( "revive_trigger_radius", "75" );
-}
-
-give_weapons_test()
-{
-	//wep = "freezegun_upgraded_zm";
-	//wep = "thundergun_zm";
-	//wep = "sniper_explosive_zm";
-	//wep = "humangun_upgraded_zm";
-	//wep = "shrink_ray_upgraded_zm";
-	//wep = "tesla_gun_upgraded_zm";
-	//wep = "china_lake_zm";
-	//wep = "crossbow_explosive_zm";
-	//wep = "ak47_ft_upgraded_zm";
-	wep = "m1911_upgraded_zm";
-
-	/*self GiveWeapon( wep, 0, self maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( wep ) );
-	self GiveMaxAmmo(wep);
-	//self SetWeaponAmmoStock(wep, 0);
-	wait_network_frame();
-	self SwitchToWeapon(wep);*/
-
-	//self thread maps\_zombiemode_weap_cymbal_monkey::player_give_cymbal_monkey();
-
-	//self thread maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
-
-	//self thread maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
-
-	//self thread maps\_zombiemode_weap_quantum_bomb::player_give_quantum_bomb();
-
-	//wait 5;
-
-	/*self giveweapon( "molotov_zm" );
-	self set_player_tactical_grenade( "molotov_zm" );
-	self SetWeaponAmmoClip("molotov_zm", 3);*/
-
-	/*while(1)
-	{
-		wait_network_frame();
-
-		if(!self UseButtonPressed())
-		{
-			continue;
-		}
-
-		gun = self GetCurrentWeapon();
-
-		self GiveWeapon( "syrette_sp" );
-		self SwitchToWeapon( "syrette_sp" );
-		self SetWeaponAmmoStock( "syrette_sp", 1 );
-
-		self thread maps\_laststand::wait_for_weapon_switch();
-
-		while(self UseButtonPressed())
-			wait_network_frame();
-
-		self maps\_laststand::revive_give_back_weapons( gun );
-	}*/
-
-	//self setelectrified(1.25);
-	//self thread maps\_hud_message::hintMessage( "Test" );
-
-	//level thread maps\_zombiemode_grief::turn_power_on();
-
-	/*wait 1;
-	origin = self.origin;
-	wait 5;
-	//level.upgraded_tesla_reward = true;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "grief_empty_clip", origin, true );*/
-
-	/*wait 10;
-	iprintln("spawning");
-	origin = self.origin;
-	wait 5;
-	level thread maps\_zombiemode_powerups::specific_powerup_drop( "fire_sale", origin, true );*/
-
-	//self thread spectator_test();
-	//wait 5;
-	//self.sessionstate = "spectator";
-
-	/*wait 5;
-
-	while(1)
-	{
-		level thread maps\_zombiemode_powerups::specific_powerup_drop( "fire_sale", self.origin, true );
-
-		wait 40;
-	}*/
-}
-
-spectator_test()
-{
-	while(1)
-	{
-		//iprintln(GetDvar("ui_test_spectator_name"));
-		//PlayFXOnTag( level._effect["grief_shock"], self, "back_mid" );
-		wait 1;
-	}
-}
-
 //removes idle sway on sniper scopes
 remove_idle_sway()
 {
@@ -8854,16 +8710,6 @@ remove_idle_sway()
 	}
 }
 
-velocity_test()
-{
-	while(1)
-	{
-		vel = self GetVelocity();
-		iprintln(vel);
-		wait .0001;
-	}
-}
-
 disable_character_dialog()
 {
 	flag_wait("all_players_connected");
@@ -8897,7 +8743,7 @@ disable_character_dialog()
 	}
 }
 
-character_names_on_hud()
+character_names_hud()
 {
 	//disable any hud names of players that have disconnected
 	self SetClientDvar( "hud_player_zm_name_on_white", false );
@@ -8971,20 +8817,6 @@ set_melee_actionslot()
 		wep = "combat_" + melee;
 		self GiveWeapon(wep);
 		self SetActionSlot(2, "weapon", wep);
-	}
-}
-
-debug_test()
-{
-	flag_wait("all_players_spawned");
-	while(1)
-	{
-		wait 1;
-		iprintln("working");
-		players = get_players();
-		players[0].sessionstate = "spectator";
-		wait 1;
-		players[0].sessionstate = "playing";
 	}
 }
 
@@ -9113,58 +8945,6 @@ reload_complete_check(empty_clip)
 	wait reload_time;
 }
 
-// adds 1 ammo to the clip for the olympia during the reload as long as the player is still reloading and has at least 1 ammo in the stock and 0 ammo in the clip
-olympia_reload_fix()
-{
-	self endon("disconnect");
-
-	while(1)
-	{
-		self waittill("reload_start");
-
-		current_wep = self GetCurrentWeapon();
-
-		if(current_wep == "rottweil72_zm" || current_wep == "rottweil72_upgraded_zm")
-		{
-			if(self GetWeaponAmmoClip(current_wep) == 0)
-			{
-				self wait_reload_olympia(current_wep);
-			}
-		}
-	}
-}
-
-wait_reload_olympia(current_wep)
-{
-	self endon("disconnect");
-	self endon("melee");
-	self endon("sprint");
-	self endon("switch_weapons");
-
-	time = 1.75;
-
-	if(current_wep == "rottweil72_upgraded_zm")
-	{
-		time = 1.1;
-	}
-
-	if(self HasPerk("specialty_fastreload"))
-	{
-		time *= .5;
-	}
-
-	wait time;
-
-	clip_ammo = self GetWeaponAmmoClip(current_wep);
-	stock_ammo = self GetWeaponAmmoStock(current_wep);
-
-	if(self GetCurrentWeapon() == current_wep && clip_ammo == 0 && stock_ammo >= 1)
-	{
-		self SetWeaponAmmoClip(current_wep, 1);
-		self SetWeaponAmmoStock(current_wep, stock_ammo - 1);
-	}
-}
-
 revive_waypoint()
 {
 	waypoint = "waypoint_second_chance";
@@ -9180,14 +8960,11 @@ revive_waypoint()
 		}
 	}
 
-	self.reviveWaypoint = newHudElem();
+	self.reviveWaypoint = NewHudElem();
 	self.reviveWaypoint SetTargetEnt(self);
-	//self.reviveWaypoint.x = self.origin[0];
-	//self.reviveWaypoint.y = self.origin[1];
-	//self.reviveWaypoint.z = self.origin[2];
 	self.reviveWaypoint.sort = 20;
 	self.reviveWaypoint.alpha = 1;
-	self.reviveWaypoint setWaypoint( true, waypoint );
+	self.reviveWaypoint SetWaypoint( true, waypoint );
 	self.reviveWaypoint.color = ( 1, .7, .1 );
 
 	time = int(GetDvar("player_lastStandBleedoutTime"));
@@ -9211,7 +8988,7 @@ revive_waypoint_color_think(time)
 	{
 		current_time = GetTime();
 
-		if( isDefined( self.revivetrigger ) && isDefined( self.revivetrigger.beingRevived ) && self.revivetrigger.beingRevived )
+		if( IsDefined( self.revivetrigger ) && IsDefined( self.revivetrigger.beingRevived ) && self.revivetrigger.beingRevived )
 		{
 			self.reviveWaypoint.color = (1,1,1);
 		}
@@ -9227,32 +9004,13 @@ revive_waypoint_color_think(time)
 
 		self waittill_notify_or_timeout("update_revive_waypoint", .05);
 	}
-
-	/*frames = time * 20;
-	g_diff = .7 / frames;
-	b_diff = .1 / frames;
-	for(i=0;i<frames;i++)
-	{
-		//if(self UseButtonPressed())
-		if( isDefined( self.revivetrigger ) && isDefined( self.revivetrigger.beingRevived ) && self.revivetrigger.beingRevived )
-		{
-			self.reviveWaypoint.color = (1,1,1);
-		}
-		else
-		{
-			g_color = .7 - (g_diff * i);
-			b_color = .1 - (b_diff * i);
-			self.reviveWaypoint.color = (1, g_color, b_color);
-		}
-		wait .05;
-	}*/
 }
 
 destroy_revive_waypoint()
 {
-	self waittill_any("player_revived", "bled_out", "round_restarting", "disconnect", "_zombie_game_over");
+	self waittill_any("player_revived", "bled_out", "round_restarting", "_zombie_game_over", "disconnect", "death");
 
-	if(isdefined(self.reviveWaypoint))
+	if(IsDefined(self.reviveWaypoint))
 		self.reviveWaypoint destroy_hud();
 }
 

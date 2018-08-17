@@ -1041,10 +1041,6 @@ open_doors()
 		zombie_debris[1] clear_debris();
 		zombie_debris[2] clear_debris();
 	}
-	else if(level.script == "zombie_cod5_asylum")
-	{
-		zombie_doors[1] open_door();
-	}
 	else if(level.script == "zombie_cod5_sumpf")
 	{
 		zombie_doors[4] open_door();
