@@ -1095,7 +1095,7 @@
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player (only happens when last damage taken was from player and first damage after spawn/revive is from player also, health goes down for 1 frame but then goes right back to max health next frame)
 * Deadshot: fix bug with fast ADS move speed where if you ADS right after reloading your move speed is temporarily faster than it should be
 * Deadshot: add fast ADS move speed correctly
-* Show player's perks when spectating (player.spectatorclient?)
+* Show player's perks when spectating
 * Fix sprint and dive anims on Ray Gun
 * Find a way to be able to shoot through more than 3 zombies
 * Get weapons to not lose damage when going through surfaces (already have fix in gsc, try to add fix from weapon file)

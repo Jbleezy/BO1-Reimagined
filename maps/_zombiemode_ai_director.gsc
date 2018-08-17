@@ -2183,6 +2183,11 @@ groundhit_watcher( animname )
 
 			test_origin = zombies[i] GetEye();
 
+			if( DistanceSquared( origin, test_origin ) > level.director_electrify_range_sq )
+			{
+				continue;
+			}
+
 			if ( !BulletTracePassed( origin, test_origin, false, undefined ) )
 			{
 				continue;
