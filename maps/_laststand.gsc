@@ -102,6 +102,7 @@ PlayerLastStand( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sH
 
 	//PI CHANGE: player shouldn't be able to jump while in last stand mode (only was a problem in water) - specifically disallow this
 	self AllowJump(false);
+	self AllowLean(false);
 	//END PI CHANGE
 
 	if( IsDefined( level.playerlaststand_func ) )
@@ -524,6 +525,7 @@ revive_trigger_think()
 
 			//PI CHANGE: player couldn't jump - allow this again now that they are revived
 			self AllowJump(true);
+			self AllowLean(true);
 			//END PI CHANGE
 
 			if ( revive_success )
@@ -862,6 +864,7 @@ auto_revive( reviver )
 	self laststand_enable_player_weapons();
 
 	self AllowJump( true );
+	self AllowLean( true );
 
 	self.ignoreme = false;
 

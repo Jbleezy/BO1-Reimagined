@@ -9,9 +9,6 @@
 * Fix sprint and dive anims on Ray Gun
 * Optimize zombies in barrier and traversing barrier code (sometimes zombies still get stuck in barrier)
 
-### Testing
-* Test revive radius
-
 ### Cannot Find Fix
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player (only happens when last damage taken was from player and first damage after spawn/revive is from player also, health goes down for 1 frame but then goes right back to max health next frame)
 * Show player's perks when spectating

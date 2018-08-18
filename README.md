@@ -30,6 +30,7 @@
 * Pack-a-Punch camo now displays on Mustang & Sally when downed in solo
 * Chracters no longer make hurt sounds if you have Flopper and an explosion happens that would have hurt you
 * Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
+* Lean is now disabled while down since downed players cannot be revived while they are leaning
 * If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
 * Players can now dolphin dive again right away after just dolphin diving
 * Players can now move after dolphin diving quicker
