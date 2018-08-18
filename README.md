@@ -75,18 +75,18 @@
 * Combat settings: changed name of "USE EQUIPMENT" to "EQUIPMENT"
 * Combat settings: changed name of "GROUND SUPPORT" to "PLACEABLE MINE"
 * Option to change FOV (65-120 in intervals of 5)
+* Option to change max FPS (60, 90, 120, 180, 240, 360, 500, 750, 1000, or unlimited)
 * Option to show FPS on HUD
-* Option to change max FPS
-* Option to disable fog
 * Option to add weapon cycle delay
-* Option to disable character dialog (host only)
-* Option to disable Mule Kick (host only, always disabled on Nacht, always enabled on Moon)
-* Options to disable timer, zombie counter, zone names, and character names
+* Option to enable or disable fog
+* Options to enable or disable timer, zombie counter, zone names, and character names
+* Option to enable or disable character dialog (host only)
+* Option to enable or disable Mule Kick (host only, always disabled on Nacht, always enabled on Moon)
 * Option to choose which room you start in on Verruckt (host only)
 * Option to choose which perk you start with on No Man's Land (host only)
 * Options to set which barriers in Five spawn room you want disabled (host only)
 * Option to choose the initial box location on maps that have a random initial box location (host only)
-* Option to choose which gamemode you want to play, including random which includes every gamemode except Survival
+* Option to choose which gamemode to play, including random which includes every gamemode except Survival (host only)
 
 ## Weapons
 * All bullet damage (except for shotguns) will now deal full damage through multiple enemies or thin walls
