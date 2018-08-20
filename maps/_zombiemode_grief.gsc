@@ -1237,14 +1237,7 @@ increase_zombie_move_speed()
 increase_zombie_spawn_rate()
 {
 	wait 1;
-	if(level.gamemode == "gg")
-	{
-		level.zombie_vars["zombie_spawn_delay"] = 2;
-	}
-	else
-	{
-		level.zombie_vars["zombie_spawn_delay"] = .5;
-	}
+	level.zombie_vars["zombie_spawn_delay"] = .5;
 }
 
 display_round_number()
@@ -1509,6 +1502,13 @@ snr_round_win()
 		}
 		else
 		{
+			for(i=0;i<players.size;i++)
+			{
+				if(players[i].vsteam == team)
+				{
+					players[i] playlocalsound( "vs_0rivup" );
+				}
+			}
 			level thread round_restart();
 		}
 	}
