@@ -701,11 +701,13 @@
 
 ### Flinger (Call of the Dead)
 * Zombies flung now count as actual kills
+* Will not activate if the player is in the air
+* Removed explosion effect from flung zombies
 
 ### Spikes (Shangri-La)
 * Deal 50 damage to players
 * 50% change of Killing a zombie
-* Spikes will not activate if the player is in the air, crouch, prone, or down
+* Will not activate if the player is in the air, crouch, prone, or down
 
 ### Waterfall (Shangri-La)
 * Now kills zombies (except for Shrieker and Napalm)

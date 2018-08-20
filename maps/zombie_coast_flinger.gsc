@@ -112,6 +112,10 @@ flinger_think()
 			continue;
 		}
 
+		if(!who IsOnGround())
+		{
+			continue;
+		}
 
 		flinger_trig.flipper = getent("flipper","targetname");
 
@@ -553,7 +557,7 @@ do_flipper_corpse_cleanup(area)
 }
 remove_corpse()
 {
-	PlayFX(level._effect[ "corpse_burst" ]	, self.origin);
+	//PlayFX(level._effect[ "corpse_burst" ]	, self.origin);
 	self Delete();
 }
 
