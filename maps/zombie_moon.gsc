@@ -1795,6 +1795,51 @@ insta_kill_player()
 			in_last_stand = true;
 		}
 
+		if(level.gamemode != "survival")
+		{
+			self.waiting_to_revive = true;
+
+			if(flag("both_tunnels_breached"))
+			{
+				point = moon_digger_respawn(self);
+
+				if(!isDefined(point))
+				{
+					points = getstruct("bridge_zone","script_noteworthy");
+					spawn_points = getstructarray(points.target,"targetname");
+					num = self getentitynumber();
+					point = spawn_points[num];
+				}
+			}
+			else
+			{
+				points = getstruct("bridge_zone","script_noteworthy");
+				spawn_points = getstructarray(points.target,"targetname");
+				num = self getentitynumber();
+				point = spawn_points[num];
+			}
+			self dodamage(self.health + 1000,(0,0,0));
+			wait(1.5); //enough time to give the player some feedback about the death
+			self setorigin(point.origin);
+			self.angles = point.angles;
+			if(in_last_stand)
+			{
+				flag_set("instant_revive");
+				wait_network_frame();
+				flag_clear("instant_revive");
+			}
+			else
+			{
+				self thread maps\_laststand::auto_revive( self );
+				self.waiting_to_revive = false;
+				self.solo_respawn = 0;
+				self.lives = 0;
+			}
+
+			self.insta_killed = false;
+			return;
+		}
+
 		//if solo then the player dies if jumps off while alive and no quick revive
 		// - respawns on hacker side if both diggers are breached
 		// - respawns in receiving area otherwise
@@ -1825,7 +1870,7 @@ insta_kill_player()
 				}
 				self dodamage(self.health + 1000,(0,0,0));
 				wait(1.5); //enough time to give the player some feedback about the death
-				self setorigin(point.origin + (0,0,20));
+				self setorigin(point.origin);
 				self.angles = point.angles;
 				if(in_last_stand)
 				{
