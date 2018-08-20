@@ -1719,7 +1719,7 @@ give_perk( perk, bought )
 	{
 		self SetPerk("specialty_fastads");
 		self SetPerk("specialty_fastswitch");
-		self SetPerk("specialty_fastinteract");
+		self SetPerk("specialty_fastoffhand");
 	}
 
 	//increase burst fire rate with double tap
@@ -2022,7 +2022,7 @@ perk_think( perk )
 		case "specialty_fastreload":
 			self UnsetPerk("specialty_fastads");
 			self UnsetPerk("specialty_fastswitch");
-			self UnsetPerk("specialty_fastinteract");
+			self UnsetPerk("specialty_fastoffhand");
 			break;
 
 		case "specialty_rof":
