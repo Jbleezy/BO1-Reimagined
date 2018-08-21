@@ -46,13 +46,20 @@ spawned( localClientNum, play_sound ) // self == the crossbow bolt
 		}
 	}*/
 
+	fx = level._effect["crossbow_friendly_light"];
+	currentweapon = GetCurrentWeapon( localclientnum );
+	if(currentweapon == "crossbow_explosive_upgraded_zm")
+	{
+		fx = level._effect["crossbow_enemy_light"];
+	}
+
 	if( play_sound )
 	{
-		self thread loop_local_sound( localClientNum, "wpn_crossbow_alert", 0.3, level._effect["crossbow_friendly_light"] );
+		self thread loop_local_sound( localClientNum, "wpn_crossbow_alert", 0.3, fx );
 	}
 	else
 	{
-		PlayFXOnTag( localClientNum, level._effect["crossbow_friendly_light"], self, self.fxTagName );
+		PlayFXOnTag( localClientNum, fx, self, self.fxTagName );
 	}
 }
 
