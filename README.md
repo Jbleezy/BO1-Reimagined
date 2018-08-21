@@ -22,7 +22,6 @@
 * Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%
 * Removed friendly fire (not being able to shoot when looking at another player)
 * Player names now disappear instantly after being out of line of sight of them
-* Added 100 millisecond delay between weapon swaps
 * Removed knife lunging
 * Fixed a bug where a player was able to revive another player by bleeding out next to them in water
 * Fixed a bug where players were able to damage themselves by meleeing and leaning at the same time
@@ -706,7 +705,7 @@
 
 ### Spikes (Shangri-La)
 * Deal 50 damage to players
-* 50% change of Killing a zombie
+* 50% chance of killing a zombie
 * Will not activate if the player is in the air, crouch, prone, or down
 
 ### Waterfall (Shangri-La)
@@ -970,7 +969,6 @@
 * Now spawns 24 zombies instead of 20 zombies
 * Now displays a more accurate time of how long you survived
 * Zombies now spawn more consistently in the middle area during the beginning
-* Insta kill rounds can now occur on No Man's Land (except for the initital time you spawn in so players can't exploit No Man's Land insta kill rounds to get more kills)
 
 #### Sidequest
 * Full sidequest completable in solo

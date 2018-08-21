@@ -4579,17 +4579,9 @@ chalk_one_up(override_round_number)
 
 		// set yellow insta kill on HUD
 		if(round_number >= 163 && round_number % 2 == 1 && 
-			!is_true(flag("dog_round")) && !is_true(flag("thief_round")) && !is_true(flag("monkey_round")))
+			!is_true(flag("dog_round")) && !is_true(flag("thief_round")) && !is_true(flag("monkey_round")) && !is_true(flag("enter_nml")))
 		{
-			// starting on round 163, odd rounds that are not special rounds are insta kill rounds
-			if((IsDefined(level.ever_been_on_the_moon) && level.ever_been_on_the_moon) || !IsDefined(level.ever_been_on_the_moon))
-			{
-				flag_set("insta_kill_round");
-			}
-		}
-		else if(is_true(flag("insta_kill_round")) && is_true(flag("enter_nml")))
-		{
-			flag_clear("insta_kill_round"); // special clear for NML
+			flag_set("insta_kill_round");
 		}
 	}
 
@@ -4855,7 +4847,7 @@ ai_calculate_health( round_number )
 	if(round_number >= 163)
 	{
 		//don't let players exploit NML
-		if(IsDefined(level.ever_been_on_the_moon) && !level.ever_been_on_the_moon)
+		if(is_true(flag("enter_nml")))
 		{
 			level.zombie_health = 1000000;
 		}
