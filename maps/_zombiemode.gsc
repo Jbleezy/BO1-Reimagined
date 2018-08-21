@@ -1793,8 +1793,6 @@ onPlayerConnect_clientDvars()
 	// reset dvar that changes when double tap is bought
 	self SetClientDvar("player_burstFireCooldown", .2);
 
-	self setClientDvar("cg_weaponCycleDelay", "100");
-
 	self setClientDvar( "aim_lockon_pitch_strength", 0.0 );
 	self setClientDvar( "aim_automelee_enabled", 0 );
 
@@ -2018,7 +2016,6 @@ onPlayerSpawned()
 
 	for( ;; )
 	{
-
 		self waittill( "spawned_player" );
 
 		if(!flag("round_restarting"))
