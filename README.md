@@ -561,6 +561,11 @@
 * Sniper cabinet: weapon ammo now costs exactly 25% the cost of the weapon
 
 ## Mystery Box
+* Players will now get every weapon they can from the box before getting duplicates
+* All weapons have the same probability to be obtained
+* Weapons will not appear again in a row while floating up (unless it is the final weapon)
+* Cycles through all locations before going to a previous location again
+* An effect now plays when the Mystery Box is moving if it is the last Mystery Box location of a Mystery Box location cycle
 * Decreased time between uses from 3 seconds to 1.5 seconds
 * Decreased weapon pickup time from 12 seconds to 9 seconds
 * Box flies up higher when moving
@@ -569,13 +574,7 @@
 * Wall weapons are in the Mystery Box on classic maps
 * Every player now sees the same weapons in the box when the weapons are floating up
 * Can only see weapons floating up that the player can currently obtain
-* Players will now get every weapon they can from the box before getting duplicates
-* If a player does not grab a weapon from the box, then it will be put back into the list of weapons the player can get
-* All weapons have the same probability to be obtained
 * Ray Gun can now be obtained without moving the Mystery Box on all maps
-* Weapons will not appear again in a row while floating up (unless it is the final weapon)
-* Cycles through all locations before going to a previous location again
-* An effect now plays when the Mystery Box is moving if it is the last Mystery Box location of a Mystery Box location cycle
 * Hintstring now says "Mystery Box" instead of "Random Weapon"
 * Added a separate hintstring for tactical grenades
 * Removed sound that plays when obtaining the Ray Gun

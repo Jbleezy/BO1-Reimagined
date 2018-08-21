@@ -2291,10 +2291,10 @@ treasure_chest_timeout()
 
 	wait( 9 );
 	
-	if(IsDefined(player.already_got_weapons) && is_in_array(player.already_got_weapons, weapon))
+	/*if(IsDefined(player.already_got_weapons) && is_in_array(player.already_got_weapons, weapon))
 	{
 		player.already_got_weapons = array_remove(player.already_got_weapons, weapon);
-	}
+	}*/
 	self notify( "trigger", level );
 }
 
