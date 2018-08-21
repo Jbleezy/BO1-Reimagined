@@ -820,12 +820,11 @@ director_watch_damage()
 	}
 	else
 	{
-		powerups = array("grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_slow_down");
+		powerups = array("grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_hurt_players");
 		powerup = random(powerups);
-		powerups = array_remove_nokeys(powerups, powerup);
-
 		level thread maps\_zombiemode_powerups::specific_powerup_drop( powerup, self.origin );
 
+		powerups = array_remove_nokeys(powerups, powerup);
 		powerup = random(powerups);
 		level thread maps\_zombiemode_powerups::specific_powerup_drop( powerup, end_pos );
 	}

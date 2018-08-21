@@ -1317,7 +1317,7 @@ special_drop_setup(first_time, permament)
 	case "grief_lose_points":
 	case "grief_half_points":
 	case "grief_half_damage":
-	case "grief_slow_down":
+	case "grief_hurt_players":
 	case "meat":
 	case "upgrade_weapon":
 		break;

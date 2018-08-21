@@ -148,7 +148,7 @@
 
 ### Explosive weapons
 * Removed shellshock effect from all explosive weapon damage
-* Removed damage scaling over rounds (except for lethal grenades and mines)
+* Damage scaling over rounds is now done at a consistent rate
 
 ### Snipers
 * Removed idle sway while aiming
@@ -191,23 +191,21 @@
 * Decreased time to start rechambering and reloading after firing from 1 second to .5 seconds
 * Unupgraded: decreased rechamber time from 2 seconds to 1 second
 * Upgraded: decreased rechamber time from 1.4 seconds to .7 seconds
-* Unupgraded: impact damage - 1250
-* Unupgraded: maximum explosion damage - 1000
-* Unupgraded: minimum explosion damage - 500
-* Upgraded: impact damage - 2500
-* Upgraded: maximum explosion damage - 2000
-* Upgraded: minimum explosion damage - 1000
+* Increased damage scaling over rounds
+* Unupgraded: increased minimum explosive damage from 75 to 150
+* Upgraded: increased impact damage from 1000 to 1200
+* Upgraded: increased minimum explosive damage from 75 to 300
+
 
 ### Crossbow
 * Crossbow bolt beeping rate no longer changes depending on your FPS
 * No longer gibs zombies on impact
+* Increased damage scaling over rounds
 * Unupgraded: increased impact damage from 675 to 750 (weapon file shows it is suppose to do this amount of damage but it does not)
-* Unupgraded: maximum explosion damage - 800
-* Unupgraded: minimum explosion damage - 400
+* Unupgraded: increased minimum explosive damage from 75 to 100
 * Upgraded: increased impact damage from 675 to 2250 (weapon file shows it is suppose to do this amount of damage but it does not)
+* Upgraded: increased minimum explosive damage from 225 to 625
 * Upgraded: increased headshot impact damage from 3000 to 9000
-* Upgraded: maximum explosion damage - 2500
-* Upgraded: minimum explosion damage - 1250
 * Upgraded: zombies now get attracted immediately
 
 ### CZ75
@@ -285,35 +283,34 @@
 
 ### M16
 * Unupgraded: increased reserve ammo from 120 to 150
+* Upgraded: increased grenade launcher damage scaling over rounds
 * Upgraded: decreased grenade launcher explosion radius by 36%
-* Upgraded: grenade launcher impact damage - 1500
-* Upgraded: grenade launcher maximum damage - 1500
+* Upgraded: increased grenade launcher impact damage from 700 to 800
+* Upgraded: increased grenade launcher maximum explosive damage from 400 to 600
+* Upgraded: increased grenade launcher minimum explosive damage from 75 to 150
 * Upgraded: added name of weapon attachment on HUD
 * Upgraded: ammo for weapon attachment now shows on HUD
 
 ### M1911
-* Upgraded: impact damage - 2500
-* Upgraded: maximum explosion damage - 2500
-* Upgraded: minimum explosion damage - 1000
+* Upgraded: increased impact damage from 1000 to 1200
+* Upgraded: increased minimum explosion damage from 75 to 300
 * Upgraded: ammo now gets added at the same time that it does in the reload animation
 
 ### M72 LAW
 * Can now fire without aiming
 * Fixed dive to prone animation from looping
-* Unupgraded: impact damage - 2000
-* Unupgraded: maximum explosion damage - 1500
-* Unupgraded: minimum explosion damage - 1000
-* Upgraded: impact damage - 3000
-* Upgraded: maximum explosion damage - 2500
-* Upgraded: minimum explosion damage - 1000
+* Unupgraded: increased maximum explosion damage from 320 to 1500
+* Unupgraded: increased minimum explosion damage from 100 to 375
+* Upgraded: increased maximum explosion damage from 600 to 2500
+* Upgraded: increased minimum explosion damage from 100 to 625
 
 ### MP40
 * Fixed sprinting animation not playing correctly when clip is empty
 * Now uses World at War upgraded camo on Der Riese
 
 ### Olympia
-* Unupgraded: max damage per pellet increased from 120 to 180
-* Upgraded: max damage per pellet increased from 200 to 300
+* Unupgraded: increased maximum damage per pellet from 120 to 180
+* Upgraded: increased maximum damage per pellet from 200 to 300
 * Upgraded: fire effect now plays when damaging a zombie
 * Upgraded: ammo now gets added at the same time that it does in the reload animation
 
@@ -371,12 +368,10 @@
 * Added sound from Black Ops 2 that plays when attempting to fire without any ammo
 * Decreased first raise time from 2.4 seconds to 1.8 seconds
 * Fixed first raise animation lasting too long at the end
-* Unupgraded: impact damage - 2500
-* Unupgraded: maximum explosion damage - 2500
-* Unupgraded: minimum explosion damage - 1250
-* Upgraded: impact damage - 3000
-* Upgraded: maximum explosion damage - 3000
-* Upgraded: minimum explosion damage - 1250
+* Unupgraded: increased impact damage from 1000 to 1500
+* Unupgraded: increased minimum explosion damage from 300 to 750
+* Upgraded: increased impact damage from 1000 to 2000
+* Upgraded: increased minimum explosion damage from 300 to 1000
 
 #### Wunderwaffe
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)

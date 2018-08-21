@@ -5485,7 +5485,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 			}
 
 			// dont do damage to self from tesla if bolt was more than 64 units away (didnt change in weapon file because that also changed the radius zombies could take damage from tesla which was not wanted)
-			if((IsDefined(sWeapon) && (sWeapon == "tesla_gun_zm" || sWeapon == "tesla_gun_upgraded_zm")) && (sMeansOfDeath == "MOD_PROJECTILE" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH"))
+			if((IsDefined(sWeapon) && (sWeapon == "tesla_gun_zm" || sWeapon == "tesla_gun_upgraded_zm" || sWeapon == "tesla_gun_powerup_zm" || sWeapon == "tesla_gun_powerup_upgraded_zm")) && (sMeansOfDeath == "MOD_PROJECTILE" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH"))
 			{
 				if(IsDefined(eInflictor) && DistanceSquared(eInflictor.origin, self.origin) > 64*64)
 				{
@@ -5913,8 +5913,8 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	if((is_true(level.zombie_vars["zombie_insta_kill"]) || is_true(attacker.personal_instakill)) && !is_true(self.magic_bullet_shield) && 
 		self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
 	{
-		//insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
-		no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
+		// insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
+		no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "tesla_gun_powerup_zm", "tesla_gun_powerup_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
 
 		if(!is_in_array(no_insta_kill_on_weps, weapon))
 		{
@@ -5932,29 +5932,54 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 
 	if(meansofdeath == "MOD_MELEE")
 	{
-		final_damage -= final_damage % 50; //fix for melee weapons doing 1-4 extra damage
+		final_damage -= final_damage % 50; // fix for melee weapons doing 1-4 extra damage
 	}
 
-	//damage scaling for grenades and mines
-	//consistent damage and scales for zombies farther away from explosion better
-	//spikemores do damage from script, so had to set .spikemore_damage var on the zombie before damage
-	if(is_placeable_mine(weapon) || is_true(self.spikemore_damage))
+	// damage scaling for explosive weapons
+	// consistent damage and scales for zombies farther away from explosion better
+	if(meansofdeath == "MOD_GRENADE" || meansofdeath == "MOD_GRENADE_SPLASH" || meansofdeath == "MOD_PROJECTILE" || meansofdeath == "MOD_PROJECTILE_SPLASH" || meansofdeath == "MOD_EXPLOSIVE")
 	{
-		final_damage += 150 * level.round_number;
-		if(final_damage < 1500)
-			final_damage = 1500;
-		if(self.animname == "thief_zombie" && final_damage > 3000)
-			final_damage = 3000;
+		// no damage scaling for these wonder weps
+		if(weapon != "tesla_gun_zm" && weapon != "tesla_gun_upgraded_zm" && weapon != "tesla_gun_powerup_zm" && weapon != "tesla_gun_powerup_upgraded_zm" && weapon != "freezegun_zm" && weapon != "freezegun_upgraded_zm")
+		{
+			// spikemores do damage from script, so had to set .spikemore_damage var on the zombie before damage
+			if(is_tactical_grenade(weapon) || is_placeable_mine(weapon) || is_true(self.spikemore_damage))
+			{
+				final_damage += 150 * level.round_number;
+
+				if(final_damage < 1500)
+				{
+					final_damage = 1500;
+				}
+
+				if((self.animname == "thief_zombie" || self.animname == "napalm_zombie" || self.animname == "astro_zombie") && final_damage > 3000)
+				{
+					final_damage = 3000;
+				}
+			}
+			else if(is_lethal_grenade(weapon) && (meansofdeath == "MOD_GRENADE" || meansofdeath == "MOD_GRENADE_SPLASH"))
+			{
+				final_damage += 15 * level.round_number;
+
+				if((self.animname == "thief_zombie" || self.animname == "napalm_zombie" || self.animname == "astro_zombie") && final_damage > 300)
+				{
+					final_damage = 300;
+				}
+			}
+			else
+			{
+				// boss zombie types do not get damage scaling
+				if(self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
+				{
+					final_damage += 150 * level.round_number;
+				}
+			}
+		}
 	}
 
-	if(is_lethal_grenade(weapon) && (meansofdeath == "MOD_GRENADE" || meansofdeath == "MOD_GRENADE_SPLASH"))
-	{
-		final_damage += 150 + (level.round_number * 10);
-	}
-
-	//damage for non-shotgun bullet weapons - deals the same amount of damage through walls and multiple zombies
-	//all body shots deal the same damage
-	//neck, head, and healmet shots all deal the same damage
+	// damage for non-shotgun bullet weapons - deals the same amount of damage through walls and multiple zombies
+	// all body shots deal the same damage
+	// neck, head, and healmet shots all deal the same damage
 	if(meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET")
 	{
 		switch(weapon)
@@ -6262,16 +6287,23 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 
 	if(weapon == "molotov_zm")
 	{
-		final_damage = self.health + 1000;
+		return self.health + 1000;
 	}
 
 	if((weapon == "sniper_explosive_bolt_zm" || weapon == "sniper_explosive_bolt_upgraded_zm") && self.animname != "director_zombie")
-		final_damage = self.health + 1000;
+	{
+		return self.health + 1000;
+	}
 
 	if(attacker HasPerk("specialty_rof") && (meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET"))
+	{
 		final_damage = int(final_damage * 1.5);
+	}
+
 	if(attacker HasPerk("specialty_deadshot") && (meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET") && WeaponClass(weapon) != "spread" && (sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck"))
+	{
 		final_damage = int(final_damage * 2);
+	}
 
 	if(is_true(attacker.zombie_vars["zombie_powerup_half_damage_on"]))
 	{
