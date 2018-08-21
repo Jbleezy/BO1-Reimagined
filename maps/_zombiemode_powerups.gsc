@@ -11,7 +11,7 @@ init()
 	PrecacheShader( "specialty_firesale_zombies");
 	PrecacheShader( "zom_icon_bonfire" );
 	PrecacheShader( "zom_icon_minigun" );
-	PrecacheShader( "specialty_slowdown_zombies" );
+	PrecacheShader( "specialty_lightningbolt_zombies" );
 
 	PrecacheShader( "black" );
 	// powerup Vars
@@ -295,7 +295,7 @@ powerup_hud_overlay()
 		players[p].active_powerup_hud = [];
 
 		players[p] thread power_up_hud( "zom_icon_minigun", players[p].powerup_hud[0], "zombie_powerup_minigun_time", "zombie_powerup_minigun_on" );
-		players[p] thread power_up_hud( "zom_icon_minigun", players[p].powerup_hud[1], "zombie_powerup_tesla_time", "zombie_powerup_tesla_on" );
+		players[p] thread power_up_hud( "specialty_lightningbolt_zombies", players[p].powerup_hud[1], "zombie_powerup_tesla_time", "zombie_powerup_tesla_on" );
 		players[p] thread power_up_hud( "specialty_doublepoints_zombies", players[p].powerup_hud[2], "zombie_powerup_point_doubler_time", "zombie_powerup_point_doubler_on" );
 		players[p] thread power_up_hud( "specialty_instakill_zombies", players[p].powerup_hud[3], "zombie_powerup_insta_kill_time", "zombie_powerup_insta_kill_on" );
 		players[p] thread power_up_hud( "specialty_firesale_zombies", players[p].powerup_hud[4], "zombie_powerup_fire_sale_time", "zombie_powerup_fire_sale_on" );

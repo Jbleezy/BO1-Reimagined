@@ -94,6 +94,7 @@
 * All body shots will now give 50 points for a kill
 * Neck shots now give 100 points for a kill
 * Melee kills can no longer count as headshots
+* All weapons now have sprint and dive animations
 
 ### New Weapons
 #### Combat Knife
@@ -654,7 +655,7 @@
 * Zombies killed from a Nuke count as kills for the player who grabbed the Nuke
 
 ### Wunderwaffe (Powerup)
-* Now displays lightning bolt model
+* Now displays lightning bolt model and HUD icon
 * Switch weapons to end powerup duration
 * Powerup can now drop while one is already active
 
