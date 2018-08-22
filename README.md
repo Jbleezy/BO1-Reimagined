@@ -100,7 +100,7 @@
 #### Combat Knife
 * Wield your current knife by pressing the new melee weapon keybind (found in combat settings)
 * If you have no other weapon, you will hold your knife by default
-* 110% movement speed
+* 110% move speed
 
 #### Molotovs
 * Added in classic maps
@@ -138,7 +138,7 @@
 #### Stoner63
 * Upgraded name: Stoned69
 * Assault rifle/LMG hybrid weapon
-* 90% movement speed (in between LMG and assault rifle movement speed)
+* 90% move speed (in between LMG and assault rifle move speed)
 * Unupgraded: 60 rounds per clip
 * Upgraded: 90 rounds per clip
 * Unupgraded: damage - 160
@@ -212,6 +212,7 @@
 * Added empty clip animations
 
 ### CZ75 Dual Wield
+* Decreased move speed from 110% to 100%
 * Decreased recoil
 * Fixed empty clip idle, drop, and raise animations
 * Ammo now gets added at the same time that it does in the reload animation
