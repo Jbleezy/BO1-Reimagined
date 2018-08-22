@@ -1206,7 +1206,7 @@ electric_trap_move_switch(parent)
 
 	//turn the light above the door red
 	zapper_light_red( light_name );
-	extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
+	extra_time = tswitch maps\_zombiemode_traps::move_trap_handle(180);
 	tswitch playsound("amb_sparks_l_b");
 	tswitch waittill("rotatedone");
 	if(extra_time > 0)

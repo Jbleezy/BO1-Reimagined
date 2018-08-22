@@ -37,7 +37,7 @@ moveLeverDown()
 	soundent_left = getent("switch_left","targetname");
 	soundent_right = getent("switch_right","targetname");
 
-	extra_time = self.lever thread maps\_zombiemode_traps::move_trap_handle(180);
+	extra_time = self.lever maps\_zombiemode_traps::move_trap_handle(180);
 
 	soundent_left playsound("switch");
 	soundent_right playsound("switch");

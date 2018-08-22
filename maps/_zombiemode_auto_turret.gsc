@@ -158,7 +158,7 @@ activate_move_handle()
 	{
 		// Rotate switch model
 		//self.handle rotatepitch( 160, .5 );
-		extra_time = self.handle thread maps\_zombiemode_traps::move_trap_handle(85, 160);
+		extra_time = self.handle maps\_zombiemode_traps::move_trap_handle(85, 160);
 		//self.handle playsound( "amb_sparks_l_b" );
 		self.handle waittill( "rotatedone" );
 		if(extra_time > 0)

@@ -805,7 +805,7 @@ electric_trap_move_switch(parent)
 		north_zapper_light_red();
 		//machine = getent("zap_machine_north","targetname");
 
-		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180, 180, true);
+		extra_time = tswitch maps\_zombiemode_traps::move_trap_handle(180, 180, true);
 
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");

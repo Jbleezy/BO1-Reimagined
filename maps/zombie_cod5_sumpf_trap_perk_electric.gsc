@@ -163,7 +163,7 @@ electric_trap_move_switch(parent)
 		//north_zapper_light_red();
 		//machine = getent("zap_machine_north","targetname");
 
-		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
+		extra_time = tswitch maps\_zombiemode_traps::move_trap_handle(180);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
 		if(extra_time > 0)
@@ -182,7 +182,7 @@ electric_trap_move_switch(parent)
 	{
 		//south_zapper_light_red();
 
-		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
+		extra_time = tswitch maps\_zombiemode_traps::move_trap_handle(180);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
 		self notify("switch_activated");
@@ -200,7 +200,7 @@ electric_trap_move_switch(parent)
 	{
 		//south_zapper_light_red();
 
-		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
+		extra_time = tswitch maps\_zombiemode_traps::move_trap_handle(180);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
 		self notify("switch_activated");
@@ -219,7 +219,7 @@ electric_trap_move_switch(parent)
 	{
 		//south_zapper_light_red();
 
-		extra_time = tswitch thread maps\_zombiemode_traps::move_trap_handle(180);
+		extra_time = tswitch maps\_zombiemode_traps::move_trap_handle(180);
 		tswitch playsound("amb_sparks_l_b");
 		tswitch waittill("rotatedone");
 		if(extra_time > 0)
