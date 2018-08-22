@@ -2468,8 +2468,8 @@ player_grenade_watcher()
 			grenade.team = self.team;
 		}
 
-		//disable grenades for a short period after just throwing a grenade
-		//to fix a bug that caused players to be able to throw a second grenade faster than intended
+		// disable grenades for a short period after just throwing a grenade
+		// to fix a bug that caused players to be able to throw a second grenade faster than intended
 		if(is_lethal_grenade(weapName) || is_tactical_grenade(weapName))
 		{
 			self thread temp_disable_offhand_weapons();
@@ -4708,6 +4708,10 @@ chalk_round_over()
 
 round_think()
 {
+	/*level.round_number = 50;
+	level.zombie_move_speed = 105;
+	level.zombie_vars["zombie_spawn_delay"] = .2;*/
+
 	for( ;; )
 	{
 		//////////////////////////////////////////
@@ -5944,8 +5948,17 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		// no damage scaling for these wonder weps
 		if(weapon != "tesla_gun_zm" && weapon != "tesla_gun_upgraded_zm" && weapon != "tesla_gun_powerup_zm" && weapon != "tesla_gun_powerup_upgraded_zm" && weapon != "freezegun_zm" && weapon != "freezegun_upgraded_zm")
 		{
+			if(is_lethal_grenade(weapon))
+			{
+				final_damage += 150 + (15 * level.round_number);
+
+				if((self.animname == "thief_zombie" || self.animname == "napalm_zombie" || self.animname == "astro_zombie") && final_damage > 300)
+				{
+					final_damage = 300;
+				}
+			}
 			// spikemores do damage from script, so had to set .spikemore_damage var on the zombie before damage
-			if(is_tactical_grenade(weapon) || is_placeable_mine(weapon) || is_true(self.spikemore_damage))
+			else if(is_tactical_grenade(weapon) || is_placeable_mine(weapon) || is_true(self.spikemore_damage))
 			{
 				final_damage += 150 * level.round_number;
 
@@ -5959,21 +5972,12 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 					final_damage = 3000;
 				}
 			}
-			else if(is_lethal_grenade(weapon) && (meansofdeath == "MOD_GRENADE" || meansofdeath == "MOD_GRENADE_SPLASH"))
-			{
-				final_damage += 15 * level.round_number;
-
-				if((self.animname == "thief_zombie" || self.animname == "napalm_zombie" || self.animname == "astro_zombie") && final_damage > 300)
-				{
-					final_damage = 300;
-				}
-			}
 			else
 			{
 				// boss zombie types do not get damage scaling
 				if(self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
 				{
-					final_damage += 150 * level.round_number;
+					final_damage += 50 * level.round_number;
 				}
 			}
 		}
