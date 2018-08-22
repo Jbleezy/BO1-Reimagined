@@ -118,7 +118,7 @@ include_grief_powerups()
 
 	wait_network_frame();
 	level.zombie_powerup_array = [];
-	level.zombie_powerup_array = array("full_ammo", "insta_kill", "double_points", "nuke", "grief_empty_clip", "grief_half_damage", "grief_half_points", "grief_hurt_players", "grief_lose_points", "grief_bonus_points", "meat"); 
+	level.zombie_powerup_array = array("full_ammo", "insta_kill", "double_points", "nuke", "grief_empty_clip", "grief_half_damage", "grief_half_points", "grief_hurt_players", "grief_lose_points", "grief_bonus_points", "meat");
 
 	if(!IsSubStr(level.script, "zombie_cod5_") && level.gamemode != "gg")
 	{
