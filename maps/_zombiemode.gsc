@@ -11,6 +11,8 @@ main()
 {
 	set_gamemode();
 
+	level.max_mines = 80;
+
 	level.player_too_many_weapons_monitor = true;
 	level.player_too_many_weapons_monitor_func = ::player_too_many_weapons_monitor;
 	level.player_out_of_playable_area_monitor = true;

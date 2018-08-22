@@ -433,7 +433,7 @@
 * Gives 50 points for each kill
 
 ### Equipment
-* Limit of 120 mines placed on the map at once (each player can place equal amount of mines in coop)
+* Limit of 80 mines placed on the map at once (each player can place equal amount of mines in coop)
 * Grenades now cannot be thrown faster than intended when throwing a grenade right after after throwing one
 * Lethal grenades: impact damage - 30
 * Fixed a bug where tactical grenades wouldn't work if they were thrown before a previously thrown tactical grenade had activated

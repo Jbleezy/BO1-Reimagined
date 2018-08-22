@@ -171,7 +171,7 @@ betty_think()
 		self.owner.mines = [];
 	self.owner.mines = array_add( self.owner.mines, self );
 
-	amount = 120 / get_players().size;
+	amount = level.max_mines / get_players().size;
 
 	if( self.owner.mines.size > amount )
 	{
