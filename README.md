@@ -860,7 +860,11 @@
 #### Teleporters
 * Teleporters now kill zombies on any round
 * Guranteed teleporter powerup when first linking teleporter
-* Powerup spawned from teleporters stays on the map until picked up or after teleporting again
+* Teleporter powerup stays on the map until picked up or another teleporter powerup spawns
+* Chance decrease per round of teleporter powerup spawn decreased from 15% to 5%
+* Minimum of 15% chance of teleporter powerup spawn
+* Dogs always spawn whenever a teleporter powerup does not spawn
+* Dogs now will not spawn when a teleporter powerup spawns
 * Amount of dogs spawned in from teleporter is now 2 multiplied by the amount of players (previously always 4)
 * Max ammo now has the same chance of spawning from the teleporter as all other drops
 * Fixed a bug that allowed players to link teleporters while the teleporters were on cooldown

@@ -1259,11 +1259,14 @@ special_drop_setup(first_time, permament)
 
 	if(!guaranteed)
 	{
-		// starting at round 15, chance of getting a powerup goes down by 15% each round until round 21 where you can't get powerups anymore
-		if(level.round_number <= 20)
+		// starting at round 15, chance of getting a powerup goes down by 5% each round (minimum of 15% chance)
+		chance = (level.round_number - 14) * 5;
+		if(chance > 85)
 		{
-			guaranteed = RandomInt(100) >= (level.round_number - 14) * 15;
+			chance = 85;
 		}
+
+		guaranteed = RandomInt(100) >= chance;
 
 		// 20% chance of powerup if sidequest is complete
 		/*if(IsDefined(level.teleporter_powerups_reward) && !guaranteed)
@@ -1362,14 +1365,12 @@ special_drop_setup(first_time, permament)
 			PlayRumbleOnPosition("explosion_generic", self.origin);
 			playsoundatposition( "spawn", self.origin );
 
-			level notify("new_special_powerup");
 			wait( 1.0 );
 			//iprintlnbold( "Samantha Sez: No Powerup For You!" );
 			thread play_sound_2d( "sam_nospawn" );
 			self Delete();
 
-			// Special for teleporting too much.  The Dogs attack!
-			if ( level.gamemode == "survival" && level.time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20 && !first_time )
+			if (level.gamemode == "survival")
 			{
 				dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
 				level thread maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
