@@ -6285,7 +6285,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 4;
 		}
-		else if(weapon == "frag_grenade_zm" || weapon == "sticky_grenade_zm" || weapon == "stielhandgranate")
+		else if(is_lethal_grenade(weapon) || is_tactical_grenade(weapon))
 		{
 			final_damage = 30;
 		}

@@ -167,6 +167,7 @@ menufile,ui/hud.menu
 menufile,ui/hud_zombie.menu
 
 //WEAPONS
+weapon,sp/m1911_zm
 weapon,sp/m1911_upgraded_zm
 weapon,sp/m1911lh_upgraded_zm
 weapon,sp/m14_zm
@@ -179,9 +180,16 @@ weapon,sp/gl_m16_upgraded_zm
 weapon,sp/pm63_zm
 weapon,sp/pm63_upgraded_zm
 weapon,sp/pm63lh_upgraded_zm
+weapon,sp/mpl_zm
+weapon,sp/mpl_upgraded_zm
+weapon,sp/mp5k_zm
+weapon,sp/mp5k_upgraded_zm
+weapon,sp/ak74u_zm
 weapon,sp/ak74u_upgraded_zm
 weapon,sp/mp40_zm
 weapon,sp/mp40_upgraded_zm
+weapon,sp/python_zm
+weapon,sp/python_upgraded_zm
 weapon,sp/cz75_zm
 weapon,sp/cz75_upgraded_zm
 weapon,sp/cz75dw_zm
@@ -198,9 +206,11 @@ weapon,sp/g11_lps_zm
 weapon,sp/g11_lps_upgraded_zm
 weapon,sp/famas_zm
 weapon,sp/famas_upgraded_zm
+weapon,sp/mk_aug_upgraded_zm
 weapon,sp/rpk_zm
 weapon,sp/rpk_upgraded_zm
-weapon,sp/mk_aug_upgraded_zm
+weapon,sp/hk21_zm
+weapon,sp/hk21_upgraded_zm
 weapon,sp/l96a1_zm
 weapon,sp/l96a1_upgraded_zm
 weapon,sp/china_lake_zm

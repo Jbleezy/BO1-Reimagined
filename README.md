@@ -95,6 +95,7 @@
 * Neck shots now give 100 points for a kill
 * Melee kills can no longer count as headshots
 * All weapons now have sprint and dive animations
+* Ammo now gets added at the same time that it does in the reload animation of all weapons
 
 ### New Weapons
 #### Combat Knife
@@ -146,19 +147,36 @@
 * Unupgraded: damage - 230
 * Unupgraded: headshot damage - 690
 
-### Explosive weapons
+### Explosive Weapons
 * Removed shellshock effect from all explosive weapon damage
 * Damage scaling over rounds is now done at a more consistent rate
 
-### Snipers
-* Removed idle sway while aiming
-* Increased FOV when aiming from 15 to 30
-* Variable zoom scopes now only have one scope option
+### Light Machine Guns
+* Decreased move speed from 87.5% to 85%
+
+### Pistols
+* Increased move speed from 100% to 110%
+* Increased move speed while aiming from 200% to 220%
+* Increased sprint duration from 100% to 110%
 
 ### Shotguns
 * Decreased spread when aiming
 
+### Snipers
+* Decreased move speed from 95% to 90%
+* Removed idle sway while aiming
+* Increased FOV when aiming from 15 to 30
+* Variable zoom scopes now only have one scope option
+
+### Submachine Guns
+* Decreased move speed from 110% to 105%
+* Decreased move speed while aiming from 220% to 210%
+* Decreased sprint duration from 110% to 105%
+
 ### AK74u
+* Increased move speed from 100% to 105%
+* Increased move speed while aiming from 200% to 210%
+* Increased sprint duration from 100% to 105%
 * Upgraded: fixed fire sound
 
 ### AUG
@@ -176,14 +194,12 @@
 * Fixed empty clip animations with Bowie Knife still showing the blade
 * Unupgraded: increased impact damage from 450 to 500 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Upgraded: increased impact damage from 900 to 1000 (weapon file shows it is suppose to do this amount of damage but it does not)
-* Upgraded: ammo now gets added at the same time that it does in the reload animation
 
 ### BAR
 * Replaced BAR + Bipod with BAR
 * Removed bipod from weapon model
 * All BAR wallbuys now cost 1800
 * Increased headshot damage from 270 to 400
-* Ammo now gets added at the same time that it does in the reload animation
 
 ### China Lake
 * Can now fire without aiming
@@ -213,16 +229,13 @@
 * Added empty clip animations
 
 ### CZ75 Dual Wield
-* Decreased move speed from 110% to 100%
 * Decreased recoil
 * Fixed empty clip idle, drop, and raise animations
-* Ammo now gets added at the same time that it does in the reload animation
 * Unupgraded: increased reserve ammo from 228 to 240
 
 ### Double-Barreled Shotgun
 * Spread increases while moving
 * Fixed animations
-* Ammo now gets added at the same time that it does in the reload animation
 * Fixed shell eject effect showing 2 shells
 * Upgraded: changed name from "24 Bore long range" to "24 Bore"
 * Upgraded: removed additional headshot damage
@@ -235,7 +248,6 @@
 * Upgraded: increased reserve ammo from 225 to 450
 
 ### FG42
-* Ammo now gets added at the same time that it does in the reload animation when reloading with an empty clip
 * Upgraded: decreased reserve ammo from 400 to 384
 
 ### G11
@@ -243,7 +255,6 @@
 * Upgraded: increased reserve ammo from 288 to 384
 
 ### Gewehr 43
-* Ammo now gets added at the same time that it does in the reload animation
 * Unupgraded: increased damage from 120 to 130
 * Upgraded: decreased reserve ammo from 170 to 168
 
@@ -271,12 +282,8 @@
 * Upgraded: damage - 2000 (previously 1000-3000 damage depending on where the damage was dealt)
 * Upgraded: headshot damage - 16000 (previously 8000-10000 damage depending on where the damage was dealt)
 
-### M1 Carbine
-* Ammo now gets added at the same time that it does in the reload animation
-
 ### M1 Garand
 * Added sound that plays when first obtaining
-* Ammo now gets added at the same time that it does in the reload animation when reloading with an empty clip
 * Fixed raise animation
 * Decreased raise time from .8 seconds to .6 seconds
 
@@ -296,7 +303,6 @@
 ### M1911
 * Upgraded: increased impact damage from 1000 to 1200
 * Upgraded: increased minimum explosion damage from 75 to 300
-* Upgraded: ammo now gets added at the same time that it does in the reload animation
 
 ### M72 LAW
 * Can now fire without aiming
@@ -314,14 +320,12 @@
 * Unupgraded: increased maximum damage per pellet from 120 to 180
 * Upgraded: increased maximum damage per pellet from 200 to 300
 * Upgraded: fire effect now plays when damaging a zombie
-* Upgraded: ammo now gets added at the same time that it does in the reload animation
 
 ### PM63
 * Unupgraded: increased reserve ammo from 100 to 120
 * Upgraded: increased reserve ammo from 225 to 250
 * Upgraded: decreased hipfire spread
 * Upgraded: decreased recoil
-* Upgraded: ammo now gets added at the same time that it does in the reload animation when reloading with an empty clip
 
 ### RPK
 * Fixed animation bug when switching weapons from the RPK with an empty clip
@@ -334,7 +338,6 @@
 * Decreased reload time from 3 seconds to 2.5 seconds
 * Spread increases while moving
 * Fixed animations
-* Ammo now gets added at the same time that it does in the reload animation
 * Fixed shell eject effect showing 2 shells
 * Changed name from "Sawed-Off Double-Barreled Shotgun w/ Grip" to "Sawed-Off Double-Barreled Shotgun"
 * Changed buy hintstring from "Sawed-Off Shotgun" to "Sawed-Off Double-Barreled Shotgun"
@@ -347,27 +350,26 @@
 * Upgraded: changed name from "Spatz-447 +" to "Spatz-447"
 
 ### Thompson
-* Ammo now gets added at the same time that it does in the reload animation when reloading with an empty clip
 * Upgraded: decreased reserve ammo from 250 to 240
 
 ### Trench Gun
 * Spread increases while moving
-* Ammo now gets added at the same time that it does in the reload animation
 * Fixed shell eject effect showing 2 shells
 
 ### Type 100
-* Ammo now gets added at the same time that it does in the reload animation
 * Unupgraded: increased reserve ammo from 160 to 180
 * Upgraded: increased reserve ammo from 220 to 240
 
 ### Wonder Weapons
 
 ### Ray Gun
-* Ammo now gets added at the same time that it does in the reload animation
 * Removed weapon bob from movement
 * Added sprint and dive animations from Black Ops 2
 * Added sound from Black Ops 2 that plays when first obtaining
 * Added sound from Black Ops 2 that plays when attempting to fire without any ammo
+* Increased move speed from 100% to 105%
+* Increased move speed while aiming from 100% to 105%
+* Increased sprint duration from 100% to 105%
 * Decreased first raise time from 2.4 seconds to 1.8 seconds
 * Fixed first raise animation lasting too long at the end
 * Unupgraded: increased impact damage from 1000 to 1500
@@ -385,7 +387,6 @@
 * Unupgraded and upgraded versions now have the same zombie damage radius and self damage radius
 * Upgraded: increased maximum amount of kills from 10 to 24
 * Upgraded: decreased time between kills by 50%
-* Upgraded: ammo now gets added at the same time that it does in the reload animation
 * Upgraded: gold camo on Der Riese, regular camo on Call of the Dead
 * Upgraded: gold camo is now shinier
 * Added sprint and dive animations on classic maps
@@ -408,7 +409,9 @@
 * Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
 * Enemies that die from the Winter's Howl will now shatter immediately
 * Upgraded: camo now displays on more of the weapon
-* Ammo now gets added at the same time that it does in the reload animation
+* Increased move speed from 100% to 105%
+* Increased move speed while aiming from 100% to 105%
+* Increased sprint duration from 100% to 105%
 * Decreased first raise time by 50%
 * Fixed an error in the sprint out animation
 
@@ -435,39 +438,100 @@
 * Gives 50 points for each kill
 
 ### Equipment
-* Limit of 80 mines placed on the map at once (each player can place equal amount of mines in coop)
-* Grenades now cannot be thrown faster than intended when throwing a grenade right after after throwing one
-* Lethal grenades: impact damage - 30
-* Fixed a bug where tactical grenades wouldn't work if they were thrown before a previously thrown tactical grenade had activated
-* Tactical grenades now always stay upright
-* Mines can now be repurchased to refill ammo
-* Mines can now be picked up while pressing the melee button
 
-#### Bouncing Betty
-* Increased placing speed
-* Can now explode after being placed for 1 second (previously 2 seconds)
-* Can now be picked up
-* No longer keeps moving and making sounds after being placed
-* First raise time is now the same as regular raise time
+#### Lethal Grenades
+* Now cannot be thrown faster than intended when throwing a grenade right after after throwing one
+* Increased impact damage from 15 to 30
+* Impact damage now does not get decreased after damaging other enemies
 
-#### Claymore
-* Added placing sound
-* Added activation sound
-* Can no longer be picked up after being triggered
-* First raise animation is now the same as regular raise animation
-* First raise time is now the same as regular raise time
-
-### Frag Grenade
+##### Frag Grenade
 * Changed upwards projectile speed
 
-#### Gersch Device
+##### Semtex
+* Now always cost 250 points to buy (previously costed 130 points after first buy)
+* Semtex beeping rate no longer changes depending on your FPS
+* Changed upwards projectile speed
+
+##### Stielhandgranate
+* Added HUD icon from Call of Duty: WWII
+* Now deals damage on impact
+* Added projectile trail effect
+* Added throw back animation
+
+#### Tactical Grenades
+* Now cannot be thrown faster than intended when throwing a grenade right after after throwing one
+* Increased impact damage from 15 to 30
+* Impact damage now does not get decreased after damaging other enemies
+* Fixed a bug where tactical grenades wouldn't work if they were thrown before a previously thrown tactical grenade had activated
+* Now always stay upright
+
+##### Gersch Device
 * Now uses model from Black Ops 3
 * Zombies now get attracted immediately
 * Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
 * Fixed a bug where zombies would not always switch back to their normal run animation after a Gersch Device ends
 * Changed upwards projectile speed
 
-#### Hacker
+##### Matroyshka Dolls
+* Now uses model from Black Ops 3
+* Deal infinite damage (except for the Director)
+* Damage increased from 4500 to 9000 on the Director
+
+##### Monkey Bombs
+* Zombies now get attracted immediately
+* Zombies will now taunt when near a Monkey Bomb
+* Will not activate if thrown outside the map
+* Removed on Nacht, Verruckt, and Shi No Numa
+
+##### QED
+* Now uses model from Black Ops 3
+* 100% chance of fling effect when thrown near Cosmonaut or zombie
+* 100% chance of reviving player when thrown near downed player
+* 100% chance of giving perk when thrown near a perk machine that is powered on
+* 100% chance of opening a door when thrown near a door
+* 100% chance of upgrading player's weapon when thrown near Pack-a-Punch machine
+* 100% chance of hacking an exacavtor when thrown near the panel
+* 100% chance of random powerup when throw near a powerup
+* Guaranteed results order: fling effect (if near Cosmonaut), revive players, give nearest perk, open nearest door, upgrade weapon, stop excavator, random powerup, fling effect (if near any zombie)
+* If thrown outside the map, the player who threw the QED gets teleported to a random location on the map
+* Free perk effect now only gives the perk to the player who threw the QED
+* Revive player effect now only revives players near where the QED was thrown
+* Random weapon powerup now gives player max ammo on a weapon if they already have the weapon
+* Starburst weapons no longer damage players
+* Removed red powerup effect
+* Removed unupgrade weapon effect
+* All other effects and random powerup effect have a chance of spawning when none of the forced effects are activated
+
+#### Mines
+* Limit of 80 mines placed on the map at once (each player can place equal amount of mines in coop)
+* Can now be repurchased to refill ammo
+* Can now be picked up while pressing the melee button
+* Increased move speed from 100% to 110%
+* Increased sprint duration from 100% to 110%
+
+##### Bouncing Betty
+* Increased placing speed
+* Can now explode after being placed for 1 second (previously 2 seconds)
+* Can now be picked up
+* No longer keeps moving and making sounds after being placed
+* First raise time is now the same as regular raise time
+
+##### Claymore
+* Added placing sound
+* Added activation sound
+* Can no longer be picked up after being triggered
+* First raise animation is now the same as regular raise animation
+* First raise time is now the same as regular raise time
+
+##### Spikemore
+* Added activation sound
+* Can no longer be picked up after being triggered
+* First raise animation is now the same as regular raise animation
+* First raise time is now the same as regular raise time
+
+#### Useable Equipment
+
+##### Hacker
 * Every player can have the hacker
 * Does not move locations when picked up
 * Can now only hack one item at a time
@@ -490,62 +554,17 @@
 * Hacking a teddy bear location will now only lock that box for the remainder of the current round
 * Fire sale box can spawn at locations where the box has been hacked
 
-#### Matroyshka Dolls
-* Now uses model from Black Ops 3
-* Deal infinite damage (except for the Director)
-* Damage increased from 4500 to 9000 on the Director
-
-#### Monkey Bombs
-* Zombies now get attracted immediately
-* Zombies will now taunt when near a Monkey Bomb
-* Will not activate if thrown outside the map
-* Removed on Nacht, Verruckt, and Shi No Numa
-
-#### P.E.S.
+##### P.E.S.
 * Now uses model and animations from Black Ops 3
 * Players now only lose their helmet when taking different equipment
 * Fixed a bug where players were able to get no weapon in their hand by pressing the P.E.S. helmet button repeatedly
 * Changed name from "P.E.S" to "P.E.S."
 * D-pad now stays highlighted while putting on and taking off the P.E.S. helmet
 
-#### Semtex
-* Now always cost 250 points to buy (previously costed 130 points after first buy)
-* Semtex beeping rate no longer changes depending on your FPS
-* Changed upwards projectile speed
+#### Melee Weapons
 
-#### Sickle
+##### Sickle
 * Now uses model from Black Ops 3
-
-#### Spikemore
-* Added activation sound
-* Can no longer be picked up after being triggered
-* First raise animation is now the same as regular raise animation
-* First raise time is now the same as regular raise time
-
-#### Stielhandgranate
-* Added HUD icon from Call of Duty: WWII
-* Now deals damage on impact
-* Added projectile trail effect
-* Added throw back animation
-
-#### QED
-* Now uses model from Black Ops 3
-* 100% chance of fling effect when thrown near Cosmonaut or zombie
-* 100% chance of reviving player when thrown near downed player
-* 100% chance of giving perk when thrown near a perk machine that is powered on
-* 100% chance of opening a door when thrown near a door
-* 100% chance of upgrading player's weapon when thrown near Pack-a-Punch machine
-* 100% chance of hacking an exacavtor when thrown near the panel
-* 100% chance of random powerup when throw near a powerup
-* Guaranteed results order: fling effect (if near Cosmonaut), revive players, give nearest perk, open nearest door, upgrade weapon, stop excavator, random powerup, fling effect (if near any zombie)
-* If thrown outside the map, the player who threw the QED gets teleported to a random location on the map
-* Free perk effect now only gives the perk to the player who threw the QED
-* Revive player effect now only revives players near where the QED was thrown
-* Random weapon powerup now gives player max ammo on a weapon if they already have the weapon
-* Starburst weapons no longer damage players
-* Removed red powerup effect
-* Removed unupgrade weapon effect
-* All other effects and random powerup effect have a chance of spawning when none of the forced effects are activated
 
 ## Wallbuys
 * Decreased upgraded ammo cost from 4500 points to 2500 points
