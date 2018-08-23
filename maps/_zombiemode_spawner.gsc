@@ -4701,7 +4701,6 @@ zombie_follow_enemy()
 	}
 }
 
-
 // When a Zombie spawns, set his eyes to glowing.
 zombie_eye_glow()
 {

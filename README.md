@@ -148,7 +148,7 @@
 
 ### Explosive weapons
 * Removed shellshock effect from all explosive weapon damage
-* Damage scaling over rounds is now done at a consistent rate
+* Damage scaling over rounds is now done at a more consistent rate
 
 ### Snipers
 * Removed idle sway while aiming
@@ -188,6 +188,7 @@
 ### China Lake
 * Can now fire without aiming
 * Now rechambers while aiming
+* Decreased sprint recovery time from .6 seconds to .3 seconds
 * Decreased time to start rechambering and reloading after firing from 1 second to .5 seconds
 * Unupgraded: decreased rechamber time from 2 seconds to 1 second
 * Upgraded: decreased rechamber time from 1.4 seconds to .7 seconds
