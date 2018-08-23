@@ -346,6 +346,9 @@
 * Unupgraded: increased reserve ammo from 120 to 240
 * Upgraded: increased reserve ammo from 225 to 360
 
+### Stakeout
+* changed dive animation times
+
 ### STG-44
 * Upgraded: changed name from "Spatz-447 +" to "Spatz-447"
 
@@ -522,12 +525,14 @@
 * Can no longer be picked up after being triggered
 * First raise animation is now the same as regular raise animation
 * First raise time is now the same as regular raise time
+* Changed dive animation times
 
 ##### Spikemore
 * Added activation sound
 * Can no longer be picked up after being triggered
 * First raise animation is now the same as regular raise animation
 * First raise time is now the same as regular raise time
+* Changed dive animation times
 
 #### Useable Equipment
 
