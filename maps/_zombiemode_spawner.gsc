@@ -4613,11 +4613,18 @@ zombie_follow_enemy()
 	level endon( "intermission" );
 
 	already_at_override = false;
+	rand = 32;
 
 	while( 1 )
 	{
 		if( isDefined( self.enemyoverride ) && isDefined( self.enemyoverride[1] ) )
 		{
+			if(!already_at_override)
+			{
+				already_at_override = true;
+				rand = RandomIntRange(32, 129);
+			}
+
 			if( distanceSquared( self.origin, self.enemyoverride[0] ) > 1*1 )
 			{
 				self OrientMode( "face motion" );
@@ -4629,30 +4636,10 @@ zombie_follow_enemy()
 			self.ignoreall = true;
 			self SetGoalPos( self.enemyoverride[0] );
 
-			//make sure zombies don't taunt if it's a gersch
-			/*zomb_pois = getEntArray( "zombie_poi", "script_noteworthy" );
-			nearby_gersch_attract = false;
-			for(i=0;i<zomb_pois.size;i++)
-			{
-				if( IsDefined(zomb_pois[i].initial_attract_func) && IsDefined(level.black_hole_bomb_poi_initial_attract_func) 
-					&& zomb_pois[i].initial_attract_func == level.black_hole_bomb_poi_initial_attract_func
-					&& distanceSquared( self.origin, zomb_pois[i].origin ) < 192*192 )
-				{
-					nearby_gersch_attract = true;
-					break;
-				}
-			}*/
-
 			//taunt at the poi (except for gersch device)
 			if( !is_true(self._black_hole_attract_walk) && !is_true(self._black_hole_attract_run) && !is_true(self._black_hole_bomb_collapse_death) 
-				&& !is_true(self.is_traversing) && distanceSquared( self.origin, self.enemyoverride[0] ) < 128*128 )
+				&& !is_true(self.is_traversing) && distanceSquared( self.origin, self.enemyoverride[0] ) < rand*rand )
 			{
-				if(!already_at_override)
-				{
-					already_at_override = true;
-					wait(RandomFloat(1.0));
-					continue;
-				}
 				self do_a_taunt();
 			}
 		}
