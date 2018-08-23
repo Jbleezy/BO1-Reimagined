@@ -1818,6 +1818,9 @@ onPlayerConnect_clientDvars()
 	// set minimum fov (so sniper scopes dont go below this)
 	self SetClientDvar("cg_fovMin", 30);
 
+	// remove hold breath and variable zoom hintstrings when scoped in
+	self SetClientDvar("cg_drawBreathHint", 0);
+
 	// turn zombies remaining HUD off initially
 	self SetClientDvar("hud_zombs_remaining_on_game", false);
 	self SetClientDvar("zombs_remaining", "");

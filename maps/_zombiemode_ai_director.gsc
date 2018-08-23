@@ -2231,7 +2231,7 @@ groundhit_watcher( animname )
 	{
 		//affected_players[i] DoDamage( level.director_zombie_groundhit_damage, self.origin, self );
 		//affected_players[i] ShellShock( "electrocution", 1.5, true );
-		if ( affected_players[i] IsOnGround() )
+		if ( affected_players[i] IsOnGround() && !affected_players[i] HasPerk("specialty_flakjacket") )
 		{
 			affected_players[i] player_electrify();
 		}

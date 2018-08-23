@@ -791,6 +791,7 @@
 * Max health is now 250,000 no matter how many players are in the match
 * Only slows down players close to him when shot at while calm
 * Fixed a bug that caused the Director to not be able to electrify a player anymore after the player knifed an electrified zombie during an insta kill
+* No longer electrifies a player with his ground slam if the player has PHD Flopper
 * Now only electrifies zombies that are within a certain radius
 * No longer plays audio after exiting the map due to being hit by the upgraded V-R11
 * Fixed a bug that would sometimes cause the Director to sream in the water after already being killed
