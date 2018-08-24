@@ -1871,7 +1871,7 @@ race_win_watcher()
 			{
 				if(IsDefined(second_highest_player))
 				{
-					players[i] SetClientDvar("vs_counter_enemy_num", second_highest_team);
+					players[i] SetClientDvar("vs_counter_enemy_num", team_kills[second_highest_team]);
 					if(level.vsteams == "ffa")
 					{
 						players[i] SetClientDvar("vs_enemy_playername", second_highest_player.playername);
@@ -1880,7 +1880,7 @@ race_win_watcher()
 			}
 			else
 			{
-				players[i] SetClientDvar("vs_counter_enemy_num", highest_team);
+				players[i] SetClientDvar("vs_counter_enemy_num", team_kills[highest_team]);
 				if(level.vsteams == "ffa")
 				{
 					players[i] SetClientDvar("vs_enemy_playername", highest_player.playername);
