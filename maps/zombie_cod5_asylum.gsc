@@ -1235,13 +1235,19 @@ master_electric_switch()
 	playfxontag(level._effect["electric_power_gen_on"], fx_org, "tag_origin");
 	fx_org playloopsound("zmb_elec_current_loop");
 
-
 	//elec room fx on
 	//playfx(level._effect["elec_room_on"], (-440, -208, 8));
 
 	//turn on green lights above the zapper trap doors
 	level thread north_zapper_light_green();
 	level thread south_zapper_light_green();
+
+	//speed up zombies that should be sped up
+	zombs = GetAiSpeciesArray("axis");
+	for(i=0;i<zombs.size;i++)
+	{
+		zombs[i] maps\_zombiemode_spawner::set_zombie_run_cycle();
+	}
 
 	wait(6);
 	fx_org stoploopsound();

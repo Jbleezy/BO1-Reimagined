@@ -348,7 +348,7 @@
 * Upgraded: increased reserve ammo from 225 to 360
 
 ### Stakeout
-* changed dive animation times
+* Changed dive animation times
 
 ### STG-44
 * Upgraded: changed name from "Spatz-447 +" to "Spatz-447"
