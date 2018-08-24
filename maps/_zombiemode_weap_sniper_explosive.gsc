@@ -28,7 +28,7 @@ sniper_explosive_on_player_connect()
 		level waittill( "connecting", player );
 		player thread wait_for_sniper_explosive_fired();
 		player thread watch_for_sniper_bolt();
-		player thread disable_ads_while_reloading();
+		//player thread disable_ads_while_reloading();
 	}
 }
 

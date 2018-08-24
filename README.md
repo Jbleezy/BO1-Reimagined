@@ -421,8 +421,7 @@
 
 #### Scavenger
 * Infinite damage
-* Gives points when dealing impact damage
-* ADS disabled while reloading
+* Gives 10 points when dealing impact damage
 
 #### V-R11
 * Human zombies now target the closest zombie to them
