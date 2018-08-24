@@ -1086,7 +1086,7 @@
 * Auto revive after 10 seoconds
 * Starts at round 1, every 45 seconds round increases until round 20
 * Gain 500 points on each round increase if you are alive
-* First team to 250 kills, or team with most kills after round 20 wins
+* Team with most kills after round 20 or first team to 1000 kills wins
 * Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
 * Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
 
@@ -1094,18 +1094,18 @@
 * Unlimited ammo
 * Unlimited zombies
 * 2,000 health zombies
-* 2 second zombie spawn rate
+* .5 second zombie spawn rate
 * Only sprinting zombies
 * Auto revive after 10 seoconds
-* Quick Revive disabled
 * Wall weapons disabled
 * Mystery box disabled
 * Mule Kick disabled
 * Win the game the game by progressing through all the weapons
 * Weapon order: pistols, shotguns, smg's, assault rifles, lmg's, snipers, explosives, wonder weapons, ballistic knife
 * Zombies will drop a gun increment powerup after getting 10 kills with your current weapon
-* New powerup: upgrade weapon powerup (for 30 seconds get the upgraded version of any weapon you are currently on)
 * Only the player who killed the zombie can grab and see the gun increment powerup
+* Going down will set the player back one weapon
+* New powerup: upgrade weapon powerup (for 30 seconds get the upgraded version of any weapon you are currently on)
 * Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
 * Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
 

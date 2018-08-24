@@ -1861,6 +1861,11 @@ race_win_watcher()
 			}
 		}
 
+		if(!IsDefined(highest_player))
+		{
+			highest_player = players[0];
+		}
+
 		highest_team = highest_player.vsteam;
 		second_highest_team = second_highest_player.vsteam;
 		level.vs_winning_team = highest_team;
@@ -1890,7 +1895,7 @@ race_win_watcher()
 
 		for(i=0;i<teams.size;i++)
 		{
-			if(team_kills[teams[i]] >= 250)
+			if(team_kills[teams[i]] >= 1000)
 			{
 				level.vs_winning_team = teams[i];
 				level notify( "end_game" );
@@ -2337,6 +2342,11 @@ update_gungame_hud()
 		{
 			second_highest_player = players[i];
 		}
+	}
+
+	if(!IsDefined(highest_player))
+	{
+		highest_player = players[0];
 	}
 
 	highest_wep = highest_player.gg_wep_num + 1;

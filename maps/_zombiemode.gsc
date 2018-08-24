@@ -1959,10 +1959,6 @@ onPlayerDowned()
 				self.gg_wep_num--;
 				self maps\_zombiemode_grief::update_gungame_hud();
 			}
-			else
-			{
-				self.gg_kill_count = 0;
-			}
 
 			self.player_bought_pack = undefined;
 
