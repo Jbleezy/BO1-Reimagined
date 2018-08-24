@@ -768,8 +768,11 @@ powerup_drop(drop_point, player, zombie)
 
 	drop_gg_wep = false;
 
-	if( level.gamemode == "gg" && IsDefined(zombie.can_drop_gg_powerup) && !IsDefined(player.gg_wep_dropped) )
+	if( level.gamemode == "gg" && IsDefined(zombie.can_drop_gg_powerup) && !IsDefined(player.gg_wep_dropped) && !IsDefined(player.gg_wep_dropped_this_frame) )
 	{
+		player thread wait_frame_for_next_drop();
+
+		player.gg_wep_dropped = true;
 		drop_gg_wep = true;
 		debug = "gungame";
 	}
@@ -819,8 +822,13 @@ powerup_drop(drop_point, player, zombie)
 	}
 
 	// If not a valid drop, allow another spawn to be attempted
-	if(! valid_drop )
+	if( !valid_drop )
 	{
+		if(drop_gg_wep)
+		{
+			player.gg_wep_dropped = undefined;
+		}
+
 		level.powerup_drop_count--;
 		powerup delete();
 		return;
@@ -832,7 +840,6 @@ powerup_drop(drop_point, player, zombie)
 		powerup.player = player;
 		powerup.gg_powerup = true;
 		powerup powerup_setup("random_weapon"); //freeze comes from here
-		player.gg_wep_dropped = true;
 
 		players = get_players();
 		for(i=0;i<players.size;i++)
@@ -2397,11 +2404,11 @@ insta_kill_powerup_player( drop_item )
 
 	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_insta_kill_on", "zombie_powerup_insta_kill_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
 
-	level.zombie_vars["zombie_insta_kill"] = 1;
+	self.personal_instakill = true;
 
 	wait self.zombie_vars["zombie_powerup_insta_kill_time"];
 
-	level.zombie_vars["zombie_insta_kill"] = 0;
+	self.personal_instakill = false;
 
 	self notify("insta_kill_over");
 }
@@ -4311,4 +4318,16 @@ upgrade_weapon_powerup( drop_item, player )
 	}
 
 	player maps\_zombiemode_grief::update_gungame_weapon(false, true);
+}
+
+// fix for multiple gun game weapon increment powerups spawning if multiple zombies were killed on the same frame
+wait_frame_for_next_drop()
+{
+	self endon("disconnect");
+
+	self.gg_wep_dropped_this_frame = true;
+
+	wait_network_frame();
+
+	self.gg_wep_dropped_this_frame = undefined;
 }
