@@ -1942,7 +1942,7 @@ onPlayerDowned()
 			}
 		}
 
-		if(level.gamemode == "ffa")
+		if((level.gamemode == "grief" || level.gamemode == "snr") && level.vsteams == "ffa")
 		{
 			self thread maps\_zombiemode_grief::instant_bleedout();
 		}
@@ -4711,9 +4711,9 @@ chalk_round_over()
 
 round_think()
 {
-	/*level.round_number = 50;
-	level.zombie_move_speed = 105;
-	level.zombie_vars["zombie_spawn_delay"] = .2;*/
+	//level.round_number = 50;
+	//level.zombie_move_speed = 105;
+	//level.zombie_vars["zombie_spawn_delay"] = .5;
 
 	for( ;; )
 	{
@@ -8854,13 +8854,22 @@ set_gamemode()
 {
 	if(GetDvar("zm_gamemode") == "random")
 	{
-		gamemodes = array("grief", "ffa", "snr", "gg", "race");
+		gamemodes = array("grief", "snr", "gg", "race");
 		gamemodes = array_randomize(gamemodes);
 		level.gamemode = gamemodes[RandomInt(gamemodes.size)];
 	}
 	else
 	{
 		level.gamemode = GetDvar("zm_gamemode");
+	}
+
+	if(level.gamemode != "survival")
+	{
+		level.vsteams = GetDvar("vs_teams");
+	}
+	else
+	{
+		level.vsteams = "";
 	}
 
 	level thread set_gamemode_name();
@@ -8875,6 +8884,7 @@ set_gamemode_name()
 	for(i=0;i<players.size;i++)
 	{
 		players[i] SetClientDvar("zm_gamemode_name", level.gamemode);
+		players[i] SetClientDvar("zm_gamemode_name2", level.vsteams);
 	}
 }
 

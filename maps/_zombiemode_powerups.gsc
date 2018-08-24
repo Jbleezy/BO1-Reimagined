@@ -2900,13 +2900,19 @@ random_weapon_powerup( item, player )
 
 			if(player.gg_wep_num == 20)
 			{
-				level.vs_winning_team = player.vsteam;
-				level notify("end_game");
+				if(player maps\_zombiemode_grief::get_number_of_valid_friendly_players() == 1)
+				{
+					level.vs_winning_team = player.vsteam;
+					level notify("end_game");
+					return true;
+				}
+				else
+				{
+					player [[level.player_becomes_zombie]]();
+				}
 			}
-			else
-			{
-				player maps\_zombiemode_grief::update_gungame_weapon();
-			}
+
+			player maps\_zombiemode_grief::update_gungame_weapon();
 			return true;
 		}
 	}

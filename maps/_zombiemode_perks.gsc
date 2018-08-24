@@ -942,7 +942,7 @@ turn_revive_on()
 
 	flag_wait( "all_players_connected" );
 	players = GetPlayers();
-	if ( players.size == 1 || level.gamemode == "ffa" || level.gamemode == "gg" )
+	if ( players.size == 1 || level.vsteams == "ffa" )
 	{
 		for( i = 0; i < machine.size; i++ )
 		{
@@ -994,7 +994,7 @@ revive_solo_fx(machine_clip)
 	playfxontag( level._effect[ "revive_light" ], self.fx, "tag_origin" );
 	playfxontag( level._effect[ "revive_light_flicker" ], self.fx, "tag_origin" );
 
-	if(level.gamemode != "ffa" && level.gamemode != "gg")
+	if(level.vsteams != "ffa")
 	{
 		flag_wait( "solo_revive" );
 	}
@@ -1007,7 +1007,7 @@ revive_solo_fx(machine_clip)
 	//DCS: make revive model fly away like a magic box.
 	//self playsound("zmb_laugh_child");
 
-	if(level.gamemode != "ffa" && level.gamemode != "gg")
+	if(level.vsteams != "ffa")
 	{
 		wait(2.0);
 
@@ -1064,7 +1064,7 @@ revive_solo_fx(machine_clip)
 	}
 
 	//remove machine trigger in ffa
-	if(level.gamemode == "ffa" || level.gamemode == "gg")
+	if(level.vsteams == "ffa")
 	{
 		for(i = 0; i < vending_triggers.size; i++)
 		{

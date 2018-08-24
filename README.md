@@ -86,6 +86,7 @@
 * Options to set which barriers in Five spawn room you want disabled (host only)
 * Option to choose the initial box location on maps that have a random initial box location (host only)
 * Option to choose which gamemode to play, including random which includes every gamemode except Survival (host only)
+* Option to choose random, free-for-all, or custom teams in Versus gamemodes
 
 ## Weapons
 * All bullet damage (except for shotguns) will now deal full damage through multiple enemies or thin walls
@@ -1014,6 +1015,7 @@
 
 ### Versus
 * Competitive gameplay
+* 2 teams or free-for-all
 * Power is already on
 * No walking zombies
 * Shoot players to slow them down
@@ -1066,11 +1068,6 @@
 
 #### Grief
 * Win by surviving a round after all enemy players are dead
-
-#### Free-for-all Grief
-* Win by surviving a round after all enemy players are dead
-* Players bleed out instantly
-* Quick Revive disabled
 
 #### Search & Rezurrect
 * Round based gamemode

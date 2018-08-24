@@ -32,13 +32,11 @@ init()
 			level thread increase_round_number();
 			level thread increase_zombie_move_speed();
 			level thread increase_zombie_spawn_rate();
-			level thread setup_grief_top_logos();
 		}
 		else if(level.gamemode == "race")
 		{
 			level thread race_win_watcher();
 			level thread increase_round_number_over_time();
-			level thread setup_grief_top_logos();
 		}
 		else if(level.gamemode == "gg")
 		{
@@ -48,7 +46,6 @@ init()
 			level thread increase_zombie_move_speed();
 			level thread increase_zombie_spawn_rate();
 			level thread setup_gungame_weapons();
-			level thread setup_grief_top_playernames();
 		}
 
 		if(level.script == "zombie_temple")
@@ -59,6 +56,18 @@ init()
 		level thread unlimited_powerups();
 		level thread unlimited_barrier_points();
 		level thread unlimited_zombies();
+	}
+
+	if(level.gamemode != "grief")
+	{
+		if(level.vsteams == "ffa")
+		{
+			level thread setup_grief_top_playernames();
+		}
+		else
+		{
+			level thread setup_grief_top_logos();
+		}
 	}
 
 	level thread intro_vox();
@@ -159,7 +168,7 @@ intro_vox()
 	wait 3;
 
 	sound = "vs_intro_short";
-	if(level.gamemode == "ffa" || level.gamemode == "gg")
+	if(level.vsteams == "ffa")
 	{
 		sound = "vs_intro_short_ffa";
 	}
@@ -191,29 +200,59 @@ is_team_valid()
 
 setup_grief_teams()
 {
+	team_array = array("cdc", "cia");
+	team_array = array_randomize(team_array);
 	players = get_players();
-	array = array("cdc", "cia");
-	array = array_randomize(array);
+	team_size = [];
+	team_size["cdc"] = 0;
+	team_size["cia"] = 0;
+	max_team_size = int((players.size + 1) / 2);
 	for(i=0;i<players.size;i++)
 	{
-		if(level.gamemode == "ffa" || level.gamemode == "gg")
+		if(level.vsteams == "random")
 		{
-			if(!IsDefined(level.vsteam))
+			players[i].vsteam = random(team_array);
+
+			if(team_size[players[i].vsteam] >= max_team_size)
 			{
-				level.vsteam = random(array);
+				team = array_remove(team_array, players[i].vsteam);
+				players[i].vsteam = random(team);
 			}
-			players[i].vsteam = "ffa" + (i + 1);
+
+			team_size[players[i].vsteam]++;
 		}
-		else
+		else if(level.vsteams == "custom")
 		{
-			if(i / players.size < .5)
+			ent_num = players[i] GetEntityNumber();
+
+			if(ent_num == 0)
 			{
-				players[i].vsteam = array[0];
+				players[i].vsteam = GetDvar("player1_team");
+			}
+			else if(ent_num == 1)
+			{
+				players[i].vsteam = GetDvar("player2_team");
+			}
+			else if(ent_num == 2)
+			{
+				players[i].vsteam = GetDvar("player3_team");
+			}
+			else if(ent_num == 3)
+			{
+				players[i].vsteam = GetDvar("player4_team");
 			}
 			else
 			{
-				players[i].vsteam = array[1];
+				players[i].vsteam = random(team_array);
 			}
+		}
+		else if(level.vsteams == "ffa")
+		{
+			if(!IsDefined(level.vsteam))
+			{
+				level.vsteam = random(team_array);
+			}
+			players[i].vsteam = "ffa" + (i + 1);
 		}
 	}
 }
@@ -694,7 +733,7 @@ setup_grief_msg()
 	self.grief_hud2.color = ( 1.0, 1.0, 1.0 );
 }
 
-grief_msg(msg)
+grief_msg(msg, var1)
 {
 	self notify("grief_msg");
 	self endon("grief_msg");
@@ -709,7 +748,14 @@ grief_msg(msg)
 
 	if(IsDefined(msg))
 	{
-		self.grief_hud1 SetText( msg );
+		if(IsDefined(var1))
+		{
+			self.grief_hud1 SetText( msg, var1 );
+		}
+		else
+		{
+			self.grief_hud1 SetText( msg );
+		}
 		self.grief_hud1 FadeOverTime( 1 );
 		self.grief_hud1.alpha = 1;
 		self thread grief_msg_fade_away(self.grief_hud1);
@@ -1458,15 +1504,18 @@ reduce_survive_zombie_amount()
 snr_round_win()
 {
 	team = undefined;
+	player = undefined;
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
 		if(is_player_valid( players[i] ))
 		{
-			team = players[i].vsteam;
+			player = players[i];
 			break;
 		}
 	}
+
+	team = player.vsteam;
 
 	if(IsDefined(team))
 	{
@@ -1490,14 +1539,25 @@ snr_round_win()
 			}
 			else
 			{
-				players[i] SetClientDvar("vs_counter_enemy_num", level.round_wins[team]);
+				if(!IsDefined(players[i].highest_enemy_num) || level.round_wins[team] >= players[i].highest_enemy_num)
+				{
+					players[i].highest_enemy_num = level.round_wins[team];
+
+					players[i] SetClientDvar("vs_counter_enemy_num", level.round_wins[team]);
+					if(level.vsteams == "ffa")
+					{
+						players[i] SetClientDvar("vs_enemy_playername", player.playername);
+					}
+				}
 			}
 		}
 
-		level.vs_winning_team = team;
+		level.vs_recent_winning_player = player;
+		level.vs_recent_winning_team = team;
 
 		if(level.round_wins[team] == 3)
 		{
+			level.vs_winning_team = team;
 			level notify( "end_game" );
 		}
 		else
@@ -1514,7 +1574,7 @@ snr_round_win()
 	}
 }
 
-snr_round_win_watcher()
+/*snr_round_win_watcher()
 {
 	level notify( "snr_round_win_watcher" );
 	level endon( "snr_round_win_watcher" );
@@ -1637,13 +1697,13 @@ snr_round_win_watcher()
 			level thread round_restart();
 		}
 	}
-}
+}*/
 
 display_round_won(team)
 {
 	flag_wait("all_players_spawned");
 
-	if(!IsDefined(level.vs_winning_team))
+	if(!IsDefined(level.vs_recent_winning_team))
 	{
 		return;
 	}
@@ -1651,13 +1711,20 @@ display_round_won(team)
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		if(level.vs_winning_team == "cdc")
+		if(level.vsteams == "ffa")
 		{
-			players[i] thread grief_msg(&"REIMAGINED_CDC_WON");
+			players[i] thread grief_msg(&"REIMAGINED_PLAYER_WON", level.vs_recent_winning_player.playername);
 		}
 		else
 		{
-			players[i] thread grief_msg(&"REIMAGINED_CIA_WON");
+			if(level.vs_recent_winning_team == "cdc")
+			{
+				players[i] thread grief_msg(&"REIMAGINED_CDC_WON");
+			}
+			else
+			{
+				players[i] thread grief_msg(&"REIMAGINED_CIA_WON");
+			}
 		}
 	}
 
@@ -1731,7 +1798,7 @@ setup_grief_top_playernames()
 		players[i] SetClientDvar("vs_enemy_playername", "Unknown Soldier");
 		for(j=0;j<players.size;j++)
 		{
-			if(players[j] != players[i])
+			if(players[j].vsteam != players[i].vsteam)
 			{
 				players[i] SetClientDvar("vs_enemy_playername", players[j].playername);
 				break;
@@ -1752,61 +1819,83 @@ race_win_watcher()
 
 	wait_network_frame();
 
-	kills = [];
+	team_kills = [];
 
 	while(1)
 	{
-		kills["cdc"] = 0;
-		kills["cia"] = 0;
-
 		players = get_players();
 		for(i=0;i<players.size;i++)
 		{
-			kills[players[i].vsteam] += players[i].kills;
+			team_kills[players[i].vsteam] = 0;
 		}
 
-		//display hud counters
-		if(kills["cdc"] > 0)
+		for(i=0;i<players.size;i++)
 		{
-			for(i=0;i<players.size;i++)
+			team_kills[players[i].vsteam] += players[i].kills;
+		}
+
+		teams = GetArrayKeys(team_kills);
+		highest_player = undefined;
+		second_highest_player = undefined;
+
+		for(i=0;i<teams.size;i++)
+		{
+			for(j=0;j<players.size;j++)
 			{
-				if(players[i].vsteam == "cdc")
+				if(players[j].vsteam == teams[i])
 				{
-					players[i] SetClientDvar("vs_counter_friendly_num", kills["cdc"]);
+					players[j] SetClientDvar("vs_counter_friendly_num", team_kills[teams[i]]);
 				}
 				else
 				{
-					players[i] SetClientDvar("vs_counter_enemy_num", kills["cdc"]);
+					if(!IsDefined(highest_player) || team_kills[players[j].vsteam] > team_kills[highest_player.vsteam])
+					{
+						second_highest_player = highest_player;
+						highest_player = players[j];
+					}
+					else if(!IsDefined(second_highest_player) || team_kills[players[j].vsteam] > team_kills[second_highest_player.vsteam])
+					{
+						second_highest_player = players[j];
+					}
 				}
 			}
 		}
 
-		if(kills["cia"] > 0)
+		highest_team = highest_player.vsteam;
+		second_highest_team = second_highest_player.vsteam;
+		level.vs_winning_team = highest_team;
+
+		for(i=0;i<players.size;i++)
 		{
-			for(i=0;i<players.size;i++)
+			if(players[i].vsteam == highest_team)
 			{
-				if(players[i].vsteam == "cia")
+				if(IsDefined(second_highest_player))
 				{
-					players[i] SetClientDvar("vs_counter_friendly_num", kills["cia"]);
+					players[i] SetClientDvar("vs_counter_enemy_num", second_highest_team);
+					if(level.vsteams == "ffa")
+					{
+						players[i] SetClientDvar("vs_enemy_playername", second_highest_player.playername);
+					}
 				}
-				else
+			}
+			else
+			{
+				players[i] SetClientDvar("vs_counter_enemy_num", highest_team);
+				if(level.vsteams == "ffa")
 				{
-					players[i] SetClientDvar("vs_counter_enemy_num", kills["cia"]);
+					players[i] SetClientDvar("vs_enemy_playername", highest_player.playername);
 				}
 			}
 		}
 
-		if(kills["cdc"] >= 250)
+		for(i=0;i<teams.size;i++)
 		{
-			level.vs_winning_team = "cdc";
-			level notify( "end_game" );
-			return;
-		}
-		else if(kills["cia"] >= 250)
-		{
-			level.vs_winning_team = "cia";
-			level notify( "end_game" );
-			return;
+			if(team_kills[teams[i]] >= 250)
+			{
+				level.vs_winning_team = teams[i];
+				level notify( "end_game" );
+				return;
+			}
 		}
 
 		wait_network_frame();
@@ -1886,29 +1975,6 @@ increase_round_number_over_time()
 			}
 
 			wait 45;
-
-			kills = [];
-			kills["cdc"] = 0;
-			kills["cia"] = 0;
-
-			players = get_players();
-			for(i=0;i<players.size;i++)
-			{
-				kills[players[i].vsteam] += players[i].kills;
-			}
-
-			if(kills["cdc"] > kills["cia"])
-			{
-				level.vs_winning_team = "cdc";
-			}
-			else if(kills["cia"] > kills["cdc"])
-			{
-				level.vs_winning_team = "cia";
-			}
-			else
-			{
-				level.vs_winning_team = undefined;
-			}
 
 			level notify("end_game");
 		}
@@ -2252,11 +2318,17 @@ update_gungame_hud()
 
 	players = get_players();
 
-	highest_player = players[0];
+	highest_player = undefined;
 	second_highest_player = undefined;
-	for(i=1;i<players.size;i++)
+	for(i=0;i<players.size;i++)
 	{
-		if(players[i].gg_wep_num > highest_player.gg_wep_num)
+		//only check current teams score
+		if(players[i].vsteam != self.vsteam)
+		{
+			continue;
+		}
+
+		if(!IsDefined(highest_player) || players[i].gg_wep_num > highest_player.gg_wep_num)
 		{
 			second_highest_player = highest_player;
 			highest_player = players[i];
@@ -2280,8 +2352,8 @@ update_gungame_hud()
 	//update highest enemy counter (right side)
 	for(i=0;i<players.size;i++)
 	{
-		//dont need to check current player, right side is for other players
-		if(players[i] == self)
+		//dont need to check friendly players, right side is for enemy players
+		if(players[i].vsteam == self.vsteam)
 		{
 			continue;
 		}
@@ -2292,13 +2364,19 @@ update_gungame_hud()
 			if(IsDefined(second_highest_player))
 			{
 				players[i] SetClientDvar("vs_counter_enemy_num", second_highest_wep);
-				players[i] SetClientDvar("vs_enemy_playername", second_highest_player.playername);
+				if(level.vsteams == "ffa")
+				{
+					players[i] SetClientDvar("vs_enemy_playername", second_highest_player.playername);
+				}
 			}
 		}
 		else
 		{
 			players[i] SetClientDvar("vs_counter_enemy_num", highest_wep);
-			players[i] SetClientDvar("vs_enemy_playername", highest_player.playername);
+			if(level.vsteams == "ffa")
+			{
+				players[i] SetClientDvar("vs_enemy_playername", highest_player.playername);
+			}
 		}
 	}
 }
