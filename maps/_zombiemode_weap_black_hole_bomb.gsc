@@ -727,7 +727,7 @@ black_hole_bomb_event_horizon_death( vec_black_hole_org, grenade )
 
 	grenade notify( "black_hole_bomb_kill" );
 
-	self DoDamage( self.health + 50, self.origin + ( 0, 0, 50 ), self._black_hole_bomb_tosser, "zombie_black_hole_bomb", "MOD_CRUSH" );
+	self DoDamage( self.health + 50, self.origin + ( 0, 0, 50 ), self._black_hole_bomb_tosser, undefined, "crush" );
 }
 
 // -- hide the corpse after death
