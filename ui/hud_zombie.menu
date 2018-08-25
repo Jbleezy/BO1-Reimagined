@@ -608,9 +608,7 @@
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_CENTER
-			// Change to use localized string
-			// exp text 			(dvarString("zm_gamemode_name"))
-			exp					text( LocString(ToUpper("REIMAGINED_GAMEMODE_" + DvarString("zm_gamemode_name"))) )
+			exp					text( LocString(ToUpper("REIMAGINED_GAMEMODE_" + DvarString("zm_gamemode_name"))) + LocString(ToUpper("REIMAGINED_GAMEMODE_" + DvarString("zm_gamemode_name2"))) )
 			visible				1
 			decoration
 
@@ -626,7 +624,7 @@
 			}
 		}
 
-		itemDef
+		/*itemDef
 		{
 			name				"hud_gamemode2"
 			type				ITEM_TYPE_TEXT
@@ -652,7 +650,7 @@
 				name 			"fadeout"
 				forecolor 		FADE_OUT_COLOR_WHITE
 			}
-		}
+		}*/
 
 		itemDef
 		{
