@@ -1169,7 +1169,9 @@ divetonuke_explode( attacker, origin )
 	max_damage = level.zombie_vars["zombie_perk_divetonuke_max_damage"];
 
 	// radius damage
+	attacker.divetonuke_damage = true;
 	RadiusDamage( origin, radius, max_damage, min_damage, attacker, "MOD_GRENADE_SPLASH" );
+	attacker.divetonuke_damage = undefined;
 
 	// play fx
 	PlayFx( level._effect["divetonuke_groundhit"], origin );

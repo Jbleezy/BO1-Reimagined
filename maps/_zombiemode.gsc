@@ -6438,7 +6438,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 	if(level.gamemode == "gg" && (self.animname == "zombie" || self.animname == "quad_zombie" || self.animname == "zombie_dog") && 
 		IsDefined(attacker) && IsPlayer(attacker) && is_player_valid(attacker) && IsDefined(sWeapon) && 
-		sMeansOfDeath != "MOD_UNKNOWN" && sMeansOfDeath != "MOD_CRUSH")
+		sMeansOfDeath != "MOD_UNKNOWN" && sMeansOfDeath != "MOD_CRUSH" && !IsDefined(attacker.divetonuke_damage))
 	{
 		gg_wep = level.gg_weps[attacker.gg_wep_num];
 
