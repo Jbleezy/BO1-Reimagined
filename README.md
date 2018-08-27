@@ -1,4 +1,5 @@
 # Call of Duty: Black Ops Zombies - Reimagined
+
 ## Created by: Jbleezy / Jbird
 
 [YouTube](https://youtube.com/ItsJbirdJustin)
@@ -382,6 +383,7 @@
 * Upgraded: increased minimum explosion damage from 300 to 1000
 
 #### Wunderwaffe
+* Now more reliably arcs to other zombies
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
 * The initial zombie that is hit will now always be the zombie that is closest to the bolt's location
 * Unupgraded: decreased self damage radius by 72%

@@ -214,7 +214,7 @@ tesla_get_enemies_in_area( origin, distance, player )
 				continue;
 			}
 
-			if ( !BulletTracePassed( origin, test_origin, false, undefined ) )
+			if ( !BulletTracePassed( origin, test_origin, false, undefined ) && !SightTracePassed( origin, test_origin, false, undefined ) && !zombies[i] DamageConeTrace(player.origin, player) )
 			{
 				continue;
 			}
