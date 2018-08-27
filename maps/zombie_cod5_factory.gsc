@@ -1424,7 +1424,8 @@ zapper_light_red( lightname )
 			zapper_lights[i].fx delete();
 		}
 
-		zapper_lights[i].fx = maps\_zombiemode_net::network_safe_spawn( "trap_light_red", 2, "script_model", zapper_lights[i].origin );
+		//zapper_lights[i].fx = maps\_zombiemode_net::network_safe_spawn( "trap_light_red", 2, "script_model", zapper_lights[i].origin );
+		zapper_lights[i].fx = Spawn("script_model", zapper_lights[i].origin);
 		zapper_lights[i].fx setmodel("tag_origin");
 		zapper_lights[i].fx.angles = zapper_lights[i].angles+(-90,0,0);
 		playfxontag(level._effect["zapper_light_notready"],zapper_lights[i].fx,"tag_origin");
@@ -1446,7 +1447,8 @@ zapper_light_green( lightname )
 			zapper_lights[i].fx delete();
 		}
 
-		zapper_lights[i].fx = maps\_zombiemode_net::network_safe_spawn( "trap_light_green", 2, "script_model", zapper_lights[i].origin );
+		//zapper_lights[i].fx = maps\_zombiemode_net::network_safe_spawn( "trap_light_green", 2, "script_model", zapper_lights[i].origin );
+		zapper_lights[i].fx = Spawn("script_model", zapper_lights[i].origin);
 		zapper_lights[i].fx setmodel("tag_origin");
 		zapper_lights[i].fx.angles = zapper_lights[i].angles+(-90,0,0);
 		playfxontag(level._effect["zapper_light_ready"],zapper_lights[i].fx,"tag_origin");
