@@ -436,7 +436,9 @@ humangun_zombie_damage_watcher( player )
 			{
 				continue;
 			}
-			if(!SightTracePassed(self.origin + ( 0, 0, 30 ), zombs[i].origin + ( 0, 0, 30 ), false, undefined))
+			self_origin = self GetTagOrigin( "j_head" );
+			zomb_origin = zombs[i] GetTagOrigin( "j_head" );
+			if(!SightTracePassed(self_origin, zomb_origin, false, undefined) && !BulletTracePassed(self_origin, zomb_origin, false, undefined) && !zombs[i] DamageConeTrace(self_origin, self))
 			{
 				continue;
 			}
