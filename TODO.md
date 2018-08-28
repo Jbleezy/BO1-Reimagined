@@ -1,13 +1,28 @@
 # Call of Duty: Black Ops Zombies - Reimagined
+
 ## Created by: Jbleezy / Jbird
 
 ## TODO
 * Fix zombies sounds on classic maps to sound like they are coming from the correct direction
 * Five: get wall barrier and metal vent barrier tear down and rebuild sounds from other maps working (zmb_rock_fix, zmb_vent_fix, zmb_break_rock_barrier, evt_vent_slat_remove)
 * Try making dvars unchangeable from console
-* Deadshot: add fast ADS move speed correctly
 * Fix sprint and dive anims on Ray Gun
 * Optimize zombies in barrier and traversing barrier code (sometimes zombies still get stuck in barrier)
+* Fix issue where zombies have no anim (probably somehow caused from the added anims?)
+* Versus: no powerdowns on solo?
+* Thundergun: move the ammo clip down on the empty idle anim
+* Look into special rounds and insta kill rounds
+
+### Might Be Fixed
+* Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
+* Figure out bug that causes cosmonaut to delete himself occasionally
+* Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge
+* Fix Ascension monkey pathing
+* Fix kino round skip bug
+* Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
+* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
+* COTD: fix Director not doing anim when getting angry
+* Der Riese: fix Warehouse trap light being yellow while active sometimes (might be fixed, now uses Spawn() instead of network_safe_spawn())
 
 ### Cannot Find Fix
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player (only happens when last damage taken was from player and first damage after spawn/revive is from player also, health goes down for 1 frame but then goes right back to max health next frame)
@@ -21,24 +36,11 @@
 * Turn off Der Riese easter egg song noises after they have been activated
 * Moon: fix sliding sound keep playing when off object
 
-### Might Be Fixed
-* Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
-* Figure out bug that causes cosmonaut to delete himself occasionally
-* Make insta kill powerups work in high rounds
-* Ascension: Fix high round invisible and invincible zombies after being damaged from the centrifuge
-* Fix Ascension monkey pathing
-* Fix kino round skip bug
-* Fix Wunderwaffe not arcing after first kill rarely
-* Fix Der Riese trap lights rarely not turning red when active (can't get it to happen again, happened first time turning on trap on round 20)
-* Gun Game: fix rare bug where multiple gun increment powerups spawn (might be fixed, not sure what causes it, not caused from killing multiple zombies from the same shot)
-* Fix trap g_spawn error (getting hit twice and running through a trap causes g_spawn?, couldn't get it to happen)
-* Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
-* COTD: fix Director not doing anim when getting angry
-
 ### Cannot Do Yet
 * Add fast ADS to Speed Cola (when it becomes possible through game_mod)
 * Add fast grenade throw to Speed Cola (when it becomes possible through game_mod)
 * Add fast sprint recovery to Deadshot (when it becomes possible through game_mod)
+* Add fast ADS move speed to Deadshot (when it becomes possible through game_mod)
 * Add left and right empty idle, drop, raise, sprint, and dive anims for dual wields weapons (engine currently uses only main weapon anims for these)
 
 ## GAME_MOD TODO

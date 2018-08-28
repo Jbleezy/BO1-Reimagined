@@ -773,7 +773,8 @@
 * Fixed certain zombie swipes that damaged players at incorrect times
 * Ceiling spawner zombies now fall from the ceiling quicker
 
-### Dogs
+### Hellhounds
+* Flaming hellhounds now deal damage to players who are close to them when they explode
 * No longer gain additional points for kills from dogs when killing dogs with wonder weapons
 * Fixed a bug that caused spawning dogs to be able to collide with players while they were still invisible to the player
 

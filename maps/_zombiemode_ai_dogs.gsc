@@ -741,7 +741,7 @@ dog_death()
 
 	if ( IsDefined( self.a.nodeath ) )
 	{
-		level thread dog_explode_fx( self.origin );
+		level thread dog_explode_fx( self.origin, self );
 		self delete();
 	}
 	else
@@ -751,7 +751,7 @@ dog_death()
 }
 
 
-dog_explode_fx( origin )
+dog_explode_fx( origin, dog )
 {
 	fx = network_safe_spawn( "dog_death_fx", 2, "script_model", origin );
 	assert( IsDefined( fx ) );
@@ -760,10 +760,28 @@ dog_explode_fx( origin )
 	PlayFxOnTag( level._effect["dog_gib"], fx, "tag_origin" );
 	fx playsound( "zmb_hellhound_explode" );
 
+	level dog_explode_damage(origin, dog);
+
 	wait( 5 );
 	fx delete();
 }
 
+dog_explode_damage( origin, dog )
+{
+	players = get_players();
+	for(i=0;i<players.size;i++)
+	{
+		if ( !BulletTracePassed( players[i].origin, origin, false, undefined ) && !SightTracePassed( players[i].origin, origin, false, undefined ) && !players[i] DamageConeTrace(origin, dog) )
+		{
+			continue;
+		}
+
+		if(DistanceSquared(players[i].origin, origin) < 128*128)
+		{
+			players[i] DoDamage(40, origin, dog);
+		}
+	}
+}
 
 // this is where zombies go into attack mode, and need different attributes set up
 zombie_setup_attack_properties_dog()
