@@ -176,8 +176,7 @@ spear_trap_slow(activator, trap)
 		//spikes was op, now only 50% chance to kill
 		if(randomint(100) < 50)
 		{
-			activator.kills++;
-			self thread spear_kill();
+			self thread spear_kill(undefined, activator);
 		}
 		painAnims = [];
 		painAnims[0] = %ai_zombie_taunts_5b;
@@ -290,7 +289,7 @@ spear_activate(delay)
 	wait .2;
 }
 
-spear_kill(magnitude)
+spear_kill(magnitude, activator)
 {
 	self StartRagdoll();
 	self launchragdoll((0, 0, 50));
@@ -298,7 +297,10 @@ spear_kill(magnitude)
 
 	// Make sure they're dead...physics launch didn't kill them.
 	self.a.gib_ref = "head";
-	self dodamage(self.health + 666, self.origin);
+
+	self.trap_death = true;
+	self.no_powerups = true;
+	self dodamage(self.health + 666, self.origin, activator);
 }
 
 /*
@@ -1936,11 +1938,6 @@ zombie_waterfall_knockdown(activator)
 	self.lander_knockdown = 1;
 	//wait(1.25);
 
-	if(self.animname == "zombie")
-	{
-		activator.kills++;
-	}
-
 	if ( IsDefined( self.thundergun_knockdown_func ) )
 	{
 		self[[ self.thundergun_knockdown_func ]]( self, false );
@@ -1957,7 +1954,10 @@ override_thundergun_damage_func(player,gib)
 		{
 			self.deathanim = random( level._zombie_knockdowns[self.animname]["front"]["has_legs"] );
 		}
-		self DoDamage( level.zombie_health + 1000, dmg_point.origin );
+
+		self.trap_death = true;
+		self.no_powerups = true;
+		self DoDamage( level.zombie_health + 1000, dmg_point.origin, player );
 	}
 	else
 	{

@@ -517,17 +517,16 @@ activateZip(rider, activator)
 			else
 				zombs[i] StartRagdoll();
 
-
-			if(IsDefined(activator))
+			zombs[i].trap_death = true;
+			zombs[i].no_powerups = true;
+			if(IsDefined(rider))
 			{
-				activator.kills++;
+				zombs[i] dodamage(zombs[i].health + 600, zombs[i].origin, rider);
 			}
-			else if(IsDefined(rider))
+			else
 			{
-				rider.kills++;
+				zombs[i] dodamage(zombs[i].health + 600, zombs[i].origin, activator);
 			}
-
-			zombs[i] dodamage(zombs[i].health + 600, zombs[i].origin);
 		}
 	}
 
@@ -821,16 +820,16 @@ zombieZipDamage(rider, activator)
 	else
 		self StartRagdoll();
 
-	if(IsDefined(activator))
+	self.trap_death = true;
+	self.no_powerups = true;
+	if(IsDefined(rider))
 	{
-		activator.kills++;
+		self dodamage(self.health + 600, self.origin, rider);
 	}
-	else if(IsDefined(rider))
+	else
 	{
-		rider.kills++;
+		self dodamage(self.health + 600, self.origin, activator);
 	}
-
-	self dodamage(self.health + 600, self.origin);
 }
 
 objectSolid()

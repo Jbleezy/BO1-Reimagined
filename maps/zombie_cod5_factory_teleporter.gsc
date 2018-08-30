@@ -986,12 +986,9 @@ teleport_nuke( max_zombies, range, user )
 			zombies[i] maps\_zombiemode_spawner::zombie_head_gib();
 		}
 
-		if(IsDefined(user))
-		{
-			user.kills++;
-		}
-
-		zombies[i] dodamage( zombies[i].health + 1000, zombies[i].origin );
+		zombies[i].trap_death = true;
+		zombies[i].no_powerups = true;
+		zombies[i] dodamage( zombies[i].health + 1000, zombies[i].origin, user );
 		playsoundatposition( "nuked", zombies[i].origin );
 	}
 }

@@ -465,6 +465,7 @@ play_imp_sound(who)
 	}
 	self.marked_for_death = true;
 	wait_network_frame();
-	who.kills++;
-	self dodamage(self.health + 600, self.origin);
+	self.trap_death = true;
+	self.no_powerups = true;
+	self dodamage(self.health + 666, self.origin, who);
 }

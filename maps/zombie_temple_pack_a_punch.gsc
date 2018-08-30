@@ -1240,9 +1240,10 @@ _zombie_flush()
 	self.no_gib = true;
 
 	player = get_closest_player(self.origin);
-	player.kills++;
 
-	self dodamage(self.health + 666, self.origin);
+	self.trap_death = true;
+	self.no_powerups = true;
+	self dodamage(self.health + 666, self.origin, player);
 
 }
 

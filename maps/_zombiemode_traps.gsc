@@ -911,6 +911,7 @@ zombie_trap_death( trap, param, activator )
 	self endon("death");
 
 	self.marked_for_death = true;
+	self.trap_death = true;
 
 	switch (trap._trap_type)
 	{
@@ -958,9 +959,6 @@ zombie_trap_death( trap, param, activator )
 			}
 		}
 
-		//if(IsDefined(activator))
-		//	activator.kills++;
-
 		// custom damage
 		if ( IsDefined( self.fire_damage_func ) )
 		{
@@ -969,9 +967,9 @@ zombie_trap_death( trap, param, activator )
 		else
 		{
 			level notify( "trap_kill", self, trap );
-			if(IsDefined(activator))
-				activator.kills++;
-			self dodamage(self.health + 666, self.origin);
+
+			self.no_powerups = true;
+			self dodamage(self.health + 666, self.origin, activator);
 		}
 
 //		iprintlnbold("should be damaged");
@@ -1001,8 +999,9 @@ zombie_trap_death( trap, param, activator )
 
 		// Make sure they're dead...physics launch didn't kill them.
 		self.a.gib_ref = "head";
-		activator.kills++;
-		self dodamage(self.health + 666, self.origin);
+		
+		self.no_powerups = true;
+		self dodamage(self.health + 666, self.origin, activator);
 
 		break;
 	}

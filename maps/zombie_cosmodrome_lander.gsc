@@ -1468,9 +1468,12 @@ zombie_burst(activator)
 	{
 		self.deathanim = random( level._zombie_knockdowns[self.animname]["front"]["has_legs"] );
 	}
-	activator.kills++;
+
 	self thread lander_remove_corpses();
-	self DoDamage(level.zombie_health + 1000, self.origin);
+
+	self.trap_death = true;
+	self.no_powerups = true;
+	self DoDamage(level.zombie_health + 1000, self.origin, activator);
 }
 
 

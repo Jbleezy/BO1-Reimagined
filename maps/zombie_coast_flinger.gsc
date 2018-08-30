@@ -308,8 +308,9 @@ fling_zombie(fling_dir, activator)
 	wait_network_frame();
 
 	// Make sure they're dead...physics launch didn't kill them.
-	activator.kills++;
-	self dodamage(self.health + 100, self.origin );
+	self.trap_death = true;
+	self.no_powerups = true;
+	self dodamage(self.health + 100, self.origin, activator);
 
 	//add this zombie back into the spawner queue
 	//level.zombie_total++;

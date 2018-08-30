@@ -577,9 +577,10 @@ _zombie_ExplodeNearPlayers()
 			self.killed_self = true;
 
 			self.player_who_exploded_napalm = player;
-			player.kills++;
 
-			self dodamage(self.health + 666, self.origin);
+			self.trap_death = true;
+			self.no_powerups = true;
+			self dodamage(self.health + 666, self.origin, player);
 			return;
 		}
 	}
@@ -713,19 +714,21 @@ _napalm_damage_zombies(zombies)
 			zombies[i].a.gib_ref = random( refs );
 		}
 
-		if(self.animname != "monkey_zombie")
+		zombies[i].trap_death = true;
+		zombies[i].no_powerups = true;
+		if(IsDefined(self.player_who_exploded_napalm))
 		{
-			if(IsDefined(self.player_who_exploded_napalm))
-			{
-				self.player_who_exploded_napalm.kills++;
-			}
-			else if( isDefined(self.attacker) && isPlayer(self.attacker) && !is_true(self.killed_self) )
-			{
-				self.attacker.kills++;
-			}
+			zombies[i] DoDamage( zombies[i].health + 666, damageOrigin, self.player_who_exploded_napalm);
+		}
+		else if( isDefined(self.attacker) && isPlayer(self.attacker) && !is_true(self.killed_self) )
+		{
+			zombies[i] DoDamage( zombies[i].health + 666, damageOrigin, self.attacker);
+		}
+		else
+		{
+			zombies[i] DoDamage( zombies[i].health + 666, damageOrigin);
 		}
 
-		zombies[i] DoDamage( zombies[i].health + 666, damageOrigin);
 		//wait_network_frame();
 	}
 
@@ -950,32 +953,28 @@ kill_with_fire(damageType, attacker)
 		}
 	}
 
-	if(self.animname != "monkey_zombie")
-	{
-		if(IsDefined(attacker))
-		{
-			attacker.kills++;
-		}
-		else
-		{
-			players = get_players();
-			closest = players[0];
-			distance = DistanceSquared(self.origin, players[0].origin);
-			for(j=1;j<players.size;j++)
-			{
-				new_dist = DistanceSquared(self.origin, players[j].origin);
-				if(new_dist < distance)
-				{
-					distance = new_dist;
-					closest = players[j];
-				}
-			}
+	self.trap_death = true;
+	self.no_powerups = true;
 
-			closest.kills++;
+	if(!IsDefined(attacker))
+	{
+		players = get_players();
+		closest = players[0];
+		distance = DistanceSquared(self.origin, players[0].origin);
+		for(j=1;j<players.size;j++)
+		{
+			new_dist = DistanceSquared(self.origin, players[j].origin);
+			if(new_dist < distance)
+			{
+				distance = new_dist;
+				closest = players[j];
+			}
 		}
+
+		attacker = closest;
 	}
 
-	self dodamage(self.health + 666, self.origin, undefined, undefined, damageType);
+	self dodamage(self.health + 666, self.origin, attacker, undefined, damageType);
 }
 
 zombie_flame_watch()

@@ -716,10 +716,9 @@ quad_death_explo( origin, death_vars )
         {
             if( zombies[i].animname != "quad_zombie" )
             {
-            	if(IsDefined(self.attacker))
-            	{
-            		self.attacker.kills++;
-            	}
+            	zombies[i].trap_death = true;
+				zombies[i].no_powerups = true;
+				zombies[i] dodamage(self.health + 100, self.origin, self.attacker, 0, "explosive");
                	//zombies[i] StartRagdoll();
             	//zombies[i] LaunchRagdoll( VectorNormalize(zombies[i].origin - origin) * (25,25,25) );
             }
@@ -744,7 +743,7 @@ quad_death_explo( origin, death_vars )
     }
 
 	self.exploded = true;
-	self RadiusDamage( origin, death_vars["explo_radius_zomb"], level.zombie_health, level.zombie_health, self, "MOD_EXPLOSIVE" );
+	//self RadiusDamage( origin, death_vars["explo_radius_zomb"], level.zombie_health, level.zombie_health, self, "MOD_EXPLOSIVE" );
 
 
     //PhysicsExplosionSphere( origin, death_vars["explo_radius_zomb"], 175, 2 );

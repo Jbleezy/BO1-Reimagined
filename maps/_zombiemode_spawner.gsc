@@ -3568,7 +3568,7 @@ zombie_death_animscript()
 		}
 	}*/
 
-	if(!IsDefined(self.nuked))
+	if(!IsDefined(self.nuked) && !IsDefined(self.trap_death))
 	{
 		// Give attacker points
 		//ChrisP - 12/8/08 - added additional 'self' argument

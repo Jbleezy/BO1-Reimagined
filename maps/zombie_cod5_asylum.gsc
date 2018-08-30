@@ -1035,8 +1035,9 @@ zombie_elec_death(flame_chance, who)
 		self playsound("zmb_zombie_arc");
 	}
 
-	who.kills++;
-	self dodamage(self.health + 666, self.origin);
+	self.trap_death = true;
+	self.no_powerups = true;
+	self dodamage(self.health + 666, self.origin, who);
 }
 
 zombie_flame_watch()

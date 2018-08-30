@@ -2227,8 +2227,8 @@ nuke_powerup( drop_item, grabber )
  			zombies_nuked[i] playsound ("evt_nuked");
  		}
 
- 		grabber.kills++;
- 		zombies_nuked[i] dodamage( zombies_nuked[i].health + 666, zombies_nuked[i].origin );
+ 		zombies_nuked[i].no_powerups = true;
+ 		zombies_nuked[i] dodamage( zombies_nuked[i].health + 666, zombies_nuked[i].origin, grabber );
  	}
 
 	players = get_players();
@@ -2998,7 +2998,10 @@ bonus_points_player_powerup( item, player )
 
 bonus_points_team_powerup( item, player, points )
 {
-	level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["bonus_points_team"], player );
+	if(item.powerup_name == "bonus_points_team")
+	{
+		level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["bonus_points_team"], player );
+	}
 
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )

@@ -515,11 +515,9 @@ minecart_throw_zombie(zombie, vel, activator)
 	
 	if(isDefined(zombie))
 	{
-		if(zombie.animname != "monkey_zombie")
-		{
-			activator.kills++;
-		}
-		zombie dodamage(zombie.health + 666, zombie.origin);
+		zombie.trap_death = true;
+		zombie.no_powerups = true;
+		zombie dodamage(zombie.health + 666, zombie.origin, activator);
 	}
 }
 
@@ -554,11 +552,10 @@ _minecart_nuke(activator)
 		}
 		
 		//level.zombie_total++; //Add the zombies back
-		if(zombies[i].animname != "monkey_zombie")
-		{
-			activator.kills++;
-		}
-		zombies[i] dodamage( zombies[i].health + 100, zombies[i].origin );
+
+		zombies[i].trap_death = true;
+		zombies[i].no_powerups = true;
+		zombies[i] dodamage( zombies[i].health + 100, zombies[i].origin, activator );
 	}
 }
 
