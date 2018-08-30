@@ -1427,6 +1427,21 @@ treasure_chest_think()
 						user.playername, user.score, level.team_pool[ user.team_num ].score, level.round_number, self.zombie_cost, self.chest_origin.weapon_string, self.origin );
 					self notify( "user_grabbed_weapon" );
 					user thread treasure_chest_give_weapon( self.chest_origin.weapon_string );
+
+					// fix for grenade ammo
+					if(!user HasPerk("specialty_stockpile"))
+					{
+						if(is_lethal_grenade(self.chest_origin.weapon_string) && user GetWeaponAmmoClip(self.chest_origin.weapon_string) > 4)
+						{
+							user SetWeaponAmmoClip(self.chest_origin.weapon_string, 4);
+						}
+
+						if(is_tactical_grenade(self.chest_origin.weapon_string) && user GetWeaponAmmoClip(self.chest_origin.weapon_string) > 3)
+						{
+							user SetWeaponAmmoClip(self.chest_origin.weapon_string, 3);
+						}
+					}
+
 					break;
 				}
 				else if( grabber == level )
@@ -1820,6 +1835,20 @@ decide_hide_show_hint( endon_notify )
 						{
 							player_alt_ammo = players[i] GetAmmoCount(alt_weapon);
 							max_alt_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
+						}
+					}
+
+					// fix for grenade ammo
+					if(!players[i] HasPerk("specialty_stockpile"))
+					{
+						if(is_lethal_grenade(self.zombie_weapon_upgrade) && max_ammo > 4)
+						{
+							max_ammo = 4;
+						}
+
+						if(is_tactical_grenade(self.zombie_weapon_upgrade) && max_ammo > 3)
+						{
+							max_ammo = 3;
 						}
 					}
 
@@ -3980,6 +4009,20 @@ ammo_give( weapon )
 		if(dual_wield_weapon != "none")
 		{
 			self SetWeaponAmmoStock(weapon, self GetWeaponAmmoStock(weapon) - ammo_to_remove);
+		}
+
+		// fix for grenade ammo
+		if(!self HasPerk("specialty_stockpile"))
+		{
+			if(is_lethal_grenade(weapon) && self GetWeaponAmmoClip(weapon) > 4)
+			{
+				self SetWeaponAmmoClip(weapon, 4);
+			}
+
+			if(is_tactical_grenade(weapon) && self GetWeaponAmmoClip(weapon) > 3)
+			{
+				self SetWeaponAmmoClip(weapon, 3);
+			}
 		}
 
 		return true;

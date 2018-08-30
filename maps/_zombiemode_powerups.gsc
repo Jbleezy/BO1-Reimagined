@@ -2370,6 +2370,20 @@ full_ammo_powerup( drop_item, player )
 			}
 
 			players[i] GiveMaxAmmo( primary_weapons[x] );
+
+			// fix for grenade ammo
+			if(!players[i] HasPerk("specialty_stockpile"))
+			{
+				if(is_lethal_grenade(primary_weapons[x]) && players[i] GetWeaponAmmoClip(primary_weapons[x]) > 4)
+				{
+					players[i] SetWeaponAmmoClip(primary_weapons[x], 4);
+				}
+
+				if(is_tactical_grenade(primary_weapons[x]) && players[i] GetWeaponAmmoClip(primary_weapons[x]) > 3)
+				{
+					players[i] SetWeaponAmmoClip(primary_weapons[x], 3);
+				}
+			}
 		}
 
 		players[i] thread powerup_hint_on_hud(drop_item);
