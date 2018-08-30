@@ -7,11 +7,9 @@
 * Five: get wall barrier and metal vent barrier tear down and rebuild sounds from other maps working (zmb_rock_fix, zmb_vent_fix, zmb_break_rock_barrier, evt_vent_slat_remove)
 * Try making dvars unchangeable from console
 * Fix sprint and dive anims on Ray Gun
-* Optimize zombies in barrier and traversing barrier code (sometimes zombies still get stuck in barrier)
-* Fix issue where zombies have no anim (probably somehow caused from the added anims?)
 * Versus: no powerdowns on solo?
 * Thundergun: move the ammo clip down on the empty idle anim
-* Look into special rounds and insta kill rounds
+* Add grenade ammo fix (if game_mod doesn't update before release is ready)
 
 ### Might Be Fixed
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off
@@ -23,6 +21,7 @@
 * Shang: fix crawlers from bleeding out and not allowing extra zombies to spawn in (couldn't get it to happen)
 * COTD: fix Director not doing anim when getting angry
 * Der Riese: fix Warehouse trap light being yellow while active sometimes (might be fixed, now uses Spawn() instead of network_safe_spawn())
+* Fix issue where zombies have no anim (probably somehow caused from the added anims or old barrier code?)
 
 ### Cannot Find Fix
 * Fix bug where first damage taken after being downed and getting revived or spawning back in doesnt deal damage to player (only happens when last damage taken was from player and first damage after spawn/revive is from player also, health goes down for 1 frame but then goes right back to max health next frame)

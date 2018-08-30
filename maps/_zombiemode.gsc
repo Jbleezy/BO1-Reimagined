@@ -6823,6 +6823,7 @@ player_fake_death()
 	self AllowProne( true );
 	self AllowStand( false );
 	self AllowCrouch( false );
+	self AllowSprint( false );
 	self SetStance("prone"); // force prone otherwise players will stay up if near an entity
 
 	self.ignoreme = true;

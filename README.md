@@ -775,8 +775,8 @@
 
 ### Hellhounds
 * Flaming hellhounds now deal damage to players who are close to them when they explode
-* No longer gain additional points for kills from dogs when killing dogs with wonder weapons
-* Fixed a bug that caused spawning dogs to be able to collide with players while they were still invisible to the player
+* No longer gain additional points for kills from hellhounds when killing hellhounds with wonder weapons
+* Fixed a bug that caused spawning hellhounds to be able to collide with players while they were still invisible to the player
 
 ### Nova Crawlers
 * The player who kills a Nova Crawler gets the kills for any zombies killed from the explosion of the Nova Crawler

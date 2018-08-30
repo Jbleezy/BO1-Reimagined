@@ -92,52 +92,15 @@ track_players_intersection_tracker()
 					}
 					players[j] random_push();
 				}
-
-				/*if(playerI_origin[2] > playerJ_origin[2])
-					players[i] thread push_off_top_player(players[j]);
-				else
-					players[j] thread push_off_top_player(players[i]);*/
-
-				//IPrintLnBold( "PLAYERS ARE TOO FRIENDLY!!!!!" );
-				/*players[i] dodamage( 1000, (0, 0, 0) );
-				players[j] dodamage( 1000, (0, 0, 0) );
-
-				if ( !killed_players )
-				{
-					if( is_true( level.player_4_vox_override ) )
-					{
-						players[i] playlocalsound( "zmb_laugh_rich" );
-					}
-					else
-					{
-						players[i] playlocalsound( "zmb_laugh_child" );
-					}
-				}
-				killed_players = true;*/
 			}
 		}
 		wait( .05 );
 	}
 }
 
-push_off_top_player(bottom_player)
-{
-	self notify("being_pushed_off");
-	self endon("being_pushed_off");
-
-	top_player = self;
-
-	while(abs(distance2d( top_player.origin, bottom_player.origin )) <= 18)
-	{
-		vector = VectorNormalize((RandomIntRange(-100,99),RandomIntRange(-100,99),0))*(100,100,100);
-		top_player SetVelocity(vector);
-		wait .05;
-	}
-}
-
 random_push()
 {
-	vector = VectorNormalize((RandomIntRange(-100,99),RandomIntRange(-100,99),0))*(100,100,100);
+	vector = VectorNormalize((RandomIntRange(-100, 101), RandomIntRange(-100, 101), 0)) * (100, 100, 100);
 	self SetVelocity(vector);
 }
 
@@ -668,7 +631,7 @@ zombie_goto_entrance( node, endon_bad_path )
 	self.behind_barrier = true;
 
 	zombs = GetAiSpeciesArray( "axis", "all" );
-	zombs_behind_window = -3; //dont count zombs tearing down barrier
+	zombs_behind_window = 0;
 	for(i=0;i<zombs.size;i++)
 	{
 		if(zombs[i] != self && IsDefined(zombs[i].first_node) && IsDefined(self.first_node) && zombs[i].first_node == self.first_node && 
@@ -678,28 +641,16 @@ zombie_goto_entrance( node, endon_bad_path )
 		}
 	}
 
+	// dont count zombs tearing down barrier
+	zombs_behind_window -= 3;
 	if(zombs_behind_window < 0)
 	{
 		zombs_behind_window = 0;
 	}
-	radius = int(zombs_behind_window / 3);
 
-	self.goalradius = 32 + RandomIntRange(radius * 15, (radius + 1) * 15);
-	//self.goalradius = 32 + RandomInt(97);
+	self.goalradius = 32 + RandomIntRange(0, ((zombs_behind_window + 1) * 8) + 1);
 
-	angles = AnglesToRight(node.angles);
-	origin = node.origin;
-
-	if(zombs_behind_window % 3 == 1) //right
-	{
-		origin += angles * 32;
-	}
-	else if(zombs_behind_window % 3 == 2) //left
-	{
-		origin -= angles * 32;
-	}
-
-	self SetGoalPos( origin );
+	self SetGoalPos( node.origin );
 	self waittill( "goal" );
 	self.got_to_entrance = true;
 
@@ -708,33 +659,6 @@ zombie_goto_entrance( node, endon_bad_path )
 	// Guy should get to goal and tear into building until all barrier chunks are gone
 	// They go into this function and do everything they and then comeback once all the barriers are removed
 	self tear_into_building();
-
-	self.ignoreall = true;
-
-	self.behind_barrier = false;
-
-	self reset_attack_spot();
-
-	traverse_anim = self get_traverse_anim();
-
-	//start_origin = (self.first_node.origin - (0,0,24)) + (AnglesToForward(self.first_node.angles) * 0);
-
-	//start_origin = self.first_node.origin - (0,0,32);
-	start_origin = (self.first_node.origin[0], self.first_node.origin[1], self.origin[2]);
-
-	if(IsDefined(self.prev_attacking_spot_index) && self.prev_attacking_spot_index != 0)
-	{
-		self SetGoalPos(start_origin, self.first_node.angles);
-		self waittill("goal");
-	}
-
-	self.prev_attacking_spot_index = undefined;
-
-	self thread set_traversing_barrier(traverse_anim);
-
-	self AnimScripted( "zombie_traverse_done", start_origin, self.first_node.angles, traverse_anim, "normal", undefined, 1, 0.3 );
-
-	self waittill("zombie_traverse_done");
 
 	//REMOVED THIS, WAS CAUSING ISSUES
 	if(isDefined(self.first_node.clip))
@@ -747,8 +671,6 @@ zombie_goto_entrance( node, endon_bad_path )
 		}// This was commented out
 	}
 
-	self thread find_flesh();
-
 	// Here is where the zombie would play the traversal into the building( if it's a window )
 	// and begin the player seek logic
 	//IPrintLnBold("zombie going to attack mode");
@@ -759,88 +681,35 @@ zombie_goto_entrance( node, endon_bad_path )
 		self [[ level.pre_aggro_pathfinding_func ]]();
 	}
 
+	self thread find_flesh();
+
+	self thread zombie_goto_entrance_watch_for_bad_path(node, endon_bad_path);
+	self endon("bad_path");
+
 	// wait for them to traverse out of the spawn closet
-	//self waittill( "zombie_start_traverse" );
-	//self waittill( "zombie_end_traverse" );
+	self waittill( "zombie_start_traverse" );
+	self reset_attack_spot();
+	self.behind_barrier = false;
+	self waittill( "zombie_end_traverse" );
 	self zombie_complete_emerging_into_playable_area();
 }
 
-set_traversing_barrier(traverse_anim)
+// watch for bad path after tearing down all barrier and before starting to traverse over the barrier
+// if they get a bad_path, that means the barrier was rebuilt so we need to go back to tearing down the barrier or else they get stuck
+// (doesnt work currently, multiple zombies will attack the same barrier after)
+zombie_goto_entrance_watch_for_bad_path(node, endon_bad_path)
 {
-	self endon("death");
+	self endon("zombie_start_traverse");
 
-	self.is_traversing_barrier = true;
-	wait GetAnimLength(traverse_anim);
-	self.is_traversing_barrier = undefined;
-	self notify("zombie_end_traverse_barrier");
-}
+	self waittill("bad_path");
 
-get_traverse_anim()
-{
-	if( IsDefined( self.is_zombie ) && self.is_zombie &&  !self.isdog)
-	{
-		if(self.animname == "quad_zombie" )
-		{
-			if( self.has_legs )
-			{
-				return %ai_zombie_traverse_v3;
-			}
-			else
-			{
-				if(RandomInt(100) < 50)
-				{
-					return %ai_zombie_traverse_crawl_v1;
-				}
-				else
-				{
-					return %ai_zombie_traverse_v4;
-				}
-			}
-		}
-		else
-		{
-			if( self.has_legs )
-			{
-				if(self.zombie_move_speed == "walk")
-				{
-					if(RandomInt(100) < 50)
-					{
-						return %ai_zombie_traverse_v1;
-					}
-					else
-					{
-						return %ai_zombie_traverse_v2;
-					}
-				}
-				else if(self.zombie_move_speed == "run")
-				{
-					return %ai_zombie_traverse_v5;
-				}
-				else if(self.zombie_move_speed == "sprint")
-				{
-					if(RandomInt(100) < 50)
-					{
-						return %ai_zombie_traverse_v6;
-					}
-					else
-					{
-						return %ai_zombie_traverse_v7;
-					}
-				}
-			}
-			else
-			{
-				if(RandomInt(100) < 50)
-				{
-					return %ai_zombie_traverse_crawl_v1;
-				}
-				else
-				{
-					return %ai_zombie_traverse_v4;
-				}
-			}
-		}
-	}
+	self notify( "stop_find_flesh" );
+	self notify( "zombie_acquire_enemy" );
+	self OrientMode( "face default" );
+	self.ignoreall = true;
+	self reset_attack_spot();
+
+	self thread zombie_goto_entrance(node, endon_bad_path);
 }
 
 // Here the zombies constantly search
@@ -1012,8 +881,6 @@ tear_into_building()
 			continue;
 		}
 
-		self.prev_attacking_spot_index = self.attacking_spot_index;
-
 		// This is where the zombie moves into position to tear down a board/bar
 		self.goalradius = 2;
 		//self maps\_zombiemode_utility:: lerp( chunk );
@@ -1023,7 +890,7 @@ tear_into_building()
 		//	MM- 05/09
 		//	If you wait for "orientdone", you NEED to also have a timeout.
 		//	Otherwise, zombies could get stuck waiting to do their facing.
-		//self waittill_notify_or_timeout( "orientdone", 1 );
+		self waittill_notify_or_timeout( "orientdone", 1 );
 
 		self zombie_history( "tear_into_building -> Reach position and orientated" );
 
@@ -1058,7 +925,6 @@ tear_into_building()
 
 			//chunk = get_linear_destroyed_chunk ( self.origin, self.first_node.barrier_chunks );
 
-			//wait .55;
 			if( !IsDefined( chunk ) )
 			{
 				if( !all_chunks_destroyed( self.first_node.barrier_chunks ) )
@@ -1103,7 +969,6 @@ tear_into_building()
 			// Jl jan 19/10
 			self thread maps\_zombiemode_audio::do_zombies_playvocals( "teardown", self.animname );
 			self AnimScripted( "tear_anim", attacking_spot1a, self.first_node.angles, tear_anim, "normal", undefined, 1, 0.3 );
-			self ForceTeleport(attacking_spot1a);
 
 			// JL jan 19/10 I changed the 7th argument to %body just to make sure this wasn't causing the hickup
 			//self AnimScripted( "tear_anim", attacking_spot1a, self.first_node.angles, tear_anim, "normal", %body, 1, 0.3 );
@@ -2937,13 +2802,6 @@ zombie_head_gib( attacker, means_of_death, tesla )
 	temp_array = [];
 	temp_array[0] = level._ZOMBIE_GIB_PIECE_INDEX_HEAD;
 	self gib( "normal", temp_array );
-
-	//fix for tesla not awarding points and kills to players, tesla does its own damage but also gibs head so no need to call DoDamage when tesla was used
-	/*if(!(IsDefined(tesla) && tesla))
-	{
-		self DoDamage( self.health + 1000, self.origin, attacker, undefined, means_of_death, self.damagelocation );
-	}*/
-	//self thread damage_over_time( self.health * 0.2, 1, attacker, means_of_death );
 }
 
 damage_over_time( dmg, delay, attacker, means_of_death )
@@ -3378,7 +3236,7 @@ zombie_should_gib( amount, attacker, type )
 		case "MOD_IMPACT":
 			return false;
 		case "MOD_MELEE":
-			if(!((IsDefined(attacker._bowie_zm_equipped) && attacker._bowie_zm_equipped) || (IsDefined( attacker._sickle_zm_equipped ) && attacker._sickle_zm_equipped)))
+			if(!is_true(attacker._bowie_zm_equipped) && !is_true(attacker._sickle_zm_equipped))
 			{
 				return false;
 			}
@@ -5393,7 +5251,7 @@ zombie_tesla_head_gib()
 	if( RandomInt( 100 ) < level.zombie_vars["tesla_head_gib_chance"] )
 	{
 		wait( RandomFloat( 0.53, 1.0 ) );
-		self zombie_head_gib(undefined, undefined, true);
+		self zombie_head_gib();
 	}
 	else
 	{
