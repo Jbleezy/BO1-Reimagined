@@ -8,7 +8,6 @@
 * Try making dvars unchangeable from console
 * Fix sprint and dive anims on Ray Gun
 * Versus: no powerdowns on solo?
-* Thundergun: move the ammo clip down on the empty idle anim
 
 ### Might Be Fixed
 * Make zombies not try to go for players on Verruckt who are on the other side of the map when the power is off

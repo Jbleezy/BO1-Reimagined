@@ -400,6 +400,7 @@
 
 #### Thundergun
 * Changed fire type to full auto
+* Fixed empty clip idle, drop, raise, and sprint in animations
 * Gives 50 points for each kill
 * No longer does any damage to any enemies that are knocked down and not killed
 
