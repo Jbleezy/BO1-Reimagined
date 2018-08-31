@@ -13,39 +13,39 @@
 ## Change Notes
 
 ## General
-* Zombies now only have an additonal spawn delay when a full horde is spawned in
-* Decreased additional spawn delay time from 1.2 seconds to 1 second
-* 1 second of immunity to zombies after getting revived (solo and coop)
 * Insta kill rounds (Rounds where zombies have round 1 health) start at round 163 and happen every odd round thereafter
-* All players are attracted equally
-* Fixed a bug where zombies would not attack players if one player crouched in front of another player in a corner
-* Dead players can chat with alive players
-* Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%
-* Removed friendly fire (not being able to shoot when looking at another player)
-* Player names now disappear instantly after being out of line of sight of them
-* Removed knife lunging
-* Fixed a bug where a player was able to revive another player by bleeding out next to them in water
-* Fixed a bug where players were able to damage themselves by meleeing and leaning at the same time
-* Fixed a bug where downed players were able to occasionally damage alive players
-* Pack-a-Punch camo now displays on Mustang & Sally when downed in solo
-* Chracters no longer make hurt sounds if you have Flopper and an explosion happens that would have hurt you
-* Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
-* Lean is now disabled while down since downed players cannot be revived while they are leaning
-* If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
-* Players can now dolphin dive again right away after just dolphin diving
-* Players can now move after dolphin diving quicker
-* Dolphin dive startup time decreased
 * Any hintstring that previously showed "Press & hold" or "Press" at the beginning has been changed to only show "Hold"
 * Power hintstrings on classic maps have been changed to show the same hintstring on non classic maps
 * Hintstrings are now invisible while the current action is not available for the player
+* Round now ends immediately when last zombie is killed (previously up to a one second delay)
 * Intermission time decreased from 15 seconds to 10 seconds
 * Maps now auto restart in coop after intermission
 * Maps now auto restart correctly (box gets randomized again)
-* Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the fire button while spawning in
-* Round now ends immediately when last zombie is killed (previously up to a one second delay)
-* Players can now red screen after bleeding out and respawning
+
+## Players
+* All players are attracted equally
+* Fixed a bug where zombies would not attack players if one player crouched in front of another player in a corner
+* Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%
+* Player names now disappear instantly after being out of line of sight of them
+* Removed melee lunging
+* Players can now dive again right away after just diving
+* Players can now move after diving quicker
+* Decreased dive startup time
+* Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
 * Red screens now start at 25% health (previously 20% health)
-* Fixed players getting stuck in the air with high FPS
+* Fixed players getting stuck in the air when jumping next to an object with high FPS
+* Players can now shoot when looking at another player
+* Chracters no longer make hurt sounds if you have PHD Flopper and an explosion happens that would have hurt you
+* Fixed a bug where players were able to damage themselves by meleeing and leaning at the same time
+* Fixed a bug where downed players were able to occasionally damage alive players
+* 1 second of immunity to zombies after getting revived (solo and coop)
+* Fixed a bug where a player was able to revive another player by bleeding out next to them in water
+* Lean is now disabled while down since downed players cannot be revived while they are leaning
+* If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
+* Pack-a-Punch camo now displays on Mustang & Sally when downed in solo
+* Dead players can chat with alive players
+* Players can now red screen after bleeding out and respawning
+* Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the fire button while spawning in
 * Added death hands animation from Black Ops 2
 
 ## HUD
@@ -758,6 +758,8 @@
 * Zombies now randomly choose between two animations when tearing down wall barriers
 
 ## Zombies
+* Zombies now only have an additonal spawn delay when a full horde is spawned in
+* Decreased additional spawn delay time from 1.2 seconds to 1 second
 * Added 2 previously unused run animations
 * Removed collision from zombies as soon as they are dead
 * No longer make sounds after death

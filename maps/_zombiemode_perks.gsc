@@ -1737,6 +1737,7 @@ give_perk( perk, bought )
 		perk_str = perk + "_stop";
 		//self thread move_faster_while_ads(perk_str);
 		self SetPerk("specialty_fastsprintrecovery");
+		self SetPerk("specialty_stalker");
 	}
 	else if( perk == "specialty_deadshot_upgrade" )
 	{
@@ -2045,6 +2046,7 @@ perk_think( perk )
 			self ClearClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
 			self SetMoveSpeedScale(self.move_speed);
 			self UnsetPerk("specialty_fastsprintrecovery");
+			self UnsetPerk("specialty_stalker");
 			break;
 
 		case "specialty_deadshot_upgrade":

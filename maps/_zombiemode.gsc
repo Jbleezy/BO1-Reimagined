@@ -1786,16 +1786,24 @@ onPlayerConnect_clientDvars()
 
 	// Enabling the FPS counter in ship for now
 	//self setclientdvar( "cg_drawfps", "1" );
+
+	self setClientDvar( "aim_lockon_pitch_strength", 0.0 );
+
+	if(!level.wii)
+	{
+		//self SetClientDvar("r_enablePlayerShadow", 1);
+	}
+
 	self setClientDvar("cg_drawFriendlyFireCrosshair", "1");
 
-	//increase game_mod's default perk multipliers
+	// increase game_mod's default perk multipliers
 	self SetClientDvar("perk_weapRateMultiplier", .75);
 	self SetClientDvar("perk_sprintRecoveryMultiplier", .5);
 
 	// reset dvar that changes when double tap is bought
 	self SetClientDvar("player_burstFireCooldown", .2);
 
-	self setClientDvar( "aim_lockon_pitch_strength", 0.0 );
+	// disable melee lunge
 	self setClientDvar( "aim_automelee_enabled", 0 );
 
 	// disable dev names on cosmonaut
@@ -1838,11 +1846,6 @@ onPlayerConnect_clientDvars()
 
 	// ammo on HUD never fades away
 	self SetClientDvar("hud_fade_ammodisplay", 0);
-
-	if(!level.wii)
-	{
-		//self SetClientDvar("r_enablePlayerShadow", 1);
-	}
 }
 
 
@@ -4707,9 +4710,10 @@ chalk_round_over()
 
 round_think()
 {
-	//level.round_number = 50;
+	//level.round_number = 162;
 	//level.zombie_move_speed = 105;
-	//level.zombie_vars["zombie_spawn_delay"] = .5;
+	//level.zombie_vars["zombie_spawn_delay"] = .08;
+	//level.zombie_ai_limit = 1;
 
 	for( ;; )
 	{
@@ -6438,7 +6442,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 	if(level.gamemode == "gg" && (self.animname == "zombie" || self.animname == "quad_zombie" || self.animname == "zombie_dog") && 
 		IsDefined(attacker) && IsPlayer(attacker) && is_player_valid(attacker) && IsDefined(sWeapon) && 
-		sMeansOfDeath != "MOD_UNKNOWN" && sMeansOfDeath != "MOD_CRUSH" && !IsDefined(attacker.divetonuke_damage))
+		sMeansOfDeath != "MOD_CRUSH" && !IsDefined(attacker.divetonuke_damage) && !IsDefined(self.nuked))
 	{
 		gg_wep = level.gg_weps[attacker.gg_wep_num];
 
