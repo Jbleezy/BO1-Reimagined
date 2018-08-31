@@ -1796,10 +1796,6 @@ onPlayerConnect_clientDvars()
 
 	self setClientDvar("cg_drawFriendlyFireCrosshair", "1");
 
-	// increase game_mod's default perk multipliers
-	self SetClientDvar("perk_weapRateMultiplier", .75);
-	self SetClientDvar("perk_sprintRecoveryMultiplier", .5);
-
 	// reset dvar that changes when double tap is bought
 	self SetClientDvar("player_burstFireCooldown", .2);
 
