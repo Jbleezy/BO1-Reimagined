@@ -129,7 +129,7 @@ bouncing_betty_watch()
 		{
 			betty.owner = self;
 			betty thread betty_think();
-			self thread betty_death_think();
+			betty thread betty_death_think();
 			//betty thread pickup_betty();
 
 			if(level.gamemode != "survival")
@@ -146,13 +146,14 @@ betty_death_think()
 {
 	self waittill("death");
 
+	self.owner.mines = array_removeUndefined(self.owner.mines);
+
 	if(isDefined(self.trigger))
 	{
 		self.trigger delete();
 	}
 
 	self delete();
-
 }
 
 bouncing_betty_setup()

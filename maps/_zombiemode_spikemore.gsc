@@ -350,6 +350,7 @@ spikemore_detonation()
 delete_spikemores_on_death(ent)
 {
 	self waittill("death");
+	
 	self.owner.mines = array_removeUndefined(self.owner.mines);
 	
 	if(isDefined(self.tag_origin))
