@@ -413,8 +413,8 @@
 * Each shot slows down the enemy's move speed
 * Kills enemies when they are at their slowest move speed (3 shots to kill sprinting enemies)
 * Enemies will only be able to do slow hits after taking damage from the Winter's Howl
-* Enemies that have been damaged by the Winter's Howl will bleed out after 30 seconds (does not count as a kill)
 * Enemies that die from the Winter's Howl will now shatter immediately
+* Shatter effect kills all nearby zombies
 * Upgraded: camo now displays on more of the weapon
 * Increased move speed from 100% to 105%
 * Increased move speed while aiming from 100% to 105%

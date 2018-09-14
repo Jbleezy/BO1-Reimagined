@@ -4975,7 +4975,7 @@ round_spawn_failsafe()
 			break;
 		}
 
-		if ( DistanceSquared( self.origin, prevorigin ) > 48*48 && self.freezegun_damage == 0)
+		if ( DistanceSquared( self.origin, prevorigin ) > 48*48)
 		{
 			prevorigin = self.origin;
 			time = GetTime();
