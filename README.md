@@ -930,6 +930,8 @@
 
 ### Call of the Dead
 * Removed zombie spawn delay at the beginning of a match
+* Decreased the minimum delay between switching Pack-a-Punch locations from 100 seconds to 15 seconds
+* Decreased the maximum delay between switching Pack-a-Punch locations from 120 seconds to 15 seconds
 
 #### Zipline
 * FOV no longer changes while riding the zipline

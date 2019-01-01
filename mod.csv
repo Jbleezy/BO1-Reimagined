@@ -75,15 +75,16 @@ rawfile,maps/zombie_cosmodrome_pack_a_punch.gsc
 rawfile,maps/zombie_cosmodrome_magic_box.gsc
 
 //COTD
-rawfile,maps/zombie_coast.gsc
-rawfile,maps/zombie_coast_flinger.gsc
 rawfile,maps/_zombiemode_weap_humangun.gsc
 rawfile,maps/_zombiemode_weap_sniper_explosive.gsc
 rawfile,maps/_zombiemode_ai_director.gsc
-rawfile,maps/zombie_coast_ai_director.gsc
-rawfile,maps/zombie_coast_eggs.gsc
-rawfile,maps/zombie_coast_amb.gsc
 rawfile,maps/_zombiemode_player_zipline.gsc
+rawfile,maps/zombie_coast.gsc
+rawfile,maps/zombie_coast_flinger.gsc
+rawfile,maps/zombie_coast_ai_director.gsc
+rawfile,maps/zombie_coast_amb.gsc
+rawfile,maps/zombie_coast_eggs.gsc
+rawfile,maps/zombie_coast_lighthouse.gsc
 
 //SHANG
 rawfile,maps/_zombiemode_weap_shrink_ray.gsc
