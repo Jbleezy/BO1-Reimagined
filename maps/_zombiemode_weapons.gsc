@@ -3831,6 +3831,20 @@ weapon_give( weapon, weapon_unupgraded )
 	self SwitchToWeapon( weapon );
 
 	self play_weapon_vo(weapon);
+
+	// fix for grenade ammo
+	if(!self HasPerk("specialty_stockpile"))
+	{
+		if(is_lethal_grenade(weapon) && self GetWeaponAmmoClip(weapon) > 4)
+		{
+			self SetWeaponAmmoClip(weapon, 4);
+		}
+
+		if(is_tactical_grenade(weapon) && self GetWeaponAmmoClip(weapon) > 3)
+		{
+			self SetWeaponAmmoClip(weapon, 3);
+		}
+	}
 }
 
 play_weapon_vo(weapon)
