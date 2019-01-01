@@ -310,6 +310,15 @@ fling_zombie(fling_dir, activator)
 	// Make sure they're dead...physics launch didn't kill them.
 	self.trap_death = true;
 	self.no_powerups = true;
+
+	self notify("zombie_flung");
+	self.zombie_flung = true;
+
+	if ( is_true( self.humangun_zombie_1st_hit_response ) )
+	{
+		return;
+	}
+
 	self dodamage(self.health + 100, self.origin, activator);
 
 	//add this zombie back into the spawner queue

@@ -1101,7 +1101,7 @@ humangun_zombie_timeout(upgraded, player)
 {
 	self endon("death");
 
-	wait 10;
+	self waittill_notify_or_timeout("zombie_flung", 10);
 
 	if(is_true(self._lighthouse_owned))
 	{
@@ -1111,13 +1111,13 @@ humangun_zombie_timeout(upgraded, player)
 
 	if ( isalive( self ) )
 	{
-		if(upgraded)
+		if(!upgraded || is_true(self.zombie_flung))
 		{
-			self thread humangun_zombie_explosion( upgraded, player );
+			self thread humangun_zombie_death( upgraded, player );
 		}
 		else
 		{
-			self thread humangun_zombie_death( upgraded, player );
+			self thread humangun_zombie_explosion( upgraded, player );
 		}
 	}
 }
