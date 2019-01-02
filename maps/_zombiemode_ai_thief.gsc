@@ -2517,6 +2517,8 @@ thief_ship_cheat_round_2()
 //AUDIO SECTION
 play_looping_alarms( wait_time )
 {
+	level endon( "stop_thief_alarms" );
+
     wait( wait_time );
 
     structs = getstructarray( "defcon_alarms", "targetname" );
@@ -2528,7 +2530,12 @@ play_looping_alarms( wait_time )
         sound_ent[i] PlayLoopSound( "evt_thief_alarm_looper", .25 );
     }
 
-    level waittill( "stop_thief_alarms" );
+    level thread stop_looping_alarms(sound_ent);
+}
+
+stop_looping_alarms(sound_ent)
+{
+	level waittill( "stop_thief_alarms" );
 
     for(i=0;i<sound_ent.size;i++)
     {
@@ -2539,7 +2546,6 @@ play_looping_alarms( wait_time )
 
     array_delete( sound_ent );
 }
-
 
 thief_elevator_watch()
 {
