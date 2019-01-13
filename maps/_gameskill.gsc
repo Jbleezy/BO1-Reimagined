@@ -1270,12 +1270,16 @@ playerHealthRegen()
 	veryHurt = false;
 	playerJustGotRedFlashing = false;
 
-	if( !IsDefined( level.zombiemode ) || !level.zombiemode )  // don't play breathing/heartbeat sounds in zombie mode
+	/*if( !IsDefined( level.zombiemode ) || !level.zombiemode )  // don't play breathing/heartbeat sounds in zombie mode
 	{
 	    self thread playerBreathingSound(self.maxhealth * 0.35);
 	    self thread playerHeartbeatSound(self.maxhealth * 0.75);
 	    self thread endPlayerBreathingSoundOnDeath();
-	}
+	}*/
+
+	self thread playerBreathingSound(self.maxhealth * 0.35);
+	self thread playerHeartbeatSound(self.maxhealth * 0.35);
+	self thread endPlayerBreathingSoundOnDeath();
 
 	invulTime = 0;
 	hurtTime = 0;
@@ -1357,6 +1361,7 @@ playerHealthRegen()
 			{
 				self.veryhurt = 1;
 				newHealth = health_ratio;
+
 				if( gettime() > hurtTime + level.longRegenTime )
 				{
 					newHealth += regenRate;
@@ -1620,7 +1625,7 @@ playerBreathingSound(healthcap)
 			return;
 		}
 		// Player still has a lot of health so no breathing sound
-		if (player.health >= healthcap)
+		if (player.health >= healthcap || player maps\_laststand::player_is_in_laststand() || player.sessionstate == "spectator")
 		{
 			player notify ("end_heartbeat_loop");
 			continue;
@@ -1629,7 +1634,8 @@ playerBreathingSound(healthcap)
 	//		continue;
 		if (level.player_pain_vox == 0)
  		{
- 			playsoundatposition  ("chr_breathing_hurt_start", (0,0,0));
+ 			//playsoundatposition  ("chr_breathing_hurt_start", (0,0,0));
+ 			player playLocalSound("chr_breathing_hurt");
  			level.player_pain_vox = 1;
  		}
 		else
@@ -1657,12 +1663,12 @@ playerHeartbeatSound(healthcap)
 	player = self;
 	for (;;)
 	{
-			wait .2;
-	//	if (player.health <= 0)
-//			return;
+		wait .2;
+		//if (player.health <= 0)
+		//return;
 
 		// Player still has a lot of health so no hearbeat sound and set to default hearbeat wait
-		if (player.health >= healthcap)
+		if (player.health >= healthcap || player.sessionstate == "spectator")
 		{
 			continue;
 		}
@@ -1676,7 +1682,7 @@ playerHeartbeatSound(healthcap)
 		player waittill( "end_heartbeat_loop" );
 		//player stoploopsound (1);
 
-	  wait (1.5);
+	  	wait (.2);
 		level thread event_heart_beat( "none" , 0 );
 
 		level.player_pain_vox = 0;

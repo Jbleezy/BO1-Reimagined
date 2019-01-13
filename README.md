@@ -46,6 +46,8 @@
 * Dead players can chat with alive players
 * Players can now red screen after bleeding out and respawning
 * Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the fire button while spawning in
+* Added heartbeat and breathing sounds when low on health
+* Added heartbeat sound when down
 * Added death hands animation from Black Ops 2
 
 ## HUD
