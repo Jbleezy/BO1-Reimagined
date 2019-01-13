@@ -1935,9 +1935,12 @@ onPlayerDowned()
 				}
 			}
 
-			if(level.gamemode == "snr" && self maps\_zombiemode_grief::get_number_of_valid_friendly_players() == 0)
+			if(level.gamemode == "snr")
 			{
-				level thread maps\_zombiemode_grief::snr_round_win();
+				if((level.vsteams == "ffa" && self maps\_zombiemode_grief::get_number_of_valid_enemy_players() <= 1) || (level.vsteams != "ffa" && self maps\_zombiemode_grief::get_number_of_valid_friendly_players() == 0))
+				{
+					level thread maps\_zombiemode_grief::snr_round_win();
+				}
 			}
 		}
 
