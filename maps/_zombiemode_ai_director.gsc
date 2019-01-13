@@ -683,6 +683,9 @@ director_watch_damage()
 
 	self.health_state = "pristine";
 
+	//self SetHUDWarningType( "zombie_friend" );
+	//self setzombiename( "250,000" );
+
 	while ( 1 )
 	{
 		self waittill( "damage", amount, attacker, direction, point, method );
@@ -699,6 +702,29 @@ director_watch_damage()
 		}
 
 		self.dmg_taken += amount;
+
+		/*health = level.director_max_damage_taken - self.dmg_taken;
+		thousands_digits = int(health / 1000);
+		ones_digits = health % 1000;
+		if(thousands_digits > 1)
+		{
+			if(ones_digits < 10)
+			{
+				self setzombiename( "" + thousands_digits + ",00" + ones_digits );
+			}
+			else if(ones_digits < 100)
+			{
+				self setzombiename( "" + thousands_digits + ",0" + ones_digits );
+			}
+			else
+			{
+				self setzombiename( "" + thousands_digits + "," + ones_digits );
+			}
+		}
+		else
+		{
+			self setzombiename( "" + ones_digits );
+		}*/
 
 		if ( self.health_state == "pristine" )
 		{
@@ -754,6 +780,8 @@ director_watch_damage()
 			}
 		}
 	}
+
+	//self setzombiename( "" );
 
 	self setclientflag( level._ZOMBIE_ACTOR_FLAG_DIRECTOR_DEATH );
 
@@ -2352,6 +2380,11 @@ director_full_damage( inflictor, attacker, damage, flags, meansofdeath, weapon, 
 	{
 		return damage;
 	}*/
+
+	if(is_true(attacker.freezegun_shatter_damage))
+	{
+		return 1;
+	}
 
 	if(weapon == "zombie_nesting_doll_single")
 	{

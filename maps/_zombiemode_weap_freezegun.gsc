@@ -463,7 +463,9 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 	self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
 
 	upgraded = (weap == "freezegun_upgraded_zm");
+	player.freezegun_shatter_damage = true;
 	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_EXPLOSIVE", weap );
+	player.freezegun_shatter_damage = undefined;
 
 	if ( is_mature() )
 	{
