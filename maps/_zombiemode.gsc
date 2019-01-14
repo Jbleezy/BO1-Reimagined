@@ -5980,7 +5980,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			else
 			{
 				// boss zombie types do not get damage scaling
-				if(self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
+				if(self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
 				{
 					final_damage += 50 * level.round_number;
 				}
