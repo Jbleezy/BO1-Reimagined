@@ -1802,6 +1802,9 @@ onPlayerConnect_clientDvars()
 	// disable melee lunge
 	self setClientDvar( "aim_automelee_enabled", 0 );
 
+	// disable deadshot aim assist on controllers
+	self setClientDvar( "aim_autoAimRangeScale", 0 );
+
 	// disable dev names on cosmonaut
 	self SetClientDvar("r_zombieNameAllowDevList", 0);
 
@@ -8710,7 +8713,9 @@ remove_idle_sway()
 	self endon("death");
 	self endon("disconnect");
 
-	snipers = array("l96a1_zm", "l96a1_upgraded_zm", "psg1_zm", "psg1_upgraded_zm", "sniper_explosive_zm", "sniper_explosive_upgraded_zm", "kar98k_scoped_zombie");
+	// other weapons are done from weapon file
+	//snipers = array("l96a1_zm", "l96a1_upgraded_zm", "psg1_zm", "psg1_upgraded_zm", "sniper_explosive_zm", "sniper_explosive_upgraded_zm", "kar98k_scoped_zombie");
+	snipers = array("sniper_explosive_zm", "sniper_explosive_upgraded_zm");
 	set = false;
 
 	while(1)

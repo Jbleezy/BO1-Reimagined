@@ -2044,7 +2044,7 @@ perk_think( perk )
 
 		case "specialty_deadshot":
 			self ClearClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
-			self SetMoveSpeedScale(self.move_speed);
+			//self SetMoveSpeedScale(self.move_speed);
 			self UnsetPerk("specialty_fastsprintrecovery");
 			self UnsetPerk("specialty_stalker");
 			break;

@@ -639,6 +639,7 @@
 ### Deadshot
 * Increased cost from 1000 to 1500
 * 2x headshot damage (stacks with Double Tap)
+* Removed headshot aim assist with controllers
 
 ### Mule Kick
 * Removed from Nacht Der Untoten
