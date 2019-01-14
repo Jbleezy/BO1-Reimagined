@@ -188,6 +188,7 @@
 
 ### Ballistic Knife
 * Knives pick up automatically when close to them
+* Decreased time to start reloading from .7 seconds to .5 seconds
 * Fixed a bug where a knife could be picked up if the player had max reserve ammo
 * Obtaining the Bowie Knife or Sickle no longer gives you more ammo
 * Fixed a bug where a knife could not be picked up if another knife is fired after the first knife and lands before the first knife
@@ -310,6 +311,7 @@
 
 ### M72 LAW
 * Can now fire without aiming
+* Decreased time to start reloading from 1.06 seconds to .5 seconds
 * Fixed dive to prone animation from looping
 * Unupgraded: increased maximum explosion damage from 320 to 1500
 * Unupgraded: increased minimum explosion damage from 100 to 375
