@@ -2074,6 +2074,8 @@ onPlayerSpawned()
 
 		self.move_speed = 1;
 
+		self SetPerk("specialty_unlimitedsprint");
+
 		if( isdefined( self.initialized ) )
 		{
 			if( self.initialized == false )

@@ -23,6 +23,7 @@
 * Maps now auto restart correctly (box gets randomized again)
 
 ## Players
+* Unlimited sprint
 * All players are attracted equally
 * Fixed a bug where zombies would not attack players if one player crouched in front of another player in a corner
 * Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%
@@ -902,8 +903,9 @@
 * If all players on a floor use an elevator or get downed when the power is on, all zombies that were in the map will now go through teleporters and all zombies that were in barriers will now respawn
 * Fixed lighting on the top floor being incorrect
 * All characters now use the correct viewmodel arms
-* Fixed a bug that caused zombies to not go through a trap if the trap was active when a thief round ends
+* Fixed a bug that caused zombies to not go through a trap if the trap was active when a thief round ended
 * Fixed a bug that crashed the game if the thief attempted to steal a player's weapon while they were using Pack-a-Punch
+* Fixed a bug that caused the alarms during a thief round to not shut off at the end of a thief round if the thief was killed too quick
 
 #### Elevators
 * Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1.25 seconds
