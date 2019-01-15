@@ -231,7 +231,6 @@ humangun_on_player_connect()
 	}
 }
 
-
 wait_for_humangun_fired()
 {
 	self endon( "disconnect" );
@@ -239,15 +238,59 @@ wait_for_humangun_fired()
 
 	for( ;; )
 	{
-		self waittill( "weapon_fired" );
-		currentweapon = self GetCurrentWeapon();
-		if( ( currentweapon == "humangun_zm" ) || ( currentweapon == "humangun_upgraded_zm" ) )
-		{
-			self thread humangun_fired( currentweapon == "humangun_upgraded_zm" );
+		self waittill("missile_fire", grenade, weapon);
 
-			view_pos = self GetTagOrigin( "tag_flash" ) - self GetPlayerViewHeight();
-			view_angles = self GetTagAngles( "tag_flash" );
-			//playfx( level._effect["humangun_smoke_cloud"], view_pos, AnglesToForward( view_angles ), AnglesToUp( view_angles ) );
+		if(weapon == "humangun_zm" || weapon == "humangun_upgraded_zm")
+		{
+			self thread humangun_radius_damage(grenade, weapon);
+		}
+	}
+}
+
+humangun_radius_damage(grenade, weapon)
+{
+	upgraded = weapon == "humangun_upgraded_zm";
+
+	grenade waittill_not_moving();
+	grenade_origin = grenade.origin;
+
+	closest = undefined;
+	dist = 64 * 64;
+	zombs = GetAiSpeciesArray( "axis", "all" );
+	players = get_players();
+	ents = array_combine(zombs, players);
+	for (i = 0; i < ents.size; i++)
+	{
+		if(!ents[i] DamageConeTrace(grenade_origin, self))
+		{
+			continue;
+		}
+
+		ent_origin = ents[i] GetTagOrigin( "j_head" );
+		new_dist = DistanceSquared(grenade_origin, ent_origin);
+		if(new_dist < dist)
+		{
+			closest = ents[i];
+			dist = new_dist;
+		}
+	}
+
+	if(IsDefined(closest))
+	{
+		if(IsPlayer(closest))
+		{
+			closest thread humangun_player_hit_response( self, upgraded );
+		}
+		else if(IsAI(closest))
+		{
+			if(IsDefined(closest.animname) && closest.animname == "director_zombie")
+			{
+				closest thread maps\_zombiemode_ai_director::director_humangun_hit_response( upgraded );
+			}
+			else
+			{
+				closest thread humangun_zombie_hit_response_internal( "MOD_IMPACT", weapon, self );
+			}
 		}
 	}
 }
@@ -377,6 +420,13 @@ humangun_player_effects_audio()
 
 humangun_player_hit_response( owner, upgraded )
 {
+	if(is_true(owner.humangun_hit))
+	{
+		return;
+	}
+
+	owner thread humangun_set_player_hit();
+
 	if ( !isdefined( self.humangun_player_ignored_timer ) )
 	{
 		self.humangun_player_ignored_timer = 0;
@@ -1015,6 +1065,13 @@ humangun_zombie_hit_response_internal( mod, damageweapon, player )
 		}
 	}
 
+	if(is_true(player.humangun_hit))
+	{
+		return;
+	}
+
+	player thread humangun_set_player_hit();
+
 	upgraded = damageweapon == "humangun_upgraded_zm";
 	if ( IsDefined( self.humangun_hit_response ) )
 	{
@@ -1174,4 +1231,14 @@ humangun_zombie_explosion( upgraded, player )
 
 	wait ( 0.4 );
 	self delete();
+}
+
+humangun_set_player_hit()
+{
+	self notify("humangun_set_player_hit");
+	self endon("humangun_set_player_hit");
+
+	self.humangun_hit = true;
+	wait_network_frame();
+	self.humangun_hit = undefined;
 }

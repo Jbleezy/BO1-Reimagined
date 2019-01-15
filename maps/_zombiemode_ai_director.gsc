@@ -2607,6 +2607,13 @@ director_instakill()
 //-----------------------------------------------------------------------------------------------
 director_humangun_hit_response( upgraded )
 {
+	if(is_true(self.attacker.humangun_hit))
+	{
+		return;
+	}
+
+	self.attacker thread maps\_zombiemode_weap_humangun::humangun_set_player_hit();
+
 	// ignore when entering/exiting the level
 	if ( is_true( self.defeated ) || is_true( self.leaving_level ) || is_true( self.entering_level ) )
 	{

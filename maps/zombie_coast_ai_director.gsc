@@ -724,7 +724,23 @@ coast_director_failsafe()
 			 is_true( self.is_traversing ) || is_true( self.nuke_react ) || is_true( self.leaving_level ) ||
 			 is_true( self.entering_level ) || is_true( self.defeated ) || is_true( self.is_sliding ) || is_true( self.water_scream ) )
 		{
-			wait( 1 );
+			self.failsafe = 0;
+			continue;
+		}
+
+		all_players_ignored = true;
+		players = get_players();
+		for (i = 0; i < players.size; i++)
+		{
+			if(!(IsDefined(players[i].humangun_player_ignored_timer) && players[i].humangun_player_ignored_timer > 0))
+			{
+				all_players_ignored = false;
+				break;
+			}
+		}
+
+		if(all_players_ignored)
+		{
 			self.failsafe = 0;
 			continue;
 		}

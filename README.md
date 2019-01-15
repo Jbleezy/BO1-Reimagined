@@ -21,6 +21,7 @@
 * Intermission time decreased from 15 seconds to 10 seconds
 * Maps now auto restart in coop after intermission
 * Maps now auto restart correctly (box gets randomized again)
+* 10 million points cap
 
 ## Players
 * Unlimited sprint
@@ -432,15 +433,18 @@
 * Gives 10 points when dealing impact damage
 
 #### V-R11
+* Now has a small splash damage (still only affects one player or zombie)
+* Can affect yourself
 * Human zombies now target the closest zombie to them
-* Director is no longer attracted towards the human zombie
 * Zombies die when they get close to a human zombie
-* Human zombie lasts for 10 seconds unupgraded, 15 seconds upgraded
-* Upgraded: the human zombie explodes when it dies
-* Upgraded: removed explosion effect from shooting the same human zombie multiple times
+* Director is no longer attracted towards the human zombie
 * Shooting the Director while he is calm no longer makes him angry
-* Unupgraded: permamently makes the Director calm when shot at him
 * Owner of V-R11 gets 50% of any points that the player who they shot earns for its duration (previously 75%)
+* Unupgraded: permamently makes the Director calm when shot at him
+* Unupgraded: human zombie lasts for 10 seconds
+* Upgraded: human zombie lasts for 15 seconds
+* Upgraded: human zombie explodes when it dies
+* Upgraded: removed explosion effect from shooting the same human zombie multiple times
 
 #### Baby Gun
 * Fixed a bug that caused an error to happen when shrinking enemies and allowing them to regrow many times throughout a game
