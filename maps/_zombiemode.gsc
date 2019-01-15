@@ -2114,8 +2114,6 @@ onPlayerSpawned()
 
 				self thread player_grenade_watcher();
 
-				self thread points_cap();
-
 				self thread player_gravity_fix();
 
 				self thread character_names_hud();
@@ -6253,13 +6251,14 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		//Death Machine - always does at least 1/4 damage on regular shots and 1/2 damage on headshots
 		if(weapon == "minigun_zm" && self.animname != "director_zombie" && self.animname != "astro_zombie")
 		{
-			if(!(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck") && final_damage < level.zombie_health / 4)
+			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 			{
-				final_damage = int(self.maxhealth / 4);
+				minigun_damage *= 2;
 			}
-			else if((sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck") && final_damage < level.zombie_health / 2)
+
+			if(final_damage < minigun_damage)
 			{
-				final_damage = int(self.maxhealth / 2);
+				final_damage = minigun_damage;
 			}
 		}
 	}
@@ -8678,20 +8677,6 @@ box_weapon_changes()
 	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.script == "zombie_cod5_sumpf")
 	{
 		level.zombie_weapons["zombie_cymbal_monkey"].is_in_box = false;
-	}
-}
-
-//dont let points go over 1 billion (after max 32 bit value is reached, it overflows to most negative 32 bit value)
-points_cap()
-{
-	while(1)
-	{
-		if(self.score > 1000000000)
-		{
-			self.score = 1000000000;
-			self maps\_zombiemode_score::set_player_score_hud();
-		}
-		wait .05;
 	}
 }
 
