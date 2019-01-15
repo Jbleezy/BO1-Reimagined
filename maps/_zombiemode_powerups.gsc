@@ -2418,11 +2418,11 @@ insta_kill_powerup_player( drop_item )
 
 	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_insta_kill_on", "zombie_powerup_insta_kill_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
 
-	self.personal_instakill = true;
+	self.powerup_instakill = true;
 
 	wait self.zombie_vars["zombie_powerup_insta_kill_time"];
 
-	self.personal_instakill = false;
+	self.powerup_instakill = false;
 
 	self notify("insta_kill_over");
 }
