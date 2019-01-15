@@ -6251,6 +6251,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		//Death Machine - always does at least 1/4 damage on regular shots and 1/2 damage on headshots
 		if(weapon == "minigun_zm" && self.animname != "director_zombie" && self.animname != "astro_zombie")
 		{
+			minigun_damage = int(self.maxhealth / 4) + 1;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 			{
 				minigun_damage *= 2;
