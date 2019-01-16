@@ -4017,7 +4017,6 @@ ai_calculate_amount()
 	// coop multiplier
 	multiplier = 1;
 	player_num = get_players().size;
-	player_num = 2;
 	if(player_num > 1)
 	{
 		min_multiplier = 1;
