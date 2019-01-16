@@ -768,6 +768,9 @@
 * Zombies now randomly choose between two animations when tearing down wall barriers
 
 ## Zombies
+* Changed how the amount of zombies per round is calculated to have more zombies in the lower rounds and less zombies in the higher rounds
+* Decreased the amount of zombies in a 3 player match from 4x the amount as solo to 3x the amount as solo
+* Decreased the amount of zombies in a 4 player match from 8x the amount as solo to 4x the amount as solo
 * Zombies now only have an additonal spawn delay when a full horde is spawned in
 * Decreased additional spawn delay time from 1.2 seconds to 1 second
 * Added 2 previously unused run animations
