@@ -6423,6 +6423,11 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		final_damage = int(final_damage / 2);
 	}
 
+	if(self.animname == "director_zombie")
+	{
+		self.dmg_taken += int(final_damage);
+	}
+
 	//iprintln(weapon);
 	//iprintln(final_damage);
 	//iprintln(meansofdeath);

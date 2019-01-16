@@ -701,7 +701,7 @@ director_watch_damage()
 			return;
 		}
 
-		self.dmg_taken += amount;
+		//self.dmg_taken += amount;
 
 		/*health = level.director_max_damage_taken - self.dmg_taken;
 		thousands_digits = int(health / 1000);

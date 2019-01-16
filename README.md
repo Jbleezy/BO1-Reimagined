@@ -814,6 +814,7 @@
 * Upgraded assault rifles no longer deal extra damage to the Director
 * Max health is now 250,000 no matter how many players are in the match
 * Only slows down players close to him when shot at while calm
+* Fixed a bug that caused shotgun damage on the Director to only count one pellet of damage per shot
 * Fixed a bug that caused the Director to not be able to electrify a player anymore after the player knifed an electrified zombie during an insta kill
 * Now only electrifies zombies that are within a certain radius
 * No longer plays audio after exiting the map due to being hit by the upgraded V-R11
