@@ -425,7 +425,7 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 {
 	freezegun_debug_print( "shattered" );
 
-	self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
+	//self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
 
 	upgraded = (weap == "freezegun_upgraded_zm");
 	player.freezegun_shatter_damage = true;
@@ -563,23 +563,23 @@ freezegun_death( hit_location, hit_origin, player )
 	anim_len = getanimlength( self.deathanim );
 
 	self thread freezegun_set_extremity_damage_fx();
-	//self thread freezegun_set_torso_damage_fx();
+	self thread freezegun_set_torso_damage_fx();
 
-	shatter_trigger = spawn( "trigger_damage", self.origin, 0, 15, 72 );
+	/*shatter_trigger = spawn( "trigger_damage", self.origin, 0, 15, 72 );
 	shatter_trigger enablelinkto();
 	shatter_trigger linkto( self );
 
 	spawnflags = 1 + 2 + 4 + 16 + 64; // SF_TOUCH_AI_AXIS | SF_TOUCH_AI_ALLIES | SF_TOUCH_AI_NEUTRAL | SF_TOUCH_VEHICLE | SF_TOUCH_ONCE
 	crumple_trigger = spawn( "trigger_radius", self.origin, spawnflags, 15, 72 );
 	crumple_trigger enablelinkto();
-	crumple_trigger linkto( self );
+	crumple_trigger linkto( self );*/
 
 	weap = self.damageweapon;
 
 	// wait a frame before shatter for gibs to function properly and not be stuck floating in the air
 	wait_network_frame();
 
-	self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
+	self thread freezegun_do_shatter( player, weap );
 
 	//self thread freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger );
 	//self thread freezegun_wait_for_crumple( weap, shatter_trigger, crumple_trigger );

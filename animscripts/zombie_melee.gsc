@@ -705,36 +705,7 @@ endMeleeOnKillanimscript()
 pick_zombie_melee_anim( zombie_guy )
 {
 	melee_anim = undefined;
-	if(IsDefined(zombie_guy.freezegun_damage) && zombie_guy.freezegun_damage)
-	{
-		if ( zombie_guy.has_legs )
-		{
-			switch(zombie_guy.zombie_move_speed)
-			{
-
-				case "walk":
-					anims = array(level._zombie_melee[zombie_guy.animname][0], level._zombie_walk_melee[zombie_guy.animname][1], level._zombie_walk_melee[zombie_guy.animname][3]);
-					melee_anim = random(anims);
-					break;
-
-				case "run":
-				case "sprint":
-					melee_anim = level._zombie_melee[zombie_guy.animname][0];
-					break;
-			}
-		}
-		else if(zombie_guy.a.gib_ref == "no_legs")
-		{
-			// if zombie have no legs whatsoever.
-			melee_anim = random(level._zombie_stumpy_melee[zombie_guy.animname]);
-
-		}
-		else
-		{
-	 		melee_anim = random(level._zombie_melee_crawl[zombie_guy.animname]);
-		}
-	}
-	else if ( zombie_guy.has_legs )
+	if ( zombie_guy.has_legs )
 	{
 		switch(zombie_guy.zombie_move_speed)
 		{
@@ -755,7 +726,6 @@ pick_zombie_melee_anim( zombie_guy )
 	{
 		// if zombie have no legs whatsoever.
 		melee_anim = random(level._zombie_stumpy_melee[zombie_guy.animname]);
-
 	}
 	else
 	{
