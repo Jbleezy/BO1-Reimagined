@@ -1227,7 +1227,7 @@ humangun_zombie_explosion( upgraded, player )
 	self.magic_bullet_shield = false;
 
 	SetPlayerIgnoreRadiusDamage(true);
-	self RadiusDamage( self.origin + (0, 0, 90), 180, level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
+	RadiusDamage( self.origin, 180, level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
 
 	// prevent them freezing the water, since they were turned to mist
 	self.water_damage = false;
