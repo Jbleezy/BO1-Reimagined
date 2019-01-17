@@ -21,9 +21,9 @@
 * Intermission time decreased from 15 seconds to 10 seconds
 * Maps now auto restart in coop after intermission
 * Maps now auto restart correctly (box gets randomized again)
-* 10 million points cap
 
 ## Players
+* Players automatically get 3 self revives in solo
 * Unlimited sprint
 * All players are attracted equally
 * Fixed a bug where zombies would not attack players if one player crouched in front of another player in a corner
@@ -34,6 +34,7 @@
 * Players can now move after diving quicker
 * Decreased dive startup time
 * Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
+* Increased normal health regeneration time from 2.4 seconds to 3 seconds
 * Red screens now start at 25% health (previously 20% health)
 * Fixed players getting stuck in the air when jumping next to an object with high FPS
 * Players can now shoot when looking at another player
@@ -51,6 +52,7 @@
 * Added heartbeat and breathing sounds when low on health
 * Added heartbeat sound when down
 * Added death hands animation from Black Ops 2
+* 10 million points cap
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
@@ -629,9 +631,12 @@
 * All perk machines now make a sound when bumping into them
 
 ### Quick Revive
+* No longer gives the player a self revive in solo
+* Decreases normal health regeneration time from 3 seconds to 2 seconds
+* Decreases low health regeneration time from 5 seconds to 4 seconds
+* Increased cost in solo from 500 points to 1500 points
+* Powered off in solo when the power is off
 * Hintstring now says "Quick Revive" in solo and coop
-* Losing Quick Revive in solo from ways other than downing no longer counts as a use of Quick Revive
-* Fixed a bug where the Quick Revive perk machine sounds would still play after the machine is gone in solo
 
 ### Speed Cola
 * Switch weapons twice as fast
@@ -991,7 +996,7 @@
 * Melee stones step: Increased melee range for stones
 * Mud pit step: radio is no longer required to be played in order to complete
 * Fixed a bug where players could clip through the wall behind Pack-a-Punch during the sidequest
-* Reward: all players get permament perks (Quick Revive goes away when downed in solo, can be rebought with all perks)
+* Reward: all players get permament perks
 
 ### Moon
 * Added Fire Sale, Max Ammo, and Perk Bottle to jump pad powerup cycle
@@ -1027,7 +1032,7 @@
 * Full sidequest completable without Richtofen
 * No longer requires the completion of previous sidequests
 * Part 1 reward - 90 second Death Machines for the rest of the match
-* Full reward - permament perks (Quick Revive goes away when downed in solo, can be rebought with all perks)
+* Full reward - permament perks
 * Richtofen now does not get the full reward until the end with everyone else
 
 ### Dead Ops Arcade

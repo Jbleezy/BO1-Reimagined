@@ -641,11 +641,11 @@ astro_zombie_attack()
 		perk_str = perk + "_stop";
 		player notify( perk_str );
 
-		if ( flag( "solo_game" ) && perk == "specialty_quickrevive" )
+		/*if ( flag( "solo_game" ) && perk == "specialty_quickrevive" )
 		{
 			player.lives--;
 			level.solo_lives_given--;
-		}
+		}*/
 
 		player thread astro_headbutt_damage( self, self.origin );
 	}

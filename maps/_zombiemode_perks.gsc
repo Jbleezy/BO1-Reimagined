@@ -937,7 +937,7 @@ turn_sleight_on()
 turn_revive_on()
 {
 	machine = getentarray("vending_revive", "targetname");
-	machine_model = undefined;
+	/*machine_model = undefined;
 	machine_clip = undefined;
 
 	flag_wait( "all_players_connected" );
@@ -978,7 +978,22 @@ turn_revive_on()
 		}
 
 		level notify( "specialty_quickrevive_power_on" );
+	}*/
+
+	level waittill("revive_on");
+
+	for( i = 0; i < machine.size; i++ )
+	{
+		if(IsDefined(machine[i].classname) && machine[i].classname == "script_model")
+		{
+			machine[i] setmodel("zombie_vending_revive_on");
+			machine[i] playsound("zmb_perks_power_on");
+			machine[i] vibrate((0,-100,0), 0.3, 0.4, 3);
+			machine[i] thread perk_fx( "revive_light" );
+		}
 	}
+
+	level notify( "specialty_quickrevive_power_on" );
 }
 
 
@@ -1305,10 +1320,11 @@ vending_trigger_think()
 		players = GetPlayers();
 		if ( players.size == 1 )
 		{
-			solo = true;
+			//solo = true;
 			flag_set( "solo_game" );
 			level.solo_lives_given = 0;
-			players[0].lives = 0;
+			//players[0].lives = 0;
+			players[0].lives = 3;
 			level maps\_zombiemode::zombiemode_solo_last_stand_pistol();
 		}
 	}
@@ -1338,14 +1354,15 @@ vending_trigger_think()
 
 	case "specialty_quickrevive_upgrade":
 	case "specialty_quickrevive":
-		if( solo )
+		/*if( solo )
 		{
 			cost = 500;
 		}
 		else
 		{
 			cost = 1500;
-		}
+		}*/
+		cost = 1500;
 		break;
 
 	case "specialty_fastreload_upgrade":
@@ -1706,6 +1723,11 @@ give_perk( perk, bought )
 		self notify( "perk_bought", perk );
 	}
 
+	if(perk == "specialty_quickrevive")
+	{
+		self SetClientDvar("cg_hudDamageIconTime", 2500);
+	}
+
 	if(perk == "specialty_armorvest")
 	{
 		self.preMaxHealth = self.maxhealth;
@@ -1746,7 +1768,7 @@ give_perk( perk, bought )
 
 	// quick revive in solo gives an extra life
 	players = getplayers();
-	if ( players.size == 1 && perk == "specialty_quickrevive" )
+	/*if ( players.size == 1 && perk == "specialty_quickrevive" )
 	{
 		self.lives = 1;
 
@@ -1760,7 +1782,7 @@ give_perk( perk, bought )
 		self thread solo_revive_buy_trigger_move( perk );
 
 		// self disable_trigger();
-	}
+	}*/
 
 	if(perk == "specialty_additionalprimaryweapon")
 	{
@@ -1995,10 +2017,10 @@ perk_think( perk )
 
 	do_retain = true;
 
-	if( get_players().size == 1 && perk == "specialty_quickrevive")
+	/*if( get_players().size == 1 && perk == "specialty_quickrevive")
 	{
 		do_retain = false;
-	}
+	}*/
 
 	if(do_retain && IsDefined(self._retain_perks) && self._retain_perks)
 	{
@@ -2018,6 +2040,10 @@ perk_think( perk )
 
 	switch(perk)
 	{
+		case "specialty_quickrevive":
+			self SetClientDvar("cg_hudDamageIconTime", 3500);
+			break;
+
 		case "specialty_armorvest":
 			self SetMaxHealth( 100 );
 			break;
@@ -2512,10 +2538,10 @@ lose_random_perk()
 		perk_str = perk + "_stop";
 		self notify( perk_str );
 
-		if ( flag( "solo_game" ) && perk == "specialty_quickrevive" )
+		/*if ( flag( "solo_game" ) && perk == "specialty_quickrevive" )
 		{
 			self.lives--;
-		}
+		}*/
 	}
 }
 
@@ -2539,7 +2565,7 @@ quantum_bomb_give_nearest_perk_validation( position )
 	{
 		//dont give perk if perk isnt on
 		perk = vending_triggers[i].script_noteworthy;
-		if(!flag( "power_on" ) && perk != "specialty_fastreload" && perk != "specialty_armorvest" && (!(flag( "solo_game" ) && perk == "specialty_quickrevive")))
+		if(!flag( "power_on" ) && perk != "specialty_fastreload" && perk != "specialty_armorvest") /*&& (!(flag( "solo_game" ) && perk == "specialty_quickrevive"))*/
 		{
 			continue;
 		}

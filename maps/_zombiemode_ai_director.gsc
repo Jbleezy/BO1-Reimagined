@@ -223,7 +223,7 @@ director_prespawn()
 
 	self thread maps\_zombiemode_spawner::delayed_zombie_eye_glow();	// delayed eye glow for ground crawlers (the eyes floated above the ground before the anim started)
 	self.flame_damage_time = 0;
-	self.meleeDamage = 50;
+	self.meleeDamage = 60;
 	self.no_powerups = true;
 
 	self.custom_damage_func = ::director_custom_damage;

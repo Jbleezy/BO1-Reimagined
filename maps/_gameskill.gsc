@@ -490,6 +490,10 @@ apply_difficulty_frac_with_func( difficulty_func, current_frac )
 	level.playerHealth_RegularRegenDelay = [[ difficulty_func ]]( "playerHealth_RegularRegenDelay", current_frac );
 	level.worthyDamageRatio = [[ difficulty_func ]]( "worthyDamageRatio", current_frac );
 
+	level.playerHealth_RegularRegenDelay = 3000;
+	level.perk_healthRegenMultiplier = 1.5;
+	level.perk_longHealthRegenMultiplier = 1.25;
+
 	if ( level.auto_adjust_threatbias )
 	{
 		thread apply_threat_bias_to_all_players(difficulty_func, current_frac);
@@ -1277,8 +1281,8 @@ playerHealthRegen()
 	    self thread endPlayerBreathingSoundOnDeath();
 	}*/
 
-	self thread playerBreathingSound(self.maxhealth * 0.35);
-	self thread playerHeartbeatSound(self.maxhealth * 0.35);
+	self thread playerBreathingSound(self.maxhealth * 0.25);
+	self thread playerHeartbeatSound(self.maxhealth * 0.25);
 	self thread endPlayerBreathingSoundOnDeath();
 
 	invulTime = 0;
@@ -1337,7 +1341,17 @@ playerHealthRegen()
 			if( !wasVeryHurt )
 			{
 				hurtTime = gettime();
-				self startfadingblur( 3.6, 2 );
+
+				num1 = 3.6;
+				num2 = 2;
+				if(self HasPerk("specialty_quickrevive"))
+				{
+					num1 /= level.perk_longHealthRegenMultiplier;
+					num2 /= level.perk_longHealthRegenMultiplier;
+				}
+				self startfadingblur( num1, num2 );
+
+				//self startfadingblur( 3.6, 2 );
 
 				self player_flag_set( "player_has_red_flashing_overlay" );
 				playerJustGotRedFlashing = true;
@@ -1352,20 +1366,42 @@ playerHealthRegen()
 
 		if( health_ratio >= oldratio )
 		{
-			if( gettime() - hurttime < level.playerHealth_RegularRegenDelay )
+			playerHealth_RegularRegenDelay = level.playerHealth_RegularRegenDelay;
+			if(self HasPerk("specialty_quickrevive"))
+			{
+				playerHealth_RegularRegenDelay /= level.perk_healthRegenMultiplier;
+			}
+
+			if( gettime() - hurttime < playerHealth_RegularRegenDelay )
 			{
 				continue;
 			}
+
+			/*if( gettime() - hurttime < level.playerHealth_RegularRegenDelay )
+			{
+				continue;
+			}*/
 
 			if( veryHurt )
 			{
 				self.veryhurt = 1;
 				newHealth = health_ratio;
 
-				if( gettime() > hurtTime + level.longRegenTime )
+				longRegenTime = level.longRegenTime;
+				if(self HasPerk("specialty_quickrevive"))
+				{
+					longRegenTime /= level.perk_longHealthRegenMultiplier;
+				}
+
+				if( gettime() > hurtTime + longRegenTime )
 				{
 					newHealth += regenRate;
 				}
+
+				/*if( gettime() > hurtTime + level.longRegenTime )
+				{
+					newHealth += regenRate;
+				}*/
 
 				if ( newHealth >= 1 )
 				{
@@ -1625,6 +1661,7 @@ playerBreathingSound(healthcap)
 			return;
 		}
 		// Player still has a lot of health so no breathing sound
+		healthcap = self.maxhealth * 0.25;
 		if (player.health >= healthcap || player maps\_laststand::player_is_in_laststand() || player.sessionstate == "spectator")
 		{
 			player notify ("end_heartbeat_loop");
@@ -1668,6 +1705,7 @@ playerHeartbeatSound(healthcap)
 		//return;
 
 		// Player still has a lot of health so no hearbeat sound and set to default hearbeat wait
+		healthcap = self.maxhealth * 0.25;
 		if (player.health >= healthcap || player.sessionstate == "spectator")
 		{
 			continue;
@@ -2258,10 +2296,18 @@ redFlashingOverlay( overlay )
 		// coverWarning may be destroyed at any time if we fail the mission.
 	}
 
-	 // if severity isn't very high, the overlay becomes very unnoticeable to the player.
-	 // keep it high while they haven't regenerated or they'll feel like their health is nearly full and they're safe to step out.
+	// if severity isn't very high, the overlay becomes very unnoticeable to the player.
+	// keep it high while they haven't regenerated or they'll feel like their health is nearly full and they're safe to step out.
 
-	stopFlashingBadlyTime = gettime() + level.longRegenTime;
+	longRegenTime = level.longRegenTime;
+	if(self HasPerk("specialty_quickrevive"))
+	{
+		longRegenTime /= level.perk_longHealthRegenMultiplier;
+	}
+
+	stopFlashingBadlyTime = gettime() + longRegenTime;
+
+	//stopFlashingBadlyTime = gettime() + level.longRegenTime;
 
 	fadeFunc( overlay, coverWarning,  1,   1, false );
 	while ( gettime() < stopFlashingBadlyTime && isalive( self ) )

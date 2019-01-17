@@ -2669,7 +2669,7 @@ monkey_remove_from_pack()
 	{
 		flag_set( "last_monkey_down" );
 
-		if ( self monkey_zombie_can_drop_free_perk() )
+		if ( flag( "monkey_free_perk" ) )
 		{
 			forward = VectorNormalize( AnglesToForward( self.angles ) );
 			end_pos = self.origin - vector_scale( forward, 32 );
@@ -2954,12 +2954,11 @@ monkey_pack_take_perk()
 			perk_str = perk + "_stop";
 			players[i] notify( perk_str );
 
-			if ( flag( "solo_game" ) && perk == "specialty_quickrevive" )
+			/*if ( flag( "solo_game" ) && perk == "specialty_quickrevive" )
 			{
 				players[i].lives--;
-				//iprintln(level.solo_lives_given);
 				level.solo_lives_given--;
-			}
+			}*/
 		}
 	}
 	//iprintln("took perk");
