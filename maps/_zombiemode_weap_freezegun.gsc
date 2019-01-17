@@ -19,7 +19,7 @@ init()
 	level._ZOMBIE_ACTOR_FLAG_FREEZEGUN_TORSO_DAMAGE_FX = 14;
 
 	set_zombie_var( "freezegun_cylinder_radius",				120 ); // 10 feet
-	set_zombie_var( "freezegun_inner_range",					60 ); // 5 feet
+	set_zombie_var( "freezegun_inner_range",					200 ); // 5 feet
 	set_zombie_var( "freezegun_outer_range",					600 ); // 50 feet
 	set_zombie_var( "freezegun_inner_damage",					1000 );
 	set_zombie_var( "freezegun_outer_damage",					500 );
@@ -27,7 +27,7 @@ init()
 	set_zombie_var( "freezegun_shatter_inner_damage",			500 );
 	set_zombie_var( "freezegun_shatter_outer_damage",			250 );
 	set_zombie_var( "freezegun_cylinder_radius_upgraded",		180 ); // 15 feet
-	set_zombie_var( "freezegun_inner_range_upgraded",			120 ); // 10 feet
+	set_zombie_var( "freezegun_inner_range_upgraded",			300 ); // 10 feet
 	set_zombie_var( "freezegun_outer_range_upgraded",			900 ); // 75 feet
 	set_zombie_var( "freezegun_inner_damage_upgraded",			1500 );
 	set_zombie_var( "freezegun_outer_damage_upgraded",			750 );
@@ -316,51 +316,16 @@ freezegun_debug_print( msg, color )
 
 freezegun_do_damage( upgraded, player, dist_ratio )
 {
-	self endon("death");
+	damage = Int( LerpFloat( int(self.maxhealth / 3) + 1, self.maxhealth, dist_ratio ) );
 
-	//damage = Int( LerpFloat( freezegun_get_outer_damage( upgraded ), freezegun_get_inner_damage( upgraded ), dist_ratio ) );
-	if(!IsDefined(self.original_move_speed))
-		self.original_move_speed = self.zombie_move_speed;
-
-	if(!IsDefined(self.original_move_speed_supersprint))
-		self.original_move_speed_supersprint = self.zombie_move_speed_supersprint;
-
-	if(self.original_move_speed == "sprint")
+	min_damage = freezegun_get_inner_damage(upgraded);
+	if(damage < min_damage)
 	{
-		damage = int(level.zombie_health/3) + 1;
+		damage = min_damage;
 	}
-	else if(self.original_move_speed == "run")
-	{
-		damage = int(level.zombie_health/2) + 1;
-	}
-	else
-	{
-		damage = level.zombie_health + 1000;
-	}
-
-	//thief damage
 	if(self.animname == "thief_zombie")
 	{
-		if(!upgraded)
-		{
-			damage = 1000;
-		}
-		else
-		{
-			damage = 2000;
-		}
-	}
-	else
-	{
-		//minimum damage
-		if(!upgraded && damage < 500)
-		{
-			damage = 500;
-		}
-		else if(upgraded && damage < 1000)
-		{
-			damage = 1000;
-		}
+		damage = min_damage;
 	}
 
 	self freezegun_debug_print( damage, (0, 1, 0) );
@@ -464,7 +429,7 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 
 	upgraded = (weap == "freezegun_upgraded_zm");
 	player.freezegun_shatter_damage = true;
-	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_EXPLOSIVE", weap );
+	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), 1, 1, player, "MOD_EXPLOSIVE", weap );
 	player.freezegun_shatter_damage = undefined;
 
 	if ( is_mature() )
