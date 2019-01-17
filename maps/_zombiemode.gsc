@@ -6052,36 +6052,28 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		// no damage scaling for these wonder weps
 		if(weapon != "tesla_gun_zm" && weapon != "tesla_gun_upgraded_zm" && weapon != "tesla_gun_powerup_zm" && weapon != "tesla_gun_powerup_upgraded_zm" && weapon != "freezegun_zm" && weapon != "freezegun_upgraded_zm")
 		{
-			if(is_lethal_grenade(weapon))
+			// boss zombie types do not get damage scaling
+			if(self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
 			{
-				final_damage += 150 + (15 * level.round_number);
-
-				if((self.animname == "thief_zombie" || self.animname == "napalm_zombie" || self.animname == "astro_zombie") && final_damage > 300)
+				// stop damage scaling past round 100
+				scalar = level.round_number;
+				if(scalar > 100)
 				{
-					final_damage = 300;
-				}
-			}
-			// spikemores do damage from script, so had to set .spikemore_damage var on the zombie before damage
-			else if(is_tactical_grenade(weapon) || is_placeable_mine(weapon) || is_true(self.spikemore_damage))
-			{
-				final_damage += 150 * level.round_number;
-
-				if(final_damage < 1500)
-				{
-					final_damage = 1500;
+					scalar = 100;
 				}
 
-				if((self.animname == "thief_zombie" || self.animname == "napalm_zombie" || self.animname == "astro_zombie") && final_damage > 3000)
+				if(is_lethal_grenade(weapon))
 				{
-					final_damage = 3000;
+					final_damage += 15 * scalar;
 				}
-			}
-			else
-			{
-				// boss zombie types do not get damage scaling
-				if(self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
+				// spikemores do damage from script, so had to set .spikemore_damage var on the zombie before damage
+				else if(is_tactical_grenade(weapon) || is_placeable_mine(weapon) || is_true(self.spikemore_damage))
 				{
-					final_damage += 50 * level.round_number;
+					final_damage += 150 * scalar;
+				}
+				else
+				{
+					final_damage += 50 * scalar;
 				}
 			}
 		}
@@ -6426,12 +6418,6 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	{
 		self.dmg_taken += int(final_damage);
 	}
-
-	//iprintln(weapon);
-	//iprintln(final_damage);
-	//iprintln(meansofdeath);
-
-	//iprintln(WeaponClass(weapon));
 
 	// return unchanged damage
 	//iPrintln( final_damage );

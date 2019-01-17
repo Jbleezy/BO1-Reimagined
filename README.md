@@ -156,6 +156,7 @@
 ### Explosive Weapons
 * Removed shellshock effect from all explosive weapon damage
 * Damage scaling over rounds is now done at a more consistent rate
+* Damage scaling caps at round 100
 
 ### Light Machine Guns
 * Decreased move speed from 87.5% to 85%
@@ -455,7 +456,7 @@
 ### Equipment
 
 #### Lethal Grenades
-* Now cannot be thrown faster than intended when throwing a grenade right after after throwing one
+* Cannot be thrown faster than intended when throwing a grenade right after after throwing one
 * Increased impact damage from 15 to 30
 * Impact damage now does not get decreased after damaging other enemies
 
@@ -762,7 +763,7 @@
 * Glass barriers now start off with glass and wooden boards
 * On glass barriers, zombies will now tear down all of the glass first
 * Zombies can now attack through all glass barriers, wall barriers, and metal barriers
-* Fixed a bug where glass barriers and wall barriers had to be rebuilt twice for the repair to take effect if the barrier was rebuilt right after it got destroyed
+* Fixed a bug where glass barriers and wall barriers had to be rebuilt twice for the repair to take affect if the barrier was rebuilt right after it got destroyed
 * Fixed a bug where glass barriers and wall barriers were destroyed at slightly incorrect times
 * Zombies now always use the same animation when tearing down glass barriers
 * Zombies now randomly choose between two animations when tearing down wall barriers
@@ -813,6 +814,7 @@
 * Always drops Wunderwaffe regardless of whether or not you have completed the sidequest
 * Upgraded assault rifles no longer deal extra damage to the Director
 * Max health is now 250,000 no matter how many players are in the match
+* No longer affected by explosive damage scaling
 * Only slows down players close to him when shot at while calm
 * Fixed a bug that caused shotgun damage on the Director to only count one pellet of damage per shot
 * Fixed a bug that caused the Director to not be able to electrify a player anymore after the player knifed an electrified zombie during an insta kill
@@ -833,11 +835,13 @@
 
 ### Napalm
 * Kills from napalm explosion or flames count for the player who killed the napalm or the player who triggered the napalm
+* No longer affected by explosive damage scaling
 
 ### Shrieker
 * Damaging a shrieker will now always give points
 
 ### Cosmonaut
+* No longer affected by explosive damage scaling
 * Fixed a bug where the Cosmonaut would get stuck in place if spawned in while a player was on the jump pads
 * Fixed a bug where the Cosmonaut would be attracted towards a Gersch Device and move faster than intended after the Pack-a-Punch gates had been hacked
 * Cosmonaut no longer teleports players that activate a jump pad between the time of being grabbed and when they would have been teleported

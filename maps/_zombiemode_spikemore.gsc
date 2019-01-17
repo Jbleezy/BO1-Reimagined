@@ -565,7 +565,7 @@ _spikemore_damage(fromOrigin, fromOwner)
 			fromOwner thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "spikemore" );
 		}
 		self.spikemore_damage = true;
-		self DoDamage( 100, fromOrigin, fromOwner, -1, "projectile", "torso_upper" );
+		self DoDamage( 750, fromOrigin, fromOwner, -1, "projectile", "torso_upper" );
 		self.spikemore_damage = undefined;
 		self SetClientFlag( level._CF_ACTOR_CLIENT_FLAG_SPIKEMORE );
 	}
