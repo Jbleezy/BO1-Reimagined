@@ -2381,11 +2381,6 @@ director_full_damage( inflictor, attacker, damage, flags, meansofdeath, weapon, 
 		return damage;
 	}*/
 
-	if(is_true(attacker.freezegun_shatter_damage))
-	{
-		return 1;
-	}
-
 	if(weapon == "zombie_nesting_doll_single")
 	{
 		return 9000;

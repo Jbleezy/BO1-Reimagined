@@ -5945,10 +5945,10 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		damage = int(self.maxhealth/3) + 1;
 	}
 
-	// gersch - skip damage if they dead do full damage
+	// gersch - skip damage if they are dead do full damage
 	if( IsDefined( self._black_hole_bomb_collapse_death ) && self._black_hole_bomb_collapse_death == 1 )
 	{
-		return self.health + 1000;
+		return self.maxhealth + 1000;
 	}
 
 	// skip conditions
@@ -5966,8 +5966,6 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		return damage;
 	if( meansofdeath == "" )
 		return damage;
-
-
 
 //	println( "*********HIT :  Zombie health: "+self.health+",  dam:"+damage+", weapon:"+ weapon );
 
@@ -6032,11 +6030,18 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			{
 				self maps\_zombiemode_spawner::zombie_head_gib();
 			}
+
 			if(weapon == "thundergun_zm" || weapon == "thundergun_upgraded_zm")
 			{
 				self.no_powerups = true;
 			}
-			return self.health + 1000;
+
+			if( is_true( self.in_water ) )
+			{
+				self.water_damage = true;
+			}
+
+			return self.maxhealth + 1000;
 		}
 	}
 
@@ -6050,7 +6055,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	if(meansofdeath == "MOD_GRENADE" || meansofdeath == "MOD_GRENADE_SPLASH" || meansofdeath == "MOD_PROJECTILE" || meansofdeath == "MOD_PROJECTILE_SPLASH" || meansofdeath == "MOD_EXPLOSIVE")
 	{
 		// no damage scaling for these wonder weps
-		if(weapon != "tesla_gun_zm" && weapon != "tesla_gun_upgraded_zm" && weapon != "tesla_gun_powerup_zm" && weapon != "tesla_gun_powerup_upgraded_zm" && weapon != "freezegun_zm" && weapon != "freezegun_upgraded_zm")
+		if(weapon != "tesla_gun_zm" && weapon != "tesla_gun_upgraded_zm" && weapon != "tesla_gun_powerup_zm" && weapon != "tesla_gun_powerup_upgraded_zm" && weapon != "freezegun_zm" && weapon != "freezegun_upgraded_zm" && !is_true(attacker.freezegun_shatter_damage))
 		{
 			// boss zombie types do not get damage scaling
 			if(self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
@@ -6391,12 +6396,12 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 
 	if(weapon == "molotov_zm")
 	{
-		return self.health + 1000;
+		return self.maxhealth + 1000;
 	}
 
 	if((weapon == "sniper_explosive_bolt_zm" || weapon == "sniper_explosive_bolt_upgraded_zm") && self.animname != "director_zombie")
 	{
-		return self.health + 1000;
+		return self.maxhealth + 1000;
 	}
 
 	if(attacker HasPerk("specialty_rof") && (meansofdeath == "MOD_PISTOL_BULLET" || meansofdeath == "MOD_RIFLE_BULLET"))

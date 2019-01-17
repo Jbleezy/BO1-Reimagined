@@ -150,7 +150,7 @@ zombie_water_in()
 		{
 			if ( self isTouching( level.water[i] ) )
 			{
-				self thread water_damage_zombie();
+				//self thread water_damage_zombie();
 				in_water = true;
 				break;
 			}

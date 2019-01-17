@@ -551,7 +551,6 @@ humangun_delayed_kill(player, human_zombie)
 		self.no_powerups = true;
 		self maps\_zombiemode_spawner::zombie_head_gib();
 		self DoDamage( level.zombie_health + 1000, self.origin, player );
-		self.water_damage = false; //wasnt working right in the water
 	}
 }
 
@@ -1030,7 +1029,7 @@ audio_wait_for_death()
 audio_human_screams()
 {
 	self endon ("death");
-	self endon ("explode");
+	//self endon ("explode");
 	self endon( "lighthouse_owned" );
 	variant = undefined;
 	last_variant = undefined;
@@ -1042,7 +1041,7 @@ audio_human_screams()
 		{
 			wait (.05);
 			continue;
-	  }
+	  	}
 		self playsound ("vox_zmb_human_scream_" + variant, "screaming_done");
 		last_variant = variant;
 		self waittill ("screaming_done");
@@ -1221,7 +1220,7 @@ humangun_zombie_explosion( upgraded, player )
 	self.magic_bullet_shield = false;
 
 	SetPlayerIgnoreRadiusDamage(true);
-	RadiusDamage( self.origin + (0, 0, 90), 180, level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
+	self RadiusDamage( self.origin + (0, 0, 90), 180, level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
 
 	// prevent them freezing the water, since they were turned to mist
 	self.water_damage = false;
