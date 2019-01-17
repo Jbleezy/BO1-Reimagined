@@ -798,9 +798,11 @@
 * Now award kill points immediately if killed while crawling on a wall
 
 ### Thief
-* Max health: 30,000
-* Health does not change depending on how many payers are in the match
-* No longer effected by insta kills or nukes
+* Health increase per round: 1,000
+* Max health: 25,000
+* Same health no matter how many payers are in the match
+* No longer affected by insta kills or nukes
+* No longer affected by explosive damage scaling
 
 ### Monkeys (Ascension)
 * Max health decreased to 1600

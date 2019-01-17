@@ -67,11 +67,11 @@ init()
 	}
 	if ( !isDefined( level.thief_health_multiplier ) )
 	{
-		level.thief_health_multiplier = 2000;
+		level.thief_health_multiplier = 1000;
 	}
 	if ( !isDefined( level.max_thief_health ) )
 	{
-		level.max_thief_health = 30000;
+		level.max_thief_health = 25000;
 	}
 
 	level.thief_debug = true;
