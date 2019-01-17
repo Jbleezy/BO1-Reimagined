@@ -261,12 +261,19 @@ humangun_radius_damage(grenade, weapon)
 	ents = array_combine(zombs, players);
 	for (i = 0; i < ents.size; i++)
 	{
+		if(grenade IsTouching(ents[i]))
+		{
+			// guaranteed closest ent, break the loop
+			closest = ents[i];
+			break;
+		}
+
 		if(!ents[i] DamageConeTrace(grenade_origin, self))
 		{
 			continue;
 		}
 
-		ent_origin = ents[i] GetTagOrigin( "j_head" );
+		ent_origin = ents[i] GetCentroid();
 		new_dist = DistanceSquared(grenade_origin, ent_origin);
 		if(new_dist < dist)
 		{
@@ -482,12 +489,12 @@ humangun_zombie_damage_watcher( player )
 			{
 				continue;
 			}
-			if(DistanceSquared(self.origin, zombs[i].origin) > 64*64)
+			self_origin = self GetCentroid();
+			zomb_origin = zombs[i] GetCentroid();
+			if(DistanceSquared(self_origin, zomb_origin) > 64*64)
 			{
 				continue;
 			}
-			self_origin = self GetTagOrigin( "j_head" );
-			zomb_origin = zombs[i] GetTagOrigin( "j_head" );
 			if(!SightTracePassed(self_origin, zomb_origin, false, undefined) && !BulletTracePassed(self_origin, zomb_origin, false, undefined) && !zombs[i] DamageConeTrace(self_origin, self))
 			{
 				continue;
