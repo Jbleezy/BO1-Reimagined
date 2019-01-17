@@ -755,7 +755,6 @@
 * Fixed a bug where two or more players could trigger a door that has multiple triggers at the same time and both pay to open the door
 
 ## Barriers
-* No longer have to hold the use button in order to rebuild barriers, only press it
 * Can no longer rebuild barriers while sprinting or diving
 * Fixed a bug where zombies would get stuck in a barrier if a board was repaired as the zombie was beginning to go over the barrier
 * All zombies behind a barrier will now taunt correctly

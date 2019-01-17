@@ -1543,10 +1543,10 @@ blocker_trigger_think()
 				break;
 			}
 
-			/*if( !player use_button_held() )
+			if( !player use_button_held() )
 			{
 				break;
-			}*/
+			}
 
 
 
