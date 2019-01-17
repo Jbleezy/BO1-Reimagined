@@ -2041,7 +2041,7 @@ perk_think( perk )
 	switch(perk)
 	{
 		case "specialty_quickrevive":
-			self SetClientDvar("cg_hudDamageIconTime", 3500);
+			self SetClientDvar("cg_hudDamageIconTime", 3000);
 			break;
 
 		case "specialty_armorvest":
