@@ -19,7 +19,7 @@ init()
 	level._ZOMBIE_ACTOR_FLAG_FREEZEGUN_TORSO_DAMAGE_FX = 14;
 
 	set_zombie_var( "freezegun_cylinder_radius",				120 ); // 10 feet
-	set_zombie_var( "freezegun_inner_range",					200 ); // 5 feet
+	set_zombie_var( "freezegun_inner_range",					300 ); // 5 feet
 	set_zombie_var( "freezegun_outer_range",					600 ); // 50 feet
 	set_zombie_var( "freezegun_inner_damage",					1000 );
 	set_zombie_var( "freezegun_outer_damage",					500 );
@@ -27,7 +27,7 @@ init()
 	set_zombie_var( "freezegun_shatter_inner_damage",			500 );
 	set_zombie_var( "freezegun_shatter_outer_damage",			250 );
 	set_zombie_var( "freezegun_cylinder_radius_upgraded",		180 ); // 15 feet
-	set_zombie_var( "freezegun_inner_range_upgraded",			300 ); // 10 feet
+	set_zombie_var( "freezegun_inner_range_upgraded",			450 ); // 10 feet
 	set_zombie_var( "freezegun_outer_range_upgraded",			900 ); // 75 feet
 	set_zombie_var( "freezegun_inner_damage_upgraded",			1500 );
 	set_zombie_var( "freezegun_outer_damage_upgraded",			750 );
@@ -100,8 +100,11 @@ freezegun_fired( upgraded )
 
 	self freezegun_get_enemies_in_range( upgraded );
 
+	level.freezegun_network_choke_count = 0;
+
 	for ( i = 0; i < level.freezegun_enemies.size; i++ )
 	{
+		freezegun_network_choke();
 		level.freezegun_enemies[i] thread freezegun_do_damage( upgraded, self, level.freezegun_enemies_dist_ratio[i] );
 	}
 
@@ -316,7 +319,22 @@ freezegun_debug_print( msg, color )
 
 freezegun_do_damage( upgraded, player, dist_ratio )
 {
-	damage = Int( LerpFloat( int(self.maxhealth / 3) + 1, self.maxhealth, dist_ratio ) );
+	damage = 0;
+	inner_range = freezegun_get_inner_range( upgraded );
+	outer_range = freezegun_get_outer_range( upgraded );
+	one_hit_range = 1.0;
+	two_hit_range = (outer_range - inner_range) / outer_range;
+	three_hit_range = 0;
+	if(dist_ratio >= two_hit_range)
+	{
+		dist_ratio = (dist_ratio - two_hit_range) * (1 / (one_hit_range - two_hit_range));
+		damage = Int( LerpFloat( int(self.maxhealth / 2) + 1, self.maxhealth, dist_ratio ) );
+	}
+	else
+	{
+		dist_ratio = (dist_ratio - three_hit_range) * (1 / (two_hit_range - three_hit_range));
+		damage = Int( LerpFloat( int(self.maxhealth / 3) + 1, int(self.maxhealth / 2) + 1, dist_ratio ) );
+	}
 
 	min_damage = freezegun_get_inner_damage(upgraded);
 	if(damage < min_damage)
@@ -440,7 +458,7 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 	{
 		self StartRagdoll();
 		self freezegun_clear_extremity_damage_fx();
-		self freezegun_clear_torso_damage_fx();
+		//self freezegun_clear_torso_damage_fx();
 	}
 }
 
@@ -482,7 +500,7 @@ freezegun_do_crumple( weap, shatter_trigger, crumple_trigger )
 		{
 			self StartRagdoll();
 			self freezegun_clear_extremity_damage_fx();
-			self freezegun_clear_torso_damage_fx();
+			//self freezegun_clear_torso_damage_fx();
 		}
 	}
 }
@@ -525,7 +543,7 @@ freezegun_death( hit_location, hit_origin, player )
 		return;
 	}
 
-	if ( !self.has_legs )
+	/*if ( !self.has_legs )
 	{
 		if ( !isDefined( level._zombie_freezegun_death_missing_legs[self.animname] ) )
 		{
@@ -544,7 +562,7 @@ freezegun_death( hit_location, hit_origin, player )
 		}
 
 		self.deathanim = random( level._zombie_freezegun_death[self.animname] );
-	}
+	}*/
 
 	self.freezegun_death = true;
 	self.skip_death_notetracks = true;
@@ -563,7 +581,7 @@ freezegun_death( hit_location, hit_origin, player )
 	anim_len = getanimlength( self.deathanim );
 
 	self thread freezegun_set_extremity_damage_fx();
-	self thread freezegun_set_torso_damage_fx();
+	//self thread freezegun_set_torso_damage_fx();
 
 	/*shatter_trigger = spawn( "trigger_damage", self.origin, 0, 15, 72 );
 	shatter_trigger enablelinkto();
@@ -575,9 +593,6 @@ freezegun_death( hit_location, hit_origin, player )
 	crumple_trigger linkto( self );*/
 
 	weap = self.damageweapon;
-
-	// wait a frame before shatter for gibs to function properly and not be stuck floating in the air
-	wait_network_frame();
 
 	self thread freezegun_do_shatter( player, weap );
 
@@ -605,7 +620,7 @@ is_freezegun_damage( mod )
 
 is_freezegun_shatter_damage( mod )
 {
-	return ("MOD_EXPLOSIVE" == mod && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
+	return (("MOD_EXPLOSIVE" == mod || "MOD_UNKNOWN" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
 }
 
 
@@ -630,4 +645,16 @@ enemy_percent_damaged_by_freezegun()
 enemy_killed_by_freezegun()
 {
 	return ( IsDefined( self.freezegun_death ) && self.freezegun_death == true );
+}
+
+freezegun_network_choke()
+{
+	if ( level.freezegun_network_choke_count != 0 && !(level.freezegun_network_choke_count % 8) )
+	{
+		wait_network_frame();
+		wait_network_frame();
+		wait_network_frame();
+	}
+
+	level.freezegun_network_choke_count++;
 }
