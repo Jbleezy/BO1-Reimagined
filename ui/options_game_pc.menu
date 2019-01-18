@@ -112,16 +112,6 @@
 				setDvar zombie_moon_initial_box_location "random";
 			}
 
-			if(dvarString(zombie_pentagon_disabled_window1) == "")
-			{
-				setDvar zombie_pentagon_disabled_window1 "random";
-			}
-
-			if(dvarString(zombie_pentagon_disabled_window2) == "")
-			{
-				setDvar zombie_pentagon_disabled_window2 "random";
-			}
-
 			if(dvarString(zombie_pentagon_initial_box_location) == "")
 			{
 				setDvar zombie_pentagon_initial_box_location "random";
@@ -318,9 +308,11 @@
 
 		POPUP_TITLE_VIS( 90 10 120 80, "@REIMAGINED_MAP_SPECIFIC", when(dvarString("ui_options_game_popup") == "map_options") )
 
-		CHOICE_DVARSTRINGLIST_VIS( 2, "@REIMAGINED_ZOMBIE_ASYLUM_SPAWN", asylum_start_room, { "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_ZOMBIE_ASYLUM_SPAWN_QUICK_REVIVE"; "revive"; "@REIMAGINED_ZOMBIE_ASYLUM_SPAWN_ARMOR_VEST"; "jug" }, ;, when(dvarString("ui_options_game_popup") == "map_options"))
+		CHOICE_DVARSTRINGLIST_VIS( 4, "@REIMAGINED_ZOMBIE_ASYLUM_SPAWN", asylum_start_room, { "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_ZOMBIE_ASYLUM_SPAWN_QUICK_REVIVE"; "revive"; "@REIMAGINED_ZOMBIE_ASYLUM_SPAWN_ARMOR_VEST"; "jug" }, ;, when(dvarString("ui_options_game_popup") == "map_options"))
 
-		CHOICE_DVARSTRINGLIST_VIS( 3, "@REIMAGINED_ZOMBIE_PENTAGON_DISABLE_WINDOW_1", zombie_pentagon_disabled_window1, {
+		CHOICE_DVARSTRINGLIST_VIS( 5, "@REIMAGINED_ZOMBIE_MOON_NML_PERK", nml_start_perk, { "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_ARMOR_VEST_CAPS"; "jug"; "@REIMAGINED_SLEIGHT_OF_HANDS_CAPS"; "speed" }, ;, when(dvarString("ui_options_game_popup") == "map_options"))
+
+		/*CHOICE_DVARSTRINGLIST_VIS( 3, "@REIMAGINED_ZOMBIE_PENTAGON_DISABLE_WINDOW_1", zombie_pentagon_disabled_window1, {
 			"@MPUI_RANDOM_CAPS"; "random";
 			"@REIMAGINED_ZOMBIE_PENTAGON_DISABLE_WINDOW_CONFERENCE_NE"; "conference_ne";
 			"@REIMAGINED_ZOMBIE_PENTAGON_DISABLE_WINDOW_CONFERENCE_NW"; "conference_nw";
@@ -446,9 +438,7 @@
 			"@REIMAGINED_ZOMBIE_PENTAGON_DISABLE_WINDOW_CONFERENCE_SE"; "conference_se";
 			"@REIMAGINED_ZOMBIE_PENTAGON_DISABLE_WINDOW_CONFERENCE_SW"; "conference_sw";
 			"@REIMAGINED_ZOMBIE_PENTAGON_DISABLE_WINDOW_HALLWAY_E"; "hallway_e"
-		}, ;, when(dvarString("zombie_pentagon_disabled_window1") == "hallway_w" && dvarString("ui_options_game_popup") == "map_options"))
-
-		CHOICE_DVARSTRINGLIST_VIS( 5, "@REIMAGINED_ZOMBIE_MOON_NML_PERK", nml_start_perk, { "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_ARMOR_VEST_CAPS"; "jug"; "@REIMAGINED_SLEIGHT_OF_HANDS_CAPS"; "speed" }, ;, when(dvarString("ui_options_game_popup") == "map_options"))
+		}, ;, when(dvarString("zombie_pentagon_disabled_window1") == "hallway_w" && dvarString("ui_options_game_popup") == "map_options"))*/
 
 		// INITIAL BOX LOCATIONS
 

@@ -921,8 +921,9 @@
 * Teleporter mainframe pad will now display the link not active hintstring every time the teleporter needs to be linked
 
 ### Five
+* All 6 barriers in the Conference Room zone are always active
+* Zombies no longer spawn from the Quick Reive hallway when in the Speed Cola hallway
 * Trap pieces are already in place
-* Active barriers in the spawn room stay the same throughout the entire match
 * Pack-a-Punch machine will stay available for as long as the defcon room is active
 * If all players on a floor use an elevator or get downed when the power is off, all zombies will now respawn
 * If all players on a floor use an elevator or get downed when the power is on, all zombies that were in the map will now go through teleporters and all zombies that were in barriers will now respawn
@@ -1090,7 +1091,6 @@
 * Der Riese: powerdown spawns from the start of each match
 * Der Riese: powerdown and full health dogs spawn from every teleporter use
 * Kino Der Toten: teleporter is permamently linked to the mainframe
-* Five: all 6 barriers in the start room are enabled
 * Five: first room door is open from the start of the match
 * Five: teleporters disabled
 * Five: Pack-a-Punch door is now a 1500 point buyable door

@@ -786,6 +786,15 @@ create_spawner_list( zkeys )
 			{
 				if ( zone.spawners[x].is_enabled )
 				{
+					// HACK - make zombies not spawn in Quick Revive hallway when no players are in Conference Room zone
+					if(level.script == "zombie_pentagon")
+					{
+						if((zone.spawners[x].target == "auto2773" || zone.spawners[x].target == "auto2774") && get_players_in_zone("conference_level1") == 0)
+						{
+							continue;
+						}
+					}
+
 					level.enemy_spawns[ level.enemy_spawns.size ] = zone.spawners[x];
 				}
 			}
