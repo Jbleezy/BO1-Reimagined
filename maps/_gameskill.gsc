@@ -490,7 +490,7 @@ apply_difficulty_frac_with_func( difficulty_func, current_frac )
 	level.playerHealth_RegularRegenDelay = [[ difficulty_func ]]( "playerHealth_RegularRegenDelay", current_frac );
 	level.worthyDamageRatio = [[ difficulty_func ]]( "worthyDamageRatio", current_frac );
 
-	level.playerHealth_RegularRegenDelay = 2500;
+	level.playerHealth_RegularRegenDelay = 3000;
 	level.perk_healthRegenMultiplier = 1.25;
 	level.perk_longHealthRegenMultiplier = 1.25;
 

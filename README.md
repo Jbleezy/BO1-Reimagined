@@ -34,7 +34,7 @@
 * Players can now move after diving quicker
 * Decreased dive startup time
 * Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
-* Increased normal health regeneration time from 2.4 seconds to 2.5 seconds
+* Increased normal health regeneration time from 2.4 seconds to 3 seconds
 * Red screens now start at 25% health (previously 20% health)
 * Fixed players getting stuck in the air when jumping next to an object with high FPS
 * Players can now shoot when looking at another player
@@ -56,7 +56,7 @@
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
-* Damage marker time set to 3 seconds
+* Damage icon time now matches the health regeneration time
 * Zombie counter displayed on the top left of the HUD
 * Game time displayed on the top right of the HUD
 * Round time displayed on the top right of the HUD
@@ -632,7 +632,7 @@
 
 ### Quick Revive
 * No longer gives the player a self revive in solo
-* Decreases normal health regeneration time from 2.5 seconds to 2 seconds
+* Decreases normal health regeneration time from 3 seconds to 2.4 seconds
 * Decreases low health regeneration time from 5 seconds to 4 seconds
 * Increased cost in solo from 500 points to 1500 points
 * Powered off in solo when the power is off

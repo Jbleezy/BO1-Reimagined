@@ -1780,7 +1780,7 @@ onPlayerConnect_clientDvars()
 		"player_backSpeedScale", "1",
 		"player_strafeSpeedScale", "1",
 		"player_sprintStrafeSpeedScale", "1",
-		"cg_hudDamageIconTime", "3000" );
+		"cg_hudDamageIconTime", "3500" );
 
 	self SetDepthOfField( 0, 0, 512, 4000, 4, 0 );
 
