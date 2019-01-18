@@ -76,11 +76,11 @@ wait_for_thundergun_fired()
 
 thundergun_network_choke()
 {
-	if ( level.thundergun_network_choke_count != 0 && !(level.thundergun_network_choke_count % 8) )
+	if ( level.thundergun_network_choke_count != 0 && !(level.thundergun_network_choke_count % 4) )
 	{
 		wait_network_frame();
-		wait_network_frame();
-		wait_network_frame();
+		//wait_network_frame();
+		//wait_network_frame();
 	}
 
 	level.thundergun_network_choke_count++;

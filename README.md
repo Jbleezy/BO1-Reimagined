@@ -412,7 +412,8 @@
 * Gives 50 points for each kill
 * Decreased range by 6.25%
 * Fixed empty clip idle, drop, raise, and sprint in animations
-* Decreased amount of zombies killed per frame from 9 to 8
+* Decreased maximum amount of zombies killed per frame from 10 to 4
+* Decreased maximum amount of zombies killed per frame wait time from 3 frames to 1 frame
 * Zombies no longer gib from being knocked down
 * Zombies no longer drop powerups when killed from being knocked down
 
@@ -420,7 +421,7 @@
 * Changed fire type to automatic
 * Always kills zombies in 1-3 shots depending on how far away the zombie was from the shot
 * No longer drops powerups
-* Added a maximum of 8 zombies killed per frame to prevent crashes
+* Added a maximum of 4 zombies killed per frame to prevent crashes
 * Enemies that die from the Winter's Howl will now shatter immediately
 * Unupgraded: increased minimum damage from 600 to 1000
 * Unupgraded: increased maximum damage range by 500%
@@ -459,7 +460,8 @@
 #### Wave Gun
 * Gives 50 points for each kill
 * Decreased range by 6.25%
-* Decreased amount of zombies killed per frame from 9 to 8
+* Decreased maximum amount of zombies killed per frame from 10 to 4
+* Decreased maximum amount of zombies killed per frame wait time from 3 frames to 1 frame
 
 ### Equipment
 

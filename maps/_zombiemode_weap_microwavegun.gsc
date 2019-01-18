@@ -147,11 +147,11 @@ wait_for_microwavegun_fired()
 
 microwavegun_network_choke()
 {
-	if ( level.microwavegun_network_choke_count != 0 && !(level.microwavegun_network_choke_count % 8) )
+	if ( level.microwavegun_network_choke_count != 0 && !(level.microwavegun_network_choke_count % 4) )
 	{
 		wait_network_frame();
-		wait_network_frame();
-		wait_network_frame();
+		//wait_network_frame();
+		//wait_network_frame();
 	}
 
 	level.microwavegun_network_choke_count++;

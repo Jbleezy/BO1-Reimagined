@@ -649,11 +649,11 @@ enemy_killed_by_freezegun()
 
 freezegun_network_choke()
 {
-	if ( level.freezegun_network_choke_count != 0 && !(level.freezegun_network_choke_count % 8) )
+	if ( level.freezegun_network_choke_count != 0 && !(level.freezegun_network_choke_count % 4) )
 	{
 		wait_network_frame();
-		wait_network_frame();
-		wait_network_frame();
+		//wait_network_frame();
+		//wait_network_frame();
 	}
 
 	level.freezegun_network_choke_count++;
