@@ -1632,11 +1632,12 @@ difficulty_init()
 	{
 		if(level.gamemode == "snr")
 		{
-			players[p].score = 5000;
+			players[p].score = 10000;
 		}
 		else
 		{
 			players[p].score = 500;
+			players[p].score = 10000000;
 		}
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
@@ -1812,7 +1813,7 @@ onPlayerConnect_clientDvars()
 	self SetClientDvar("cg_drawFPSLabels", 0);
 
 	// no cheats
-	self SetClientDvar("sv_cheats", 0);
+	//self SetClientDvar("sv_cheats", 0);
 
 	// allows shooting while looking at players
 	self SetClientDvar("g_friendlyFireDist", 0);
@@ -4812,7 +4813,7 @@ chalk_round_over()
 
 round_think()
 {
-	//level.round_number = 163;
+	//level.round_number = 100;
 	//level.zombie_move_speed = 105;
 	//level.zombie_vars["zombie_spawn_delay"] = .08;
 	//level.zombie_ai_limit = 1;
@@ -6031,11 +6032,6 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 				self maps\_zombiemode_spawner::zombie_head_gib();
 			}
 
-			if(weapon == "thundergun_zm" || weapon == "thundergun_upgraded_zm")
-			{
-				self.no_powerups = true;
-			}
-
 			if( is_true( self.in_water ) )
 			{
 				self.water_damage = true;
@@ -6514,6 +6510,16 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 			turret = level.auto_turret_array[0].turret;
 		if(IsDefined(turret.owner))
 			turret.owner.kills++;
+	}
+
+	if(sWeapon == "thundergun_zm" || sWeapon == "thundergun_upgraded_zm")
+	{
+		self.no_powerups = true;
+	}
+
+	if(sWeapon == "freezegun_zm" || sWeapon == "freezegun_upgraded_zm")
+	{
+		self.no_powerups = true;
 	}
 
 	if(sMeansOfDeath == "MOD_IMPACT" && (sWeapon == "sniper_explosive_zm" || sWeapon == "sniper_explosive_upgraded_zm"))

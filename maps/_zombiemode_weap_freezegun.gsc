@@ -26,7 +26,7 @@ init()
 	set_zombie_var( "freezegun_shatter_range",					180 ); // 150 feet
 	set_zombie_var( "freezegun_shatter_inner_damage",			500 );
 	set_zombie_var( "freezegun_shatter_outer_damage",			250 );
-	set_zombie_var( "freezegun_cylinder_radius_upgraded",		180 ); // 15 feet
+	set_zombie_var( "freezegun_cylinder_radius_upgraded",		120 ); // 15 feet
 	set_zombie_var( "freezegun_inner_range_upgraded",			450 ); // 10 feet
 	set_zombie_var( "freezegun_outer_range_upgraded",			900 ); // 75 feet
 	set_zombie_var( "freezegun_inner_damage_upgraded",			1500 );

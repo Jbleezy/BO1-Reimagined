@@ -419,10 +419,12 @@
 #### Winter's Howl
 * Changed fire type to automatic
 * Always kills zombies in 1-3 shots depending on how far away the zombie was from the shot
+* No longer drops powerups
 * Added a maximum of 8 zombies killed per frame to prevent crashes
 * Enemies that die from the Winter's Howl will now shatter immediately
 * Unupgraded: increased minimum damage from 600 to 1000
 * Unupgraded: increased maximum damage range by 500%
+* Upgraded: decreased radius by 33%
 * Upgraded: increased minimum damage from 900 to 1500
 * Upgraded: increased maximum damage range by 375%
 * Upgraded: camo now displays on more of the weapon
