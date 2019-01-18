@@ -491,11 +491,11 @@ zombie_think()
 	{
 		desired_origin = get_desired_origin();
 
-		// Der Riese - switch between the 2 spawn points in Outside Warehouse, since one of them barely gets any zombies coming to it
+		// HACK - Der Riese - switch between the 2 spawn points in Outside Warehouse zone, since one of them barely gets any zombies coming to it
 		if(level.script == "zombie_cod5_factory" && self.target == "outside_west_spawners_goal_0")
 		{
-			// only increase chance of spawn at other spawn point if there are players in Outside Warehouse or Mainframe
-			// if all players are in Warehouse, then there will be no increase chance of spawn at other spawn point
+			// Only increase chance of spawn at other spawn point if there are players in Outside Warehouse zone or Mainframe zone
+			// If all players are in Warehouse zone, then there will be no increase chance of spawn at other spawn point
 			if(maps\_zombiemode_zone_manager::get_players_in_zone("outside_west_zone") > 0 || maps\_zombiemode_zone_manager::get_players_in_zone("receiver_zone") > 0)
 			{
 				if(RandomInt(100) < 50)

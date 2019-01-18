@@ -945,6 +945,8 @@
 * Decreased maximum time for zombies to teleport from 20 seconds to 15 seconds
 
 ### Ascension
+* Zombies now spawn from the Stairs zone when in the Upper Centrifuge Zone
+* Zombies no longer spawn from the Stairs zone when in the Centrifuge Zone
 * The easter egg song teddy bears will float up and rotate around while the song is active
 
 #### Lunar Lander

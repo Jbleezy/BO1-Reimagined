@@ -521,7 +521,7 @@ cosmodrome_zone_init()
 	add_zone_flags(	"power2centrifuge",										"power_group" );
 
 	// Side Tunnel to Centrifuge
-	add_adjacent_zone( "access_tunnel_zone",	"centrifuge_zone",			"tunnel_centrifuge_entry" );
+	add_adjacent_zone( "access_tunnel_zone",	"centrifuge_zone2",			"tunnel_centrifuge_entry" );
 	add_zone_flags(	"tunnel_centrifuge_entry",								"base_entry_group" );
 
 	// Base Entrance
