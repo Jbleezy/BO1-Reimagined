@@ -888,7 +888,11 @@
 
 ### Der Riese
 * Players will no longer get stuck on curbs
-* Zombies now go to the barrier on the right outside of the warehouse more frequently
+* Zombies now spawn from the Outside Warehouse zone when in the Courtyard zone
+* Zombies now spawn from the Bridge Warehouse Side zone when in the Upper Warehouse zone
+* Zombies no longer spawn from the Outside Laboratory zone when in the Teleporter A zone
+* Zombies no longer spawn from the Outside Laboratory zone when in the Teleporter C zone
+* Zombies now go to the barrier on the right in the Outside Warehouse zone more frequently
 * Fixed Mystery Box use trigger in the laboratory
 * Easter egg song now plays the whole song
 * Removed intro text

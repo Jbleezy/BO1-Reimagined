@@ -496,7 +496,7 @@ zombie_think()
 		{
 			// Only increase chance of spawn at other spawn point if there are players in Outside Warehouse zone or Mainframe zone
 			// If all players are in Warehouse zone, then there will be no increase chance of spawn at other spawn point
-			if(maps\_zombiemode_zone_manager::get_players_in_zone("outside_west_zone") > 0 || maps\_zombiemode_zone_manager::get_players_in_zone("receiver_zone") > 0)
+			if(maps\_zombiemode_zone_manager::get_players_in_zone("outside_south_zone") > 0 || maps\_zombiemode_zone_manager::get_players_in_zone("outside_west_zone") > 0 || (flag("enter_outside_west") && maps\_zombiemode_zone_manager::get_players_in_zone("receiver_zone") > 0))
 			{
 				if(RandomInt(100) < 50)
 				{

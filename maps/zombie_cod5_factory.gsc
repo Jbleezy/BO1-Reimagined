@@ -126,7 +126,7 @@ main()
 
 	//level thread intro_screen();
 
-	level thread jump_from_bridge();
+	//level thread jump_from_bridge();
 	level lock_additional_player_spawner();
 
 	level thread bridge_init();
@@ -304,12 +304,12 @@ factory_zone_init()
 
 	// Warehosue top
 	add_adjacent_zone( "warehouse_bottom_zone", "warehouse_top_zone",	"enter_warehouse_second_floor" );
-	add_adjacent_zone( "warehouse_top_zone",	"bridge_zone",			"enter_warehouse_second_floor" );
+	add_adjacent_zone( "warehouse_top_zone",	"bridge_zone",			"enter_south_zone", true );
 
 	// TP East
 	add_adjacent_zone( "tp_east_zone",			"wnuen_zone",			"enter_tp_east" );
 
-	add_adjacent_zone( "tp_east_zone",			"outside_east_zone",	"enter_tp_east",			true );
+	//add_adjacent_zone( "tp_east_zone",			"outside_east_zone",	"enter_tp_east",			true );
 
 	// TP South
 	add_adjacent_zone( "tp_south_zone",			"outside_south_zone",	"enter_tp_south" );
@@ -320,7 +320,16 @@ factory_zone_init()
 	//add_adjacent_zone( "tp_west_zone",			"warehouse_bottom_zone", "enter_tp_west",		true );
 	//add_zone_flags(	"enter_tp_west",										"enter_warehouse_second_floor" );
 
-	level thread link_zones_after_door_is_opened();
+	add_adjacent_zone( "outside_south_zone", "bridge_zone", "enter_south_zone", true );
+	add_adjacent_zone( "outside_south_zone", "wnuen_bridge_zone", "enter_south_zone", true );
+
+	add_adjacent_zone( "tp_south_zone", "bridge_zone", "enter_tp_south", true );
+	add_adjacent_zone( "tp_south_zone", "wnuen_bridge_zone", "enter_tp_south", true );
+
+	add_zone_flags(	"enter_warehouse_second_floor", "enter_south_zone" );
+	add_zone_flags(	"enter_wnuen_loading_dock", "enter_south_zone" );
+
+	//level thread link_zones_after_door_is_opened();
 }
 
 link_zones_after_door_is_opened()
@@ -518,11 +527,8 @@ bridge_init()
 	warehouse_bridge_clip delete();
 
 	maps\_zombiemode_zone_manager::connect_zones( "wnuen_bridge_zone", "bridge_zone" );
-	maps\_zombiemode_zone_manager::connect_zones( "warehouse_top_zone", "bridge_zone" );
+	//maps\_zombiemode_zone_manager::connect_zones( "warehouse_top_zone", "bridge_zone" );
 }
-
-
-
 
 jump_from_bridge()
 {
@@ -533,7 +539,6 @@ jump_from_bridge()
 	maps\_zombiemode_zone_manager::connect_zones( "outside_south_zone", "wnuen_bridge_zone", true );
 }
 
-
 init_sounds()
 {
 	maps\_zombiemode_utility::add_sound( "break_stone", "break_stone" );
@@ -543,7 +548,6 @@ init_sounds()
 	// override the default slide with the buzz slide
 	maps\_zombiemode_utility::add_sound("door_slide_open", "door_slide_open");
 }
-
 
 // Include the weapons that are only inr your level so that the cost/hints are accurate
 // Also adds these weapons to the random treasure chest.
@@ -953,7 +957,7 @@ power_electric_switch()
 
 	// Don't want east or west to spawn when in south zone, but vice versa is okay
 	maps\_zombiemode_zone_manager::connect_zones( "outside_east_zone", "outside_south_zone" );
-	maps\_zombiemode_zone_manager::connect_zones( "outside_west_zone", "outside_south_zone", true );
+	maps\_zombiemode_zone_manager::connect_zones( "outside_west_zone", "outside_south_zone" );
 }
 
 
