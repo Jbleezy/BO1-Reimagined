@@ -1111,7 +1111,7 @@
 * 2,000 health zombies
 * .5 second zombie spawn rate
 * Only sprinting zombies
-* Every player starts with 5,000 points and will get 5,000 points at the beginning of each new round if they have less than 5,000 points
+* Every player starts with 10,000 points and will get 5,000 points at the beginning of each new round if they have less than 5,000 points
 * Win a round by getting all enemy players down
 * Win the game by winning 3 rounds
 * Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)

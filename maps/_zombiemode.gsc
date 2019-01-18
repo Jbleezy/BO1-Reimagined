@@ -1637,7 +1637,7 @@ difficulty_init()
 		else
 		{
 			players[p].score = 500;
-			players[p].score = 10000000;
+			//players[p].score = 10000000;
 		}
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
@@ -1813,7 +1813,7 @@ onPlayerConnect_clientDvars()
 	self SetClientDvar("cg_drawFPSLabels", 0);
 
 	// no cheats
-	//self SetClientDvar("sv_cheats", 0);
+	self SetClientDvar("sv_cheats", 0);
 
 	// allows shooting while looking at players
 	self SetClientDvar("g_friendlyFireDist", 0);
