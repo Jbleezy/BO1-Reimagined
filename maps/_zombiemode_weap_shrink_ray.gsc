@@ -17,7 +17,7 @@ init()
 		[[level.shrink_ray_model_mapping_func]]();
 	}
 
-	set_zombie_var( "shrink_ray_fling_range",			480 ); // 40 feet
+	set_zombie_var( "shrink_ray_fling_range",			450 ); // 40 feet
 
 	//Precache all mini models
 	keys = getarraykeys(level.shrink_models);

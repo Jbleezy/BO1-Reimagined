@@ -28,7 +28,7 @@ init()
 	level._effect["thundergun_smoke_cloud"]			= loadfx( "weapon/thunder_gun/fx_thundergun_smoke_cloud" );
 
 	set_zombie_var( "thundergun_cylinder_radius",		180 );
-	set_zombie_var( "thundergun_fling_range",			480 ); // 40 feet
+	set_zombie_var( "thundergun_fling_range",			450 ); // 40 feet
 	set_zombie_var( "thundergun_gib_range",				900 ); // 75 feet
 	set_zombie_var( "thundergun_gib_damage",			0 );
 	set_zombie_var( "thundergun_knockdown_range",		1200 ); // 100 feet
@@ -76,14 +76,14 @@ wait_for_thundergun_fired()
 
 thundergun_network_choke()
 {
-	level.thundergun_network_choke_count++;
-
-	if ( !(level.thundergun_network_choke_count % 10) )
+	if ( level.thundergun_network_choke_count != 0 && !(level.thundergun_network_choke_count % 8) )
 	{
 		wait_network_frame();
 		wait_network_frame();
 		wait_network_frame();
 	}
+
+	level.thundergun_network_choke_count++;
 }
 
 
@@ -213,13 +213,6 @@ thundergun_get_enemies_in_range()
 			level.thundergun_fling_vecs[level.thundergun_fling_vecs.size] = fling_vec;
 
 			zombies[i] thread setup_thundergun_vox( self, true, false, false );
-		}
-		else if ( test_range_squared < gib_range_squared )
-		{
-			level.thundergun_knockdown_enemies[level.thundergun_knockdown_enemies.size] = zombies[i];
-			level.thundergun_knockdown_gib[level.thundergun_knockdown_gib.size] = true;
-
-			zombies[i] thread setup_thundergun_vox( self, false, true, false );
 		}
 		else
 		{

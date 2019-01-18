@@ -408,13 +408,16 @@
 * Bulbs now light up correctly after reload cancelling
 
 #### Thundergun
-* Changed fire type to full auto
-* Fixed empty clip idle, drop, raise, and sprint in animations
+* Changed fire type to automatic
 * Gives 50 points for each kill
-* No longer does any damage to any enemies that are knocked down and not killed
+* Decreased range by 6.25%
+* Fixed empty clip idle, drop, raise, and sprint in animations
+* Decreased amount of zombies killed per frame from 9 to 8
+* Zombies no longer gib from being knocked down
+* Zombies no longer drop powerups when killed from being knocked down
 
 #### Winter's Howl
-* Changed fire type to full auto
+* Changed fire type to automatic
 * Always kills zombies in 1-3 shots depending on how far away the zombie was from the shot
 * Added a maximum of 8 zombies killed per frame to prevent crashes
 * Enemies that die from the Winter's Howl will now shatter immediately
@@ -430,8 +433,8 @@
 * Fixed an error in the sprint out animation
 
 #### Scavenger
-* Infinite damage
-* Gives 10 points when dealing impact damage
+* Infinite explosion damage
+* Added impact damage
 
 #### V-R11
 * Now has a small splash damage (still only affects one player or zombie)
@@ -448,10 +451,13 @@
 * Upgraded: removed explosion effect from shooting the same human zombie multiple times
 
 #### Baby Gun
+* Decreased range by 6.25%
 * Fixed a bug that caused an error to happen when shrinking enemies and allowing them to regrow many times throughout a game
 
 #### Wave Gun
 * Gives 50 points for each kill
+* Decreased range by 6.25%
+* Decreased amount of zombies killed per frame from 9 to 8
 
 ### Equipment
 
