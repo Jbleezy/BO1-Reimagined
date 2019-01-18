@@ -3548,7 +3548,7 @@ zombie_death_animscript()
 	self.grenadeAmmo = 0;
 
 	// rsh090710 - nuked zombies don't give points but should still possibly drop powerups
-	/*if ( IsDefined( self.nuked ) )
+	if ( IsDefined( self.nuked ) )
 	{
 		if( zombie_can_drop_powerups( self ) )
 		{
@@ -3566,7 +3566,7 @@ zombie_death_animscript()
 				level thread maps\_zombiemode_powerups::powerup_drop( self.origin );
 			}
 		}
-	}*/
+	}
 
 	if(!IsDefined(self.nuked) && !IsDefined(self.trap_death))
 	{

@@ -696,7 +696,6 @@
 ### Nuke
 * Now obtainable on round 1 on all maps
 * Kills all zombies instantly
-* Enemies killed by a Nuke no longer drop powerups
 * Zombies killed from a Nuke count as kills for the player who grabbed the Nuke
 
 ### Wunderwaffe (Powerup)
