@@ -100,11 +100,11 @@ freezegun_fired( upgraded )
 
 	self freezegun_get_enemies_in_range( upgraded );
 
-	level.freezegun_network_choke_count = 0;
+	//level.freezegun_network_choke_count = 0;
 
 	for ( i = 0; i < level.freezegun_enemies.size; i++ )
 	{
-		freezegun_network_choke();
+		//freezegun_network_choke();
 		level.freezegun_enemies[i] thread freezegun_do_damage( upgraded, self, level.freezegun_enemies_dist_ratio[i] );
 	}
 
@@ -443,7 +443,7 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 {
 	freezegun_debug_print( "shattered" );
 
-	//self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
+	self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
 
 	upgraded = (weap == "freezegun_upgraded_zm");
 	player.freezegun_shatter_damage = true;
@@ -458,7 +458,7 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 	{
 		self StartRagdoll();
 		self freezegun_clear_extremity_damage_fx();
-		//self freezegun_clear_torso_damage_fx();
+		self freezegun_clear_torso_damage_fx();
 	}
 }
 
@@ -500,7 +500,7 @@ freezegun_do_crumple( weap, shatter_trigger, crumple_trigger )
 		{
 			self StartRagdoll();
 			self freezegun_clear_extremity_damage_fx();
-			//self freezegun_clear_torso_damage_fx();
+			self freezegun_clear_torso_damage_fx();
 		}
 	}
 }
@@ -543,7 +543,7 @@ freezegun_death( hit_location, hit_origin, player )
 		return;
 	}
 
-	/*if ( !self.has_legs )
+	if ( !self.has_legs )
 	{
 		if ( !isDefined( level._zombie_freezegun_death_missing_legs[self.animname] ) )
 		{
@@ -562,7 +562,7 @@ freezegun_death( hit_location, hit_origin, player )
 		}
 
 		self.deathanim = random( level._zombie_freezegun_death[self.animname] );
-	}*/
+	}
 
 	self.freezegun_death = true;
 	self.skip_death_notetracks = true;
@@ -581,28 +581,28 @@ freezegun_death( hit_location, hit_origin, player )
 	anim_len = getanimlength( self.deathanim );
 
 	self thread freezegun_set_extremity_damage_fx();
-	//self thread freezegun_set_torso_damage_fx();
+	self thread freezegun_set_torso_damage_fx();
 
-	/*shatter_trigger = spawn( "trigger_damage", self.origin, 0, 15, 72 );
+	shatter_trigger = spawn( "trigger_damage", self.origin, 0, 15, 72 );
 	shatter_trigger enablelinkto();
 	shatter_trigger linkto( self );
 
 	spawnflags = 1 + 2 + 4 + 16 + 64; // SF_TOUCH_AI_AXIS | SF_TOUCH_AI_ALLIES | SF_TOUCH_AI_NEUTRAL | SF_TOUCH_VEHICLE | SF_TOUCH_ONCE
 	crumple_trigger = spawn( "trigger_radius", self.origin, spawnflags, 15, 72 );
 	crumple_trigger enablelinkto();
-	crumple_trigger linkto( self );*/
+	crumple_trigger linkto( self );
 
 	weap = self.damageweapon;
 
-	self thread freezegun_do_shatter( player, weap );
+	//self thread freezegun_do_shatter( player, weap );
 
-	//self thread freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger );
-	//self thread freezegun_wait_for_crumple( weap, shatter_trigger, crumple_trigger );
-	//self endon( "cleanup_freezegun_triggers" );
+	self thread freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger );
+	self thread freezegun_wait_for_crumple( weap, shatter_trigger, crumple_trigger );
+	self endon( "cleanup_freezegun_triggers" );
 
-	//wait( RandomFloatRange(2, 2.5) ); // force the zombie to crumple if he is untouched after time
+	wait( anim_len / 2 ); // force the zombie to crumple if he is untouched after time
 
-	//self thread freezegun_do_crumple( weap, shatter_trigger, crumple_trigger );
+	self thread freezegun_do_crumple( weap, shatter_trigger, crumple_trigger );
 }
 
 

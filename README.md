@@ -421,8 +421,7 @@
 * Changed fire type to automatic
 * Always kills zombies in 1-3 shots depending on how far away the zombie was from the shot
 * No longer drops powerups
-* Added a maximum of 4 zombies killed per frame to prevent crashes
-* Enemies that die from the Winter's Howl will now shatter immediately
+* Enemies that die from the Winter's Howl will now shatter 2x faster
 * Unupgraded: increased minimum damage from 600 to 1000
 * Unupgraded: increased maximum damage range by 500%
 * Upgraded: decreased radius by 33%
