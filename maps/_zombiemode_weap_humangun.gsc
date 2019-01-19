@@ -565,10 +565,11 @@ humangun_zombie_death_watcher( player )
 {
 	self waittill( "death" );
 
-	if ( isdefined( self.attacker ) && isAI( self.attacker ) )
+	/*if ( isdefined( self.attacker ) && isAI( self.attacker ) )
 	{
 		player maps\_zombiemode_score::player_add_points( "death", "", "" );
-	}
+	}*/
+	player maps\_zombiemode_score::player_add_points( "death", "", "" );
 }
 
 
@@ -715,12 +716,6 @@ humangun_zombie_1st_hit_response( upgraded, player )
 
 	self thread humangun_zombie_timeout(upgraded, player);
 
-	// turn off find flesh
-	self notify( "stop_find_flesh" );
-	self notify( "zombie_acquire_enemy" );
-	self OrientMode( "face default" );
-	self.ignoreall = true;
-
 	if(!IsDefined( level._humangun_escape_override ))
 	{
 		self.team = "axis";
@@ -739,11 +734,10 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	{
 		self.owner = player;
 		self thread humangun_zombie_damage_watcher( player );
-		//self thread humangun_zombie_death_watcher( player );
+		self thread humangun_zombie_death_watcher( player );
 	}
 
-	self.owner.kills++;
-	self.owner maps\_zombiemode_score::player_add_points( "death", "", "" );
+	//self.owner maps\_zombiemode_score::player_add_points( "death", "", "" );
 
 	self.ignore_enemy_count = true;
 
@@ -784,53 +778,61 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	self.magic_bullet_shield = true;
 	self BloodImpact( "hero" );
 
-	do_initial_anim = true;
+	// the taunt anim cancels the tear down anim
+	self notify("tear_anim", "end");
 
+	do_initial_anim = true;
+	// only do initial reaction here if not doing an anim
+	if(!is_true(self.in_the_ground) && !is_true(self.in_the_ceiling) && !is_true(self.is_traversing) && !is_true(self.is_traversing_barrier))
+	{
+		do_initial_anim = false;
+		// for now use the taunt as a reaction
+		react_anim = random( level._zombie_humangun_react[self.animname] );
+		self animscripted( "zombie_react", self.origin, self.angles, react_anim, "normal", undefined, 1, 0.4 );
+		waittill_notify_or_timeout( "death", getanimlength( react_anim ) );
+	}
+
+	// don't start reacting until fully in the map
 	if(is_true(self.in_the_ground))
 	{
 		self waittill("rise_anim_finished");
-
-		wait_network_frame();
-
-		if(!self in_playable_area())
-		{
-			self humangun_zombie_react_loop();
-		}
 	}
-
-	if ( !is_true( self.completed_emerging_into_playable_area ) )
+	if(is_true(self.in_the_ceiling))
 	{
-		if(!is_true(self.in_the_ceiling))
-		{
-			self humangun_zombie_react_loop();
-		}
-
-		do_initial_anim = false;
-		self waittill( "completed_emerging_into_playable_area" );
-
-		// turn off find flesh
-		self notify( "stop_find_flesh" );
-		self notify( "zombie_acquire_enemy" );
-		self OrientMode( "face default" );
-		self.ignoreall = true;
-
-		wait_network_frame();
+		self waittill("fall_anim_finished");
 	}
-
-	// don't start reacting until traverse is done
-	if ( is_true(self.is_traversing) )
+	if(is_true(self.is_traversing))
 	{
-		do_initial_anim = false;
 		self waittill( "zombie_end_traverse" );
-		wait_network_frame();
 	}
-
 	if(is_true(self.is_traversing_barrier))
 	{
-		do_initial_anim = false;
 		self waittill( "zombie_end_traverse_barrier" );
-		wait_network_frame();
 	}
+
+	// only do initial reaction here if was doing an anim
+	if(do_initial_anim)
+	{
+		react_anim = random( level._zombie_humangun_react[self.animname] );
+		self animscripted( "zombie_react", self.origin, self.angles, react_anim, "normal", undefined, 1, 0.4 );
+		waittill_notify_or_timeout( "death", getanimlength( react_anim ) );
+	}
+
+	if(!is_true(self.completed_emerging_into_playable_area))
+	{
+		maps\_zombiemode_spawner::set_zombie_run_cycle( "sprint" );
+		self waittill( "completed_emerging_into_playable_area" );
+	}
+	if(is_true(self.is_traversing_barrier))
+	{
+		self waittill( "zombie_end_traverse_barrier" );
+	}
+
+	// turn off find flesh
+	self notify( "stop_find_flesh" );
+	self notify( "zombie_acquire_enemy" );
+	self OrientMode( "face default" );
+	self.ignoreall = true;
 
 	level._zombie_human_array = add_to_array( level._zombie_human_array, self, false );
 	enemy_zombies = GetAiSpeciesArray( "axis", "all" );
@@ -845,19 +847,10 @@ humangun_zombie_1st_hit_response( upgraded, player )
 		}
 	}
 
-	if ( do_initial_anim )
-	{
-		// for now use the taunt as a reaction
-		react_anim = random( level._zombie_humangun_react[self.animname] );
-		self animscripted( "zombie_react", self.origin, self.angles, react_anim, "normal", undefined, 1, 0.4 );
-		waittill_notify_or_timeout( "death", getanimlength( react_anim ) );
-	}
-
 	if ( isalive( self ) )
 	{
 		self.animname = "human_zombie";
 		maps\_zombiemode_spawner::set_zombie_run_cycle( "sprint" );
-
 		self.goalradius = 64;
 
 		// send ai to a point
@@ -878,7 +871,6 @@ humangun_zombie_1st_hit_response( upgraded, player )
 			self waittill_any_or_timeout( time, "death" );
 		else
 			self waittill_any_or_timeout( time, "death", "goal" );*/
-		
 	}
 }
 
@@ -1037,6 +1029,7 @@ audio_human_screams()
 {
 	self endon ("death");
 	//self endon ("explode");
+	self endon("humangun_zombie_stop_sounds");
 	self endon( "lighthouse_owned" );
 	variant = undefined;
 	last_variant = undefined;
@@ -1198,6 +1191,9 @@ humangun_zombie_death( upgraded, player )
 	}
 	self notify("humangun_zombie_timeout");
 
+	self notify("humangun_zombie_stop_sounds");
+	self StopSounds();
+
 	self.magic_bullet_shield = false;
 	self DoDamage( self.health + 100, self.origin );
 }
@@ -1214,6 +1210,9 @@ humangun_zombie_explosion( upgraded, player )
 	wait level.zombie_vars["humangun_zombie_explosion_delay"];
 
 	self notify("humangun_zombie_timeout");
+
+	self notify("humangun_zombie_stop_sounds");
+	self StopSounds();
 
 	if(is_true(self._lighthouse_owned))
 	{
