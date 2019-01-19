@@ -887,12 +887,13 @@
 * The zipline trigger near the hut can now be activated when the zipline is on either side
 
 ### Der Riese
-* Players will no longer get stuck on curbs
 * Zombies now spawn from the Outside Warehouse zone when in the Courtyard zone
 * Zombies now spawn from the Bridge Warehouse Side zone when in the Upper Warehouse zone
 * Zombies no longer spawn from the Outside Laboratory zone when in the Teleporter A zone
 * Zombies no longer spawn from the Outside Laboratory zone when in the Teleporter C zone
-* Zombies now go to the barrier on the right in the Outside Warehouse zone more frequently
+* Mid round dogs now spawn when no doors are open
+* Mid round dogs now have the same delay between spawns as zombies
+* Players will no longer get stuck on curbs
 * Fixed Mystery Box use trigger in the laboratory
 * Easter egg song now plays the whole song
 * Removed intro text

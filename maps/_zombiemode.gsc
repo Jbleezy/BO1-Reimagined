@@ -3908,9 +3908,19 @@ round_spawning()
 						{
 							level thread maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 1 );
 							level.zombie_total--;
+							wait( level.zombie_vars["zombie_spawn_delay"] );
 							wait_network_frame();
 							break;
 						}
+					}
+
+					if ( level.zones[ keys[i] ].is_active && level.zones[ keys[i] ].dog_locations.size > 0 )
+					{
+						level thread maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 1 );
+						level.zombie_total--;
+						wait( level.zombie_vars["zombie_spawn_delay"] );
+						wait_network_frame();
+						break;
 					}
 				}
 			}
