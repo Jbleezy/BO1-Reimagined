@@ -1948,7 +1948,7 @@ onPlayerDowned()
 			}
 		}
 
-		if((level.gamemode == "grief" || level.gamemode == "snr") && level.vsteams == "ffa")
+		if((level.gamemode == "grief" || level.gamemode == "snr") && level.vsteams == "ffa" && get_players().size > 1)
 		{
 			self thread maps\_zombiemode_grief::instant_bleedout();
 		}
@@ -6586,7 +6586,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 				//allow weapons that normally cannot drop powerups to drop the gun game powerup
 				if(self.animname == "zombie" && 
-				(gg_wep == "thundergun_zm" || gg_wep == "tesla_gun_zm" || gg_wep == "sniper_explosive_bolt_zm" || gg_wep == "microwavegundw_zm"))
+				(gg_wep == "thundergun_zm" || gg_wep == "tesla_gun_zm" || gg_wep == "freezegun_zm" || gg_wep == "sniper_explosive_bolt_zm" || gg_wep == "microwavegundw_zm"))
 				{
 					// DCS 031611: hack to prevent risers from dropping powerups under the ground.
 					if(IsDefined(self.in_the_ground) && self.in_the_ground == true)

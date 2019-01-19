@@ -1323,8 +1323,11 @@ vending_trigger_think()
 			//solo = true;
 			flag_set( "solo_game" );
 			level.solo_lives_given = 0;
-			//players[0].lives = 0;
-			players[0].lives = 3;
+			players[0].lives = 0;
+			if(level.gamemode == "survival")
+			{
+				players[0].lives = 3;
+			}
 			level maps\_zombiemode::zombiemode_solo_last_stand_pistol();
 		}
 	}

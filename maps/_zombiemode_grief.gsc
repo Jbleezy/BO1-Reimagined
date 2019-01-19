@@ -2186,7 +2186,7 @@ setup_gungame_weapons()
 
 	for(i=0;i<players.size;i++)
 	{
-		players[i].gg_wep_num = 0;
+		players[i].gg_wep_num = 17;
 		players[i].gg_kill_count = 0;
 	}
 
