@@ -341,7 +341,7 @@ freezegun_do_damage( upgraded, player, dist_ratio )
 	{
 		damage = min_damage;
 	}
-	if(self.animname == "thief_zombie")
+	if(self.animname == "thief_zombie" || self.animname == "director_zombie")
 	{
 		damage = min_damage;
 	}

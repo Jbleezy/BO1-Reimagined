@@ -11,8 +11,6 @@ fx,system_elements/fx_molotov_fire_trail1
 fx,system_elements/fx_smoke_trail_small_light_emit
 fx,temp_effects/fx_tmp_m203_flash
 fx,weapon/dragons_breath/fx_decal_scorch_dragons
-fx,weapon/freeze_gun/fx_trail_freezegun_geotail
-fx,weapon/freeze_gun/fx_trail_freezegun_ring_emit
 fx,weapon/grenade/fx_trail_grenade
 fx,weapon/grenade/fx_trail_rpg
 fx,weapon/molotov/fx_molotov_burn_trail
@@ -21,8 +19,6 @@ fx,weapon/molotov/fx_molotov_lighter
 fx,weapon/molotov/fx_molotov_wick_phase1
 fx,weapon/muzzleflashes/fx_at4_flash_world
 fx,weapon/muzzleflashes/fx_flamethrower_view_mp
-fx,weapon/muzzleflashes/fx_freezegun_ug_view
-fx,weapon/muzzleflashes/fx_freezegun_view
 fx,weapon/muzzleflashes/fx_heavy_flash_base
 fx,weapon/muzzleflashes/fx_overheat_mg
 fx,weapon/muzzleflashes/fx_ppsh_flash
