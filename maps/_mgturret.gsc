@@ -185,6 +185,7 @@ burst_fire_unmanned()
 	turretState = "start";
 	self.script_shooting = false;
 	self.convergence_amount = 0;
+	turret_origin = self.origin + (0, 0, 40);
 	target = undefined;
 
 	for( ;; )
@@ -215,14 +216,14 @@ burst_fire_unmanned()
 					continue;
 				}
 
-				temp_origin = players[i] GetTagOrigin("J_SpineUpper");
+				temp_origin = players[i] GetCentroid();
 
-				if(!SightTracePassed(self.origin + (0,0,40), temp_origin, false, undefined))
+				if(!SightTracePassed(turret_origin, temp_origin, false, undefined))
 				{
 					continue;
 				}
 
-				if(DistanceSquared(self.origin + (0,0,40), temp_origin) < dist) // attack the closest player
+				if(DistanceSquared(turret_origin, temp_origin) < dist) // attack the closest player
 				{
 					dist = DistanceSquared(players[i].origin, self.origin);
 					target = players[i];
@@ -241,22 +242,14 @@ burst_fire_unmanned()
 					continue;
 				}
 
-				temp_origin = zombs[i].origin;
-				if(zombs[i].animname == "zombie_dog")
-				{
-					temp_origin = zombs[i] GetTagOrigin("J_Spine3");
-				}
-				else
-				{
-					temp_origin = zombs[i] GetTagOrigin("J_SpineUpper");
-				}
+				temp_origin = zombs[i] GetCentroid();
 
-				if(!SightTracePassed(self.origin + (0,0,40), temp_origin, false, undefined))
+				if(!SightTracePassed(turret_origin, temp_origin, false, undefined))
 				{
 					continue;
 				}
 
-				if(DistanceSquared(self.origin + (0,0,40), temp_origin) < dist) 
+				if(DistanceSquared(turret_origin, temp_origin) < dist) 
 				{
 					dist = DistanceSquared(zombs[i].origin, self.origin);
 					target = zombs[i];

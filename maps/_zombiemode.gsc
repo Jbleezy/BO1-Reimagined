@@ -5570,12 +5570,12 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		}
 	}
 
-	// turrets - don't damage players
+	// Turrets - don't damage players
 	if(sMeansOfDeath == "MOD_RIFLE_BULLET" && sWeapon == "zombie_bullet_crouch")
 	{
-		if(level.gamemode != "survival")
+		if(level.gamemode != "survival" && eInflictor.owner.vsteam != self.vsteam)
 		{
-			self thread maps\_zombiemode_grief::slowdown(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
+			self thread maps\_zombiemode_grief::grief(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
 		}
 		return 0;
 	}
@@ -5940,13 +5940,18 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		}
 	}
 
-	// kino and ascension turrets - kill in 3 bullets
-	if(weapon == "zombie_bullet_crouch" && meansofdeath == "MOD_RIFLE_BULLET")
+	// Turrets - kill in 4 shots
+	if(meansofdeath == "MOD_RIFLE_BULLET" && weapon == "zombie_bullet_crouch")
 	{
-		damage = int(self.maxhealth/3) + 1;
+		damage = int(self.maxhealth/4) + 1;
+
+		if(damage < 500)
+		{
+			damage = 500;
+		}
 	}
 
-	// gersch - skip damage if they are dead do full damage
+	// Gersch - skip damage if they are dead do full damage
 	if( IsDefined( self._black_hole_bomb_collapse_death ) && self._black_hole_bomb_collapse_death == 1 )
 	{
 		return self.maxhealth + 1000;
@@ -6340,18 +6345,20 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			break;
 		}
 
-		//Death Machine - always does at least 1/4 damage on regular shots and 1/2 damage on headshots
+		// Death Machine - kills in 4 body shots or 2 headshots
 		if(weapon == "minigun_zm" && self.animname != "director_zombie" && self.animname != "astro_zombie")
 		{
-			minigun_damage = int(self.maxhealth / 4) + 1;
+			min_damage = 500;
+			final_damage = int(self.maxhealth / 4) + 1;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 			{
-				minigun_damage *= 2;
+				min_damage *= 2;
+				damage *= 2;
 			}
 
-			if(final_damage < minigun_damage)
+			if(final_damage < min_damage)
 			{
-				final_damage = minigun_damage;
+				final_damage = min_damage;
 			}
 		}
 	}
@@ -6495,21 +6502,9 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		//}
 	}
 
-	if(sWeapon == "zombie_bullet_crouch" && sMeansofdeath == "MOD_RIFLE_BULLET")
+	if(sMeansofdeath == "MOD_RIFLE_BULLET" && sWeapon == "zombie_bullet_crouch")
 	{
-		//figure out which turret killed the zombie
-		if(!IsDefined(level.auto_turret_array[1].turret.owner))
-			turret = level.auto_turret_array[0].turret;
-		else if(!IsDefined(level.auto_turret_array[0].turret.owner))
-			turret = level.auto_turret_array[1].turret;
-		else if(level.script == "zombie_cosmodrome" && DistanceSquared(self.origin, level.auto_turret_array[1].turret.origin) < DistanceSquared(self.origin, level.auto_turret_array[0].turret.origin))
-			turret = level.auto_turret_array[1].turret;
-		else if(level.script == "zombie_theater" && (self get_current_zone() == "dressing_zone" || self get_current_zone() == "dining_zone")) //zombies can sometimes be closer to the other turret on kino so have to use the zone that the zombie is in to determine owner
-			turret = level.auto_turret_array[1].turret;
-		else
-			turret = level.auto_turret_array[0].turret;
-		if(IsDefined(turret.owner))
-			turret.owner.kills++;
+		eInflictor.owner.kills++;
 	}
 
 	if(sWeapon == "thundergun_zm" || sWeapon == "thundergun_upgraded_zm")

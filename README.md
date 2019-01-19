@@ -419,7 +419,7 @@
 
 #### Winter's Howl
 * Changed fire type to automatic
-* Always kills zombies in 1-3 shots depending on how far away the zombie was from the shot
+* Kills zombies in 1-3 shots depending on how far away the zombie was from the shot
 * No longer drops powerups
 * Enemies that die from the Winter's Howl will now shatter 2x faster
 * Unupgraded: increased minimum damage from 600 to 1000
@@ -567,7 +567,7 @@
 * Removed points reward given between rounds
 * Hacking a Max Ammo gives a Perk Bottle
 * Hacking a powerup will reset its timer
-* Hacking a Death Machine will now make the Max Ammo glow its correct color
+* Hacking a Death Machine will now give the Max Ammo its correct glow color
 * Powerup hack trigger radius increased by 30%
 * Cost to hack wall weapons increased from 3000 points to 5000 points
 * Can now unhack wall weapons (costs the same amount to unhack them)
@@ -685,8 +685,9 @@
 
 ### Death Machine
 * Switch weapons to end duration
-* Deals at least 1/4 of zombie's health per body shot
-* Deals at least 1/2 of zombie's health per headshot
+* Increased minimum damage from 300 to 500
+* Kills zombies in 4 body shots
+* Kills zombies in 2 headshots
 * Decreased weapon raise time from 1.55 seconds to 1.1 seconds
 * Decreased weapon drop time from .75 seconds to .3 seconds
 * Powerup can now drop while one is already active
@@ -731,11 +732,12 @@
 * Traps now display a hintstring when the power is on but the trap cannot be activated due to a door being closed
 
 ### Turrets (Kino Der Toten and Ascension)
-* No longer deals damage to players
-* Kills zombies in three shots
-* Now locks on to a new target quicker
-* Now targets the zombie that is closest to the turret
+* Increased minimum damage from 250 to 500
+* Kills zombies in 4 shots
+* Locks on to a new target quicker
+* Targets the zombie that is closest to the turret
 * Nova crawlers now do not explode from turret damage
+* No longer deals damage to players
 
 ### Centrifuge (Ascension)
 * Cooldown time has been doubled
