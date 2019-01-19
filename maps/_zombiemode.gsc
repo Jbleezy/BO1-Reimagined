@@ -3908,7 +3908,7 @@ round_spawning()
 						{
 							level thread maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 1 );
 							level.zombie_total--;
-							//wait_network_frame();
+							wait_network_frame();
 							break;
 						}
 					}
