@@ -614,7 +614,6 @@
 * Box flies up higher when moving
 * Now plays an animation when spawning in (except for Fire Sale Mystery Boxes)
 * Instantly appears at its new location when moving instead of waiting 8 seconds
-* Wall weapons are in the Mystery Box on classic maps
 * Every player now sees the same weapons in the box when the weapons are floating up
 * Can only see weapons floating up that the player can currently obtain
 * Ray Gun can now be obtained without moving the Mystery Box on all maps

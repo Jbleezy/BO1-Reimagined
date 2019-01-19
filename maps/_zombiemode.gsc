@@ -8759,7 +8759,7 @@ box_weapon_changes()
 {
 	flag_wait("all_players_connected");
 
-	if(IsSubStr(level.script, "zombie_cod5_"))
+	/*if(IsSubStr(level.script, "zombie_cod5_"))
 	{
 		weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" );
 		for( i = 0; i < weapon_spawns.size; i++ )
@@ -8769,7 +8769,7 @@ box_weapon_changes()
 	        	level.zombie_weapons[weapon_spawns[i].zombie_weapon_upgrade].is_in_box = true;
 	        }
 		}
-	}
+	}*/
 
 	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum" || level.script == "zombie_cod5_sumpf")
 	{
