@@ -18,7 +18,7 @@ init()
 
 	level thread turn_power_on();
 
-	level thread open_doors();
+	//level thread open_doors();
 
 	level thread disable_special_rounds();
 

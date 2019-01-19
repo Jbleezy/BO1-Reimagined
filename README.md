@@ -760,9 +760,11 @@
 * Displays a hintstring when active
 
 ## Blockers
+
 ### Doors
 * Doors now push any players out that are touching them after they have fully opened
 * Fixed a bug where two or more players could trigger a door that has multiple triggers at the same time and both pay to open the door
+* Doors that fall down now get deleted after 1 second (previously 60 seconds)
 
 ## Barriers
 * Can no longer rebuild barriers while sprinting or diving
@@ -1088,25 +1090,20 @@
 * Hurt Players Powerdown: damages enemy players down to 1 health
 * Punishment Points Powerdown: enemy players lose a random amount of points between 500 and 2500 points
 * Added Meat Powerup
-* Nacht Der Untoten: all doors are open from the start of the match
-* Shi No Numa: first room doors are open from the start of the match
-* Der Riese: first room doors are open from the start of the match
-* Der Riese: all teleporters linked
+* Der Riese: all teleporters are linked
 * Der Riese: powerdown spawns from the start of each match
 * Der Riese: powerdown and full health dogs spawn from every teleporter use
 * Kino Der Toten: teleporter is permamently linked to the mainframe
-* Five: first room door is open from the start of the match
 * Five: teleporters disabled
-* Five: Pack-a-Punch door is now a 1500 point buyable door
-* Ascension: first room doors, door near MP5K, and door above Juggernog are open from the start of the match
+* Five: Pack-a-Punch door is now a 1,500 point buyable door
 * Ascension: lunar landers disabled
-* Ascension: Pack-a-Punch door is now a 1500 point buyable door
+* Ascension: Pack-a-Punch door is now a 1,500 point buyable door
 * Call of the Dead: director spawns 2 random powerdowns on death
 * Shangri-La: Pack-a-Punch stairs are open from the start of the match
 * Shangri-La: geyser in the start room is open from the start of the match
 * Shangri-La: minecart disabled
+* Moon: start at Receiving Bay zone
 * Moon: No Man's Land disabled
-* Moon: first room door is open from the start of the match
 * Moon: hacker and PES disabled
 * Moon: teleporter disabled
 

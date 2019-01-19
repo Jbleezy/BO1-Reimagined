@@ -843,8 +843,7 @@ physics_launch_door( door_trig )
 	wait(0.1);
 	PhysicsExplosionSphere( vector_scale( vec, -1 ), 120, 1, 100 );
 
-	if(level.gamemode == "survival")
-		wait(60);
+	wait(1);
 
 	self delete();
 }

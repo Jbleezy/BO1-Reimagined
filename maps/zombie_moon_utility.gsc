@@ -984,6 +984,7 @@ zombie_moon_hatch()
 	scale = 1;
 
 	flag_wait("power_on");
+	flag_wait( "receiving_exit" );
 
 	self playsound( "evt_loading_door_start" );
 
