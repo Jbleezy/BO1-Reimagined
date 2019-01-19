@@ -5568,16 +5568,16 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		{
 			return 0;
 		}
-	}
 
-	// Turrets - don't damage players
-	if(sMeansOfDeath == "MOD_RIFLE_BULLET" && sWeapon == "zombie_bullet_crouch")
-	{
-		if(level.gamemode != "survival" && eInflictor.owner.vsteam != self.vsteam)
+		// Turrets - don't damage players
+		if(sMeansOfDeath == "MOD_RIFLE_BULLET" && sWeapon == "zombie_bullet_crouch")
 		{
-			self thread maps\_zombiemode_grief::grief(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
+			if(level.gamemode != "survival" && eInflictor.owner.vsteam != self.vsteam)
+			{
+				self thread maps\_zombiemode_grief::grief(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
+			}
+			return 0;
 		}
-		return 0;
 	}
 
 	// QED explosive weapon damage fix to not damage players

@@ -484,12 +484,12 @@ switch_to_combat_knife()
 
 grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 {
-
+	// special check for betties when player is prone
 	if(sWeapon == "mine_bouncing_betty" && self getstance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
 		return;
 
-	//only nades, mines, and flops do actual damage
-	if(!self HasPerk( "specialty_flakjacket" ))
+	// only nades, mines, and flops do actual damage
+	/*if(!self HasPerk( "specialty_flakjacket" ))
 	{
 		//80 DoDamage = 25 actual damage
 		if(sMeansOfDeath == "MOD_GRENADE_SPLASH" && (sWeapon == "frag_grenade_zm" || sWeapon == "sticky_grenade_zm" || sWeapon == "stielhandgranate"))
@@ -507,7 +507,7 @@ grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
 			//tactical nades and mines
 			self DoDamage( 80, eInflictor.origin );
 		}
-	}
+	}*/
 
 	self thread slowdown(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
 
@@ -561,7 +561,37 @@ slowdown(weapon, mod, eAttacker, loc)
 	self AllowSprint(false);
 	self SetBlur( 1, .1 );
 
-	if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon) || is_placeable_mine(weapon) || is_tactical_grenade(weapon) || weapon == "sniper_explosive_zm" || ( eAttacker HasPerk( "specialty_flakjacket" ) && eAttacker.divetoprone == 1 && mod == "MOD_GRENADE_SPLASH"))
+	super_slow = false;
+	if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon))
+	{
+		super_slow = true;
+	}
+	else if(is_lethal_grenade(weapon))
+	{
+		super_slow = true;
+	}
+	else if(is_tactical_grenade(weapon))
+	{
+		super_slow = true;
+	}
+	else if(is_placeable_mine(weapon))
+	{
+		super_slow = true;
+	}
+	else if(is_lethal_grenade(weapon))
+	{
+		super_slow = true;
+	}
+	else if(weapon == "sniper_explosive_zm")
+	{
+		super_slow = true;
+	}
+	else if(eAttacker.divetoprone == 1 && mod == "MOD_GRENADE_SPLASH")
+	{
+		super_slow = true;
+	}
+
+	if(super_slow)
 	{
 		self SetMoveSpeedScale( self.move_speed * .2 );	
 	}
