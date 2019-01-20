@@ -441,6 +441,8 @@ _getZombiesInRange(range)
 
 	zombies = array_merge(zombies, level._spikeable_objects);
 
+	zombies = array_merge(zombies, get_players());
+
 	for ( i = 0; i < zombies.size; i++ )
 	{
 		checkDist2 = DistanceSquared( zombies[i].origin, self.origin );
@@ -527,7 +529,7 @@ _spikemore_SmallSpearDetonate(targets)
 	//simply damage all the targets--firing of projectile will be done on client
 	for ( i = 0; i < targets.size; i++ )
 	{
-		if(IsAI(targets[i]))
+		if(IsAI(targets[i]) || IsPlayer(targets[i]))
 		{
 			targets[i] thread _spikemore_damage(self.origin, self.owner);
 		}

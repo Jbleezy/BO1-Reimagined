@@ -561,44 +561,15 @@ slowdown(weapon, mod, eAttacker, loc)
 	self AllowSprint(false);
 	self SetBlur( 1, .1 );
 
-	super_slow = false;
-	if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon))
-	{
-		super_slow = true;
-	}
-	else if(is_lethal_grenade(weapon))
-	{
-		super_slow = true;
-	}
-	else if(is_tactical_grenade(weapon))
-	{
-		super_slow = true;
-	}
-	else if(is_placeable_mine(weapon))
-	{
-		super_slow = true;
-	}
-	else if(is_lethal_grenade(weapon))
-	{
-		super_slow = true;
-	}
-	else if(weapon == "sniper_explosive_zm")
-	{
-		super_slow = true;
-	}
-	else if(eAttacker.divetoprone == 1 && mod == "MOD_GRENADE_SPLASH")
-	{
-		super_slow = true;
-	}
+	amount = .3;
 
-	if(super_slow)
+	if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon) || mod == "MOD_GRENADE" || mod == "MOD_GRENADE_SPLASH" || mod == "MOD_PROJECTILE" || mod == "MOD_PROJECTILE_SPLASH")
 	{
-		self SetMoveSpeedScale( self.move_speed * .2 );	
+		amount /= 1.5;
+		
 	}
-	else
-	{
-		self SetMoveSpeedScale( self.move_speed * .3 );
-	}
+	
+	self SetMoveSpeedScale( self.move_speed * amount );	
 
 	wait( .75 );
 
@@ -632,27 +603,18 @@ push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/b
 	amount = 0;
 	if( self GetStance() != "prone" )
 	{
-		if(eAttacker._bowie_zm_equipped || eAttacker._sickle_zm_equipped || sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm")
+		if(self GetStance() == "crouch")
 		{
-			if(self GetStance() == "crouch")
-			{
-				amount = 150;
-			}
-			else
-			{
-				amount = 450;
-			}
+			amount = 100;
 		}
 		else
 		{
-			if(self GetStance() == "crouch")
-			{
-				amount = 100;
-			}
-			else
-			{
-				amount = 300;	
-			}
+			amount = 300;	
+		}
+
+		if(eAttacker._bowie_zm_equipped || eAttacker._sickle_zm_equipped || sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm")
+		{
+			amount *= 1.5;
 		}
 	}
 	

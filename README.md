@@ -1066,10 +1066,10 @@
 * 2 teams or free-for-all
 * Power is already on
 * No walking zombies
-* Shooting players slows them down
-* Knifing players pushes them
-* Upgraded weapons slow players down more
-* Ballistic knife, bowie knife, and sickle push players farther
+* Shooting enemy players slows them down
+* Knifing enemy players pushes them
+* Upgraded weapons and explosive weapons slow enemy players down more
+* Ballistic knife, bowie knife, and sickle push enemy players farther
 * Mines are triggerable by enemy players
 * Enemy mines are destroyable
 * Powerups have negative effects towards the team that did not grab the powerup
