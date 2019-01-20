@@ -544,18 +544,22 @@ humangun_delayed_kill_anim(player, human_zombie)
 	if(is_true(self.in_the_ground))
 	{
 		self waittill("rise_anim_finished");
+		wait_network_frame();
 	}
 	if(is_true(self.in_the_ceiling))
 	{
 		self waittill("fall_anim_finished");
+		wait_network_frame();
 	}
 	if(is_true(self.is_traversing))
 	{
 		self waittill( "zombie_end_traverse" );
+		wait_network_frame();
 	}
 	if(is_true(self.is_traversing_barrier))
 	{
 		self waittill( "zombie_end_traverse_barrier" );
+		wait_network_frame();
 	}
 
 	self notify( "stop_find_flesh" );
@@ -1109,26 +1113,34 @@ humangun_zombie_death( upgraded, player )
 
 	self.magic_bullet_shield = false;
 	self DoDamage( self.health + 100, self.origin );
+
+	enemy_zombies = GetAiSpeciesArray( "axis", "all" );
+	for ( i = 0; i < enemy_zombies.size; i++ )
+	{
+		if ( isdefined( enemy_zombies[i].favoriteenemy ) && self == enemy_zombies[i].favoriteenemy )
+		{
+			enemy_zombies[i].zombie_path_timer = 0;
+		}
+	}
 }
 
 humangun_zombie_explosion( upgraded, player )
 {
-	self.humangun_zombie_2nd_hit_response = true;
 	self setclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_HIT_RESPONSE );
 
 	self PlaySound( "zmb_humangun_effect_timer" );
 
 	wait level.zombie_vars["humangun_zombie_explosion_delay"];
 
-	self notify("humangun_zombie_timeout");
-
-	self notify("humangun_zombie_stop_sounds");
-	self StopSounds();
-
 	if(is_true(self._lighthouse_owned))
 	{
 		return;
 	}
+
+	self notify("humangun_zombie_timeout");
+
+	self notify("humangun_zombie_stop_sounds");
+	self StopSounds();
 
 	self PlaySound( "zmb_humangun_effect_explosion" );
 
@@ -1138,6 +1150,15 @@ humangun_zombie_explosion( upgraded, player )
 
 	SetPlayerIgnoreRadiusDamage(true);
 	RadiusDamage( self.origin, 180, level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );
+
+	enemy_zombies = GetAiSpeciesArray( "axis", "all" );
+	for ( i = 0; i < enemy_zombies.size; i++ )
+	{
+		if ( isdefined( enemy_zombies[i].favoriteenemy ) && self == enemy_zombies[i].favoriteenemy )
+		{
+			enemy_zombies[i].zombie_path_timer = 0;
+		}
+	}
 
 	// prevent them freezing the water, since they were turned to mist
 	self.water_damage = false;
