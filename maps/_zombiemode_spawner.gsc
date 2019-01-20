@@ -4636,42 +4636,6 @@ do_zombie_rise()
 		spots = GetStructArray("zombie_rise", "targetname");
 	}
 
-	//No Man's Land initial spawn - force to spawn from the middle
-	if(IsDefined(level.initial_spawn) && level.initial_spawn && level.gamemode == "survival" && flag("enter_nml"))
-	{
-		if(!IsDefined(level.spawn_in_middle))
-		{
-			level.spawn_in_middle = true;
-		}
-
-		if(level.spawn_in_middle)
-		{
-			level.spawn_in_middle = false;
-			initial_spots = array(7, 8, 9, 10, 11, 12, 15, 16); //the middle spawns in No Man's Land area
-			playable_area = getentarray("player_volume", "script_noteworthy");
-			temp = [];
-			for (i = 0; i < spots.size; i++)
-			{
-				if(is_in_array(initial_spots, i))
-					temp[temp.size] = spots[i];
-			}
-			spots = temp;
-		}
-		else
-		{
-			level.spawn_in_middle = true;
-			initial_spots = array(7, 8, 9, 10, 11, 12, 15, 16); //the middle spawns in No Man's Land area
-			playable_area = getentarray("player_volume", "script_noteworthy");
-			temp = [];
-			for (i = 0; i < spots.size; i++)
-			{
-				if(!is_in_array(initial_spots, i))
-					temp[temp.size] = spots[i];
-			}
-			spots = temp;
-		}
-	}
-
 	spot = undefined;
 
 	if( spots.size < 1 )
