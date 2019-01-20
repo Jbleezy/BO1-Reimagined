@@ -1038,7 +1038,7 @@ disable_box_weapons()
 
 turn_power_on()
 {
-	flag_wait( "all_players_connected" );
+	level waittill("fade_introblack");
 	switch(level.script)
 	{
 		case "zombie_theater":
