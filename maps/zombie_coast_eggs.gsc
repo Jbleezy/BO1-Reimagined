@@ -2334,7 +2334,7 @@ coast_egg_sacrifice_spot_start()
 			who thread stop_magic_bullet_shield();
 			who Unlink();
 			who Hide();
-			who DoDamage( who.health + 10, who.origin );
+			who DoDamage( who.health + 10, who.origin, who.owner );
 		}
 
 		if( IsDefined( light_mover ) )
@@ -2519,6 +2519,7 @@ rising_watch( org_mover )
 
 	players = GetPlayers();
 	self.essance = 10000;
+	self.maxhealth = self.essance;
 
 	while( self.essance > 0 )
 	{

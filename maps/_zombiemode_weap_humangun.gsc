@@ -1113,8 +1113,6 @@ humangun_zombie_death( upgraded, player )
 
 humangun_zombie_explosion( upgraded, player )
 {
-	self notify( "humangun_zombie_explosion" );
-
 	self.humangun_zombie_2nd_hit_response = true;
 	self setclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_HIT_RESPONSE );
 
