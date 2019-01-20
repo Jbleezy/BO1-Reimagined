@@ -271,37 +271,17 @@ Init_Moon_NML_Round( target_round )
 		return;
 	}
 
-	if(flag("enter_nml"))
-	{
-		level.chalk_hud1 FadeOverTime(.5);
-		level.chalk_hud1.color = ( 0, 0, 0 );
-		level.chalk_hud2 FadeOverTime(.5);
-		level.chalk_hud2.color = ( 0, 0, 0 );
-	}
-
-	//level waittill( "end_of_round" );
-	level waittill( "restart_round" );
-
-	//level.chalk_override = " ";
-
-	if(!flag("enter_nml"))
-	{
-		level.chalk_hud1 SetText( " " );
-		level.chalk_hud2 SetText( " " );
-	}
+	level.chalk_override = " ";
 	
-
-	//level thread clear_nml_rounds();
-
+	level thread clear_nml_rounds();
+		
 	// failsafe to clear hud.
-	//level waittill("between_round_over");
-
-	/*iprintln(2);
+	level waittill("between_round_over");
 	if ( IsDefined( level.chalk_override ) )
 	{
 		level.chalk_hud1 SetText( level.chalk_override );
-		level.chalk_hud2 SetText( level.chalk_override );
-	}*/
+		level.chalk_hud2 SetText( " " );
+	}	
 }
 
 clear_nml_rounds()
@@ -1073,7 +1053,7 @@ nml_ramp_up_zombies()
 		{
 			level.nml_timer++;
 
-			level thread maps\_zombiemode::chalk_one_up(level.nml_timer);
+			//level thread maps\_zombiemode::chalk_one_up(level.nml_timer);
 
 	    	// DCS: ramping up zombies, play round change sound (# 88706)
       		thread play_sound_2d( "evt_nomans_warning" );
