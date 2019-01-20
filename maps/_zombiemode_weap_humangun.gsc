@@ -477,6 +477,10 @@ humangun_zombie_damage_watcher( player )
 			{
 				continue;
 			}
+			if(is_true(zombs[i].humangun_zombie_1st_hit_response))
+			{
+				continue;
+			}
 			if(zombs[i].animname == "director_zombie")
 			{
 				continue;
@@ -491,7 +495,7 @@ humangun_zombie_damage_watcher( player )
 			}
 			self_origin = self GetCentroid();
 			zomb_origin = zombs[i] GetCentroid();
-			if(DistanceSquared(self_origin, zomb_origin) > 64*64)
+			if(DistanceSquared(self_origin, zomb_origin) > 48*48)
 			{
 				continue;
 			}
@@ -499,26 +503,7 @@ humangun_zombie_damage_watcher( player )
 			{
 				continue;
 			}
-			if(is_true(zombs[i].in_the_ground))
-			{
-				continue;
-			}
-			if(is_true(zombs[i].in_the_ceiling))
-			{
-				continue;
-			}
-			if(is_true(zombs[i].humangun_zombie_1st_hit_response))
-			{
-				continue;
-			}
-			if(is_true(zombs[i].is_traversing))
-			{
-				continue;
-			}
-			if(is_true(zombs[i].is_traversing_barrier))
-			{
-				continue;
-			}
+
 			zombs[i] thread humangun_delayed_kill(player, self);
 		}
 		wait_network_frame();
@@ -531,19 +516,8 @@ humangun_delayed_kill(player, human_zombie)
 	self endon("humangun_zombie_1st_hit_response");
 
 	self.humangun_delayed_kill_active = true;
-	self notify( "stop_find_flesh" );
-	self notify( "zombie_acquire_enemy" );
-	//self SetLookAt(human_zombie.origin, .25);
-	self OrientMode("face direction", human_zombie.origin);
-	self.ignoreall = true;
-	//self SetGoalPos(self.origin);
-	if(self.has_legs)
-	{
-		animes = array_remove_index(level._zombie_board_taunt[self.animname], 5);
-		anime = random(animes);
-		self thread maps\_zombiemode_audio::do_zombies_playvocals( "taunt", self.animname );
-		self animscripted("zombie_taunt", self.origin, self.angles, anime, "normal", undefined, 1, 0.4 );
-	}
+
+	self thread humangun_delayed_kill_anim(player, human_zombie);
 
 	wait( RandomFloatRange( .5, 2 ) );
 
@@ -558,6 +532,44 @@ humangun_delayed_kill(player, human_zombie)
 		self.no_powerups = true;
 		self maps\_zombiemode_spawner::zombie_head_gib();
 		self DoDamage( level.zombie_health + 1000, self.origin, player );
+	}
+}
+
+humangun_delayed_kill_anim(player, human_zombie)
+{
+	self endon("death");
+	self endon("humangun_zombie_1st_hit_response");
+
+	// don't start reacting until fully in the map
+	if(is_true(self.in_the_ground))
+	{
+		self waittill("rise_anim_finished");
+	}
+	if(is_true(self.in_the_ceiling))
+	{
+		self waittill("fall_anim_finished");
+	}
+	if(is_true(self.is_traversing))
+	{
+		self waittill( "zombie_end_traverse" );
+	}
+	if(is_true(self.is_traversing_barrier))
+	{
+		self waittill( "zombie_end_traverse_barrier" );
+	}
+
+	self notify( "stop_find_flesh" );
+	self notify( "zombie_acquire_enemy" );
+	//self SetLookAt(human_zombie.origin, .25);
+	self OrientMode("face direction", human_zombie.origin);
+	self.ignoreall = true;
+	//self SetGoalPos(self.origin);
+	if(self.has_legs)
+	{
+		animes = array_remove_index(level._zombie_board_taunt[self.animname], 5);
+		anime = random(animes);
+		self thread maps\_zombiemode_audio::do_zombies_playvocals( "taunt", self.animname );
+		self animscripted("zombie_taunt", self.origin, self.angles, anime, "normal", undefined, 1, 0.4 );
 	}
 }
 
@@ -625,87 +637,6 @@ humangun_zombie_get_destination_point_origin()
 	// pick the closest point
 	destination_point = getClosest( self.origin, struct_array_active_human_spots );
 	return destination_point.origin;
-}
-
-humangun_zombie_get_closest_zombie()
-{
-	if ( IsDefined( level._humangun_escape_override ) && check_point_in_active_zone( level._humangun_escape_override.origin ) )
-	{
-		// human belongs to the lighthouse if the setup is complete
-		return level._humangun_escape_override.origin;
-	}
-
-	/*struct_array_human_spots = getstructarray( "struct_humangun_dest", "targetname" );
-	struct_array_active_human_spots = [];
-
-	for ( i = 0; i < struct_array_human_spots.size; i++ )
-	{
-		// check to see if the spot is in an active zone
-		if ( check_point_in_active_zone( struct_array_human_spots[i].origin ) )
-		{
-			// if it is add it to the active array
-			struct_array_active_human_spots = add_to_array( struct_array_active_human_spots, struct_array_human_spots[i], false );
-		}
-	}
-
-	if ( struct_array_active_human_spots.size == 0 )
-	{
-/#
-		iprintlnbold( "no escape structs in a playable area!" );
-#/
-		return self.origin;
-	}*/
-
-	// pick the closest zombie
-	zombies = GetAiSpeciesArray( "axis", "all" );
-	for(i=0;i<zombies.size;i++)
-	{
-		if(zombies[i] == self)
-		{
-			zombies = array_remove( zombies, zombies[i] );
-			continue;
-		}
-		if(zombies[i].animname == "director_zombie")
-		{
-			zombies = array_remove( zombies, zombies[i] );
-			continue;
-		}
-		if(!IsAlive(zombies[i]))
-		{
-			zombies = array_remove( zombies, zombies[i] );
-			continue;
-		}
-		if(is_true(zombies[i].zombie_tesla_hit))
-		{
-			zombies = array_remove( zombies, zombies[i] );
-			continue;
-		}
-		if(is_true(zombies[i].in_the_ground))
-		{
-			zombies = array_remove( zombies, zombies[i] );
-			continue;
-		}
-		if(is_true(zombies[i].in_the_ceiling))
-		{
-			zombies = array_remove( zombies, zombies[i] );
-			continue;
-		}
-		if(!is_true(zombies[i].completed_emerging_into_playable_area))
-		{
-			zombies = array_remove( zombies, zombies[i] );
-			continue;
-		}
-	}
-	if(zombies.size > 0)
-	{
-		closest_zomb = getClosest(self.origin, zombies);
-		return closest_zomb;
-	}
-	else
-	{
-		return undefined;
-	}
-	//return zombies[RandomInt(zombies.size)];
 }
 
 
@@ -851,7 +782,7 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	{
 		self.animname = "human_zombie";
 		maps\_zombiemode_spawner::set_zombie_run_cycle( "sprint" );
-		self.goalradius = 64;
+		self.goalradius = 48;
 
 		// send ai to a point
 		//self SetGoalPos( self humangun_zombie_get_destination_point_origin() );
@@ -901,19 +832,18 @@ humangun_zombie_get_closest_zombie_loop()
 	while(1)
 	{
 		zombies = GetAiSpeciesArray( "axis", "all" );
-		distance = 10000;
-		closest_zomb = undefined;
+		valid_zombies = [];
 		for(i=0;i<zombies.size;i++)
 		{
 			if(!IsDefined(zombies[i]))
 			{
 				continue;
 			}
-			if(IsDefined(zombies[i].humangun_delayed_kill_active))
+			if(zombies[i] == self)
 			{
 				continue;
 			}
-			if(zombies[i] == self)
+			if(is_true(zombies[i].humangun_zombie_1st_hit_response))
 			{
 				continue;
 			}
@@ -925,42 +855,24 @@ humangun_zombie_get_closest_zombie_loop()
 			{
 				continue;
 			}
-			if(is_true(zombies[i].zombie_tesla_hit))
-			{
-				continue;
-			}
-			if(is_true(zombies[i].in_the_ground))
-			{
-				continue;
-			}
-			if(is_true(zombies[i].in_the_ceiling))
-			{
-				continue;
-			}
-			if(is_true(zombies[i].humangun_zombie_1st_hit_response))
-			{
-				continue;
-			}
-			if(is_true(zombies[i].is_traversing))
-			{
-				continue;
-			}
 			if(!is_true(zombies[i].completed_emerging_into_playable_area))
 			{
 				continue;
 			}
-			new_distance = self get_path_length_to_enemy( zombies[i] ); //used path length instead of distance to stop zombies going towards zombies on a different floor over zombies closer to them
+
+			/*new_distance = self get_path_length_to_enemy( zombies[i] ); //used path length instead of distance to stop zombies going towards zombies on a different floor over zombies closer to them
 			if(new_distance < distance)
 			{
 				distance = new_distance;
 				closest_zomb = zombies[i];
-			}
+			}*/
+
+			valid_zombies[valid_zombies.size] = zombies[i];
 		}
 
-		//closest_zomb = getClosest(self.origin, zombies);
+		closest_zomb = getClosest(self.origin, valid_zombies);
 		//iprintln(closest_zomb.origin);
 
-		//closest_zomb = self humangun_zombie_get_closest_zombie();
 		if(!IsDefined(closest_zomb))
 		{
 			self SetGoalPos(self.origin);
@@ -970,6 +882,7 @@ humangun_zombie_get_closest_zombie_loop()
 			self SetGoalEntity(closest_zomb);
 		}
 		self waittill_any("goal", "bad_path");
+
 		react_anim = random( level._zombie_humangun_react["zombie"] );
 		self animscripted( "zombie_react", self.origin, self.angles, react_anim, "normal", undefined, 1, 0.4 );
 		if(IsDefined(closest_zomb))
