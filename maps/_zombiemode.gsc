@@ -5107,8 +5107,7 @@ round_spawn_failsafe()
 		//add this zombie back into the spawner queue to be re-spawned
 		if(is_true(level.put_timed_out_zombies_back_in_queue ) && !flag("dog_round"))
 		{
-			//only if they have crawled thru a window and then timed out
-			if(!self.ignoreall && !is_true(self.nuked) && !is_true(self.marked_for_death))
+			if(!is_true(self.nuked) && !is_true(self.marked_for_death))
 			{
 				level.zombie_total++;
 			}
