@@ -46,7 +46,7 @@ quad_prespawn()
 
 	self.freezegun_damage = 0;
 
-	self.meleeDamage = 45;
+	self.meleeDamage = 40;
 
 	self playsound( "zmb_quad_spawn" );
 
