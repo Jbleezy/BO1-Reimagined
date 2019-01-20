@@ -2267,24 +2267,7 @@ player_out_of_playable_area_monitor()
 			continue;
 		}
 
-		force_kill = false;
-		if(level.script == "zombie_cod5_factory")
-		{
-			if(!flag("power_on"))
-			{
-				zone = self get_current_zone();
-				if(zone == "wuen_bridge_zone" && !flag("enter_wnuen_loading_dock"))
-				{
-					force_kill = true;
-				}
-				else if(zone == "bridge_zone" && !flag("enter_warehouse_second_floor"))
-				{
-					force_kill = true;
-				}
-			}
-		}
-
-		if ( (!self in_life_brush() && (self in_kill_brush() || !self in_enabled_playable_area())) || force_kill )
+		if ( !self in_life_brush() && (self in_kill_brush() || !self in_enabled_playable_area()) )
 		{
 			if ( !isdefined( level.player_out_of_playable_area_monitor_callback ) || self [[level.player_out_of_playable_area_monitor_callback]]() )
 			{
