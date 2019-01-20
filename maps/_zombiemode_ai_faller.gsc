@@ -186,10 +186,6 @@ do_zombie_fall()
 	self.no_powerups = true;
 	self.in_the_ceiling = true;
 
-	/*self.anchor = spawn("script_origin", self.origin);
-	self.anchor.angles = self.angles;
-	self linkto(self.anchor);*/
-
 	if ( !IsDefined( self.zone_name ) )
 	{
 		self.zone_name = self get_current_zone();
@@ -231,7 +227,7 @@ do_zombie_fall()
 	self.zombie_faller_location.is_enabled = false;
 	self.zombie_faller_location parse_script_parameters();
 
-	/*if( !isDefined( spot.angles ) )
+	if( !isDefined( spot.angles ) )
 	{
 		spot.angles = (0, 0, 0);
 	}
@@ -239,28 +235,27 @@ do_zombie_fall()
 	anim_org = spot.origin;
 	anim_ang = spot.angles;
 
-	self Hide();
-	self.anchor moveto(anim_org, .05);
-	self.anchor waittill("movedone");
+	level thread zombie_fall_death(self, spot);
+	self thread zombie_faller_death_wait();
 
+	self Hide();
+	self.anchor = spawn("script_origin", self.origin);
+	self.anchor.angles = self.angles;
+	self linkto(self.anchor);
+	self.anchor.origin = anim_org;
 	// face goal
 	target_org = maps\_zombiemode_spawner::get_desired_origin();
 	if (IsDefined(target_org))
 	{
 		anim_ang = VectorToAngles(target_org - self.origin);
-		self.anchor RotateTo((0, anim_ang[1], 0), .05);
-		self.anchor waittill("rotatedone");
+		self.anchor.angles = (0, anim_ang[1], 0);
 	}
-
+	wait_network_frame();
 	self unlink();
 	self.anchor delete();
+	self Show();
 
-	self thread hide_pop();	// hack to hide the pop when the zombie gets to the start position before the anim starts*/
-
-	level thread zombie_fall_death(self, spot);
 	spot thread zombie_fall_fx(self);
-
-	self thread zombie_faller_death_wait();
 
 	//need to thread off the rest because we're apparently still in the middle of our init!
 	self thread zombie_faller_do_fall();

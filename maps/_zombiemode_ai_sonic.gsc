@@ -351,11 +351,6 @@ sonic_zombie_spawn( animname_set )
 	closest = GetClosest(self.origin, GetPlayers());
 	angles = VectorToAngles(closest.origin - self.origin);
 
-	/*anchor = Spawn("script_origin", self.origin);
-	anchor.angles = (0,angles[1],0);
-	self linkto(anchor);
-	self Hide();*/
-
 	self.a.disablepain = true;
 	self.rising = true;
 
@@ -364,16 +359,16 @@ sonic_zombie_spawn( animname_set )
 
 	anim_org = self.origin + (0, 0, -45);	// start the animation 45 units below the ground
 
-	/*anchor MoveTo(anim_org, 0.05);
-	anchor waittill("movedone");
-
-	anchor RotateTo((0,angles[1],0), 0.05);
-	anchor waittill("rotatedone");
-
+	self Hide();
+	anchor = Spawn("script_origin", self.origin);
+	anchor.angles = self.angles;
+	self linkto(anchor);
+	anchor.origin = anim_org;
+	anchor.angles = angles;
+	wait_network_frame();
 	self Unlink();
-	anchor Delete();*/
-
-	self thread maps\_zombiemode_spawner::hide_pop();
+	anchor Delete();
+	self Show();
 
 	self playsound( "evt_sonic_spawn" );
 

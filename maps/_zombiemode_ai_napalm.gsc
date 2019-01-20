@@ -346,28 +346,22 @@ napalm_zombie_spawn( animname_set )
 	closest = GetClosest(self.origin, GetPlayers());
 	angles = VectorToAngles(closest.origin - self.origin);
 
-	/*anchor = Spawn("script_origin", self.origin);
-	anchor.angles = angles;
-	self linkto(anchor);
-	self Hide();*/
-
 	self.a.disablepain = true;
-
 	// make invulnerable for now....
 	self magic_bullet_shield();
 
 	anim_org = self.origin + (0, 0, -45);	// start the animation 45 units below the ground
 
-	/*anchor MoveTo(anim_org, 0.05);
-	anchor waittill("movedone");
-
-	anchor RotateTo(angles, 0.05);
-	anchor waittill("rotatedone");
-
+	self Hide();
+	anchor = Spawn("script_origin", self.origin);
+	anchor.angles = self.angles;
+	self linkto(anchor);
+	anchor.origin = anim_org;
+	anchor.angles = angles;
+	wait_network_frame();
 	self Unlink();
-	anchor Delete();*/
-
-	self thread maps\_zombiemode_spawner::hide_pop();
+	anchor Delete();
+	self Show();
 
 	//Damage trigger around spawn location for a short period
 	level thread napalm_fire_trigger( self, 80, 6, true );

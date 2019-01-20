@@ -4611,10 +4611,6 @@ do_zombie_rise()
 
 	//self.zombie_rise_version = 1; // TESTING: override version
 
-	/*self.anchor = spawn("script_origin", self.origin);
-	self.anchor.angles = self.angles;
-	self linkto(self.anchor);*/
-
 	if ( IsDefined( self.zone_name ) )
 	{
 		spots = level.zones[ self.zone_name ].rise_locations;
@@ -4696,16 +4692,13 @@ do_zombie_rise()
 	}
 	#/
 
-	/*if( !isDefined( spot.angles ) )
+	if( !isDefined( spot.angles ) )
 	{
 		spot.angles = (0, 0, 0);
 	}
-
 	anim_org = spot.origin;
 	anim_ang = spot.angles;
-
 	//TODO: bbarnes: do a bullet trace to the ground so the structs don't have to be exactly on the ground.
-
 	if (self.zombie_rise_version == 2)
 	{
 		anim_org = anim_org + (0, 0, -14);	// version 2 animation starts 14 units below the ground
@@ -4715,70 +4708,24 @@ do_zombie_rise()
 		anim_org = anim_org + (0, 0, -45);	// start the animation 45 units below the ground
 	}
 
-	//self Teleport(anim_org, anim_ang);	// we should get this working for MP
+	level thread zombie_rise_death(self, spot);
 
 	self Hide();
-	self.anchor moveto(anim_org, .05);
-	self.anchor waittill("movedone");
-
+	self.anchor = spawn("script_origin", self.origin);
+	self.anchor.angles = self.angles;
+	self linkto(self.anchor);
+	self.anchor.origin = anim_org;
 	// face goal
 	target_org = maps\_zombiemode_spawner::get_desired_origin();
 	if (IsDefined(target_org))
 	{
 		anim_ang = VectorToAngles(target_org - self.origin);
-		self.anchor RotateTo((0, anim_ang[1], 0), .05);
-		self.anchor waittill("rotatedone");
+		self.anchor.angles = (0, anim_ang[1], 0);
 	}
-
+	wait_network_frame();
 	self unlink();
-	self.anchor delete();*/
-
-	level thread zombie_rise_death(self, spot);
-
-	anim_org = spot.origin;
-	if (self.zombie_rise_version == 2)
-	{
-		anim_org = anim_org + (0, 0, -14);	// version 2 animation starts 14 units below the ground
-	}
-	else
-	{
-		anim_org = anim_org + (0, 0, -45);	// start the animation 45 units below the ground
-	}
-
-	anim_ang = spot.angles;
-	target_org = get_desired_origin();
-	if (IsDefined(target_org))
-	{
-		anim_ang = VectorToAngles(target_org - self.origin);
-	}
-
-	//shi no numa still needs this for some reason... something to do with the water?
-	if(level.script == "zombie_cod5_sumpf")
-	{
-		self SetPlayerCollision(0);
-		if( !isDefined( spot.angles ) )
-		{
-			spot.angles = (0, 0, 0);
-		}
-		anim_ang = spot.angles;
-		self Hide();
-		self thread hide_pop();	// hack to hide the pop when the zombie gets to the start position before the anim starts
-		self.anchor = spawn("script_origin", self.origin);
-		self.anchor.angles = self.angles;
-		self linkto(self.anchor);
-		self.anchor MoveTo(anim_org, .05);
-		self.anchor waittill("movedone");
-		target_org = get_desired_origin();
-		if (IsDefined(target_org))
-		{
-			anim_ang = VectorToAngles(target_org - self.origin);
-			self.anchor RotateTo((0, anim_ang[1], 0), .05);
-			self.anchor waittill("rotatedone");
-		}
-		self unlink();
-		self.anchor delete();
-		self SetPlayerCollision(1);
-	}
+	self.anchor delete();
+	self Show();
 
 	spot thread zombie_rise_fx(self);
 
