@@ -264,6 +264,9 @@
 * Unupgraded: increased damage from 120 to 130
 * Upgraded: decreased reserve ammo from 170 to 168
 
+### HK21
+* Upgraded: decreased reserve ammo from 750 to 600
+
 ### HS10
 * Upgraded: fixed right weapon fire sound
 * Upgraded: decreased hipfire spread
