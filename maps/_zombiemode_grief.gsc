@@ -29,7 +29,6 @@ init()
 			level.snr_round_number = 1;
 			level thread increase_zombie_health();
 			level thread display_round_number();
-			level thread increase_round_number();
 			level thread increase_zombie_move_speed();
 			level thread increase_zombie_spawn_rate();
 		}
@@ -41,7 +40,6 @@ init()
 		else if(level.gamemode == "gg")
 		{
 			level thread unlimited_ammo();
-			level thread increase_round_number();
 			level thread increase_zombie_health();
 			level thread increase_zombie_move_speed();
 			level thread increase_zombie_spawn_rate();
@@ -172,10 +170,10 @@ intro_vox()
 	wait 3;
 
 	sound = "vs_intro_short";
-	if(level.vsteams == "ffa")
+	/*if(level.vsteams == "ffa")
 	{
 		sound = "vs_intro_short_ffa";
-	}
+	}*/
 
 	players = GetPlayers();
 	for( i = 0; i < players.size; i++ )
@@ -1154,23 +1152,9 @@ unlimited_barrier_points()
 	}
 }
 
-increase_round_number()
-{
-	wait 1;
-	level.round_number = 20;
-}
-
 increase_zombie_health()
 {
-	wait 1;
-
-	health = 2000;
-
-	while(1)
-	{
-		level.zombie_health = health;
-		wait 1;
-	}
+	level.zombie_health = 2000;
 }
 
 unlimited_zombies()

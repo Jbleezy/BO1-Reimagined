@@ -4263,7 +4263,10 @@ round_start()
 		wait( 2 );
 	}
 
-	level.zombie_health = level.zombie_vars["zombie_health_start"];
+	if(level.gamemode != "snr" && level.gamemode != "gg")
+	{
+		level.zombie_health = level.zombie_vars["zombie_health_start"];
+	}
 
 	// so players get init'ed with grenades
 	players = get_players();
@@ -4962,6 +4965,11 @@ award_grenades_for_survivors()
 
 ai_calculate_health( round_number )
 {
+	if(level.gamemode == "snr" || level.gamemode == "gg")
+	{
+		return;
+	}
+
 	//odd rounds starting on 163 are insta kill rounds
 	if(round_number >= 163)
 	{
