@@ -259,12 +259,15 @@ humangun_radius_damage(grenade, weapon)
 	zombs = GetAiSpeciesArray( "axis", "all" );
 	players = get_players();
 	ents = array_combine(zombs, players);
+	ents = get_array_of_closest(grenade_origin, ents);
+	valid_ents = [];
+	valid_players = [];
+	valid_zombs = [];
 	for (i = 0; i < ents.size; i++)
 	{
-		if(grenade IsTouching(ents[i]))
+		// out of range, all other ents will be also
+		if(DistanceSquared(grenade_origin, ents[i].origin) > dist)
 		{
-			// guaranteed closest ent, break the loop
-			closest = ents[i];
 			break;
 		}
 
@@ -273,12 +276,37 @@ humangun_radius_damage(grenade, weapon)
 			continue;
 		}
 
-		ent_origin = ents[i] GetCentroid();
-		new_dist = DistanceSquared(grenade_origin, ent_origin);
-		if(new_dist < dist)
+		valid_ents[valid_ents.size] = ents[i];
+		if(IsPlayer(ents[i]))
 		{
-			closest = ents[i];
-			dist = new_dist;
+			valid_players[valid_players.size] = ents[i];
+		}
+		else
+		{
+			valid_zombs[valid_zombs.size] = ents[i];
+		}
+
+		// only need 1 of each max
+		if(valid_players.size > 0 && valid_zombs.size > 0)
+		{
+			break;
+		}
+	}
+
+	if(valid_ents.size > 0)
+	{
+		closest = valid_ents[0];
+		// HACK - sometimes chooses player when it should choose zombie when both are close
+		if(valid_players.size > 0 && valid_zombs.size > 0 && valid_ents[0] != valid_zombs[0])
+		{
+			if(DistanceSquared(grenade_origin, valid_players[0].origin) < 32 * 32)
+			{
+				closest = valid_players[0];
+			}
+			else
+			{
+				closest = valid_zombs[0];
+			}
 		}
 	}
 
@@ -710,7 +738,7 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	self thread audio_wait_for_death();
 	self thread audio_human_screams();
 
-	self.magic_bullet_shield = true;
+	self magic_bullet_shield();
 	self BloodImpact( "hero" );
 
 	// the taunt anim cancels the tear down anim
@@ -1111,7 +1139,7 @@ humangun_zombie_death( upgraded, player )
 	self notify("humangun_zombie_stop_sounds");
 	self StopSounds();
 
-	self.magic_bullet_shield = false;
+	self stop_magic_bullet_shield();
 	self DoDamage( self.health + 100, self.origin );
 
 	enemy_zombies = GetAiSpeciesArray( "axis", "all" );
@@ -1146,7 +1174,7 @@ humangun_zombie_explosion( upgraded, player )
 
 	level._zombie_human_array = array_remove( level._zombie_human_array, self );
 
-	self.magic_bullet_shield = false;
+	self stop_magic_bullet_shield();
 
 	SetPlayerIgnoreRadiusDamage(true);
 	RadiusDamage( self.origin, 180, level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );

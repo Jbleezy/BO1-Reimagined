@@ -1040,10 +1040,8 @@
 * Removed certain triggers on the map that move players
 
 #### No Man's Land
-* Current No Man's Land round displayed in black where the round number normally is
 * Now spawns 24 zombies instead of 20 zombies
 * Now displays a more accurate time of how long you survived
-* Zombies now spawn more consistently in the middle area during the beginning
 
 #### Sidequest
 * Full sidequest completable in solo
