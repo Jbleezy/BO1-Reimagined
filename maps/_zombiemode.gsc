@@ -5583,7 +5583,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		{
 			if(level.gamemode != "survival" && eInflictor.owner.vsteam != self.vsteam)
 			{
-				self thread maps\_zombiemode_grief::grief(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
+				self notify("grief_damage", sWeapon, sMeansOfDeath, eAttacker);
 			}
 			return 0;
 		}
@@ -5625,7 +5625,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		{
 			if(level.gamemode != "survival" && eAttacker.vsteam != self.vsteam)
 			{
-				self thread maps\_zombiemode_grief::grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc);
+				self notify("grief_damage", sWeapon, sMeansOfDeath, eAttacker);
 			}
 			return 0;
 		}

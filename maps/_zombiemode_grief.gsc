@@ -157,7 +157,11 @@ post_all_players_connected()
 	{
 		players[i] setup_grief_msg();
 
-		//players[i] thread take_tac_nades_when_used();
+		players[i].slowdown_wait = false;
+		players[i].vs_attackers = [];
+		players[i] thread grief_damage();
+		players[i] thread grief_downed_points();
+		players[i] thread grief_bleedout_points();
 	}
 }
 
@@ -482,126 +486,75 @@ switch_to_combat_knife()
 	}
 }
 
-grief(eAttacker, sMeansOfDeath, sWeapon, iDamage, eInflictor, sHitLoc)
+grief_damage()
 {
-	// special check for betties when player is prone
-	if(sWeapon == "mine_bouncing_betty" && self getstance() == "prone" && sMeansOfDeath == "MOD_GRENADE_SPLASH")
-		return;
-
-	// only nades, mines, and flops do actual damage
-	/*if(!self HasPerk( "specialty_flakjacket" ))
+	while(1)
 	{
-		//80 DoDamage = 25 actual damage
-		if(sMeansOfDeath == "MOD_GRENADE_SPLASH" && (sWeapon == "frag_grenade_zm" || sWeapon == "sticky_grenade_zm" || sWeapon == "stielhandgranate"))
-		{
-			//nades
-			self DoDamage( 80, eInflictor.origin );
-		}
-		else if( eAttacker HasPerk( "specialty_flakjacket" ) && isdefined( eAttacker.divetoprone ) && eAttacker.divetoprone == 1 && sMeansOfDeath == "MOD_GRENADE_SPLASH" )
-		{
-			//for flops, the origin of the player must be used
-			self DoDamage( 80, eAttacker.origin );
-		}
-		else if( sMeansOfDeath == "MOD_GRENADE_SPLASH" && (is_placeable_mine( sWeapon ) || is_tactical_grenade( sWeapon )) )
-		{
-			//tactical nades and mines
-			self DoDamage( 80, eInflictor.origin );
-		}
-	}*/
+		self waittill( "grief_damage", weapon, mod, attacker );
 
-	self thread slowdown(sWeapon, sMeansOfDeath, eAttacker, sHitLoc);
+		// special check for betties when player is prone
+		if(weapon == "mine_bouncing_betty" && self getstance() == "prone" && mod == "MOD_GRENADE_SPLASH")
+		{
+			continue;
+		}
 
-	if(sMeansOfDeath == "MOD_MELEE" 
-		|| sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm" || sWeapon == "knife_ballistic_bowie_zm" || sWeapon == "knife_ballistic_bowie_upgraded_zm")
-	{
-		self thread push(eAttacker, sWeapon, sMeansOfDeath);
+		force_slowdown = false;
+
+		if(mod == "MOD_MELEE" || weapon == "knife_ballistic_zm" || weapon == "knife_ballistic_upgraded_zm" || weapon == "knife_ballistic_bowie_zm" || weapon == "knife_ballistic_bowie_upgraded_zm")
+		{
+			force_slowdown = true;
+			self thread push(weapon, mod, attacker);
+		}
+
+		self thread slowdown(weapon, mod, attacker, force_slowdown);
 	}
 }
 
-slowdown(weapon, mod, eAttacker, loc)
+slowdown(weapon, mod, attacker, force_slowdown)
 {
-	if(!IsDefined(self.slowdown_wait))
-	{
-		self.slowdown_wait = false;
-	}
-
-	//shotguns were being called here for each pellet that hit a player, causing players to earn more grief points than they should have, this prevents that from happening
-	/*if(WeaponClass(weapon) == "spread")
-	{
-		if(!IsDefined(eAttacker.spread_already_damaged))
-		{
-			eAttacker.spread_already_damaged = [];
-		}
-
-		if(IsDefined(eAttacker.spread_already_damaged[self GetEntityNumber()]))
-		{
-			return;
-		}
-		else
-		{
-			eAttacker.spread_already_damaged[self GetEntityNumber()] = true;
-			self thread set_undamaged_after_frame(eAttacker);
-		}
-	}*/
-
 	//player is already slowed down, don't slow them down again
-	if(self.slowdown_wait)
+	if(is_true(self.slowdown_wait) && !force_slowdown)
 	{
 		return;
 	}
 
+	self notify("grief_slowdown");
+	self endon("grief_slowdown");
+
 	self.slowdown_wait = true;
 
-	eAttacker thread grief_damage_points(self);
-
-	eAttacker thread grief_downed_points(self);
+	attacker grief_damage_points(self);
+	attacker thread grief_downed_points_add_player(self);
 
 	PlayFXOnTag( level._effect["grief_shock"], self, "J_SpineUpper" );
-
-	self AllowSprint(false);
-	self SetBlur( 1, .1 );
 
 	amount = .3;
 
 	if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon) || mod == "MOD_GRENADE" || mod == "MOD_GRENADE_SPLASH" || mod == "MOD_PROJECTILE" || mod == "MOD_PROJECTILE_SPLASH")
 	{
 		amount /= 1.5;
-		
 	}
-	
+
+	self AllowSprint(false);
+	self SetBlur( 1, .1 );
 	self SetMoveSpeedScale( self.move_speed * amount );	
 
-	wait( .75 );
+	wait .75;
 
-	self SetMoveSpeedScale( 1 );
 	if(!self.is_drinking || IsDefined(self.has_meat))
+	{
 		self AllowSprint(true);
+	}
 	self SetBlur( 0, .2 );
+	self SetMoveSpeedScale( 1 );
 
 	self.slowdown_wait = false;
 }
 
-set_undamaged_after_frame(eAttacker)
+push(weapon, mod, attacker) //prone, bowie/ballistic crouch, bowie/ballistic, crouch, regular
 {
-	wait_network_frame();
-	eAttacker.spread_already_damaged[self GetEntityNumber()] = undefined;
-}
-
-push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/ballistic, crouch, regular
-{
-	if(!IsDefined(self.push_wait))
-	{
-		self.push_wait = false;
-	}
-
-	if(self.push_wait == true)
-	{
-		return;
-	}
-
-	self.push_wait = true;
 	amount = 0;
-	if( self GetStance() != "prone" )
+	if(self GetStance() != "prone" )
 	{
 		if(self GetStance() == "crouch")
 		{
@@ -612,7 +565,7 @@ push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/b
 			amount = 300;	
 		}
 
-		if(eAttacker._bowie_zm_equipped || eAttacker._sickle_zm_equipped || sWeapon == "knife_ballistic_zm" || sWeapon == "knife_ballistic_upgraded_zm")
+		if(attacker._bowie_zm_equipped || attacker._sickle_zm_equipped || weapon == "knife_ballistic_zm" || weapon == "knife_ballistic_upgraded_zm")
 		{
 			amount *= 1.5;
 		}
@@ -620,31 +573,46 @@ push(eAttacker, sWeapon, sMeansOfDeath) //prone, bowie/ballistic crouch, bowie/b
 	
 	if(amount != 0)
 	{
-		self SetVelocity( VectorNormalize( self.origin - eAttacker.origin ) * (amount, amount, amount) );
+		self SetVelocity( VectorNormalize( self.origin - attacker.origin ) * (amount, amount, amount) );
 	}
-	wait .75;
-	self.push_wait = false;
 }
 
-grief_damage_points(gotgriefed)
+grief_damage_points(got_griefed)
 {
-	if(gotgriefed.health < gotgriefed.maxhealth && is_player_valid(self))
+	if(got_griefed.health < got_griefed.maxhealth && is_player_valid(self))
 	{
 		points = int(10 * self.zombie_vars["zombie_point_scalar"]);
 		self maps\_zombiemode_score::add_to_player_score( points );
 	}
 }
 
-grief_downed_points(gotgriefed)
+grief_downed_points()
 {
-	//self notify("monitor downed points");
-	//self endon("monitor downed points");
-	gotgriefed endon( "player_downed" );
-
-	if(!IsDefined(gotgriefed.vs_attackers))
+	while(1)
 	{
-		gotgriefed.vs_attackers = [];
+		self waittill( "player_downed" );
+
+		if(self.vs_attackers.size > 0)
+		{
+			percent = level.zombie_vars["penalty_downed"];
+			points = round_up_to_ten( int( self.score * percent ) );
+
+			for(i=0;i<self.vs_attackers.size;i++)
+			{
+				if(is_player_valid(self.vs_attackers[i]))
+				{
+					self.vs_attackers[i] maps\_zombiemode_score::add_to_player_score( points );
+				}
+			}
+
+			self.vs_attackers = [];
+		}
 	}
+}
+
+grief_downed_points_add_player(gotgriefed)
+{
+	gotgriefed endon( "player_downed" );
 
 	if(is_in_array(gotgriefed.vs_attackers, self))
 	{
@@ -659,44 +627,24 @@ grief_downed_points(gotgriefed)
 	}
 
 	gotgriefed.vs_attackers = array_remove_nokeys(gotgriefed.vs_attackers, self);
-
-	/*while(gotgriefed.health < gotgriefed.maxhealth)
-	{
-		if(!is_player_valid(gotgriefed))
-		{
-			if(is_player_valid(self))
-			{
-				points = round_up_to_ten(int(gotgriefed.score * .05));
-				self maps\_zombiemode_score::add_to_player_score( points );
-			}
-			return;
-		}
-
-		wait_network_frame();
-	}*/
-
-	/*if(!is_player_valid(gotgriefed) && is_player_valid(self))
-	{
-		points = round_up_to_ten(int(gotgriefed.score * .05));
-		self maps\_zombiemode_score::add_to_player_score( points );
-	}*/
 }
 
 grief_bleedout_points(dead_player)
 {
-	players = get_players();
-	for( i = 0; i < players.size; i++ )
+	while(1)
 	{
-		if(is_player_valid(players[i]) && players[i].vsteam != dead_player.vsteam)
+		self waittill( "bled_out" );
+
+		players = get_players();
+		for( i = 0; i < players.size; i++ )
 		{
-			points = round_up_to_ten(int(players[i].score * .1));
-			players[i] maps\_zombiemode_score::add_to_player_score( points );
+			if(is_player_valid(players[i]) && players[i].vsteam != self.vsteam)
+			{
+				percent = level.zombie_vars["penalty_no_revive"];
+				points = round_up_to_ten( int( players[i].score * percent ) );
+				players[i] maps\_zombiemode_score::add_to_player_score( points );
+			}
 		}
-		/*else if(is_player_valid(players[i]) && players[i].vsteam == dead_player.vsteam)
-		{
-			points = round_up_to_ten(int(players[i].score * .1));
-			players[i] maps\_zombiemode_score::minus_to_player_score( points );
-		}*/
 	}
 }
 
@@ -1003,37 +951,6 @@ stop_shellshock_when_spectating()
 		}
 		wait(.05);
 	}
-}
-
-take_tac_nades_when_used()
-{
-	self endon( "disconnect" );
-
-	while(1)
-	{
-		self waittill( "grenade_fire", grenade, weaponName, parent );
-		tac_nade = self get_player_tactical_grenade();
-		if(IsDefined(tac_nade) && weaponName == tac_nade && self GetFractionMaxAmmo(tac_nade) == 0)
-		{
-			self TakeWeapon(tac_nade);
-		}
-	}
-}
-
-//disable certain box weapons
-disable_box_weapons()
-{
-	//wait for guns to be registered
-	wait_network_frame();
-
-	if(IsDefined(level.zombie_weapons["zombie_cymbal_monkey"]))
-		level.zombie_weapons["zombie_cymbal_monkey"].is_in_box = false;
-
-	if(IsDefined(level.zombie_weapons["crossbow_explosive_zm"]))
-		level.zombie_weapons["crossbow_explosive_zm"].is_in_box = false;
-
-	if(IsDefined(level.zombie_weapons["zombie_black_hole_bomb"]))
-		level.zombie_weapons["zombie_black_hole_bomb"].is_in_box = false;
 }
 
 turn_power_on()
