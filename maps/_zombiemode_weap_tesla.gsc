@@ -30,7 +30,8 @@ init()
 	precacheshellshock( "electrocution" );
 
 	set_zombie_var( "tesla_max_arcs",			5 );
-	set_zombie_var( "tesla_max_enemies_killed", 20 );
+	set_zombie_var( "tesla_max_enemies_killed", 10 );
+	set_zombie_var( "tesla_max_enemies_killed_upgraded", 15 );
 	set_zombie_var( "tesla_radius_start",		300 );
 	set_zombie_var( "tesla_radius_decay",		20 );
 	set_zombie_var( "tesla_head_gib_chance",	50 );
@@ -153,7 +154,13 @@ tesla_end_arc_damage( arc_num, enemies_hit_num, upgraded )
 		//TO DO Play Super Happy Tesla sound
 	}
 
-	if ( ( !upgraded && enemies_hit_num >= level.zombie_vars["tesla_max_enemies_killed"] ) || ( upgraded && enemies_hit_num >= 24 ) )
+	max = level.zombie_vars["tesla_max_enemies_killed"];
+	if(upgraded)
+	{
+		max = level.zombie_vars["tesla_max_enemies_killed_upgraded"];
+	}
+
+	if ( enemies_hit_num >= max )
 	{
 		debug_print( "TESLA: Ending arcing. Max enemies killed" );
 		return true;
@@ -254,14 +261,14 @@ tesla_do_damage( source_enemy, arc_num, player, upgraded )
 
 	if ( arc_num > 1 )
 	{
+		time = RandomFloat( 0.2, 0.6 ) * arc_num;
+
 		if(upgraded)
 		{
-			wait( RandomFloat( 0.1, 0.3 ) * arc_num );
+			time /= 1.5;
 		}
-		else
-		{
-			wait( RandomFloat( 0.2, 0.6 ) * arc_num );
-		}
+
+		wait time;
 	}
 
 	if( !IsDefined( self ) || !IsAlive( self ) )

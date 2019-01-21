@@ -396,12 +396,10 @@
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
 * The initial zombie that is hit will now always be the zombie that is closest to the bolt's location
 * Unupgraded: decreased self damage radius by 72%
-* Unupgraded: increased zombie damage radius by 45%
+* Unupgraded: increased zombie damage radius by 36% (now has the same radius as the upgraded version)
 * Upgraded: decreased self damage radius by 134%
-* Upgraded: increased zombie damage radius by 7%
-* Unupgraded and upgraded versions now have the same zombie damage radius and self damage radius
-* Upgraded: increased maximum amount of kills from 10 to 24
-* Upgraded: decreased time between kills by 50%
+* Upgraded: increased maximum amount of kills from 10 to 15
+* Upgraded: decreased time between kills by 33%
 * Upgraded: gold camo on Der Riese, regular camo on Call of the Dead
 * Upgraded: gold camo is now shinier
 * Added sprint and dive animations on classic maps
