@@ -980,9 +980,10 @@
 * Reward: 90 second Death Machines for the rest of the match
 
 ### Call of the Dead
+* Players now start with Semtex
 * Removed zombie spawn delay at the beginning of a match
 * Decreased the delay between switching Pack-a-Punch locations from 100-120 seconds to 15 seconds
-* Zombies no longer take damage from the water
+* Zombies no longer take damage from the water when low on health
 
 #### Zipline
 * FOV no longer changes while riding the zipline
@@ -1002,6 +1003,7 @@
 * Wunderwaffe powerup from sidequest stays on the map until picked up
 
 ### Shangri-La
+* Players now start with Semtex
 * Pack-a-Punch stones do not have to be stepped on at the same time
 * Eclipse mode activatable with 1-4 players
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
@@ -1026,6 +1028,7 @@
 * Reward: all players get permament perks
 
 ### Moon
+* Players now start with Semtex
 * Added Fire Sale, Max Ammo, and Perk Bottle to jump pad powerup cycle
 * Removed the forced jumping in low gravity
 * Excavators will not reactivate for places that have already been breached

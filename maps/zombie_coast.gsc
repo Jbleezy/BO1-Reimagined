@@ -395,7 +395,7 @@ coast_zone_init()
 
 include_weapons()
 {
-	include_weapon( "frag_grenade_zm", false );
+	//include_weapon( "frag_grenade_zm", false );
 	include_weapon( "sticky_grenade_zm", false, true );
 	include_weapon( "claymore_zm", false, true );
 
@@ -522,9 +522,9 @@ coast_director_should_drop_special_powerup()
 // -- Offhand weapon override for cosmodrome
 coast_offhand_weapon_overrride()
 {
-	register_lethal_grenade_for_level( "frag_grenade_zm" );
+	//register_lethal_grenade_for_level( "frag_grenade_zm" );
 	register_lethal_grenade_for_level( "sticky_grenade_zm" );
-	level.zombie_lethal_grenade_player_init = "frag_grenade_zm";
+	level.zombie_lethal_grenade_player_init = "sticky_grenade_zm";
 
 	register_tactical_grenade_for_level( "zombie_nesting_dolls" );
 	level.zombie_tactical_grenade_player_init = undefined;

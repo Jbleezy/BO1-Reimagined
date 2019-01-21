@@ -310,7 +310,7 @@ local_zone_init()
 //*****************************************************************************
 include_weapons()
 {
-	include_weapon( "frag_grenade_zm", false );
+	//include_weapon( "frag_grenade_zm", false );
 	include_weapon( "sticky_grenade_zm", false, true );
 	include_weapon( "spikemore_zm", false, true );
 
@@ -987,9 +987,9 @@ temple_find_exit_point()
 
 temple_offhand_weapon_overrride()
 {
-	register_lethal_grenade_for_level( "frag_grenade_zm" );
+	//register_lethal_grenade_for_level( "frag_grenade_zm" );
 	register_lethal_grenade_for_level( "sticky_grenade_zm" );
-	level.zombie_lethal_grenade_player_init = "frag_grenade_zm";
+	level.zombie_lethal_grenade_player_init = "sticky_grenade_zm";
 
 	register_tactical_grenade_for_level( "zombie_cymbal_monkey" );
 	level.zombie_tactical_grenade_player_init = undefined;
