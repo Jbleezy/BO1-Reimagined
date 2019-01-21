@@ -368,7 +368,7 @@ sonic_zombie_spawn( animname_set )
 	wait_network_frame();
 	self Unlink();
 	anchor Delete();
-	self Show();
+	self thread maps\_zombiemode_spawner::hide_pop();
 
 	self playsound( "evt_sonic_spawn" );
 

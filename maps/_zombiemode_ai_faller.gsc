@@ -253,7 +253,7 @@ do_zombie_fall()
 	wait_network_frame();
 	self unlink();
 	self.anchor delete();
-	self Show();
+	self thread maps\_zombiemode_spawner::hide_pop();
 
 	spot thread zombie_fall_fx(self);
 
@@ -774,17 +774,6 @@ faller_death_ragdoll()
 	self launchragdoll((0, 0, -1));
 
 	return self maps\_zombiemode_spawner::zombie_death_animscript();
-}
-
-
-hide_pop()
-{
-	self endon( "death" );
-	wait( 0.5 );
-	if ( IsDefined( self ) )
-	{
-		self Show();
-	}
 }
 
 //Test if self is in player's FOV

@@ -361,7 +361,7 @@ napalm_zombie_spawn( animname_set )
 	wait_network_frame();
 	self Unlink();
 	anchor Delete();
-	self Show();
+	self thread maps\_zombiemode_spawner::hide_pop();
 
 	//Damage trigger around spawn location for a short period
 	level thread napalm_fire_trigger( self, 80, 6, true );

@@ -4689,7 +4689,7 @@ do_zombie_rise()
 	wait_network_frame();
 	self unlink();
 	self.anchor delete();
-	self Show();
+	self thread hide_pop();
 
 	spot thread zombie_rise_fx(self);
 
