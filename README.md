@@ -144,8 +144,6 @@
 
 #### Stoner63
 * Upgraded name: Stoned69
-* Assault rifle/LMG hybrid weapon
-* 90% move speed (in between LMG and assault rifle move speed)
 * Unupgraded: 60 rounds per clip
 * Upgraded: 90 rounds per clip
 * Unupgraded: damage - 160
