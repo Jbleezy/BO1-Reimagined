@@ -1250,12 +1250,13 @@ master_electric_switch()
 		zombs[i] maps\_zombiemode_spawner::set_zombie_run_cycle();
 	}
 
-	wait(6);
-	fx_org stoploopsound();
 	level notify ("sleight_on");
 	level notify ("revive_on");
 	level notify ("doubletap_on");
 	level notify ("juggernog_on");
+
+	wait(6);
+	fx_org stoploopsound();
 
 	exploder(101);
 	//exploder(201);
