@@ -1,6 +1,6 @@
 # Call of Duty: Black Ops Zombies - Reimagined
 
-## Created by: Jbleezy / Jbird
+## Created by: Jbleezy
 
 [YouTube](https://youtube.com/ItsJbirdJustin)
 
@@ -13,7 +13,7 @@
 ## Change Notes
 
 ## General
-* Insta kill rounds (Rounds where zombies have round 1 health) start at round 163 and happen every odd round thereafter
+* Insta kill rounds (rounds where zombies have round 1 health) start at round 163 and happen every odd round thereafter
 * Any hintstring that previously showed "Press & hold" or "Press" at the beginning has been changed to only show "Hold"
 * Power hintstrings on classic maps have been changed to show the same hintstring on non classic maps
 * Hintstrings are now invisible while the current action is not available for the player
@@ -23,36 +23,35 @@
 * Maps now auto restart correctly (box gets randomized again)
 
 ## Players
-* Players automatically get 3 self revives in solo
+* Players automatically get 3 self revives in solo (except for on Nacht Der Untoten and on Moon before initially leaving No Man's Land)
 * Unlimited sprint
 * All players are attracted equally
-* Fixed a bug where zombies would not attack players if one player crouched in front of another player in a corner
 * Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%
-* Player names now disappear instantly after being out of line of sight of them
+* Increased normal health regeneration time from 2.4 seconds to 3 seconds
 * Removed melee lunging
 * Players can now dive again right away after just diving
 * Players can now move after diving quicker
 * Decreased dive startup time
-* Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
-* Increased normal health regeneration time from 2.4 seconds to 3 seconds
+* Added a points cap of 10 million
 * Red screens now start at 25% health (previously 20% health)
-* Fixed players getting stuck in the air when jumping next to an object with high FPS
-* Players can now shoot when looking at another player
-* Chracters no longer make hurt sounds if you have PHD Flopper and an explosion happens that would have hurt you
-* Fixed a bug where players were able to damage themselves by meleeing and leaning at the same time
-* Fixed a bug where downed players were able to occasionally damage alive players
-* 1 second of immunity to zombies after getting revived (solo and coop)
-* Fixed a bug where a player was able to revive another player by bleeding out next to them in water
-* Lean is now disabled while down since downed players cannot be revived while they are leaning
-* If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
-* Pack-a-Punch camo now displays on Mustang & Sally when downed in solo
-* Dead players can chat with alive players
-* Players can now red screen after bleeding out and respawning
-* Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the fire button while spawning in
 * Added heartbeat and breathing sounds when low on health
 * Added heartbeat sound when down
+* Text when getting revived in solo now only displays "Reviving"
 * Added death hands animation from Black Ops 2
-* 10 million points cap
+* Dead players can chat with alive players
+* Players can now red screen after bleeding out and respawning
+* Characters no longer make hurt sounds from explosions if you have PHD Flopper
+* Players can now shoot when looking at another player
+* Player names now disappear instantly after being out of line of sight of them
+* If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
+* 1 second of immunity to zombies after getting revived (solo and coop)
+* Lean is now disabled while down since downed players cannot be revived while they are leaning
+* Fixed a bug where players were able to damage themselves by meleeing and leaning at the same time
+* Fixed a bug where a player was able to revive another player by bleeding out next to them in water
+* Fixed a bug where downed players were able to occasionally damage alive players
+* Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
+* Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the fire button while spawning in
+* Fixed players getting stuck in the air when jumping next to an object with high FPS
 
 ## HUD
 * HUD items now have some distance away from the edge of the screen
@@ -313,6 +312,7 @@
 ### M1911
 * Upgraded: increased impact damage from 1000 to 1200
 * Upgraded: increased minimum explosion damage from 75 to 300
+* Upgraded: camo now displays when downed in solo
 
 ### M72 LAW
 * Can now fire without aiming
@@ -337,6 +337,9 @@
 * Upgraded: increased reserve ammo from 225 to 250
 * Upgraded: decreased hipfire spread
 * Upgraded: decreased recoil
+
+### Python
+* Upgraded: now given to the player when downed on solo if they have the weapon
 
 ### RPK
 * Fixed animation bug when switching weapons from the RPK with an empty clip

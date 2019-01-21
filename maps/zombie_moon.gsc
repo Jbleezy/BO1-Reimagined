@@ -117,6 +117,8 @@ main()
 
 	level.zombiemode_sidequest_init = ::moon_sidequest_of_awesome;
 
+	level.give_solo_lives_func = ::moon_give_solo_lives;
+
 	maps\_zombiemode::main();
 
 	level thread maps\_zombiemode::register_sidequest( "COTD", "ZOMBIE_COAST_EGG_SOLO", 43, "ZOMBIE_COAST_EGG_COOP", 44 );
@@ -2366,4 +2368,13 @@ init_teleport_players()
 	//have to wait or stuff doesnt get initialized right
 	//level waittill("fade_introblack");
 	//level waittill("fade_in_complete");
+}
+
+moon_give_solo_lives()
+{
+	flag_wait("enter_nml");
+	flag_waitopen("enter_nml");
+	
+	players = get_players();
+	players[0].lives = 3;
 }

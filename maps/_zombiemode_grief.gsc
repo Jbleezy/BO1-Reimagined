@@ -1462,17 +1462,6 @@ race_points_handicap()
 	}
 }
 
-revive_grace_period()
-{
-	while(1)
-	{
-		self waittill("player_revived");
-		self.ignoreme = true;
-		wait 1;
-		self.ignoreme = false;
-	}
-}
-
 reduce_survive_zombie_amount()
 {
 	flag_wait( "all_players_spawned" );
@@ -2042,10 +2031,9 @@ auto_revive_after_time()
 	self endon("player_revived");
 	level endon("end_game");
 
-	wait 5;
 	self.revive_hud setText( &"GAME_REVIVING" );
-	self maps\_laststand::revive_hud_show_n_fade( 5.0 );
-	wait 5;
+	self maps\_laststand::revive_hud_show_n_fade(10);
+	wait 10;
 	self maps\_laststand::auto_revive();
 }
 

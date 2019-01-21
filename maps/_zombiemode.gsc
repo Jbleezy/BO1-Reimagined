@@ -3171,7 +3171,7 @@ last_stand_compare_pistols( struct_array )
 	if( flag( "solo_game" ) )
 	{
 		self._special_solo_pistol_swap = 0; // ww: this way the weapon knows to pack texture when given
-		if( highest_score_pistol.value <= 4 )
+		if( highest_score_pistol.value <= 3 )
 		{
 			self.hadpistol = false;
 			self._special_solo_pistol_swap = 1;
@@ -5912,7 +5912,7 @@ wait_and_revive()
 
 	solo_revive_time = 10.0;
 
-	self.revive_hud setText( &"ZOMBIE_REVIVING_SOLO", self );
+	self.revive_hud SetText( &"GAME_REVIVING" );
 	self maps\_laststand::revive_hud_show_n_fade( solo_revive_time );
 
 	flag_wait_or_timeout("instant_revive", solo_revive_time);
