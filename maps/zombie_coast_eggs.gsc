@@ -175,6 +175,11 @@ c_overseer()
 	// wait for all players
 	flag_wait( "all_players_connected" );
 
+	if(level.gamemode != "survival")
+    {
+        return;
+    }
+
 	/*players = GetPlayers();
 	if( players.size > 1 )
 	{
@@ -223,11 +228,6 @@ c_overseer()
 
 knock_on_door()
 {
-	if(level.gamemode != "survival")
-    {
-        return;
-    }
-
 	level endon( "scrambled" );
 
 	knock_trig = GetEnt( "e_gargoyle", "targetname" );
