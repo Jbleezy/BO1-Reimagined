@@ -569,11 +569,13 @@ nml_round_manager()
 
 		if( level.initial_spawn )
 		{
-			wait randomfloatrange( 0.1, 0.8 );
+			//wait randomfloatrange( 0.1, 0.8 );
+			wait 0.4;
 		}
 		else
 		{
-			wait randomfloatrange( 0.01, 0.2 );
+			//wait randomfloatrange( 0.01, 0.2 );
+			wait 0.1;
 		}
 	}
 }

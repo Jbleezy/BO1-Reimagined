@@ -1052,7 +1052,8 @@
 * Removed certain triggers on the map that move players
 
 #### No Man's Land
-* Now spawns 24 zombies instead of 20 zombies
+* Zombies now spawn at a consistent rate
+* Increased maximum amount of zombies that can spawn in from 20 to 24
 * Now displays a more accurate time of how long you survived
 
 #### Sidequest
