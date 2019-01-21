@@ -44,7 +44,6 @@
 * Players can now shoot when looking at another player
 * Player names now disappear instantly after being out of line of sight of them
 * If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
-* 1 second of immunity to zombies after getting revived (solo and coop)
 * Lean is now disabled while down since downed players cannot be revived while they are leaning
 * Fixed a bug where players were able to damage themselves by meleeing and leaning at the same time
 * Fixed a bug where a player was able to revive another player by bleeding out next to them in water

@@ -2071,7 +2071,7 @@ onPlayerSpawned()
 
 		self thread remove_idle_sway();
 
-		self thread revive_grace_period();
+		//self thread revive_grace_period();
 
 		self.move_speed = 1;
 
