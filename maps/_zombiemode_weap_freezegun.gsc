@@ -24,16 +24,16 @@ init()
 	set_zombie_var( "freezegun_inner_damage",					1000 );
 	set_zombie_var( "freezegun_outer_damage",					500 );
 	set_zombie_var( "freezegun_shatter_range",					180 ); // 150 feet
-	set_zombie_var( "freezegun_shatter_inner_damage",			750 );
-	set_zombie_var( "freezegun_shatter_outer_damage",			750 );
+	set_zombie_var( "freezegun_shatter_inner_damage",			500 );
+	set_zombie_var( "freezegun_shatter_outer_damage",			500 );
 	set_zombie_var( "freezegun_cylinder_radius_upgraded",		120 ); // 15 feet
 	set_zombie_var( "freezegun_inner_range_upgraded",			450 ); // 10 feet
 	set_zombie_var( "freezegun_outer_range_upgraded",			900 ); // 75 feet
 	set_zombie_var( "freezegun_inner_damage_upgraded",			1500 );
 	set_zombie_var( "freezegun_outer_damage_upgraded",			750 );
 	set_zombie_var( "freezegun_shatter_range_upgraded",			180 ); // 25 feet
-	set_zombie_var( "freezegun_shatter_inner_damage_upgraded",	750 );
-	set_zombie_var( "freezegun_shatter_outer_damage_upgraded",	750 );
+	set_zombie_var( "freezegun_shatter_inner_damage_upgraded",	500 );
+	set_zombie_var( "freezegun_shatter_outer_damage_upgraded",	500 );
 
 
 	level._effect[ "freezegun_shatter" ]				= LoadFX( "weapon/freeze_gun/fx_freezegun_shatter" );
@@ -56,6 +56,8 @@ init()
 	// system_elements/fx_null
 
 	level thread freezegun_on_player_connect();
+
+	level.freezegun_shatter_triggers = [];
 }
 
 
@@ -105,7 +107,14 @@ freezegun_fired( upgraded )
 	for ( i = 0; i < level.freezegun_enemies.size; i++ )
 	{
 		//freezegun_network_choke();
-		level.freezegun_enemies[i] thread freezegun_do_damage( upgraded, self, level.freezegun_enemies_dist_ratio[i] );
+		if(IsAI(level.freezegun_enemies[i]))
+		{
+			level.freezegun_enemies[i] thread freezegun_do_damage( upgraded, self, level.freezegun_enemies_dist_ratio[i] );
+		}
+		else
+		{
+			level.freezegun_enemies[i] notify("damage");
+		}
 	}
 
 	level.freezegun_enemies = [];
@@ -226,7 +235,9 @@ freezegun_get_enemies_in_range( upgraded )
 	view_pos = self GetWeaponMuzzlePoint();
 
 	// Add a 10% epsilon to the range on this call to get guys right on the edge
-	zombies = get_array_of_closest( view_pos, GetAiSpeciesArray( "axis", "all" ), undefined, undefined, (outer_range * 1.1) );
+	zombies = GetAiSpeciesArray( "axis", "all" );
+	zombies = array_merge(zombies, level.freezegun_shatter_triggers);
+	zombies = get_array_of_closest( view_pos, zombies, undefined, undefined, (outer_range * 1.1) );
 	if ( !isDefined( zombies ) )
 	{
 		return;
@@ -336,7 +347,7 @@ freezegun_do_damage( upgraded, player, dist_ratio )
 		damage = Int( LerpFloat( int(self.maxhealth / 3) + 1, int(self.maxhealth / 2) + 1, dist_ratio ) );
 	}
 
-	min_damage = freezegun_get_inner_damage(upgraded);
+	min_damage = Int( LerpFloat( freezegun_get_outer_damage(upgraded), freezegun_get_inner_damage(upgraded), dist_ratio ) );
 	if(damage < min_damage)
 	{
 		damage = min_damage;
@@ -525,6 +536,8 @@ freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger )
 	shatter_trigger notify( "cleanup_freezegun_triggers" );
 	crumple_trigger notify( "cleanup_freezegun_triggers" );
 
+	level.freezegun_shatter_triggers = array_remove(level.freezegun_shatter_triggers, shatter_trigger);
+
 	shatter_trigger self_delete();
 	crumple_trigger self_delete();
 }
@@ -589,6 +602,7 @@ freezegun_death( hit_location, hit_origin, player )
 	shatter_trigger = spawn( "trigger_damage", self.origin, 0, 15, 72 );
 	shatter_trigger enablelinkto();
 	shatter_trigger linkto( self );
+	level.freezegun_shatter_triggers = array_add(level.freezegun_shatter_triggers, shatter_trigger, false);
 
 	spawnflags = 1 + 2 + 4 + 16 + 64; // SF_TOUCH_AI_AXIS | SF_TOUCH_AI_ALLIES | SF_TOUCH_AI_NEUTRAL | SF_TOUCH_VEHICLE | SF_TOUCH_ONCE
 	crumple_trigger = spawn( "trigger_radius", self.origin, spawnflags, 15, 72 );
@@ -603,7 +617,10 @@ freezegun_death( hit_location, hit_origin, player )
 	self thread freezegun_wait_for_crumple( player, weap, shatter_trigger, crumple_trigger );
 	self endon( "cleanup_freezegun_triggers" );
 
-	wait( anim_len / 2 ); // force the zombie to crumple if he is untouched after time
+	if (!is_true(self.in_the_ground) && !is_true(self.in_the_ceiling))
+	{
+		wait( anim_len / 2 ); // force the zombie to crumple if he is untouched after time
+	}
 
 	self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
 }
