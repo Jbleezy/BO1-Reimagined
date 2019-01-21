@@ -24,16 +24,16 @@ init()
 	set_zombie_var( "freezegun_inner_damage",					1000 );
 	set_zombie_var( "freezegun_outer_damage",					500 );
 	set_zombie_var( "freezegun_shatter_range",					180 ); // 150 feet
-	set_zombie_var( "freezegun_shatter_inner_damage",			500 );
-	set_zombie_var( "freezegun_shatter_outer_damage",			250 );
+	set_zombie_var( "freezegun_shatter_inner_damage",			750 );
+	set_zombie_var( "freezegun_shatter_outer_damage",			750 );
 	set_zombie_var( "freezegun_cylinder_radius_upgraded",		120 ); // 15 feet
 	set_zombie_var( "freezegun_inner_range_upgraded",			450 ); // 10 feet
 	set_zombie_var( "freezegun_outer_range_upgraded",			900 ); // 75 feet
 	set_zombie_var( "freezegun_inner_damage_upgraded",			1500 );
 	set_zombie_var( "freezegun_outer_damage_upgraded",			750 );
-	set_zombie_var( "freezegun_shatter_range_upgraded",			300 ); // 25 feet
+	set_zombie_var( "freezegun_shatter_range_upgraded",			180 ); // 25 feet
 	set_zombie_var( "freezegun_shatter_inner_damage_upgraded",	750 );
-	set_zombie_var( "freezegun_shatter_outer_damage_upgraded",	500 );
+	set_zombie_var( "freezegun_shatter_outer_damage_upgraded",	750 );
 
 
 	level._effect[ "freezegun_shatter" ]				= LoadFX( "weapon/freeze_gun/fx_freezegun_shatter" );
@@ -447,7 +447,7 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 
 	upgraded = (weap == "freezegun_upgraded_zm");
 	player.freezegun_shatter_damage = true;
-	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), 1, 1, player, "MOD_UNKNOWN", weap );
+	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_IMPACT" );
 	player.freezegun_shatter_damage = undefined;
 
 	if ( is_mature() )
@@ -473,7 +473,7 @@ freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger )
 	if ( isDefined( attacker ) && attacker == orig_attacker && "MOD_PROJECTILE" == mod && ("freezegun_zm" == attacker GetCurrentWeapon() || "freezegun_upgraded_zm" == attacker GetCurrentWeapon()) )
 	{
 		// player doesn't get the shatter result if they hit him again with the freezegun's attack
-		self thread freezegun_do_crumple( weap, shatter_trigger, crumple_trigger );
+		self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
 	}
 	else
 	{
@@ -482,13 +482,16 @@ freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger )
 }
 
 
-freezegun_do_crumple( weap, shatter_trigger, crumple_trigger )
+freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger )
 {
 	freezegun_debug_print( "crumpled" );
 
 	self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
 
 	upgraded = (weap == "freezegun_upgraded_zm");
+	player.freezegun_shatter_damage = true;
+	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_IMPACT" );
+	player.freezegun_shatter_damage = undefined;
 
 	if ( isDefined( self ) )
 	{
@@ -506,13 +509,13 @@ freezegun_do_crumple( weap, shatter_trigger, crumple_trigger )
 }
 
 
-freezegun_wait_for_crumple( weap, shatter_trigger, crumple_trigger )
+freezegun_wait_for_crumple( player, weap, shatter_trigger, crumple_trigger )
 {
 	crumple_trigger endon( "cleanup_freezegun_triggers" );
 
 	crumple_trigger waittill( "trigger" );
 
-	self thread freezegun_do_crumple( weap, shatter_trigger, crumple_trigger );
+	self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
 }
 
 
@@ -597,12 +600,12 @@ freezegun_death( hit_location, hit_origin, player )
 	//self thread freezegun_do_shatter( player, weap );
 
 	self thread freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger );
-	self thread freezegun_wait_for_crumple( weap, shatter_trigger, crumple_trigger );
+	self thread freezegun_wait_for_crumple( player, weap, shatter_trigger, crumple_trigger );
 	self endon( "cleanup_freezegun_triggers" );
 
 	wait( anim_len / 2 ); // force the zombie to crumple if he is untouched after time
 
-	self thread freezegun_do_crumple( weap, shatter_trigger, crumple_trigger );
+	self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
 }
 
 
@@ -614,13 +617,18 @@ is_freezegun_damage( mod )
 		return true;
 	}
 
-	return (("MOD_EXPLOSIVE" == mod || "MOD_PROJECTILE" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
+	if(self is_freezegun_shatter_damage(mod))
+	{
+		return true;
+	}
+
+	return (("MOD_PROJECTILE" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
 }
 
 
 is_freezegun_shatter_damage( mod )
 {
-	return (("MOD_EXPLOSIVE" == mod || "MOD_UNKNOWN" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
+	return (("MOD_IMPACT" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
 }
 
 
