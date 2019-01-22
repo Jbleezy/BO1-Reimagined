@@ -139,7 +139,7 @@ spawn_new_bump_triggers()
 		case "zombie_cosmodrome":
 			perks["specialty_armorvest"] = (-63, 791, -262);
 			perks["specialty_fastreload"] = (885, 1233, 393);
-			// perks["specialty_rof"] = (0, 0, 0);
+			perks["specialty_rof"] = (1129.3, 743.9, -321.9);
 			perks["specialty_quickrevive"] = (-184, 825, -453);
 			perks["specialty_longersprint"] = (618, -121, -118);
 			perks["specialty_flakjacket"] = (-2314, 2368, -42);

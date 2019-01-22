@@ -276,16 +276,16 @@ init_doubletap_machine_locations()
 	switch ( Tolower( GetDvar( #"mapname" ) ) )
 	{
 	case "zombie_cosmodrome":
-		level.zombie_doubletap_machine_origin = (1013.4, 844.6, -311.6);
+		level.zombie_doubletap_machine_origin = (1129.3, 743.9, -321.9);
 		level.zombie_doubletap_machine_angles = (0, 180, 0);
-		level.zombie_doubletap_machine_clip_origin = (1013.4, 834.6, -311.6);
+		level.zombie_doubletap_machine_clip_origin = level.zombie_doubletap_machine_origin + (0, -10, 0);
 		level.zombie_doubletap_machine_clip_angles = (0, 0, 0);
 
 		level.zombie_doubletap_machine_monkey_angles = (0, 270, 0);
 		level.zombie_doubletap_machine_monkey_origins = [];
-		level.zombie_doubletap_machine_monkey_origins[0] = level.zombie_doubletap_machine_origin + (39.5, 22, 5);
-		level.zombie_doubletap_machine_monkey_origins[1] = level.zombie_doubletap_machine_origin + (-0.5, 30, 5);
-		level.zombie_doubletap_machine_monkey_origins[2] = level.zombie_doubletap_machine_origin + (-39.5, 22, 5);
+		level.zombie_doubletap_machine_monkey_origins[0] = level.zombie_doubletap_machine_origin + (37.5, 24, 5);
+		level.zombie_doubletap_machine_monkey_origins[1] = level.zombie_doubletap_machine_origin + (0, 36, 5);
+		level.zombie_doubletap_machine_monkey_origins[2] = level.zombie_doubletap_machine_origin + (-40, 24, 5);
 		break;
 	}
 }

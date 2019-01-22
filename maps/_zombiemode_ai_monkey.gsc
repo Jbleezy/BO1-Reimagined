@@ -1710,11 +1710,25 @@ monkey_zombie_attack_perk()
 	choose = 0;
 	if ( spot == 1 )
 	{
-		choose = RandomIntRange( 1, 3 );
+		if(self.perk.script_noteworthy != "specialty_rof")
+		{
+			choose = RandomIntRange( 1, 3 );
+		}
+		else
+		{
+			choose = 1;
+		}
 	}
 	else if ( spot == 3 )
 	{
-		choose = RandomIntRange( 3, 5 );
+		if(self.perk.script_noteworthy != "specialty_rof")
+		{
+			choose = RandomIntRange( 3, 5 );
+		}
+		else
+		{
+			choose = 3;
+		}
 	}
 
 	perk_attack_anim = undefined;
@@ -1759,8 +1773,8 @@ monkey_zombie_attack_perk()
 
 		if ( self monkey_zombie_perk_damage( self.machine_damage ) )
 		{
-			self monkey_pack_take_perk();
-			break;
+			//self monkey_pack_take_perk();
+			//break;
 		}
 
 		wait( time );
@@ -2915,7 +2929,7 @@ monkey_zombie_perk_init()
 	assertex( isdefined( machine ), "no machine found for " + self.target );
 	if ( isdefined( machine ) )
 	{
-		machine.monkey_health = 100;
+		machine.monkey_health = 100000000;
 	}
 }
 

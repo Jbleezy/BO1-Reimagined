@@ -2298,6 +2298,7 @@ perk_flash_audio( perk )
             break;
 
         case "specialty_fastreload":
+        case "specialty_rof":
             alias = "zmb_hud_flash_speed";
             break;
 
