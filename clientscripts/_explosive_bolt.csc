@@ -6,8 +6,15 @@
 
 main()
 {
-	level._effect["crossbow_enemy_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_red_os" );
-	level._effect["crossbow_friendly_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_grn_os" );
+	if(!IsDefined(level._effect["grenade_enemy_light"]))
+	{
+		level._effect["grenade_enemy_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_red_os" );
+	}
+	if(!IsDefined(level._effect["grenade_friendly_light"]))
+	{
+		level._effect["grenade_friendly_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_grn_os" );
+	}
+	
 	//SetDvarFloat("snd_crossbow_bolt_timer_interval", 0.4);
 	//SetDvarFloat("snd_crossbow_bolt_timer_divisor", 1.4);
 
@@ -46,11 +53,11 @@ spawned( localClientNum, play_sound ) // self == the crossbow bolt
 		}
 	}*/
 
-	fx = level._effect["crossbow_friendly_light"];
+	fx = level._effect["grenade_friendly_light"];
 	currentweapon = GetCurrentWeapon( localclientnum );
 	if(currentweapon == "crossbow_explosive_upgraded_zm")
 	{
-		fx = level._effect["crossbow_enemy_light"];
+		fx = level._effect["grenade_enemy_light"];
 	}
 
 	if( play_sound )

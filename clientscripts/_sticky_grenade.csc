@@ -4,8 +4,14 @@
 
 main()
 {
-	level._effect["grenade_enemy_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_red_os" );
-	level._effect["grenade_friendly_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_grn_os" );
+	if(!IsDefined(level._effect["grenade_enemy_light"]))
+	{
+		level._effect["grenade_enemy_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_red_os" );
+	}
+	if(!IsDefined(level._effect["grenade_friendly_light"]))
+	{
+		level._effect["grenade_friendly_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_grn_os" );
+	}
 
 	level.zombie_sticky_grenade_spawned_func = ::spawned;
 }
