@@ -664,6 +664,20 @@ delete_powerup_fx()
 
 init_random_perk_machines()
 {
+	level.zombiemode_using_additionalprimaryweapon_perk = true;
+	origin = (1494.0, -1561.4, -363);
+	angles = (0, 180, 0);
+
+	additional_machine_trigger = Spawn( "script_model", origin );
+	additional_machine_trigger.angles = angles;
+	additional_machine_trigger.target = "vending_additionalprimaryweapon";
+	additional_machine_trigger.targetname = "zombie_vending_random";
+
+	additional_machine = Spawn( "script_model", origin );
+	additional_machine.angles = angles;
+	additional_machine.target = "zombie_vending";
+	additional_machine.targetname = "vending_additionalprimaryweapon";
+
 	randMachines = [];
 	randMachines = _add_machine(randMachines, "vending_jugg", "mus_perks_jugganog_sting", "specialty_armorvest", "mus_perks_jugganog_jingle", "jugg_perk", "zombie_vending_jugg");
 	randMachines = _add_machine(randMachines, "vending_marathon", "mus_perks_stamin_sting", "specialty_longersprint", "mus_perks_stamin_jingle", "marathon_perk", "zombie_vending_marathon");
@@ -671,8 +685,10 @@ init_random_perk_machines()
 	randMachines = _add_machine(randMachines, "vending_deadshot", "mus_perks_deadshot_sting", "specialty_deadshot", "mus_perks_deadshot_jingle", "tap_deadshot", "zombie_vending_ads");
 	randMachines = _add_machine(randMachines, "vending_sleight", "mus_perks_speed_sting", "specialty_fastreload", "mus_perks_speed_jingle", "speedcola_perk", "zombie_vending_sleight");
 	randMachines = _add_machine(randMachines, "vending_doubletap", "mus_perks_doubletap_sting", "specialty_rof", "mus_perks_doubletap_jingle", "tap_perk", "zombie_vending_doubletap");
+	randMachines = _add_machine(randMachines, "vending_additionalprimaryweapon", "mus_perks_mulekick_sting", "specialty_additionalprimaryweapon", "mus_perks_mulekick_jingle", "mulekick_perk", "zombie_vending_three_gun");
 
 	machines = getEntArray("zombie_vending_random","targetname");
+	//machines[machines.size] = additional_machine;
 
 	//Parse what machines are allowed
 	for(i=0;i<machines.size;i++)
@@ -686,7 +702,7 @@ init_random_perk_machines()
 		if(machine.allowed.size==0)
 		{
 			//allow all
-			machine.allowed = array("jugg_perk","marathon_perk","divetonuke_perk","tap_deadshot","speedcola_perk","tap_perk");
+			machine.allowed = array("jugg_perk","marathon_perk","divetonuke_perk","tap_deadshot","speedcola_perk","tap_perk","mulekick_perk");
 		}
 
 		machine.allowed = array_randomize(machine.allowed);
@@ -698,7 +714,6 @@ init_random_perk_machines()
 	for(i=0;i<machines.size;i++)
 	{
 		machine = machines[i];
-
 
 		//Pick a machine
 		randMachine = undefined;
@@ -737,6 +752,22 @@ init_random_perk_machines()
 			}
 		}
 
+		if(machine.target == "vending_additionalprimaryweapon")
+		{
+			machine_trigger = Spawn( "trigger_radius_use", origin + (0, 0, 30), 0, 20, 70 );
+			machine_trigger.targetname = "zombie_vending";
+			machine_trigger.target = randMachine.target;
+			machine_trigger.script_noteworthy = randMachine.script_noteworthy;
+
+			machine_trigger.script_sound = randMachine.script_sound;
+			machine_trigger.script_label = randMachine.script_label;
+
+			machine_clip = spawn( "script_model", origin + (0, 0, -10) );
+			machine_clip.angles = (0, 0, 0);
+			machine_clip setmodel( "collision_geo_64x64x256" );
+			machine_clip Hide();
+		}
+
 		machine.target = randMachine.target;
 
 		if(isdefined(machine_model))
@@ -745,9 +776,14 @@ init_random_perk_machines()
 			machine_model.targetname = randMachine.target;
 			machine_model.script_string = randMachine.script_string;
 
+			if(machine_model.targetname == "vending_additionalprimaryweapon")
+			{
+				machine_model.origin = machine_model.origin + (0, 0, -6);
+			}
+
 			// Fix script_string being for wrong perks
 			// Call this inside of `if` to make sure we have a origin to spawn at
-			level thread spawn_shang_bump_trigger(machine.script_noteworthy, machine_model.origin);
+			level thread maps\_zombiemode_perks::add_bump_trigger(machine.script_noteworthy, machine_model.origin);
 		}
 
 		if(isDefined(clip))
@@ -755,19 +791,6 @@ init_random_perk_machines()
 			clip.targetname = randMachine.target;
 		}
 	}
-}
-
-// Fix script_string being for wrong perks
-// Must spawn after players connect lul, since we need to send a message to csc
-spawn_shang_bump_trigger(perk, origin)
-{
-	wait_network_frame(); //wait for flag to be inited
-
-	flag_wait("all_players_connected");
-
-	str_origin = vector_to_string(origin, ",");
-
-	level send_message_to_csc("zombiemode_perks", perk + "|spawn_bump|" + str_origin);
 }
 
 _rand_perk_index(randMachines, name)

@@ -1013,6 +1013,9 @@
 ### Shangri-La
 * Players now start with Semtex
 * Pack-a-Punch stones do not have to be stepped on at the same time
+* Mule Kick now spawns in randomly with Double Tap, PHD Flopper, Stamin-Up, and Deadshot
+* Removed Mule Kick perk spawn location in the Waterfall zone
+* Added a random perk spawn location in the AK74u area
 * Eclipse mode activatable with 1-4 players
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
 * While a weapon is in Pack-a-Punch, players will not be pushed off the stairs

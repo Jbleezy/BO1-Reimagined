@@ -127,14 +127,14 @@ spawn_new_bump_triggers()
 			perks["specialty_fastreload"] = (1268, 147, 25);
 			perks["specialty_rof"] = (-1728, -379, 34);
 			perks["specialty_quickrevive"] = (523, -1260, 112);
-			perks["specialty_additionalprimaryweapon"] = (1172.4, -359.7, 320);
+			// perks["specialty_additionalprimaryweapon"] = (1172.4, -359.7, 320);
 			break;
 		case "zombie_pentagon":
 			perks["specialty_armorvest"] = (-1568, 1844, -470);
 			perks["specialty_fastreload"] = (-1148, 1933, 59);
 			perks["specialty_rof"] = (-1488, 1976, -270);
 			perks["specialty_quickrevive"] = (-1058, 2970, 49);
-			perks["specialty_additionalprimaryweapon"] = (-1081.4, 1496.9, -512);
+			// perks["specialty_additionalprimaryweapon"] = (-1081.4, 1496.9, -512);
 			break;
 		case "zombie_cosmodrome":
 			perks["specialty_armorvest"] = (-63, 791, -262);
@@ -143,7 +143,7 @@ spawn_new_bump_triggers()
 			perks["specialty_quickrevive"] = (-184, 825, -453);
 			perks["specialty_longersprint"] = (618, -121, -118);
 			perks["specialty_flakjacket"] = (-2314, 2368, -42);
-			perks["specialty_additionalprimaryweapon"] = (420.8, 1359.1, 55);
+			// perks["specialty_additionalprimaryweapon"] = (420.8, 1359.1, 55);
 			break;
 		case "zombie_coast":
 			perks["specialty_armorvest"] = (1524, -2652, 116);
@@ -153,9 +153,10 @@ spawn_new_bump_triggers()
 			perks["specialty_longersprint"] = (303, 3550, 62);
 			perks["specialty_flakjacket"] = (-345, 874, 417);
 			perks["specialty_deadshot"] = (12, 1061, 898);
-			perks["specialty_additionalprimaryweapon"] = (2424.4, -2884.3, 314);
+			// perks["specialty_additionalprimaryweapon"] = (2424.4, -2884.3, 314);
 			break;
 		case "zombie_temple":
+			perks["specialty_quickrevive"] = (-8, -938, 46);
 			// These are spawned later on after randomization has finished
 			// perks["specialty_armorvest"] = (1384, -1147, -111); // MPL
 			// perks["specialty_fastreload"] = (-1285, -933, 35); // Mud
@@ -163,8 +164,8 @@ spawn_new_bump_triggers()
 			// perks["specialty_deadshot"] = (429, -845, -362); // M16
 			// perks["specialty_longersprint"] = (-332, -1043, -320); // Stakeout
 			// perks["specialty_rof"] = (-535, 47, -390); // Power
-			perks["specialty_quickrevive"] = (-8, -938, 46);
-			perks["specialty_additionalprimaryweapon"] = (-1352.9, -1437.2, -485);
+			// perks["specialty_additionalprimaryweapon"] = (1494.0, -1561.4, -363); // Waterslide End
+			// perks["specialty_additionalprimaryweapon"] = (-1352.9, -1437.2, -485); // Waterfall
 			break;
 		case "zombie_moon":
 			// These are spawned later on after randomization has finished
@@ -175,7 +176,7 @@ spawn_new_bump_triggers()
 			perks["specialty_longersprint"] = (676, 2232, -326);
 			perks["specialty_flakjacket"] = (-262, 8346, 30);
 			perks["specialty_deadshot"] = (2138, 6041, 49);
-			perks["specialty_additionalprimaryweapon"] = (1480.8, 3450, -65);
+			// perks["specialty_additionalprimaryweapon"] = (1480.8, 3450, -65);
 			break;
 		case "zombie_cod5_prototype":
 			perks["specialty_additionalprimaryweapon"] = (-160, -528, 1);
@@ -193,14 +194,14 @@ spawn_new_bump_triggers()
 			// perks["specialty_armorvest"] = (8520, 3196, -606); // Fishing Hut
 			// perks["specialty_rof"] = (7844, -1193, -606); // Comm Room
 			// perks["specialty_fastreload"] = (12376, -1199, -606); // Storage
-			perks["specialty_additionalprimaryweapon"] = (9565, 327, -529);
+			// perks["specialty_additionalprimaryweapon"] = (9565, 327, -529);
 			break;
 		case "zombie_cod5_factory":
 			perks["specialty_armorvest"] = (673, -1421, 180);
 			perks["specialty_fastreload"] = (-364, -794, 111);
 			perks["specialty_rof"] = (-365, -1076, 230);
 			perks["specialty_quickrevive"] = (-485, -2067, 182);
-			perks["specialty_additionalprimaryweapon"] = (-1089, -1366, 67);
+			// perks["specialty_additionalprimaryweapon"] = (-1089, -1366, 67);
 			break;
 
 		default:

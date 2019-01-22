@@ -1037,7 +1037,10 @@ _monkey_zombieTempleEscapeDeathCallback()
 		{	//Do damage event so we only ward 10 points
 			self.attacker maps\_zombiemode_score::player_add_points( "damage" );
 		}*/
-		self.attacker maps\_zombiemode_score::player_add_points( "death", "", "", false );
+		if(!is_true(self.nuked))
+		{
+			self.attacker maps\_zombiemode_score::player_add_points( "death", "", "", false );
+		}
 	}
 
 	if ( IsDefined(self.powerup) )

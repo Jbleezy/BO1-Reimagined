@@ -879,8 +879,7 @@ perk_machines_hide( cola, jug, moving )
 				hackable = level.jugg_ents[1].hackable;
 			}
 
-			str_origin = vector_to_string(level.jugg_ents[0].origin, ",");
-			level send_message_to_csc("zombiemode_perks", "specialty_armorvest|spawn_bump|" + str_origin);
+			level thread maps\_zombiemode_perks::add_bump_trigger("specialty_armorvest", level.jugg_ents[0].origin);
 		}
 		else
 		{
@@ -891,8 +890,7 @@ perk_machines_hide( cola, jug, moving )
 				hackable = level.speed_cola_ents[1].hackable;
 			}
 
-			str_origin = vector_to_string(level.jugg_ents[0].origin, ",");
-			level send_message_to_csc("zombiemode_perks", "specialty_fastreload|spawn_bump|" + str_origin);
+			level thread maps\_zombiemode_perks::add_bump_trigger("specialty_fastreload", level.jugg_ents[0].origin);
 		}
 
 		maps\_zombiemode_equip_hacker::register_pooled_hackable_struct(hackable, maps\_zombiemode_hackables_perks::perk_hack, maps\_zombiemode_hackables_perks::perk_hack_qualifier);
@@ -929,8 +927,8 @@ perk_machine_arrival_update()
 	ent = level.speed_cola_ents[0];
 	level thread perk_arrive_fx( ent.origin );
 
-	level send_message_to_csc("zombiemode_perks", "specialty_armorvest|delete_bump");
-	level send_message_to_csc("zombiemode_perks", "specialty_fastreload|delete_bump");
+	level thread maps\_zombiemode_perks::remove_bump_trigger("specialty_armorvest");
+	level thread maps\_zombiemode_perks::remove_bump_trigger("specialty_fastreload");
 
 	//while( 1 )
 	{
