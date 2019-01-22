@@ -4010,7 +4010,7 @@ ai_calculate_amount()
 	}
 	else if(level.round_number == 2)
 	{
-		max = int( max * 0.375 );
+		max = int( max * 0.35 );
 	}
 	else if (level.round_number == 3)
 	{
