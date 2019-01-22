@@ -671,6 +671,7 @@
 
 ### Mule Kick
 * Only available on Call of the Dead, Shangri-La, and Moon
+* Fixed not being available offline on every map except for Moon
 * Added jingle
 * Fixed 3rd person model
 * Third weapon slot will now always be the correct weapon

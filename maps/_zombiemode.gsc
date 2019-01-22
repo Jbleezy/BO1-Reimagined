@@ -18,9 +18,6 @@ main()
 	level.player_out_of_playable_area_monitor = true;
 	level._dontInitNotifyMessage = 1;
 
-	init_additionalprimaryweapon_machine_locations(); //adds mule kick to other maps
-	init_doubletap_machine_locations();
-
 	// put things you'd like to be able to turn off in here above this line
 	level thread maps\_zombiemode_ffotd::main_start();
 
@@ -269,110 +266,6 @@ zombiemode_melee_miss()
 	{
 		self.enemy doDamage( GetDvarInt( #"ai_meleeDamage" ), self.origin, self, undefined, "melee", "none" );
 	}
-}
-
-init_doubletap_machine_locations()
-{
-	switch ( Tolower( GetDvar( #"mapname" ) ) )
-	{
-	case "zombie_cosmodrome":
-		level.zombie_doubletap_machine_origin = (1129.3, 743.9, -321.9);
-		level.zombie_doubletap_machine_angles = (0, 180, 0);
-		level.zombie_doubletap_machine_clip_origin = level.zombie_doubletap_machine_origin + (0, -10, 0);
-		level.zombie_doubletap_machine_clip_angles = (0, 0, 0);
-
-		level.zombie_doubletap_machine_monkey_angles = (0, 270, 0);
-		level.zombie_doubletap_machine_monkey_origins = [];
-		level.zombie_doubletap_machine_monkey_origins[0] = level.zombie_doubletap_machine_origin + (37.5, 24, 5);
-		level.zombie_doubletap_machine_monkey_origins[1] = level.zombie_doubletap_machine_origin + (0, 36, 5);
-		level.zombie_doubletap_machine_monkey_origins[2] = level.zombie_doubletap_machine_origin + (-40, 24, 5);
-		break;
-	}
-}
-
-init_additionalprimaryweapon_machine_locations()
-{
-	if(Tolower(GetDvar("mapname")) == "zombie_coast" || Tolower(GetDvar("mapname")) == "zombie_temple" || Tolower(GetDvar("mapname")) == "zombie_moon")
-	{
-		switch ( Tolower( GetDvar( #"mapname" ) ) )
-		{
-		case "zombie_cod5_prototype":
-			level.zombie_additionalprimaryweapon_machine_origin = (-160, -528, 1);
-			level.zombie_additionalprimaryweapon_machine_angles = (0, 0, 0);
-			level.zombie_additionalprimaryweapon_machine_clip_origin = (-162, -517, 17);
-			level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 0, 0);
-			break;
-		case "zombie_moon": 
-			level.zombie_additionalprimaryweapon_machine_origin = (1480.8, 3450, -65);
-			level.zombie_additionalprimaryweapon_machine_angles = (0, 180, 0);
-			break;
-		case "zombie_theater":
-			level.zombie_additionalprimaryweapon_machine_origin = (1172.4, -359.7, 320);
-			level.zombie_additionalprimaryweapon_machine_angles = (0, 90, 0);
-			level.zombie_additionalprimaryweapon_machine_clip_origin = (1160, -360, 448);
-			level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 0, 0);
-			break;
-		case "zombie_pentagon":
-			level.zombie_additionalprimaryweapon_machine_origin = (-1081.4, 1496.9, -512);
-			level.zombie_additionalprimaryweapon_machine_angles = (0, 162.2, 0);
-			level.zombie_additionalprimaryweapon_machine_clip_origin = (-1084, 1489, -448);
-			level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 341.4, 0);
-			break;
-		case "zombie_cosmodrome":
-			level.zombie_additionalprimaryweapon_machine_origin = (420.8, 1359.1, 55);
-			level.zombie_additionalprimaryweapon_machine_angles = (0, 270, 0);
-			level.zombie_additionalprimaryweapon_machine_clip_origin = (436, 1359, 177);
-			level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 0, 0);
-
-			level.zombie_additionalprimaryweapon_machine_monkey_angles = (0, 0, 0);
-			level.zombie_additionalprimaryweapon_machine_monkey_origins = [];
-			level.zombie_additionalprimaryweapon_machine_monkey_origins[0] = (398.8, 1398.6, 60);
-			level.zombie_additionalprimaryweapon_machine_monkey_origins[1] = (380.8, 1358.6, 60);
-			level.zombie_additionalprimaryweapon_machine_monkey_origins[2] = (398.8, 1318.6, 60);
-			break;
-		case "zombie_coast":
-			level.zombie_additionalprimaryweapon_machine_origin = (2424.4, -2884.3, 314);
-			level.zombie_additionalprimaryweapon_machine_angles = (0, 231.6, 0);
-			level.zombie_additionalprimaryweapon_machine_clip_origin = (2435, -2893, 439);
-			level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 322.2, 0);
-			break;
-		case "zombie_temple":
-			level.zombie_additionalprimaryweapon_machine_origin = (-1352.9, -1437.2, -485);
-			level.zombie_additionalprimaryweapon_machine_angles = (0, 297.8, 0);
-			level.zombie_additionalprimaryweapon_machine_clip_origin = (-1342, -1431, -361);
-			level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 28.8, 0);
-			break;
-		case "zombie_cod5_asylum":
-			level.zombie_additionalprimaryweapon_machine_origin = (-91, 540, 64);
-			level.zombie_additionalprimaryweapon_machine_angles = (0, 90, 0);
-			level.zombie_additionalprimaryweapon_machine_clip_origin = (-103, 540, 92);
-			level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 0, 0);
-			break;
-		case "zombie_cod5_sumpf":
-			level.zombie_additionalprimaryweapon_machine_origin = (9565, 327, -529);
-			level.zombie_additionalprimaryweapon_machine_angles = (0, 90, 0);
-			level.zombie_additionalprimaryweapon_machine_clip_origin = (9555, 327, -402);
-			level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 0, 0);
-			break;
-		case "zombie_cod5_factory":
-			level.zombie_additionalprimaryweapon_machine_origin = (-1089, -1366, 67);
-			level.zombie_additionalprimaryweapon_machine_angles = (0, 90, 0);
-			level.zombie_additionalprimaryweapon_machine_clip_origin = (-1100, -1365, 70);
-			level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 0, 0);
-			break;
-		}
-	}
-	else
-	{
-		level thread remove_mule_kick_bump_trig();
-	}
-}
-
-remove_mule_kick_bump_trig()
-{
-	wait_network_frame(); //wait for flag to be inited
-	flag_wait("all_players_connected");
-	level send_message_to_csc("zombiemode_perks", "specialty_additionalprimaryweapon|delete_bump");
 }
 
 /*------------------------------------
