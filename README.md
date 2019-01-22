@@ -220,6 +220,7 @@
 
 
 ### Crossbow
+* Added on Moon
 * Crossbow bolt beeping rate no longer changes depending on your FPS
 * No longer gibs zombies on impact
 * Increased damage scaling over rounds

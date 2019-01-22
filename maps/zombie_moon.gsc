@@ -1166,6 +1166,8 @@ include_weapons()
 	include_weapon( "china_lake_upgraded_zm", false );
 
 	//	Weapons - Special
+	include_weapon( "crossbow_explosive_zm" );
+	include_weapon( "crossbow_explosive_upgraded_zm", false );
 	include_weapon( "knife_ballistic_zm", true );
 	include_weapon( "knife_ballistic_upgraded_zm", false );
 	include_weapon( "knife_ballistic_bowie_zm", false );
@@ -1188,10 +1190,13 @@ include_weapons()
 	maps\_zombiemode_weapons::add_limited_weapon( "m1911_zm", 0 );
 	maps\_zombiemode_weapons::add_limited_weapon( "knife_ballistic_zm", 1 );
 	maps\_zombiemode_weapons::add_limited_weapon( "microwavegundw_zm", 1 );
+	maps\_zombiemode_weapons::add_limited_weapon( "crossbow_explosive_zm", 1 );
+
+	precacheItem( "explosive_bolt_zm" );
+	precacheItem( "explosive_bolt_upgraded_zm" );
 
 	// get the bowie into the collector achievement list
 	level.collector_achievement_weapons = array_add( level.collector_achievement_weapons, "bowie_knife_zm" );
-
 }
 
 
