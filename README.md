@@ -506,9 +506,10 @@
 * Changed upwards projectile speed
 
 ##### Matroyshka Dolls
+* Infinite explosion damage (except for the Director)
+* Increased explosion damage on the Director from 4500 to 9000
+* Removed 1 player limit
 * Now uses model from Black Ops 3
-* Deal infinite damage (except for the Director)
-* Damage increased from 4500 to 9000 on the Director
 
 ##### Monkey Bombs
 * Zombies now get attracted immediately

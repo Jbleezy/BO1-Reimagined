@@ -403,7 +403,7 @@ include_weapons()
 	maps\_zombiemode_weapons::add_limited_weapon( "thundergun_zm", 1 );
 	maps\_zombiemode_weapons::add_limited_weapon( "crossbow_explosive_zm", 1 );
 	maps\_zombiemode_weapons::add_limited_weapon( "knife_ballistic_zm", 1 );
-	maps\_zombiemode_weapons::add_limited_weapon( "zombie_nesting_dolls", 1 );
+	//maps\_zombiemode_weapons::add_limited_weapon( "zombie_nesting_dolls", 1 );
 
 	precacheItem( "explosive_bolt_zm" );
 	precacheItem( "explosive_bolt_upgraded_zm" );
