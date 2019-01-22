@@ -28,7 +28,7 @@ main()
 	level.calc_closest_player_using_paths = true;
 	level.zombie_melee_in_water = true;
 	level.put_timed_out_zombies_back_in_queue = true;
-	level.use_alternate_poi_positioning = false;
+	level.use_alternate_poi_positioning = true;
 
 	//for tracking stats
 	level.zombies_timeout_spawn = 0;

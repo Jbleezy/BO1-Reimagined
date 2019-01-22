@@ -137,6 +137,7 @@ crossbow_monkey_bolt( player_who_fired )
 				return;
 			}
 
+			self create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
 			valid_poi = maps\_zombiemode_utility::check_point_in_active_zone( self.origin );
 
 			if( !valid_poi )
@@ -146,7 +147,6 @@ crossbow_monkey_bolt( player_who_fired )
 
 			if(valid_poi)
 			{
-				self create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
 				//self thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
 			}
 			else
@@ -165,25 +165,29 @@ crossbow_monkey_bolt( player_who_fired )
 			valid_poi = check_point_in_playable_area( self.origin );
 		}
 
+		new_pos = undefined;
 		if(!valid_poi && is_true(level.use_alternate_poi_positioning ))
 		{
 			//additional check to see if tracing down and back a few units will allow this to work
 			bkwd = AnglesToForward( self.angles ) * -20; //20 units behind and 50 units below
 			new_pos =  self.origin + bkwd + (0,0,-50);
 			valid_poi = check_point_in_playable_area( new_pos);
-			if(valid_poi)
+		}
+
+		if(valid_poi)
+		{
+			if(IsDefined(new_pos))
 			{
 				alt_poi = spawn("script_origin",new_pos);
 				alt_poi create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
 				//alt_poi thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
 				alt_poi thread wait_for_bolt_death(self);
-				return;
 			}
-		}
-		if(valid_poi)
-		{
-			self create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
-			//self thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
+			else
+			{
+				self create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
+				//self thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
+			}
 		}
 		else
 		{
