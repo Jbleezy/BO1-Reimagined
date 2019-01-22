@@ -4479,13 +4479,6 @@ zombie_follow_enemy()
 			}
 			self.ignoreall = true;
 			self SetGoalPos( self.enemyoverride[0] );
-
-			//taunt at the poi (except for gersch device)
-			if( !is_true(self._black_hole_attract_walk) && !is_true(self._black_hole_attract_run) && !is_true(self._black_hole_bomb_collapse_death) 
-				&& !is_true(self.is_traversing) && distanceSquared( self.origin, self.enemyoverride[0] ) < rand*rand )
-			{
-				self do_a_taunt();
-			}
 		}
 		else if( IsDefined( self.favoriteenemy ) )
 		{

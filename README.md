@@ -514,7 +514,6 @@
 
 ##### Monkey Bombs
 * Zombies now get attracted immediately
-* Zombies will now taunt when near a Monkey Bomb
 * Will not activate if thrown outside the map
 * Removed on Nacht, Verruckt, and Shi No Numa
 
