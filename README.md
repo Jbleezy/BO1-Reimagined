@@ -225,10 +225,11 @@
 * No longer gibs zombies on impact
 * Increased damage scaling over rounds
 * Unupgraded: increased impact damage from 675 to 750 (weapon file shows it is suppose to do this amount of damage but it does not)
-* Unupgraded: increased minimum explosive damage from 75 to 100
+* Unupgraded: increased minimum explosive damage from 75 to 150
+* Unupgraded: increased maximum explosive damage from 400 to 600
 * Upgraded: increased impact damage from 675 to 2250 (weapon file shows it is suppose to do this amount of damage but it does not)
-* Upgraded: increased minimum explosive damage from 225 to 625
 * Upgraded: increased headshot impact damage from 3000 to 9000
+* Upgraded: increased minimum explosive damage from 225 to 625
 * Upgraded: zombies now get attracted immediately
 
 ### CZ75
