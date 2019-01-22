@@ -19,6 +19,7 @@ main()
 	level._dontInitNotifyMessage = 1;
 
 	init_additionalprimaryweapon_machine_locations(); //adds mule kick to other maps
+	init_doubletap_machine_locations();
 
 	// put things you'd like to be able to turn off in here above this line
 	level thread maps\_zombiemode_ffotd::main_start();
@@ -270,14 +271,28 @@ zombiemode_melee_miss()
 	}
 }
 
+init_doubletap_machine_locations()
+{
+	switch ( Tolower( GetDvar( #"mapname" ) ) )
+	{
+	case "zombie_cosmodrome":
+		level.zombie_doubletap_machine_origin = (1013.4, 844.6, -311.6);
+		level.zombie_doubletap_machine_angles = (0, 180, 0);
+		level.zombie_doubletap_machine_clip_origin = (1013.4, 834.6, -311.6);
+		level.zombie_doubletap_machine_clip_angles = (0, 0, 0);
+
+		level.zombie_doubletap_machine_monkey_angles = (0, 270, 0);
+		level.zombie_doubletap_machine_monkey_origins = [];
+		level.zombie_doubletap_machine_monkey_origins[0] = level.zombie_doubletap_machine_origin + (39.5, 22, 5);
+		level.zombie_doubletap_machine_monkey_origins[1] = level.zombie_doubletap_machine_origin + (-0.5, 30, 5);
+		level.zombie_doubletap_machine_monkey_origins[2] = level.zombie_doubletap_machine_origin + (-39.5, 22, 5);
+		break;
+	}
+}
+
 init_additionalprimaryweapon_machine_locations()
 {
-	if(Tolower(GetDvar("mapname")) == "zombie_moon") //moon - always enabled
-	{
-		level.zombie_additionalprimaryweapon_machine_origin = (1480.8, 3450, -65);
-		level.zombie_additionalprimaryweapon_machine_angles = (0, 180, 0);
-	}
-	else if(level.gamemode == "survival" && GetDvarInt("mule_kick_enabled") && Tolower(GetDvar("mapname")) != "zombie_cod5_prototype") //nacht - always disabled
+	if(Tolower(GetDvar("mapname")) == "zombie_coast" || Tolower(GetDvar("mapname")) == "zombie_temple" || Tolower(GetDvar("mapname")) == "zombie_moon")
 	{
 		switch ( Tolower( GetDvar( #"mapname" ) ) )
 		{

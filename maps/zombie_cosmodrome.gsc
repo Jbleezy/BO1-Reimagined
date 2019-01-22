@@ -692,7 +692,7 @@ wait_for_power()
 	level notify("revive_on");
 	level notify("juggernog_on");
 	level notify("sleight_on");
-//	level notify("doubletap_on");
+	level notify("doubletap_on");
 	level notify("divetonuke_on");
 	level notify("marathon_on");
 	level notify("Pack_A_Punch_on" );

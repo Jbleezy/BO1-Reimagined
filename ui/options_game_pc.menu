@@ -239,14 +239,14 @@
 
 		FRAME_CHOICE_DVARYESNO_VIS( 32, "@REIMAGINED_CHAR_DIALOG", character_dialog, ;, (dvarString(zm_gamemode) == "survival") )
 
-		FRAME_CHOICE_DVARYESNO_VIS( 33, "@REIMAGINED_ADDITIONAL_PRIMARY_WEAPON_CAPS", mule_kick_enabled, ;, (dvarString(zm_gamemode) == "survival") )
+		//FRAME_CHOICE_DVARYESNO_VIS( 33, "@REIMAGINED_ADDITIONAL_PRIMARY_WEAPON_CAPS", mule_kick_enabled, ;, (dvarString(zm_gamemode) == "survival") )
 
 		#undef	CHOICE_TEXT_COLOR_HL
 		#define	CHOICE_TEXT_COLOR_HL			0 0 0 1
 
-		FRAME_CHOICE_BUTTON_VIS( 34, "@REIMAGINED_MAP_SPECIFIC", setdvar ui_options_game_popup "map_options"; open mature_content_pc_disable_warning, (dvarString(zm_gamemode) == "survival") )
+		FRAME_CHOICE_BUTTON_VIS( 33, "@REIMAGINED_MAP_SPECIFIC", setdvar ui_options_game_popup "map_options"; open mature_content_pc_disable_warning, (dvarString(zm_gamemode) == "survival") )
 
-		FRAME_CHOICE_BUTTON_VIS( 35, "@REIMAGINED_INITIAL_MAGICBOX_CAPS", setdvar ui_options_game_popup "initial_box_locations"; open mature_content_pc_disable_warning, (dvarString(zm_gamemode) == "survival") )
+		FRAME_CHOICE_BUTTON_VIS( 34, "@REIMAGINED_INITIAL_MAGICBOX_CAPS", setdvar ui_options_game_popup "initial_box_locations"; open mature_content_pc_disable_warning, (dvarString(zm_gamemode) == "survival") )
 
 		// VERSUS
 

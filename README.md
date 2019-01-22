@@ -85,7 +85,6 @@
 * Option to enable or disable fog
 * Options to enable or disable timer, zombie counter, zone names, and character names
 * Option to enable or disable character dialog (host only)
-* Option to enable or disable Mule Kick (host only, always disabled on Nacht, always enabled on Moon)
 * Option to choose which room you start in on Verruckt (host only)
 * Option to choose which perk you start with on No Man's Land (host only)
 * Options to set which barriers in Five spawn room you want disabled (host only)
@@ -669,7 +668,7 @@
 * Removed headshot aim assist with controllers
 
 ### Mule Kick
-* Removed from Nacht Der Untoten
+* Only available on Call of the Dead, Shangri-La, and Moon
 * Added jingle
 * Fixed 3rd person model
 * Third weapon slot will now always be the correct weapon
@@ -963,6 +962,7 @@
 * Decreased maximum time for zombies to teleport from 20 seconds to 15 seconds
 
 ### Ascension
+* Added Double Tap perk machine in the Outside Launch Area zone
 * Zombies now spawn from the Stairs zone when in the Upper Centrifuge Zone
 * Zombies no longer spawn from the Stairs zone when in the Centrifuge Zone
 * The easter egg song teddy bears will float up and rotate around while the song is active
@@ -1088,7 +1088,6 @@
 * Mystery Box always initially spawns randomly on maps that the box can spawn randomly
 * Mystery Box can initially spawn in the start room on maps that the box can spawn randomly
 * Mystery Box can initially spawn anywhere on Five
-* Mule Kick disabled on all maps except Moon
 * Turrets attack players (won't attack the team that activated the turret)
 * Players gain 10 points for slowing down a player if they are below full health
 * If an enemy player assisted in getting a player down, the player will gain 5% of the player's points who downed
