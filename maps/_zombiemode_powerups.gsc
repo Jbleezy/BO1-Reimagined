@@ -4181,7 +4181,7 @@ meat_powerup_create_meat_stink_player(player)
 		wait_network_frame();
 	}
 
-	self notify("player meat");
+	self notify("player_meat");
 	self Delete();
 
 	PlayFX( level._effect[ "meat_impact" ], self.origin );
@@ -4203,7 +4203,7 @@ meat_powerup_create_meat_stink_player(player)
 
 meat_powerup_create_meat_stink(player)
 {
-	self endon("player meat");
+	self endon("player_meat");
 
 	self waittill( "stationary", endpos, normal, angles, attacker, prey, bone );
 
@@ -4217,19 +4217,9 @@ meat_powerup_create_meat_stink(player)
 
 	valid_poi = check_point_in_active_zone( origin );
 
-	if(valid_poi)
-	{
-		valid_poi = check_point_in_playable_area( origin );
-	}
-
 	if(!valid_poi)
 	{
-		model SetModel(GetWeaponModel("meat_zm"));
-		self Delete();
-
-		maps\_zombiemode_weapons::entity_stolen_by_sam( self, model );
-
-		return;
+		valid_poi = check_point_in_playable_area( origin );
 	}
 
 	PlayFX( level._effect[ "meat_impact" ], self.origin );
@@ -4237,17 +4227,23 @@ meat_powerup_create_meat_stink(player)
 	model PlaySound("zmb_meat_land");
 	model PlayLoopSound( "zmb_meat_flies" );
 
-	attract_dist_diff = 45;
-	num_attractors = 96;
-	max_attract_dist = 1536;
+	if(valid_poi)
+	{
+		attract_dist_diff = 45;
+		num_attractors = 96;
+		max_attract_dist = 1536;
 
-	model create_zombie_point_of_interest(max_attract_dist, num_attractors, 0);
+		self create_zombie_point_of_interest(max_attract_dist, num_attractors, 0);
 
-	level notify("attractor_positions_generated");
+		level notify("attractor_positions_generated");
+	}
 
 	wait 15;
 
-	level notify("attractor_positions_generated");
+	if(valid_poi)
+	{
+		level notify("attractor_positions_generated");
+	}
 
 	if(IsDefined(model))
 	{
