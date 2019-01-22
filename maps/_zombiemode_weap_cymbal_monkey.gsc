@@ -86,30 +86,37 @@ player_handle_cymbal_monkey()
 
 		if( isDefined( grenade ) )
 		{
+			model SetAnim( %o_monkey_bomb );
 			model thread monkey_cleanup( grenade );
 
+			model unlink();
+			model.origin = grenade.origin;
+			model.angles = grenade.angles;
+
 			grenade resetmissiledetonationtime();
+			PlayFxOnTag( level._effect["monkey_glow"], model, "origin_animate_jnt" );
 
 			valid_poi = check_point_in_active_zone( grenade.origin );
 
-			if( valid_poi )
+			if( !valid_poi )
 			{
 				valid_poi = check_point_in_playable_area( grenade.origin );
 			}
 
 			if(valid_poi)
 			{
-				PlayFxOnTag( level._effect["monkey_glow"], model, "origin_animate_jnt" );
-				model SetAnim( %o_monkey_bomb );
 				grenade create_zombie_point_of_interest( max_attract_dist, num_attractors, 0 );
 				level notify("attractor_positions_generated");
-				grenade thread do_monkey_sound( model, info );
-				return;
 			}
+			else
+			{
+				self.script_noteworthy = undefined;
+			}
+
+			grenade thread do_monkey_sound( model, info );
 		}
 
-		self.script_noteworthy = undefined;
-		level thread maps\_zombiemode_weapons::entity_stolen_by_sam( grenade, model );
+		//level thread maps\_zombiemode_weapons::entity_stolen_by_sam( grenade, model );
 	}
 }
 

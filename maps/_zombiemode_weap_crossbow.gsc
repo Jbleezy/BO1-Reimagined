@@ -86,8 +86,9 @@ crossbow_monkey_bolt( player_who_fired )
 	// check to see if it is on a entity or not
 	if( IsDefined( level.monkey_bolt_holder ) )
 	{
-		is_player = IsPlayer( level.monkey_bolt_holder );
-		if( is_player || is_true( level.monkey_bolt_holder.can_move_with_bolt ) )
+		monkey_bolt_holder = level.monkey_bolt_holder; // save it here as it can get changed later
+		is_player = IsPlayer( monkey_bolt_holder );
+		if( is_player || is_true( monkey_bolt_holder.can_move_with_bolt ) )
 		{
 			// create_zombie_point_of_interest( attract_dist, num_attractors, added_poi_value, start_turned_on );
 			self create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
@@ -97,7 +98,7 @@ crossbow_monkey_bolt( player_who_fired )
 			{
 				// ww: tracking for bolt on back achievement
 				level._bolt_on_back = 0;
-				level thread monkey_bolt_on_back( self, player_who_fired, level.monkey_bolt_holder );
+				level thread monkey_bolt_on_back( self, player_who_fired, monkey_bolt_holder );
 			}
 
 			if( !valid_poi )
@@ -108,28 +109,28 @@ crossbow_monkey_bolt( player_who_fired )
 			if(valid_poi)
 			{
 				// self thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
+				level notify("attractor_positions_generated");
 			}
 			else
 			{
 				player_who_fired.script_noteworthy = undefined;
 			}
 		}
-		else if( IsAI( level.monkey_bolt_holder ) )
+		else if( IsAI( monkey_bolt_holder ) )
 		{
 
-			level thread wait_for_monkey_bolt_holder_to_die(self,level.monkey_bolt_holder);
+			level thread wait_for_monkey_bolt_holder_to_die(self, monkey_bolt_holder);
 
 			//lets prevent this until the zombie is done traversing
-			if( is_true(level.monkey_bolt_holder.is_traversing))
+			if( is_true(monkey_bolt_holder.is_traversing))
 			{
-				level.monkey_bolt_holder waittill("zombie_end_traverse");
+				monkey_bolt_holder waittill("zombie_end_traverse");
 			}
 
-			if( IsAlive( level.monkey_bolt_holder ) )
+			if( IsAlive( monkey_bolt_holder ) )
 			{
-				level.monkey_bolt_holder thread monkey_bolt_taunts( self ); // AI should play an animation until the bolt blows
+				monkey_bolt_holder thread monkey_bolt_taunts( self ); // AI should play an animation until the bolt blows
 			}
-			else
 
 			if ( !isDefined( self ) )
 			{
@@ -148,6 +149,7 @@ crossbow_monkey_bolt( player_who_fired )
 			if(valid_poi)
 			{
 				//self thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
+				level notify("attractor_positions_generated");
 			}
 			else
 			{
@@ -188,14 +190,14 @@ crossbow_monkey_bolt( player_who_fired )
 				self create_zombie_point_of_interest( max_attract_dist, num_attractors, 10000, true );
 				//self thread create_zombie_point_of_interest_attractor_positions( 4, attract_dist_diff );
 			}
+
+			level notify("attractor_positions_generated");
 		}
 		else
 		{
 			player_who_fired.script_noteworthy = undefined;
 		}
 	}
-
-	level notify("attractor_positions_generated");
 }
 
 wait_for_bolt_death(bolt)
@@ -227,7 +229,10 @@ wait_for_monkey_bolt_holder_to_die(bolt,zombie)
 monkey_bolt_taunts( ent_grenade )
 {
 	self endon( "death" );
+	ent_grenade endon( "explode" );
 	// should also end if the bolt explodes but doesn't kill
+
+	self thread monkey_bolt_taunts_cleanup(ent_grenade);
 
 	if( isDefined(self.monkey_bolt_taunts) && self [[self.monkey_bolt_taunts]](ent_grenade))
 	{
@@ -277,6 +282,15 @@ monkey_bolt_taunts( ent_grenade )
 	}
 
 	level.monkey_bolt_holder = undefined;
+}
+
+monkey_bolt_taunts_cleanup(ent_grenade)
+{
+	self endon( "death" );
+
+	ent_grenade waittill( "explode" );
+
+	self StopAnimScripted();
 }
 
 // undefine the level.monkey_bolt_holder

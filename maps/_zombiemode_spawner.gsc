@@ -4456,19 +4456,10 @@ zombie_follow_enemy()
 
 	level endon( "intermission" );
 
-	already_at_override = false;
-	rand = 32;
-
 	while( 1 )
 	{
 		if( isDefined( self.enemyoverride ) && isDefined( self.enemyoverride[1] ) )
 		{
-			if(!already_at_override)
-			{
-				already_at_override = true;
-				rand = RandomIntRange(32, 129);
-			}
-
 			if( distanceSquared( self.origin, self.enemyoverride[0] ) > 1*1 )
 			{
 				self OrientMode( "face motion" );
@@ -4482,13 +4473,6 @@ zombie_follow_enemy()
 		}
 		else if( IsDefined( self.favoriteenemy ) )
 		{
-			if(IsDefined(self.is_taunting) && self.is_taunting)
-			{
-				self StopAnimScripted();
-			}
-
-			already_at_override = false;
-
 			self.ignoreall = false;
 			self OrientMode( "face default" );
 			self SetGoalPos( self.favoriteenemy.origin );

@@ -219,18 +219,21 @@
 * Upgraded: increased minimum explosive damage from 75 to 300
 
 
-### Crossbow
+### Crossbow Explosive Bolt
 * Added on Moon
 * Crossbow bolt beeping rate no longer changes depending on your FPS
 * No longer gibs zombies on impact
 * Increased damage scaling over rounds
+* Unupgraded: changed name from "Crossbow Explosive Tip" to "Crossbow Explosive Bolt"
 * Unupgraded: increased impact damage from 675 to 750 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Unupgraded: increased minimum explosive damage from 75 to 150
 * Unupgraded: increased maximum explosive damage from 400 to 600
 * Upgraded: increased impact damage from 675 to 2250 (weapon file shows it is suppose to do this amount of damage but it does not)
 * Upgraded: increased headshot impact damage from 3000 to 9000
 * Upgraded: increased minimum explosive damage from 225 to 625
-* Upgraded: zombies now get attracted immediately
+* Upgraded: zombies get attracted immediately
+* Upgraded: all zombies get attracted directly to the bolt
+* Upgraded: zombies that are stuck with the bolt now stop doing the taunt animation immediately after the bolt explodes
 
 ### CZ75
 * Added empty clip animations
@@ -501,7 +504,7 @@
 
 ##### Gersch Device
 * Now uses model from Black Ops 3
-* Zombies now get attracted immediately
+* Zombies get attracted immediately
 * Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
 * Fixed a bug where zombies would not always switch back to their normal run animation after a Gersch Device ends
 * Changed upwards projectile speed
@@ -513,8 +516,9 @@
 * Now uses model from Black Ops 3
 
 ##### Monkey Bombs
-* Zombies now get attracted immediately
-* Will not activate if thrown outside the map
+* Zombies are no longer attracted before it activates
+* Zombies get attracted immediately once it activates
+* All zombies get attracted directly to the Monkey Bomb
 * Removed on Nacht, Verruckt, and Shi No Numa
 
 ##### QED

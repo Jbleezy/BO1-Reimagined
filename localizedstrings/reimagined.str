@@ -77,6 +77,9 @@ LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to link the teleport pad to the main
 
 //WEAPONS
 
+REFERENCE          	CROSSBOW_EXPLOSIVE
+LANG_ENGLISH       	"Crossbow Explosive Bolt"
+
 REFERENCE          	STG-44_UPGRADED
 LANG_ENGLISH       	"Spatz-447"
 

@@ -579,8 +579,7 @@ grief_damage_points(got_griefed)
 {
 	if(got_griefed.health < got_griefed.maxhealth && is_player_valid(self))
 	{
-		points = int(10 * self.zombie_vars["zombie_point_scalar"]);
-		self maps\_zombiemode_score::add_to_player_score( points );
+		self maps\_zombiemode_score::player_add_points( "damage" );
 	}
 }
 
