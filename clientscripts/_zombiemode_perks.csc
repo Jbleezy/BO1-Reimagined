@@ -156,7 +156,7 @@ spawn_new_bump_triggers()
 			// perks["specialty_additionalprimaryweapon"] = (2424.4, -2884.3, 314);
 			break;
 		case "zombie_temple":
-			perks["specialty_quickrevive"] = (-8, -938, 46);
+			// perks["specialty_quickrevive"] = (-8, -938, 46);
 			// These are spawned later on after randomization has finished
 			// perks["specialty_armorvest"] = (1384, -1147, -111); // MPL
 			// perks["specialty_fastreload"] = (-1285, -933, 35); // Mud

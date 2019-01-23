@@ -614,8 +614,6 @@ zombie_goto_entrance( node, endon_bad_path )
 
 	self.got_to_entrance = false;
 
-	self.behind_barrier = true;
-
 	self.goalradius = 128;
 
 	self SetGoalPos( node.origin );
@@ -626,7 +624,9 @@ zombie_goto_entrance( node, endon_bad_path )
 
 	// Guy should get to goal and tear into building until all barrier chunks are gone
 	// They go into this function and do everything they and then comeback once all the barriers are removed
-	self tear_into_building();
+	/*self tear_into_building();
+
+	self endon( "bad_path" );
 
 	//REMOVED THIS, WAS CAUSING ISSUES
 	if(isDefined(self.first_node.clip))
@@ -652,11 +652,70 @@ zombie_goto_entrance( node, endon_bad_path )
 	self thread find_flesh();
 
 	// wait for them to traverse out of the spawn closet
-	self reset_attack_spot();
 	self waittill( "zombie_start_traverse" );
-	self.behind_barrier = false;
+	self waittill( "zombie_end_traverse" );
+	self zombie_complete_emerging_into_playable_area();*/
+
+	self thread tear_into_building_loop();
+}
+
+tear_into_building_loop()
+{
+	self endon( "death" );
+	level endon( "intermission" );
+	
+	// Guy should get to goal and tear into building until all barrier chunks are gone
+	// They go into this function and do everything they and then comeback once all the barriers are removed
+	self tear_into_building();
+
+	self endon( "bad_path" );
+
+	self thread tear_into_building_loop_watch_for_bad_path();
+
+	//REMOVED THIS, WAS CAUSING ISSUES
+	if(isDefined(self.first_node.clip))
+	{
+		if(!isDefined(self.first_node.clip.disabled) || !self.first_node.clip.disabled)// This was commented out
+		{ // This was commented out
+			self.first_node.clip disable_trigger();// This was commented out
+			self.first_node.clip connectpaths();
+			//IPrintLnBold( "Connecting Paths" );
+		}// This was commented out
+	}
+
+	// Here is where the zombie would play the traversal into the building( if it's a window )
+	// and begin the player seek logic
+	//IPrintLnBold("zombie going to attack mode");
+	self zombie_setup_attack_properties();
+
+	if( isDefined( level.pre_aggro_pathfinding_func ) )
+	{
+		self [[ level.pre_aggro_pathfinding_func ]]();
+	}
+
+	self thread find_flesh();
+
+	// wait for them to traverse out of the spawn closet
+	self waittill( "zombie_start_traverse" );
 	self waittill( "zombie_end_traverse" );
 	self zombie_complete_emerging_into_playable_area();
+}
+
+// watch for bad path after tearing down all barrier and before starting to traverse over the barrier
+// if they get a bad_path, that means the barrier was rebuilt so we need to go back to tearing down the barrier or else they get stuck
+tear_into_building_loop_watch_for_bad_path()
+{
+	self endon("zombie_start_traverse");
+
+	self waittill("bad_path");
+
+	self notify( "stop_find_flesh" );
+	self notify( "zombie_acquire_enemy" );
+	self OrientMode( "face default" );
+	self.ignoreall = true;
+	self reset_attack_spot();
+
+	self thread tear_into_building_loop();
 }
 
 // Here the zombies constantly search
@@ -806,6 +865,11 @@ tear_into_building()
 			// latest
 			// Send this notify but only accept the first time it comes through.
 			self zombie_history( "tear_into_building -> all chunks destroyed" ); // Enter the building if all chunks are gone. This is threaded for each zombie
+			for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
+			{
+				self.first_node.attack_spots_taken[i] = false;
+			}
+			return;
 		}
 
 		// If an attacking_spot is availiable then they well grab one, if not they taunt.
@@ -840,10 +904,10 @@ tear_into_building()
 		if( all_chunks_destroyed( self.first_node.barrier_chunks ) )
 		{
 			self zombie_history( "tear_into_building -> all chunks destroyed" );
-			/*for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
+			for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
 			{
 				self.first_node.attack_spots_taken[i] = false;
-			}*/
+			}
 			return;
 		}
 	//}

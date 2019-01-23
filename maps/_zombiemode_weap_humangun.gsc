@@ -584,11 +584,6 @@ humangun_delayed_kill_anim(player, human_zombie)
 		self waittill( "zombie_end_traverse" );
 		wait_network_frame();
 	}
-	if(is_true(self.is_traversing_barrier))
-	{
-		self waittill( "zombie_end_traverse_barrier" );
-		wait_network_frame();
-	}
 
 	self notify( "stop_find_flesh" );
 	self notify( "zombie_acquire_enemy" );
@@ -746,7 +741,7 @@ humangun_zombie_1st_hit_response( upgraded, player )
 
 	do_initial_anim = true;
 	// only do initial reaction here if not doing an anim
-	if(!is_true(self.in_the_ground) && !is_true(self.in_the_ceiling) && !is_true(self.is_traversing) && !is_true(self.is_traversing_barrier))
+	if(!is_true(self.in_the_ground) && !is_true(self.in_the_ceiling) && !is_true(self.is_traversing))
 	{
 		do_initial_anim = false;
 		// for now use the taunt as a reaction
@@ -768,10 +763,6 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	{
 		self waittill( "zombie_end_traverse" );
 	}
-	if(is_true(self.is_traversing_barrier))
-	{
-		self waittill( "zombie_end_traverse_barrier" );
-	}
 
 	// only do initial reaction here if was doing an anim
 	if(do_initial_anim)
@@ -785,10 +776,6 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	{
 		maps\_zombiemode_spawner::set_zombie_run_cycle( "sprint" );
 		self waittill( "completed_emerging_into_playable_area" );
-	}
-	if(is_true(self.is_traversing_barrier))
-	{
-		self waittill( "zombie_end_traverse_barrier" );
 	}
 
 	// turn off find flesh

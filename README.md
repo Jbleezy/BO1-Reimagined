@@ -783,7 +783,7 @@
 ## Barriers
 * Can no longer rebuild barriers while sprinting or diving
 * Fixed a bug where zombies would get stuck in a barrier if a board was repaired as the zombie was beginning to go over the barrier
-* All zombies behind a barrier will now taunt correctly
+* Removed limit of 3 zombies being able to traverse over a barrier at once
 * Zombies behind a barrier will now only attack if they can see a player
 * Zombies will no longer get stuck behind a barrier when there are many zombies behind one barrier
 * All wall barriers and metal vent barriers can now be rebuilt
