@@ -663,7 +663,7 @@ tear_into_building_loop()
 {
 	self endon( "death" );
 	level endon( "intermission" );
-	
+
 	// Guy should get to goal and tear into building until all barrier chunks are gone
 	// They go into this function and do everything they and then comeback once all the barriers are removed
 	self tear_into_building();
@@ -695,10 +695,7 @@ tear_into_building_loop()
 
 	self thread find_flesh();
 
-	// wait for them to traverse out of the spawn closet
-	self waittill( "zombie_start_traverse" );
-	self waittill( "zombie_end_traverse" );
-	self zombie_complete_emerging_into_playable_area();
+	self thread tear_into_building_loop_end();
 }
 
 // watch for bad path after tearing down all barrier and before starting to traverse over the barrier
@@ -716,6 +713,14 @@ tear_into_building_loop_watch_for_bad_path()
 	self reset_attack_spot();
 
 	self thread tear_into_building_loop();
+}
+
+tear_into_building_loop_end()
+{
+	// wait for them to traverse out of the spawn closet
+	self waittill( "zombie_start_traverse" );
+	self waittill( "zombie_end_traverse" );
+	self zombie_complete_emerging_into_playable_area();
 }
 
 // Here the zombies constantly search
