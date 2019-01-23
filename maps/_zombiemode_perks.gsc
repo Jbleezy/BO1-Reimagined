@@ -259,7 +259,7 @@ place_additionalprimaryweapon_machine()
 	machine setModel( "zombie_vending_three_gun" );
 	machine.targetname = "vending_additionalprimaryweapon";
 
-	machine_trigger = Spawn( "trigger_radius_use", level.zombie_additionalprimaryweapon_machine_origin + (0, 0, 30), 0, 20, 70 );
+	machine_trigger = Spawn( "trigger_radius_use", level.zombie_additionalprimaryweapon_machine_origin + (0, 0, 50), 0, 20, 70 );
 	machine_trigger.targetname = "zombie_vending";
 	machine_trigger.target = "vending_additionalprimaryweapon";
 	machine_trigger.script_noteworthy = "specialty_additionalprimaryweapon";

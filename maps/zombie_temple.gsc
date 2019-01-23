@@ -772,7 +772,7 @@ init_random_perk_machines()
 
 		if(machine.target == "vending_revive" || machine.target == "vending_additionalprimaryweapon")
 		{
-			machine_trigger = Spawn( "trigger_radius_use", machine.origin + (0, 0, 30), 0, 20, 70 );
+			machine_trigger = Spawn( "trigger_radius_use", machine.origin + (0, 0, 50), 0, 20, 70 );
 			machine_trigger.targetname = "zombie_vending";
 			machine_trigger.target = randMachine.target;
 			machine_trigger.script_noteworthy = randMachine.script_noteworthy;
@@ -780,7 +780,7 @@ init_random_perk_machines()
 			machine_trigger.script_sound = randMachine.script_sound;
 			machine_trigger.script_label = randMachine.script_label;
 
-			machine_clip = spawn( "script_model", machine.origin + (0, 0, -10) );
+			machine_clip = spawn( "script_model", machine.origin + (0, -10, 0) );
 			machine_clip.angles = (0, 0, 0);
 			machine_clip setmodel( "collision_geo_64x64x256" );
 			machine_clip Hide();
