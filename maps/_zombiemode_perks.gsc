@@ -180,6 +180,11 @@ place_doubletap_machine()
 
 place_additionalprimaryweapon_machine()
 {
+	if(IsDefined(level.override_place_additionalprimaryweapon_machine))
+	{
+		return;
+	}
+
 	switch ( Tolower( GetDvar( #"mapname" ) ) )
 	{
 	/*case "zombie_cod5_prototype":
@@ -237,12 +242,12 @@ place_additionalprimaryweapon_machine()
 		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 322.2, 0);
 		break;
 	// added in random perk script
-	/*case "zombie_temple":
+	case "zombie_temple":
 		level.zombie_additionalprimaryweapon_machine_origin = (-1352.9, -1437.2, -485);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 297.8, 0);
 		level.zombie_additionalprimaryweapon_machine_clip_origin = (-1342, -1431, -361);
 		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 28.8, 0);
-		break;*/
+		break;
 	case "zombie_moon": 
 		level.zombie_additionalprimaryweapon_machine_origin = (1480.8, 3450, -70);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 180, 0);
@@ -1163,10 +1168,7 @@ revive_solo_fx(machine_clip)
 	playfxontag( level._effect[ "revive_light" ], self.fx, "tag_origin" );
 	playfxontag( level._effect[ "revive_light_flicker" ], self.fx, "tag_origin" );
 
-	if(level.vsteams != "ffa")
-	{
-		flag_wait( "solo_revive" );
-	}
+	flag_wait( "solo_revive" );
 
 	if ( isdefined( level.revive_solo_fx_func ) )
 	{
@@ -1176,42 +1178,39 @@ revive_solo_fx(machine_clip)
 	//DCS: make revive model fly away like a magic box.
 	//self playsound("zmb_laugh_child");
 
-	if(level.vsteams != "ffa")
+	wait(2.0);
+
+	self playsound("zmb_box_move");
+
+	playsoundatposition ("zmb_whoosh", self.origin );
+	//playsoundatposition ("zmb_vox_ann_magicbox", self.origin );
+
+	self moveto(self.origin + (0,0,40),3);
+
+	if( isDefined( level.custom_vibrate_func ) )
 	{
-		wait(2.0);
-
-		self playsound("zmb_box_move");
-
-		playsoundatposition ("zmb_whoosh", self.origin );
-		//playsoundatposition ("zmb_vox_ann_magicbox", self.origin );
-
-		self moveto(self.origin + (0,0,40),3);
-
-		if( isDefined( level.custom_vibrate_func ) )
-		{
-			[[ level.custom_vibrate_func ]]( self );
-		}
-		else
-		{
-		   direction = self.origin;
-		   direction = (direction[1], direction[0], 0);
-
-		   if(direction[1] < 0 || (direction[0] > 0 && direction[1] > 0))
-		   {
-	            direction = (direction[0], direction[1] * -1, 0);
-	       }
-	       else if(direction[0] < 0)
-	       {
-	            direction = (direction[0] * -1, direction[1], 0);
-	       }
-
-	        self Vibrate( direction, 10, 0.5, 5);
-		}
-
-		self waittill("movedone");
-		PlayFX(level._effect["poltergeist"], self.origin);
-		playsoundatposition ("zmb_box_poof", self.origin);
+		[[ level.custom_vibrate_func ]]( self );
 	}
+	else
+	{
+	   direction = self.origin;
+	   direction = (direction[1], direction[0], 0);
+
+	   if(direction[1] < 0 || (direction[0] > 0 && direction[1] > 0))
+	   {
+            direction = (direction[0], direction[1] * -1, 0);
+       }
+       else if(direction[0] < 0)
+       {
+            direction = (direction[0] * -1, direction[1], 0);
+       }
+
+        self Vibrate( direction, 10, 0.5, 5);
+	}
+
+	self waittill("movedone");
+	PlayFX(level._effect["poltergeist"], self.origin);
+	playsoundatposition ("zmb_box_poof", self.origin);
 
     level clientNotify( "drb" );
 
@@ -1232,18 +1231,15 @@ revive_solo_fx(machine_clip)
 		vending_triggers[i].perk_hum_ent = undefined;
 	}
 
-	//remove machine trigger in ffa
-	if(level.vsteams == "ffa")
+	//remove machine trigger
+	for(i = 0; i < vending_triggers.size; i++)
 	{
-		for(i = 0; i < vending_triggers.size; i++)
-		{
-			if(!isdefined(vending_triggers[i].script_noteworthy))
-				continue;
-			if(vending_triggers[i].script_noteworthy != "specialty_quickrevive")
-				continue;
+		if(!isdefined(vending_triggers[i].script_noteworthy))
+			continue;
+		if(vending_triggers[i].script_noteworthy != "specialty_quickrevive")
+			continue;
 
-			vending_triggers[i] Delete();
-		}
+		vending_triggers[i] Delete();
 	}
 
 	//self setmodel("zombie_vending_revive");

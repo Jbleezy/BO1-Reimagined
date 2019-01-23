@@ -78,6 +78,8 @@ main()
 	// leave spikemore init local here, so as to not include it in all the other maps
 	maps\_zombiemode_spikemore::init();
 
+	level.override_place_revive_machine = ::zombie_temple_place_revive_machine;
+	level.override_place_additionalprimaryweapon_machine = ::zombie_temple_place_additionalprimaryweapon_machine;
 
 	//Init random perk machines (must be called before _zombiemode::main()
 	init_random_perk_machines();
@@ -664,37 +666,6 @@ delete_powerup_fx()
 
 init_random_perk_machines()
 {
-	level.zombiemode_using_additionalprimaryweapon_perk = true;
-	additionalprimaryweapon_machine_origin = (1494.0, -1561.4, -363);
-	additionalprimaryweapon_machine_angles = (0, 180, 0);
-
-	// remove the original revive machine
-	old_vending_triggers = GetEntArray("zombie_vending", "targetname");
-	old_revive_machine_model = GetEntArray("vending_revive", "targetname");
-	old_revive_machine_model_origin = old_revive_machine_model[0].origin + (25, 0, 6);
-	old_revive_machine_model_angles = old_revive_machine_model[0].angles;
-
-	revive_machine = Spawn( "script_model", old_revive_machine_model_origin );
-	revive_machine.angles = old_revive_machine_model_angles;
-	revive_machine.target = "vending_revive";
-	revive_machine.targetname = "zombie_vending_random";
-	revive_machine.script_parameters = "jugg_perk,speedcola_perk";
-
-	revive_machine_model = Spawn( "script_model", old_revive_machine_model_origin );
-	revive_machine_model.angles = old_revive_machine_model_angles;
-	revive_machine_model.target = "zombie_vending_random";
-	revive_machine_model.targetname = "vending_revive";
-
-	additional_machine = Spawn( "script_model", additionalprimaryweapon_machine_origin );
-	additional_machine.angles = additionalprimaryweapon_machine_angles;
-	additional_machine.target = "vending_additionalprimaryweapon";
-	additional_machine.targetname = "zombie_vending_random";
-
-	additional_machine_model = Spawn( "script_model", additionalprimaryweapon_machine_origin );
-	additional_machine_model.angles = additionalprimaryweapon_machine_angles;
-	additional_machine_model.target = "zombie_vending_random";
-	additional_machine_model.targetname = "vending_additionalprimaryweapon";
-
 	randMachines = [];
 	randMachines = _add_machine(randMachines, "vending_jugg", "mus_perks_jugganog_sting", "specialty_armorvest", "mus_perks_jugganog_jingle", "jugg_perk", "zombie_vending_jugg");
 	randMachines = _add_machine(randMachines, "vending_marathon", "mus_perks_stamin_sting", "specialty_longersprint", "mus_perks_stamin_jingle", "marathon_perk", "zombie_vending_marathon");
@@ -702,8 +673,16 @@ init_random_perk_machines()
 	randMachines = _add_machine(randMachines, "vending_deadshot", "mus_perks_deadshot_sting", "specialty_deadshot", "mus_perks_deadshot_jingle", "tap_deadshot", "zombie_vending_ads");
 	randMachines = _add_machine(randMachines, "vending_sleight", "mus_perks_speed_sting", "specialty_fastreload", "mus_perks_speed_jingle", "speedcola_perk", "zombie_vending_sleight");
 	randMachines = _add_machine(randMachines, "vending_doubletap", "mus_perks_doubletap_sting", "specialty_rof", "mus_perks_doubletap_jingle", "tap_perk", "zombie_vending_doubletap");
-	randMachines = _add_machine(randMachines, "vending_revive", "mus_perks_revive_sting", "specialty_quickrevive", "mus_perks_revive_jingle", "revive_perk", "zombie_vending_revive");
-	randMachines = _add_machine(randMachines, "vending_additionalprimaryweapon", "mus_perks_mulekick_sting", "specialty_additionalprimaryweapon", "mus_perks_mulekick_jingle", "mulekick_perk", "zombie_vending_three_gun");
+	if(IsDefined(level.override_place_revive_machine))
+	{
+		[[level.override_place_revive_machine]]();
+		randMachines = _add_machine(randMachines, "vending_revive", "mus_perks_revive_sting", "specialty_quickrevive", "mus_perks_revive_jingle", "revive_perk", "zombie_vending_revive");
+	}
+	if(IsDefined(level.override_place_additionalprimaryweapon_machine))
+	{
+		[[level.override_place_additionalprimaryweapon_machine]]();
+		randMachines = _add_machine(randMachines, "vending_additionalprimaryweapon", "mus_perks_mulekick_sting", "specialty_additionalprimaryweapon", "mus_perks_mulekick_jingle", "mulekick_perk", "zombie_vending_three_gun");
+	}
 
 	machines = getEntArray("zombie_vending_random","targetname");
 
@@ -770,22 +749,6 @@ init_random_perk_machines()
 			}
 		}
 
-		if(machine.target == "vending_revive" || machine.target == "vending_additionalprimaryweapon")
-		{
-			machine_trigger = Spawn( "trigger_radius_use", machine.origin + (0, 0, 50), 0, 20, 70 );
-			machine_trigger.targetname = "zombie_vending";
-			machine_trigger.target = randMachine.target;
-			machine_trigger.script_noteworthy = randMachine.script_noteworthy;
-
-			machine_trigger.script_sound = randMachine.script_sound;
-			machine_trigger.script_label = randMachine.script_label;
-
-			machine_clip = spawn( "script_model", machine.origin + (0, -10, 0) );
-			machine_clip.angles = (0, 0, 0);
-			machine_clip setmodel( "collision_geo_64x64x256" );
-			machine_clip Hide();
-		}
-
 		machine.target = randMachine.target;
 
 		if(isdefined(machine_model))
@@ -808,20 +771,6 @@ init_random_perk_machines()
 		{
 			clip.targetname = randMachine.target;
 		}
-	}
-
-	for(i = 0; i < old_vending_triggers.size; i++)
-	{
-		if(!isdefined(old_vending_triggers[i].script_noteworthy))
-			continue;
-		if(old_vending_triggers[i].script_noteworthy != "specialty_quickrevive")
-			continue;
-
-		old_vending_triggers[i] Delete();
-	}
-	for(i = 0; i < old_revive_machine_model.size; i++)
-	{
-		old_revive_machine_model[i] Delete();
 	}
 }
 
@@ -1251,4 +1200,63 @@ temple_revive_solo_fx()
 			break;
 		}
 	}
+}
+
+zombie_temple_place_revive_machine()
+{
+	machine_triggers = GetEntArray("zombie_vending", "targetname");
+	revive_machine_model = GetEntArray("vending_revive", "targetname");
+	origin = revive_machine_model[0].origin + (25, 0, 6);
+	angles = revive_machine_model[0].angles;
+
+	for(i = 0; i < machine_triggers.size; i++)
+	{
+		if(isdefined(machine_triggers[i].perk_hum_ent))
+		{
+			iprintln("got here");
+		}
+		machine_triggers[i] Delete();
+	}
+	for(i = 0; i < revive_machine_model.size; i++)
+	{
+		revive_machine_model[i] Delete();
+	}
+
+	machine_trigger = Spawn( "trigger_radius_use", origin + (0, 0, 50), 0, 20, 70 );
+	machine_trigger.angles = angles;
+	machine_trigger.target = "vending_revive_random";
+	machine_trigger.targetname = "zombie_vending_random";
+	machine_trigger.script_parameters = "jugg_perk,speedcola_perk";
+
+	machine_model = Spawn( "script_model", origin );
+	machine_model.angles = angles;
+	machine_model.target = "zombie_vending";
+	machine_model.targetname = "vending_revive_random";
+
+	machine_clip = spawn( "script_model", origin + (0, -10, 0) );
+	machine_clip.angles = (0, 0, 0);
+	machine_clip setmodel( "collision_geo_64x64x256" );
+	machine_clip Hide();
+}
+
+zombie_temple_place_additionalprimaryweapon_machine()
+{
+	level.zombiemode_using_additionalprimaryweapon_perk = true;
+	origin = (1494.0, -1561.4, -363);
+	angles = (0, 180, 0);
+
+	machine_trigger = Spawn( "trigger_radius_use", origin + (0, 0, 50), 0, 20, 70 );
+	machine_trigger.angles = angles;
+	machine_trigger.target = "vending_additionalprimaryweapon_random";
+	machine_trigger.targetname = "zombie_vending_random";
+
+	machine_model = Spawn( "script_model", origin );
+	machine_model.angles = angles;
+	machine_model.target = "zombie_vending";
+	machine_model.targetname = "vending_additionalprimaryweapon_random";
+
+	machine_clip = spawn( "script_model", origin + (0, -10, 0) );
+	machine_clip.angles = (0, 0, 0);
+	machine_clip setmodel( "collision_geo_64x64x256" );
+	machine_clip Hide();
 }
