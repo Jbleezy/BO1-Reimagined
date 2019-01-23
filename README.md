@@ -1013,6 +1013,7 @@
 ### Shangri-La
 * Players now start with Semtex
 * Pack-a-Punch stones do not have to be stepped on at the same time
+* Quick Revive now spawns in randomly with Juggernog and Speed Cola
 * Mule Kick now spawns in randomly with Double Tap, PHD Flopper, Stamin-Up, and Deadshot
 * Removed Mule Kick perk spawn location in the Waterfall zone
 * Added a random perk spawn location in the AK74u area
