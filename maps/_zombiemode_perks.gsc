@@ -231,7 +231,7 @@ place_additionalprimaryweapon_machine()
 		level.zombie_additionalprimaryweapon_machine_monkey_origins[2] = (398.8, 1318.6, 60);
 		break;*/
 	case "zombie_coast":
-		level.zombie_additionalprimaryweapon_machine_origin = (2424.4, -2884.3, 314);
+		level.zombie_additionalprimaryweapon_machine_origin = (2424.4, -2884.3, 308);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 231.6, 0);
 		level.zombie_additionalprimaryweapon_machine_clip_origin = (2435, -2893, 439);
 		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 322.2, 0);
@@ -244,7 +244,7 @@ place_additionalprimaryweapon_machine()
 		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 28.8, 0);
 		break;*/
 	case "zombie_moon": 
-		level.zombie_additionalprimaryweapon_machine_origin = (1480.8, 3450, -65);
+		level.zombie_additionalprimaryweapon_machine_origin = (1480.8, 3450, -70);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 180, 0);
 		break;
 	}
