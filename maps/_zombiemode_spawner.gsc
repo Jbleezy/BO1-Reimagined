@@ -616,25 +616,7 @@ zombie_goto_entrance( node, endon_bad_path )
 
 	self.behind_barrier = true;
 
-	zombs = GetAiSpeciesArray( "axis", "all" );
-	zombs_behind_window = 0;
-	for(i=0;i<zombs.size;i++)
-	{
-		if(zombs[i] != self && IsDefined(zombs[i].first_node) && IsDefined(self.first_node) && zombs[i].first_node == self.first_node && 
-			is_true(zombs[i].behind_barrier))
-		{
-			zombs_behind_window++;
-		}
-	}
-
-	// dont count zombs tearing down barrier
-	zombs_behind_window -= 3;
-	if(zombs_behind_window < 0)
-	{
-		zombs_behind_window = 0;
-	}
-
-	self.goalradius = 32 + RandomIntRange(0, ((zombs_behind_window + 1) * 8) + 1);
+	self.goalradius = 128;
 
 	self SetGoalPos( node.origin );
 	self waittill( "goal" );
@@ -669,33 +651,12 @@ zombie_goto_entrance( node, endon_bad_path )
 
 	self thread find_flesh();
 
-	self thread zombie_goto_entrance_watch_for_bad_path(node, endon_bad_path);
-	self endon("bad_path");
-
 	// wait for them to traverse out of the spawn closet
-	self waittill( "zombie_start_traverse" );
 	self reset_attack_spot();
+	self waittill( "zombie_start_traverse" );
 	self.behind_barrier = false;
 	self waittill( "zombie_end_traverse" );
 	self zombie_complete_emerging_into_playable_area();
-}
-
-// watch for bad path after tearing down all barrier and before starting to traverse over the barrier
-// if they get a bad_path, that means the barrier was rebuilt so we need to go back to tearing down the barrier or else they get stuck
-// (doesnt work currently, multiple zombies will attack the same barrier after)
-zombie_goto_entrance_watch_for_bad_path(node, endon_bad_path)
-{
-	self endon("zombie_start_traverse");
-
-	self waittill("bad_path");
-
-	self notify( "stop_find_flesh" );
-	self notify( "zombie_acquire_enemy" );
-	self OrientMode( "face default" );
-	self.ignoreall = true;
-	self reset_attack_spot();
-
-	self thread zombie_goto_entrance(node, endon_bad_path);
 }
 
 // Here the zombies constantly search
@@ -855,15 +816,9 @@ tear_into_building()
 			//Print3d(self.origin+(0,0,70), "Hey I am waiting to attack, play random " );
 			//Print3d(self.origin+(0,0,70), "Hey I am waiting to attack", ( 1, 0.8, 0.5), 1, 1, 5);
 			//IPrintLnBold( "Hey I am waiting to attack " );
-			if(self.has_legs)
-			{
-				self do_a_taunt();
-			}
-			else
-			{
-				wait_network_frame();
-			}
-			//wait( 1 );
+
+			self thread do_a_taunt();
+			wait .5;
 			continue;
 		}
 
@@ -920,10 +875,7 @@ tear_into_building()
 					{
 						self do_a_taunt();
 					}
-					else
-					{
-						wait_network_frame();
-					}
+					wait .5;
 					continue;
 				}
 
@@ -979,10 +931,10 @@ tear_into_building()
 			//chrisp - fix the extra tear anim bug
 			if( all_chunks_destroyed( self.first_node.barrier_chunks ) )
 			{
-				/*for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
+				for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
 				{
 					self.first_node.attack_spots_taken[i] = false;
-				}*/
+				}
 				return;
 			}
 
@@ -1014,10 +966,8 @@ do_a_taunt()
 
 	if(!IsDefined(level._zombie_board_taunt[self.animname]))
 	{
-		return;
+		return false;
 	}
-
-	self.is_taunting = true;
 
 	self.old_origin = self.origin;
 	if(GetDvar( #"zombie_taunt_freq") == "")
@@ -1025,8 +975,6 @@ do_a_taunt()
 		setdvar("zombie_taunt_freq","5");
 	}
 	freq = GetDvarInt( #"zombie_taunt_freq");
-
-	freq = 100;
 
 	if( freq >= randomint(100) )
 	{
@@ -1036,9 +984,10 @@ do_a_taunt()
 		//self animscripted("zombie_taunt",self.origin,self.angles,anime, "normal", %body, 1, 0.4 );
 		wait(getanimlength(anime));
 		self ForceTeleport(self.old_origin);
+		return true;
 	}
 
-	self.is_taunting = false;
+	return false;
 }
 
 /*------------------------------------
