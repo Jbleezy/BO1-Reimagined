@@ -695,6 +695,8 @@ tear_into_building_loop()
 
 	self thread find_flesh();
 
+	self waittill( "zombie_start_traverse" );
+
 	self thread tear_into_building_loop_end();
 }
 
@@ -718,7 +720,6 @@ tear_into_building_loop_watch_for_bad_path()
 tear_into_building_loop_end()
 {
 	// wait for them to traverse out of the spawn closet
-	self waittill( "zombie_start_traverse" );
 	self waittill( "zombie_end_traverse" );
 	self zombie_complete_emerging_into_playable_area();
 }
@@ -870,10 +871,10 @@ tear_into_building()
 			// latest
 			// Send this notify but only accept the first time it comes through.
 			self zombie_history( "tear_into_building -> all chunks destroyed" ); // Enter the building if all chunks are gone. This is threaded for each zombie
-			for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
+			/*for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
 			{
 				self.first_node.attack_spots_taken[i] = false;
-			}
+			}*/
 			return;
 		}
 
