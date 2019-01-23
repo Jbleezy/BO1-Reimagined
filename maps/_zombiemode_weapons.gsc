@@ -2757,17 +2757,6 @@ treasure_chest_weapon_spawn( chest, player, respin )
 				self.weapon_model SetModel("zombie_teddybear");
 			}
 
-			self.weapon_model2 = undefined;
-			if(level.script == "zombie_moon")
-			{
-				self.weapon_model2 = spawn("script_model", origin + (0, 0, 18));
-				self.weapon_model2.origin += AnglesToForward(self.weapon_model.angles) * 2.5;
-				self.weapon_model2.angles = self.weapon_model.angles + (0, 90, 0);
-				self.weapon_model2.angles += AnglesToUp(self.weapon_model.angles) * 20;
-				self.weapon_model2 Linkto(self.weapon_model);
-				self.weapon_model2 SetModel("p_zom_moon_space_helmet");
-			}
-
 			//model rotateto(level.chests[level.chest_index].angles, 0.01);
 			//wait(1);
 			//self.weapon_model.angles = self.angles;
@@ -2808,12 +2797,6 @@ treasure_chest_weapon_spawn( chest, player, respin )
 
 		self.weapon_model waittill("movedone");
 		self.weapon_model delete();
-
-		if(IsDefined(self.weapon_model2))
-		{
-			self.weapon_model2 Delete();
-			self.weapon_model2 = undefined;
-		}
 
 		if(IsDefined(self.weapon_model_dw))
 		{
