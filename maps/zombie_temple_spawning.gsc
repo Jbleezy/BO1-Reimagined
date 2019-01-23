@@ -205,7 +205,9 @@ temple_round_spawning()
 
 	ai_calculate_health( level.round_number ); 
 
-	count = 0; 
+	ai_calculate_amount();
+
+	/*count = 0; 
 
 	//CODER MOD: TOMMY K
 	players = get_players();
@@ -249,7 +251,7 @@ temple_round_spawning()
 	if ( !(IsDefined( level.kill_counter_hud ) && level.zombie_total > 0) )
 	{
 		level.zombie_total = [[ level.max_zombie_func ]]( max );
-	}
+	}*/
 
 	if ( level.round_number < 10 )
 	{
@@ -329,7 +331,7 @@ temple_round_spawning()
 		{
 			level.zombie_total--;
 			ai thread round_spawn_failsafe();
-			count++; 
+			//count++; 
 		}
 
 		wait( level.zombie_vars["zombie_spawn_delay"] ); 
