@@ -721,7 +721,7 @@
 * Fixed trap handles being moved to the wrong spot and trap lights staying green if a trap was activated while the trap handle was still moving up
 * All trap triggers now display active and cooldown hintstrings
 * All traps now take players' points as soon as the trigger is activated
-* Fixed traps showing damage fx when player is spectating if the player bled out in a trap and the trap is active
+* Fixed traps showing damage FX when player is spectating if the player bled out in a trap and the trap is active
 
 ### Electric Traps (All Maps)
 * Decreased stun duration from 2.5 seconds to 1.5 seconds (now matches the duration of the electricity being on screen)
@@ -1013,6 +1013,7 @@
 * Mule Kick now spawns in randomly with Double Tap, PHD Flopper, Stamin-Up, and Deadshot
 * Removed Mule Kick perk spawn location in the Waterfall zone
 * Added a random perk spawn location in the Waterslide End zone
+* Added Pack-a-Punch FX
 * Eclipse mode activatable with 1-4 players
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
 * While a weapon is in Pack-a-Punch, players will not be pushed off the stairs
