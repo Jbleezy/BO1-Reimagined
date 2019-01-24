@@ -318,22 +318,23 @@ coast_zone_init()
 	add_adjacent_zone( "start_zone", "shipfront_bottom_zone", "enter_shipfront_bottom" );
 	add_zone_flags(	"enter_shipfront_bottom",									"start_beach_group" );
 
-
 	// Shipfront zones always connected because of drop down.
 	add_adjacent_zone( "shipfront_bottom_zone", "shipfront_near_zone", "enter_shipfront_bottom" );
 	add_adjacent_zone( "shipfront_bottom_zone", "shipfront_near_zone", "plankA_enter" );
 
+	add_adjacent_zone( "shipfront_bottom_zone", "shipfront_near_zone", "shipfront_far_enter" );
+	add_adjacent_zone( "shipfront_bottom_zone", "shipfront_near_zone", "shipfront_bottom_storage" );
+
 	// Ship front far
 	add_adjacent_zone( "shipfront_near_zone", "shipfront_far_zone", "shipfront_far_enter" );
-
 
 	// New connector zone, ship front to start beach
 	add_adjacent_zone( "shipfront_near_zone", "shipfront_2_beach_zone", "enter_shipfront_bottom" );
 	add_adjacent_zone( "shipfront_near_zone", "shipfront_2_beach_zone", "plankA_enter" );
 	add_adjacent_zone( "beach_zone", "shipfront_2_beach_zone", "", true ); // one way connection
 
-
-
+	add_adjacent_zone( "shipfront_near_zone", "shipfront_2_beach_zone", "shipfront_far_enter" );
+	add_adjacent_zone( "shipfront_near_zone", "shipfront_2_beach_zone", "shipfront_bottom_storage" );
 
 	// Ship front under deck
 	add_adjacent_zone( "shipfront_storage_zone", "shipfront_far_zone", "shipfront_deck_storage" );
@@ -350,7 +351,6 @@ coast_zone_init()
 
 	// Ship back level 3
 	add_adjacent_zone( "shipback_near2_zone", "shipback_level3_zone", "ship_house3" );
-
 
 	// GROUP: always connected: residence, residence roof, beach 1 & 2 (to ship back)
 	add_adjacent_zone( "residence1_zone", "residence_roof_zone", "residence_beach_group" );
@@ -381,7 +381,24 @@ coast_zone_init()
 
 	// Catwalk
 	add_adjacent_zone( "catwalk_zone", "lighthouse2_zone", "catwalk_enter" );
+	add_zone_flags(	"catwalk_enter", "start_beach_group" );
 
+	level thread enable_residence_beach_group();
+	level thread enable_shipfront_far_zone();
+}
+
+enable_residence_beach_group()
+{
+	flag_wait( "power_on" );
+
+	flag_set("residence_beach_group");
+}
+
+enable_shipfront_far_zone()
+{
+	flag_wait("catwalk_enter");
+
+	maps\_zombiemode_zone_manager::enable_zone("shipfront_far_zone");
 }
 
 

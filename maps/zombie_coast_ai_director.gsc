@@ -141,7 +141,7 @@ coast_director_init()
 	self.choose_run = ::coast_director_choose_run;
 	self.find_exit_point = ::coast_director_find_exit_point;
 
-	self thread coast_director_failsafe();
+	//self thread coast_director_failsafe();
 }
 
 coast_director_entered_water( trigger )

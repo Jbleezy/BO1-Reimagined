@@ -83,8 +83,8 @@ monitor_player_zipline(zipline_vehicles)
 			
 			if(targets[i].targetname == "zipline_test1") //we need to wait for multiple flags intead of "either" flag
 			{
-				flag_wait("start_beach_group");
-				flag_wait_any("shipfront_far_enter", "shipfront_deck_storage");
+				//flag_wait("start_beach_group");
+				//flag_wait_any("shipfront_far_enter", "shipfront_deck_storage");
 			}
 			else
 			{

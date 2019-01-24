@@ -758,6 +758,7 @@
 
 ### Flinger (Call of the Dead)
 * Zombies flung now count as actual kills
+* Available whenever the power is on
 * Will not activate if the player is in the air
 * Removed explosion effect from flung zombies
 
@@ -989,6 +990,7 @@
 * Zombies no longer take damage from the water when low on health
 
 #### Zipline
+* Always available
 * FOV no longer changes while riding the zipline
 * Weapon is no longer out while riding the zipline
 
