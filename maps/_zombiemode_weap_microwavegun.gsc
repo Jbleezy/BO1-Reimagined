@@ -174,7 +174,7 @@ microwavegun_fired(upgraded)
 	level.microwavegun_network_choke_count = 0;
 	for ( i = 0; i < level.microwavegun_sizzle_enemies.size; i++ )
 	{
-		microwavegun_network_choke();
+		//microwavegun_network_choke();
 		level.microwavegun_sizzle_enemies[i] thread microwavegun_sizzle_zombie( self, level.microwavegun_sizzle_vecs[i], i );
 	}
 

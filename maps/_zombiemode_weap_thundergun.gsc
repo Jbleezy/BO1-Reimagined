@@ -107,13 +107,13 @@ thundergun_fired()
 	level.thundergun_network_choke_count = 0;
 	for ( i = 0; i < level.thundergun_fling_enemies.size; i++ )
 	{
-		thundergun_network_choke();
+		//thundergun_network_choke();
 		level.thundergun_fling_enemies[i] thread thundergun_fling_zombie( self, level.thundergun_fling_vecs[i], i );
 	}
 
 	for ( i = 0; i < level.thundergun_knockdown_enemies.size; i++ )
 	{
-		thundergun_network_choke();
+		//thundergun_network_choke();
 		level.thundergun_knockdown_enemies[i] thread thundergun_knockdown_zombie( self, level.thundergun_knockdown_gib[i] );
 	}
 

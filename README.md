@@ -413,11 +413,10 @@
 
 #### Thundergun
 * Changed fire type to automatic
+* Kills all zombies at once
 * Gives 50 points for each kill
 * Decreased range by 6.25%
 * Fixed empty clip idle, drop, raise, and sprint in animations
-* Decreased maximum amount of zombies killed per frame from 10 to 4
-* Decreased maximum amount of zombies killed per frame wait time from 3 frames to 1 frame
 * Zombies no longer gib from being knocked down
 * Zombies no longer drop powerups when killed from being knocked down
 
@@ -468,10 +467,9 @@
 * Fixed a bug that caused an error to happen when shrinking enemies and allowing them to regrow many times throughout a game
 
 #### Wave Gun
+* Kills all zombies at once
 * Gives 50 points for each kill
 * Decreased range by 6.25%
-* Decreased maximum amount of zombies killed per frame from 10 to 4
-* Decreased maximum amount of zombies killed per frame wait time from 3 frames to 1 frame
 
 ### Equipment
 
