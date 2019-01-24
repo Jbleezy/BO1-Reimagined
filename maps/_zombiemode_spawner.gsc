@@ -670,22 +670,23 @@ tear_into_building_loop()
 
 	self endon( "bad_path" );
 
+	self StopAnimscripted();
+
+	self reset_attack_spot();
+
 	self thread tear_into_building_loop_watch_for_bad_path();
 
-	//REMOVED THIS, WAS CAUSING ISSUES
 	if(isDefined(self.first_node.clip))
 	{
-		if(!isDefined(self.first_node.clip.disabled) || !self.first_node.clip.disabled)// This was commented out
-		{ // This was commented out
-			self.first_node.clip disable_trigger();// This was commented out
+		if(!isDefined(self.first_node.clip.disabled) || !self.first_node.clip.disabled)
+		{
+			self.first_node.clip disable_trigger();
 			self.first_node.clip connectpaths();
-			//IPrintLnBold( "Connecting Paths" );
-		}// This was commented out
+		}
 	}
 
 	// Here is where the zombie would play the traversal into the building( if it's a window )
 	// and begin the player seek logic
-	//IPrintLnBold("zombie going to attack mode");
 	self zombie_setup_attack_properties();
 
 	if( isDefined( level.pre_aggro_pathfinding_func ) )
@@ -705,20 +706,25 @@ tear_into_building_loop()
 tear_into_building_loop_watch_for_bad_path()
 {
 	self endon("zombie_start_traverse");
+	self endon( "death" );
+	level endon( "intermission" );
 
 	self waittill("bad_path");
 
+	// turn off find flesh
 	self notify( "stop_find_flesh" );
 	self notify( "zombie_acquire_enemy" );
 	self OrientMode( "face default" );
 	self.ignoreall = true;
-	self reset_attack_spot();
 
 	self thread tear_into_building_loop();
 }
 
 tear_into_building_loop_end()
 {
+	self endon( "death" );
+	level endon( "intermission" );
+
 	// wait for them to traverse out of the spawn closet
 	self waittill( "zombie_end_traverse" );
 	self zombie_complete_emerging_into_playable_area();
@@ -782,6 +788,7 @@ zombie_assure_node()
 	//assertmsg( "^1Zombie @ " + self.origin + " did not find a good entrance point... Please fix pathing or Entity setup" );
 	wait(20);
 	//iprintln( "^1Zombie @ " + self.origin + " did not find a good entrance point... Please fix pathing or Entity setup" );
+	level.zombie_total++;
 	self DoDamage( self.health + 10, self.origin );
 
 //	//add this zombie back into the spawner queue to be re-spawned
@@ -910,10 +917,10 @@ tear_into_building()
 		if( all_chunks_destroyed( self.first_node.barrier_chunks ) )
 		{
 			self zombie_history( "tear_into_building -> all chunks destroyed" );
-			for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
+			/*for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
 			{
 				self.first_node.attack_spots_taken[i] = false;
-			}
+			}*/
 			return;
 		}
 	//}
@@ -945,7 +952,10 @@ tear_into_building()
 					{
 						self do_a_taunt();
 					}
-					wait .5;
+					else
+					{
+						wait_network_frame();
+					}
 					continue;
 				}
 
@@ -1001,10 +1011,10 @@ tear_into_building()
 			//chrisp - fix the extra tear anim bug
 			if( all_chunks_destroyed( self.first_node.barrier_chunks ) )
 			{
-				for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
+				/*for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
 				{
 					self.first_node.attack_spots_taken[i] = false;
-				}
+				}*/
 				return;
 			}
 
@@ -1040,11 +1050,12 @@ do_a_taunt()
 	}
 
 	self.old_origin = self.origin;
-	if(GetDvar( #"zombie_taunt_freq") == "")
+	/*if(GetDvar( #"zombie_taunt_freq") == "")
 	{
 		setdvar("zombie_taunt_freq","5");
 	}
-	freq = GetDvarInt( #"zombie_taunt_freq");
+	freq = GetDvarInt( #"zombie_taunt_freq");*/
+	freq = 10;
 
 	if( freq >= randomint(100) )
 	{

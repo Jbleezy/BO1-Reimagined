@@ -87,7 +87,6 @@
 * Option to enable or disable character dialog (host only)
 * Option to choose which room you start in on Verruckt (host only)
 * Option to choose which perk you start with on No Man's Land (host only)
-* Options to set which barriers in Five spawn room you want disabled (host only)
 * Option to choose the initial box location on maps that have a random initial box location (host only)
 * Option to choose which gamemode to play, including random which includes every gamemode except Survival (host only)
 * Option to choose random, free-for-all, or custom teams in Versus gamemodes
@@ -785,7 +784,6 @@
 * Fixed a bug where zombies would get stuck in a barrier if a board was repaired as the zombie was beginning to go over the barrier
 * Removed limit of 3 zombies being able to traverse over a barrier at once
 * Zombies behind a barrier will now only attack if they can see a player
-* Zombies will no longer get stuck behind a barrier when there are many zombies behind one barrier
 * All wall barriers and metal vent barriers can now be rebuilt
 * Glass barriers now start off with glass and wooden boards
 * On glass barriers, zombies will now tear down all of the glass first
