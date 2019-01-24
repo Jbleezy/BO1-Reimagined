@@ -780,7 +780,6 @@
 ## Barriers
 * Can no longer rebuild barriers while sprinting or diving
 * Fixed a bug where zombies would get stuck in a barrier if a board was repaired as the zombie was beginning to go over the barrier
-* Removed limit of 3 zombies being able to traverse over a barrier at once
 * Zombies behind a barrier will now only attack if they can see a player
 * All wall barriers and metal vent barriers can now be rebuilt
 * Glass barriers now start off with glass and wooden boards

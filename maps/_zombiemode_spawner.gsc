@@ -668,13 +668,13 @@ tear_into_building_loop()
 	// They go into this function and do everything they and then comeback once all the barriers are removed
 	self tear_into_building();
 
-	self endon( "bad_path" );
-
-	self StopAnimscripted();
-
 	self reset_attack_spot();
 
+	self endon( "bad_path" );
+
 	self thread tear_into_building_loop_watch_for_bad_path();
+
+	self StopAnimscripted();
 
 	if(isDefined(self.first_node.clip))
 	{
@@ -882,7 +882,7 @@ tear_into_building()
 			{
 				self.first_node.attack_spots_taken[i] = false;
 			}*/
-			return;
+			//return;
 		}
 
 		// If an attacking_spot is availiable then they well grab one, if not they taunt.
