@@ -418,7 +418,7 @@ temple_round_wait()
 		{
 			return;
 		}
-		wait( 1.0 );
+		wait( .05 );
 	}
 }
 

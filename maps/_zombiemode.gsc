@@ -3851,6 +3851,109 @@ round_spawning()
 
 ai_calculate_amount()
 {
+	max = level.zombie_vars["zombie_max_ai"];
+
+	if(level.round_number == 1)
+	{
+		max = int( max * 0.25 );
+	}
+	else if(level.round_number == 2)
+	{
+		max = int( max * 0.35 );
+	}
+	else if (level.round_number == 3)
+	{
+		max = int( max * 0.5 );
+	}
+	else if (level.round_number == 4)
+	{
+		max = int( max * 0.75 );
+	}
+
+	if(level.round_number > 5)
+	{
+		// Starts at 1.5, increases .25 each round until 3
+		amount = level.round_number / 4;
+		if(amount > 3)
+		{
+			amount = 3;
+		}
+
+		amount_multiplier = level.round_number / 5;
+		if( amount_multiplier < 1 )
+		{
+			amount_multiplier = 1;
+		}
+
+		// After round 10, exponentially have more AI attack the player
+		if( level.round_number >= 10 )
+		{
+			amount_multiplier *= level.round_number * 0.15;
+		}
+
+		max += int(amount * amount_multiplier);
+	}
+
+	// coop multiplier
+	player_multiplier = 1;
+	player_num = get_players().size;
+	if(player_num > 1)
+	{
+		min_multiplier = 1;
+		max_multiplier = 1;
+		if(player_num == 2)
+		{
+			min_multiplier = 1.34;
+			max_multiplier = 2;
+		}
+		else if(player_num == 3)
+		{
+			min_multiplier = 1.67;
+			max_multiplier = 3;
+		}
+		else if(player_num >= 4)
+		{
+			min_multiplier = 2;
+			max_multiplier = 4;
+		}
+
+		// from rounds 5-20, increase multiplier from min to max
+		min_round = 5;
+		max_round = 20;
+		if(level.round_number >= max_round)
+		{
+			player_multiplier = max_multiplier;
+		}
+		else if(level.round_number > min_round)
+		{
+			multipler_diff = max_multiplier - min_multiplier;
+			round_diff = max_round - min_round;
+			multiplier_round_add = multipler_diff / round_diff;
+			player_multiplier = min_multiplier + (multiplier_round_add * (level.round_number - min_round));
+		}
+		else
+		{
+			player_multiplier = min_multiplier;
+		}
+	}
+
+	max = int(max * player_multiplier);
+
+	if( !isDefined( level.max_zombie_func ) )
+	{
+		level.max_zombie_func = ::default_max_zombie_func;
+	}
+
+	if ( !(IsDefined( level.kill_counter_hud ) && level.zombie_total > 0) )
+	{
+		level.zombie_total = max;
+	}
+
+	if ( IsDefined( level.zombie_total_set_func ) )
+	{
+		level thread [[ level.zombie_total_set_func ]]();
+	}
+
 	/*max = level.zombie_vars["zombie_max_ai"];
 
 	multiplier = level.round_number / 5;
@@ -3894,104 +3997,6 @@ ai_calculate_amount()
 	{
 		level thread [[ level.zombie_total_set_func ]]();
 	}*/
-
-	max = level.zombie_vars["zombie_max_ai"];
-
-	if(level.round_number == 1)
-	{
-		max = int( max * 0.25 );
-	}
-	else if(level.round_number == 2)
-	{
-		max = int( max * 0.35 );
-	}
-	else if (level.round_number == 3)
-	{
-		max = int( max * 0.5 );
-	}
-	else if (level.round_number == 4)
-	{
-		max = int( max * 0.75 );
-	}
-
-	// round scaling after round 5
-	// starting with n = 1, add n zombies for n + 1 rounds, then add n + 1 zombies for n + 2 rounds and so on...
-	// count_max = 1: has more zombies than normal until round 93, then has less zombies
-	add = 1;
-	count = 0;
-	count_max = 1;
-	for(i = 6; i <= level.round_number; i++)
-	{
-		max += add;
-
-		count++;
-		if(count == count_max)
-		{
-			count = 0;
-			count_max++;
-			add++;
-		}
-	}
-
-	// coop multiplier
-	multiplier = 1;
-	player_num = get_players().size;
-	if(player_num > 1)
-	{
-		min_multiplier = 1;
-		max_multiplier = 1;
-		if(player_num == 2)
-		{
-			min_multiplier = 1.34;
-			max_multiplier = 2;
-		}
-		else if(player_num == 3)
-		{
-			min_multiplier = 1.67;
-			max_multiplier = 3;
-		}
-		else if(player_num >= 4)
-		{
-			min_multiplier = 2;
-			max_multiplier = 4;
-		}
-
-		// from rounds 5-20, increase multiplier from min to max
-		min_round = 5;
-		max_round = 20;
-		if(level.round_number >= max_round)
-		{
-			multiplier = max_multiplier;
-		}
-		else if(level.round_number > min_round)
-		{
-			multipler_diff = max_multiplier - min_multiplier;
-			round_diff = max_round - min_round;
-			multiplier_round_add = multipler_diff / round_diff;
-			multiplier = min_multiplier + (multiplier_round_add * (level.round_number - min_round));
-		}
-		else
-		{
-			multiplier = min_multiplier;
-		}
-	}
-
-	max = int(max * multiplier);
-
-	if( !isDefined( level.max_zombie_func ) )
-	{
-		level.max_zombie_func = ::default_max_zombie_func;
-	}
-
-	if ( !(IsDefined( level.kill_counter_hud ) && level.zombie_total > 0) )
-	{
-		level.zombie_total = max;
-	}
-
-	if ( IsDefined( level.zombie_total_set_func ) )
-	{
-		level thread [[ level.zombie_total_set_func ]]();
-	}
 }
 
 //
@@ -5064,7 +5069,7 @@ round_wait()
 		wait(7);
 		while( level.dog_intermission )
 		{
-			wait(0.5);
+			wait(.05);
 		}
 	}
 	else
