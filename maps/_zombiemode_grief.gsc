@@ -2045,7 +2045,7 @@ setup_gungame_weapons()
 	}
 	else if(level.script == "zombie_coast")
 	{
-		level.gg_weps[18] = "sniper_explosive_zm";
+		level.gg_weps[18] = "humangun_zm";
 	}
 	else if(level.script == "zombie_temple")
 	{
