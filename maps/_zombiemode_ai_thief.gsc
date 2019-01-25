@@ -71,7 +71,7 @@ init()
 	}
 	if ( !isDefined( level.max_thief_health ) )
 	{
-		level.max_thief_health = 25000;
+		level.max_thief_health = 30000;
 	}
 
 	level.thief_debug = true;

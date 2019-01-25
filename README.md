@@ -822,8 +822,8 @@
 * Now award kill points immediately if killed while crawling on a wall
 
 ### Thief
-* Health increase per round: 1,000
-* Max health: 25,000
+* Health increase per round: 1000
+* Max health: 30,000
 * Same health no matter how many payers are in the match
 * No longer affected by insta kills or nukes
 * No longer affected by explosive damage scaling
