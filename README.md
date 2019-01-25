@@ -735,7 +735,7 @@
 * Both triggers are now completely independent of eachother
 * One trigger can not be activated if the other trigger is currently active
 * Lights and hintstrings now display correctly when activating one trigger while the other trigger is on cooldown
-* Deals 100 damage to players (in solo and coop)
+* Deals 100 damage to players
 * Cannot damage a player again if the player is still touching the flogger and has already been damaged by the flogger
 
 ### Electric Traps (Der Riese)
@@ -753,7 +753,7 @@
 ### Centrifuge (Ascension)
 * Cooldown time has been doubled
 * No longer stops spinning for entire rounds
-* Deals 50 damage to players in solo and coop
+* Deals 50 damage to players
 * Fixed a bug where zombies that were killed from the Centrifuge in higher rounds became invisible and invincible
 * The player that is closest to a zombie that is killed from the Centrifuge gets the kill
 

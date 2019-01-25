@@ -25,6 +25,8 @@ init()
 
 	maps\_weaponobjects::create_retrievable_hint("mine_bouncing_betty", &"REIMAGINED_BETTY_PICKUP");
 	level.create_level_specific_weaponobject_watchers = ::create_betty_watcher_zm;
+
+	level thread update_betty_fires();
 }
 
 create_betty_watcher_zm() // self == player
@@ -217,6 +219,8 @@ betty_think()
 
 		break;
 	}
+
+	wait_to_fire_betty();
 
 	if(is_in_array(self.owner.mines,self))
 	{
@@ -432,4 +436,23 @@ pickup_betty_trigger_listener_disable( trigger, player )
 		trigger unlink();
 		trigger trigger_off();
 	}
+}
+
+update_betty_fires()
+{
+	while ( true )
+	{
+		level.hasBettyFiredRecently = false;
+		wait_network_frame();
+	}
+}
+
+wait_to_fire_betty()
+{
+	while ( level.hasBettyFiredRecently )
+	{
+		wait_network_frame();
+	}
+
+	level.hasBettyFiredRecently = true;
 }

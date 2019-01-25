@@ -25,6 +25,8 @@ init()
 
 	level.claymore_detectionDot = cos( 70 );
 	level.claymore_detectionMinDist = 20;
+
+	level thread update_claymore_fires();
 }
 
 buy_claymores()
@@ -310,6 +312,8 @@ claymore_detonation()
 
 		if ( ent damageConeTrace(self.origin, self) > 0 )
 		{
+			wait_to_fire_claymore();
+
 			self notify("pickUpTrigger_death");
 			self playsound ("claymore_activated_SP");
 			wait 0.4;
@@ -501,4 +505,23 @@ claymore_damage()
 			self delete();
 		}
 	}
+}
+
+update_claymore_fires()
+{
+	while ( true )
+	{
+		level.hasClaymoreFiredRecently = false;
+		wait_network_frame();
+	}
+}
+
+wait_to_fire_claymore()
+{
+	while ( level.hasClaymoreFiredRecently )
+	{
+		wait_network_frame();
+	}
+
+	level.hasClaymoreFiredRecently = true;
 }

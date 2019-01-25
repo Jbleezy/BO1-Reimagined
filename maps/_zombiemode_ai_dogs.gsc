@@ -715,7 +715,10 @@ dog_death()
 			event = "ballistic_knife_death";
 		}
 
-		self.attacker maps\_zombiemode_score::player_add_points( event, self.damagemod, self.damagelocation, true );
+		if(!is_true(self.marked_for_death))
+		{
+			self.attacker maps\_zombiemode_score::player_add_points( event, self.damagemod, self.damagelocation, true );
+		}
 
 	    if( RandomIntRange(0,100) >= 80 )
 	    {
