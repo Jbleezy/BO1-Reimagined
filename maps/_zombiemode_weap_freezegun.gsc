@@ -458,7 +458,7 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 
 	upgraded = (weap == "freezegun_upgraded_zm");
 	player.freezegun_shatter_damage = true;
-	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_IMPACT" );
+	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_UNKNOWN" );
 	player.freezegun_shatter_damage = undefined;
 
 	if ( is_mature() )
@@ -501,7 +501,7 @@ freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger )
 
 	upgraded = (weap == "freezegun_upgraded_zm");
 	player.freezegun_shatter_damage = true;
-	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_IMPACT" );
+	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_UNKNOWN" );
 	player.freezegun_shatter_damage = undefined;
 
 	if ( isDefined( self ) )
