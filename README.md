@@ -579,11 +579,9 @@
 * Hacking a powerup will reset its timer
 * Hacking a Death Machine will now give the Max Ammo its correct glow color
 * Powerup hack trigger radius increased by 10%
-* Cost to hack wall weapons increased from 3000 points to 5000 points
-* Can now unhack wall weapons (costs the same amount to unhack them)
 * Buying a hacked wallbuy will give you the upgraded version of that weapon
 * Unupgraded and upgraded ammo both cost the price of unupgraded ammo when hacked
-* Wallbuy hintstring now updates when hacked to reflect their current prices
+* Wallbuy hintstrings now update when hacked to reflect their current prices
 * Doors are free to hack
 * Time to hack doors decreased from 32.7 seconds to 15 seconds
 * Time to hack players decreased from 10 seconds to 1.5 seconds

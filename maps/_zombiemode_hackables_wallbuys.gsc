@@ -48,24 +48,14 @@ hack_wallbuys()
 
 wallbuy_hack(hacker)
 {
-	self disable_trigger();
-	if(IsDefined(self.wallbuy.hacked) && self.wallbuy.hacked)
-	{
-		self.wallbuy.hacked = false;
-	}
-	else
-	{
-		self.wallbuy.hacked = true;
-	}
+	self.wallbuy.hacked = true;
+	model = getent( self.wallbuy.target, "targetname" ); 
 	self.wallbuy maps\_zombiemode_weapons::weapon_set_first_time_hint( level.zombie_weapons[self.wallbuy.zombie_weapon_upgrade].cost, level.zombie_weapons[self.wallbuy.zombie_weapon_upgrade].ammo_cost );
-	model = getent( self.wallbuy.target, "targetname" );
-	if(self.wallbuy.first_time_triggered == false)
+	if(!self.wallbuy.first_time_triggered)
 	{
 		self.wallbuy.first_time_triggered = true;
 		model maps\_zombiemode_weapons::weapon_show( hacker );
 	}
 	model RotateRoll(180, 0.5);
-	//maps\_zombiemode_equip_hacker::deregister_hackable_struct(self);
-	wait 1;
-	self enable_trigger();
+	maps\_zombiemode_equip_hacker::deregister_hackable_struct(self);
 }
