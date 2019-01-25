@@ -277,15 +277,7 @@ add_eligable_pooled_items()
 			height = candidate.height;
 		}
 
-		trigger = undefined;
-		if(IsDefined(candidate.powerup))
-		{
-			trigger = Spawn( "trigger_radius", candidate.origin, 0, radius, height);
-		}
-		else
-		{
-			trigger = Spawn( "trigger_radius_use", candidate.origin, 0, radius, height);
-		}
+		trigger = Spawn( "trigger_radius_use", candidate.origin, 0, radius, height);
 		trigger UseTriggerRequireLookAt();
 		trigger SetCursorHint( "HINT_NOICON" );
 		trigger.radius = radius;

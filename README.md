@@ -578,7 +578,7 @@
 * Hacking a Max Ammo gives a Perk Bottle
 * Hacking a powerup will reset its timer
 * Hacking a Death Machine will now give the Max Ammo its correct glow color
-* Powerup hack trigger radius increased by 30%
+* Powerup hack trigger radius increased by 10%
 * Cost to hack wall weapons increased from 3000 points to 5000 points
 * Can now unhack wall weapons (costs the same amount to unhack them)
 * Buying a hacked wallbuy will give you the upgraded version of that weapon
