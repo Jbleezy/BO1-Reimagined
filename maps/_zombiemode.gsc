@@ -5996,11 +5996,6 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 				{
 					final_damage += 10 * scalar;
 				}
-				// spikemores do damage from script, so had to set .spikemore_damage var on the zombie before damage
-				else if(is_tactical_grenade(weapon) || is_placeable_mine(weapon) || is_true(self.spikemore_damage))
-				{
-					final_damage += 150 * scalar;
-				}
 				else
 				{
 					final_damage += 50 * scalar;
