@@ -14,7 +14,7 @@
 
 init_sidequests()
 {
-	level._sidequest_icons_base_x = - 225;
+	level._sidequest_icons_base_x = -215;
 
 	level._zombie_sidequests = [];
 
@@ -143,7 +143,7 @@ add_sidequest_icon(sidequest_name, icon_name)
 		base_x += level._zombiemode_sidequest_icon_offset;
 	}
 
-	self.sidequest_icons[icon_name] = self create_icon(sq.icons[icon_name], base_x + (self.sidequest_icons.size * 34));
+	self.sidequest_icons[icon_name] = self create_icon(sq.icons[icon_name], base_x - (self.sidequest_icons.size * 34));
 }
 
 remove_sidequest_icon(sidequest_name, icon_name)
