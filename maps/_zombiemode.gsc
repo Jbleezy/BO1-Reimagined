@@ -6437,7 +6437,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		eInflictor.owner.kills++;
 	}
 
-	if(sWeapon == "thundergun_zm" || sWeapon == "thundergun_upgraded_zm")
+	if(sMeansOfDeath == "MOD_UNKNOWN" && (sWeapon == "thundergun_zm" || sWeapon == "thundergun_upgraded_zm"))
 	{
 		self.no_powerups = true;
 	}
