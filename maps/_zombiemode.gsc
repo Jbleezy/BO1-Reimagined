@@ -6442,7 +6442,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		self.no_powerups = true;
 	}
 
-	if(sWeapon == "freezegun_zm" || sWeapon == "freezegun_upgraded_zm")
+	if(sWeapon == "freezegun_zm" || sWeapon == "freezegun_upgraded_zm" || is_true(attacker.freezegun_shatter_damage))
 	{
 		self.no_powerups = true;
 	}
