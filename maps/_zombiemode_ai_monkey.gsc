@@ -78,7 +78,7 @@ init()
 	}
 	if ( !isdefined( level.machine_damage_min ) )
 	{
-		level.machine_damage_min = 1;		// damage monkey does when player isn't around
+		level.machine_damage_min = 5;		// damage monkey does when player isn't around
 	}
 	if ( !isdefined( level.machine_damage_max ) )
 	{
@@ -558,7 +558,33 @@ monkey_setup_packs()
 //-----------------------------------------------------------------
 monkey_setup_health()
 {
-	switch( level.monkey_encounters )
+	if( level.monkey_encounters == 1 )
+	{
+		level.monkey_zombie_health = level.monkey_zombie_min_health;
+	}
+	else if( level.monkey_encounters == 2 )
+	{
+		level.monkey_zombie_health = 400;
+	}
+	else if( level.monkey_encounters == 3 )
+	{
+		level.monkey_zombie_health = 900;
+	}
+	else if( level.monkey_encounters == 4 )
+	{
+		level.monkey_zombie_health = 1300;
+	}
+	else if( level.monkey_encounters == 5 )
+	{
+		level.monkey_zombie_health = 1600;
+	}
+
+	if( level.monkey_zombie_health > 1600 )
+	{
+		level.monkey_zombie_health = 1600;
+	}
+
+	/*switch( level.monkey_encounters )
 	{
 	case 1:
 		level.monkey_zombie_health = level.zombie_health * 0.25;
@@ -575,12 +601,7 @@ monkey_setup_health()
 	default:
 		level.monkey_zombie_health = level.zombie_health;
 		break;
-	}
-
-	if ( level.monkey_zombie_health > 1600 )
-	{
-		level.monkey_zombie_health = 1600;
-	}
+	}*/
 
 	monkey_print( "monkey health = " + level.monkey_zombie_health );
 }
@@ -1567,7 +1588,7 @@ monkey_zombie_grenade_throw_watcher( target, animname )
 	hand_pos = self GetTagOrigin( "TAG_WEAPON_RIGHT" );
 
 	grenade_type = target get_player_lethal_grenade();
-	self MagicGrenadeType( grenade_type, hand_pos, velocity, fuse );
+	target MagicGrenadeType( grenade_type, hand_pos, velocity, fuse );
 }
 
 //-----------------------------------------------------------------
@@ -1894,7 +1915,7 @@ monkey_zombie_destroy_perk()
 			self waittill( "goal" );
 			self SetGoalPos( self.origin );
 
-			self thread monkey_zombie_watch_machine_damage();
+			//self thread monkey_zombie_watch_machine_damage();
 			self thread monkey_zombie_attack_perk();
 		}
 	}

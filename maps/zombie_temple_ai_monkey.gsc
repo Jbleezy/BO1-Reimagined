@@ -1948,7 +1948,7 @@ monkey_zombie_grenade_throw_watcher( target, animname )
 	//hand_pos = self GetTagOrigin( "TAG_WEAPON_RIGHT" );
 
 	grenade_type = target get_player_lethal_grenade();
-	self MagicGrenadeType( grenade_type, hand_pos, velocity, fuse );
+	target MagicGrenadeType( grenade_type, hand_pos, velocity, fuse );
 }
 
 //-----------------------------------------------------------------

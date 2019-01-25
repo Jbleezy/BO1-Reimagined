@@ -2365,19 +2365,8 @@ perk_hud_flash(damage)
 
 	self.flash = 1;
 	self ScaleOverTime( 0.05, 32, 32 );
-	color = self.color;
-	if(damage == level.machine_damage_max)
-	{
-		self FadeOverTime(.15);
-		self.color = (1,0,0);
-	}
 	wait( 0.3 );
 	self ScaleOverTime( 0.05, 24, 24 );
-	if(damage == level.machine_damage_max)
-	{
-		self FadeOverTime(.15);
-		self.color = color;
-	}
 	wait( 0.3 );
 	self.flash = 0;
 }

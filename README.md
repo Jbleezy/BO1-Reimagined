@@ -829,10 +829,12 @@
 * No longer affected by explosive damage scaling
 
 ### Monkeys (Ascension)
-* Max health decreased to 1600
+* Decreased max health to 1600
+* Increased damage done to perks by 5x
+* No longer deal 10x damage when a player is near the perk
 * Fixed a bug where perks would be lost on monkey rounds when they shouldn't be
 * No longer stop attacking perks when damaged by a player
-* Perks now flash red on the HUD when monkeys are dealing extra damage to perks (which happens when a player enters the zone that a monkey is attacking a perk in)
+* Grenades thrown back by monkeys will no longer damage the player that threw the grenade if they have PHD Flopper
 
 ### Director
 * Always drops Wunderwaffe regardless of whether or not you have completed the sidequest
@@ -849,7 +851,7 @@
 * Power no longer needs to be on for an electrified zombie to drop a Max Ammo
 
 ### Monkeys (Shangri-La)
-* Keep attempting to spawn until they successfully spawn during the whole duration while a powerup is active on the ground
+* Keep attempting to spawn until successfully spawned during the whole duration while a powerup is active on the ground
 * Now always cycle through Nukes and Fire Sales
 * Decreased amount of points given to the player for killing a monkey from 500 to 50
 * Players no longer lose points for taking damage from a monkey
@@ -858,6 +860,7 @@
 * Monkey ambient sounds go away once all the powerups currently on the map have been picked up by monkeys
 * Fixed a bug where Monkeys would not go after a powerup that spawned at the same time or almost the same time as another powerup
 * Monkeys now wait .5 seconds to spawn instead of a random amount between 0 and 1 second
+* Grenades thrown back by monkeys will no longer damage the player that threw the grenade if they have PHD Flopper
 
 ### Napalm
 * Kills from napalm explosion or flames count for the player who killed the napalm or the player who triggered the napalm

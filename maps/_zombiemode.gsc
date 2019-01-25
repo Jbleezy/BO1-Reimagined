@@ -6517,7 +6517,6 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 					}
 				}
 			}
-			//iprintln("got gun game kill");
 		}
 	}
 }
