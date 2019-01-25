@@ -801,7 +801,7 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	{
 		self.animname = "human_zombie";
 		maps\_zombiemode_spawner::set_zombie_run_cycle( "sprint" );
-		self.goalradius = 48;
+		self.goalradius = 64;
 
 		// send ai to a point
 		//self SetGoalPos( self humangun_zombie_get_destination_point_origin() );
@@ -1129,6 +1129,7 @@ humangun_zombie_death( upgraded, player )
 	self stop_magic_bullet_shield();
 	self.no_powerups = true;
 	self DoDamage( self.health + 100, self.origin, player );
+	self.water_damage = false;
 
 	enemy_zombies = GetAiSpeciesArray( "axis", "all" );
 	for ( i = 0; i < enemy_zombies.size; i++ )

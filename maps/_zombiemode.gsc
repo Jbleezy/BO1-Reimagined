@@ -3734,14 +3734,14 @@ round_spawning()
 
 		while( level.zombie_total <= 0 )
 		{
-			wait( 0.1 );
+			wait( 0.05 );
 		}
 
 		if(get_enemy_count() >= level.zombie_ai_limit)
 		{
 			while(get_enemy_count() >= level.zombie_ai_limit)
 			{
-				wait .1;
+				wait .05;
 			}
 			wait 1;
 		}
