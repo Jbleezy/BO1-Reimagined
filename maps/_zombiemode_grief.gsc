@@ -1997,16 +1997,17 @@ setup_gungame_weapons()
 	level.gg_weps = [];
 	level.gg_weps[0] = "cz75_zm";
 	level.gg_weps[1] = "python_zm";
-	level.gg_weps[2] = "spas_zm";
 
 	if(!IsSubStr(level.script, "zombie_cod5_"))
 	{
-		level.gg_weps[3] = "ithaca_zm";
+		level.gg_weps[2] = "ithaca_zm";
 	}
 	else
 	{
-		level.gg_weps[3] = "zombie_shotgun";
+		level.gg_weps[2] = "zombie_shotgun";
 	}
+
+	level.gg_weps[3] = "spas_zm";
 
 	if(!IsSubStr(level.script, "zombie_cod5_"))
 	{
