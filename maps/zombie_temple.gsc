@@ -1207,36 +1207,28 @@ zombie_temple_place_revive_machine()
 	machine_triggers = GetEntArray("zombie_vending", "targetname");
 	revive_machine_model = GetEntArray("vending_revive", "targetname");
 	origin = revive_machine_model[0].origin + (25, 0, 6);
-	angles = revive_machine_model[0].angles;
 
 	for(i = 0; i < machine_triggers.size; i++)
 	{
-		if(isdefined(machine_triggers[i].perk_hum_ent))
+		if(IsDefined(machine_triggers[i].script_noteworthy) && machine_triggers[i].script_noteworthy == "specialty_quickrevive")
 		{
-			iprintln("got here");
+			machine_triggers[i].origin = origin + (0, 0, 50);
+			machine_triggers[i].target = "vending_revive_random";
+			machine_triggers[i].targetname = "zombie_vending_random";
+			machine_triggers[i].script_parameters = "jugg_perk,speedcola_perk";
+			break;
 		}
-		machine_triggers[i] Delete();
 	}
+
 	for(i = 0; i < revive_machine_model.size; i++)
 	{
-		revive_machine_model[i] Delete();
+		revive_machine_model[i].origin = origin;
+		if(!IsDefined(revive_machine_model[i].script_noteworthy) || revive_machine_model[i].script_noteworthy != "clip")
+		{
+			revive_machine_model[i].target = "zombie_vending";
+			revive_machine_model[i].targetname = "vending_revive_random";
+		}
 	}
-
-	machine_trigger = Spawn( "trigger_radius_use", origin + (0, 0, 50), 0, 20, 70 );
-	machine_trigger.angles = angles;
-	machine_trigger.target = "vending_revive_random";
-	machine_trigger.targetname = "zombie_vending_random";
-	machine_trigger.script_parameters = "jugg_perk,speedcola_perk";
-
-	machine_model = Spawn( "script_model", origin );
-	machine_model.angles = angles;
-	machine_model.target = "zombie_vending";
-	machine_model.targetname = "vending_revive_random";
-
-	machine_clip = spawn( "script_model", origin + (0, -10, 0) );
-	machine_clip.angles = (0, 0, 0);
-	machine_clip setmodel( "collision_geo_64x64x256" );
-	machine_clip Hide();
 }
 
 zombie_temple_place_additionalprimaryweapon_machine()

@@ -119,6 +119,9 @@ main()
 
 	level.give_solo_lives_func = ::moon_give_solo_lives;
 
+	level.override_place_revive_machine = ::zombie_moon_place_revive_machine;
+	[[level.override_place_revive_machine]]();
+
 	maps\_zombiemode::main();
 
 	level thread maps\_zombiemode::register_sidequest( "COTD", "ZOMBIE_COAST_EGG_SOLO", 43, "ZOMBIE_COAST_EGG_COOP", 44 );
@@ -2382,4 +2385,27 @@ moon_give_solo_lives()
 	
 	players = get_players();
 	players[0].lives = 3;
+}
+
+zombie_moon_place_revive_machine()
+{
+	origin = (-671.1, 1672.6, -470.4);
+	angles = (0, 180, 0);
+
+	machine_triggers = GetEntArray("zombie_vending", "targetname");
+	revive_machine_model = GetEntArray("vending_revive", "targetname");
+
+	for(i = 0; i < machine_triggers.size; i++)
+	{
+		if(IsDefined(machine_triggers[i].script_noteworthy) && machine_triggers[i].script_noteworthy == "specialty_quickrevive")
+		{
+			machine_triggers[i].origin = origin + (0, 0, 50);
+			break;
+		}
+	}
+	
+	for(i = 0; i < revive_machine_model.size; i++)
+	{
+		revive_machine_model[i].origin = origin;
+	}
 }
