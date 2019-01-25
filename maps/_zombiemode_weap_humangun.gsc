@@ -1127,7 +1127,8 @@ humangun_zombie_death( upgraded, player )
 	self StopSounds();
 
 	self stop_magic_bullet_shield();
-	self DoDamage( self.health + 100, self.origin );
+	self.no_powerups = true;
+	self DoDamage( self.health + 100, self.origin, player );
 
 	enemy_zombies = GetAiSpeciesArray( "axis", "all" );
 	for ( i = 0; i < enemy_zombies.size; i++ )
