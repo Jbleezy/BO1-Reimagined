@@ -171,7 +171,8 @@ spawn_new_bump_triggers()
 			// These are spawned later on after randomization has finished
 			// perks["specialty_armorvest"] = (14282, -15032, -578);
 			// perks["specialty_fastreload"] = (14277, -15036, -577);
-			perks["specialty_quickrevive"] = (18, -150, 29);
+			//perks["specialty_quickrevive"] = (18, -150, 29);
+			perks["specialty_quickrevive"] = (-671.1, 1672.6, -470.4);
 			perks["specialty_rof"] = (1597, 3812, -291);
 			perks["specialty_longersprint"] = (676, 2232, -326);
 			perks["specialty_flakjacket"] = (-262, 8346, 30);

@@ -2389,11 +2389,24 @@ moon_give_solo_lives()
 
 zombie_moon_place_revive_machine()
 {
-	origin = (-671.1, 1672.6, -470.4);
-	angles = (0, 180, 0);
-
 	machine_triggers = GetEntArray("zombie_vending", "targetname");
 	revive_machine_model = GetEntArray("vending_revive", "targetname");
+
+	// Spawn barrels to replace original Quick Revive machine location
+	object = Spawn( "script_model", revive_machine_model[0].origin + (17.5, 5, 0) );
+	object.angles = (0, 180, 0);
+	object SetModel( "p_zom_barrel_01" );
+
+	object2 = Spawn( "script_model", revive_machine_model[0].origin + (-17.5, 5, 0) );
+	object2.angles = (0, 180, 0);
+	object2 SetModel( "p_zom_barrel_01" );
+
+	object3 = Spawn( "script_model", revive_machine_model[0].origin + (0, 5, 44) );
+	object3.angles = (0, 180, 0);
+	object3 SetModel( "p_zom_barrel_01" );
+
+	origin = (-671.1, 1672.6, -470.4);
+	angles = (0, 180, 0);
 
 	for(i = 0; i < machine_triggers.size; i++)
 	{
@@ -2403,7 +2416,7 @@ zombie_moon_place_revive_machine()
 			break;
 		}
 	}
-	
+
 	for(i = 0; i < revive_machine_model.size; i++)
 	{
 		revive_machine_model[i].origin = origin;
