@@ -735,7 +735,7 @@
 * Both triggers are now completely independent of eachother
 * One trigger can not be activated if the other trigger is currently active
 * Lights and hintstrings now display correctly when activating one trigger while the other trigger is on cooldown
-* Now deals 50 damage to players (in solo and coop)
+* Deals 100 damage to players (in solo and coop)
 * Cannot damage a player again if the player is still touching the flogger and has already been damaged by the flogger
 
 ### Electric Traps (Der Riese)

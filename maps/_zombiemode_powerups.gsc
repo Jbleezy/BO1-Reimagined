@@ -3997,9 +3997,7 @@ hurt_players_powerup( drop_item, player )
 			continue;
 		}
 
-		players[i].hurt_player_damage = true;
-		players[i] DoDamage(players[i].health - 1, players[i].origin, players[i], 0, "burned");
-		players[i].hurt_player_damage = undefined;
+		RadiusDamage(players[i].origin, 10, players[i].health - 1, players[i].health - 1, undefined, "MOD_UNKNOWN");
 	}
 }
 

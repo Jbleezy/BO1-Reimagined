@@ -5534,12 +5534,6 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 					return 0;
 				}
 			}
-
-			// nuke powerdown damage - figure out the damage from here since it gets changed elsewhere for some reason
-			if(is_true(eAttacker.hurt_player_damage))
-			{
-				iDamage = eAttacker.health - 1;
-			}
 		}
 
 		if(IsPlayer(eAttacker) && eAttacker != self)
