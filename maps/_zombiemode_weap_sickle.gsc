@@ -250,14 +250,6 @@ do_sickle_flourish_end( gun )
 	self AllowMelee( true );
 	weapon = "zombie_sickle_flourish";
 
-	// TODO: race condition?
-	if ( self maps\_laststand::player_is_in_laststand() || is_true( self.intermission ) )
-	{
-		self TakeWeapon(weapon);
-		self.lastActiveWeapon = "none"; // this should be handled by laststand.gsc, but then we couldn't FFOTD the fix
-		return;
-	}
-
 	if ( self HasWeapon( "knife_ballistic_zm" ) )
 	{
 		ballistic_clip_ammo = self GetWeaponAmmoClip("knife_ballistic_zm");
@@ -310,6 +302,15 @@ do_sickle_flourish_end( gun )
 	if( self HasWeapon("knife_zm") )
 	{
 		self TakeWeapon( "knife_zm" );
+	}
+
+	// TODO: race condition?
+	if ( self maps\_laststand::player_is_in_laststand() || is_true( self.intermission ) )
+	{
+		iprintln("got here");
+		self TakeWeapon(weapon);
+		self.lastActiveWeapon = "none"; // this should be handled by laststand.gsc, but then we couldn't FFOTD the fix
+		return;
 	}
 
 	if( self is_multiple_drinking() )

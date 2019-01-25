@@ -609,7 +609,8 @@
 * Can now purchase ammo for weapons with attachments if only the attachment ammo is not full
 * Can now purchase ammo for dual wield weapons if only the left weapon clip is not full
 * Purchasing ammo for dual wield weapons will no longer fully fill the stock ammo if either of the clips are not full
-* Multiple players can now buy the Bowie Knife or Sickle at the same time
+* Multiple players can now purchase the Bowie Knife and Sickle at the same time
+* Players now keep the Bowie Knife and Sickle when they down during the purchase animation
 * Claymores, Bouncing Betties, and Spikemores now all require the player to be looking at the wallbuy to be able to buy them
 * Sniper cabinet: weapon ammo now costs exactly 25% the cost of the weapon
 
@@ -1090,7 +1091,7 @@
 * Shooting enemy players slows them down
 * Knifing enemy players pushes them
 * Upgraded weapons and explosive weapons slow enemy players down more
-* Ballistic knife, bowie knife, and sickle push enemy players farther
+* Ballistic Knife, Bowie Knife, and Sickle push enemy players farther
 * Mines are triggerable by enemy players
 * Enemy mines are destroyable
 * Powerups have negative effects towards the team that did not grab the powerup
