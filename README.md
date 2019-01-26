@@ -1126,9 +1126,8 @@
 * Kino Der Toten: teleporter is permamently linked to the mainframe
 * Five: teleporters disabled
 * Five: Pack-a-Punch door is now a 1,500 point buyable door
-* Ascension: lunar landers disabled
 * Ascension: Pack-a-Punch door is now a 1,500 point buyable door
-* Call of the Dead: director spawns 2 random powerdowns on death
+* Call of the Dead: director spawns a random powerup instead of a Wunderwaffe
 * Shangri-La: Pack-a-Punch stairs are open from the start of the match
 * Moon: start at Receiving Bay zone
 * Moon: PES and hacker disabled

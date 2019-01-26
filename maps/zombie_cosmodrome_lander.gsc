@@ -306,14 +306,7 @@ move_gate( pos, lower, time )
 init_buy()
 {
 	trigger = GetEnt( "zip_buy", "script_noteworthy" );
-	if(level.gamemode == "survival")
-	{
-		trigger thread lander_buy_think();
-	}
-	else
-	{
-		trigger disable_trigger();
-	}
+	trigger thread lander_buy_think();
 }
 
 //---------------------------------------------------------------------------
@@ -327,15 +320,8 @@ init_call_boxes()
 
 	for ( i = 0; i < trigger.size; i++ )
 	{
-		if(level.gamemode == "survival")
-		{
-			trigger[i] thread call_box_think();
-			self.destination = "lander_station5";
-		}
-		else
-		{
-			trigger[i] disable_trigger();
-		}
+		trigger[i] thread call_box_think();
+		self.destination = "lander_station5";
 	}
 }
 

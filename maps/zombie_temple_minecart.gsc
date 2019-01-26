@@ -716,11 +716,6 @@ minecart_lever_think()
 	self SetHintString( "" ); //No hint untill minecart is activated
 	self usetriggerrequirelookat();
 	self.cost = 250; // add cost amount so hint string knows what value to use
-	
-	if(level.gamemode != "survival")
-	{
-		self disable_trigger();
-	}
 
 	//point of interest stuff
 	minecart_poi = getent("minecart_poi","targetname");
@@ -1526,11 +1521,6 @@ show_players_on_mine_cart()
 			scale waittill("movedone");
 			scale MoveZ(dip, Abs(dip*0.1), 0, 0);
 			scale waittill("movedone");
-		}
-
-		if(level.gamemode != "survival")
-		{
-			return;
 		}
 		
 		wait .1;
