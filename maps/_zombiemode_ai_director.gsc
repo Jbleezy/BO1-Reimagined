@@ -832,29 +832,17 @@ director_watch_damage()
 	forward = VectorNormalize( AnglesToForward( self.angles ) );
 	end_pos = self.origin - vector_scale( forward, 32 );
 
+	level thread maps\_zombiemode_powerups::specific_powerup_drop( "free_perk", end_pos );
+
 	if(level.gamemode == "survival")
 	{
-		/*if ( isdefined( level.director_should_drop_special_powerup ) && [[level.director_should_drop_special_powerup]]() )
-		{
-			level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", self.origin );
-		}
-		else
-		{
-			level thread maps\_zombiemode_powerups::specific_powerup_drop( "minigun", self.origin );
-		}*/
-
-		level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", self.origin );
-		level thread maps\_zombiemode_powerups::specific_powerup_drop( "free_perk", end_pos );
+		level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", self.origin );	
 	}
 	else
 	{
-		powerups = array("grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_hurt_players");
+		powerups = array("full_ammo", "bonus_points_team", "double_points", "insta_kill", "nuke");
 		powerup = random(powerups);
 		level thread maps\_zombiemode_powerups::specific_powerup_drop( powerup, self.origin );
-
-		powerups = array_remove_nokeys(powerups, powerup);
-		powerup = random(powerups);
-		level thread maps\_zombiemode_powerups::specific_powerup_drop( powerup, end_pos );
 	}
 
 	level notify( "quiet_on_the_set_achieved" );

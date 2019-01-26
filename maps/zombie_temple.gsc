@@ -112,8 +112,6 @@ main()
 	level.round_wait_func           = ::temple_round_wait;
 	level.poi_positioning_func		= ::temple_poi_positioning_func;
 
-	level.red_powerups = array("grief_empty_clip", "grief_lose_points", "grief_half_points", "grief_half_damage", "grief_hurt_players");
-	level.normal_powerups = array("fire_sale", "nuke", "double_points", "insta_kill", "full_ammo", "grief_bonus_points", "meat", "upgrade_weapon");
 	level.powerup_fx_func			= ::temple_powerup_fx_func;
 
 	level.playerlaststand_func		= ::player_laststand_temple;
@@ -630,13 +628,6 @@ temple_poi_positioning_func(origin, forward)
 temple_powerup_fx_func()
 {
 	green = true;
-	if(level.gamemode != "survival")
-    {
-    	if(is_in_array(level.red_powerups, self.powerup_name))
-		{
-			green = false;
-		}
-    }
 
 	self delete_powerup_fx();
 
@@ -644,14 +635,7 @@ temple_powerup_fx_func()
 	self.fx_green setmodel("tag_origin");
 	self.fx_green LinkTo(self);
 
-	if(green)
-	{
-		playfxontag(level._effect["powerup_on"],self.fx_green,"tag_origin");
-	}
-	else
-	{
-		playfxontag(level._effect["powerup_on_red"],self.fx_green,"tag_origin");
-	}
+	playfxontag(level._effect["powerup_on"],self.fx_green,"tag_origin");
 	
 	self thread delete_powerup_fx_wait();
 }

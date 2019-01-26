@@ -1037,9 +1037,16 @@ _monkey_zombieTempleEscapeDeathCallback()
 		{	//Do damage event so we only ward 10 points
 			self.attacker maps\_zombiemode_score::player_add_points( "damage" );
 		}*/
+
+		event = "death";
+		if ( issubstr( self.damageweapon, "knife_ballistic_" ) )
+		{
+			event = "ballistic_knife_death";
+		}
+		
 		if(!is_true(self.nuked))
 		{
-			self.attacker maps\_zombiemode_score::player_add_points( "death", "", "", false );
+			self.attacker maps\_zombiemode_score::player_add_points( event, self.damagemod, self.damagelocation, false );
 		}
 	}
 
@@ -1216,38 +1223,22 @@ _powerup_Randomize(monkey)
 	self endon("stop_randomize");
 	monkey endon("remove");
 
-	//powerup_cycle = array_randomize_knuth(level.zombie_powerup_array);
-	powerup_cycle = undefined;
-	if(is_in_array(level.normal_powerups, self.powerup_name))
-    {
-		powerup_cycle = array("fire_sale","nuke","double_points","insta_kill");
+	powerup_cycle = array("fire_sale","nuke","double_points","insta_kill");
 
-		if(level.gamemode != "survival")
-		{
-			powerup_cycle = add_to_array(powerup_cycle, "grief_bonus_points");
-			powerup_cycle = add_to_array(powerup_cycle, "meat");
-		}
-
-		if(level.gamemode == "gg")
-		{
-			powerup_cycle = add_to_array(powerup_cycle, "upgrade_weapon");
-		}
+	if(level.gamemode != "survival")
+	{
+		powerup_cycle = add_to_array(powerup_cycle, "bonus_points_team");
+		powerup_cycle = add_to_array(powerup_cycle, "meat");
 	}
-	else
-    {
-    	powerup_cycle = array("grief_lose_points", "grief_hurt_players", "grief_half_points", "grief_half_damage");
-    }
+
+	if(level.gamemode == "gg")
+	{
+		powerup_cycle = add_to_array(powerup_cycle, "upgrade_weapon");
+	}
 
 	powerup_cycle = array_randomize_knuth(powerup_cycle);
 
-	if(is_in_array(level.normal_powerups, self.powerup_name))
-    {
-		powerup_cycle[powerup_cycle.size] = "full_ammo"; //Ammo is always last
-	}
-	else
-	{
-		powerup_cycle[powerup_cycle.size] = "grief_empty_clip";
-	}
+	powerup_cycle[powerup_cycle.size] = "full_ammo"; //Ammo is always last
 
 	//Remove fire sale so the players can not get firesale too early.
 	//if(level.chest_moves < 1)
@@ -1278,7 +1269,7 @@ _powerup_Randomize(monkey)
 		powerup_cycle = array_insert(powerup_cycle, currentPowerUp, 0);
 	}
 	//Add Perk bottel if this is a max ammo and its the f
-	if(currentPowerUp == "full_ammo" && level.gamemode == "survival")//&& self.grab_count == 1
+	if(currentPowerUp == "full_ammo")//&& self.grab_count == 1
 	{
 		index = randomintrange(1, powerup_cycle.size - 1);
 		powerup_cycle = array_insert(powerup_cycle, "free_perk", index);

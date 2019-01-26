@@ -1106,23 +1106,20 @@
 * Ballistic Knife, Bowie Knife, and Sickle push enemy players farther
 * Mines are triggerable by enemy players
 * Enemy mines are destroyable
-* Powerups have negative effects towards the team that did not grab the powerup
-* Mystery Box always initially spawns randomly on maps that the box can spawn randomly
-* Mystery Box can initially spawn in the start room on maps that the box can spawn randomly
-* Mystery Box can initially spawn anywhere on Five
-* Turrets attack players (won't attack the team that activated the turret)
-* Players gain 10 points for slowing down a player if they are below full health
-* If an enemy player assisted in getting a player down, the player will gain 5% of the player's points who downed
-* When a enemy player bleeds out, players gain 10% of their current points
+* Added Bonus Points powerup
+* Added Meat powerup
 * Fire Sale: makes traps cost 10 points
-* Bones Points Powerup: players gain a random amount of points between 500 and 2500 points
-* Added Powerdowns: powerups that do negative effects to the enemy team
-* Clip Unload Powerdown: unloads the clips of all the enemy players' weapons
-* Half Damage Powerdown: enemy players do half damage to zombies for 30 seconds
-* Half Points Powerdown: enemy players earn half points for 30 seconds
-* Hurt Players Powerdown: damages enemy players down to 1 health
-* Punishment Points Powerdown: enemy players lose a random amount of points between 500 and 2500 points
-* Added Meat Powerup
+* Powerups have negative effects towards the enemy team
+* Max Ammo: unloads the clips of all the enemy players' weapons
+* Insta Kill: enemy players do half damage to zombies for 30 seconds
+* Double Points: enemy players earn half points for 30 seconds
+* Nuke: damages enemy players down to 1 health
+* Bonus Points: enemy players lose a random amount of points between 500 and 2500 points
+* Mystery Box can initially spawn in the start room on maps where the Mystery Box spawns randomly
+* Turrets attack players (won't attack the team that activated the turret)
+* Players gain 10 points for slowing down a player if the player is below full health
+* If a player assisted in getting an enemy player down, the player will gain 5% of the player's points who downed
+* When a enemy player bleeds out, players gain 10% of their current points
 * Der Riese: all teleporters are linked
 * Der Riese: powerdown spawns from the start of each match
 * Der Riese: powerdown and full health dogs spawn from every teleporter use
@@ -1184,11 +1181,11 @@
 
 ## SPECIAL THANKS
 * **_ApexModder_** - perk bump sounds, assisted with localized strings, assisted with client scripting, assisted with menu scripting
+* **_HitmanVere_** - sprint and dive animations for World at War weapons
 * **_lilrifa_** - assisted with menu scripting
 * **_MasadaDRM_** - assisted with weapons and sounds
 * **_xSanchez78_** - assisted with client scripting and localized strings
 * **_Kody_** - Wunderwaffe gold camo, fixed CIA and CDC viewmodels, assisted with animations
-* **_HitmanVere_** - sprint and dive animations for World at War weapons
 * **_UltraZombieDino_** - Black Ops 3 P.E.S. model and animations, Black Ops 3 Gersch Device model, Black Ops 2 Ray Gun first raise and dry fire sounds, World at War marine models, assisted with World at War weapon models
 * **_KagamineAddict_** - updated P.E.S. visor texture
 * **_Joshwoocool_** - Black Ops 2 grief shock FX and meat FX

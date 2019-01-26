@@ -141,15 +141,6 @@ init_powerups()
 
 	// empty clip
 	add_zombie_powerup( "empty_clip", "zombie_ammocan", &"ZOMBIE_POWERUP_MAX_AMMO", false, false, true );
-	
-	// grief powerdowns
-	add_zombie_powerup( "grief_bonus_points", "zombie_z_money_icon", &"REIMAGINED_BONUS_POINTS", false, false, false );
-	add_zombie_powerup( "grief_lose_points", "zombie_z_money_icon", &"REIMAGINED_LOSE_POINTS", false, true, false );
-	add_zombie_powerup( "grief_empty_clip", "zombie_ammocan", &"REIMAGINED_CLIP_UNLOAD", false, true, false );
-	add_zombie_powerup( "grief_half_points", "zombie_x2_icon", &"REIMAGINED_HALF_POINTS", false, true, false );
-	add_zombie_powerup( "grief_half_damage", "zombie_skull", &"REIMAGINED_HALF_DAMAGE", false, true, false );
-	add_zombie_powerup( "grief_hurt_players", "zombie_bomb", &"ZOMBIE_POWERUP_NUKE", false, true, false, "misc/fx_zombie_mini_nuke_hotness" );
-	//add_zombie_powerup( "grief_slow_down", "p_rus_boots_sloppy", &"REIMAGINED_SLOW_DOWN", false, true, false );
 
 	// grief powerups
 	add_zombie_powerup( "meat", GetWeaponModel("meat_zm"), &"REIMAGINED_CLIP_UNLOAD", false, false, false );
@@ -1318,12 +1309,6 @@ special_drop_setup(first_time, permament)
 	case "empty_clip":
 	case "full_ammo":
 
-	case "grief_empty_clip":
-	case "grief_lose_points":
-	case "grief_half_points":
-	case "grief_half_damage":
-	case "grief_hurt_players":
-	case "grief_bonus_points":
 	case "meat":
 	case "upgrade_weapon":
 		break;
@@ -1664,37 +1649,16 @@ powerup_grab()
 						break;
 
 					case "bonus_points_team":
-					case "grief_bonus_points":
-						points = RandomIntRange( 5, 25 ) * 100;
-						level thread bonus_points_team_powerup( self, players[i], points );
+						level thread bonus_points_team_powerup( self, players[i] );
 						players[i] thread powerup_vo( "bonus_points_team" ); // TODO: Audio should uncomment this once the sounds have been set up
 						break;
 
 					case "lose_points_team":
-					case "grief_lose_points":
-						points = RandomIntRange( 5, 25 ) * 100;
-						level thread lose_points_team_powerup( self, players[i], points );
+						level thread lose_points_team_powerup( self, players[i] );
 						break;
 
 					case "empty_clip":
-					case "grief_empty_clip":
 						level thread empty_clip_powerup( self, players[i] );
-						break;
-
-					case "grief_half_points":
-						level thread half_points_powerup( self, players[i] );
-						break;
-
-					case "half_damage":
-						level thread half_damage_powerup( self, players[i] );
-						break;
-
-					case "grief_hurt_players":
-						level thread hurt_players_powerup( self, players[i] );
-						break;
-
-					case "grief_slow_down":
-						level thread slow_down_powerup( self, players[i] );
 						break;
 
 					case "meat":
@@ -1755,7 +1719,7 @@ powerup_grab()
 				self stoploopsound();
 
 				//Preventing the line from playing AGAIN if fire sale becomes active before it runs out
-				if( self.powerup_name != "fire_sale" && self.powerup_name != "grief_bonus_points" && !IsDefined(self.gg_powerup) )
+				if( self.powerup_name != "fire_sale" && !IsDefined(self.gg_powerup) )
 				{
 				    level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"][self.powerup_name], players[i] );
 				}
@@ -2237,6 +2201,11 @@ nuke_powerup( drop_item, grabber )
 
 		players[i] maps\_zombiemode_score::player_add_points( "nuke_powerup", 400 );
 	}
+
+	if(level.gamemode != "survival")
+	{
+		level thread hurt_players_powerup( drop_item, grabber );
+	}
 }
 
 nuke_flash()
@@ -2307,6 +2276,11 @@ double_points_powerup( drop_item, player )
 		}
 
 		players[i] thread double_points_powerup_player( drop_item );
+	}
+
+	if(level.gamemode != "survival")
+	{
+		level thread half_points_powerup( drop_item, player );
 	}
 }
 
@@ -2385,6 +2359,11 @@ full_ammo_powerup( drop_item, player )
 		players[i] thread powerup_hint_on_hud(drop_item);
 	}
 
+	if(level.gamemode != "survival")
+	{
+		level thread empty_clip_powerup( drop_item, player );
+	}
+
 	//array_thread (players, ::full_ammo_on_hud, drop_item);
 	//level thread full_ammo_on_hud( drop_item );
 }
@@ -2400,6 +2379,11 @@ insta_kill_powerup( drop_item, player )
 		}
 
 		players[i] thread insta_kill_powerup_player( drop_item );
+	}
+
+	if(level.gamemode != "survival")
+	{
+		level thread half_damage_powerup( drop_item, player );
 	}
 }
 
@@ -2873,7 +2857,7 @@ play_bonfiresale_audio()
 //******************************************************************************
 // free perk powerup
 //******************************************************************************
-free_perk_powerup( item )
+free_perk_powerup( item, player )
 {
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
@@ -2882,6 +2866,11 @@ free_perk_powerup( item )
 		{
 			players[i] maps\_zombiemode_perks::give_random_perk();
 		}
+	}
+
+	if(level.gamemode != "survival")
+	{
+		level thread lose_perk_powerup( item, player );
 	}
 }
 
@@ -3006,8 +2995,10 @@ bonus_points_player_powerup( item, player )
 	}
 }
 
-bonus_points_team_powerup( item, player, points )
+bonus_points_team_powerup( item, player )
 {
+	points = RandomIntRange( 5, 25 ) * 100;
+
 	if(item.powerup_name == "bonus_points_team")
 	{
 		level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["bonus_points_team"], player );
@@ -3028,10 +3019,17 @@ bonus_points_team_powerup( item, player, points )
 
 		players[i] thread powerup_hint_on_hud(item);
 	}
+
+	if(level.gamemode != "survival")
+	{
+		level thread lose_points_team_powerup( item, player, points );
+	}
 }
 
 lose_points_team_powerup( item, player, points )
 {
+	points = RandomIntRange( 5, 25 ) * 100;
+
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
@@ -3059,16 +3057,19 @@ lose_points_team_powerup( item, player, points )
 //******************************************************************************
 // lose perk powerup
 //******************************************************************************
-lose_perk_powerup( item )
+lose_perk_powerup( item, player )
 {
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
-		player = players[i];
-
-		if ( !player maps\_laststand::player_is_in_laststand() && !(player.sessionstate == "spectator") )
+		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
 		{
-			player maps\_zombiemode_perks::lose_random_perk();
+			continue;
+		}
+
+		if ( !players[i] maps\_laststand::player_is_in_laststand() && !(players[i].sessionstate == "spectator") )
+		{
+			players[i] maps\_zombiemode_perks::lose_random_perk();
 		}
 	}
 }
@@ -3969,22 +3970,6 @@ half_damage_powerup_player( drop_item )
 
 hurt_players_powerup( drop_item, player )
 {
-	location = drop_item.origin;
-	PlayFx( drop_item.fx, location );
-
-	players = get_players();
-	for(i = 0; i < players.size; i++)
-	{
-		if(level.gamemode != "survival" && players[i].vsteam == player.vsteam)
-		{
-			continue;
-		}
-
-		players[i] thread nuke_flash_player();
-	}
-
-	wait .5;
-
 	players = get_players();
 	for(i = 0; i < players.size; i++)
 	{

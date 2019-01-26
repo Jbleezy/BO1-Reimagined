@@ -93,20 +93,15 @@ grief_precache()
 	PrecacheShader("waypoint_cia");
 	PrecacheShader("waypoint_cdc");
 
-	precacheModel("bo2_c_zom_hazmat_viewhands");
-	precacheModel("bo2_c_zom_player_cdc_fb");
-	precacheModel("bo2_c_zom_suit_viewhands");
-	precacheModel("bo2_c_zom_player_cia_fb");
+	PrecacheModel("bo2_c_zom_hazmat_viewhands");
+	PrecacheModel("bo2_c_zom_player_cdc_fb");
+	PrecacheModel("bo2_c_zom_suit_viewhands");
+	PrecacheModel("bo2_c_zom_player_cia_fb");
 }
 
 include_grief_powerups()
 {
-	include_powerup("grief_empty_clip");
-	include_powerup("grief_half_damage");
-	include_powerup("grief_half_points");
-	include_powerup("grief_hurt_players");
-	include_powerup("grief_lose_points");
-	include_powerup("grief_bonus_points");
+	include_powerup("bonus_points_team");
 	include_powerup("meat");
 
 	vending_weapon_upgrade_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
@@ -125,7 +120,7 @@ include_grief_powerups()
 
 	wait_network_frame();
 	level.zombie_powerup_array = [];
-	level.zombie_powerup_array = array("full_ammo", "insta_kill", "double_points", "nuke", "grief_empty_clip", "grief_half_damage", "grief_half_points", "grief_hurt_players", "grief_lose_points", "grief_bonus_points", "meat");
+	level.zombie_powerup_array = array("full_ammo", "insta_kill", "double_points", "nuke", "bonus_points_team", "meat");
 
 	if(!IsSubStr(level.script, "zombie_cod5_") && level.gamemode != "gg")
 	{
