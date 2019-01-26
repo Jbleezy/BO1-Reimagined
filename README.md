@@ -1126,9 +1126,10 @@
 * Shangri-La: geyser in the start room is open from the start of the match
 * Shangri-La: minecart disabled
 * Moon: start at Receiving Bay zone
+* Moon: PES and hacker disabled
 * Moon: No Man's Land disabled
-* Moon: hacker and PES disabled
 * Moon: teleporter disabled
+* Moon: excavators disabled
 
 #### Grief
 * Win by surviving a round after all enemy players are dead

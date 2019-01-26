@@ -71,7 +71,10 @@ setup_diggers()
 	level thread diggers_think_no_mans_land();
 
 	//controls the digger random activations
-	level thread digger_round_logic();
+	if(level.gamemode == "survival")
+	{
+		level thread digger_round_logic();
+	}
 
 	//sets up their movement
 	diggers = GetEntArray("digger_body","targetname");

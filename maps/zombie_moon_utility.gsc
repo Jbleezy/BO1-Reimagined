@@ -750,11 +750,12 @@ hacker_location_random_init()
 
 	if(	hacker_tool_array.size > 1)
 	{
-		if(GetDvar("zm_gamemode") == "survival") //the global variable isnt defined yet
+		if(GetDvar("zm_gamemode") == "survival") // the global variable isnt defined yet
 		{
 			hacker_pos = hacker_tool_array[RandomInt(hacker_tool_array.size)];
 			hacker_tool_array  = array_remove(hacker_tool_array, hacker_pos);
 		}
+
 		array_thread(hacker_tool_array, ::hacker_position_cleanup);
 	}
 }
