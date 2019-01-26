@@ -273,6 +273,9 @@ local_zone_init()
 	add_adjacent_zone( "waterfall_tunnel_zone","waterfall_tunnel_a_zone", "waterfall_to_tunnel");
 	add_adjacent_zone( "waterfall_tunnel_a_zone","waterfall_upper_zone", "waterfall_to_tunnel");
 
+	add_adjacent_zone( "waterfall_tunnel_zone","waterfall_upper_zone", "waterfall_to_tunnel");
+	add_adjacent_zone( "waterfall_tunnel_a_zone","waterfall_lower_zone", "waterfall_to_tunnel");
+
 	add_adjacent_zone( "waterfall_upper1_zone", "waterfall_upper_zone", "start_to_waterfall_upper" );
 	add_adjacent_zone( "waterfall_upper1_zone", "waterfall_upper_zone", "waterfall_to_tunnel" );
 

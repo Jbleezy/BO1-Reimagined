@@ -8563,32 +8563,40 @@ choose_zone_name(zone, current_name)
 		return " ";
 	}
 
-	name = " ";
-
-	if(IsDefined(zone))
-	{
-		name = "reimagined_" + level.script + "_" + zone;
-	}
-
+	// zone fixes
 	if(level.script == "zombie_cod5_prototype")
 	{
 		if(!IsDefined(zone))
 		{
-			name = "reimagined_zombie_cod5_prototype_corner";
+			zone = "prototype_corner";
+		}
+	}
+	else if(level.script == "zombie_pentagon")
+	{
+		if(zone == "labs_elevator")
+		{
+			zone = "war_room_zone_elevator";
 		}
 	}
 	else if(level.script == "zombie_cosmodrome")
 	{
 		if(IsDefined(self.lander) && self.lander)
 		{
-			name = " ";
+			zone = undefined;
 		}
 	}
 	else if(level.script == "zombie_coast")
 	{
 		if(IsDefined(self.is_ziplining) && self.is_ziplining)
 		{
-			name = " ";
+			zone = undefined;
+		}
+	}
+	else if(level.script == "zombie_temple")
+	{
+		if(zone == "waterfall_tunnel_a_zone")
+		{
+			zone = "waterfall_tunnel_zone";
 		}
 	}
 	else if(level.script == "zombie_moon")
@@ -8597,6 +8605,13 @@ choose_zone_name(zone, current_name)
 		{
 			return current_name;
 		}
+	}
+
+	name = " ";
+
+	if(IsDefined(zone))
+	{
+		name = "reimagined_" + level.script + "_" + zone;
 	}
 
 	return name;

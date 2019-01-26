@@ -943,7 +943,7 @@
 
 ### Five
 * All 6 barriers in the Conference Room zone are always active
-* Zombies no longer spawn from the Quick Reive hallway when in the Speed Cola hallway
+* Zombies no longer spawn in the Quick Reive hallway when in the Speed Cola hallway
 * Trap pieces are already in place
 * Pack-a-Punch machine will stay available for as long as the defcon room is active
 * If all players on a floor use an elevator or get downed when the power is off, all zombies will now respawn
@@ -968,8 +968,8 @@
 
 ### Ascension
 * Added Double Tap perk machine in the Outside Launch Area zone
-* Zombies now spawn from the Stairs zone when in the Upper Centrifuge Zone
-* Zombies no longer spawn from the Stairs zone when in the Centrifuge Zone
+* Zombies no longer spawn in the Stairs zone when in the Centrifuge Zone
+* Zombies now spawn in the Stairs zone when in the Upper Centrifuge Zone
 * The easter egg song teddy bears will float up and rotate around while the song is active
 
 #### Lunar Lander
@@ -1016,6 +1016,8 @@
 * Mule Kick now spawns in randomly with Double Tap, PHD Flopper, Stamin-Up, and Deadshot
 * Removed Mule Kick perk spawn location in the Waterfall zone
 * Added a random perk spawn location in the Waterslide End zone
+* Zombies now spawn in the Waterfall Tunnel zone when in the Upper Waterfall zone
+* Zombies now spawn in the Waterfall zone when in the upper part of the Waterfall Tunnel zone
 * Added Pack-a-Punch FX
 * Eclipse mode activatable with 1-4 players
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
