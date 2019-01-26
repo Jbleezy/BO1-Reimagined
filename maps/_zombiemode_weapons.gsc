@@ -2487,10 +2487,9 @@ treasure_chest_ChooseWeightedRandomWeapon( player, final_wep, empty )
 		return filtered;
 	}
 
-	//reset the weapons a player can get if no weapons available or if the last time the player hit the box there was one weapon left and that player took it
-	if(IsDefined(player) && (filtered.size == 0 || (IsDefined(player.last_weapon) && is_in_array(player.already_got_weapons, player.last_weapon))))
+	//reset the weapons a player can get if no weapons available
+	if(IsDefined(player) && filtered.size == 0)
 	{
-		player.last_weapon = undefined;
 		player.already_got_weapons = [];
 		if(filtered.size == 0)
 			filtered = treasure_chest_ChooseWeightedRandomWeapon( player, undefined, true );
@@ -2509,12 +2508,6 @@ treasure_chest_ChooseWeightedRandomWeapon( player, final_wep, empty )
 
 		//must add back the wep into filtered for the next if statement to work correctly
 		filtered[filtered.size] = temp;
-	}
-
-	if(IsDefined(final_wep) && final_wep && filtered.size == 1)
-	{
-		//save last weapon of rotation to see if we should show the last weapon again on next hit
-		player.last_weapon = wep;
 	}
 
 	self.previous_floating_weapon = wep;
