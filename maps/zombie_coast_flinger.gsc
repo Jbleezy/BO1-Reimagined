@@ -58,7 +58,7 @@ start_flinger_in_open_position()
 
 
 	flag_wait("power_on");
-	flag_wait("residence_beach_group");
+	//flag_wait("residence_beach_group");
 
 	wait_for_flinger_area_to_be_clear();
 
@@ -87,7 +87,7 @@ start_flinger_in_open_position()
 flinger_think()
 {
 	flag_wait("power_on");
-	flag_wait("residence_beach_group");
+	//flag_wait("residence_beach_group");
 
 	level waittill("flinger_in_place");
 
@@ -221,6 +221,40 @@ flinger_fling(activator)
 	//flinger stays open for 2 seconds then resets after the area is clear
 	wait( 2 );
 
+	// Kill all zombies after using flinger if zone isn't open and all players are here
+	if(!flag("side_beach_debris") && !flag("balcony_enter") && !flag("res_2_lighthouse1") && !flag("lighthouse_residence_front"))
+	{
+		flag_set("residence_beach_group");
+
+		num_players_in_zone = 0;
+		players = get_players();
+		for(i = 0; i < players.size; i++)
+		{
+			if(!is_player_valid(players[i]))
+			{
+				continue;
+			}
+
+			if(is_true(players[i]._being_flung) || players[i] maps\_zombiemode_zone_manager::player_in_zone("residence_roof_zone") || players[i] maps\_zombiemode_zone_manager::player_in_zone("residence1_zone") || players[i] maps\_zombiemode_zone_manager::player_in_zone("beach_zone2"))
+			{
+				num_players_in_zone++;
+			}
+		}
+
+		if(num_players_in_zone >= get_number_of_valid_players())
+		{
+			zombs = GetAiSpeciesArray("axis");
+			for(i=0;i<zombs.size;i++)
+			{
+				if(zombs[i].animname != "director_zombie")
+				{
+					level.zombie_total++;
+					zombs[i] DoDamage( zombs[i].health + 2000, (0,0,0) );
+				}
+			}
+		}
+	}
+
 	wait_for_flinger_area_to_be_clear();
 
 	//disconnect paths until the flinger lowers back down into position
@@ -353,19 +387,17 @@ unlink_later(link_ent)
 	self StopLoopSound( .75 );
 	self PlaySound( "zmb_player_flinger_land" );
 
-
 	link_ent delete();
-
 
 	if( isplayer(self))
 	{
 		//self EnableOffhandWeapons();
 		//self EnableWeaponCycling();
 
-		if(!self maps\_laststand::player_is_in_laststand() )
+		/*if(!self maps\_laststand::player_is_in_laststand() )
 		{
 			self decrement_is_drinking();
-		}
+		}*/
 
 		self._being_flung = undefined;
 		wait(.2);
@@ -427,7 +459,7 @@ fling_player(launch_spot)
 
 
 	//don't switch weapons if the player just got a weapon from a powerup drop
-	if(!is_true( self.has_powerup_weapon))
+	/*if(!is_true( self.has_powerup_weapon))
 	{
 
 		//make sure the player doesn't enter the zipline carrying a claymore
@@ -440,7 +472,7 @@ fling_player(launch_spot)
 				self SwitchToWeapon( primaryWeapons[0] );
 			}
 		}
-	}
+	}*/
 
 	self maps\_zombiemode_audio::create_and_play_dialog( "catapult", "self" );
 
@@ -455,7 +487,7 @@ fling_player(launch_spot)
 	self PlayLoopSound( "zmb_player_flinger_airrush", .25 );
 
 	//don't switch weapons if the player just got a weapon from a powerup drop
-	if(!is_true( self.has_powerup_weapon))
+	/*if(!is_true( self.has_powerup_weapon))
 	{
 		//make sure the player doesn't enter the zipline carrying a claymore
 		weap = self getcurrentweapon();
@@ -467,12 +499,12 @@ fling_player(launch_spot)
 				self SwitchToWeapon( primaryWeapons[0] );
 			}
 		}
-	}
+	}*/
 
-	if(!self maps\_laststand::player_is_in_laststand())
+	/*if(!self maps\_laststand::player_is_in_laststand())
 	{
 		self increment_is_drinking();
-	}
+	}*/
 	wait_network_frame();
 
 	org1 = spawn ("script_origin", self.origin + (0,0,20) );
@@ -496,8 +528,6 @@ fling_player(launch_spot)
 		flinger_poi activate_zombie_point_of_interest();
 		flinger_poi thread wait_for_flung_players_to_land();
 	}
-
-
 }
 
 wait_for_flung_players_to_land()

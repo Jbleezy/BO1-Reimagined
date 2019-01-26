@@ -383,15 +383,7 @@ coast_zone_init()
 	add_adjacent_zone( "catwalk_zone", "lighthouse2_zone", "catwalk_enter" );
 	add_zone_flags(	"catwalk_enter", "start_beach_group" );
 
-	level thread enable_residence_beach_group();
 	level thread enable_shipfront_far_zone();
-}
-
-enable_residence_beach_group()
-{
-	flag_wait( "power_on" );
-
-	flag_set("residence_beach_group");
 }
 
 enable_shipfront_far_zone()
