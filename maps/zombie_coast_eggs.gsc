@@ -175,11 +175,6 @@ c_overseer()
 	// wait for all players
 	flag_wait( "all_players_connected" );
 
-	if(level.gamemode != "survival")
-    {
-        return;
-    }
-
 	/*players = GetPlayers();
 	if( players.size > 1 )
 	{
@@ -228,6 +223,11 @@ c_overseer()
 
 knock_on_door()
 {
+	if(level.gamemode != "survival")
+    {
+        return;
+    }
+
 	level endon( "scrambled" );
 
 	knock_trig = GetEnt( "e_gargoyle", "targetname" );
@@ -1170,6 +1170,11 @@ coast_egg_holy_grenade_watcher()
 // -- DRINK UP -- //
 virgo()
 {
+	if(level.gamemode != "survival")
+    {
+        return;
+    }
+	
 	// objects
 	enta_egg_ice_break_trigger = GetEntArray( "trig_egg_break_ice", "targetname" );
 	ice_blocks = GetEntArray( "ent_bartender", "targetname" );
