@@ -183,7 +183,10 @@ main()
 	level thread maps\zombie_moon_gravity::zombie_moon_update_player_gravity();
 	//level thread maps\zombie_moon_gravity::zombie_moon_update_player_float();
 
-	level thread maps\zombie_moon_sq::start_moon_sidequest();
+	if(level.gamemode == "survival")
+	{
+		level thread maps\zombie_moon_sq::start_moon_sidequest();
+	}
 
 	level thread init_hackables();
 
