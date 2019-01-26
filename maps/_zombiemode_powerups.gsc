@@ -1274,12 +1274,6 @@ special_drop_setup(first_time, permament)
 		}
 
 		guaranteed = RandomInt(100) >= chance;
-
-		// 20% chance of powerup if sidequest is complete
-		/*if(IsDefined(level.teleporter_powerups_reward) && !guaranteed)
-		{
-			guaranteed = RandomInt(100) < 20;
-		}*/
 	}
 
 	if(guaranteed)
@@ -1300,6 +1294,7 @@ special_drop_setup(first_time, permament)
 			powerup = "nothing";
 		}*/
 	}
+
 	//MM test  Change this if you want the same thing to keep spawning
 //	powerup = "dog";
 	switch ( powerup )
@@ -1328,6 +1323,7 @@ special_drop_setup(first_time, permament)
 	case "grief_half_points":
 	case "grief_half_damage":
 	case "grief_hurt_players":
+	case "grief_bonus_points":
 	case "meat":
 	case "upgrade_weapon":
 		break;
