@@ -8568,7 +8568,7 @@ choose_zone_name(zone, current_name)
 	{
 		if(!IsDefined(zone))
 		{
-			zone = "prototype_corner";
+			zone = "corner";
 		}
 	}
 	else if(level.script == "zombie_pentagon")

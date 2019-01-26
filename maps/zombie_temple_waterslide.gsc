@@ -52,11 +52,11 @@ waterslide_main()
 		}
 		flag_wait("power_on");
 		
-		if(isDefined(messageTrigger))
+		/*if(isDefined(messageTrigger))
 		{
 			messageTrigger SetHintString( &"ZOMBIE_TEMPLE_DESTINATION_NOT_OPEN" );
 		}
-		flag_wait_any("cave01_to_cave02", "pressure_to_cave01");
+		flag_wait_any("cave01_to_cave02", "pressure_to_cave01");*/
 		
 	}
 	

@@ -1016,6 +1016,7 @@
 * Mule Kick now spawns in randomly with Double Tap, PHD Flopper, Stamin-Up, and Deadshot
 * Removed Mule Kick perk spawn location in the Waterfall zone
 * Added a random perk spawn location in the Waterslide End zone
+* Zombies now spawn in the Minecart zone when in the Waterslide End zone after the power is on
 * Zombies now spawn in the Waterfall Tunnel zone when in the Upper Waterfall zone
 * Zombies now spawn in the Waterfall zone when in the upper part of the Waterfall Tunnel zone
 * Added Pack-a-Punch FX
@@ -1028,8 +1029,15 @@
 * Fixed a bug where players were able to sprint and enter prone in the mud pit if they were drinking a perk while entering the mud pit
 
 #### Minecart
+* Available whenever the power is on
 * Kills from the minecart now count as actual kills
 * Travels back up 4x faster
+
+#### Geysers
+* Available whenever the power is on
+
+#### Waterslide
+* Available whenever the power is on
 
 #### Sidequest
 * Completable with 1-4 players
@@ -1125,8 +1133,6 @@
 * Ascension: Pack-a-Punch door is now a 1,500 point buyable door
 * Call of the Dead: director spawns 2 random powerdowns on death
 * Shangri-La: Pack-a-Punch stairs are open from the start of the match
-* Shangri-La: geyser in the start room is open from the start of the match
-* Shangri-La: minecart disabled
 * Moon: start at Receiving Bay zone
 * Moon: PES and hacker disabled
 * Moon: No Man's Land disabled

@@ -755,8 +755,8 @@ minecart_lever_think()
 	
 		//Wait For Destination To Be Open
 		//-------------------------------
-		self SetHintString( &"ZOMBIE_TEMPLE_DESTINATION_NOT_OPEN" );
-		flag_wait_any("cave_water_to_waterfall", "waterfall_to_tunnel");
+		//self SetHintString( &"ZOMBIE_TEMPLE_DESTINATION_NOT_OPEN" );
+		//flag_wait_any("cave_water_to_waterfall", "waterfall_to_tunnel");
 	}
 
 	wait(1.0);

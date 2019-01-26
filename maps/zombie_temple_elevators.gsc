@@ -539,7 +539,8 @@ geyser_blocker_think(blocker)
 	case "start_geyser":
 		if(level.gamemode == "survival")
 		{
-			flag_wait_any("cave02_to_cave_water","cave_water_to_power","cave_water_to_waterfall");
+			//flag_wait_any("cave02_to_cave_water","cave_water_to_power","cave_water_to_waterfall");
+			flag_wait("power_on");
 			exploder(8);
 			geyser_sounds( "geyser02", "evt_water_spout02", "evt_geyser_amb", 1.0 );
 		}
@@ -547,10 +548,11 @@ geyser_blocker_think(blocker)
 
 	case "minecart_geyser":
 		// first we need to open up the top
-		flag_wait_any("start_to_pressure", "pressure_to_cave01");
+		//flag_wait_any("start_to_pressure", "pressure_to_cave01");
 
 		// then make sure the bottom is opened up
-		flag_wait_any("cave01_to_cave02", "pressure_to_cave01");
+		//flag_wait_any("cave01_to_cave02", "pressure_to_cave01");
+		flag_wait("power_on");
 		exploder(9);
 		geyser_sounds( "geyser01", "evt_water_spout01", "evt_geyser_amb", 1.0 );
 	default:

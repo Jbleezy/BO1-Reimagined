@@ -126,11 +126,6 @@ main()
 	level.zone_manager_init_func 	= ::local_zone_init;
 	init_zones[0] = "temple_start_zone";
 
-	if(level.gamemode != "survival")
-	{
-		init_zones[1] = "caves_water_zone";
-	}
-
 	// don't enable these zones until you hit the elevator button
 	//init_zones[1] = "waterfall_upper_zone";
 	//init_zones[2] = "waterfall_lower_zone";
@@ -300,12 +295,28 @@ local_zone_init()
 	add_adjacent_zone( "caves2_zone", "caves3_zone", "cave02_to_cave_water" );
 	add_adjacent_zone( "caves2_zone", "caves3_zone", "cave03_to_power" );
 
+	add_adjacent_zone( "caves1_zone", "pressure_plate_zone", "power_on", true );
 
 	// setup the script_struct spawn locations
 	temple_init_zone_spawn_locations();
+
+	level thread enable_waterfall_lower_zone();
+	level thread enable_caves_water_zone();
 }
 
+enable_waterfall_lower_zone()
+{
+	flag_wait("power_on");
 
+	maps\_zombiemode_zone_manager::enable_zone("waterfall_lower_zone");
+}
+
+enable_caves_water_zone()
+{
+	flag_wait("power_on");
+
+	maps\_zombiemode_zone_manager::enable_zone("caves_water_zone");
+}
 
 //*****************************************************************************
 // WEAPON FUNCTIONS
