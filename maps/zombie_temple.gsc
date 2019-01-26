@@ -300,15 +300,7 @@ local_zone_init()
 	// setup the script_struct spawn locations
 	temple_init_zone_spawn_locations();
 
-	level thread enable_waterfall_lower_zone();
 	level thread enable_caves_water_zone();
-}
-
-enable_waterfall_lower_zone()
-{
-	flag_wait("power_on");
-
-	maps\_zombiemode_zone_manager::enable_zone("waterfall_lower_zone");
 }
 
 enable_caves_water_zone()

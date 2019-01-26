@@ -875,6 +875,17 @@ minecart_lever_think()
 		self.minecart minecart_crash(player);
 		self.minecart.speaker_left stoploopsound( 1 );
 
+		// Kill all zombies after using minecart if zone isn't open and all players were on minecart
+		if(!flag("waterfall_to_tunnel") && !flag("cave_water_to_waterfall") && maps\_zombiemode_zone_manager::get_players_in_zone("waterfall_lower_zone") >= get_number_of_valid_players())
+		{
+			zombs = GetAiSpeciesArray("axis");
+			for(i=0;i<zombs.size;i++)
+			{
+				level.zombie_total++;
+				zombs[i] DoDamage( zombs[i].health + 2000, (0,0,0) );
+			}
+		}
+
 		wait(1.0);
 		
 		flag_clear("players_riding_minecart");
@@ -884,7 +895,6 @@ minecart_lever_think()
 		{
 			minecart_poi deactivate_zombie_point_of_interest();
 		}
-		
 		
 		if(!GetDvarInt(#"scr_minecart_cheat"))
 		{
