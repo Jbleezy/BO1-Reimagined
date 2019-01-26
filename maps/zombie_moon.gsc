@@ -1355,16 +1355,16 @@ gasmask_reset_player_model( entity_num )
 	switch( entity_num )
 	{
 		case 0:
-			character\c_usa_dempsey_dlc5::main(true);// Dempsy
+			character\c_usa_dempsey_dlc5::main();// Dempsy
 			break;
 		case 1:
-			character\c_rus_nikolai_dlc5::main(true);// Nikolai
+			character\c_rus_nikolai_dlc5::main();// Nikolai
 			break;
 		case 2:
-			character\c_jap_takeo_dlc5::main(true);// Takeo
+			character\c_jap_takeo_dlc5::main();// Takeo
 			break;
 		case 3:
-			character\c_ger_richtofen_dlc5::main(true);// Richtofen
+			character\c_ger_richtofen_dlc5::main();// Richtofen
 			break;
 	}
 }

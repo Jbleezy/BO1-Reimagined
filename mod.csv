@@ -402,10 +402,6 @@ rawfile,mp/playeranim.script
 rawfile,animtrees/multiplayer.atr
 
 //CHARACTERS
-rawfile,character/c_ger_richtofen_dlc5.gsc
-rawfile,character/c_jap_takeo_dlc5.gsc
-rawfile,character/c_rus_nikolai_dlc5.gsc
-rawfile,character/c_usa_dempsey_dlc5.gsc
 rawfile,mptype\player_t4_zm_asylum.gsc
 rawfile,character\c_usa_marine1_dlc5.gsc
 rawfile,character\c_usa_marine2_dlc5.gsc

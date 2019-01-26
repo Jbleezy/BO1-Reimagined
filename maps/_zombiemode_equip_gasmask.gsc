@@ -42,7 +42,19 @@ gasmask_removed_watcher_thread()
 
 	//  Do switch to normal player model/head here.
 
-	if(IsDefined(level.zombiemode_gasmask_reset_player_model))
+	if ( IsDefined( level.zombiemode_gasmask_set_player_model ) )
+	{
+		ent_num = self GetEntityNumber();
+
+		if(IsDefined(self.zm_random_char))
+		{
+			ent_num = self.zm_random_char;
+		}
+
+		self [[level.zombiemode_gasmask_change_player_headmodel]]( ent_num, false );
+	}
+
+	/*if(IsDefined(level.zombiemode_gasmask_reset_player_model))
 	{
 		ent_num = self GetEntityNumber();
 
@@ -54,7 +66,7 @@ gasmask_removed_watcher_thread()
 		self [[level.zombiemode_gasmask_reset_player_model]](ent_num);
 	}
 
-	/*if(IsDefined(level.zombiemode_gasmask_reset_player_viewmodel))
+	if(IsDefined(level.zombiemode_gasmask_reset_player_viewmodel))
 	{
 		ent_num = self GetEntityNumber();
 
@@ -90,28 +102,31 @@ gasmask_activation_watcher_thread()
 	// Switch to hazmat suited player model here.
 	//IPrintLnBold("I can hazMat.");
 
-	if(IsDefined(level.zombiemode_gasmask_set_player_model))
+	if(level.gamemode == "survival")
 	{
-		ent_num = self GetEntityNumber();
-
-		if(IsDefined(self.zm_random_char))
+		if(IsDefined(level.zombiemode_gasmask_set_player_model))
 		{
-			ent_num = self.zm_random_char;
+			ent_num = self GetEntityNumber();
+
+			if(IsDefined(self.zm_random_char))
+			{
+				ent_num = self.zm_random_char;
+			}
+
+			self [[level.zombiemode_gasmask_set_player_model]](ent_num);
 		}
 
-		self [[level.zombiemode_gasmask_set_player_model]](ent_num);
-	}
-
-	if(IsDefined(level.zombiemode_gasmask_set_player_viewmodel))
-	{
-		ent_num = self GetEntityNumber();
-
-		if(IsDefined(self.zm_random_char))
+		if(IsDefined(level.zombiemode_gasmask_set_player_viewmodel))
 		{
-			ent_num = self.zm_random_char;
-		}
+			ent_num = self GetEntityNumber();
 
-		self [[level.zombiemode_gasmask_set_player_viewmodel]](ent_num);
+			if(IsDefined(self.zm_random_char))
+			{
+				ent_num = self.zm_random_char;
+			}
+
+			self [[level.zombiemode_gasmask_set_player_viewmodel]](ent_num);
+		}
 	}
 
 	while(1)
