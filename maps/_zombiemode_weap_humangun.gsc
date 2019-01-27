@@ -558,6 +558,7 @@ humangun_delayed_kill(player, human_zombie)
 	if(IsDefined(self) && IsAlive(self))
 	{
 		self.no_powerups = true;
+		self.humangun_kill = true;
 		self maps\_zombiemode_spawner::zombie_head_gib();
 		self DoDamage( level.zombie_health + 1000, self.origin, player );
 	}
@@ -1128,6 +1129,7 @@ humangun_zombie_death( upgraded, player )
 
 	self stop_magic_bullet_shield();
 	self.no_powerups = true;
+	self.humangun_kill = true;
 	self DoDamage( self.health + 100, self.origin, player );
 	self.water_damage = false;
 
@@ -1164,6 +1166,7 @@ humangun_zombie_explosion( upgraded, player )
 	level._zombie_human_array = array_remove( level._zombie_human_array, self );
 
 	self stop_magic_bullet_shield();
+	self.humangun_kill = true;
 
 	SetPlayerIgnoreRadiusDamage(true);
 	RadiusDamage( self.origin, 180, level.zombie_health + 1000, level.zombie_health + 1000, player, "MOD_PROJECTILE_SPLASH", "humangun_upgraded_zm" );

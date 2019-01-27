@@ -635,7 +635,14 @@ temple_powerup_fx_func()
 	self.fx_green setmodel("tag_origin");
 	self.fx_green LinkTo(self);
 
-	playfxontag(level._effect["powerup_on"],self.fx_green,"tag_origin");
+	if(self.solo)
+	{
+		playfxontag( level._effect["powerup_on_solo"], self.fx_green, "tag_origin" );
+	}
+	else
+	{
+		playfxontag(level._effect["powerup_on"],self.fx_green,"tag_origin");
+	}
 	
 	self thread delete_powerup_fx_wait();
 }

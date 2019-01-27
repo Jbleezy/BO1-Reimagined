@@ -108,7 +108,6 @@ include_grief_powerups()
 	if(level.gamemode == "gg")
 	{
 		include_powerup("random_weapon");
-		include_powerup("all_revive");
 
 		if(vending_weapon_upgrade_trigger.size >= 1)
 		{
@@ -2264,22 +2263,6 @@ update_gungame_hud()
 				players[i] SetClientDvar("vs_enemy_playername", highest_player.playername);
 			}
 		}
-	}
-}
-
-gungame_weapons_test()
-{
-	flag_wait("all_players_spawned");
-
-	players = get_players();
-
-	for(i=1;i<level.gg_weps.size;i++)
-	{
-		wait .1;
-
-		players[0].gg_wep_num++;
-
-		players[0] update_gungame_weapon();
 	}
 }
 

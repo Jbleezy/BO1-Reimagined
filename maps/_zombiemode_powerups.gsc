@@ -143,7 +143,7 @@ init_powerups()
 	add_zombie_powerup( "empty_clip", "zombie_ammocan", &"ZOMBIE_POWERUP_MAX_AMMO", false, false, true );
 
 	// grief powerups
-	add_zombie_powerup( "meat", GetWeaponModel("meat_zm"), &"REIMAGINED_CLIP_UNLOAD", false, false, false );
+	add_zombie_powerup( "meat", GetWeaponModel("meat_zm"), &"REIMAGINED_CLIP_UNLOAD", true, false, false );
 	add_zombie_powerup( "upgrade_weapon", "zombie_pickup_bonfire", &"REIMAGINED_CLIP_UNLOAD", false, false, false );
 
 	// Randomize the order
@@ -827,10 +827,9 @@ powerup_drop(drop_point, player, zombie)
 
 	if(drop_gg_wep)
 	{
-		//iprintln("spawning powerup");
 		powerup.player = player;
 		powerup.gg_powerup = true;
-		powerup powerup_setup("random_weapon"); //freeze comes from here
+		powerup powerup_setup("random_weapon");
 
 		players = get_players();
 		for(i=0;i<players.size;i++)
@@ -842,6 +841,7 @@ powerup_drop(drop_point, player, zombie)
 		}
 
 		powerup thread timeout_on_down();
+		powerup thread timeout_on_grabbed();
 	}
 	else
 	{
@@ -1392,7 +1392,7 @@ powerup_grab()
 
 	self endon ("powerup_timedout");
 	self endon ("powerup_grabbed");
-	self endon( "powerup_player_downed" );
+	self endon( "powerup_end" );
 
 	range_squared = 64 * 64;
 	while (isdefined(self))
@@ -1877,7 +1877,7 @@ powerup_wobble()
 {
 	self endon( "powerup_grabbed" );
 	self endon( "powerup_timedout" );
-	self endon( "powerup_player_downed" );
+	self endon( "powerup_end" );
 
 	self thread powerup_add_to_array();
 
@@ -1933,7 +1933,7 @@ powerup_add_to_array()
 {
 	level.powerups[level.powerups.size] = self;
 
-	self waittill_any("powerup_grabbed", "powerup_timedout", "powerup_player_downed", "death");
+	self waittill_any("powerup_grabbed", "powerup_timedout", "powerup_end", "death");
 
 	level.powerups = array_remove(level.powerups, self);
 }
@@ -1942,7 +1942,7 @@ powerup_timeout()
 {
 	self endon( "powerup_grabbed" );
 	self endon( "death" );
-	self endon( "powerup_player_downed" );
+	self endon( "powerup_end" );
 
 	wait 15;
 
@@ -2786,12 +2786,13 @@ random_weapon_powerup( item, player )
 				{
 					level.vs_winning_team = player.vsteam;
 					level notify("end_game");
-					return true;
 				}
 				else
 				{
-					player [[level.player_becomes_zombie]]();
+					player.sessionstate = "spectator";
 				}
+
+				return true;
 			}
 
 			player maps\_zombiemode_grief::update_gungame_weapon();
@@ -4138,7 +4139,22 @@ timeout_on_down()
 
 	self.player.gg_wep_dropped = undefined;
 
-	self notify( "powerup_player_downed" );
+	self notify( "powerup_end" );
+
+	self delete();
+}
+
+timeout_on_grabbed()
+{
+	self endon( "death" );
+	self endon( "powerup_timedout" );
+	self endon( "powerup_end" );
+
+	self waittill("powerup_grabbed");
+
+	self.player.gg_wep_dropped = undefined;
+
+	self notify( "powerup_end" );
 
 	self delete();
 }
