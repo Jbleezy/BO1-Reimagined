@@ -1961,7 +1961,7 @@ override_thundergun_damage_func(player,gib)
 	}
 	else
 	{
-		self DoDamage( 1, dmg_point.origin );
+		self DoDamage( 1, dmg_point.origin, player );
 	}
 }
 

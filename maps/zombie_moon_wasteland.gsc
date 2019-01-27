@@ -558,8 +558,11 @@ nml_round_manager()
 						{
 							for( i=0; i<zombie_dogs.size; i++ )
 							{
-								zombie_dogs[i].maxhealth = int( level.nml_dog_health);
-								zombie_dogs[i].health = int( level.nml_dog_health );
+								if(zombie_dogs[i].health == zombie_dogs[i].maxhealth)
+								{
+									zombie_dogs[i].maxhealth = int( level.nml_dog_health );
+									zombie_dogs[i].health = int( level.nml_dog_health );
+								}
 							}
 						}
 					}
@@ -1096,8 +1099,11 @@ nml_ramp_up_zombies()
 			{
 				for( i=0; i<zombie_dogs.size; i++ )
 				{
-					zombie_dogs[i].maxhealth = int( level.nml_dog_health);
-					zombie_dogs[i].health = int( level.nml_dog_health );
+					if(zombie_dogs[i].health == zombie_dogs[i].maxhealth)
+					{
+						zombie_dogs[i].maxhealth = int( level.nml_dog_health);
+						zombie_dogs[i].health = int( level.nml_dog_health );
+					}
 				}
 			}
 			//iprintln( "RAMP UP: " + level.nml_timer + " - " + level.zombie_health );

@@ -1086,6 +1086,7 @@
 * Zombies now spawn at a consistent rate
 * Increased maximum amount of zombies that can spawn in from 20 to 24
 * Now displays a more accurate time of how long you survived
+* Fixed a bug where dogs' health was not increased to what their health should be when they initially spawned
 
 #### Sidequest
 * Full sidequest completable in solo

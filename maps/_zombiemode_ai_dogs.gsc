@@ -620,8 +620,11 @@ dog_init()
 		health_multiplier = GetDvarFloat( #"scr_dog_health_walk_multiplier" );
 	}
 
-	self.maxhealth = int( level.dog_health * health_multiplier );
-	self.health = int( level.dog_health * health_multiplier );
+	if(!is_true(flag("enter_nml")))
+	{
+		self.maxhealth = int( level.dog_health * health_multiplier );
+		self.health = int( level.dog_health * health_multiplier );
+	}
 
 	self.freezegun_damage = 0;
 
@@ -962,6 +965,11 @@ special_dog_spawn( spawners, num_to_spawn )
 			}
 		}
 
+		if(count >= num_to_spawn)
+		{
+			break;
+		}
+
 		waiting_for_next_dog_spawn( count, num_to_spawn );
 	}
 
@@ -978,7 +986,7 @@ dog_run_think()
 	self waittill( "visible" );
 
 	// decrease health
-	if ( self.health > level.dog_health )
+	if ( self.health > level.dog_health && !is_true(flag("enter_nml")) )
 	{
 		self.maxhealth = level.dog_health;
 		self.health = level.dog_health;
