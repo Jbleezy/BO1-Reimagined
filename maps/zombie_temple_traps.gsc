@@ -160,7 +160,7 @@ spear_trap_slow(activator, trap)
 		{
 			self thread maps\_zombiemode_audio::create_and_play_dialog( "general", "spikes_damage" );
 			//self thread _fake_red();
-			self DoDamage(155, self.origin);
+			RadiusDamage(self.origin, 10, 50, 50, undefined, "MOD_UNKNOWN");
 			//iprintln(self.health);
 		}
 		self setvelocity((0,0,0));
@@ -1940,7 +1940,7 @@ zombie_waterfall_knockdown(activator)
 
 	if ( IsDefined( self.thundergun_knockdown_func ) )
 	{
-		self[[ self.thundergun_knockdown_func ]]( self, false );
+		self[[ self.thundergun_knockdown_func ]]( activator, false );
 	}
 }
 
