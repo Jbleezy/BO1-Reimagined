@@ -26,7 +26,7 @@ init_registration()
 
 
 	level._effect["zombie_fling_result"] = loadfx( "maps/zombie_moon/fx_moon_qbomb_explo_distort" );
-	quantum_bomb_register_result( "zombie_fling", ::quantum_bomb_zombie_fling_result, 0 );
+	quantum_bomb_register_result( "zombie_fling", ::quantum_bomb_zombie_fling_result, 100, ::quantum_bomb_zombie_fling_validation );
 
 	level._effect["quantum_bomb_viewmodel_twist"]			= LoadFX( "weapon/quantum_bomb/fx_twist" );
 	level._effect["quantum_bomb_viewmodel_press"]			= LoadFX( "weapon/quantum_bomb/fx_press" );
@@ -198,24 +198,6 @@ quantum_bomb_select_result( position )
 	}
 #/
 
-	//fling effect if near cosmonaut
-	zombs = GetAiSpeciesArray( "axis", "all" );
-	near_zomb = false; //near cosmonaut is the first forced result, but if just near a zombie we'll force that later
-	for(i=0;i<zombs.size;i++)
-	{
-		if(DistanceSquared(zombs[i].origin, position) < 180*180)
-		{
-			if(zombs[i].animname == "astro_zombie")
-			{
-				return level.quantum_bomb_results["zombie_fling"];
-			}
-			else if(!near_zomb)
-			{
-				near_zomb = true;
-			}
-		}
-	}
-
 	eligible_results = [];
 	chance = RandomInt( 100 );
 	keys = GetArrayKeys( level.quantum_bomb_results );
@@ -229,51 +211,18 @@ quantum_bomb_select_result( position )
 		}
 	}
 
-	//forced results (in order of priority)
-	forced_results = array("player_teleport", "auto_revive", "give_nearest_perk", "open_nearest_door", "pack_or_unpack_current_weapon", "remove_digger");
-
-	//only add one of the powerup results
-	rand = RandomInt(3);
-	if(rand == 0)
-	{
-		forced_results[forced_results.size] = "random_powerup";
-	}
-	else if(rand == 1)
-	{
-		forced_results[forced_results.size] = "random_weapon_powerup";
-	}
-	else
-	{
-		forced_results[forced_results.size] = "random_bonus_or_lose_points_powerup";
-	}
+	// forced results (in order of priority)
+	forced_results = array("player_teleport", "auto_revive", "give_nearest_perk", "open_nearest_door", "pack_or_unpack_current_weapon", "remove_digger", "zombie_fling");
 
 	for ( i = 0; i < forced_results.size; i++ )
 	{
 		for ( j = 0; j < eligible_results.size; j++ )
 		{
 			if(forced_results[i] == eligible_results[j])
+			{
 				return level.quantum_bomb_results[forced_results[i]];
+			}
 		}
-	}
-
-	//fling effect if near any zombie
-	if(near_zomb)
-	{
-		return level.quantum_bomb_results["zombie_fling"];
-	}
-
-	//add one of the powerup results to the list of random eligible results
-	if(rand == 0)
-	{
-		eligible_results[eligible_results.size] = "random_powerup";
-	}
-	else if(rand == 1)
-	{
-		eligible_results[eligible_results.size] = "random_weapon_powerup";
-	}
-	else
-	{
-		eligible_results[eligible_results.size] = "random_bonus_or_lose_points_powerup";
 	}
 
 	return level.quantum_bomb_results[eligible_results[RandomInt( eligible_results.size )]];
@@ -787,6 +736,21 @@ quantum_bomb_zombie_speed_buff_result( position )
 	}
 }
 
+quantum_bomb_zombie_fling_validation( position )
+{
+	// fling effect if near any zombie
+	zombs = GetAiSpeciesArray( "axis", "all" );
+	near_zomb = false;
+	for(i=0;i<zombs.size;i++)
+	{
+		if(DistanceSquared(zombs[i].origin, position) < 180*180)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
 
 quantum_bomb_zombie_fling_result( position )
 {
@@ -822,12 +786,12 @@ quantum_bomb_zombie_fling_result( position )
 
 		zombie quantum_bomb_fling_zombie( self, fling_vec );
 
-		if ( i && !(i % 10) )
+		/*if ( i && !(i % 10) )
 		{
 			wait_network_frame();
 			wait_network_frame();
 			wait_network_frame();
-		}
+		}*/
 	}
 }
 

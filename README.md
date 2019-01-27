@@ -527,22 +527,22 @@
 
 ##### QED
 * Now uses model from Black Ops 3
-* 100% chance of fling effect when thrown near Cosmonaut or zombie
-* 100% chance of reviving player when thrown near downed player
-* 100% chance of giving perk when thrown near a perk machine that is powered on
+* 100% chance of teleporting the player when thrown outside the map
+* 100% chance of reviving players when thrown near downed player
+* 100% chance of giving a perk when thrown near a perk machine that is powered on
 * 100% chance of opening a door when thrown near a door
-* 100% chance of upgrading player's weapon when thrown near Pack-a-Punch machine
-* 100% chance of hacking an exacavtor when thrown near the panel
-* 100% chance of random powerup when throw near a powerup
-* Guaranteed results order: fling effect (if near Cosmonaut), revive players, give nearest perk, open nearest door, upgrade weapon, stop excavator, random powerup, fling effect (if near any zombie)
-* If thrown outside the map, the player who threw the QED gets teleported to a random location on the map
+* 100% chance of upgrading the player's weapon when thrown near the Pack-a-Punch machine
+* 100% chance of turning off an exacavtor when thrown near an excavator panel
+* 100% chance of fling effect when thrown near Cosmonaut or zombie
+* Guaranteed results order: teleport player, revive players, give nearest perk, open nearest door, upgrade weapon, stop excavator, fling effect
+* All other effects have a chance of spawning when none of the forced effects are activated
+* Fling effet now kills all zombies at once
 * Free perk effect now only gives the perk to the player who threw the QED
 * Revive player effect now only revives players near where the QED was thrown
 * Random weapon powerup now gives player max ammo on a weapon if they already have the weapon
 * Starburst weapons no longer damage players
 * Removed red powerup effect
 * Removed unupgrade weapon effect
-* All other effects and random powerup effect have a chance of spawning when none of the forced effects are activated
 
 #### Mines
 * Limit of 80 mines placed on the map at once (each player can place equal amount of mines in coop)

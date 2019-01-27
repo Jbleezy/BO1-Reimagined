@@ -164,7 +164,7 @@ init_powerups()
 		[[level.quantum_bomb_register_result_func]]( "random_powerup", ::quantum_bomb_random_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
 		//[[level.quantum_bomb_register_result_func]]( "random_zombie_grab_powerup", ::quantum_bomb_random_zombie_grab_powerup_result, 5, level.quantum_bomb_in_playable_area_validation_func );
 		[[level.quantum_bomb_register_result_func]]( "random_weapon_powerup", ::quantum_bomb_random_weapon_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
-		[[level.quantum_bomb_register_result_func]]( "random_bonus_or_lose_points_powerup", ::quantum_bomb_random_bonus_or_lose_points_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
+		[[level.quantum_bomb_register_result_func]]( "random_bonus_points_powerup", ::quantum_bomb_random_bonus_or_lose_points_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
 	}
 }
 
@@ -3626,10 +3626,9 @@ quantum_bomb_random_powerup_validation(position)
 		return false;
 	}
 
-	//shouldnt need this here anymore, made a separate function to remove powerups from level.powerups
-	//level.powerups = array_removeUndefined(level.powerups);
+	return true;
 
-	range_squared = 180 * 180;
+	/*range_squared = 180 * 180;
 	for(i=0;i<level.powerups.size;i++)
 	{
 		if(DistanceSquared(level.powerups[i].origin, position) < range_squared)
@@ -3637,7 +3636,7 @@ quantum_bomb_random_powerup_validation(position)
 			return true;
 		}
 	}
-	return false;
+	return false;*/
 }
 
 quantum_bomb_random_weapon_powerup_validation(position)
@@ -3647,7 +3646,9 @@ quantum_bomb_random_weapon_powerup_validation(position)
 		return false;
 	}
 
-	range_squared = 180 * 180;
+	return true;
+
+	/*range_squared = 180 * 180;
 
 	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" );
 	for(i = 0; i < weapon_spawns.size; i++)
@@ -3658,7 +3659,7 @@ quantum_bomb_random_weapon_powerup_validation(position)
 		}
 	}
 
-	return false;
+	return false;*/
 }
 
 //GRIEF POWERDOWNS

@@ -60,16 +60,18 @@ powerup_hack(hacker)
 	origin = self.powerup.origin;
 	self.powerup Delete();
 
-	self.powerup = maps\_zombiemode_net::network_safe_spawn( "powerup", 1, "script_model", origin);
-
+	powerup = undefined;
 	if(self.powerup.powerup_name == "full_ammo")
 	{
-		self.powerup maps\_zombiemode_powerups::powerup_setup( "free_perk" );
+		powerup = "free_perk";
 	}
 	else
 	{
-		self.powerup maps\_zombiemode_powerups::powerup_setup( "full_ammo" );
+		powerup = "full_ammo";
 	}
+
+	self.powerup = maps\_zombiemode_net::network_safe_spawn( "powerup", 1, "script_model", origin);
+	self.powerup maps\_zombiemode_powerups::powerup_setup( powerup );
 
 	self.powerup thread maps\_zombiemode_powerups::powerup_timeout();
 	self.powerup thread maps\_zombiemode_powerups::powerup_wobble();
