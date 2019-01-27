@@ -27,7 +27,7 @@
 * Unlimited sprint
 * All players are attracted equally
 * Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%
-* Increased normal health regeneration time from 2.4 seconds to 3 seconds
+* Increased normal health regeneration time from 2.4 seconds to 2.5 seconds
 * Removed melee lunging
 * Players can now dive again right away after just diving
 * Players can now move after diving quicker
@@ -656,7 +656,7 @@
 
 ### Quick Revive
 * No longer gives the player a self revive in solo
-* Decreases normal health regeneration time from 3 seconds to 2.4 seconds
+* Decreases normal health regeneration time from 2.5 seconds to 2 seconds
 * Decreases low health regeneration time from 5 seconds to 4 seconds
 * Increased cost in solo from 500 points to 1500 points
 * Powered off in solo when the power is off

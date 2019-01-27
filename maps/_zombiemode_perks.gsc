@@ -1889,7 +1889,7 @@ give_perk( perk, bought )
 
 	if(perk == "specialty_quickrevive")
 	{
-		self SetClientDvar("cg_hudDamageIconTime", 2900);
+		self SetClientDvar("cg_hudDamageIconTime", 2500);
 	}
 
 	if(perk == "specialty_armorvest")
@@ -2205,7 +2205,7 @@ perk_think( perk )
 	switch(perk)
 	{
 		case "specialty_quickrevive":
-			self SetClientDvar("cg_hudDamageIconTime", 3500);
+			self SetClientDvar("cg_hudDamageIconTime", 3000);
 			break;
 
 		case "specialty_armorvest":
