@@ -34,7 +34,7 @@ init_no_mans_land()
 	level.initial_spawn = true;
 	level.nml_didteleport = false;
 
-	level.nml_dog_health = 100;
+	level.nml_dog_health = 150;
 
 	//level._effect[ "lightning_dog_spawn" ]	= Loadfx( "maps/zombie/fx_zombie_dog_lightning_buildup" );
 
@@ -1116,7 +1116,7 @@ nml_dog_health_increase()
 {
 	if( level.nml_timer < 4)
 	{
-		level.nml_dog_health = 100;
+		level.nml_dog_health = 150;
 	}
 	else if( level.nml_timer >= 4 && level.nml_timer < 6) //80 seconds.
 	{

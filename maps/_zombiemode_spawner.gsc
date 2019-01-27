@@ -670,7 +670,7 @@ tear_into_building_loop()
 
 	self reset_attack_spot();
 
-	self endon( "bad_path" );
+	self endon( "stop_tear_into_building" );
 
 	self thread tear_into_building_loop_watch_for_bad_path();
 
@@ -702,14 +702,20 @@ tear_into_building_loop()
 }
 
 // watch for bad path after tearing down all barrier and before starting to traverse over the barrier
-// if they get a bad_path, that means the barrier was rebuilt so we need to go back to tearing down the barrier or else they get stuck
 tear_into_building_loop_watch_for_bad_path()
 {
 	self endon("zombie_start_traverse");
 	self endon( "death" );
 	level endon( "intermission" );
 
-	self waittill("bad_path");
+	while(all_chunks_destroyed(self.first_node.barrier_chunks))
+	{
+		wait_network_frame();
+	}
+
+	wait_network_frame();
+
+	self notify("stop_tear_into_building");
 
 	// turn off find flesh
 	self notify( "stop_find_flesh" );

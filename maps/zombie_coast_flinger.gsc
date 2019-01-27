@@ -226,6 +226,8 @@ flinger_fling(activator)
 	{
 		flag_set("residence_beach_group");
 
+		wait_network_frame();
+
 		num_players_in_zone = 0;
 		players = get_players();
 		for(i = 0; i < players.size; i++)
