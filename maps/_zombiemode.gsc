@@ -6461,7 +6461,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 	if(level.gamemode == "gg" && (self.animname == "zombie" || self.animname == "quad_zombie" || self.animname == "zombie_dog") && 
 		IsDefined(attacker) && IsPlayer(attacker) && is_player_valid(attacker) && IsDefined(sWeapon) && 
-		sMeansOfDeath != "MOD_CRUSH" && !IsDefined(attacker.divetonuke_damage) && !IsDefined(self.nuked))
+		sMeansOfDeath != "MOD_CRUSH" && !IsDefined(attacker.divetonuke_damage) && !IsDefined(self.nuked) && !is_true(self.trap_death))
 	{
 		gg_wep = level.gg_weps[attacker.gg_wep_num];
 
@@ -6485,10 +6485,22 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 			gg_wep_upgraded = "sniper_explosive_bolt_upgraded_zm";
 		}
 
-		if((sWeapon == gg_wep || sWeapon == WeaponAltWeaponName(gg_wep) || sWeapon == gg_wep_upgraded || sWeapon == WeaponAltWeaponName(gg_wep_upgraded)) || 
-			(gg_wep == "shrink_ray_zm" && IsDefined(self.shrinked) && self.shrinked))
+		valid = false;
+		if(sWeapon == gg_wep || sWeapon == WeaponAltWeaponName(gg_wep) || sWeapon == gg_wep_upgraded || sWeapon == WeaponAltWeaponName(gg_wep_upgraded))
 		{
-			//if(!(IsSubStr(gg_wep, "knife_ballistic_") && sMeansOfDeath != "MOD_IMPACT"))
+			valid = true;
+		}
+		else if(gg_wep == "humangun_zm" && is_true(self.humangun_kill))
+		{
+			valid = true;
+		}
+		else if("shrink_ray_zm" && is_true(self.shrinked))
+		{
+			valid = true;
+		}
+
+		if(valid)
+		{
 			if(attacker.gg_kill_count < level.gg_kills_to_next_wep)
 			{
 				attacker.gg_kill_count++;
@@ -6500,7 +6512,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 				//allow weapons that normally cannot drop powerups to drop the gun game powerup
 				if(self.animname == "zombie" && 
-				(gg_wep == "thundergun_zm" || gg_wep == "tesla_gun_zm" || gg_wep == "freezegun_zm" || gg_wep == "sniper_explosive_bolt_zm" || gg_wep == "microwavegundw_zm"))
+				(gg_wep == "thundergun_zm" || gg_wep == "tesla_gun_zm" || gg_wep == "freezegun_zm" || gg_wep == "humangun_zm" || gg_wep == "sniper_explosive_bolt_zm" || gg_wep == "microwavegundw_zm"))
 				{
 					// DCS 031611: hack to prevent risers from dropping powerups under the ground.
 					if(IsDefined(self.in_the_ground) && self.in_the_ground == true)

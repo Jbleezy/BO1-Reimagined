@@ -650,6 +650,8 @@ waterfall_trap_monkey(magnitude, dir, activator)
 
 	// Make sure they're dead...physics launch didn't kill them.
 	//self.a.gib_ref = "head";
+	self.trap_death = true;
+	self.no_powerups = true;
 	self dodamage(self.health + 666, self.origin, activator);
 }
 

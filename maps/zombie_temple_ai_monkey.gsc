@@ -1044,7 +1044,7 @@ _monkey_zombieTempleEscapeDeathCallback()
 			event = "ballistic_knife_death";
 		}
 		
-		if(!is_true(self.nuked))
+		if(!is_true(self.nuked) && !is_true(self.trap_death))
 		{
 			self.attacker maps\_zombiemode_score::player_add_points( event, self.damagemod, self.damagelocation, false );
 		}
