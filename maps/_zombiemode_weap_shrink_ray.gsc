@@ -18,6 +18,7 @@ init()
 	}
 
 	set_zombie_var( "shrink_ray_fling_range",			450 ); // 40 feet
+	set_zombie_var( "shrink_ray_cylinder_radius",			90 );
 
 	//Precache all mini models
 	keys = getarraykeys(level.shrink_models);
@@ -682,14 +683,9 @@ shrink_death(killer)
 
 shrink_ray_get_enemies_in_range( upgraded, shrinkable_objects )
 {
-	range = 480; //40 feet
-	radius = 60; //5 feet
+	range = level.zombie_vars["shrink_ray_fling_range"];
+	radius = level.zombie_vars["shrink_ray_cylinder_radius"];
 
-	if(upgraded)
-	{
-		range = 1200; //100 feet
-		radius = 84; //7 feet
-	}
 	hitZombies = [];
 
 	view_pos = self GetWeaponMuzzlePoint();
@@ -701,7 +697,7 @@ shrink_ray_get_enemies_in_range( upgraded, shrinkable_objects )
 	if(shrinkable_objects)
 	{
 		test_list = level._shrinkable_objects;
-		range *= 5;
+		range *= 10;
 	}
 	else
 	{
@@ -780,7 +776,7 @@ shrink_ray_get_enemies_in_range( upgraded, shrinkable_objects )
 			continue;
 		}
 
-		if ( 0 == zombies[i] DamageConeTrace( view_pos, self ) )
+		if ( 0 == zombies[i] DamageConeTrace( view_pos, self ) && !BulletTracePassed( view_pos, test_origin, false, undefined ) && !SightTracePassed( view_pos, test_origin, false, undefined ) )
 		{
 			// guy can't actually be hit from where we are
 			zombies[i] shrink_ray_debug_print( "cone", (1, 0, 0) );

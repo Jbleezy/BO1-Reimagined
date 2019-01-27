@@ -398,7 +398,7 @@
 * Upgraded: increased minimum explosion damage from 300 to 1000
 
 #### Wunderwaffe
-* Now more reliably arcs to other zombies
+* Now always arcs to other zombies within line of sight
 * Can now down yourself with Wunderwaffe damage (previously could only take you down to 1 health but not down you)
 * The initial zombie that is hit will now always be the zombie that is closest to the bolt's location
 * Unupgraded: decreased self damage radius by 72%
@@ -413,6 +413,7 @@
 
 #### Thundergun
 * Changed fire type to automatic
+* Weapon fails happen less often
 * Kills all zombies at once
 * Gives 50 points for each kill
 * Decreased range by 6.25%
@@ -422,6 +423,7 @@
 
 #### Winter's Howl
 * Changed fire type to automatic
+* Weapon fails happen less often
 * Kills zombies in 1-3 shots depending on how far away the zombie was from the shot
 * No longer drops powerups
 * Damages frozen enemies
@@ -433,7 +435,7 @@
 * Shatter effect no longer gibs zombies
 * Unupgraded: increased maximum damage range by 500%
 * Unupgraded: increased damage of shatter effect to 500 (previously 250-500 depending on range)
-* Upgraded: decreased radius by 33%
+* Upgraded: decreased radius by 33% (now has the same radius as the unupgraded version)
 * Upgraded: increased maximum damage range by 375%
 * Upgraded: decreased shatter range by 60% (now has the same range as the unupgraded version)
 * Upgraded: decreased damage of shatter effect to 500 (previously 500-750 depending on range)
@@ -463,10 +465,15 @@
 * Upgraded: removed explosion effect from shooting the same human zombie multiple times
 
 #### Baby Gun
-* Decreased range by 6.25%
+* Weapon fails happen less often
 * Fixed a bug that caused an error to happen when shrinking enemies and allowing them to regrow many times throughout a game
+* Unupgraded: decreased range by 6.25%
+* Unupgraded: increased radius by 50%
+* Upgraded: decreased range by 62.5% (now has the same range as the unupgraded version)
+* Upgraded: increased radius by 7% (now has the same radius as the unupgraded version)
 
 #### Wave Gun
+* Weapon fails happen less often
 * Kills all zombies at once
 * Gives 50 points for each kill
 * Decreased range by 6.25%

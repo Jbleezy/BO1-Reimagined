@@ -163,7 +163,7 @@ thundergun_get_enemies_in_range()
 			continue;
 		}
 
-		test_origin = zombies[i] getcentroid();
+		test_origin = zombies[i] GetCentroid();
 		test_range_squared = DistanceSquared( view_pos, test_origin );
 		if ( test_range_squared > knockdown_range_squared )
 		{
@@ -188,7 +188,7 @@ thundergun_get_enemies_in_range()
 			continue;
 		}
 
-		if ( 0 == zombies[i] DamageConeTrace( view_pos, self ) )
+		if ( !zombies[i] DamageConeTrace( view_pos, self ) && !BulletTracePassed( view_pos, test_origin, false, undefined ) && !SightTracePassed( view_pos, test_origin, false, undefined ) )
 		{
 			// guy can't actually be hit from where we are
 			zombies[i] thundergun_debug_print( "cone", (1, 0, 0) );

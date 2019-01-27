@@ -237,7 +237,7 @@ microwavegun_get_enemies_in_range(upgraded, microwaveable_objects)
 			continue;
 		}
 
-		test_origin = zombies[i] getcentroid();
+		test_origin = zombies[i] GetCentroid();
 		test_range_squared = DistanceSquared( view_pos, test_origin );
 		if ( test_range_squared > sizzle_range_squared )
 		{
@@ -262,7 +262,7 @@ microwavegun_get_enemies_in_range(upgraded, microwaveable_objects)
 			continue;
 		}
 
-		if ( 0 == zombies[i] DamageConeTrace( view_pos, self ) )
+		if ( !zombies[i] DamageConeTrace( view_pos, self ) && !BulletTracePassed( view_pos, test_origin, false, undefined ) && !SightTracePassed( view_pos, test_origin, false, undefined ) )
 		{
 			// guy can't actually be hit from where we are
 			zombies[i] microwavegun_debug_print( "cone", (1, 0, 0) );

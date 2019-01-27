@@ -119,7 +119,7 @@ tesla_arc_damage( source_enemy, player, arc_num, upgraded )
 	wait_network_frame();
 
 	radius_decay = level.zombie_vars["tesla_radius_decay"] * arc_num;
-	enemies = tesla_get_enemies_in_area( self GetTagOrigin( "j_head" ), level.zombie_vars["tesla_radius_start"] - radius_decay, player );
+	enemies = tesla_get_enemies_in_area( self GetCentroid(), level.zombie_vars["tesla_radius_start"] - radius_decay, player );
 	tesla_flag_hit( enemies, true );
 
 	self thread tesla_do_damage( source_enemy, arc_num, player, upgraded );
@@ -204,7 +204,7 @@ tesla_get_enemies_in_area( origin, distance, player )
 				continue;
 			}
 
-			test_origin = zombies[i] GetTagOrigin( "j_head" );
+			test_origin = zombies[i] GetCentroid();
 
 			if ( IsDefined( zombies[i].zombie_tesla_hit ) && zombies[i].zombie_tesla_hit == true )
 			{
@@ -221,7 +221,7 @@ tesla_get_enemies_in_area( origin, distance, player )
 				continue;
 			}
 
-			if ( !BulletTracePassed( origin, test_origin, false, undefined ) && !SightTracePassed( origin, test_origin, false, undefined ) && !zombies[i] DamageConeTrace(origin, player) )
+			if ( !zombies[i] DamageConeTrace(origin, player) && !BulletTracePassed( origin, test_origin, false, undefined ) && !SightTracePassed( origin, test_origin, false, undefined ) )
 			{
 				continue;
 			}
@@ -310,11 +310,11 @@ tesla_do_damage( source_enemy, arc_num, player, upgraded )
 		source_enemy tesla_play_arc_fx( self );
 	}
 
-	while ( player.tesla_network_death_choke > level.zombie_vars["tesla_network_death_choke"] )
+	/*while ( player.tesla_network_death_choke > level.zombie_vars["tesla_network_death_choke"] )
 	{
 		debug_print( "TESLA: Choking Tesla Damage. Dead enemies this network frame: " + player.tesla_network_death_choke );
 		wait( 0.05 );
-	}
+	}*/
 
 	if( !IsDefined( self ) || !IsAlive( self ) )
 	{
