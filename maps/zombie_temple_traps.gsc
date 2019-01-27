@@ -173,11 +173,8 @@ spear_trap_slow(activator, trap)
 	}
 	else if(self.animname == "zombie")
 	{
-		//spikes was op, now only 50% chance to kill
-		if(randomint(100) < 50)
-		{
-			self thread spear_kill(undefined, activator);
-		}
+		self thread spear_kill(undefined, activator);
+
 		painAnims = [];
 		painAnims[0] = %ai_zombie_taunts_5b;
 		painAnims[1] = %ai_zombie_taunts_5c;
@@ -613,7 +610,7 @@ waterfall_trap_damage(activator)
 		}
 		if( isDefined(who.animname) && who.animname == "monkey_zombie")
 		{
-			who thread waterfall_trap_monkey(randomintrange(30,80),fwd);
+			who thread waterfall_trap_monkey(randomintrange(30,80),fwd, activator);
 		}
 		else
 		{
@@ -644,7 +641,7 @@ waterfall_trap_player(fwd,time)
 
 }
 
-waterfall_trap_monkey(magnitude, dir)
+waterfall_trap_monkey(magnitude, dir, activator)
 {
 	//wait(1);
 	self StartRagdoll();
@@ -653,7 +650,7 @@ waterfall_trap_monkey(magnitude, dir)
 
 	// Make sure they're dead...physics launch didn't kill them.
 	//self.a.gib_ref = "head";
-	self dodamage(self.health + 666, self.origin);
+	self dodamage(self.health + 666, self.origin, activator);
 }
 
 

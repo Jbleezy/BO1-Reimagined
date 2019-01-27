@@ -769,8 +769,8 @@
 * Removed explosion effect from flung zombies
 
 ### Spikes (Shangri-La)
+* Now kills zombies (except for Shrieker and Napalm)
 * Deal 50 damage to players
-* 50% chance of killing a zombie
 * Will not activate if the player is in the air, crouch, prone, or down
 
 ### Waterfall (Shangri-La)
