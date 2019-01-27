@@ -14,6 +14,7 @@ init()
 	level.enemy_dog_locations = [];
 	flag_init( "dog_round" );
 	flag_init( "dog_clips" );
+	flag_init( "dog_round_spawning" );
 
 	PreCacheRumble( "explosion_generic" );
 
@@ -151,7 +152,6 @@ dog_round_spawning()
 		max = players.size * 8;
 	}
 
-
  /#
  	if( GetDvar( #"force_dogs" ) != "" )
  	{
@@ -162,7 +162,7 @@ dog_round_spawning()
 	level.zombie_total = max;
 	dog_health_increase();
 
-
+	flag_set("dog_round_spawning");
 
 	count = 0;
 	while( count < max )
@@ -248,8 +248,9 @@ waiting_for_next_dog_spawn( count, max )
 
 dog_round_aftermath()
 {
-
 	level waittill( "last_dog_down" );
+
+	flag_clear("dog_round_spawning");
 
 	level thread maps\_zombiemode_audio::change_zombie_music( "dog_end" );
 
@@ -266,7 +267,6 @@ dog_round_aftermath()
 	level.dog_intermission = false;
 
 	//level thread dog_round_aftermath();
-
 }
 
 
@@ -698,12 +698,10 @@ dog_death()
 {
 	self waittill( "death" );
 
-	if( get_enemy_count() == 0 && level.zombie_total == 0 )
+	if( get_enemy_count() == 0 && level.zombie_total == 0 && flag("dog_round_spawning") )
 	{
-
 		level.last_dog_origin = self.origin;
 		level notify( "last_dog_down" );
-
 	}
 
 	// score

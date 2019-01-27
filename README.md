@@ -913,6 +913,7 @@
 * Fixed Mystery Box use trigger in the laboratory
 * Easter egg song now plays the whole song
 * Removed intro text
+* Fixed a bug where a dog round could end prematurely if dogs were spawned from the teleporters and killed before the dog round started to spawn dogs
 
 #### Teleporters
 * Teleporters now kill zombies on any round

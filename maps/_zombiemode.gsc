@@ -5066,7 +5066,7 @@ round_wait()
 
 	if( flag("dog_round" ) )
 	{
-		wait(7);
+		flag_wait("dog_round_spawning");
 		while( level.dog_intermission )
 		{
 			wait(.05);
