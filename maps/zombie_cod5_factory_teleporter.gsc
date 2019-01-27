@@ -448,24 +448,52 @@ player_teleporting( index, user, first_time )
 	// Now spawn a powerup goodie after a few seconds
 	wait( 2.0 );
 	ss = getstruct( "teleporter_powerup", "targetname" );
+	is_powerup = false;
 	if ( IsDefined( ss ) )
 	{
-		//if versus gamemode, then only spawn powerups once all links are active or else it will try to spawn 3 powerups at the beginning of the match since the teleporters are automatically linked at the beginning of the match
-		if(level.gamemode == "survival" || (level.gamemode != "survival" && times_teleported >= 3))
+		if(level.round_number < 15 || first_time)
 		{
-			ss thread maps\_zombiemode_powerups::special_powerup_drop(ss.origin, first_time, true);
+			is_powerup = true;
+		}
+
+		if(!is_powerup)
+		{
+			// starting at round 15, chance of getting a powerup goes down by 5% each round (minimum of 15% chance)
+			chance = (level.round_number - 14) * 5;
+			if(chance > 85)
+			{
+				chance = 85;
+			}
+
+			is_powerup = RandomInt(100) >= chance;
+		}
+
+		// if versus mode, then only spawn powerups once all links are active or else it will try to spawn 3 powerups at the beginning of the match since the teleporters are automatically linked at the beginning of the match
+		spawn = true;
+		if(level.gamemode != "survival" && times_teleported < 3)
+		{
+			spawn = false;
+		}
+
+		if(spawn)
+		{
+			ss thread maps\_zombiemode_powerups::special_powerup_drop(ss.origin, is_powerup, true);
 		}
 	}
 
-	// Special for teleporting too much.  The Dogs attack!
-	/*if ( (level.gamemode == "survival" && level.time_since_last_teleport < 60000 && level.active_links == 3 && level.round_number > 20 && !first_time) || 
-		(level.gamemode != "survival" && !first_time) )
+	is_dog = !is_powerup;
+	// dogs always spawn in versus modes
+	if(level.gamemode != "survival")
+	{
+		is_dog = !first_time;
+	}
+
+	if(is_dog)
 	{
 		thread play_sound_2d( "sam_nospawn" );
 		dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
 		maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
-		//iprintlnbold( "Samantha Sez: No Powerup For You!" );
-	}*/
+	}
 
 	level.teleport_time = GetTime();
 

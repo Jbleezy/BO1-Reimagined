@@ -994,7 +994,7 @@ quantum_bomb_random_bonus_or_lose_points_powerup_result( position )
 
 //
 //	Special power up drop - done outside of the powerup system.
-special_powerup_drop(drop_point, first_time, permament)
+special_powerup_drop(drop_point, is_powerup, permament)
 {
 // 	if( level.powerup_drop_count == level.zombie_vars["zombie_powerup_drop_max_per_round"] )
 // 	{
@@ -1007,8 +1007,8 @@ special_powerup_drop(drop_point, first_time, permament)
 		return;
 	}
 
-	if(!IsDefined(first_time))
-		first_time = false;
+	if(!IsDefined(is_powerup))
+		is_powerup = true;
 
 	if(!IsDefined(permament))
 		permament = false;
@@ -1034,7 +1034,7 @@ special_powerup_drop(drop_point, first_time, permament)
 		return;
 	}
 
-	powerup special_drop_setup(first_time, permament);
+	powerup special_drop_setup(is_powerup, permament);
 }
 
 
@@ -1232,162 +1232,34 @@ random_weapon_powerup_hintstring_think(powerup_weapon)
 
 //
 //	Get the special teleporter drop
-special_drop_setup(first_time, permament)
+special_drop_setup(is_powerup, permament)
 {
 	powerup = undefined;
-	is_powerup = true;
 
-	// Always give something at lower rounds or if linking teleporter
-	guaranteed = false;
-	if(level.gamemode == "survival")
-	{
-		if(level.round_number < 15)
-		{
-			guaranteed = true;
-		}
-		else if(first_time)
-		{
-			guaranteed = true;
-		}
-	}
-	else
-	{
-		guaranteed = true;
-	}
-
-	if(!guaranteed)
-	{
-		// starting at round 15, chance of getting a powerup goes down by 5% each round (minimum of 15% chance)
-		chance = (level.round_number - 14) * 5;
-		if(chance > 85)
-		{
-			chance = 85;
-		}
-
-		guaranteed = RandomInt(100) >= chance;
-	}
-
-	if(guaranteed)
+	if(is_powerup)
 	{
 		if(!IsDefined(powerup))
 		{
 			powerup = get_random_valid_powerup();
 		}
 	}
-	// Gets harder now
 	else
 	{
 		is_powerup = false;
 		powerup = "nothing";
-		/*powerup = level.zombie_special_drop_array[ RandomInt(level.zombie_special_drop_array.size) ];
-		if( level.round_number >= 15 && RandomInt(100) > (level.round_number - 15)*5 )
-		{
-			powerup = "nothing";
-		}*/
 	}
 
-	//MM test  Change this if you want the same thing to keep spawning
-//	powerup = "dog";
-	switch ( powerup )
+	Playfx( level._effect["lightning_dog_spawn"], self.origin );
+	playsoundatposition( "pre_spawn", self.origin );
+	wait( 1.5 );
+	playsoundatposition( "zmb_bolt", self.origin );
+
+	Earthquake( 0.5, 0.75, self.origin, 1000);
+	PlayRumbleOnPosition("explosion_generic", self.origin);
+	playsoundatposition( "spawn", self.origin );
+
+	if( is_powerup )
 	{
-	// Don't need to do anything special
-	case "nuke":
-	case "insta_kill":
-	case "double_points":
-	case "carpenter":
-	case "fire_sale":
-	case "bonfire_sale":
-	case "all_revive":
-	case "minigun":
-	case "free_perk":
-	case "tesla":
-	case "random_weapon":
-	case "bonus_points_player":
-	case "bonus_points_team":
-	case "lose_points_team":
-	case "lose_perk":
-	case "empty_clip":
-	case "full_ammo":
-
-	case "meat":
-	case "upgrade_weapon":
-		break;
-
-	// Limit max ammo drops because it's too powerful
-	/*case "full_ammo":
-		if ( level.round_number > 10 &&
-			 ( RandomInt(100) < (level.round_number - 10)*5 ) )
-		{
-			// Randomly pick another one
-			powerup = level.zombie_powerup_array[ RandomInt(level.zombie_powerup_array.size) ];
-		}
-		break;*/
-
-	case "dog":
-		is_powerup = false;
-		dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
-		// Z2 omment out for now so we don't need to include _zombiemode_dogs
-		//maps\_zombiemode_dogs::special_dog_spawn( dog_spawners, 1 );
-		//iprintlnbold( "Samantha Sez: No Powerup For You!" );
-		thread play_sound_2d( "sam_nospawn" );
-		break;
-
-	// Nothing drops!!
-	default:	// "nothing"
-
-		// RAVEN BEGIN bhackbarth: callback for level specific powerups
-		if ( IsDefined( level._zombiemode_special_drop_setup ) )
-		{
-			is_powerup = [[ level._zombiemode_special_drop_setup ]]( powerup );
-		}
-		// RAVEN END
-		else
-		{
-			is_powerup = false;
-			Playfx( level._effect["lightning_dog_spawn"], self.origin );
-			playsoundatposition( "pre_spawn", self.origin );
-			wait( 1.5 );
-			playsoundatposition( "zmb_bolt", self.origin );
-
-			Earthquake( 0.5, 0.75, self.origin, 1000);
-			PlayRumbleOnPosition("explosion_generic", self.origin);
-			playsoundatposition( "spawn", self.origin );
-
-			wait( 1.0 );
-			//iprintlnbold( "Samantha Sez: No Powerup For You!" );
-			thread play_sound_2d( "sam_nospawn" );
-			self Delete();
-
-			if (level.gamemode == "survival")
-			{
-				dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
-				level thread maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
-				//iprintlnbold( "Samantha Sez: No Powerup For You!" );
-			}
-		}
-	}
-
-	// Dogs always spawn in versus modes
-	if(level.gamemode != "survival" && !first_time)
-	{
-		dog_spawners = GetEntArray( "special_dog_spawner", "targetname" );
-		level thread maps\_zombiemode_ai_dogs::special_dog_spawn( undefined, 2 * get_players().size );
-		//iprintlnbold( "Samantha Sez: No Powerup For You!" );
-	}
-
-	if ( is_powerup )
-	{
-		Playfx( level._effect["lightning_dog_spawn"], self.origin );
-		playsoundatposition( "pre_spawn", self.origin );
-		wait( 1.5 );
-		playsoundatposition( "zmb_bolt", self.origin );
-
-		Earthquake( 0.5, 0.75, self.origin, 1000);
-		PlayRumbleOnPosition("explosion_generic", self.origin);
-		playsoundatposition( "spawn", self.origin );
-
-//		wait( 0.5 );
-
 		self powerup_setup( powerup );
 
 		if(!permament)
@@ -1399,6 +1271,10 @@ special_drop_setup(first_time, permament)
 		}	
 		self thread powerup_wobble();
 		self thread powerup_grab();
+	}
+	else
+	{
+		self Delete();
 	}
 }
 
