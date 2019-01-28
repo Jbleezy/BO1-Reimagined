@@ -117,7 +117,7 @@ call_box_think(elevator)
 
 			//who thread elevator_hint_text(&"ZOMBIE_PENTAGON_ELEV_BLOCKED");
 		}
-		else if(flag("thief_round"))
+		else if(flag("thief_round") || flag("pig_killed_round"))
 		{
 			play_sound_at_pos( "no_purchase", self.origin );
 			self SetHintString( &"ZOMBIE_PENTAGON_PACK_ROOM_DOOR" );
@@ -255,7 +255,7 @@ elevator_buy_think(elevator)
 
 			//who thread elevator_hint_text(&"ZOMBIE_PENTAGON_ELEV_BLOCKED");
 		}
-		else if(flag("thief_round"))
+		else if(flag("thief_round") || flag("pig_killed_round"))
 		{
 			play_sound_at_pos( "no_purchase", self.origin );
 			self SetHintString( &"ZOMBIE_PENTAGON_PACK_ROOM_DOOR" );

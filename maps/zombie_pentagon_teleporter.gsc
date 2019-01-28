@@ -590,7 +590,7 @@ teleport_player(user)
 	wait( 1.25 );
 
 	//check if a thief round.
-	if(flag("thief_round"))
+	if(flag("thief_round") || flag("pig_killed_round"))
 	{
 		setClientSysState( "levelNotify", "vis4", user );
 		return;

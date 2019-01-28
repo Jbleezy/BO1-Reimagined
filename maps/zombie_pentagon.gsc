@@ -103,6 +103,8 @@ main()
 
 	level thread life_brush();
 
+	level thread pig_death();
+
 	level thread maps\zombie_pentagon_ffotd::main_end();
 }
 //-------------------------------------------------------------------------------
@@ -700,12 +702,12 @@ lab_shutters_think()
 	if(IsDefined(self.script_flag) && !flag(self.script_flag))
 	{
 		flag_wait(self.script_flag);
-		if(flag("thief_round"))
+		if(flag("thief_round") || flag("pig_killed_round"))
 		{
-				while(flag("thief_round"))
-				{
-					wait(0.5);
-				}
+			while(flag("thief_round") || flag("pig_killed_round"))
+			{
+				wait(0.5);
+			}
 		}
 
 		if(isDefined(self.script_vector))
@@ -717,12 +719,12 @@ lab_shutters_think()
 				self MoveTo( door_pos + vector, time, time * 0.25, time * 0.25 );
 				self thread maps\_zombiemode_blockers::door_solid_thread();
 
-				flag_wait("thief_round");
+				flag_wait_any("thief_round", "pig_killed_round");
 				//IPrintLnBold("start_thief_round");
 				self MoveTo( door_pos + thief_vector, time, time * 0.25, time * 0.25 );
 				self thread maps\_zombiemode_blockers::door_solid_thread();
 
-				while(flag("thief_round"))
+				while(flag("thief_round") || flag("pig_killed_round"))
 				{
 					wait(0.5);
 				}
@@ -974,4 +976,23 @@ barricade_glitch_fix()
 life_brush()
 {
 	maps\_zombiemode::spawn_life_brush( (-1089, 2509, 35), 256, 256 );
+}
+
+pig_death()
+{
+	flag_init("pig_killed_round");
+	pig = getent("hoist_pig","targetname");
+	pig waittill( "stop_squirming" );
+
+	if(flag("power_on") && !flag("thief_round"))
+	{
+		flag_set("pig_killed_round");
+
+		level.next_thief_round = level.round_number + 1;
+		level thread maps\_zombiemode_ai_thief::play_looping_alarms();
+		level thread maps\_zombiemode_ai_thief::thief_round_vision();
+
+		flag_wait("thief_round");
+		flag_clear("pig_killed_round");
+	}
 }

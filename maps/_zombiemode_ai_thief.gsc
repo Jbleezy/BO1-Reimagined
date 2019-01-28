@@ -343,6 +343,10 @@ thief_zombie_spawn()
 
 		thief_zombie.exit_origin = thief_zombie.origin;
 
+		thief_zombie Hide();
+		thief_zombie thief_teleport(level.portal_power);
+		thief_zombie Show();
+
 		thief_zombie thread thief_zombie_think();
 	}
 	else
@@ -2519,7 +2523,17 @@ play_looping_alarms( wait_time )
 {
 	level endon( "stop_thief_alarms" );
 
-    wait( wait_time );
+	if(is_true(level.playing_looping_alarms))
+	{
+		return;
+	}
+
+	level.playing_looping_alarms = true;
+
+	if(IsDefined(wait_time))
+	{
+		wait( wait_time );
+	}
 
     structs = getstructarray( "defcon_alarms", "targetname" );
     sound_ent = [];
@@ -2536,6 +2550,8 @@ play_looping_alarms( wait_time )
 stop_looping_alarms(sound_ent)
 {
 	level waittill( "stop_thief_alarms" );
+
+	level.playing_looping_alarms = undefined;
 
     for(i=0;i<sound_ent.size;i++)
     {
