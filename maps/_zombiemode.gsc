@@ -6494,7 +6494,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		{
 			valid = true;
 		}
-		else if("shrink_ray_zm" && is_true(self.shrinked))
+		else if(gg_wep == "shrink_ray_zm" && is_true(self.shrinked))
 		{
 			valid = true;
 		}

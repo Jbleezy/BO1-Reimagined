@@ -645,7 +645,8 @@ is_freezegun_damage( mod )
 
 is_freezegun_shatter_damage( mod )
 {
-	return (("MOD_UNKNOWN" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
+	return is_true(self.attacker.freezegun_shatter_damage);
+	//return (("MOD_UNKNOWN" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
 }
 
 

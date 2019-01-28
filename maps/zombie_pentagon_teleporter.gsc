@@ -947,7 +947,16 @@ zombie_through_portal(portal_enter, portal_exit, targeted_player)
 	}*/
 	self waittill_any("goal", "timed_out");
 	self notify("teleportation_timed_out");
-	wait(RandomFloatRange(1,2));
+	wait 1;
+
+	if(!IsDefined(level.send_zombies_out_choke))
+	{
+		level.send_zombies_out_choke = false;
+	}
+
+	send_zombies_out_choke_wait();
+
+	level thread send_zombies_out_choke();
 
 	//IPrintLnBold("zombie followed through portal");
 
@@ -1489,7 +1498,16 @@ send_zombies_out(portal)
 	}*/
 	self waittill_any("goal", "timed_out");
 	self notify("teleportation_timed_out");
-	wait(RandomFloatRange(1,2));
+	wait 1;
+
+	if(!IsDefined(level.send_zombies_out_choke))
+	{
+		level.send_zombies_out_choke = false;
+	}
+
+	send_zombies_out_choke_wait();
+
+	level thread send_zombies_out_choke();
 
 	PlayFX(level._effect["transporter_start"], self.origin);
 	playsoundatposition( "evt_teleporter_out", self.origin );
@@ -1507,6 +1525,7 @@ send_zombies_out(portal)
 		self thread cleanup_unoccupied_floor(move_speed);
 	}
 }
+
 teleportation_timed_out()
 {
 	self notify("teleportation_timed_out");
@@ -1523,6 +1542,23 @@ teleportation_timed_out()
 	{
 		self.timed_out = true;
 		self notify("timed_out");
+	}
+}
+
+send_zombies_out_choke()
+{
+	level.send_zombies_out_choke = true;
+
+	wait .1;
+
+	level.send_zombies_out_choke = false;
+}
+
+send_zombies_out_choke_wait()
+{
+	while(level.send_zombies_out_choke)
+	{
+		wait_network_frame();
 	}
 }
 //-------------------------------------------------------------------------------

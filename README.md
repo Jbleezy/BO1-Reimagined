@@ -972,6 +972,7 @@
 * Fixed teleporters showing they were ready to use again too early after teleporting through them
 * Player height position is now more accurate when exiting the teleporter
 * Added 1 second delay before zombies can come through the teleporter after a player teleports
+* Added .1 second delay between zombie teleports to prevent zombies from getting stuck
 * Decreased maximum time for zombies to teleport from 20 seconds to 15 seconds
 
 ### Ascension
