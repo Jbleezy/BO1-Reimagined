@@ -494,10 +494,11 @@
 * Changed upwards projectile speed
 
 ##### Stielhandgranate
-* Added HUD icon from Call of Duty: WWII
 * Now deals damage on impact
+* Added HUD icon from Call of Duty: WWII
 * Added projectile trail effect
 * Added throw back animation
+* Stationary grenades now idle correctly
 
 #### Tactical Grenades
 * Now cannot be thrown faster than intended when throwing a grenade right after after throwing one
