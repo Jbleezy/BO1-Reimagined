@@ -515,10 +515,10 @@
 * Changed upwards projectile speed
 
 ##### Matroyshka Dolls
+* Now uses model from Black Ops 3
 * Infinite explosion damage (except for the Director)
 * Increased explosion damage on the Director from 4500 to 9000
 * Removed 1 player limit
-* Now uses model from Black Ops 3
 
 ##### Monkey Bombs
 * Zombies are no longer attracted before it activates
@@ -813,8 +813,8 @@
 * For zombies to not bleed out, a player must now have line of sight to the zombie in addition to looking at the zombie
 * Zombies will now not bleed out if they are in an active zone in addition to being close to a player
 * Zombies that bleed out from being too far away will now be killed instead of deleted
-* Zombies can no longer be alive and headless
-* 4 round and 5 round special rounds will now happen more equally
+* Zombies can no longer be headless while alive
+* 4 round and 5 round special rounds now happen more equally
 * Max health: 1 million
 * Fixed a bug that caused ceiling spawns to be able to be disabled
 * Fixed a bug that caused spawning zombies to be able to collide with players while they were still invisible to the player
@@ -824,7 +824,9 @@
 
 ### Hellhounds
 * Flaming hellhounds now deal damage to players who are close to them when they explode
-* No longer gain additional points for kills from hellhounds when killing hellhounds with wonder weapons
+* No longer gain additional points for killing hellhounds with wonder weapons
+* Decreased 2nd hellhound round health from 900 to 800
+* Decreased 3rd hellhound round health from 1300 to 1200
 * Fixed a bug that caused spawning hellhounds to be able to collide with players while they were still invisible to the player
 
 ### Nova Crawlers
@@ -839,7 +841,13 @@
 * No longer affected by explosive damage scaling
 
 ### Monkeys (Ascension)
-* Decreased max health to 1600
+* Health is now a fixed amount each monkey round (previously was based on what round you were on)
+* 1st monkey round health: 150
+* 2nd monkey round health: 400
+* 3rd monkey round health: 800
+* 4th monkey round health: 1200
+* 5th monkey round health: 1600
+* Decreased maximum health to 1600
 * Increased damage done to perks by 5x
 * No longer deal 10x damage when a player is near the perk
 * Fixed a bug where perks would be lost on monkey rounds when they shouldn't be
@@ -917,13 +925,13 @@
 * Zombies now spawn from the Bridge Warehouse Side zone when in the Upper Warehouse zone
 * Zombies no longer spawn from the Outside Laboratory zone when in the Teleporter A zone
 * Zombies no longer spawn from the Outside Laboratory zone when in the Teleporter C zone
-* Mid round dogs now spawn when no doors are open
-* Mid round dogs now have the same delay between spawns as zombies
+* Mid round hellhounds now spawn when no doors are open
+* Mid round hellhounds now have the same delay between spawns as zombies
 * Players will no longer get stuck on curbs
 * Fixed Mystery Box use trigger in the laboratory
 * Easter egg song now plays the whole song
 * Removed intro text
-* Fixed a bug where a dog round could end prematurely if dogs were spawned from the teleporters and killed before the dog round started to spawn dogs
+* Fixed a bug where a hellhound round could end prematurely if hellhounds were spawned from the teleporters and killed before the hellhound round started to spawn hellhounds
 
 #### Teleporters
 * Teleporters now kill zombies on any round
@@ -931,9 +939,9 @@
 * Teleporter powerup stays on the map until picked up or another teleporter powerup spawns
 * Chance decrease per round of teleporter powerup spawn decreased from 15% to 5%
 * Minimum of 15% chance of teleporter powerup spawn
-* Dogs always spawn whenever a teleporter powerup does not spawn
-* Dogs now will not spawn when a teleporter powerup spawns
-* Amount of dogs spawned in from teleporter is now 2 multiplied by the amount of players (previously always 4)
+* Hellhounds always spawn whenever a teleporter powerup does not spawn
+* Hellhounds will not spawn whenever a teleporter powerup spawns
+* Amount of hellhounds spawned in from teleporter is now 2 multiplied by the amount of players (previously always 4)
 * Max ammo now has the same chance of spawning from the teleporter as all other drops
 * Fixed a bug that allowed players to link teleporters while the teleporters were on cooldown
 * Mainframe no longer displays a hintstring for needing power or needing to activate a link
@@ -992,7 +1000,7 @@
 * Zombies now have a better death animation when killed by the lunar lander
 
 #### Sidequest
-* Completable with 1-4 players
+* Completable with any amount of players
 * Monkey round step: buttons no longer have to be pressed at the same time, only on the same monkey round
 * Lunar lander step: First use centrifuge lander, then use Stamin-Up lander, then use PHD Flopper lander, and last use Speed Cola lander
 * Lunar lander step - HITSAM easter egg now only requiers the letters SAM (was not enough room to fit HITSAM)
@@ -1053,7 +1061,7 @@
 * Available whenever the power is on
 
 #### Sidequest
-* Completable with 1-4 players
+* Completable with any amount of players
 * Stepping stones step: stones stay down until a new stone on the same side has been stepped on
 * Waterslide step: only 1 player now required
 * No longer recompletable in a match
@@ -1090,11 +1098,12 @@
 #### No Man's Land
 * Zombies now spawn at a consistent rate
 * Increased maximum amount of zombies that can spawn in from 20 to 24
+* Increased hellhounds' minimum health from 100 to 150
 * Now displays a more accurate time of how long you survived
-* Fixed a bug where dogs' health was not increased to what their health should be when they initially spawned
+* Fixed a bug where hellhounds' health was not increased to what their health should be when they initially spawned
 
 #### Sidequest
-* Full sidequest completable in solo
+* Full sidequest completable with any amount of players
 * Full sidequest completable without Richtofen
 * No longer requires the completion of previous sidequests
 * Part 1 reward - 90 second Death Machines for the rest of the match
@@ -1135,8 +1144,8 @@
 * If a player assisted in getting an enemy player down, the player will gain 5% of the player's points who downed
 * When a enemy player bleeds out, players gain 10% of their current points
 * Der Riese: all teleporters are linked
-* Der Riese: powerdown spawns from the start of each match
-* Der Riese: powerdown and full health dogs spawn from every teleporter use
+* Der Riese: powerup spawns from the start of each match
+* Der Riese: full health hellhounds spawn from every teleporter use
 * Kino Der Toten: teleporter is permamently linked to the mainframe
 * Five: teleporters disabled
 * Five: Pack-a-Punch door is now a 1,500 point buyable door

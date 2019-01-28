@@ -568,11 +568,11 @@ monkey_setup_health()
 	}
 	else if( level.monkey_encounters == 3 )
 	{
-		level.monkey_zombie_health = 900;
+		level.monkey_zombie_health = 800;
 	}
 	else if( level.monkey_encounters == 4 )
 	{
-		level.monkey_zombie_health = 1300;
+		level.monkey_zombie_health = 1200;
 	}
 	else if( level.monkey_encounters == 5 )
 	{

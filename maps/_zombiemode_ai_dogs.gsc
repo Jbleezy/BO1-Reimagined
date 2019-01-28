@@ -422,11 +422,11 @@ dog_health_increase()
 	}
 	else if( level.dog_round_count == 2 )
 	{
-		level.dog_health = 900;
+		level.dog_health = 800;
 	}
 	else if( level.dog_round_count == 3 )
 	{
-		level.dog_health = 1300;
+		level.dog_health = 1200;
 	}
 	else if( level.dog_round_count == 4 )
 	{
