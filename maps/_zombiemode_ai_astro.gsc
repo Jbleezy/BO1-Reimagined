@@ -111,6 +111,8 @@ astro_prespawn()
 	self.no_gib = true;
 	self.ignorelocationaldamage = true;
 
+	self.ignore_all_poi = true;
+
 	self.actor_damage_func = ::astro_actor_damage;
 	self.nuke_damage_func = ::astro_nuke_damage;
 	self.custom_damage_func = ::astro_custom_damage;
@@ -352,6 +354,10 @@ astro_zombie_total_update()
 	level.zombies_left_before_astro_spawn = RandomIntRange( int( level.zombie_total * 0.25 ), int( level.zombie_total * 0.75 ) );
 
 	if ( level.round_number >= level.next_astro_round && level.num_astro_zombies < level.max_astro_zombies )
+	{
+		level thread astro_zombie_manager();
+	}
+	else if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
 	{
 		level thread astro_zombie_manager();
 	}

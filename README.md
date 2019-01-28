@@ -883,9 +883,11 @@
 ### Napalm
 * Kills from napalm explosion or flames count for the player who killed the napalm or the player who triggered the napalm
 * No longer affected by explosive damage scaling
+* No longer attracted towards Monkey Bombs
 
 ### Shrieker
 * Damaging a shrieker will now always give points
+* No longer attracted towards Monkey Bombs
 
 ### Cosmonaut
 * No longer affected by explosive damage scaling

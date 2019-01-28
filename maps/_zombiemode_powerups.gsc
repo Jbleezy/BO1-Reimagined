@@ -2064,7 +2064,6 @@ nuke_powerup( drop_item, grabber )
  			zombies_nuked[i] playsound ("evt_nuked");
  		}
 
- 		zombies_nuked[i].no_powerups = true;
  		zombies_nuked[i] dodamage( zombies_nuked[i].health + 666, zombies_nuked[i].origin, grabber );
  	}
 

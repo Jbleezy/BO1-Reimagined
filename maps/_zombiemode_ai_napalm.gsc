@@ -311,6 +311,8 @@ napalm_zombie_spawn( animname_set )
 	//Napalm zombie can carry over to the next round
 	self.ignore_enemy_count = true;
 
+	self.ignore_all_poi = true;
+
 	self.deathFunction = ::napalm_zombie_death;
 	self.actor_full_damage_func = ::_napalm_zombie_damage;
 

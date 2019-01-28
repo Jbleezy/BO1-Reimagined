@@ -313,6 +313,8 @@ sonic_zombie_spawn( animname_set )
 	//Sonic zombie can carry over to the next round
 	self.ignore_enemy_count = true;
 
+	self.ignore_all_poi = true;
+
 	self.sonicScreamAttackDebounceMin = 6;
 	self.sonicScreamAttackDebounceMax = 10;
 
