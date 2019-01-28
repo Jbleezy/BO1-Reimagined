@@ -1655,6 +1655,7 @@ start_fire_sale( item )
 	}
 	else
 	{
+		level notify("fire_sale_on");
 		level.zombie_vars["zombie_powerup_fire_sale_time"] = 30;
 		for(i = 0; i < players.size; i++)
 		{

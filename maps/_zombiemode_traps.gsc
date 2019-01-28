@@ -277,10 +277,8 @@ trap_init()
 //*****************************************************************************
 trap_use_think( trap )
 {
-	if(level.gamemode != "survival")
-	{
-		trap thread update_string();
-	}
+	trap thread update_string();
+
 	while(1)
 	{
 		//wait until someone uses the valve
@@ -348,7 +346,11 @@ trap_use_think( trap )
 				trap._trap_cooldown_time = 5;
 			}
 #/
-			wait( trap._trap_cooldown_time );
+			if(!level.zombie_vars["zombie_powerup_fire_sale_on"])
+			{
+				level waittill_notify_or_timeout("fire_sale_on", 30);
+			}
+			
 			trap._trap_cooling_down = 0;
 
 			//COLLIN: Play the 'alarm' sound to alert players that the traps are available again (playing on a temp ent in case the PA is already in use.

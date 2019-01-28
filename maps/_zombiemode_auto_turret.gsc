@@ -85,10 +85,7 @@ auto_turret_think()
 
 	flag_wait("power_on");
 
-	if(level.gamemode != "survival")
-	{
-		self thread update_string();
-	}
+	self thread update_string();
 
 	for( ;; )
 	{

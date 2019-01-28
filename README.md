@@ -709,6 +709,8 @@
 * Powerup can now drop while one is already active
 
 ### Fire Sale
+* Traps cost 10 points
+* Traps have no cooldown
 * Powerup can now drop while one is already active
 
 ### Nuke
@@ -1119,7 +1121,6 @@
 * Enemy mines are destroyable
 * Added Bonus Points powerup
 * Added Meat powerup
-* Fire Sale: makes traps cost 10 points
 * Powerups have negative effects towards the enemy team
 * Max Ammo: unloads the clips of all the enemy players' weapons
 * Insta Kill: enemy players do half damage to zombies for 30 seconds

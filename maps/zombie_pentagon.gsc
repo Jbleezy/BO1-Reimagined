@@ -984,6 +984,11 @@ pig_death()
 	pig = getent("hoist_pig","targetname");
 	pig waittill( "stop_squirming" );
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	if(flag("power_on") && !flag("thief_round"))
 	{
 		flag_set("pig_killed_round");

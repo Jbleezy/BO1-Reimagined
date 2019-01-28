@@ -506,7 +506,10 @@ waterfall_trap_think()
 				array_notify(self.trap_damage, "trap_off");
 
 				//Cool Down time
-				wait 30.0;
+				if(!level.zombie_vars["zombie_powerup_fire_sale_on"])
+				{
+					level waittill_notify_or_timeout("fire_sale_on", 30);
+				}
 		}
 	}
 }
