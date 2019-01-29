@@ -4030,15 +4030,16 @@ meat_powerup_create_meat_stink_player(player)
 {
 	self endon("stationary");
 
-	team = player.vsteam;
 	player_stuck = undefined;
+
+	wait_network_frame();
 
 	while(1)
 	{
 		players = get_players();
 		for(i=0;i<players.size;i++)
 		{
-			if(is_player_valid(players[i]) && players[i].vsteam != team && self IsTouching(players[i]))
+			if(is_player_valid(players[i]) && self IsTouching(players[i]))
 			{
 				player_stuck = players[i];
 				break;
