@@ -3101,10 +3101,9 @@ minigun_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon_swap )
 		{
 			ent_player SwitchToWeapon("combat_" + ent_player get_player_melee_weapon());
 		}
-	}
 
-	ent_player DisableWeaponCycling();
-	ent_player waittill("weapon_change");
+		ent_player waittill("weapon_change");
+	}
 
 	ent_player TakeWeapon( "minigun_zm" );
 
@@ -3124,15 +3123,22 @@ minigun_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
 	ent_player endon( str_gun_return_notify );
 	ent_player endon( "replace_weapon_powerup" );
 
-	while(ent_player GetCurrentWeapon() != "minigun_zm")
-	{
-		ent_player waittill("weapon_change_complete");
-	}
 	ent_player EnableWeaponCycling();
 
-	while(!ent_player IsSwitchingWeapons())
+	// if the player is currently switching a weapon when they grab the powerup, the weapon won't switch back correctly without waiting
+	wait_network_frame();
+
+	while(1)
 	{
-		wait_network_frame();
+		// "switch_weapons_complete" is for if the player switches back to their normal weapon before the "weapon_change" notify of the powerup weapon
+		ent_player waittill_any("weapon_change", "weapon_change_complete", "switch_weapons_complete");
+
+		if(ent_player GetCurrentWeapon() == "minigun_zm" || is_true(ent_player.is_ziplining))
+		{
+			continue;
+		}
+
+		break;
 	}
 
 	level thread minigun_weapon_powerup_remove( ent_player, str_gun_return_notify, false );
@@ -3324,10 +3330,9 @@ tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon, weapon_s
 		{
 			ent_player SwitchToWeapon("combat_" + ent_player get_player_melee_weapon());
 		}
-	}
 
-	ent_player DisableWeaponCycling();
-	ent_player waittill("weapon_change");
+		ent_player waittill("weapon_change");
+	}
 
 	ent_player TakeWeapon( weapon );
 
@@ -3349,15 +3354,22 @@ tesla_weapon_powerup_weapon_change( ent_player, str_gun_return_notify, weapon )
 	ent_player endon( str_gun_return_notify );
 	ent_player endon( "replace_weapon_powerup" );
 
-	while(ent_player GetCurrentWeapon() != weapon)
-	{
-		ent_player waittill("weapon_change_complete");
-	}
 	ent_player EnableWeaponCycling();
 
-	while(!ent_player IsSwitchingWeapons())
+	// if the player is currently switching a weapon when they grab the powerup, the weapon won't switch back correctly without waiting
+	wait_network_frame();
+
+	while(1)
 	{
-		wait_network_frame();
+		// "switch_weapons_complete" is for if the player switches back to their normal weapon before the "weapon_change" notify of the powerup weapon
+		ent_player waittill_any("weapon_change", "weapon_change_complete", "switch_weapons_complete");
+
+		if(ent_player GetCurrentWeapon() == weapon || is_true(ent_player.is_ziplining))
+		{
+			continue;
+		}
+
+		break;
 	}
 
 	level thread tesla_weapon_powerup_remove( ent_player, str_gun_return_notify, weapon, false );
@@ -3900,7 +3912,7 @@ meat_powerup( drop_item, player )
 	player endon("disconnect");
 	player endon("player_downed");
 
-	prev_wep = player GetCurrentWeapon();
+	player._zombie_gun_before_meat = player GetCurrentWeapon();
 
 	player increment_is_drinking();
 	player GiveWeapon("meat_zm");
@@ -3927,10 +3939,9 @@ meat_powerup( drop_item, player )
 
 			if(is_true(player.has_meat))
 			{
-				player DisableWeaponCycling();
 				wait(WeaponFireTime("meat_zm") * 2);
 
-				player meat_powerup_take_weapon(true, prev_wep);
+				player meat_powerup_take_weapon();
 
 				return;
 			}
@@ -3941,7 +3952,7 @@ meat_powerup( drop_item, player )
 meat_powerup_check_for_player_downed()
 {
 	self endon("disconnect");
-	self endon("threw meat");
+	self endon("threw_meat");
 
 	self waittill("player_meat_end");
 
@@ -3953,39 +3964,43 @@ meat_powerup_check_for_player_downed()
 meat_powerup_weapon_change()
 {
 	self endon("disconnect");
-	self endon("threw meat");
+	self endon("threw_meat");
 	self endon("player_meat_end");
 
-	while(self GetCurrentWeapon() != "meat_zm")
-	{
-		self waittill("weapon_change_complete");
-	}
 	self EnableWeaponCycling();
 
-	while(!self IsSwitchingWeapons())
-	{
-		wait_network_frame();
-	}
+	// if the player is currently switching a weapon when they grab the powerup, the weapon won't switch back correctly without waiting
+	wait_network_frame();
 
-	self DisableWeaponCycling();
-	self waittill("weapon_change");
+	while(1)
+	{
+		// "switch_weapons_complete" is for if the player switches back to their normal weapon before the "weapon_change" notify of the powerup weapon
+		self waittill_any("weapon_change", "weapon_change_complete", "switch_weapons_complete");
+
+		if(self GetCurrentWeapon() == "meat_zm" || is_true(self.is_ziplining))
+		{
+			continue;
+		}
+
+		break;
+	}
 	
-	self meat_powerup_take_weapon();
+	self meat_powerup_take_weapon(false);
 }
 
-meat_powerup_take_weapon(weapon_swap, prev_wep)
+meat_powerup_take_weapon(weapon_swap)
 {
 	if(!IsDefined(weapon_swap))
 	{
-		weapon_swap = false;
+		weapon_swap = true;
 	}
 
 	if(weapon_swap)
 	{
 		weps = self GetWeaponsListPrimaries();
-		if(self HasWeapon(prev_wep))
+		if(IsDefined(self._zombie_gun_before_meat) && self HasWeapon(self._zombie_gun_before_meat))
 		{
-			self SwitchToWeapon(prev_wep);
+			self SwitchToWeapon(self._zombie_gun_before_meat);
 		}
 		else if(weps.size > 0)
 		{
@@ -4002,7 +4017,7 @@ meat_powerup_take_weapon(weapon_swap, prev_wep)
 	self decrement_is_drinking();
 	self.has_powerup_weapon = false;
 	self.has_meat = undefined;
-	self notify("threw meat");
+	self notify("threw_meat");
 
 	if(level.gamemode == "gg" && IsDefined(self.gg_wep_changed))
 	{

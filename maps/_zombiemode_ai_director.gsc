@@ -836,7 +836,7 @@ director_watch_damage()
 
 	if(level.gamemode == "survival")
 	{
-		level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", self.origin );	
+		level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", self.origin );
 	}
 	else
 	{

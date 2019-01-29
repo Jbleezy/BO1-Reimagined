@@ -8969,6 +8969,7 @@ switch_weapons_notify()
 		self notify("switch_weapons");
 		while(self IsSwitchingWeapons())
 			wait_network_frame();
+		self notify("switch_weapons_complete");
 	}
 }
 

@@ -348,8 +348,6 @@ do_player_zipline(vehicle,zip_path,zip_trig)
 	
 	has_perk = isDefined(self.perk_purchased);
 
-	has_weapon_powerup = is_true(self.has_minigun) || is_true(self.has_tesla) || is_true(self.has_meat);
-
 	weaponname = self getcurrentweapon();
 	
 	//set properties on the player for starting the zipline
@@ -391,7 +389,6 @@ do_player_zipline(vehicle,zip_path,zip_trig)
 	end_node = 	get_zipline_end_node(zip_path);
 	wait(.75);
 	//self EnableWeaponFire();
-	self notify("replace_weapon_powerup");
 	
 	while(distancesquared(vehicle.origin,end_node.origin) > (950*950))
 	{
@@ -407,7 +404,7 @@ do_player_zipline(vehicle,zip_path,zip_trig)
 	self thread player_exit_zipline(vehicle,zip_trig);
 
 	//make sure the player doesn't enter the zipline carrying these
-	if ( is_equipment( weaponname ) || weaponname == "syrette_sp" || has_weapon_powerup )
+	if ( is_equipment( weaponname ) || weaponname == "syrette_sp" )
 	{
 		primaryWeapons = self GetWeaponsListPrimaries();
 		if(IsDefined(self.last_held_primary_weapon) && self HasWeapon(self.last_held_primary_weapon))
@@ -501,7 +498,7 @@ player_exit_zipline(vehicle,zip_trig)
 	self allowsprint(true);
 	
 	self decrement_is_drinking();
-	//self enableweaponcycling();
+	//self EnableWeaponCycling();
 	//self enableoffhandweapons();
 	
 	self allowmelee(true);
@@ -623,7 +620,7 @@ player_enter_zipline(vehicle,path_start)
 		self allowads(false);
 
 	}
-	//self disableweaponcycling();
+	//self DisableWeaponCycling();
 
 	self Hide();
 	

@@ -264,20 +264,8 @@ _setup_simultaneous_pap_triggers()
 		triggers[i] = GetEnt("pap_blocker_trigger" + (i+1), "targetname");
 	}
 
-	if(level.gamemode == "survival")
+	if(level.gamemode != "survival")
 	{
-		_randomize_pressure_plates(triggers);
-
-		array_thread( triggers, ::_pap_pressure_plate_move );
-
-		wait(1.0);
-	}
-	else
-	{
-		thread _pap_think();
-
-		wait(1.0);
-
 		// end all the threads that manage the pressure plate action
 		for ( i = 0; i < triggers.size; i++ )
 		{
@@ -285,10 +273,17 @@ _setup_simultaneous_pap_triggers()
 			triggers[i].plate _plate_move_down();
 		}
 
+		_pap_think();
 		_set_num_plates_active(4, 15);
 
-		level waittill("forever");
+		return;
 	}
+
+	_randomize_pressure_plates(triggers);
+
+	array_thread( triggers, ::_pap_pressure_plate_move );
+
+	wait(1.0);
 
 	last_num_plates_active = -1;
 	last_plate_state = -1;
@@ -450,14 +445,7 @@ _pap_pressure_plate_move()
 			{
 				if( players[i].sessionstate != "spectator" )
 				{
-					if(level.gamemode == "survival")
-					{
-						touching = players[i] IsTouching(self);
-					}
-					else
-					{
-						touching = true;
-					}
+					touching = players[i] IsTouching(self);
 				}
 			}
 
@@ -781,7 +769,7 @@ _pap_think()
 
 	if(level.gamemode != "survival")
 	{
-		level waittill("forever");
+		return;
 	}
 
 	level thread _wait_for_pap_reset();
