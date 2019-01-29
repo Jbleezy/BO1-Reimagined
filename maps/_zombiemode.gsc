@@ -5941,14 +5941,6 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		final_damage = int( final_damage * 1.5 );
 	}
 
-	if ( is_true( self.in_water ) )
-	{
-		if ( int( final_damage ) >= self.health )
-		{
-			self.water_damage = true;
-		}
-	}
-
 	if((is_true(level.zombie_vars["zombie_insta_kill"]) || is_true(attacker.powerup_instakill) || is_true(attacker.personal_instakill)) && !is_true(self.magic_bullet_shield) && self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
 	{
 		// insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
@@ -6339,6 +6331,14 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	if(is_true(attacker.zombie_vars["zombie_powerup_half_damage_on"]))
 	{
 		final_damage = int(final_damage / 2);
+	}
+
+	if ( is_true( self.in_water ) )
+	{
+		if ( int( final_damage ) >= self.health )
+		{
+			self.water_damage = true;
+		}
 	}
 
 	if(self.animname == "director_zombie")
