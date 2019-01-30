@@ -2529,6 +2529,8 @@ zombie_clear_electric_buff( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapo
 	}
 
 	self.electrified = undefined;
+
+	self.actor_killed_override = undefined;
 }
 
 //-----------------------------------------------------------------------------------------------
