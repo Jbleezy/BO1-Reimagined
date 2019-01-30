@@ -840,7 +840,7 @@ director_watch_damage()
 	}
 	else
 	{
-		powerups = array("full_ammo", "bonus_points_team", "double_points", "insta_kill", "nuke");
+		powerups = array("full_ammo", "fire_sale", "bonus_points_team", "double_points", "insta_kill", "nuke");
 		powerup = random(powerups);
 		level thread maps\_zombiemode_powerups::specific_powerup_drop( powerup, self.origin );
 	}

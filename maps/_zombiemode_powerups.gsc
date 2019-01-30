@@ -163,8 +163,8 @@ init_powerups()
 	{
 		[[level.quantum_bomb_register_result_func]]( "random_powerup", ::quantum_bomb_random_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
 		//[[level.quantum_bomb_register_result_func]]( "random_zombie_grab_powerup", ::quantum_bomb_random_zombie_grab_powerup_result, 5, level.quantum_bomb_in_playable_area_validation_func );
-		[[level.quantum_bomb_register_result_func]]( "random_weapon_powerup", ::quantum_bomb_random_weapon_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
-		[[level.quantum_bomb_register_result_func]]( "random_bonus_points_powerup", ::quantum_bomb_random_bonus_or_lose_points_powerup_result, 100, ::quantum_bomb_random_powerup_validation );
+		[[level.quantum_bomb_register_result_func]]( "random_weapon_powerup", ::quantum_bomb_random_weapon_powerup_result, 0, ::quantum_bomb_random_powerup_validation );
+		[[level.quantum_bomb_register_result_func]]( "random_bonus_points_powerup", ::quantum_bomb_random_bonus_or_lose_points_powerup_result, 0, ::quantum_bomb_random_powerup_validation );
 	}
 }
 
@@ -901,39 +901,13 @@ specific_powerup_drop( powerup_name, drop_spot, permament )
 
 quantum_bomb_random_powerup_result( position )
 {
-	if( !isDefined( level.zombie_include_powerups ) || !level.zombie_include_powerups.size )
-	{
-		return;
-	}
+	keys = array("full_ammo", "double_points", "insta_kill", "nuke", "fire_sale", "free_perk", "bonus_points_team", "random_weapon");
 
-	keys = GetArrayKeys( level.zombie_include_powerups );
 	while ( keys.size )
 	{
 		index = RandomInt( keys.size );
 		if ( !level.zombie_powerups[keys[index]].zombie_grabbable )
 		{
-			skip = false;
-			switch ( keys[index] )
-			{
-			case "random_weapon":
-			case "bonus_points_player":
-			case "bonus_points_team":
-			case "bonfire_sale":
-			case "tesla":
-			case "carpenter":
-				// skip these period
-				skip = true;
-				break;
-
-			default: // go ahead and use this one
-			}
-
-			if ( skip )
-			{
-				keys = array_remove_nokeys( keys, keys[index] );
-				continue;
-			}
-
 			self thread maps\_zombiemode_audio::create_and_play_dialog( "kill", "quant_good" );
 			[[level.quantum_bomb_play_player_effect_at_position_func]]( position );
 			level specific_powerup_drop( keys[index], position );
