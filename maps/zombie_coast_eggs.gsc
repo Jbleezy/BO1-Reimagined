@@ -2685,7 +2685,7 @@ consequences_will_never_be_the_same()
 
 	if( IsDefined( struct ) )
 	{
-		level thread maps\_zombiemode_powerups::specific_powerup_drop( "tesla", struct.origin, true );
+		level thread maps\_zombiemode_powerups::specific_powerup_drop( "random_weapon", struct.origin, true, "freezegun_zm" );
 	}
 
 }

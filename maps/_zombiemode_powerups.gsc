@@ -878,12 +878,17 @@ powerup_drop(drop_point, player, zombie)
 
 //
 //	Drop the specified powerup
-specific_powerup_drop( powerup_name, drop_spot, permament )
+specific_powerup_drop( powerup_name, drop_spot, permament, weapon )
 {
 	if(!IsDefined(permament))
 		permament = false;
 
 	powerup = maps\_zombiemode_net::network_safe_spawn( "powerup", 1, "script_model", drop_spot + (0,0,40));
+
+	if(IsDefined(weapon))
+	{
+		powerup.weapon = weapon;
+	}
 
 	level notify("powerup_dropped", powerup);
 
@@ -1055,7 +1060,10 @@ powerup_setup( powerup_override )
 		else
 		{
 			// select the weapon for this instance of random_weapon
-			self.weapon = maps\_zombiemode_weapons::treasure_chest_ChooseWeightedRandomWeapon();
+			if(!IsDefined(self.weapon))
+			{
+				self.weapon = maps\_zombiemode_weapons::treasure_chest_ChooseWeightedRandomWeapon();
+			}
 
 			/#
 			weapon = GetDvar( #"scr_force_weapon" );

@@ -1029,8 +1029,8 @@
 * Rotating a lighthouse dial no longer rotates other lighthouse dials
 * Radio order now resets after a wrong radio is activated
 * Human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health multiplied the amount of players)
+* Reward: Winter's Howl powerup that stays on the map until picked up
 * Reward: upgraded Wunderwaffe from every Wunderwaffe powerup for the rest of the game
-* Wunderwaffe powerup from sidequest stays on the map until picked up
 
 ### Shangri-La
 * Players now start with Semtex
