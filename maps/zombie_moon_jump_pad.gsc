@@ -363,7 +363,10 @@ moon_biodome_powerup_temptation( struct_array )
 	powerup endon( "powerup_grabbed" );
 	powerup endon( "powerup_timedout" );
 
-	temptation_array = array( "double_points", "nuke", "insta_kill", "fire_sale", "full_ammo", "free_perk" );
+	temptation_array = array( "double_points", "nuke", "insta_kill", "fire_sale");
+	temptation_array = array_randomize(temptation_array);
+	temptation_array[temptation_array.size] = "full_ammo";
+	temptation_array[temptation_array.size] = "free_perk";
 	temptation_index = 0;
 	spot_index = 0;
 	first_time = true;
@@ -391,7 +394,7 @@ moon_biodome_powerup_temptation( struct_array )
 
 		if( rotation == 0 )
 		{
-			wait( 12.5 );
+			wait( 10 );
 			rotation++;
 		}
 		else if( rotation == 1 )
@@ -401,7 +404,7 @@ moon_biodome_powerup_temptation( struct_array )
 		}
 		else if( rotation == 2 )
 		{
-			wait( 3.5 );
+			wait( 5 );
 			rotation++;
 		}
 		else if( rotation == 3 )
