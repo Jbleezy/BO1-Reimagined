@@ -1023,6 +1023,7 @@
 * Steps in solo are now the same as in coop
 * Fuse spawns at the beginning of the match
 * Generators' damage hitbox is now more accurate
+* Generators can now be damaged by any type of explosive
 * Bottle spawns at the beginning of the match
 * Bottle is now given to the player who breaks the ice
 * Lighthouse dials can now be rotated faster

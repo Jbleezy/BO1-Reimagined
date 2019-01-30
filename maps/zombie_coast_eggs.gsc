@@ -1123,7 +1123,7 @@ coast_egg_power_source_react( str_flag )
 		self waittill( "damage", i_amount, e_attacker, v_direction, vec_position, i_dmg_type, str_model_name, str_tagname );
 
 		// only grenade damage
-		if( is_player_valid( e_attacker ) && ( i_dmg_type == level.trials[0] || i_dmg_type == level.trials[1] ) )
+		if( is_player_valid( e_attacker ) && ( i_dmg_type == level.trials[0] || i_dmg_type == level.trials[1] || i_dmg_type == "MOD_PROJECTILE" || i_dmg_type == "MOD_PROJECTILE_SPLASH" ) )
 		{
 			/#
 			if( GetDvarInt( #"scr_coast_egg_debug" ) )
