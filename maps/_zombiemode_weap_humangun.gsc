@@ -609,7 +609,11 @@ humangun_zombie_death_watcher( player )
 	{
 		player maps\_zombiemode_score::player_add_points( "death", "", "" );
 	}*/
-	player maps\_zombiemode_score::player_add_points( "death", "", "" );
+
+	if(!is_true(self.zombie_flung))
+	{
+		player maps\_zombiemode_score::player_add_points( "death", "", "" );
+	}
 }
 
 
@@ -1145,6 +1149,8 @@ humangun_zombie_death( upgraded, player )
 
 humangun_zombie_explosion( upgraded, player )
 {
+	self endon("death");
+
 	self setclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_HIT_RESPONSE );
 
 	self PlaySound( "zmb_humangun_effect_timer" );

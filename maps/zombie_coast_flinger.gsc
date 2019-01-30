@@ -345,7 +345,6 @@ fling_zombie(fling_dir, activator)
 
 	// Make sure they're dead...physics launch didn't kill them.
 	self.trap_death = true;
-	self.no_powerups = true;
 
 	self notify("zombie_flung");
 	self.zombie_flung = true;
@@ -353,6 +352,12 @@ fling_zombie(fling_dir, activator)
 	if ( is_true( self.humangun_zombie_1st_hit_response ) )
 	{
 		return;
+	}
+
+	//remove any electrical effects
+	if(isDefined(level._func_humangun_check))
+	{
+		self [[level._func_humangun_check]]();
 	}
 
 	self dodamage(self.health + 100, self.origin, activator);

@@ -3579,13 +3579,13 @@ zombie_death_animscript()
 			{
 				trace = BulletTrace(self.origin + (0, 0, 100), self.origin + (0, 0, -100), false, undefined);
 				origin = trace["position"];
-				level thread maps\_zombiemode_powerups::powerup_drop( origin );
+				level thread maps\_zombiemode_powerups::powerup_drop( origin, self.attacker, self );
 			}
 			else
 			{
 				trace = GroundTrace(self.origin + (0, 0, 5), self.origin + (0, 0, -300), false, undefined);
 				origin = trace["position"];
-				level thread maps\_zombiemode_powerups::powerup_drop( self.origin );
+				level thread maps\_zombiemode_powerups::powerup_drop( self.origin, self.attacker, self );
 			}
 		}
 	}

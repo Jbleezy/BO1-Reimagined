@@ -2196,6 +2196,11 @@ groundhit_watcher( animname )
 				continue;
 			}
 
+			if(is_true(zombies[i].humangun_zombie_1st_hit_response))
+			{
+				continue;
+			}
+
 			test_origin = zombies[i] GetEye();
 
 			if( DistanceSquared( origin, test_origin ) > level.director_electrify_range_sq )
@@ -2249,7 +2254,7 @@ groundhit_watcher( animname )
 		//affected_players[i] ShellShock( "electrocution", 1.5, true );
 		if ( affected_players[i] IsOnGround() )
 		{
-			affected_players[i] player_electrify();
+			affected_players[i] thread player_electrify();
 		}
 	}
 }
@@ -2428,7 +2433,7 @@ player_damage_watcher( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 
 	if ( is_true( eAttacker.electrified ) )
 	{
-		self player_electrify();
+		self thread player_electrify();
 	}
 }
 
@@ -2508,7 +2513,7 @@ zombie_clear_electric_buff( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapo
 	{
 		if ( sMeansOfDeath == "MOD_MELEE" )
 		{
-			attacker player_electrify();
+			attacker thread player_electrify();
 		}
 	}
 
