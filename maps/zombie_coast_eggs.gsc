@@ -1706,6 +1706,8 @@ metal_horse()
 				wait( 2.0 );
 			}
 
+			level.can_play_beacon_sounds = true;
+
 
 			// sub blows horn
 			/#
@@ -1728,7 +1730,7 @@ metal_horse()
 			}
 			else
 			{
-				horse MoveZ( -325, 5.0 );
+				/*horse MoveZ( -325, 5.0 );
 				horse waittill( "movedone" );
 				flag_clear( "sr" );
 
@@ -1739,7 +1741,11 @@ metal_horse()
 				horse PlaySound( "zmb_forward_march" );
 				horse MoveZ( 325, 10.0 );
 				horse waittill( "movedone" );
-				flag_set( "sr" );
+				flag_set( "sr" );*/
+
+				level.can_play_beacon_sounds = false;
+				horse PlaySound( "zmb_forward_march", "sound_done" );
+				horse waittill( "sound_done" );
 			}
 		}
 	}
@@ -1788,9 +1794,16 @@ coast_egg_musical_chairs_beach_beacon_used()
 	self UseTriggerRequireLookAt();
 	self SetHintString( "" );
 
+	level.can_play_beacon_sounds = true;
+
 	while( 1 )
 	{
 		self waittill( "trigger", who );
+
+		if(!level.can_play_beacon_sounds)
+		{
+			continue;
+		}
 
 		// play the note for the beacon, the string that references what tone should be listed on the object
 		// PlaySound( self.script_string );
@@ -1822,18 +1835,18 @@ coast_egg_musical_chairs_beach_beacon_used()
 
 				level._serenade[ level._serenade.size ] = self.script_int;
 
-				if( level._serenade.size == level.mermaid.size )
+				if( coast_egg_musical_check() )
 				{
-					if( coast_egg_musical_check() )
+					if( level._serenade.size == level.mermaid.size )
 					{
 						flag_set( "bp" );
 					}
-					else
-					{
-						level notify( "can_not_sing" );
-						level._serenade = undefined;
-						level._serenade = [];
-					}
+				}
+				else
+				{
+					level notify( "can_not_sing" );
+					level._serenade = undefined;
+					level._serenade = [];
 				}
 			}
 		}
@@ -1845,7 +1858,7 @@ coast_egg_musical_check()
 	Assert( IsDefined( level._serenade ) );
 	Assert( IsDefined( level.mermaid ) );
 
-	for( i = 0; i < level.mermaid.size; i++ )
+	for( i = 0; i < level._serenade.size; i++ )
 	{
 		if( level._serenade[i] != level.mermaid[i] )
 		{

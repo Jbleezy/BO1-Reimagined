@@ -1026,10 +1026,11 @@
 * Generators can now be damaged by any type of explosive
 * Bottle spawns at the beginning of the match
 * Bottle is now given to the player who breaks the ice
+* Radio order now resets after a wrong radio is activated
 * Sound for inputting the radios in the wrong order now goes off everytime
+* Inputting the foghorns in the wrong order no longer makes the players wait a round to try again
 * Lighthouse dials can now be rotated faster
 * Rotating a lighthouse dial no longer rotates other lighthouse dials
-* Radio order now resets after a wrong radio is activated
 * Human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health multiplied the amount of players)
 * Reward: Winter's Howl powerup that stays on the map until picked up
 * Reward: upgraded Wunderwaffe from every Wunderwaffe powerup for the rest of the game
