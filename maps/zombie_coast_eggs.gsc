@@ -1567,7 +1567,7 @@ coast_egg_art_critic_message()
 					level._reach = [];
 				}
 
-				heard  = level call_out( self.script_parameters );
+				heard = level call_out( self.script_parameters );
 
 				if( IsDefined( heard ) && heard )
 				{
@@ -1577,8 +1577,8 @@ coast_egg_art_critic_message()
 				}
 				else if( IsDefined( heard ) && !heard )
 				{
-					radios = GetEntArray( "hello_world", "targetname" );
-					radios[0] waittill("sound_done");
+					self PlaySound("zmb_box_move", "sound_done");
+					self waittill("sound_done");
 				}
 			}
 
@@ -1594,46 +1594,11 @@ call_out( str_message )
 
 	level._reach = add_to_array( level._reach, str_message );
 
-	/*if( level._reach.size == level.contact.size )
-	{
-		for( i = 0; i < level.contact.size; i++ )
-		{
-			if( level._reach[i] != level.contact[i] )
-			{
-				level._reach = undefined;
-
-				// WW (4-18-11): Issue 82048 - Radios give no feedback and make is difficult for a player to know when they've input a sequence
-				radios = GetEntArray( "hello_world", "targetname" );
-				// each radio plays the negative sound to show the sequence was incorrect
-				for( j = 0; j < radios.size; j++ )
-				{
-					radios[j] PlaySound("zmb_box_move"); // sounds explains that the sequnce entered was incorrect
-					radios[j] ent_flag_set( "sequence_incorrect" );
-					radios[j] thread call_out_wrong_clear();
-				}
-
-				return false;
-			}
-		}
-
-		return true;
-	}*/
-
 	for( i = 0; i < level._reach.size; i++ )
 	{
 		if( level._reach[i] != level.contact[i] )
 		{
 			level._reach = undefined;
-
-			// WW (4-18-11): Issue 82048 - Radios give no feedback and make is difficult for a player to know when they've input a sequence
-			radios = GetEntArray( "hello_world", "targetname" );
-			// each radio plays the negative sound to show the sequence was incorrect
-			for( j = 0; j < radios.size; j++ )
-			{
-				radios[j] PlaySound("zmb_box_move", "sound_done"); // sounds explains that the sequnce entered was incorrect
-				//radios[j] ent_flag_set( "sequence_incorrect" );
-				//radios[j] thread call_out_wrong_clear();
-			}
 
 			return false;
 		}

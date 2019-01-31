@@ -1026,6 +1026,7 @@
 * Generators can now be damaged by any type of explosive
 * Bottle spawns at the beginning of the match
 * Bottle is now given to the player who breaks the ice
+* Sound for inputting the radios in the wrong order now goes off everytime
 * Lighthouse dials can now be rotated faster
 * Rotating a lighthouse dial no longer rotates other lighthouse dials
 * Radio order now resets after a wrong radio is activated
