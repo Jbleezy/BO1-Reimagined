@@ -993,6 +993,8 @@ director_zombie_think()
 	self thread director_zombie_update_goal_radius();
 	self thread director_kill_prone();
 
+	self thread director_bad_path_scream();
+
 	self.ignoreall = false;
 
 	if ( isDefined( level.director_zombie_custom_think ) )
@@ -2771,6 +2773,8 @@ director_reenter_map()
 	self thread director_zombie_update_goal_radius();
 	self thread director_zombie_update();
 
+	self thread director_bad_path_scream();
+
 	self.entering_level = undefined;
 }
 
@@ -3035,4 +3039,52 @@ director_print( str )
 		iprintln( str + "\n" );
 	}
 #/
+}
+
+director_bad_path_scream()
+{
+	self endon("death");
+	self endon( "humangun_leave" );
+
+	while(1)
+	{
+		self waittill("bad_path");
+
+		flinger_active = false;
+		players = get_players();
+		for(i=0;i<players.size;i++)
+		{
+			if(is_true(players[i]._being_flung))
+			{
+				flinger_active = true;
+				break;
+			}
+		}
+
+		if(flinger_active)
+		{
+			while(flinger_active)
+			{
+				wait_network_frame();
+
+				flinger_active = false;
+				players = get_players();
+				for(i=0;i<players.size;i++)
+				{
+					if(is_true(players[i]._being_flung))
+					{
+						flinger_active = true;
+						break;
+					}
+				}
+			}
+
+			wait 1; // must wait a little more or else bad_path gets notified
+			continue;
+		}
+
+		self thread director_scream_in_water();
+		wait 3;
+		self.water_scream = undefined;
+	}
 }
