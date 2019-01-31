@@ -5972,7 +5972,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 	if(meansofdeath == "MOD_GRENADE" || meansofdeath == "MOD_GRENADE_SPLASH" || meansofdeath == "MOD_PROJECTILE" || meansofdeath == "MOD_PROJECTILE_SPLASH")
 	{
 		// no damage scaling for these wonder weps
-		if(weapon != "tesla_gun_zm" && weapon != "tesla_gun_upgraded_zm" && weapon != "tesla_gun_powerup_zm" && weapon != "tesla_gun_powerup_upgraded_zm" && weapon != "freezegun_zm" && weapon != "freezegun_upgraded_zm" && !is_true(attacker.freezegun_shatter_damage))
+		if(weapon != "tesla_gun_zm" && weapon != "tesla_gun_upgraded_zm" && weapon != "tesla_gun_powerup_zm" && weapon != "tesla_gun_powerup_upgraded_zm" && weapon != "freezegun_zm" && weapon != "freezegun_upgraded_zm")
 		{
 			// boss zombie types do not get damage scaling
 			if(self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
@@ -6431,7 +6431,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		self.no_powerups = true;
 	}
 
-	if(sWeapon == "freezegun_zm" || sWeapon == "freezegun_upgraded_zm" || is_true(attacker.freezegun_shatter_damage))
+	if(sWeapon == "freezegun_zm" || sWeapon == "freezegun_upgraded_zm")
 	{
 		self.no_powerups = true;
 	}

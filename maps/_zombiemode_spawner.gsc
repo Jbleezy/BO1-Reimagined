@@ -3241,7 +3241,7 @@ zombie_should_gib( amount, attacker, type )
 		return false;
 	}
 
-	if ( self maps\_zombiemode_weap_freezegun::is_freezegun_damage( type ) )
+	if ( self maps\_zombiemode_weap_freezegun::is_freezegun_damage( type ) || self maps\_zombiemode_weap_freezegun::is_freezegun_shatter_damage( type ) )
 	{
 		return false;
 	}
@@ -3744,22 +3744,18 @@ zombie_damage( mod, hit_location, hit_origin, player, amount )
 			self thread maps\_zombiemode_weap_freezegun::freezegun_damage_response( player, amount );
 		}
 
-		// no points awarded for damage or deaths dealt by the shatter result
-		if ( !self maps\_zombiemode_weap_freezegun::is_freezegun_shatter_damage( self.damagemod ) )
+		if( player_using_hi_score_weapon( player ) )
 		{
-			if( player_using_hi_score_weapon( player ) )
-			{
-				damage_type = "damage";
-			}
-			else
-			{
-				damage_type = "damage_light";
-			}
+			damage_type = "damage";
+		}
+		else
+		{
+			damage_type = "damage_light";
+		}
 
-			if ( !is_true( self.no_damage_points ) )
-			{
-				player maps\_zombiemode_score::player_add_points( damage_type, mod, hit_location, self.isdog );
-			}
+		if ( !is_true( self.no_damage_points ) )
+		{
+			player maps\_zombiemode_score::player_add_points( damage_type, mod, hit_location, self.isdog );
 		}
 	}
 
@@ -3882,22 +3878,18 @@ zombie_damage_ads( mod, hit_location, hit_origin, player, amount )
 			self thread maps\_zombiemode_weap_freezegun::freezegun_damage_response( player, amount );
 		}
 
-		// no points awarded for damage or deaths dealt by the shatter result
-		if ( !self maps\_zombiemode_weap_freezegun::is_freezegun_shatter_damage( self.damagemod ) )
+		if( player_using_hi_score_weapon( player ) )
 		{
-			if( player_using_hi_score_weapon( player ) )
-			{
-				damage_type = "damage";
-			}
-			else
-			{
-				damage_type = "damage_light";
-			}
+			damage_type = "damage";
+		}
+		else
+		{
+			damage_type = "damage_light";
+		}
 
-			if ( !is_true( self.no_damage_points ) )
-			{
-				player maps\_zombiemode_score::player_add_points( damage_type, mod, hit_location );
-			}
+		if ( !is_true( self.no_damage_points ) )
+		{
+			player maps\_zombiemode_score::player_add_points( damage_type, mod, hit_location );
 		}
 	}
 

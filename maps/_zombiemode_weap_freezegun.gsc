@@ -457,9 +457,7 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 	self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
 
 	upgraded = (weap == "freezegun_upgraded_zm");
-	player.freezegun_shatter_damage = true;
-	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_UNKNOWN" );
-	player.freezegun_shatter_damage = undefined;
+	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_PROJECTILE_SPLASH", weap );
 
 	if ( is_mature() )
 	{
@@ -481,7 +479,9 @@ freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger )
 	orig_attacker = self.attacker;
 	shatter_trigger waittill( "damage", amount, attacker, dir, org, mod );
 
-	if ( isDefined( attacker ) && attacker == orig_attacker && "MOD_PROJECTILE" == mod && ("freezegun_zm" == attacker GetCurrentWeapon() || "freezegun_upgraded_zm" == attacker GetCurrentWeapon()) )
+	self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
+
+	/*if ( isDefined( attacker ) && attacker == orig_attacker && "MOD_PROJECTILE" == mod && ("freezegun_zm" == attacker GetCurrentWeapon() || "freezegun_upgraded_zm" == attacker GetCurrentWeapon()) )
 	{
 		// player doesn't get the shatter result if they hit him again with the freezegun's attack
 		self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
@@ -489,7 +489,7 @@ freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger )
 	else
 	{
 		self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
-	}
+	}*/
 }
 
 
@@ -500,9 +500,7 @@ freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger )
 	self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
 
 	upgraded = (weap == "freezegun_upgraded_zm");
-	player.freezegun_shatter_damage = true;
-	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_UNKNOWN" );
-	player.freezegun_shatter_damage = undefined;
+	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_PROJECTILE_SPLASH", weap );
 
 	if ( isDefined( self ) )
 	{
@@ -526,7 +524,8 @@ freezegun_wait_for_crumple( player, weap, shatter_trigger, crumple_trigger )
 
 	crumple_trigger waittill( "trigger" );
 
-	self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
+	self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
+	//self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
 }
 
 
@@ -617,12 +616,13 @@ freezegun_death( hit_location, hit_origin, player )
 	self thread freezegun_wait_for_crumple( player, weap, shatter_trigger, crumple_trigger );
 	self endon( "cleanup_freezegun_triggers" );
 
-	if (!is_true(self.in_the_ground) && !is_true(self.in_the_ceiling))
+	if(!is_true(self.in_the_ground) && !is_true(self.in_the_ceiling))
 	{
 		wait( anim_len / 2 ); // force the zombie to crumple if he is untouched after time
 	}
 
-	self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
+	self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
+	//self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
 }
 
 
@@ -634,19 +634,14 @@ is_freezegun_damage( mod )
 		return true;
 	}
 
-	if(self is_freezegun_shatter_damage(mod))
-	{
-		return true;
-	}
-
 	return (("MOD_PROJECTILE" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
 }
 
 
 is_freezegun_shatter_damage( mod )
 {
-	return is_true(self.attacker.freezegun_shatter_damage);
-	//return (("MOD_UNKNOWN" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
+	//return is_true(self.attacker.freezegun_shatter_damage);
+	return (("MOD_PROJECTILE_SPLASH" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
 }
 
 

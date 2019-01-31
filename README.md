@@ -427,10 +427,10 @@
 * Kills zombies in 1-3 shots depending on how far away the zombie was from the shot
 * No longer drops powerups
 * Damages frozen enemies
-* Enemies that die from the Winter's Howl will now shatter 2x faster
+* Enemies that die from the Winter's Howl now always do the shatter effect
+* Enemies that die from the Winter's Howl will now shatter automatically 2x faster
 * Enemies that die from the shatter effect no longer get frozen
 * Shatter effect now gives points
-* Shatter effect now always deals damage
 * Shatter effect now deals the same damage at any range
 * Shatter effect no longer gibs zombies
 * Unupgraded: increased maximum damage range by 500%
