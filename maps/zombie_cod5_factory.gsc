@@ -956,6 +956,7 @@ power_electric_switch()
 	playfx(level._effect["switch_sparks"] ,getstruct("power_switch_fx","targetname").origin);
 
 	// Don't want east or west to spawn when in south zone, but vice versa is okay
+	flag_wait_any("enter_outside_east", "enter_outside_west");
 	maps\_zombiemode_zone_manager::connect_zones( "outside_east_zone", "outside_south_zone" );
 	maps\_zombiemode_zone_manager::connect_zones( "outside_west_zone", "outside_south_zone" );
 }
