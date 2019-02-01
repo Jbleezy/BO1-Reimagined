@@ -2546,10 +2546,15 @@ zombie_drop_max_ammo()
 
 	if ( chance < level.director_max_ammo_chance )
 	{
+		powerup = SpawnStruct();
+		powerup.powerup_name = "full_ammo";
+		powerup.powerup_notify = "director_max_ammo_drop";
+		level.powerup_overrides[level.powerup_overrides.size] = powerup;
+		
 		level.director_max_ammo_available = false;
 		level.director_max_ammo_chance = level.director_max_ammo_chance_default;
-		level thread maps\_zombiemode_powerups::specific_powerup_drop( "full_ammo", self.origin );
-		level notify( "director_max_ammo_drop" );
+		//level thread maps\_zombiemode_powerups::specific_powerup_drop( "full_ammo", self.origin );
+		//level notify( "director_max_ammo_drop" );
 	}
 	else
 	{
@@ -2567,14 +2572,13 @@ director_max_ammo_watcher()
 
 	//flag_wait( "power_on" );
 
-	level.director_max_ammo_round = level.round_number + randomintrange( 0, 4 );
+	//level.director_max_ammo_round = level.round_number + randomintrange( 0, 4 );
+	level.director_max_ammo_round = level.round_number;
 
 	director_print( "next max ammo round " + level.director_max_ammo_round );
 
 	while ( 1 )
 	{
-		level waittill( "between_round_over" );
-
 		if ( level.round_number >= level.director_max_ammo_round )
 		{
 			level.director_max_ammo_available = true;
@@ -2583,6 +2587,8 @@ director_max_ammo_watcher()
 
 			director_print( "next max ammo round " + level.director_max_ammo_round );
 		}
+
+		level waittill_any( "between_round_over", "director_reenter_map" );
 	}
 }
 
@@ -2774,6 +2780,9 @@ director_reenter_map()
 	self thread director_zombie_update();
 
 	self thread director_bad_path_scream();
+
+	level.director_max_ammo_round = level.round_number;
+	level notify( "director_reenter_map" );
 
 	self.entering_level = undefined;
 }

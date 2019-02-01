@@ -866,7 +866,10 @@
 * No longer plays audio after exiting the map due to being hit by the upgraded V-R11
 * Fixed a bug that would sometimes cause the Director to sream in the water after already being killed
 * No longer screams in the water if damaged while attacking
-* Power no longer needs to be on for an electrified zombie to drop a Max Ammo
+* Electrified zombies can drop a Max Ammo from the Director whenever the Director re-enters the map
+* Electrified zombies now need to be killed with a valid weapon to drop a Max Ammo from the Director
+* Electrified zombies no longer need the power on to drop a Max Ammo from the Director
+* Electrified zombies no longer drop a Max Ammo from the Director and a normal powerup at the same time
 
 ### Monkeys (Shangri-La)
 * Keep attempting to spawn until successfully spawned during the whole duration while a powerup is active on the ground

@@ -6431,7 +6431,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		self.no_powerups = true;
 	}
 
-	if(sWeapon == "freezegun_zm" || sWeapon == "freezegun_upgraded_zm")
+	if((sMeansOfDeath == "MOD_PROJECTILE" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH") && (sWeapon == "freezegun_zm" || sWeapon == "freezegun_upgraded_zm"))
 	{
 		self.no_powerups = true;
 	}
@@ -6508,7 +6508,26 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 			if(attacker.gg_kill_count == level.gg_kills_to_next_wep && !IsDefined(attacker.gg_wep_dropped) )
 			{
-				self.can_drop_gg_powerup = true;
+				powerup = SpawnStruct();
+				powerup.powerup_name = "random_weapon";
+				powerup.gg_powerup = true;
+				powerup.player = attacker;
+
+				// only add if we haven't added it yet
+				add = true;
+				for(i=0;i<level.powerup_overrides.size;i++)
+				{
+					if(level.powerup_overrides[i].powerup_name == powerup.powerup_name && level.powerup_overrides[i].gg_powerup == powerup.gg_powerup && level.powerup_overrides[i].player == powerup.player)
+					{
+						add = false;
+						break;
+					}
+				}
+
+				if(add)
+				{
+					level.powerup_overrides[level.powerup_overrides.size] = powerup;
+				}
 
 				//allow weapons that normally cannot drop powerups to drop the gun game powerup
 				if(self.animname == "zombie" && 

@@ -66,7 +66,9 @@ init()
 
 	level.use_new_carpenter_func = maps\_zombiemode_powerups::start_carpenter_new;
 	level.board_repair_distance_squared = 750*750;
+
 	level.last_powerup = false;
+	level.powerup_overrides = [];
 
 	level thread remove_carpenter();
 	level thread add_powerup_later("fire_sale");
@@ -741,11 +743,31 @@ powerup_drop(drop_point, player, zombie)
 		return;
 	}
 
-	if( level.powerup_drop_count >= level.zombie_vars["zombie_powerup_drop_max_per_round"] )
+	debug = undefined;
+	powerup_override = undefined;
+	override = false;
+
+	if(level.powerup_overrides.size > 0)
 	{
-/#
+		powerup_override = level.powerup_overrides[0];
+		if(!IsDefined(powerup_override.player) || powerup_override.player == player)
+		{
+			override = true;
+		}
+
+		if(IsDefined(powerup_override.player))
+		{
+			powerup_override.player.gg_wep_dropped = true;
+		}
+
+		debug = "override";
+	}
+
+	if( !override && level.powerup_drop_count >= level.zombie_vars["zombie_powerup_drop_max_per_round"] )
+	{
+		/#
 		println( "^3POWERUP DROP EXCEEDED THE MAX PER ROUND!" );
-#/
+		#/
 		return;
 	}
 
@@ -757,41 +779,32 @@ powerup_drop(drop_point, player, zombie)
 	// some guys randomly drop, but most of the time they check for the drop flag
 	rand_drop = randomint(100);
 
-	drop_gg_wep = false;
-
-	if( level.gamemode == "gg" && IsDefined(zombie.can_drop_gg_powerup) && !IsDefined(player.gg_wep_dropped) && !IsDefined(player.gg_wep_dropped_this_frame) )
+	if(!override)
 	{
-		player thread wait_frame_for_next_drop();
-
-		player.gg_wep_dropped = true;
-		drop_gg_wep = true;
-		debug = "gungame";
-	}
-	else if(rand_drop > 2)
-	{
-		if (!level.zombie_vars["zombie_drop_item"])
+		if(rand_drop > 2)
 		{
-			return;
+			if (!level.zombie_vars["zombie_drop_item"])
+			{
+				return;
+			}
+
+			debug = "score";
 		}
-
-		debug = "score";
+		else
+		{
+			debug = "random";
+		}
 	}
-	else
-	{
-		debug = "random";
-	}
-
-	// Never drop unless in the playable area
-	playable_area = getentarray("player_volume","script_noteworthy");
 
 	// This needs to go above the network_safe_spawn because that has a wait.
-	//	Otherwise, multiple threads could attempt to drop powerups.
+	// Otherwise, multiple threads could attempt to drop powerups.
 	level.powerup_drop_count++;
 
 	powerup = maps\_zombiemode_net::network_safe_spawn( "powerup", 1, "script_model", drop_point + (0,0,40));
 
-	//chris_p - fixed bug where you could not have more than 1 playable area trigger for the whole map
+	// Never drop unless in the playable area
 	valid_drop = false;
+	playable_area = getentarray("player_volume","script_noteworthy");
 	for (i = 0; i < playable_area.size; i++)
 	{
 		if (powerup istouching(playable_area[i]))
@@ -815,9 +828,9 @@ powerup_drop(drop_point, player, zombie)
 	// If not a valid drop, allow another spawn to be attempted
 	if( !valid_drop )
 	{
-		if(drop_gg_wep)
+		if(override && IsDefined(powerup_override.player))
 		{
-			player.gg_wep_dropped = undefined;
+			powerup_override.player.gg_wep_dropped = undefined;
 		}
 
 		level.powerup_drop_count--;
@@ -825,50 +838,64 @@ powerup_drop(drop_point, player, zombie)
 		return;
 	}
 
-	if(drop_gg_wep)
+	if(override)
 	{
-		powerup.player = player;
-		powerup.gg_powerup = true;
-		powerup powerup_setup("random_weapon");
+		powerup.gg_powerup = powerup_override.gg_powerup;
+		powerup.player = powerup_override.player;
+		powerup.powerup_notify = powerup_override.powerup_notify;
+		powerup powerup_setup(powerup_override.powerup_name);
 
-		players = get_players();
-		for(i=0;i<players.size;i++)
+		if(IsDefined(powerup.player))
 		{
-			if(players[i] != player)
+			players = get_players();
+			for(i=0;i<players.size;i++)
 			{
-				powerup SetInvisibleToPlayer(players[i], true);
+				if(players[i] != powerup.player)
+				{
+					powerup SetInvisibleToPlayer(players[i], true);
+				}
 			}
 		}
 
-		powerup thread timeout_on_down();
-		powerup thread timeout_on_grabbed();
+		if(IsDefined(powerup.gg_powerup))
+		{
+			powerup thread timeout_on_down();
+			powerup thread timeout_on_grabbed();
+		}
+
+		if(IsDefined(powerup.powerup_notify))
+		{
+			level notify( powerup.powerup_notify );
+		}
+
+		level.powerup_overrides = array_remove_nokeys(level.powerup_overrides, powerup_override);
 	}
 	else
 	{
 		powerup powerup_setup();
+
+		if(level.last_powerup)
+		{
+			if(powerup.caution)
+			{
+				playfx( level._effect["powerup_grabbed_red"], powerup.origin );
+			}
+			else
+			{
+				playfx( level._effect["powerup_grabbed"], powerup.origin );
+			}
+
+			level.last_powerup = false;
+		}
+
+		level.zombie_vars["zombie_drop_item"] = 0;
 	}
 
 	print_powerup_drop( powerup.powerup_name, debug );
 
-	if(level.last_powerup && !drop_gg_wep)
-	{
-		//iprintln("last powerup");
-		if(powerup.caution)
-		{
-			playfx( level._effect["powerup_grabbed_red"], powerup.origin );
-		}
-		else
-		{
-			playfx( level._effect["powerup_grabbed"], powerup.origin );
-		}
-		level.last_powerup = false;
-	}
-
 	powerup thread powerup_timeout();
 	powerup thread powerup_wobble();
 	powerup thread powerup_grab();
-
-	level.zombie_vars["zombie_drop_item"] = 0;
 
 	// RAVEN BEGIN bhackbarth: let the level know that a powerup has been dropped
 	level notify("powerup_dropped", powerup);
@@ -4201,16 +4228,4 @@ upgrade_weapon_powerup( drop_item, player )
 	}
 
 	player maps\_zombiemode_grief::update_gungame_weapon(false, true);
-}
-
-// fix for multiple gun game weapon increment powerups spawning if multiple zombies were killed on the same frame
-wait_frame_for_next_drop()
-{
-	self endon("disconnect");
-
-	self.gg_wep_dropped_this_frame = true;
-
-	wait_network_frame();
-
-	self.gg_wep_dropped_this_frame = undefined;
 }
