@@ -2083,7 +2083,7 @@ curbs_fix()
 	collision4.angles = (0, 46.5, 0);
 	collision4 Hide();
 
-	collision5 = spawn("script_model", (435.5, -1502.5, -1.5));
+	collision5 = spawn("script_model", (435.5, -1502.5, -0.5));
 	collision5 setmodel("collision_geo_128x128x128");
 	collision5.angles = (0, 0, 0);
 	collision5 Hide();
