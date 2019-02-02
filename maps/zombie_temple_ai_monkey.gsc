@@ -2084,11 +2084,11 @@ monkey_temple_custom_damage( player )
 	self.melee_count++;
 
 	//Take monkey if hit by the monkey
-	/*if(isDefined(player) && player.score>0)
+	if(isDefined(player) && player.score>0)
 	{
 		pointsToSteal = int(min(player.score, 50));
 		player maps\_zombiemode_score::minus_to_player_score( pointsToSteal );
-	}*/
+	}
 
 	return damage;
 }
