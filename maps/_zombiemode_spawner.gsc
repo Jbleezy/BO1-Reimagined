@@ -3608,9 +3608,14 @@ zombie_death_animscript()
 	{
 		self thread dragons_breath_flame_death_fx();
 	}
-	if( self.damagemod == "MOD_BURNED" || ( self.damageWeapon == "molotov_zm" && (self.damagemod == "MOD_GRENADE" || self.damagemod == "MOD_GRENADE_SPLASH" ) ) )
+	if( self.damagemod == "MOD_BURNED" || (self.damageWeapon == "molotov_zm" && (self.damagemod == "MOD_GRENADE" || self.damagemod == "MOD_GRENADE_SPLASH")) )
 	{
-		self thread animscripts\zombie_death::flame_death_fx();
+		if(level.flame_death_fx_frame < 5 && !self.isdog)
+		{
+			level.flame_death_fx_frame++;
+			level thread reset_flame_death_fx_frame();
+			self thread animscripts\zombie_death::flame_death_fx();
+		}
 	}
 	if( self.damagemod == "MOD_GRENADE" || self.damagemod == "MOD_GRENADE_SPLASH" )
 	{
@@ -3618,6 +3623,16 @@ zombie_death_animscript()
 	}
 
 	return false;
+}
+
+reset_flame_death_fx_frame()
+{
+	level notify("reset_flame_death_fx_frame");
+	level endon("reset_flame_death_fx_frame");
+
+	wait_network_frame();
+
+	level.flame_death_fx_frame = 0;
 }
 
 

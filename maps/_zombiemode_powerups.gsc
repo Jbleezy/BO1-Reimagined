@@ -822,7 +822,10 @@ powerup_drop(drop_point, player, zombie)
 
 	// This needs to go above the network_safe_spawn because that has a wait.
 	// Otherwise, multiple threads could attempt to drop powerups.
-	level.powerup_drop_count++;
+	if(type != "override")
+	{
+		level.powerup_drop_count++;
+	}
 
 	powerup = maps\_zombiemode_net::network_safe_spawn( "powerup", 1, "script_model", drop_point + (0,0,40));
 
@@ -862,7 +865,10 @@ powerup_drop(drop_point, player, zombie)
 			incremenet_powerup_chance();
 		}
 
-		level.powerup_drop_count--;
+		if(type != "override")
+		{
+			level.powerup_drop_count--;
+		}
 		powerup delete();
 		return;
 	}
@@ -2108,7 +2114,6 @@ nuke_powerup( drop_item, grabber )
 
  	for (i = 0; i < zombies_nuked.size; i++)
   	{
- 		//wait (randomfloatrange(0.1, 0.7)); //JBIRD
  		if( !IsDefined( zombies_nuked[i] ) )
  		{
  			continue;
@@ -2122,8 +2127,6 @@ nuke_powerup( drop_item, grabber )
  		if( i < 5 && !( zombies_nuked[i].isdog ) )
  		{
  			zombies_nuked[i] thread animscripts\zombie_death::flame_death_fx();
- 			zombies_nuked[i] playsound ("evt_nuked");
-
  		}
 
  		if( !( zombies_nuked[i].isdog ) )
