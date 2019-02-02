@@ -75,8 +75,8 @@ init()
 	open_lander_gate();
 
 	level thread lander_cooldown_think();
-	level thread play_launch_unlock_vox();
 
+	level thread play_launch_unlock_vox();
 }
 
 /*------------------------------------
@@ -1695,21 +1695,16 @@ lander_cooldown_think()
 
 		flag_set("lander_cooldown");
 
-		cooldown = 3;
-		str = &"ZOMBIE_COSMODROME_LANDER_COOLDOWN";
-		if(riders  != 0)
-		{
-			cooldown = 30;
-			str = &"ZOMBIE_COSMODROME_LANDER_REFUEL";
+		cooldown = 15;
+		str = &"ZOMBIE_COSMODROME_LANDER_REFUEL";
 
 		for(i=0;i<lander_callboxes.size;i++)
 	    {
 	        lander_callboxes[i] PlaySound( "vox_ann_lander_cooldown" );
 	    }
 
-			lander PlaySound( "zmb_lander_pump_start" );
-			lander PlayLoopSound( "zmb_lander_pump_loop", 1 );
-		}
+		lander PlaySound( "zmb_lander_pump_start" );
+		lander PlayLoopSound( "zmb_lander_pump_loop", 1 );
 
 		//cooldown period
 		lander_use_trig SetHintString( str );
@@ -1738,13 +1733,10 @@ lander_cooldown_think()
 		lander StopLoopSound( 1.5 );
 		lander PlaySound( "zmb_lander_pump_end" );
 
-		if( cooldown == 30 )
-		{
-		    for(i=0;i<lander_callboxes.size;i++)
-		    {
-		        lander_callboxes[i] PlaySound( "vox_ann_lander_ready" );
-		    }
-		}
+		for(i=0;i<lander_callboxes.size;i++)
+	    {
+	        lander_callboxes[i] PlaySound( "vox_ann_lander_ready" );
+	    }
 
 		lander_lights_green();
 

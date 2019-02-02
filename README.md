@@ -1006,7 +1006,8 @@
 * The easter egg song teddy bears will float up and rotate around while the song is active
 
 #### Lunar Lander
-* Added a short delay for the lander to activate after triggering it (so you can activate the lander without having to ride it)
+* Decreased cooldown after using the lunar lander from 30 seconds to 15 seconds
+* Increased cooldown after calling the lunar lander from 3 seconds to 15 seconds
 * Lander station no longer kills or moves players if the lander station moves down while the player is standing on it
 * Kills from the lunar lander now count as actual kills
 * Zombies now have a better death animation when killed by the lunar lander

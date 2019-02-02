@@ -33,6 +33,11 @@ play_cosmo_announcer_vox( alias, alarm_override, wait_override )
 {
 	if( !IsDefined( alias ) )
 		return;
+
+    if(level.gamemode != "survival")
+    {
+        return;
+    }
 	
 	if( !IsDefined( level.cosmann_is_speaking ) )
 	{

@@ -677,10 +677,7 @@ wait_for_power()
 
 	flag_wait( "power_on" );
 
-	if(level.gamemode == "survival")
-	{
-		level thread maps\zombie_cosmodrome_amb::play_cosmo_announcer_vox( "vox_ann_power_switch" );
-	}
+	level thread maps\zombie_cosmodrome_amb::play_cosmo_announcer_vox( "vox_ann_power_switch" );
 
 	master_switch rotateroll(-90,.3);
 	master_switch playsound("zmb_switch_flip");
