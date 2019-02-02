@@ -197,7 +197,9 @@
 * Fixed first raise animation from showing the ring floating
 * Fixed empty clip animations with Bowie Knife still showing the blade
 * Unupgraded: increased impact damage from 450 to 500 (weapon file shows it is suppose to do this amount of damage but it does not)
+* Unupgraded: increased melee damage with Bowie Knife or Sickle from 1000 to 1350
 * Upgraded: increased impact damage from 900 to 1000 (weapon file shows it is suppose to do this amount of damage but it does not)
+* Upgraded: increased melee damage with Bowie Knife or Sickle from 1500 to 1850
 
 ### BAR
 * Replaced BAR + Bipod with BAR
