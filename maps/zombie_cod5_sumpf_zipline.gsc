@@ -267,7 +267,7 @@ zipThink()
 
 	self sethintstring(&"ZOMBIE_TRAP_COOLDOWN");
 
-	waittime = 5;
+	waittime = 15;
 
 	wait (waittime);
 
@@ -387,7 +387,7 @@ zipThink()
 								//zipBuyTrigger[i] trigger_on();
 						}
 
-						waittime = 5;
+						waittime = 15;
 
 						/#
 							if ( GetDVarInt( "zombie_cheat" ) > 0 )

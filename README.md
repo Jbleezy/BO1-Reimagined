@@ -927,8 +927,8 @@
 * Objects can now be seen from farther away
 
 #### Zipline
-* Cost decreased from 1500 to 750
-* Cooldown time decreased from 40 seconds to 5 seconds
+* Decreased cost from 1500 to 750
+* Decreased cooldown time from 40 seconds to 15 seconds
 * Hintstrings now display when the zipline is active and cooling down
 * The zipline trigger near the hut can now be activated when the zipline is on either side
 
