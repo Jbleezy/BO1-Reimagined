@@ -1024,11 +1024,13 @@
 
 #### Sidequest
 * Steps in solo are now the same as in coop
+* Intro voicelines can now be cancelled correctly
 * Fuse spawns at the beginning of the match
 * Generators' damage hitbox is now more accurate
 * Generators can now be damaged by any type of explosive
 * Bottle spawns at the beginning of the match
 * Bottle is now given to the player who breaks the ice
+* No longer have to melee the door after giving the bottle to the crew
 * Radio order now resets after a wrong radio is activated
 * Sound for inputting the radios in the wrong order now goes off everytime
 * Inputting the foghorns in the wrong order no longer makes the players wait a round to try again

@@ -244,7 +244,8 @@ knock_on_door()
 	level.egg_sound_ent = GetEnt( "ent_loop_door_sounds", "targetname" );
 	knock_trig PlaySound( "zmb_haxorz_suxorz" );
 
-	level gargoyle_speaks( knock_trig ); // after power is hit anyone who walks by this will hear the guys behind the door
+	level thread gargoyle_speaks( knock_trig ); // after power is hit anyone who walks by this will hear the guys behind the door
+	level.door_knock_vox_occurring = false;
 
 	while( 1 )
 	{
@@ -262,10 +263,18 @@ knock_on_door()
 
 			if( !flag( "ffs" ) )
 			{
+				level notify("end_door_intro");
+
+				if(IsDefined(knock_trig.introvox))
+				{
+					knock_trig.introvox = undefined;
+					knock_trig StopSounds();
+					wait_network_frame();
+				}
+
 				level maps\zombie_coast_amb::play_characters_skits_etc( e_inflictor, knock_trig, undefined, 1, 0, undefined );
 
 				flag_set( "ffs" );
-
 
 				wait( 1.0 ); // This needs to wait the lenght of the sound playing
 				continue;
@@ -596,6 +605,8 @@ delayed_song_loop()
 
 gargoyle_speaks( knock_trig )
 {
+	level endon( "end_door_intro" );
+
 	// objects
 	trig = GetEnt( "trig_start_voices", "targetname" );
 	listener = undefined;
@@ -623,8 +634,10 @@ gargoyle_speaks( knock_trig )
 			    chr = 0;
 			}
 			//level maps\zombie_coast_amb::play_characters_skits_etc( listener, knock_trig, undefined, undefined, undefined, 0 );
+			knock_trig.introvox = true;
 			knock_trig PlaySound( "vox_chr_" + chr + "_egg_response_0", "sounddone_introvox" );
 			knock_trig waittill( "sounddone_introvox" );
+			knock_trig.introvox = undefined;
 
 			/#
 			if ( GetDvarInt( #"scr_coast_egg_debug" ) )
@@ -657,11 +670,11 @@ gargoyle_speaks( knock_trig )
 		}
 	}
 
-	level notify( "stop_watching_early_knock" );
+	//level notify( "stop_watching_early_knock" );
 
-	level maps\zombie_coast_amb::play_characters_skits_etc( listener, knock_trig, undefined, 1, 0, undefined );
+	//level maps\zombie_coast_amb::play_characters_skits_etc( listener, knock_trig, undefined, 1, 0, undefined );
 
-	flag_set( "ffs" );
+	//flag_set( "ffs" );
 }
 
 // stop the intro dialogue if the player knocks on the gargoyle early
@@ -1431,6 +1444,7 @@ coast_egg_bottle_delivered()
 	// objects
 	e_delivery_trigger = GetEnt( "trig_deliver", "targetname" );
 	delivery_tube = GetEnt( e_delivery_trigger.target, "targetname" );
+	knock_trig = GetEnt( "e_gargoyle", "targetname" );
 
 	if( !IsDefined( e_delivery_trigger ) )
 	{
@@ -1439,7 +1453,7 @@ coast_egg_bottle_delivered()
 
 	// turn on the hint string
 	e_delivery_trigger SetHintString( "" );
-
+	player = undefined;
 
 	while( IsDefined( e_delivery_trigger ) )
 	{
@@ -1454,6 +1468,8 @@ coast_egg_bottle_delivered()
 				IPrintLnBold( "Vodka delivered" );
 			}
 			#/
+
+			player = who;
 
 			// remove hud material
 			who thread coast_remove_eggs_hud("zom_hud_icon_bottle");
@@ -1482,6 +1498,11 @@ coast_egg_bottle_delivered()
 	// done
 	flag_set( "bd" );
 
+	flag_set( "ke" );
+
+	level.egg_sound_ent StopLoopSound( 1.5 );
+	level thread delayed_song_loop();
+	level maps\zombie_coast_amb::play_characters_skits_etc( player, knock_trig, 8, 4, 9, undefined );
 }
 
 
