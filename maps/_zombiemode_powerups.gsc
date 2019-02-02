@@ -655,31 +655,47 @@ get_num_window_destroyed()
 	return num;
 }
 
+// drop amounts:
+// 1p - 2500, 5000, 7500
+// 2p - 3500, 6500, 9500
+// 3p - 4500, 8000, 11500
+// 4p - 5500, 9500, 13500
 watch_for_drop()
 {
 	flag_wait( "begin_spawning" );
 
+	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
+	{
+		return;
+	}
+
 	players = get_players();
-	score_to_drop = ( players.size * level.zombie_vars["zombie_score_start_"+players.size+"p"] ) + level.zombie_vars["zombie_powerup_drop_increment"];
+	level.zombie_vars["zombie_powerup_drop_increment_default"] = 2500;
+	level.zombie_vars["zombie_powerup_drop_increment_max"] = level.zombie_vars["zombie_powerup_drop_increment_default"] * 3;
+	level.zombie_vars["zombie_powerup_drop_increment_max"] += (players.size - 1) * 2000;
+	score_to_drop = ((players.size - 1) * 1000) + level.zombie_vars["zombie_powerup_drop_increment_default"];
 
 	while (1)
 	{
 		flag_wait( "zombie_drop_powerups" );
 
 		players = get_players();
-
 		curr_total_score = 0;
-
 		for (i = 0; i < players.size; i++)
 		{
 			curr_total_score += players[i].score_total;
 		}
 
-		if (curr_total_score > score_to_drop )
+		if (curr_total_score >= score_to_drop)
 		{
-			level.zombie_vars["zombie_powerup_drop_increment"] *= 1.14;
-			score_to_drop = curr_total_score + level.zombie_vars["zombie_powerup_drop_increment"];
 			level.zombie_vars["zombie_drop_item"] = 1;
+
+			if(curr_total_score >= level.zombie_vars["zombie_powerup_drop_increment_max"])
+			{
+				break;
+			}
+
+			score_to_drop += ((players.size - 1) * 500) + level.zombie_vars["zombie_powerup_drop_increment_default"];
 		}
 
 		wait( 0.5 );

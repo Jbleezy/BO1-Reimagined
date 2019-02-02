@@ -692,8 +692,9 @@
 ## Powerups
 * Decreased initial chance for a powerup to drop from 3% to 2%
 * Chance for a powerup to drop now gradually increases when a zombie is killed and doesn't drop a powerup
-* Chance for a powerup to drop resets to the initial chance when a powerup drops
+* Chance for a powerup to drop resets to the initial chance when a random powerup drops
 * Guaranteed powerup drop within 100 valid kills
+* Added a limit of 3 guaranteed powerups from points
 * An effect now plays when a powerup drops if it is the last powerup of a powerup cycle
 * Grabbing a powerup that is already active will add to its current remaining time instead of resetting its remaining time
 * Powerups allign on the center of the HUD
