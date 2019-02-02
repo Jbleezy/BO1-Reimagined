@@ -690,12 +690,16 @@
 * Gives ammo back if the player already has the weapon that they had previously lost when perk is rebought
 
 ## Powerups
+* Decreased initial chance for a powerup to drop from 3% to 2%
+* Chance for a powerup to drop now gradually increases when a zombie is killed and doesn't drop a powerup
+* Chance for a powerup to drop resets to the initial chance when a powerup drops
+* Guaranteed powerup drop within 100 valid kills
+* An effect now plays when a powerup drops if it is the last powerup of a powerup cycle
+* Grabbing a powerup that is already active will add to its current remaining time instead of resetting its remaining time
 * Powerups allign on the center of the HUD
 * Powerups on HUD now fade in and out when they are about to end instead of blinking
 * Powerups on the ground now last for 30 seconds (previously 26.5 seconds)
-* An effect now plays when a powerup spawns if it is the last powerup of a powerup cycle
-* Grabbing a powerup that is already active will add to its current remaining time instead of resetting its remaining time
-* Powerups will now not be grabbed automatically if spawned near where a player died at
+* Powerups will now not be grabbed automatically if dropped near where a player died at
 * Powerups that are not initally active are now guaranteed to be added to your current powerup cycle when they become active
 * Only normal powerup drops now effect the powerup cycle
 

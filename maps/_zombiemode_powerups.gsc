@@ -67,6 +67,17 @@ init()
 	level.use_new_carpenter_func = maps\_zombiemode_powerups::start_carpenter_new;
 	level.board_repair_distance_squared = 750*750;
 
+	level.powerup_chance_kills = 0;
+	level.powerup_chance_kills_max_default = 100;
+	level.powerup_chance_kills_half_default = int(level.powerup_chance_kills_max_default / 2);
+	level.powerup_chance_kills_max = level.powerup_chance_kills_half_default;
+	level.powerup_chance_kills_half = level.powerup_chance_kills_half_default;
+	level.powerup_chance_default = 2;
+	level.powerup_chance = level.powerup_chance_default;
+	level.powerup_chance_increment_default = level.powerup_chance / level.powerup_chance_kills_max;
+	level.powerup_chance_increment = level.powerup_chance_increment_default;
+	level.powerup_chance_increment_multiplier = 2;
+
 	level.last_powerup = false;
 	level.powerup_overrides = [];
 
@@ -743,27 +754,24 @@ powerup_drop(drop_point, player, zombie)
 		return;
 	}
 
-	debug = undefined;
+	type = "";
 	powerup_override = undefined;
-	override = false;
 
 	if(level.powerup_overrides.size > 0)
 	{
 		powerup_override = level.powerup_overrides[0];
 		if(!IsDefined(powerup_override.player) || powerup_override.player == player)
 		{
-			override = true;
+			type = "override";
 		}
 
 		if(IsDefined(powerup_override.player))
 		{
 			powerup_override.player.gg_wep_dropped = true;
 		}
-
-		debug = "override";
 	}
 
-	if( !override && level.powerup_drop_count >= level.zombie_vars["zombie_powerup_drop_max_per_round"] )
+	if( type != "override" && level.powerup_drop_count >= level.zombie_vars["zombie_powerup_drop_max_per_round"] )
 	{
 		/#
 		println( "^3POWERUP DROP EXCEEDED THE MAX PER ROUND!" );
@@ -777,22 +785,22 @@ powerup_drop(drop_point, player, zombie)
 	}
 
 	// some guys randomly drop, but most of the time they check for the drop flag
-	rand_drop = randomint(100);
+	rand_drop = RandomFloat(100);
 
-	if(!override)
+	if(type != "override")
 	{
-		if(rand_drop > 2)
+		if(level.zombie_vars["zombie_drop_item"])
 		{
-			if (!level.zombie_vars["zombie_drop_item"])
-			{
-				return;
-			}
-
-			debug = "score";
+			type = "score";
+		}
+		else if(rand_drop <= level.powerup_chance)
+		{
+			type = "random";
 		}
 		else
 		{
-			debug = "random";
+			incremenet_powerup_chance();
+			return;
 		}
 	}
 
@@ -828,9 +836,14 @@ powerup_drop(drop_point, player, zombie)
 	// If not a valid drop, allow another spawn to be attempted
 	if( !valid_drop )
 	{
-		if(override && IsDefined(powerup_override.player))
+		if(type == "override" && IsDefined(powerup_override.player))
 		{
 			powerup_override.player.gg_wep_dropped = undefined;
+		}
+
+		if(type == "random")
+		{
+			incremenet_powerup_chance();
 		}
 
 		level.powerup_drop_count--;
@@ -838,7 +851,7 @@ powerup_drop(drop_point, player, zombie)
 		return;
 	}
 
-	if(override)
+	if(type == "override")
 	{
 		powerup.gg_powerup = powerup_override.gg_powerup;
 		powerup.player = powerup_override.player;
@@ -888,10 +901,17 @@ powerup_drop(drop_point, player, zombie)
 			level.last_powerup = false;
 		}
 
-		level.zombie_vars["zombie_drop_item"] = 0;
+		if(type == "random")
+		{
+			reset_powerup_chance();
+		}
+		else if(type == "score")
+		{
+			level.zombie_vars["zombie_drop_item"] = 0;
+		}
 	}
 
-	print_powerup_drop( powerup.powerup_name, debug );
+	print_powerup_drop( powerup.powerup_name, type );
 
 	powerup thread powerup_timeout();
 	powerup thread powerup_wobble();
@@ -902,6 +922,32 @@ powerup_drop(drop_point, player, zombie)
 	// RAVEN END
 }
 
+incremenet_powerup_chance()
+{
+	level.powerup_chance_kills++;
+	if(level.powerup_chance_kills >= level.powerup_chance_kills_max_default)
+	{
+		level.powerup_chance = 100;
+	}
+	else
+	{
+		if(level.powerup_chance_kills >= level.powerup_chance_kills_max)
+		{
+			level.powerup_chance_kills_half = int(level.powerup_chance_kills_half / 2);
+			level.powerup_chance_kills_max += level.powerup_chance_kills_half;
+			level.powerup_chance_increment *= level.powerup_chance_increment_multiplier;
+		}
+		level.powerup_chance += level.powerup_chance_increment;
+	}
+}
+
+reset_powerup_chance()
+{
+	level.powerup_chance_kills = 0;
+	level.powerup_chance_kills_half = level.powerup_chance_kills_half_default;
+	level.powerup_chance_kills_max = level.powerup_chance_kills_half_default;
+	level.powerup_chance = level.powerup_chance_default;
+}
 
 //
 //	Drop the specified powerup
