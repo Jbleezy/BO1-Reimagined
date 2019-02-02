@@ -457,7 +457,7 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 	self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
 
 	upgraded = (weap == "freezegun_upgraded_zm");
-	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_IMPACT", weap );
+	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_PROJECTILE_SPLASH", weap );
 
 	if ( is_mature() )
 	{
@@ -609,6 +609,10 @@ freezegun_death( hit_location, hit_origin, player )
 	crumple_trigger linkto( self );
 
 	weap = self.damageweapon;
+	if(weap != "freezegun_zm" && weap != "freezegun_upgraded_zm")
+	{
+		weap = "freezegun_zm";
+	}
 
 	//self thread freezegun_do_shatter( player, weap );
 
@@ -640,7 +644,7 @@ is_freezegun_damage( mod )
 
 is_freezegun_shatter_damage( mod )
 {
-	return (("MOD_IMPACT" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
+	return (("MOD_PROJECTILE_SPLASH" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
 }
 
 
