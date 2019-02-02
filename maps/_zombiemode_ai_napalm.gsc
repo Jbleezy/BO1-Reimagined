@@ -300,7 +300,10 @@ napalm_zombie_spawn( animname_set )
 	self thread napalm_zombie_client_flag();
 	self.napalm_zombie_glowing = false;
 
-	self.maxhealth *= (GetPlayers().size * level.napalmHealthMultiplier);
+	//self.maxhealth *= (GetPlayers().size * level.napalmHealthMultiplier);
+	self.maxhealth = int(self.maxhealth * level.napalmHealthMultiplier);
+	if(self.maxhealth > 250000)
+		self.maxhealth = 250000;
 	self.health = self.maxhealth;
 	self.no_gib = true;
 	self.rising = true;
@@ -626,7 +629,7 @@ napalm_zombie_death()
 
 	//Reward players if the napalm was shot to death
 	//(No reward if the napalm explodes himself or if he is shrunk)
-	if( isDefined(self.attacker) && isPlayer(self.attacker) && !is_true(self.killed_self) && !is_true(self.shrinked) )
+	/*if( isDefined(self.attacker) && isPlayer(self.attacker) && !is_true(self.killed_self) && !is_true(self.shrinked) )
 	{
 		self.trigger.attacker = self.attacker;
 		players = get_players();
@@ -638,7 +641,7 @@ napalm_zombie_death()
 				player maps\_zombiemode_score::player_add_points( "thundergun_fling", 300, (0,0,0), false );
 			}
 		}
-	}
+	}*/
 
 	return self zombie_death_animscript();
 }

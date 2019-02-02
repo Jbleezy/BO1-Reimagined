@@ -24,7 +24,7 @@ sonic_zombie_init()
 	level.sonicScreamAttackDebounceMax	= 9;	//Max deboucne time between screams globally
  	level.sonicScreamAttackNext			= 0;	//Next any sonic zombie can do scream attack
 
-	level.sonicHealthMultiplier        	= 2.5;
+	level.sonicHealthMultiplier        	= 2;
 
 	level.sonic_zombie_spawners = GetEntArray( "sonic_zombie_spawner", "script_noteworthy" );
 
@@ -305,6 +305,8 @@ sonic_zombie_spawn( animname_set )
 
 	//self.maxhealth = int(self.maxhealth * GetPlayers().size * level.sonicHealthMultiplier);
 	self.maxhealth = int(self.maxhealth * level.sonicHealthMultiplier);
+	if(self.maxhealth > 125000)
+		self.maxhealth = 125000;
 	self.health = self.maxhealth;
 
 	//hack to prevent gibbing for now
@@ -1140,7 +1142,7 @@ _sonic_damage_callback( mod, hit_location, hit_origin, player, amount )
 
 		self.damageCount++;*/
 
-		player maps\_zombiemode_score::player_add_points( "thundergun_fling", 10, hit_location, self.isdog );
+		//player maps\_zombiemode_score::player_add_points( "thundergun_fling", 10, hit_location, self.isdog );
 
 		//self thread maps\_zombiemode_powerups::check_for_instakill( player, mod, hit_location );
 

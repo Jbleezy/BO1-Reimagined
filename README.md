@@ -865,7 +865,7 @@
 ### Director
 * Always drops Wunderwaffe regardless of whether or not you have completed the sidequest
 * Upgraded assault rifles no longer deal extra damage to the Director
-* Max health is now 250,000 no matter how many players are in the match
+* No longer gains additional health for each additional player
 * No longer affected by explosive damage scaling
 * Only slows down players close to him when shot at while calm
 * Fixed a bug that caused shotgun damage on the Director to only count one pellet of damage per shot
@@ -892,11 +892,17 @@
 
 ### Napalm
 * Kills from napalm explosion or flames count for the player who killed the napalm or the player who triggered the napalm
+* No longer gains additional health for each additional player
+* No longer gives additional points when killed
 * No longer affected by explosive damage scaling
 * No longer attracted towards Monkey Bombs
 
 ### Shrieker
-* Damaging a shrieker will now always give points
+* Decreased health multiplier from 2.5 to 2
+* No longer gains additional health for each additional player
+* No longer gives points when damaged
+* No longer affected by insta kills
+* No longer affected by explosive damage scaling
 * No longer attracted towards Monkey Bombs
 
 ### Cosmonaut
