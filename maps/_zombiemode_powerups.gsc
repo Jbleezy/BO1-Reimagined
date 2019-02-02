@@ -969,6 +969,7 @@ reset_powerup_chance()
 	level.powerup_chance_kills_half = level.powerup_chance_kills_half_default;
 	level.powerup_chance_kills_max = level.powerup_chance_kills_half_default;
 	level.powerup_chance = level.powerup_chance_default;
+	level.powerup_chance_increment = level.powerup_chance_increment_default;
 }
 
 //
