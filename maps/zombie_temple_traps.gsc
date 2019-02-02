@@ -448,12 +448,13 @@ waterfall_trap_init()
 
 waterfall_trap_think()
 {
+	self.zombie_cost = 500;
 
 	while (1)
 	{
 		//Set trap as usable
 		self notify("trap_ready");
-		self.useTrigger SetHintString(&"ZOMBIE_TEMPLE_USE_WATER_TRAP");
+		self.useTrigger SetHintString(&"REIMAGINED_USE_WATER_TRAP", self.zombie_cost);
 
 		//Wait for a use trigger to be activated
 
@@ -462,54 +463,61 @@ waterfall_trap_think()
 		// Did a valid player use the trigger?
 		if( is_player_valid( who ) && !who in_revive_trigger() )
 		{
-				//Added for sidequest
-				who.used_waterfall = true;
+			if( who.score < self.zombie_cost)
+			{
+				continue;
+			}
+
+			play_sound_at_pos( "purchase", who.origin );
+			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
+
+			//Added for sidequest
+			who.used_waterfall = true;
+
+			//"animate" the switch
+			self.useTrigger SetHintString(&"REIMAGINED_WATER_TRAP_ACTIVE");
+			self thread temple_trap_move_switch();
+			self waittill( "switch_activated" );
+
+			//Activate Waterfall FX
+			waterfall_trap_on();
+
+			//wait here to let the fx get started
+			wait(.5);
+
+			//Added for sidequest
+			who.used_waterfall = false;
+
+			activeTime = 5.5;
+
+			//Water on screen triggers
+			array_thread(self.water_drop_trigs, ::waterfall_screen_fx, activeTime);
+
+			//Activate Damage Trigger
+			array_thread(self.trap_damage, ::waterfall_trap_damage, who);
+
+			//Screen shake
+			self thread waterfall_screen_shake(activeTime);
+
+			//Active time
+			wait activeTime;
+
+			//Turn off trap
+			self notify("trap_off");
+
+			//Hide Use Message
+			self.useTrigger SetHintString(&"ZOMBIE_TEMPLE_WATER_TRAP_COOL");
 
 
-				//"animate" the switch
-				self.useTrigger SetHintString(&"REIMAGINED_WATER_TRAP_ACTIVE");
-				self thread temple_trap_move_switch();
-				self waittill( "switch_activated" );
+			array_thread(self.water_drop_trigs, ::trigger_off);
+			waterfall_trap_off();
+			array_notify(self.trap_damage, "trap_off");
 
-				//Activate Waterfall FX
-				waterfall_trap_on();
-
-				//wait here to let the fx get started
-				wait(.5);
-
-				//Added for sidequest
-				who.used_waterfall = false;
-
-				activeTime = 5.5;
-
-				//Water on screen triggers
-				array_thread(self.water_drop_trigs, ::waterfall_screen_fx, activeTime);
-
-				//Activate Damage Trigger
-				array_thread(self.trap_damage, ::waterfall_trap_damage, who);
-
-				//Screen shake
-				self thread waterfall_screen_shake(activeTime);
-
-				//Active time
-				wait activeTime;
-
-				//Turn off trap
-				self notify("trap_off");
-
-				//Hide Use Message
-				self.useTrigger SetHintString(&"ZOMBIE_TEMPLE_WATER_TRAP_COOL");
-
-
-				array_thread(self.water_drop_trigs, ::trigger_off);
-				waterfall_trap_off();
-				array_notify(self.trap_damage, "trap_off");
-
-				//Cool Down time
-				if(!level.zombie_vars["zombie_powerup_fire_sale_on"])
-				{
-					level waittill_notify_or_timeout("fire_sale_on", 30);
-				}
+			//Cool Down time
+			if(!level.zombie_vars["zombie_powerup_fire_sale_on"])
+			{
+				level waittill_notify_or_timeout("fire_sale_on", 30);
+			}
 		}
 	}
 }

@@ -785,6 +785,7 @@
 
 ### Waterfall (Shangri-La)
 * Now kills zombies (except for Shrieker and Napalm)
+* Now costs 500 points
 * Displays a hintstring when active
 
 ## Blockers

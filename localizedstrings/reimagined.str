@@ -54,6 +54,9 @@ LANG_ENGLISH       	"The door must be opened"
 REFERENCE          	PERK_QUICKREVIVE
 LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to buy Quick Revive [Cost: &&1]"
 
+REFERENCE          	USE_WATER_TRAP
+LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to activate the reservoir [Cost: &&1]"
+
 REFERENCE          	WATER_TRAP_ACTIVE
 LANG_ENGLISH       	"The reservoir is active"
 
