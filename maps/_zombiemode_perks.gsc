@@ -1946,83 +1946,9 @@ give_perk( perk, bought )
 
 	if(perk == "specialty_additionalprimaryweapon")
 	{
-		if(IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon) && IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
-		{
-			can_give_wep = true;
-			if( IsDefined( level.limited_weapons )  )
-			{
-				keys2 = GetArrayKeys( level.limited_weapons );
-				players = get_players();
-				pap_triggers = GetEntArray("zombie_vending_upgrade", "targetname");
-				for( q = 0; q < keys2.size; q++ )
-				{
-					if(keys2[q] != self.weapon_taken_by_losing_additionalprimaryweapon[0])
-						continue;
-
-					count = 0;
-					for( i = 0; i < players.size; i++ )
-					{
-						if( players[i] maps\_zombiemode_weapons::has_weapon_or_upgrade( keys2[q] ) )
-						{
-							count++;
-						}
-					}
-
-					// Check the pack a punch machines to see if they are holding what we're looking for
-					for ( k=0; k<pap_triggers.size; k++ )
-					{
-						if ( IsDefined(pap_triggers[k].current_weapon) && pap_triggers[k].current_weapon == keys2[q] )
-						{
-							count++;
-						}
-					}
-
-					// Check the other boxes so we don't offer something currently being offered during a fire sale
-					for ( chestIndex = 0; chestIndex < level.chests.size; chestIndex++ )
-					{
-						if ( IsDefined( level.chests[chestIndex].chest_origin.weapon_string ) && level.chests[chestIndex].chest_origin.weapon_string == keys2[q] )
-						{
-							count++;
-						}
-					}
-
-					//check weapon powerup
-					if ( isdefined( level.random_weapon_powerups ) )
-					{
-						for ( powerupIndex = 0; powerupIndex < level.random_weapon_powerups.size; powerupIndex++ )
-						{
-							if ( IsDefined( level.random_weapon_powerups[powerupIndex] ) && level.random_weapon_powerups[powerupIndex].base_weapon == keys2[q] )
-							{
-								count++;
-							}
-						}
-					}
-
-					if( count >= level.limited_weapons[keys2[q]] )
-					{
-						can_give_wep = false;
-						break;
-					}
-				}
-			}
-			if(can_give_wep)
-			{
-				self thread give_back_mule_weapon();
-			}
-			else
-			{
-				self.weapon_taken_by_losing_additionalprimaryweapon = [];
-			}
-		}
-		/*if(!IsDefined(level.first_time_buying_mule))
-		{
-			level.first_time_buying_mule = true;
-			self GiveWeapon("knife_ballistic_zm");
-			wait_network_frame();
-			self SwitchToWeapon("knife_ballistic_zm");
-		}*/
-		self thread unsave_additional_weapon_on_bleedout();
+		self thread give_back_additional_weapon();
 		self thread additional_weapon_indicator(perk, perk_str);
+		self thread unsave_additional_weapon_on_bleedout();
 	}
 
 
@@ -2034,9 +1960,79 @@ give_perk( perk, bought )
 	self thread perk_think( perk );
 }
 
-give_back_mule_weapon()
+give_back_additional_weapon()
 {
 	self endon("disconnect");
+
+	if(!IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon) || !IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
+	{
+		return;
+	}
+
+	// check if we can give back the lost weapon
+	can_give_wep = true;
+	if( IsDefined( level.limited_weapons )  )
+	{
+		keys2 = GetArrayKeys( level.limited_weapons );
+		players = get_players();
+		pap_triggers = GetEntArray("zombie_vending_upgrade", "targetname");
+		for( q = 0; q < keys2.size; q++ )
+		{
+			if(keys2[q] != self.weapon_taken_by_losing_additionalprimaryweapon[0])
+				continue;
+
+			count = 0;
+			for( i = 0; i < players.size; i++ )
+			{
+				if( players[i] maps\_zombiemode_weapons::has_weapon_or_upgrade( keys2[q] ) )
+				{
+					count++;
+				}
+			}
+
+			// Check the pack a punch machines to see if they are holding what we're looking for
+			for ( k=0; k<pap_triggers.size; k++ )
+			{
+				if ( IsDefined(pap_triggers[k].current_weapon) && pap_triggers[k].current_weapon == keys2[q] )
+				{
+					count++;
+				}
+			}
+
+			// Check the other boxes so we don't offer something currently being offered during a fire sale
+			for ( chestIndex = 0; chestIndex < level.chests.size; chestIndex++ )
+			{
+				if ( IsDefined( level.chests[chestIndex].chest_origin.weapon_string ) && level.chests[chestIndex].chest_origin.weapon_string == keys2[q] )
+				{
+					count++;
+				}
+			}
+
+			//check weapon powerup
+			if ( isdefined( level.random_weapon_powerups ) )
+			{
+				for ( powerupIndex = 0; powerupIndex < level.random_weapon_powerups.size; powerupIndex++ )
+				{
+					if ( IsDefined( level.random_weapon_powerups[powerupIndex] ) && level.random_weapon_powerups[powerupIndex].base_weapon == keys2[q] )
+					{
+						count++;
+					}
+				}
+			}
+
+			if( count >= level.limited_weapons[keys2[q]] )
+			{
+				can_give_wep = false;
+				break;
+			}
+		}
+	}
+
+	if(!can_give_wep)
+	{
+		self.weapon_taken_by_losing_additionalprimaryweapon = [];
+		return;
+	}
 
 	unupgrade_name = self.weapon_taken_by_losing_additionalprimaryweapon[0];
 	if(maps\_zombiemode_weapons::is_weapon_upgraded(self.weapon_taken_by_losing_additionalprimaryweapon[0]))
@@ -2090,8 +2086,14 @@ give_back_mule_weapon()
 	{
 		self SetWeaponAmmoClip( dual_wield_name, self.weapon_taken_by_losing_additionalprimaryweapon[3] );
 	}
+
 	wait_network_frame();
-	self SwitchToWeapon(self.weapon_taken_by_losing_additionalprimaryweapon[0]);
+
+	if(!is_true(self.has_powerup_weapon))
+	{
+		self SwitchToWeapon(self.weapon_taken_by_losing_additionalprimaryweapon[0]);
+	}
+
 	self.weapon_taken_by_losing_additionalprimaryweapon = [];
 }
 
