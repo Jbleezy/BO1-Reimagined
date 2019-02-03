@@ -612,11 +612,6 @@ vending_weapon_upgrade()
 	self SetHintString( &"ZOMBIE_NEED_POWER" );
 	self SetCursorHint( "HINT_NOICON" );
 
-	/*if(level.gamemode == "gg")
-	{
-		return;
-	}*/
-
 	level waittill("Pack_A_Punch_on");
 
 	self thread vending_machine_trigger_think();
@@ -1023,11 +1018,6 @@ upgrade_knuckle_crack_end( gun )
 //	NOTE:  In the .map, you'll have to make sure that each Pack-A-Punch machine has a unique targetname
 turn_PackAPunch_on()
 {
-	/*if(level.gamemode == "gg")
-	{
-		return;
-	}*/
-
 	level waittill("Pack_A_Punch_on");
 
 	vending_weapon_upgrade_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
@@ -1372,11 +1362,6 @@ turn_deadshot_on()
 //
 turn_additionalprimaryweapon_on()
 {
-	if(level.gamemode == "gg")
-	{
-		return;
-	}
-
 	machine = getentarray("vending_additionalprimaryweapon", "targetname");
 //	level waittill("additionalprimaryweapon_on");
 	if ( "zombie_cod5_prototype" != level.script && "zombie_cod5_sumpf" != level.script )
@@ -1498,11 +1483,6 @@ vending_trigger_think()
 
 	self SetCursorHint( "HINT_NOICON" );
 	self UseTriggerRequireLookAt();
-
-	if(perk == "specialty_additionalprimaryweapon" && level.gamemode == "gg")
-	{
-		return;
-	}
 
 	cost = level.zombie_vars["zombie_perk_cost"];
 	switch( perk )

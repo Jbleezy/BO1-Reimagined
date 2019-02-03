@@ -1215,7 +1215,6 @@
 * Auto revive after 10 seoconds
 * Wall weapons disabled
 * Mystery box disabled
-* Mule Kick disabled
 * Win the game the game by progressing through all the weapons
 * Weapon order: pistols, shotguns, smg's, assault rifles, lmg's, snipers, explosives, wonder weapons, ballistic knife
 * Zombies will drop a gun increment powerup after getting 10 kills with your current weapon
