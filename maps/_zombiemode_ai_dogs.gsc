@@ -446,8 +446,17 @@ dog_round_tracker()
 
 	// PI_CHANGE_BEGIN - JMA - making dog rounds random between round 5 thru 7
 	// NOTE:  RandomIntRange returns a random integer r, where min <= r < max
-	level.next_dog_round = randomintrange( 5, 8 );
+	level.next_dog_round = randomintrange( 5, 7 );
 	// PI_CHANGE_END
+
+	if(level.next_dog_round == 5)
+	{
+		level.prev_dog_round_amount = 4;
+	}
+	else
+	{
+		level.prev_dog_round_amount = 5;
+	}
 
 	old_spawn_func = level.round_spawn_func;
 	old_wait_func  = level.round_wait_func;

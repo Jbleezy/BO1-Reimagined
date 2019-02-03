@@ -831,6 +831,7 @@
 * Ceiling spawner zombies now fall from the ceiling quicker
 
 ### Hellhounds
+* Initial hellhound round always happens on round 5 or 6
 * Flaming hellhounds now deal damage to players who are close to them when they explode
 * No longer gain additional points for killing hellhounds with wonder weapons
 * Decreased 2nd hellhound round health from 900 to 800
@@ -842,6 +843,7 @@
 * Now award kill points immediately if killed while crawling on a wall
 
 ### Thief
+* Initial thief round always happens 1 or 2 rounds after turning on the power
 * Health increase per round: 1000
 * Max health: 30,000
 * Same health no matter how many payers are in the match
@@ -849,6 +851,7 @@
 * No longer affected by explosive damage scaling
 
 ### Monkeys (Ascension)
+* Initial monkey round always happens 1 or 2 rounds after buying a perk
 * Health is now a fixed amount each monkey round (previously was based on what round you were on)
 * 1st monkey round health: 150
 * 2nd monkey round health: 400
