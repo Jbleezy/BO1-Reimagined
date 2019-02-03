@@ -943,6 +943,7 @@
 * Zombies now spawn from the Bridge Warehouse Side zone when in the Upper Warehouse zone
 * Zombies no longer spawn from the Outside Laboratory zone when in the Teleporter A zone
 * Zombies no longer spawn from the Outside Laboratory zone when in the Teleporter C zone
+* Decreased mid round hellhounds starting round from 16 to 15
 * Mid round hellhounds now spawn when no doors are open
 * Mid round hellhounds now have the same delay between spawns as zombies
 * Players will no longer get stuck on curbs

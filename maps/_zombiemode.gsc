@@ -3772,28 +3772,28 @@ round_spawning()
 		spawn_dog = false;
 		if ( IsDefined( level.mixed_rounds_enabled ) && level.mixed_rounds_enabled == 1 )
 		{
-			if ( level.round_number > 30 || level.gamemode == "snr" || level.gamemode == "gg" )
+			if ( level.round_number >= 30 || level.gamemode == "snr" || level.gamemode == "gg" )
 			{
 				if ( RandomInt(100) < 3 )
 				{
 					spawn_dog = true;
 				}
 			}
-			else if ( level.round_number > 25 && mixed_spawns < 3 )
+			else if ( level.round_number >= 25 && mixed_spawns < 3 )
 			{
 				if ( RandomInt(100) < 2 )
 				{
 					spawn_dog = true;
 				}
 			}
-			else if ( level.round_number > 20 && mixed_spawns < 2 )
+			else if ( level.round_number >= 20 && mixed_spawns < 2 )
 			{
 				if ( RandomInt(100) < 2 )
 				{
 					spawn_dog = true;
 				}
 			}
-			else if ( level.round_number > 15 && mixed_spawns < 1 )
+			else if ( level.round_number >= 15 && mixed_spawns < 1 )
 			{
 				if ( RandomInt(100) < 1 )
 				{
