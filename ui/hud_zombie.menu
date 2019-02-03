@@ -666,7 +666,7 @@
 		{
 			name				"hud_sidequest_time"
 			type				ITEM_TYPE_TEXT
-			rect 				0 74 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			rect 				0 26 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
 			forecolor			1 .1 1 0
 			textscale			TEXTSIZE_SMALL
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
