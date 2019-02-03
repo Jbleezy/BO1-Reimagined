@@ -23,7 +23,7 @@
 * Maps now auto restart correctly (box gets randomized again)
 
 ## Players
-* Players automatically get 3 self revives in solo (except for on Nacht Der Untoten and on Moon before initially leaving No Man's Land)
+* Players automatically get 3 self revives in solo (except for on Moon before initially leaving No Man's Land)
 * Unlimited sprint
 * All players are attracted equally
 * Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%

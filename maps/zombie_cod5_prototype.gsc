@@ -768,7 +768,7 @@ check_solo_game()
 	{
 		flag_set( "solo_game" );
 		level.solo_lives_given = 0;
-		players[0].lives = 0;
+		players[0].lives = 3;
 	}
 }
 //*****************************************************************************
