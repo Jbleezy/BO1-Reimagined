@@ -51,6 +51,8 @@ init()
 	level._effect["powerup_grabbed_caution"]		= LoadFX( "misc/fx_zombie_powerup_caution_grab" );
 	level._effect["powerup_grabbed_wave_caution"] 	= loadfx( "misc/fx_zombie_powerup_caution_wave" );
 
+	level._effect[ "powerup_last" ]		= LoadFX( "explosions/fx_grenade_flash" );
+
 	if( level.mutators["mutator_noPowerups"] )
 	{
 		return;
@@ -911,14 +913,7 @@ powerup_drop(drop_point, player, zombie)
 
 		if(level.last_powerup)
 		{
-			if(powerup.caution)
-			{
-				playfx( level._effect["powerup_grabbed_red"], powerup.origin );
-			}
-			else
-			{
-				playfx( level._effect["powerup_grabbed"], powerup.origin );
-			}
+			PlayFX( level._effect["powerup_last"], powerup.origin );
 
 			level.last_powerup = false;
 		}
@@ -3749,8 +3744,6 @@ quantum_bomb_random_weapon_powerup_validation(position)
 
 	return false;*/
 }
-
-//GRIEF POWERDOWNS
 
 powerup_shader_on_hud( item, powerup_on_var, powerup_time_var, sound, loop_sound, time )
 {
