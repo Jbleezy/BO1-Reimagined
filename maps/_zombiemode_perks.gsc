@@ -1926,6 +1926,7 @@ give_perk( perk, bought )
 
 	if(perk == "specialty_additionalprimaryweapon")
 	{
+		self SetClientDvar("ui_show_mule_wep_indicator", "1");
 		self thread give_back_additional_weapon();
 		self thread additional_weapon_indicator(perk, perk_str);
 		self thread unsave_additional_weapon_on_bleedout();
@@ -2778,9 +2779,10 @@ additional_weapon_indicator(perk, perk_str)
 	{
 		if(self maps\_laststand::player_is_in_laststand())
 		{
-			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
 			self SetClientDvar("ui_show_mule_wep_indicator", "0");
+			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
 			self waittill("player_revived");
+			self SetClientDvar("ui_show_mule_wep_indicator", "1");
 		}
 
 		additional_wep = undefined;
@@ -2855,31 +2857,13 @@ additional_weapon_indicator(perk, perk_str)
 		if(IsDefined(additional_wep) && (current_wep == additional_wep || current_wep == WeaponAltWeaponName(additional_wep)))
 		{
 			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_in");
-			self SetClientDvar("ui_show_mule_wep_indicator", "1");
 		}
-
-		notify_string = self waittill_any_return("weapon_change", "weapon_switch");
-
-		//iprintln(notify_string);
-
-		if(notify_string == "weapon_switch")
+		else
 		{
 			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
-			self SetClientDvar("ui_show_mule_wep_indicator", "0");
-			//iprintln("switching");
-			self waittill_any( "weapon_change", "weapon_change_complete", "weapon_switch_complete" );
-			//self waittill( "weapon_change", current_wep, prev_wep );
-		}
-		else if(notify_string == "weapon_change")
-		{
-			//need to wait 2 frames here for things to work right
-			wait_network_frame();
-			wait_network_frame();
-			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
-			self SetClientDvar("ui_show_mule_wep_indicator", "0");
 		}
 
-		//iprintln("actually switched");
+		self waittill_any("weapon_change", "weapon_change_complete");
 	}
 }
 

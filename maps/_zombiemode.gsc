@@ -1979,6 +1979,8 @@ onPlayerSpawned()
 
 		self thread remove_idle_sway();
 
+		self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
+
 		//self thread revive_grace_period();
 
 		self.move_speed = 1;
@@ -8572,6 +8574,7 @@ zone_hud()
 		current_name = name;
 
 		self send_message_to_csc("hud_anim_handler", "hud_zone_name_out");
+		wait .25;
 		self SetClientDvar("zone_name", name);
 		self send_message_to_csc("hud_anim_handler", "hud_zone_name_in");
 	}

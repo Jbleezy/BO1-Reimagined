@@ -397,13 +397,6 @@
 
 		#define FADE_IN_COLOR_WHITE 1 1 1 1 // color to fade in to (RGBA)
 		#define FADE_OUT_COLOR_WHITE 1 1 1 0 // color to fade out to (RGBA)
-		#define FADE_IN_COLOR_RED .6 0 0 1 // color to fade in to (RGBA)
-		#define FADE_OUT_COLOR_RED .6 0 0 0 // color to fade out to (RGBA)
-		#define FADE_IN_COLOR_YELLOW .9 .9 0 1 // color to fade in to (RGBA)
-		#define FADE_OUT_COLOR_YELLOW .9 .9 0 0 // color to fade out to (RGBA)
-		#define MENU_NAME "weaponinfo_zombie" // name of menu the itemDef is inside of (required for state to allow fading)
-		#define FADE_IN_TIME 250 // time in milliseconds to fade in for
-		#define FADE_OUT_TIME 0 // time in milliseconds to fade out for
 
 		itemDef
 		{
@@ -515,11 +508,6 @@
 		*/
 
 		TIMER_TEXT_VIS("hud_time", -4, 2, "REIMAGINED_TIME", DvarString("total_time"), DvarBool("hud_time_on"))
-
-		#undef FADE_IN_TIME // time in milliseconds to fade in for
-		#undef FADE_OUT_TIME
-		#define FADE_IN_TIME 1000 // time in milliseconds to fade in for
-		#define FADE_OUT_TIME 1000 // time in milliseconds to fade out for
 
 		//Change to use 2 itemDef's
 		/*
@@ -679,7 +667,7 @@
 			name				"hud_sidequest_time"
 			type				ITEM_TYPE_TEXT
 			rect 				0 74 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
-			forecolor			.9 .9 0 0
+			forecolor			1 .1 1 0
 			textscale			TEXTSIZE_SMALL
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
@@ -691,12 +679,12 @@
 			state
 			{
 				name			"fadein"
-				forecolor 		FADE_IN_COLOR_YELLOW
+				forecolor 		FADE_IN_COLOR_WHITE
 			}
 			state
 			{
 				name 			"fadeout"
-				forecolor 		FADE_OUT_COLOR_YELLOW
+				forecolor 		FADE_OUT_COLOR_WHITE
 			}
 		}
 
