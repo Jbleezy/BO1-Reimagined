@@ -993,7 +993,7 @@ director_zombie_think()
 	self thread director_zombie_update_goal_radius();
 	self thread director_kill_prone();
 
-	self thread director_bad_path_scream();
+	self thread director_scream_bad_path();
 
 	self.ignoreall = false;
 
@@ -2779,7 +2779,7 @@ director_reenter_map()
 	self thread director_zombie_update_goal_radius();
 	self thread director_zombie_update();
 
-	self thread director_bad_path_scream();
+	self thread director_scream_bad_path();
 
 	level.director_max_ammo_round = level.round_number;
 	level notify( "director_reenter_map" );
@@ -3050,7 +3050,7 @@ director_print( str )
 #/
 }
 
-director_bad_path_scream()
+director_scream_bad_path()
 {
 	self endon("death");
 	self endon( "humangun_leave" );
@@ -3092,8 +3092,6 @@ director_bad_path_scream()
 			continue;
 		}
 
-		self thread director_scream_in_water();
-		wait 3;
-		self.water_scream = undefined;
+		self director_nuke_damage();
 	}
 }
