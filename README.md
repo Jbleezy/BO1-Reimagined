@@ -315,6 +315,7 @@
 * Upgraded: ammo for weapon attachment now shows on HUD
 
 ### M1911
+* Upgraded: decreased reserve ammo from 50 to 48
 * Upgraded: increased impact damage from 1000 to 1200
 * Upgraded: increased minimum explosion damage from 75 to 300
 * Upgraded: camo now displays when downed in solo
