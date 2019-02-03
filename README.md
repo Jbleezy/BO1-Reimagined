@@ -1080,7 +1080,7 @@
 #### Minecart
 * Available whenever the power is on
 * Kills from the minecart now count as actual kills
-* Travels back up 4x faster
+* Travels back up 2x faster
 
 #### Geysers
 * Available whenever the power is on

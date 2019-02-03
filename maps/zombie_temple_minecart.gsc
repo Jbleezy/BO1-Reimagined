@@ -633,7 +633,7 @@ minecart_start(accel, backwards)
 	}
 	if(backwards)
 	{
-		self SetSpeed(10, accel);
+		self SetSpeed(5, accel);
 	}
 	else
 	{
