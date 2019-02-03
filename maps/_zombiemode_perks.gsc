@@ -2221,7 +2221,8 @@ perk_think( perk )
 			break;
 
 		case "specialty_additionalprimaryweapon":
-			self SetClientDvar("ui_show_mule_wep_color", "0");
+			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
+			self SetClientDvar("ui_show_mule_wep_indicator", "0");
 			//only take weapon from here if perk is lost from a way besides downing
 			//weapon is not taken properly from here if downed, so called in _zombiemode::player_laststand() instead
 			if ( result == perk_str )
@@ -2797,7 +2798,8 @@ additional_weapon_indicator(perk, perk_str)
 	{
 		if(self maps\_laststand::player_is_in_laststand())
 		{
-			self SetClientDvar("ui_show_mule_wep_color", "0");
+			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
+			self SetClientDvar("ui_show_mule_wep_indicator", "0");
 			self waittill("player_revived");
 		}
 
@@ -2872,10 +2874,9 @@ additional_weapon_indicator(perk, perk_str)
 
 		if(IsDefined(additional_wep) && (current_wep == additional_wep || current_wep == WeaponAltWeaponName(additional_wep)))
 		{
-			self SetClientDvar("ui_show_mule_wep_color", "1");
+			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_in");
+			self SetClientDvar("ui_show_mule_wep_indicator", "1");
 		}
-
-		self thread wait_for_weapon_switch(perk_str);
 
 		notify_string = self waittill_any_return("weapon_change", "weapon_switch");
 
@@ -2883,10 +2884,10 @@ additional_weapon_indicator(perk, perk_str)
 
 		if(notify_string == "weapon_switch")
 		{
-			self SetClientDvar("ui_show_mule_wep_color", "0");
-			self thread wait_for_weapon_switch_stop(perk_str);
+			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
+			self SetClientDvar("ui_show_mule_wep_indicator", "0");
 			//iprintln("switching");
-			self waittill_any( "weapon_switch_stop", "weapon_change", "weapon_change_complete" );
+			self waittill_any( "weapon_change", "weapon_change_complete", "weapon_switch_complete" );
 			//self waittill( "weapon_change", current_wep, prev_wep );
 		}
 		else if(notify_string == "weapon_change")
@@ -2894,42 +2895,12 @@ additional_weapon_indicator(perk, perk_str)
 			//need to wait 2 frames here for things to work right
 			wait_network_frame();
 			wait_network_frame();
-			self SetClientDvar("ui_show_mule_wep_color", "0");
+			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
+			self SetClientDvar("ui_show_mule_wep_indicator", "0");
 		}
 
 		//iprintln("actually switched");
 	}
-}
-
-wait_for_weapon_switch(perk_str)
-{
-	self endon("disconnect");
-	self endon(perk_str);
-
-	while(self isSwitchingWeapons())
-	{
-		wait_network_frame();
-	}
-
-	while(!self isSwitchingWeapons())
-	{
-		wait_network_frame();
-	}
-
-	self notify("weapon_switch");
-}
-
-wait_for_weapon_switch_stop(perk_str)
-{
-	self endon("disconnect");
-	self endon(perk_str);
-
-	while(self isSwitchingWeapons())
-	{
-		wait_network_frame();
-	}
-
-	self notify("weapon_switch_stop");
 }
 
 move_faster_while_ads(perk_str)

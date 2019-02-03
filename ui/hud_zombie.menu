@@ -365,7 +365,7 @@
 			decoration
 		}
 
-		itemDef
+		/*itemDef
 		{
 			name			"weapnameyellow"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
@@ -378,7 +378,7 @@
 			ownerdraw		CG_PLAYER_WEAPON_NAME
 			visible			when(dvarBool("ui_show_mule_wep_color"))
 			decoration
-		}
+		}*/
 
 		itemDef
 		{
@@ -391,8 +391,41 @@
 			textfont		UI_FONT_EXTRABIG
 			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
 			ownerdraw		CG_PLAYER_WEAPON_NAME
-			visible			when(!dvarBool("ui_show_mule_wep_color"))
+			visible			1
 			decoration
+		}
+
+		#define FADE_IN_COLOR_WHITE 1 1 1 1 // color to fade in to (RGBA)
+		#define FADE_OUT_COLOR_WHITE 1 1 1 0 // color to fade out to (RGBA)
+		#define FADE_IN_COLOR_RED .6 0 0 1 // color to fade in to (RGBA)
+		#define FADE_OUT_COLOR_RED .6 0 0 0 // color to fade out to (RGBA)
+		#define FADE_IN_COLOR_YELLOW .9 .9 0 1 // color to fade in to (RGBA)
+		#define FADE_OUT_COLOR_YELLOW .9 .9 0 0 // color to fade out to (RGBA)
+		#define MENU_NAME "weaponinfo_zombie" // name of menu the itemDef is inside of (required for state to allow fading)
+		#define FADE_IN_TIME 250 // time in milliseconds to fade in for
+		#define FADE_OUT_TIME 0 // time in milliseconds to fade out for
+
+		itemDef
+		{
+			name			"hud_mule_wep"
+			type			ITEM_TYPE_IMAGE
+			rect			(WEAPINFO_X-8) (WEAPINFO_Y-21) 24 24
+			forecolor		1 1 1 0
+			exp            	material("specialty_extraprimaryweapon_zombies")
+		    style      		WINDOW_STYLE_SHADER
+		    visible     	when(dvarBool("ui_show_mule_wep_indicator"))
+			decoration
+
+			state
+			{
+				name			"fadein"
+				forecolor 		FADE_IN_COLOR_WHITE
+			}
+			state
+			{
+				name 			"fadeout"
+				forecolor 		FADE_OUT_COLOR_WHITE
+			}
 		}
 
 		itemDef
@@ -410,17 +443,6 @@
 			visible			when( (dvarInt( #"g_gameskill" ) == 0 || dvarInt( #"g_gameskill" ) == 1 || dvarstring( #"mapname" ) == LEVEL_TRAINING) && dvarBool("hud_lowammowarning") == 1 );
 			decoration
 		}
-
-
-		#define FADE_IN_COLOR_WHITE 1 1 1 1 // color to fade in to (RGBA)
-		#define FADE_OUT_COLOR_WHITE 1 1 1 0 // color to fade out to (RGBA)
-		#define FADE_IN_COLOR_RED .6 0 0 1 // color to fade in to (RGBA)
-		#define FADE_OUT_COLOR_RED .6 0 0 0 // color to fade out to (RGBA)
-		#define FADE_IN_COLOR_YELLOW .9 .9 0 1 // color to fade in to (RGBA)
-		#define FADE_OUT_COLOR_YELLOW .9 .9 0 0 // color to fade out to (RGBA)
-		#define MENU_NAME "weaponinfo_zombie" // name of menu the itemDef is inside of (required for state to allow fading)
-		#define FADE_IN_TIME 250 // time in milliseconds to fade in for
-		#define FADE_OUT_TIME 0 // time in milliseconds to fade out for
 
 		itemDef
 		{

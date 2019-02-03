@@ -1956,7 +1956,7 @@ onPlayerSpawned()
 		self SetClientDvars( "cg_thirdPerson", "0",
 			"cg_fov", "90",
 			"cg_thirdPersonAngle", "0",
-			"ui_show_mule_wep_color", "0" );
+			"ui_show_mule_wep_indicator", "0" );
 
 		self SetDepthOfField( 0, 0, 512, 4000, 4, 0 );
 
@@ -8985,10 +8985,10 @@ switch_weapons_notify()
 	{
 		while(!self IsSwitchingWeapons())
 			wait_network_frame();
-		self notify("switch_weapons");
+		self notify("weapon_switch");
 		while(self IsSwitchingWeapons())
 			wait_network_frame();
-		self notify("switch_weapons_complete");
+		self notify("weapon_switch_complete");
 	}
 }
 
@@ -9008,7 +9008,7 @@ is_reloading_check()
 		self.is_reloading = true;
 		self.still_reloading = true;
 
-		waittill_return = self waittill_any_return("reload", "melee", "sprint", "switch_weapons");
+		waittill_return = self waittill_any_return("reload", "melee", "sprint", "weapon_switch");
 
 		self.is_reloading = false;
 
@@ -9025,7 +9025,7 @@ reload_complete_check(empty_clip)
 	self endon("disconnect");
 	self endon("melee");
 	self endon("sprint");
-	self endon("switch_weapons");
+	self endon("weapon_switch");
 	self endon("weapon_fired");
 
 	weapon = self GetCurrentWeapon();

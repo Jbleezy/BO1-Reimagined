@@ -685,7 +685,7 @@
 * Added jingle
 * Fixed 3rd person model
 * Third weapon slot will now always be the correct weapon
-* Name of weapon that will be lost when downed is shown in yellow text
+* Added the Mule Kick perk icon as an indicator for which weapon is the player's third weapon
 * Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, the player already has the weapon, the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or the player bled out)
 * Gives ammo back if the player already has the weapon that they had previously lost when perk is rebought
 

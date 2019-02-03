@@ -452,6 +452,20 @@ hud_message_handler(clientnum, state)
 		FADE_OUT_TIME = 1000; // MUST MATCH MENU FILE DEFINES
 		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadeout", FADE_OUT_TIME);
 	}
+	else if(state == "hud_mule_wep_in")
+	{
+		ITEM_NAME = "hud_mule_wep";
+		FADE_IN_TIME = 250; // MUST MATCH MENU FILE DEFINES
+		FADE_OUT_TIME = 0; // MUST MATCH MENU FILE DEFINES
+		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadein", FADE_IN_TIME);
+	}
+	else if(state == "hud_mule_wep_out")
+	{
+		ITEM_NAME = "hud_mule_wep";
+		FADE_IN_TIME = 250; // MUST MATCH MENU FILE DEFINES
+		FADE_OUT_TIME = 0; // MUST MATCH MENU FILE DEFINES
+		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadeout", FADE_OUT_TIME);
+	}
 }
 
 // Infinate client systems

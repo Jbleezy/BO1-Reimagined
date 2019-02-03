@@ -3200,8 +3200,8 @@ minigun_weapon_powerup_weapon_change( ent_player, str_gun_return_notify )
 
 	while(1)
 	{
-		// "switch_weapons_complete" is for if the player switches back to their normal weapon before the "weapon_change" notify of the powerup weapon
-		ent_player waittill_any("weapon_change", "weapon_change_complete", "switch_weapons_complete");
+		// "weapon_switch_complete" is for if the player switches back to their normal weapon before the "weapon_change" notify of the powerup weapon
+		ent_player waittill_any("weapon_change", "weapon_change_complete", "weapon_switch_complete");
 
 		if(ent_player GetCurrentWeapon() == "minigun_zm" || is_true(ent_player.is_ziplining))
 		{
@@ -3431,8 +3431,8 @@ tesla_weapon_powerup_weapon_change( ent_player, str_gun_return_notify, weapon )
 
 	while(1)
 	{
-		// "switch_weapons_complete" is for if the player switches back to their normal weapon before the "weapon_change" notify of the powerup weapon
-		ent_player waittill_any("weapon_change", "weapon_change_complete", "switch_weapons_complete");
+		// "weapon_switch_complete" is for if the player switches back to their normal weapon before the "weapon_change" notify of the powerup weapon
+		ent_player waittill_any("weapon_change", "weapon_change_complete", "weapon_switch_complete");
 
 		if(ent_player GetCurrentWeapon() == weapon || is_true(ent_player.is_ziplining))
 		{
@@ -4042,8 +4042,8 @@ meat_powerup_weapon_change()
 
 	while(1)
 	{
-		// "switch_weapons_complete" is for if the player switches back to their normal weapon before the "weapon_change" notify of the powerup weapon
-		self waittill_any("weapon_change", "weapon_change_complete", "switch_weapons_complete");
+		// "weapon_switch_complete" is for if the player switches back to their normal weapon before the "weapon_change" notify of the powerup weapon
+		self waittill_any("weapon_change", "weapon_change_complete", "weapon_switch_complete");
 
 		if(self GetCurrentWeapon() == "meat_zm" || is_true(self.is_ziplining))
 		{
