@@ -103,7 +103,7 @@ main()
 
 	level thread life_brush();
 
-	level thread pig_death();
+	//level thread pig_death();
 
 	level thread maps\zombie_pentagon_ffotd::main_end();
 }
