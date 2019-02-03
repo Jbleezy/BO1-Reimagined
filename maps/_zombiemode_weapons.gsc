@@ -384,11 +384,6 @@ init_pay_turret()
 // For buying weapon upgrades in the environment
 init_weapon_upgrade()
 {
-	if(level.script == "zombie_cod5_asylum")
-	{
-		PrecacheModel("model_springfield_chalk");
-	}
-
 	weapon_spawns = [];
 	weapon_spawns = GetEntArray( "weapon_upgrade", "targetname" );
 
@@ -407,6 +402,7 @@ init_weapon_upgrade()
 			old_model Delete();
         }
 
+        // HACK - replace Kar98k wallbuy on Verruckt Quick Revive side with Springfield
 		if(level.script == "zombie_cod5_asylum")
 		{
 			if(weapon_spawns[i].zombie_weapon_upgrade == "zombie_kar98k" && IsDefined(weapon_spawns[i].target) && weapon_spawns[i].target == "pf178_auto1")
@@ -414,19 +410,10 @@ init_weapon_upgrade()
 				weapon_spawns[i].zombie_weapon_upgrade = "zombie_springfield";
 				weapon_spawns[i].script_noteworthy = "springfield";
 
-				old_model = getent( weapon_spawns[i].target, "targetname" );
-				weapon_spawns[i].override_weapon_model = Spawn( "script_model", old_model.origin + (-1.5, 0, 1) );
-				weapon_spawns[i].override_weapon_model.angles = old_model.angles;
-				weapon_spawns[i].override_weapon_model SetModel( GetWeaponModel( weapon_spawns[i].zombie_weapon_upgrade ) );
-				weapon_spawns[i].override_weapon_model useweaponhidetags( weapon_spawns[i].zombie_weapon_upgrade );
-				weapon_spawns[i].override_weapon_model hide();
-				old_model Delete();
-
-				brushmodels = GetEntArray("script_brushmodel", "classname");
-				chalk = Spawn("script_model", brushmodels[202].origin + (0, 1, 0)); // have to move it out slightly or else there is z-fighting, origin = (1234, 56, 132)
-				chalk.angles = brushmodels[202].angles + (0, 180, 0);
-				chalk SetModel("model_springfield_chalk");
-				brushmodels[202] Delete();
+				model = getent( weapon_spawns[i].target, "targetname" );
+				model SetModel( GetWeaponModel( weapon_spawns[i].zombie_weapon_upgrade ) );
+				model useweaponhidetags( weapon_spawns[i].zombie_weapon_upgrade );
+				model.origin += (-1.5, 0, 0.5);
 			}
 		}
 
