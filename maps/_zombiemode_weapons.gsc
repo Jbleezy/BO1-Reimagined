@@ -2022,38 +2022,12 @@ treasure_chest_move( player_vox )
 
 	self treasure_chest_fly_away(true);
 
-	//wait(0.1);
-
-	post_selection_wait_duration = 7;
-
-	//Delaying the Player Vox
 	if( IsDefined( player_vox ) )
     {
         player_vox maps\_zombiemode_audio::create_and_play_dialog( "general", "box_move" );
     }
 
-	// DCS 072710: check if fire sale went into effect during move, reset with time left.
-	if(level.zombie_vars["zombie_powerup_fire_sale_on"] == true && self [[level._zombiemode_check_firesale_loc_valid_func]]())
-	{
-		//current_sale_time = level.zombie_vars["zombie_powerup_fire_sale_time"];
-		//IPrintLnBold("need to reset this box spot! Time left is ", current_sale_time);
-
-		//wait_network_frame(); // Do I need this?
-		self thread fire_sale_fix();
-		//level.zombie_vars["zombie_powerup_fire_sale_time"] = current_sale_time;
-
-		while(level.zombie_vars["zombie_powerup_fire_sale_time"] > 0)
-		{
-			wait(0.1);
-		}
-	}
-	else
-	{
-		post_selection_wait_duration += 5;
-	}
-	level.verify_chest = false;
-
-	if(IsDefined(level._zombiemode_custom_box_move_logic))
+    if(IsDefined(level._zombiemode_custom_box_move_logic))
 	{
 		[[level._zombiemode_custom_box_move_logic]]();
 	}
@@ -2062,28 +2036,63 @@ treasure_chest_move( player_vox )
 		default_box_move_logic();
 	}
 
-	if(IsDefined(level.chests[level.chest_index].box_hacks["summon_box"]))
+	// DCS 072710: check if fire sale went into effect during move, reset with time left.
+	if(level.zombie_vars["zombie_powerup_fire_sale_on"] == true)
 	{
-		level.chests[level.chest_index] [[level.chests[level.chest_index].box_hacks["summon_box"]]](false);
+		if(self [[level._zombiemode_check_firesale_loc_valid_func]]())
+		{
+			self thread fire_sale_fix();
+
+			while(level.zombie_vars["zombie_powerup_fire_sale_time"] > 0)
+			{
+				wait(0.1);
+			}
+		}
+	}
+	else
+	{
+		if(IsDefined(level.chests[level.chest_index].box_hacks["summon_box"]))
+		{
+			level.chests[level.chest_index] [[level.chests[level.chest_index].box_hacks["summon_box"]]](false);
+		}
+
+		level.chests[level.chest_index] treasure_chest_fly_away(false);
 	}
 
-	// Now choose a new location
-
-	//wait for all the chests to reset
-	//wait(post_selection_wait_duration);
-
-	level.chests[level.chest_index] treasure_chest_fly_away(false);
+	level.verify_chest = false;
 
 	flag_clear("moving_chest_now");
 	self.chest_origin.chest_moving = false;
 }
 
-treasure_chest_fly_away(up)
+treasure_chest_fly_away(up, fire_sale)
 {
 	if(!IsDefined(up))
 	{
 		up = true;
 	}
+
+	if(!IsDefined(up))
+	{
+		fire_sale = false;
+	}
+
+	if((up && self.hidden) || (!up && !self.hidden))
+	{
+		return;
+	}
+
+	if(is_true(self.moving))
+	{
+		self waittill("box_move_done");
+
+		if((up && self.hidden) || (!up && !self.hidden))
+		{
+			return;
+		}
+	}
+
+	self.moving = true;
 
 	fake_pieces = [];
 	fake_pieces[0] = spawn("script_model",self.chest_lid.origin);
@@ -2110,13 +2119,17 @@ treasure_chest_fly_away(up)
 
 		anchor playsound("zmb_box_move");
 		playsoundatposition ("zmb_whoosh", soundpoint.origin );
-		if( is_true( level.player_4_vox_override ) )
+
+		if(!fire_sale)
 		{
-			playsoundatposition ("zmb_vox_rich_magicbox", soundpoint.origin );
-		}
-		else
-		{
-			playsoundatposition ("zmb_vox_ann_magicbox", soundpoint.origin );
+			if( is_true( level.player_4_vox_override ) )
+			{
+				playsoundatposition ("zmb_vox_rich_magicbox", soundpoint.origin );
+			}
+			else
+			{
+				playsoundatposition ("zmb_vox_ann_magicbox", soundpoint.origin );
+			}
 		}
 
 		anchor moveto(anchor.origin + dist, 5);
@@ -2187,6 +2200,9 @@ treasure_chest_fly_away(up)
 
 	anchor delete();
 	soundpoint delete();
+
+	self.moving = undefined;
+	self notify("box_move_done");
 }
 
 
@@ -2200,26 +2216,26 @@ fire_sale_fix()
 	if( level.zombie_vars["zombie_powerup_fire_sale_on"] )
 	{
 		self.old_cost = 950;
-		self thread hide_rubble();
-		self thread show_chest();
+		self thread maps\_zombiemode_weapons::treasure_chest_fly_away(false, true);
 		self.zombie_cost = 10;
-		//self set_hint_string( self , "reimagined_random_weapon_fire_sale_cost" );
 		self SetHintString(&"REIMAGINED_MYSTERY_BOX", self.zombie_cost);
 
-		//wait_network_frame();
-
-		level waittill( "fire_sale_off" );
+		while(level.zombie_vars["zombie_powerup_fire_sale_time"] > 0)
+		{
+			wait(.1);
+		}
 
 		while(is_true(self._box_open))
 		{
 			wait(.1);
 		}
 
-		playfx(level._effect["poltergeist"], self.origin);
-		self playsound ( "zmb_box_poof_land" );
-		self playsound( "zmb_couch_slam" );
-		self thread hide_chest();
-		self thread show_rubble();
+		if(level.zombie_vars["zombie_powerup_fire_sale_on"])
+		{
+			return;
+		}
+
+		self thread maps\_zombiemode_weapons::treasure_chest_fly_away(true, true);
 
 		self.zombie_cost = self.old_cost;
 		//self set_hint_string( self , "reimagined_treasure_chest_" + self.zombie_cost );
@@ -2714,8 +2730,6 @@ treasure_chest_weapon_spawn( chest, player, respin )
 
 		if ( chance_of_joker > random )
 		{
-			//wait_network_frame(); // Do I need this?
-
 			self.weapon_string = undefined;
 
 			// Delete and respawn the weapon model for the teddy bear so that it faces the correct angle right away

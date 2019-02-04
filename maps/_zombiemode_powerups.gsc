@@ -2597,9 +2597,10 @@ toggle_fire_sale_on()
 				if( level.chest_index != i )
 				{
 					level.chests[i].was_temp = true;
-					level.chests[i] thread maps\_zombiemode_weapons::hide_rubble();
-					level.chests[i] thread maps\_zombiemode_weapons::show_chest();
-					wait_network_frame();
+					level.chests[i] thread maps\_zombiemode_weapons::treasure_chest_fly_away(false, true);
+					//level.chests[i] thread maps\_zombiemode_weapons::hide_rubble();
+					//level.chests[i] thread maps\_zombiemode_weapons::show_chest();
+					//wait_network_frame();
 				}
 			}
 		}
@@ -2656,11 +2657,18 @@ remove_temp_chest( chest_index )
 	{
 		wait_network_frame();
 	}
-	playfx(level._effect["poltergeist"], level.chests[chest_index].orig_origin);
-	level.chests[chest_index] playsound ( "zmb_box_poof_land" );
-	level.chests[chest_index] playsound( "zmb_couch_slam" );
-	level.chests[chest_index] maps\_zombiemode_weapons::hide_chest();
-	level.chests[chest_index] maps\_zombiemode_weapons::show_rubble();
+
+	if(level.zombie_vars["zombie_powerup_fire_sale_on"])
+	{
+		return;
+	}
+
+	level.chests[chest_index] thread maps\_zombiemode_weapons::treasure_chest_fly_away(true, true);
+	//playfx(level._effect["poltergeist"], level.chests[chest_index].orig_origin);
+	//level.chests[chest_index] playsound ( "zmb_box_poof_land" );
+	//level.chests[chest_index] playsound( "zmb_couch_slam" );
+	//level.chests[chest_index] maps\_zombiemode_weapons::hide_chest();
+	//level.chests[chest_index] maps\_zombiemode_weapons::show_rubble();
 }
 
 

@@ -632,7 +632,7 @@
 * Decreased time between uses from 3 seconds to 1.5 seconds
 * Decreased weapon pickup time from 12 seconds to 9 seconds
 * Box flies up higher when moving
-* Now plays an animation when spawning in (except for Fire Sale Mystery Boxes)
+* Now plays an animation when spawning in
 * Instantly appears at its new location when moving instead of waiting 8 seconds
 * Every player now sees the same weapons in the box when the weapons are floating up
 * Can only see weapons floating up that the player can currently obtain
