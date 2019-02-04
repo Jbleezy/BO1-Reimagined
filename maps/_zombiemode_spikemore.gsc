@@ -577,22 +577,22 @@ _spikemore_damage(fromOrigin, fromOwner)
 
 _update_spikemore_fires()
 {
-	while ( true )
+	while(true)
 	{
-		level.hasSpikemoreFiredRecently = false;
+		level.hasSpikemoreFiredRecently = 0;
 		// only let spikemores go off every so often
-		wait(0.2);
+		wait_network_frame();
 	}
 }
 
 _wait_to_fire_spikemore()
 {
-	while ( level.hasSpikemoreFiredRecently )
+	while(level.hasSpikemoreFiredRecently >= 4)
 	{
 		wait_network_frame();
 	}
 
-	level.hasSpikemoreFiredRecently = true;
+	level.hasSpikemoreFiredRecently++;
 }
 
 spikemore_damage()

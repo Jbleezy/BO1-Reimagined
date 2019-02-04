@@ -440,19 +440,19 @@ pickup_betty_trigger_listener_disable( trigger, player )
 
 update_betty_fires()
 {
-	while ( true )
+	while(true)
 	{
-		level.hasBettyFiredRecently = false;
+		level.hasBettyFiredRecently = 0;
 		wait_network_frame();
 	}
 }
 
 wait_to_fire_betty()
 {
-	while ( level.hasBettyFiredRecently )
+	while(level.hasBettyFiredRecently >= 4)
 	{
 		wait_network_frame();
 	}
 
-	level.hasBettyFiredRecently = true;
+	level.hasBettyFiredRecently++;
 }

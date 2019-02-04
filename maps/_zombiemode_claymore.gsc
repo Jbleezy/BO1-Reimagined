@@ -509,19 +509,19 @@ claymore_damage()
 
 update_claymore_fires()
 {
-	while ( true )
+	while(true)
 	{
-		level.hasClaymoreFiredRecently = false;
+		level.hasClaymoreFiredRecently = 0;
 		wait_network_frame();
 	}
 }
 
 wait_to_fire_claymore()
 {
-	while ( level.hasClaymoreFiredRecently )
+	while(level.hasClaymoreFiredRecently >= 4)
 	{
 		wait_network_frame();
 	}
 
-	level.hasClaymoreFiredRecently = true;
+	level.hasClaymoreFiredRecently++;
 }
