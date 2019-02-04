@@ -1804,6 +1804,7 @@ checkForAllDead()
 		{
 			if(level.gamemode != "race" && level.gamemode != "gg")
 			{
+				level.last_player_alive = self;
 				level thread maps\_zombiemode_grief::round_restart();
 			}
 		}
@@ -3424,7 +3425,7 @@ check_for_valid_spawn_near_team( revivee )
 	players = get_players();
 	spawn_points = getstructarray("player_respawn_point", "targetname");
 
-	//moon was adding NML spawn points
+	// Moon was adding NML spawn points
 	if(level.script != "zombie_moon")
 	{
 		initial_spawn_points = getstructarray( "initial_spawn_points", "targetname" );
@@ -3439,155 +3440,126 @@ check_for_valid_spawn_near_team( revivee )
 	if( spawn_points.size == 0 )
 		return undefined;
 
-	// Look for the closest group that is within the specified ideal distances
-	//	If we can't find one within a valid area, use the closest unlocked group.
-	if(level.gamemode == "survival")
+	if(IsDefined(level.last_player_alive))
 	{
-		for( i = 0; i < players.size; i++ )
+		for( j = 0 ; j < spawn_points.size; j++ )
 		{
-			if( is_player_valid( players[i] ) )
+			if( isdefined(spawn_points[level.last_player_alive GetEntityNumber()].script_int) )
+				ideal_distance = spawn_points[level.last_player_alive GetEntityNumber()].script_int;
+			else
+				ideal_distance = 1000;
+
+			if ( spawn_points[j].locked == false )
 			{
-				for( j = 0 ; j < spawn_points.size; j++ )
+				// On Five, only spawn players on the floor they died
+				if(level.script == "zombie_pentagon" && abs(level.last_player_alive.origin[2] - spawn_points[j].origin[2]) > 250)
 				{
-					if( isdefined(spawn_points[i].script_int) )
-						ideal_distance = spawn_points[i].script_int;
-					else
-						ideal_distance = 1000;
-
-					if ( spawn_points[j].locked == false )
-					{
-						distance = DistanceSquared( players[i].origin, spawn_points[j].origin );
-						if( distance < ( ideal_distance * ideal_distance ) )
-						{
-							if ( distance < closest_distance )
-							{
-								closest_distance = distance;
-								closest_group = j;
-							}
-						}
-						else
-						{
-							if ( distance < backup_distance )
-							{
-								backup_group = j;
-								backup_distance = distance;
-							}
-						}
-					}
-				}
-			}
-			//	If we don't have a closest_group, let's use the backup
-			if ( !IsDefined( closest_group ) )
-			{
-				closest_group = backup_group;
-			}
-
-			if ( IsDefined( closest_group ) )
-			{
-				spawn_array = getstructarray( spawn_points[closest_group].target, "targetname" );
-
-				for( k = 0; k < spawn_array.size; k++ )
-				{
-					if( spawn_array[k].script_int == (revivee.entity_num + 1) )
-					{
-						return spawn_array[k].origin;
-					}
+					continue;
 				}
 
-				return spawn_array[0].origin;
+				distance = DistanceSquared( level.last_player_alive.origin, spawn_points[j].origin );
+				if( distance < ( ideal_distance * ideal_distance ) )
+				{
+					if ( distance < closest_distance )
+					{
+						closest_distance = distance;
+						closest_group = j;
+					}
+				}
+				else
+				{
+					if ( distance < backup_distance )
+					{
+						backup_group = j;
+						backup_distance = distance;
+					}
+				}
 			}
 		}
-	}
-	else
-	{
-		for( i = 0; i < players.size; i++ )
+
+		level.last_player_alive = undefined;
+
+		//	If we don't have a closest_group, let's use the backup
+		if ( !IsDefined( closest_group ) )
 		{
-			if( is_player_valid( players[i] ) && players[i].vsteam == revivee.vsteam )
+			closest_group = backup_group;
+		}
+
+		if ( IsDefined( closest_group ) )
+		{
+			spawn_array = getstructarray( spawn_points[closest_group].target, "targetname" );
+
+			for( k = 0; k < spawn_array.size; k++ )
 			{
-				for( j = 0 ; j < spawn_points.size; j++ )
+				if( spawn_array[k].script_int == (revivee.entity_num + 1) )
 				{
-					if( isdefined(spawn_points[i].script_int) )
-						ideal_distance = spawn_points[i].script_int;
+					return spawn_array[k].origin;
+				}
+			}
+
+			return spawn_array[0].origin;
+		}
+	}
+
+	for( i = 0; i < players.size; i++ )
+	{
+		if( is_player_valid( players[i] ) )
+		{
+			for( j = 0 ; j < spawn_points.size; j++ )
+			{
+				if( isdefined(spawn_points[i].script_int) )
+					ideal_distance = spawn_points[i].script_int;
+				else
+					ideal_distance = 1000;
+
+				if ( spawn_points[j].locked == false )
+				{
+					// On Five, only spawn players on the floor they died
+					if(level.script == "zombie_pentagon" && abs(players[i].origin[2] - spawn_points[j].origin[2]) > 250)
+					{
+						continue;
+					}
+
+					distance = DistanceSquared( players[i].origin, spawn_points[j].origin );
+					if( distance < ( ideal_distance * ideal_distance ) )
+					{
+						if ( distance < closest_distance )
+						{
+							closest_distance = distance;
+							closest_group = j;
+						}
+					}
 					else
-						ideal_distance = 1000;
-
-					if ( spawn_points[j].locked == false )
 					{
-						//on Five, only spawn players on the floor they died
-						if(level.script == "zombie_pentagon" && abs(players[i].origin[2] - spawn_points[j].origin[2]) > 250)
+						if ( distance < backup_distance )
 						{
-							continue;
-						}
-
-						distance = DistanceSquared( players[i].origin, spawn_points[j].origin );
-						if( distance < ( ideal_distance * ideal_distance ) )
-						{
-							if ( distance < closest_distance )
-							{
-								closest_distance = distance;
-								closest_group = j;
-							}
-						}
-						else
-						{
-							if ( distance < backup_distance )
-							{
-								backup_group = j;
-								backup_distance = distance;
-							}
+							backup_group = j;
+							backup_distance = distance;
 						}
 					}
 				}
 			}
-			//	If we don't have a closest_group, let's use the backup
-			if ( !IsDefined( closest_group ) )
+		}
+
+		//	If we don't have a closest_group, let's use the backup
+		if ( !IsDefined( closest_group ) )
+		{
+			closest_group = backup_group;
+		}
+
+		if ( IsDefined( closest_group ) )
+		{
+			spawn_array = getstructarray( spawn_points[closest_group].target, "targetname" );
+
+			for( k = 0; k < spawn_array.size; k++ )
 			{
-				closest_group = backup_group;
-			}
-
-			if ( IsDefined( closest_group ) )
-			{
-				spawn_array = getstructarray( spawn_points[closest_group].target, "targetname" );
-
-				for( k = 0; k < spawn_array.size; k++ )
+				if( spawn_array[k].script_int == (revivee.entity_num + 1) )
 				{
-					if( spawn_array[k].script_int == (revivee.entity_num + 1) )
-					{
-						return spawn_array[k].origin;
-					}
-				}
-
-				return spawn_array[0].origin;
-			}
-			else
-			{
-				spawn_points = array_randomize(spawn_points);
-				chosen_group = undefined;
-
-				for( j = 0 ; j < spawn_points.size; j++ )
-				{
-					if(spawn_points[j].locked == false)
-					{
-						chosen_group = j;
-						break;
-					}
-				}
-
-				if(IsDefined(chosen_group))
-				{
-					spawn_array = getstructarray( spawn_points[chosen_group].target, "targetname" );
-
-					for( k = 0; k < spawn_array.size; k++ )
-					{
-						if( spawn_array[k].script_int == (revivee.entity_num + 1) )
-						{
-							return spawn_array[k].origin;
-						}
-					}
-
-					return spawn_array[0].origin;
+					return spawn_array[k].origin;
 				}
 			}
+
+			return spawn_array[0].origin;
 		}
 	}
 
@@ -5751,6 +5723,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		{
 			if(level.gamemode != "race" && level.gamemode != "gg")
 			{
+				level.last_player_alive = self;
 				level thread maps\_zombiemode_grief::round_restart();
 			}
 			return finalDamage;
