@@ -1070,6 +1070,8 @@
 * Zombies now spawn in the Minecart zone when in the Waterslide End zone after the power is on
 * Zombies now spawn in the Waterfall Tunnel zone when in the Upper Waterfall zone
 * Zombies now spawn in the Waterfall zone when in the upper part of the Waterfall Tunnel zone
+* Increased cost of the door between the Waterslide End zone and the Turntable zone from 1000 points to 1250 points
+* Increased cost of the debris between the Waterfall zone and the Water Cave zone from 1000 points to 1250 points
 * Added Pack-a-Punch FX
 * Eclipse mode activatable with 1-4 players
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match

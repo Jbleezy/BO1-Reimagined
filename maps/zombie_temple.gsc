@@ -86,6 +86,8 @@ main()
 
 	level.zombiemode_sidequest_init = ::temple_sidequest_of_awesome;
 
+	override_blocker_prices();
+
 	maps\_zombiemode::main();
 
 	level thread maps\_zombiemode::register_sidequest( "COTD", "ZOMBIE_COAST_EGG_SOLO", 43, "ZOMBIE_COAST_EGG_COOP", 44 );
@@ -1248,4 +1250,41 @@ zombie_temple_place_additionalprimaryweapon_machine()
 	machine_clip.angles = (0, 0, 0);
 	machine_clip setmodel( "collision_geo_64x64x256" );
 	machine_clip Hide();
+}
+
+override_blocker_prices()
+{
+	zombie_doors = GetEntArray( "zombie_door", "targetname" );
+	for( i = 0; i < zombie_doors.size; i++ )
+	{
+		if( IsDefined( zombie_doors[i].script_flag ) )
+		{
+			tokens = Strtok( zombie_doors[i].script_flag, "," );
+			for ( j=0; j<tokens.size; j++ )
+			{
+				if(tokens[j] == "cave01_to_cave02")
+				{
+					zombie_doors[i].zombie_cost = 1250;
+					break;
+				}
+			}
+		}
+	}
+
+	zombie_debris = GetEntArray( "zombie_debris", "targetname" );
+	for( i = 0; i < zombie_debris.size; i++ )
+	{
+		if( IsDefined( zombie_debris[i].script_flag ) )
+		{
+			tokens = Strtok( zombie_debris[i].script_flag, "," );
+			for ( j=0; j<tokens.size; j++ )
+			{
+				if(tokens[j] == "cave_water_to_waterfall")
+				{
+					zombie_debris[i].zombie_cost = 1250;
+					break;
+				}
+			}
+		}
+	}
 }

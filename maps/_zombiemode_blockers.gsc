@@ -110,7 +110,6 @@ door_init()
 				flag_init( self.script_flag );
 			}
 		}
-
 	}
 
 	// Door trigger types
@@ -163,7 +162,6 @@ door_init()
 	self set_hint_string( self, "default_buy_door_" + cost );
 //	self thread add_teampot_icon();
 }
-
 
 //
 //	Help fix-up doors not using script_string and also to reclassify non-door entities.
