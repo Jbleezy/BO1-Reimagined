@@ -994,7 +994,7 @@
 * The easter egg song teddy bears will float up and rotate around while the song is active
 
 #### Centrifuge
-* Cooldown time has been doubled
+* Increased maximum cooldown time from 90 seconds to 180 seconds
 * No longer stops spinning for entire rounds
 * Deals 50 damage to players
 * Fixed a bug where zombies that were killed from the Centrifuge in higher rounds became invisible and invincible

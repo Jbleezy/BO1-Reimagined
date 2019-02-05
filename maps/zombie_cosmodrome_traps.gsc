@@ -712,7 +712,7 @@ centrifuge_random()
 		}*/
 
 		//wait( RandomIntRange( 24, 90 ) );
-		wait( RandomIntRange( 48, 180 ) );
+		wait( RandomIntRange( 24, 180 ) );
 
 		// figure out the roatation amount
 		rotation_amount = RandomIntRange( 3, 7 ) * 360;
