@@ -175,7 +175,19 @@ microwavegun_fired(upgraded)
 	for ( i = 0; i < level.microwavegun_sizzle_enemies.size; i++ )
 	{
 		//microwavegun_network_choke();
-		level.microwavegun_sizzle_enemies[i] thread microwavegun_sizzle_zombie( self, level.microwavegun_sizzle_vecs[i], i );
+		if(IsAI(level.microwavegun_sizzle_enemies[i]))
+		{
+			level.microwavegun_sizzle_enemies[i] thread microwavegun_sizzle_zombie( self, level.microwavegun_sizzle_vecs[i], i );
+		}
+		else if(IsPlayer(level.microwavegun_sizzle_enemies[i]))
+		{
+			weapon = "microwavegundw_zm";
+			if(upgraded)
+			{
+				weapon = "microwavegundw_upgraded_zm";
+			}
+			level.microwavegun_sizzle_enemies[i] notify("grief_damage", weapon, "MOD_PROJECTILE", self);
+		}
 	}
 
 	level.microwavegun_sizzle_enemies = [];
@@ -201,6 +213,7 @@ microwavegun_get_enemies_in_range(upgraded, microwaveable_objects)
 	else
 	{
 		test_list = GetAISpeciesArray("axis", "all");
+		test_list = array_merge(test_list, get_players());
 	}
 
 	zombies = get_array_of_closest( view_pos, test_list, undefined, undefined, range);

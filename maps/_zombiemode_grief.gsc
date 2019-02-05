@@ -482,7 +482,17 @@ grief_damage()
 {
 	while(1)
 	{
-		self waittill( "grief_damage", weapon, mod, attacker );
+		self waittill( "grief_damage", weapon, mod, attacker, force_slowdown, vec );
+
+		if(!is_player_valid(self))
+		{
+			continue;
+		}
+
+		if(attacker.vsteam == self.vsteam)
+		{
+			continue;
+		}
 
 		// special check for betties when player is prone
 		if(weapon == "mine_bouncing_betty" && self getstance() == "prone" && mod == "MOD_GRENADE_SPLASH")
@@ -490,12 +500,15 @@ grief_damage()
 			continue;
 		}
 
-		force_slowdown = false;
+		if(!IsDefined(force_slowdown))
+		{
+			force_slowdown = false;
+		}
 
-		if(mod == "MOD_MELEE" || weapon == "knife_ballistic_zm" || weapon == "knife_ballistic_upgraded_zm" || weapon == "knife_ballistic_bowie_zm" || weapon == "knife_ballistic_bowie_upgraded_zm")
+		if(mod == "MOD_MELEE" || weapon == "knife_ballistic_zm" || weapon == "knife_ballistic_upgraded_zm" || weapon == "knife_ballistic_bowie_zm" || weapon == "knife_ballistic_bowie_upgraded_zm" || ((weapon == "thundergun_zm" || weapon == "thundergun_upgraded_zm") && IsDefined(vec)))
 		{
 			force_slowdown = true;
-			self thread push(weapon, mod, attacker);
+			self thread push(weapon, mod, attacker, vec);
 		}
 
 		self thread slowdown(weapon, mod, attacker, force_slowdown);
@@ -543,30 +556,33 @@ slowdown(weapon, mod, attacker, force_slowdown)
 	self.slowdown_wait = false;
 }
 
-push(weapon, mod, attacker) //prone, bowie/ballistic crouch, bowie/ballistic, crouch, regular
+push(weapon, mod, attacker, vec) //prone, bowie/ballistic crouch, bowie/ballistic, crouch, regular
 {
-	amount = 0;
-	if(self GetStance() != "prone" )
+	if(!IsDefined(vec))
 	{
-		if(self GetStance() == "crouch")
-		{
-			amount = 100;
-		}
-		else
-		{
-			amount = 300;	
-		}
+		amount = 300;
+		vec = VectorNormalize( self.origin - attacker.origin ) * (amount, amount, amount);
+	}
 
-		if(attacker._bowie_zm_equipped || attacker._sickle_zm_equipped || weapon == "knife_ballistic_zm" || weapon == "knife_ballistic_upgraded_zm")
-		{
-			amount *= 1.5;
-		}
+	scalar = 1;
+
+	if(self GetStance() == "prone" )
+	{
+		scalar = .25;
+	}
+	else if(self GetStance() == "crouch")
+	{
+		scalar = .5;
 	}
 	
-	if(amount != 0)
+	if((mod == "MOD_MELEE" && (attacker._bowie_zm_equipped || attacker._sickle_zm_equipped)) || weapon == "knife_ballistic_zm" || weapon == "knife_ballistic_upgraded_zm")
 	{
-		self SetVelocity( VectorNormalize( self.origin - attacker.origin ) * (amount, amount, amount) );
+		scalar *= 1.5;
 	}
+
+	vec = vec * (scalar, scalar, scalar);
+
+	self SetVelocity(vec);
 }
 
 grief_damage_points(got_griefed)

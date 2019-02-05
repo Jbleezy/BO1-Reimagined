@@ -64,7 +64,7 @@ wait_for_thundergun_fired()
 		currentweapon = self GetCurrentWeapon();
 		if( ( currentweapon == "thundergun_zm" ) || ( currentweapon == "thundergun_upgraded_zm" ) )
 		{
-			self thread thundergun_fired();
+			self thread thundergun_fired(currentweapon);
 
 			view_pos = self GetTagOrigin( "tag_flash" ) - self GetPlayerViewHeight();
 			view_angles = self GetTagAngles( "tag_flash" );
@@ -87,7 +87,7 @@ thundergun_network_choke()
 }
 
 
-thundergun_fired()
+thundergun_fired(currentweapon)
 {
 	// ww: physics hit when firing
 	PhysicsExplosionCylinder( self.origin, 600, 240, 1 );
@@ -108,13 +108,28 @@ thundergun_fired()
 	for ( i = 0; i < level.thundergun_fling_enemies.size; i++ )
 	{
 		//thundergun_network_choke();
-		level.thundergun_fling_enemies[i] thread thundergun_fling_zombie( self, level.thundergun_fling_vecs[i], i );
+		if(IsAI(level.thundergun_fling_enemies[i]))
+		{
+			level.thundergun_fling_enemies[i] thread thundergun_fling_zombie( self, level.thundergun_fling_vecs[i], i );
+		}
+		else if(IsPlayer(level.thundergun_fling_enemies[i]))
+		{
+			vec = level.thundergun_fling_vecs[i] * (3, 3, 1);
+			level.thundergun_fling_enemies[i] notify("grief_damage", currentweapon, "MOD_PROJECTILE", self, true, vec);
+		}
 	}
 
 	for ( i = 0; i < level.thundergun_knockdown_enemies.size; i++ )
 	{
 		//thundergun_network_choke();
-		level.thundergun_knockdown_enemies[i] thread thundergun_knockdown_zombie( self, level.thundergun_knockdown_gib[i] );
+		if(IsAI(level.thundergun_fling_enemies[i]))
+		{
+			level.thundergun_knockdown_enemies[i] thread thundergun_knockdown_zombie( self, level.thundergun_knockdown_gib[i] );
+		}
+		else if(IsPlayer(level.thundergun_fling_enemies[i]))
+		{
+			level.thundergun_fling_enemies[i] notify("grief_damage", currentweapon, "MOD_PROJECTILE", self);
+		}
 	}
 
 	level.thundergun_knockdown_enemies = [];
@@ -127,7 +142,9 @@ thundergun_fired()
 thundergun_get_enemies_in_range()
 {
 	view_pos = self GetWeaponMuzzlePoint();
-	zombies = get_array_of_closest( view_pos, GetAiSpeciesArray( "axis", "all" ), undefined, undefined, level.zombie_vars["thundergun_knockdown_range"] );
+	zombies = GetAiSpeciesArray( "axis", "all" );
+	zombies = array_merge(zombies, get_players());
+	zombies = get_array_of_closest( view_pos, zombies, undefined, undefined, level.zombie_vars["thundergun_knockdown_range"] );
 	if ( !isDefined( zombies ) )
 	{
 		return;

@@ -111,6 +111,15 @@ freezegun_fired( upgraded )
 		{
 			level.freezegun_enemies[i] thread freezegun_do_damage( upgraded, self, level.freezegun_enemies_dist_ratio[i] );
 		}
+		else if(IsPlayer(level.freezegun_enemies[i]))
+		{
+			weapon = "freezegun_zm";
+			if(upgraded)
+			{
+				weapon = "freezegun_upgraded_zm";
+			}
+			level.freezegun_enemies[i] notify("grief_damage", weapon, "MOD_PROJECTILE", self, true);
+		}
 		else
 		{
 			level.freezegun_enemies[i] notify("damage");
@@ -237,6 +246,7 @@ freezegun_get_enemies_in_range( upgraded )
 	// Add a 10% epsilon to the range on this call to get guys right on the edge
 	zombies = GetAiSpeciesArray( "axis", "all" );
 	zombies = array_merge(zombies, level.freezegun_shatter_triggers);
+	zombies = array_merge(zombies, get_players());
 	zombies = get_array_of_closest( view_pos, zombies, undefined, undefined, (outer_range * 1.1) );
 	if ( !isDefined( zombies ) )
 	{

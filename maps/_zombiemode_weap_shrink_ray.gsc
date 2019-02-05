@@ -37,8 +37,6 @@ init()
 	level thread shrink_ray_on_player_connect();
 
 	level._shrinkable_objects = [];
-
-	//level.zombies_shrunk = 0;
 }
 
 add_shrinkable_object(ent)
@@ -110,8 +108,15 @@ shrink_ray_fired( upgraded )
 		if(IsAI(zombies[i]))
 		{
 			zombies[i] thread shrink_zombie(upgraded, self);
-			//level.zombies_shrunk++;
-			//iprintln(level.zombies_shrunk);
+		}
+		else if(IsPlayer(zombies[i]))
+		{
+			weapon = "shrink_ray_zm";
+			if(upgraded)
+			{
+				weapon = "shrink_ray_upgraded_zm";
+			}
+			zombies[i] notify("grief_damage", weapon, "MOD_PROJECTILE", self);
 		}
 		else
 		{
@@ -702,6 +707,7 @@ shrink_ray_get_enemies_in_range( upgraded, shrinkable_objects )
 	else
 	{
 		test_list = GetAISpeciesArray("axis", "all");
+		test_list = array_merge(test_list, get_players());
 	}
 
 	zombies = get_array_of_closest( view_pos, test_list, undefined, undefined, (range * 1.1) );
