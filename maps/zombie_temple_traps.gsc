@@ -449,6 +449,7 @@ waterfall_trap_init()
 waterfall_trap_think()
 {
 	self.zombie_cost = 500;
+	flag_wait("power_on");
 
 	while (1)
 	{

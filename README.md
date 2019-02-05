@@ -766,29 +766,6 @@
 * Nova crawlers now do not explode from turret damage
 * No longer deals damage to players
 
-### Centrifuge (Ascension)
-* Cooldown time has been doubled
-* No longer stops spinning for entire rounds
-* Deals 50 damage to players
-* Fixed a bug where zombies that were killed from the Centrifuge in higher rounds became invisible and invincible
-* The player that is closest to a zombie that is killed from the Centrifuge gets the kill
-
-### Flinger (Call of the Dead)
-* Zombies flung now count as actual kills
-* Available whenever the power is on
-* Will not activate if the player is in the air
-* Removed explosion effect from flung zombies
-
-### Spikes (Shangri-La)
-* Now kills zombies (except for Shrieker and Napalm)
-* Deal 50 damage to players
-* Will not activate if the player is in the air, crouch, prone, or down
-
-### Waterfall (Shangri-La)
-* Now kills zombies (except for Shrieker and Napalm)
-* Now costs 500 points
-* Displays a hintstring when active
-
 ## Blockers
 
 ### Doors
@@ -1016,6 +993,13 @@
 * Zombies now spawn in the Stairs zone when in the Upper Centrifuge Zone
 * The easter egg song teddy bears will float up and rotate around while the song is active
 
+#### Centrifuge
+* Cooldown time has been doubled
+* No longer stops spinning for entire rounds
+* Deals 50 damage to players
+* Fixed a bug where zombies that were killed from the Centrifuge in higher rounds became invisible and invincible
+* The player that is closest to a zombie that is killed from the Centrifuge gets the kill
+
 #### Lunar Lander
 * Decreased cooldown after using the lunar lander from 30 seconds to 15 seconds
 * Increased cooldown after calling the lunar lander from 3 seconds to 15 seconds
@@ -1036,6 +1020,12 @@
 * Decreased the delay between switching Pack-a-Punch locations from 100-120 seconds to 15 seconds
 * Zombies now spawn in the Coast zone when in the Walkway zone
 * Zombies no longer take damage from the water when low on health
+
+#### Flinger
+* Zombies flung now count as actual kills
+* Available whenever the power is on
+* Will not activate if the player is in the air
+* Removed explosion effect from flung zombies
 
 #### Zipline
 * Always available
@@ -1080,6 +1070,17 @@
 * Gongs now move and make a sound when meleed if they have already been meleed recently
 * Mud pit walls now only activate when a player is on the ground
 * Fixed a bug where players were able to sprint and enter prone in the mud pit if they were drinking a perk while entering the mud pit
+
+#### Spikes
+* Now kills zombies (except for Shrieker and Napalm)
+* Deal 50 damage to players
+* Will not activate if the player is in the air, crouch, prone, or down
+
+#### Waterfall
+* Now kills zombies (except for Shrieker and Napalm)
+* Now costs 500 points
+* Requires the power on to be usable
+* Displays a hintstring when active
 
 #### Minecart
 * Available whenever the power is on
