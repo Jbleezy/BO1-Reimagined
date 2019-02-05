@@ -849,12 +849,12 @@ enable_zone_portals_init()
 }
 enable_zone_portals()
 {
-		self waittill( "trigger", user );
-		if ( (  user maps\_laststand::player_is_in_laststand() || is_player_valid( user ) ) &&
-		IsDefined(self.script_noteworthy) )
-		{
-			level thread maps\_zombiemode_zone_manager::enable_zone(self.script_noteworthy);
-		}
+	self waittill( "trigger", user );
+	if ( (  user maps\_laststand::player_is_in_laststand() || is_player_valid( user ) ) &&
+	IsDefined(self.script_noteworthy) )
+	{
+		level thread maps\_zombiemode_zone_manager::enable_zone(self.script_noteworthy);
+	}
 }
 
 

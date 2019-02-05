@@ -965,6 +965,7 @@
 * All 6 barriers in the Conference Room zone are always active
 * Zombies no longer spawn in the Quick Reive hallway when in the Speed Cola hallway
 * Trap pieces are already in place
+* Decreased cost of the 2 debris between the North War Room zone and the South War Room zone from 1250 points to 1000 points
 * Pack-a-Punch machine will stay available for as long as the defcon room is active
 * If all players on a floor use an elevator or get downed when the power is off, all zombies will now respawn
 * If all players on a floor use an elevator or get downed when the power is on, all zombies that were in the map will now go through teleporters and all zombies that were in barriers will now respawn

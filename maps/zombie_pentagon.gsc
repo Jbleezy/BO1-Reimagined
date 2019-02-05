@@ -46,6 +46,8 @@ main()
 
 	level.delete_when_in_createfx = ::delete_in_createfx;
 
+	override_blocker_prices();
+
 	// DO ACTUAL ZOMBIEMODE INIT
 	maps\_zombiemode::main();
 
@@ -194,10 +196,12 @@ pentagon_zone_init()
 //-------------------------------------------------------------------------------
 enable_zone_elevators_init()
 {
-	elev_zone_trig = GetEnt( "elevator1_down_riders", "targetname" );
+	elev_zone_trig = GetEnt( "elevator1_up_riders", "targetname" );
+	elev_zone_trig.script_noteworthy = "labs_elevator";
 	elev_zone_trig thread maps\zombie_pentagon_teleporter::enable_zone_portals();
 
-	elev_zone_trig2 = GetEnt( "elevator2_down_riders", "targetname" );
+	elev_zone_trig2 = GetEnt( "elevator2_up_riders", "targetname" );
+	elev_zone_trig2.script_noteworthy = "war_room_zone_top";
 	elev_zone_trig2 thread maps\zombie_pentagon_teleporter::enable_zone_portals();
 }
 
@@ -993,5 +997,25 @@ pig_death()
 
 		flag_wait("thief_round");
 		flag_clear("pig_killed_round");
+	}
+}
+
+override_blocker_prices()
+{
+	zombie_debris = GetEntArray( "zombie_debris", "targetname" );
+	for( i = 0; i < zombie_debris.size; i++ )
+	{
+		if( IsDefined( zombie_debris[i].script_flag ) )
+		{
+			tokens = Strtok( zombie_debris[i].script_flag, "," );
+			for ( j=0; j<tokens.size; j++ )
+			{
+				if(tokens[j] == "war_room_west")
+				{
+					zombie_debris[i].zombie_cost = 1000;
+					break;
+				}
+			}
+		}
 	}
 }
