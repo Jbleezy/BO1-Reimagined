@@ -153,7 +153,7 @@ main()
 
 	level thread maps\zombie_temple_triggers::main();
 
-	level thread maps\_zombiemode_spawner::zombie_tracking_init();
+	//level thread maps\_zombiemode_spawner::zombie_tracking_init();
 
 	level thread maps\zombie_temple_debug::main();
 

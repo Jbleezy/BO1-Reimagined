@@ -920,6 +920,7 @@
 ## Maps
 * Easter egg songs can now be reactivated once the song is over
 * The zone that the player is in is now calculated more accurately
+* Zombies that are not damaged no longer bleed out from being too far away from players
 * Added out of bounds death barriers to all maps
 
 ### Nacht Der Untoten
