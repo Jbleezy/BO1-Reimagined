@@ -815,7 +815,7 @@
 * Fixed a bug that caused spawning hellhounds to be able to collide with players while they were still invisible to the player
 
 ### Nova Crawlers
-* The player who kills a Nova Crawler gets the kills for any zombies killed from the explosion of the Nova Crawler
+* The player who killed a Nova Crawler gets the kills for any zombies killed from the explosion of the Nova Crawler
 * Now award kill points immediately if killed while crawling on a wall
 
 ### Thief

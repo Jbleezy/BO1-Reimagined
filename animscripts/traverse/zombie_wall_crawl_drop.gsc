@@ -185,7 +185,10 @@ ZombieRagdollSimple()
 	self play_blended_death( deathAnimVert, deathAnimHorz );
 */
 
-	level maps\_zombiemode_spawner::zombie_death_points( self.origin, self.damagemod, self.damagelocation, self.attacker,self );
+	if(!self maps\_zombiemode_weap_thundergun::enemy_killed_by_thundergun())
+	{
+		level maps\_zombiemode_spawner::zombie_death_points( self.origin, self.damagemod, self.damagelocation, self.attacker,self );
+	}
 
 	self animscripts\traverse\zombie_shared::TraverseRagdollDeathSimple();
 }
