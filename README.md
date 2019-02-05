@@ -925,6 +925,11 @@
 * Zombies now spawn in the Bridge Warehouse Side zone when in the Upper Warehouse zone
 * Zombies no longer spawn in the Outside Laboratory zone when in the Teleporter A zone
 * Zombies no longer spawn in the Outside Laboratory zone when in the Teleporter C zone
+* Increased cost of the door between the Outside Warehouse zone and the Warehouse zone from 750 points to 1000 points
+* Increased cost of the door between the Outside Laboratory zone and the Laboratory zone from 750 points to 1000 points
+* Increased cost of the debris between the Laboratory zone and the Bridge Laboratory Side zone from 1000 points to 1250 points
+* Increased cost of the debris between the Warehouse zone and the Upper Warehouse zone from 1000 points to 1250 points
+* Increased cost of the door between the Upper Warehouse zone and the Teleporter B zone from 750 points to 1250 points
 * Decreased mid round hellhounds starting round from 16 to 15
 * Mid round hellhounds now spawn when no doors are open
 * Mid round hellhounds now have the same delay between spawns as zombies

@@ -101,6 +101,8 @@ main()
 
 	level.use_zombie_heroes = true;
 
+	override_blocker_prices();
+
 	maps\_zombiemode::main();
 
 	init_sounds();
@@ -2104,5 +2106,47 @@ get_position(collision)
 		//iprintln(player.angles);
 		//collision.angles = player.angles;
 		wait .05;
+	}
+}
+
+override_blocker_prices()
+{
+	zombie_doors = GetEntArray( "zombie_door", "targetname" );
+	for( i = 0; i < zombie_doors.size; i++ )
+	{
+		if( IsDefined( zombie_doors[i].script_flag ) )
+		{
+			tokens = Strtok( zombie_doors[i].script_flag, "," );
+			for ( j=0; j<tokens.size; j++ )
+			{
+				if(tokens[j] == "enter_warehouse_building" || tokens[j] == "enter_wnuen_building")
+				{
+					zombie_doors[i].zombie_cost = 1000;
+					break;
+				}
+				else if(tokens[j] == "enter_tp_west")
+				{
+					zombie_doors[i].zombie_cost = 1250;
+					break;
+				}
+			}
+		}
+	}
+
+	zombie_debris = GetEntArray( "zombie_debris", "targetname" );
+	for( i = 0; i < zombie_debris.size; i++ )
+	{
+		if( IsDefined( zombie_debris[i].script_flag ) )
+		{
+			tokens = Strtok( zombie_debris[i].script_flag, "," );
+			for ( j=0; j<tokens.size; j++ )
+			{
+				if(tokens[j] == "enter_warehouse_second_floor" || tokens[j] == "enter_wnuen_loading_dock")
+				{
+					zombie_debris[i].zombie_cost = 1250;
+					break;
+				}
+			}
+		}
 	}
 }
