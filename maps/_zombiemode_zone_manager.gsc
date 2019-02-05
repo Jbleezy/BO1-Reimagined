@@ -65,19 +65,17 @@ get_players_in_zone( zone_name )
 	{
 		return false;
 	}
-	zone = level.zones[ zone_name ];
 
-	// Okay check to see if a player is in one of the zone volumes
 	num_in_zone = 0;
 	players = get_players();
-	for (i = 0; i < zone.volumes.size; i++)
+	for(i = 0; i < players.size; i++)
 	{
-		for (j = 0; j < players.size; j++)
+		if(players[i] maps\_zombiemode_utility::get_current_zone() == zone_name)
 		{
-			if ( players[j] IsTouching(zone.volumes[i]) )
-				num_in_zone++;
+			num_in_zone++;
 		}
 	}
+
 	return num_in_zone;
 }
 
@@ -92,18 +90,16 @@ player_in_zone( zone_name )
 	{
 		return false;
 	}
-	zone = level.zones[ zone_name ];
 
-	// Okay check to see if a player is in one of the zone volumes
 	players = get_players();
-	for (i = 0; i < zone.volumes.size; i++)
+	for(i = 0; i < players.size; i++)
 	{
-		for (j = 0; j < players.size; j++)
+		if(players[i] maps\_zombiemode_utility::get_current_zone() == zone_name)
 		{
-			if ( players[j] IsTouching(zone.volumes[i]) && !(players[j].sessionstate == "spectator"))
 			return true;
 		}
 	}
+
 	return false;
 }
 
@@ -117,16 +113,12 @@ entity_in_zone( zone_name )
 	{
 		return false;
 	}
-	zone = level.zones[ zone_name ];
 
-	// Okay check to see if an entity is in one of the zone volumes
-	for (i = 0; i < zone.volumes.size; i++)
+	if(self maps\_zombiemode_utility::get_current_zone() == zone_name)
 	{
-		if ( self IsTouching( zone.volumes[i] ) )
-		{
-			return true;
-		}
+		return true;
 	}
+	
 	return false;
 }
 

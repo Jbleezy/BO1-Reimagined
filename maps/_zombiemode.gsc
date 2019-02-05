@@ -8557,28 +8557,9 @@ choose_zone_name(zone, current_name)
 {
 	if(self.sessionstate == "spectator")
 	{
-		return " ";
+		zone = undefined;
 	}
 
-	/*if(!IsDefined(zone) && (level.script == "zombie_cod5_asylum" || level.script == "zombie_pentagon"))
-	{
-		return current_name;
-	}
-
-	if(!IsDefined(zone) && level.script != "zombie_cod5_prototype")
-	{
-		return " ";
-	}*/
-
-	// zone fixes
-	/*if(level.script == "zombie_cod5_prototype")
-	{
-		if(!IsDefined(zone))
-		{
-			zone = "corner";
-		}
-	}
-	else if(level.script == "zombie_pentagon")*/
 	if(IsDefined(zone))
 	{
 		if(level.script == "zombie_pentagon")

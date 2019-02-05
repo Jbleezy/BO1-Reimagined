@@ -919,14 +919,17 @@
 
 ## Maps
 * Easter egg songs can now be reactivated once the song is over
+* The zone that the player is in is now calculated more accurately
 * Added out of bounds death barriers to all maps
 
 ### Nacht Der Untoten
 * Now uses marine characters and voicelines from World at War
+* Zombies now spawn from the Help Room zone and the Upstairs zone when in the corner in the Start zone near the Help Room zone door
 
 ### Verruckt
 * Added super-sprinters (only spawn after the power is on, start spawning on round 10, all super-sprinters by round 13)
 * Now uses marine characters and voicelines from World at War
+* Fixed zone issue in the South Balcony zone near the Showers zone door
 * Fixed zombie pathing near Speed Cola
 * Removed intro text
 

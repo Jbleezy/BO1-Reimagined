@@ -250,8 +250,11 @@ flinger_fling(activator)
 			{
 				if(zombs[i].animname != "director_zombie")
 				{
-					level.zombie_total++;
-					zombs[i] DoDamage( zombs[i].health + 2000, (0,0,0) );
+					if(zombs[i] get_current_zone() != "residence_roof_zone" && zombs[i] get_current_zone() != "residence1_zone" && zombs[i] get_current_zone() != "beach_zone2")
+					{
+						level.zombie_total++;
+						zombs[i] DoDamage( zombs[i].health + 2000, (0,0,0) );
+					}
 				}
 			}
 		}

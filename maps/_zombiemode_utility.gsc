@@ -3302,11 +3302,18 @@ get_current_zone()
 {
 	flag_wait( "zones_initialized" );
 
+	touching_zones = [];
 	zkeys = GetArrayKeys( level.zones );
 	// clear out active zone flags
 	for( z=0; z<zkeys.size; z++ )
 	{
 		zone_name = zkeys[z];
+
+		if(!maps\_zombiemode_zone_manager::zone_is_enabled(zone_name))
+		{
+			continue;
+		}
+
 		zone = level.zones[ zone_name ];
 
 		// Okay check to see if the entity is in one of the zone volumes
@@ -3314,9 +3321,23 @@ get_current_zone()
 		{
 			if ( self IsTouching(zone.volumes[i]) )
 			{
-				return zone_name;
+				touching_zones[touching_zones.size] = zone_name;
+				break;
 			}
 		}
+	}
+
+	if(touching_zones.size > 0)
+	{
+		current_zone = touching_zones[0];
+
+		if(touching_zones.size > 1 && IsDefined(self.prev_zone) && is_in_array(touching_zones, self.prev_zone))
+		{
+			current_zone = self.prev_zone;
+		}
+
+		self.prev_zone = current_zone;
+		return current_zone;
 	}
 
 	return undefined;

@@ -781,7 +781,7 @@ prototype_zone_init()
 	flag_init( "always_on" );
 	flag_set( "always_on" );
 
-	zone_volume = Spawn( "trigger_radius", (321, 356, 10), 0, 256, 256 );
+	zone_volume = Spawn( "trigger_radius", (321, 356, 10), 0, 256, 128 );
 	zone_volume.targetname = "start_zone";
 	zone_volume.script_noteworthy = "player_volume";
 

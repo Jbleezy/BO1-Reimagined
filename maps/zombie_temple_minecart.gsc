@@ -876,8 +876,11 @@ minecart_lever_think()
 			zombs = GetAiSpeciesArray("axis");
 			for(i=0;i<zombs.size;i++)
 			{
-				level.zombie_total++;
-				zombs[i] DoDamage( zombs[i].health + 2000, (0,0,0) );
+				if(zombs[i] get_current_zone() != "waterfall_lower_zone")
+				{
+					level.zombie_total++;
+					zombs[i] DoDamage( zombs[i].health + 2000, (0,0,0) );
+				}
 			}
 		}
 
