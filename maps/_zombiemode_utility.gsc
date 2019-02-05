@@ -3340,6 +3340,7 @@ get_current_zone()
 		return current_zone;
 	}
 
+	self.prev_zone = undefined;
 	return undefined;
 }
 

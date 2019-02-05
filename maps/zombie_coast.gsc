@@ -331,10 +331,14 @@ coast_zone_init()
 	// New connector zone, ship front to start beach
 	add_adjacent_zone( "shipfront_near_zone", "shipfront_2_beach_zone", "enter_shipfront_bottom" );
 	add_adjacent_zone( "shipfront_near_zone", "shipfront_2_beach_zone", "plankA_enter" );
-	add_adjacent_zone( "beach_zone", "shipfront_2_beach_zone", "", true ); // one way connection
 
 	add_adjacent_zone( "shipfront_near_zone", "shipfront_2_beach_zone", "shipfront_far_enter" );
 	add_adjacent_zone( "shipfront_near_zone", "shipfront_2_beach_zone", "shipfront_bottom_storage" );
+
+	add_adjacent_zone( "shipfront_2_beach_zone", "beach_zone", "enter_shipfront_bottom", true ); // one way connection
+	add_adjacent_zone( "shipfront_2_beach_zone", "beach_zone", "plankA_enter", true ); // one way connection
+	add_adjacent_zone( "shipfront_2_beach_zone", "beach_zone", "shipfront_far_enter", true ); // one way connection
+	add_adjacent_zone( "shipfront_2_beach_zone", "beach_zone", "shipfront_bottom_storage", true ); // one way connection
 
 	// Ship front under deck
 	add_adjacent_zone( "shipfront_storage_zone", "shipfront_far_zone", "shipfront_deck_storage" );

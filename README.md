@@ -819,9 +819,7 @@
 * Removed collision from zombies as soon as they are dead
 * No longer make sounds after death
 * Fixed a bug where zombies would bleed out occasionally if they were standing in the same spot they were 30 seconds ago
-* For zombies to not bleed out, a player must now have line of sight to the zombie in addition to looking at the zombie
-* Zombies will now not bleed out if they are in an active zone in addition to being close to a player
-* Zombies that bleed out from being too far away will now be killed instead of deleted
+* Zombies that are not damaged no longer bleed out from being too far away from players
 * Zombies can no longer be headless while alive
 * 4 round and 5 round special rounds now happen more equally
 * Max health: 1 million
@@ -920,12 +918,11 @@
 ## Maps
 * Easter egg songs can now be reactivated once the song is over
 * The zone that the player is in is now calculated more accurately
-* Zombies that are not damaged no longer bleed out from being too far away from players
 * Added out of bounds death barriers to all maps
 
 ### Nacht Der Untoten
 * Now uses marine characters and voicelines from World at War
-* Zombies now spawn from the Help Room zone and the Upstairs zone when in the corner in the Start zone near the Help Room zone door
+* Zombies now spawn in the Help Room zone and the Upstairs zone when in the corner in the Start zone near the Help Room zone door
 
 ### Verruckt
 * Added super-sprinters (only spawn after the power is on, start spawning on round 10, all super-sprinters by round 13)
@@ -947,10 +944,10 @@
 * The zipline trigger near the hut can now be activated when the zipline is on either side
 
 ### Der Riese
-* Zombies now spawn from the Outside Warehouse zone when in the Courtyard zone
-* Zombies now spawn from the Bridge Warehouse Side zone when in the Upper Warehouse zone
-* Zombies no longer spawn from the Outside Laboratory zone when in the Teleporter A zone
-* Zombies no longer spawn from the Outside Laboratory zone when in the Teleporter C zone
+* Zombies now spawn in the Outside Warehouse zone when in the Courtyard zone
+* Zombies now spawn in the Bridge Warehouse Side zone when in the Upper Warehouse zone
+* Zombies no longer spawn in the Outside Laboratory zone when in the Teleporter A zone
+* Zombies no longer spawn in the Outside Laboratory zone when in the Teleporter C zone
 * Decreased mid round hellhounds starting round from 16 to 15
 * Mid round hellhounds now spawn when no doors are open
 * Mid round hellhounds now have the same delay between spawns as zombies
@@ -1037,6 +1034,7 @@
 * Players now start with Semtex
 * Removed zombie spawn delay at the beginning of a match
 * Decreased the delay between switching Pack-a-Punch locations from 100-120 seconds to 15 seconds
+* Zombies now spawn in the Coast zone when in the Walkway zone
 * Zombies no longer take damage from the water when low on health
 
 #### Zipline
