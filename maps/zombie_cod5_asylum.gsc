@@ -84,6 +84,8 @@ main()
 
 	level.use_zombie_heroes = true;
 
+	override_blocker_prices();
+
 	//init the perk machines
 	maps\_zombiemode::main();
 
@@ -1922,4 +1924,24 @@ recalculate_pathing(good_spot)
 	self SetGoalPos(good_spot);
 	wait .2;
 	self.recalculating = false;
+}
+
+override_blocker_prices()
+{
+	zombie_doors = GetEntArray( "zombie_door", "targetname" );
+	for( i = 0; i < zombie_doors.size; i++ )
+	{
+		if( IsDefined( zombie_doors[i].script_flag ) )
+		{
+			tokens = Strtok( zombie_doors[i].script_flag, "," );
+			for ( j=0; j<tokens.size; j++ )
+			{
+				if(tokens[j] == "upstairs_north_door2")
+				{
+					zombie_doors[i].zombie_cost = 750;
+					break;
+				}
+			}
+		}
+	}
 }

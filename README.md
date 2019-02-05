@@ -904,6 +904,7 @@
 ### Verruckt
 * Added super-sprinters (only spawn after the power is on, start spawning on round 10, all super-sprinters by round 13)
 * Now uses marine characters and voicelines from World at War
+* Decreased cost of the door between the North Upstairs zone and the Kitchen zone from 1000 points to 750 points
 * Fixed zone issue in the South Balcony zone near the Showers zone door
 * Fixed zombie pathing near Speed Cola
 * Removed intro text
