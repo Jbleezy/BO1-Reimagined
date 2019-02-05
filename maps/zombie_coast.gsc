@@ -133,6 +133,8 @@ main()
 
 	level.revive_solo_fx_func = ::coast_revive_solo_fx;
 
+	override_blocker_prices();
+
 	// Setting it up like this, means no references to maps\_zombiemode_animated_intro outside of this file.
 	//level.zombiemode_anim_intro_scenes = maps\zombie_coast_animated_intro::declare_scenes;
 	//level.zombiemode_animated_intro = maps\_zombiemode_animated_intro::precache_scene_assets;
@@ -1364,4 +1366,24 @@ init_fx_anims()
 zombie_coast_poi_positioning_func(origin, forward)
 {
 	return maps\_zombiemode_server_throttle::server_safe_ground_trace_ignore_water( "poi_trace", 10, self.origin + forward + ( 0, 0, 10 ) );
+}
+
+override_blocker_prices()
+{
+	zombie_debris = GetEntArray( "zombie_debris", "targetname" );
+	for( i = 0; i < zombie_debris.size; i++ )
+	{
+		if( IsDefined( zombie_debris[i].script_flag ) )
+		{
+			tokens = Strtok( zombie_debris[i].script_flag, "," );
+			for ( j=0; j<tokens.size; j++ )
+			{
+				if(tokens[j] == "enter_shipfront_bottom")
+				{
+					zombie_debris[i].zombie_cost = 1000;
+					break;
+				}
+			}
+		}
+	}
 }

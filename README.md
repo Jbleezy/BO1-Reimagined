@@ -1026,6 +1026,7 @@
 * Removed zombie spawn delay at the beginning of a match
 * Decreased the delay between switching Pack-a-Punch locations from 100-120 seconds to 15 seconds
 * Zombies now spawn in the Coast zone when in the Walkway zone
+* Increased cost of the debris between the Lighthouse Shore zone and the Lower Ship Center zone from 750 points to 1000 points
 * Zombies no longer take damage from the water when low on health
 
 #### Flinger
