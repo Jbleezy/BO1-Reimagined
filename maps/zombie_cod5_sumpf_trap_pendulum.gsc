@@ -425,10 +425,10 @@ do_launch(x,y,z,who)
 {
 	self.flung = 1;
 
-	while(level.numLaunched > 4)
+	/*while(level.numLaunched > 4)
 	{
 		wait_network_frame();
-	}
+	}*/
 
 	self thread play_imp_sound(who);
 
