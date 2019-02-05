@@ -8560,7 +8560,7 @@ choose_zone_name(zone, current_name)
 		return " ";
 	}
 
-	if(!IsDefined(zone) && (level.script == "zombie_cod5_asylum" || level.script == "zombie_pentagon"))
+	/*if(!IsDefined(zone) && (level.script == "zombie_cod5_asylum" || level.script == "zombie_pentagon"))
 	{
 		return current_name;
 	}
@@ -8568,49 +8568,53 @@ choose_zone_name(zone, current_name)
 	if(!IsDefined(zone) && level.script != "zombie_cod5_prototype")
 	{
 		return " ";
-	}
+	}*/
 
 	// zone fixes
-	if(level.script == "zombie_cod5_prototype")
+	/*if(level.script == "zombie_cod5_prototype")
 	{
 		if(!IsDefined(zone))
 		{
 			zone = "corner";
 		}
 	}
-	else if(level.script == "zombie_pentagon")
+	else if(level.script == "zombie_pentagon")*/
+	if(IsDefined(zone))
 	{
-		if(zone == "labs_elevator")
+		if(level.script == "zombie_pentagon")
 		{
-			zone = "war_room_zone_elevator";
+			if(zone == "labs_elevator")
+			{
+				zone = "war_room_zone_elevator";
+			}
 		}
-	}
-	else if(level.script == "zombie_cosmodrome")
-	{
-		if(IsDefined(self.lander) && self.lander)
+		else if(level.script == "zombie_cosmodrome")
 		{
-			zone = undefined;
+			if(IsDefined(self.lander) && self.lander)
+			{
+				zone = undefined;
+			}
 		}
-	}
-	else if(level.script == "zombie_coast")
-	{
-		if(IsDefined(self.is_ziplining) && self.is_ziplining)
+		else if(level.script == "zombie_coast")
 		{
-			zone = undefined;
+			if(IsDefined(self.is_ziplining) && self.is_ziplining)
+			{
+				zone = undefined;
+			}
 		}
-	}
-	else if(level.script == "zombie_temple")
-	{
-		if(zone == "waterfall_tunnel_a_zone")
+		else if(level.script == "zombie_temple")
 		{
-			zone = "waterfall_tunnel_zone";
+			if(zone == "waterfall_tunnel_a_zone")
+			{
+				zone = "waterfall_tunnel_zone";
+			}
 		}
-	}
-	else if(level.script == "zombie_moon")
-	{
-		if(IsSubStr(zone, "airlock"))
+		else if(level.script == "zombie_moon")
 		{
-			return current_name;
+			if(IsSubStr(zone, "airlock"))
+			{
+				return current_name;
+			}
 		}
 	}
 

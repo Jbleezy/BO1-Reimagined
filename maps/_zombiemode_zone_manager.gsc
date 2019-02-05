@@ -177,9 +177,10 @@ zone_init( zone_name )
 	//
 	zone.volumes = [];
 	volumes = GetEntArray( zone_name, "targetname" );
+
 	for ( i=0; i<volumes.size; i++ )
 	{
-		if ( volumes[i].classname == "info_volume" )
+		if ( volumes[i].classname == "info_volume" || volumes[i].script_noteworthy == "player_volume" )
 		{
 			zone.volumes[ zone.volumes.size ] = volumes[i];
 		}

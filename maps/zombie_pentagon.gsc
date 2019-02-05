@@ -101,10 +101,6 @@ main()
 
 	level thread play_starting_vox();
 
-	level thread life_brush();
-
-	//level thread pig_death();
-
 	level thread maps\zombie_pentagon_ffotd::main_end();
 }
 //-------------------------------------------------------------------------------
@@ -156,6 +152,9 @@ pentagon_zone_init()
 	flag_init( "always_on" );
 	flag_set( "always_on" );
 
+	zone_volume = Spawn( "trigger_radius", (-1089, 2509, 35), 0, 64, 64 );
+	zone_volume.targetname = "conference_level1";
+	zone_volume.script_noteworthy = "player_volume";
 
 	//Level 1
 	add_adjacent_zone( "conference_level1", "hallway_level1", "conf1_hall1" );
@@ -971,11 +970,6 @@ barricade_glitch_fix()
 	collision4 setmodel("collision_wall_64x64x10");
 	collision4.angles = (0, 6.19994, 0);
 	collision4 Hide();
-}
-
-life_brush()
-{
-	maps\_zombiemode::spawn_life_brush( (-1089, 2509, 35), 256, 256 );
 }
 
 pig_death()

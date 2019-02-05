@@ -131,8 +131,6 @@ main()
 
 	level thread fix_zombie_pathing();
 
-	level thread life_brush();
-
 	// added for zombie speed buff
 	level.scr_anim["zombie"]["sprint5"] = %ai_zombie_fast_sprint_01;
 	level.scr_anim["zombie"]["sprint6"] = %ai_zombie_fast_sprint_02;
@@ -146,6 +144,9 @@ asylum_zone_init()
 	flag_init( "always_on" );
 	flag_set( "always_on" );
 
+	zone_volume = Spawn( "trigger_radius", (-2, -648, 252), 0, 64, 64 );
+	zone_volume.targetname = "south_upstairs_zone";
+	zone_volume.script_noteworthy = "player_volume";
 
 	add_adjacent_zone( "west_downstairs_zone", "west2_downstairs_zone", "power_on" );
 
@@ -1921,9 +1922,4 @@ recalculate_pathing(good_spot)
 	self SetGoalPos(good_spot);
 	wait .2;
 	self.recalculating = false;
-}
-
-life_brush()
-{
-	maps\_zombiemode::spawn_life_brush( (-2, -648, 252), 256, 256 );
 }

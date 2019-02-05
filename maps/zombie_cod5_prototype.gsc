@@ -80,8 +80,6 @@ main()
 	level thread pistol_rank_setup();
 
 	level.has_pack_a_punch = false;
-
-	level thread life_brush();
 }
 
 precache_player_model_override()
@@ -783,6 +781,10 @@ prototype_zone_init()
 	flag_init( "always_on" );
 	flag_set( "always_on" );
 
+	zone_volume = Spawn( "trigger_radius", (321, 356, 10), 0, 256, 256 );
+	zone_volume.targetname = "start_zone";
+	zone_volume.script_noteworthy = "player_volume";
+
 	// foyer_zone
 	add_adjacent_zone( "start_zone", "box_zone", "start_2_box" );	
 	add_adjacent_zone( "start_zone", "upstairs_zone", "start_2_upstairs" );	
@@ -791,13 +793,13 @@ prototype_zone_init()
 
 prototype_eggs()
 {
-		trigs = getentarray ("evt_egg_killme", "targetname");
-		for(i=0;i<trigs.size;i++)
-		{
-			trigs[i] thread check_for_egg_damage();
-		}
-	
+	trigs = getentarray ("evt_egg_killme", "targetname");
+	for(i=0;i<trigs.size;i++)
+	{
+		trigs[i] thread check_for_egg_damage();
+	}	
 }
+
 check_for_egg_damage()
 {
 	if(!IsDefined (level.egg_damage_counter))
@@ -869,9 +871,4 @@ zombie_collision_patch()
 	collision setmodel("collision_geo_32x32x128");
 	collision.angles = (0, 0, 0);
 	collision Hide();
-}
-
-life_brush()
-{
-	maps\_zombiemode::spawn_life_brush( (321, 356, 10), 256, 256 );
 }
