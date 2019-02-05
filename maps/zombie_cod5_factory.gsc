@@ -2085,7 +2085,7 @@ curbs_fix()
 	collision4.angles = (0, 46.5, 0);
 	collision4 Hide();
 
-	collision5 = spawn("script_model", (435.5, -1502.5, -0.5));
+	collision5 = spawn("script_model", (435.5, -1502.5, -0.25));
 	collision5 setmodel("collision_geo_128x128x128");
 	collision5.angles = (0, 0, 0);
 	collision5 Hide();
@@ -2094,19 +2094,6 @@ curbs_fix()
 	collision6 setmodel("collision_geo_512x512x512");
 	collision6.angles = (0, 0, 0);
 	collision6 Hide();
-}
-
-get_position(collision)
-{
-	flag_wait("all_players_spawned");
-	player = get_players()[0];
-	while(1)
-	{
-		iprintln(player.origin);
-		//iprintln(player.angles);
-		//collision.angles = player.angles;
-		wait .05;
-	}
 }
 
 override_blocker_prices()
