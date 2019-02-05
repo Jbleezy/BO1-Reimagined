@@ -483,7 +483,7 @@ pack_a_punch_buyable_door_init()
 	trigger = Spawn( "trigger_radius_use", self.origin - (0, 0, 64), 0, 128, 128 );
 
 	trigger setcursorhint( "HINT_NOICON" );
-	trigger.zombie_cost = 1500;
+	trigger.zombie_cost = 2000;
 	trigger set_hint_string( trigger, "default_buy_door_" + trigger.zombie_cost );
 
 	while(1)

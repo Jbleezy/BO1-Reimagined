@@ -1182,8 +1182,8 @@
 * Der Riese: full health hellhounds spawn from every teleporter use
 * Kino Der Toten: teleporter is permamently linked to the mainframe
 * Five: teleporters disabled
-* Five: Pack-a-Punch door is now a 1,500 point buyable door
-* Ascension: Pack-a-Punch door is now a 1,500 point buyable door
+* Five: Pack-a-Punch door is now a 1500 point buyable door
+* Ascension: Pack-a-Punch door is now a 2000 point buyable door
 * Ascension: rocket launch disabled
 * Call of the Dead: director spawns a random powerup instead of a Wunderwaffe
 * Shangri-La: Pack-a-Punch stairs are open from the start of the match
