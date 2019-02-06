@@ -134,6 +134,7 @@ main()
 	level.revive_solo_fx_func = ::coast_revive_solo_fx;
 
 	override_blocker_prices();
+	override_box_locations();
 
 	// Setting it up like this, means no references to maps\_zombiemode_animated_intro outside of this file.
 	//level.zombiemode_anim_intro_scenes = maps\zombie_coast_animated_intro::declare_scenes;
@@ -1386,4 +1387,78 @@ override_blocker_prices()
 			}
 		}
 	}
+}
+
+override_box_locations()
+{
+	origin = (-2701, -1415, 369);
+	angles = (0, 275.625, 0);
+	forward = AnglesToForward((angles[2], 0, 0));
+	right = AnglesToRight((angles[2], 0, 0));
+	up = AnglesToUp((angles[2], 0, 0));
+	PrecacheModel("p_jun_wood_plank_large02");
+
+	clip = Spawn( "script_model", origin + (forward * -48) + (up * 64) );
+	clip.angles = angles;
+	clip SetModel( "collision_geo_128x128x128" );
+	clip Hide();
+
+	block1 = Spawn( "script_model", origin + (right * 36) );
+	block1.angles = angles + (0, 45, 0);
+	block1 SetModel( "p_glo_cinder_block" );
+
+	block2 = Spawn( "script_model", origin + (right * 12) );
+	block2.angles = angles + (0, 90, 0);
+	block2 SetModel( "p_glo_cinder_block" );
+
+	block3 = Spawn( "script_model", origin + (right * -12) );
+	block3.angles = angles + (0, 135, 0);
+	block3 SetModel( "p_glo_cinder_block" );
+
+	block4 = Spawn( "script_model", origin + (right * -36) );
+	block4.angles = angles + (0, 90, 0);
+	block4 SetModel( "p_glo_cinder_block" );
+
+	top1 = Spawn( "script_model", origin + (forward * 4) + (right * -48) + (up * 6) );
+	top1.angles = angles + (0, 90, 90);
+	top1 SetModel( "p_jun_wood_plank_large02" );
+
+	top2 = Spawn( "script_model", origin + (forward * -4) + (right * -48) + (up * 6) );
+	top2.angles = angles + (0, 90, 90);
+	top2 SetModel( "p_jun_wood_plank_large02" );
+
+	top3 = Spawn( "script_model", origin + (forward * -12) + (right * -48) + (up * 6) );
+	top3.angles = angles + (0, 90, 90);
+	top3 SetModel( "p_jun_wood_plank_large02" );
+
+	origin = origin + (up * 9);
+
+	trigger = Spawn( "trigger_radius_use", origin + (forward * 8.3) + (right * 8.2) + (up * 16.6), 0, 20, 70 );
+	trigger.angles = angles;
+	trigger.script_noteworthy = "shipback_far";
+	trigger.targetname = "treasure_chest_use";
+	trigger.target = "magic_box_lid_" + trigger.script_noteworthy;
+	trigger.zombie_cost = 950;
+
+	chest_lid = Spawn( "script_model", origin + (forward * -12) + (right * 1) + (0, 0, 15.1));
+	chest_lid.angles = angles;
+	chest_lid SetModel( "zombie_treasure_box_lid" );
+	chest_lid.targetname = trigger.target;
+	chest_lid.target = "magic_box_weapon_spawn_" + trigger.script_noteworthy;
+
+	chest_origin = Spawn( "script_model", origin );
+	chest_origin.angles = angles + (0, 90, 0); // need to add 90 degrees for weapons to float up with correct angles
+	chest_origin.targetname = chest_lid.target;
+	chest_origin.target = "magic_box_base_" + trigger.script_noteworthy;
+
+	chest_box = Spawn( "script_model", origin + (0, 0, -3));
+	chest_box.angles = angles;
+	chest_box SetModel( "zombie_treasure_box" );
+	chest_box.targetname = chest_origin.target;
+
+	rubble = Spawn( "script_model", origin + (forward * -6) + (right * 18) + (0, 0, 2.3) );
+	rubble.angles = angles + (0, 135, 0);
+	rubble SetModel( "zombie_coast_bearpile" );
+	rubble.script_noteworthy = trigger.script_noteworthy + "_rubble";
+	rubble.targetname = "intercom"; // for fire sale sound
 }

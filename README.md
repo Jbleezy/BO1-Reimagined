@@ -1023,6 +1023,7 @@
 
 ### Call of the Dead
 * Players now start with Semtex
+* Added Mystery Box spawn location in the Ship Rear zone
 * Removed zombie spawn delay at the beginning of a match
 * Decreased the delay between switching Pack-a-Punch locations from 100-120 seconds to 15 seconds
 * Zombies now spawn in the Coast zone when in the Walkway zone
@@ -1064,7 +1065,7 @@
 * Quick Revive now spawns in randomly with Juggernog and Speed Cola
 * Mule Kick now spawns in randomly with Double Tap, PHD Flopper, Stamin-Up, and Deadshot
 * Removed Mule Kick perk spawn location in the Waterfall zone
-* Added a random perk spawn location in the Waterslide End zone
+* Added random perk spawn location in the Waterslide End zone
 * Zombies now spawn in the Minecart zone when in the Waterslide End zone after the power is on
 * Zombies now spawn in the Waterfall Tunnel zone when in the Upper Waterfall zone
 * Zombies now spawn in the Waterfall zone when in the upper part of the Waterfall Tunnel zone
