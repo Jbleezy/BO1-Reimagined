@@ -282,7 +282,7 @@ microwavegun_get_enemies_in_range(upgraded, microwaveable_objects)
 			continue;
 		}
 
-		if(IsAI(zombies[i]))
+		if(IsAI(zombies[i]) || IsPlayer(zombies[i]))
 		{
 			level.microwavegun_sizzle_enemies[level.microwavegun_sizzle_enemies.size] = zombies[i];
 
