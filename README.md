@@ -1117,6 +1117,7 @@
 ### Moon
 * Players now start with Semtex
 * Moved Quick Revive perk machine to Tunnel 6
+* Added Mystery Box locations in Tunnel 6 and Tunnel 11
 * Added Fire Sale, Max Ammo, and Perk Bottle to jump pad powerup cycle
 * Removed the forced jumping in low gravity
 * Excavators will not reactivate for places that have already been breached

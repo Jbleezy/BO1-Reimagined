@@ -9111,6 +9111,12 @@ player_gravity_fix()
 
 	while(1)
 	{
+		if(GetDvar("noclip") == 1)
+		{
+			wait_network_frame();
+			continue;
+		}
+
 		vel = self GetVelocity();
 
 		if(!self IsOnGround() && vel[2] == 0 && !is_true(self.inteleportation) && !is_true(self.riding_geyser) && !is_true(self.is_ziplining) && !is_true(self._being_flung))

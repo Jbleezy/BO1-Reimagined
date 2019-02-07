@@ -122,6 +122,8 @@ main()
 	level.override_place_revive_machine = ::zombie_moon_place_revive_machine;
 	[[level.override_place_revive_machine]]();
 
+	override_box_locations();
+
 	maps\_zombiemode::main();
 
 	level thread maps\_zombiemode::register_sidequest( "COTD", "ZOMBIE_COAST_EGG_SOLO", 43, "ZOMBIE_COAST_EGG_COOP", 44 );
@@ -2361,4 +2363,18 @@ zombie_moon_place_revive_machine()
 	{
 		revive_machine_model[i].origin = origin;
 	}
+}
+
+override_box_locations()
+{
+	PrecacheModel("p_glo_cinder_block_large");
+	PrecacheModel("p_jun_wood_plank_large02");
+
+	origin = (-819, 1826, -362);
+	angles = (0, 90, 0);
+	maps\_zombiemode_weapons::place_treasure_chest("tunnel6", origin, angles);
+
+	origin = (875, 1102, -232);
+	angles = (0, 270, 0);
+	maps\_zombiemode_weapons::place_treasure_chest("tunnel11", origin, angles);
 }
