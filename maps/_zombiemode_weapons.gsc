@@ -4123,11 +4123,11 @@ get_upgraded_weapon_model_index(weapon)
 	return 0;
 }
 
-place_treasure_chest(script_noteworthy, origin, angles, place_bottom)
+place_treasure_chest(script_noteworthy, origin, angles)
 {
-	if(!IsDefined(place_bottom))
+	if(!IsDefined(level.treasure_box_bottom))
 	{
-		place_bottom = true;
+		level.treasure_box_bottom = true;
 	}
 
 	forward = AnglesToForward(angles);
@@ -4169,7 +4169,7 @@ place_treasure_chest(script_noteworthy, origin, angles, place_bottom)
 		clip2 Hide();
 	}
 
-	if(place_bottom)
+	if(level.treasure_box_bottom)
 	{
 		place_treasure_chest_bottom(origin, angles);
 
@@ -4200,16 +4200,23 @@ place_treasure_chest(script_noteworthy, origin, angles, place_bottom)
 	chest_box.targetname = chest_origin.target;
 
 	rubble = Spawn( "script_model", origin );
-	if(IsDefined(level.treasure_box_rubble_model))
+	if(IsDefined(level.treasure_box_rubble_alternate_origin))
 	{
 		rubble.origin = rubble.origin + (up * -2);
 		rubble.angles = angles;
-		rubble SetModel( level.treasure_box_rubble_model );
 	}
 	else
 	{
 		rubble.origin = rubble.origin + (forward * 18) + (right * 6) + (up * 2.3);
 		rubble.angles = angles + (0, 135, 0);
+	}
+	if(IsDefined(level.treasure_box_rubble_model))
+	{
+		
+		rubble SetModel( level.treasure_box_rubble_model );
+	}
+	else
+	{
 		rubble SetModel( "zombie_coast_bearpile" );
 	}
 	rubble.script_noteworthy = trigger.script_noteworthy + "_rubble";

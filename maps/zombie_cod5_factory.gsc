@@ -102,6 +102,7 @@ main()
 	level.use_zombie_heroes = true;
 
 	override_blocker_prices();
+	override_box_locations();
 
 	maps\_zombiemode::main();
 
@@ -2136,4 +2137,16 @@ override_blocker_prices()
 			}
 		}
 	}
+}
+
+override_box_locations()
+{
+	PrecacheModel("p_glo_cinder_block_large");
+	PrecacheModel("p_jun_wood_plank_large02");
+
+	level.treasure_box_rubble_model = "zombie_factory_bearpile";
+
+	origin = (-576, 537, 1);
+	angles = (0, 270, 0);
+	maps\_zombiemode_weapons::place_treasure_chest("mainframe", origin, angles);
 }

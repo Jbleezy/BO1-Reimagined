@@ -923,6 +923,7 @@
 * The zipline trigger near the hut can now be activated when the zipline is on either side
 
 ### Der Riese
+* Added Mystery Box location in the Mainframe zone
 * Zombies now spawn in the Outside Warehouse zone when in the Courtyard zone
 * Zombies now spawn in the Bridge Warehouse Side zone when in the Upper Warehouse zone
 * Zombies no longer spawn in the Outside Laboratory zone when in the Teleporter A zone
