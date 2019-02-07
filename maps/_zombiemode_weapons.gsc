@@ -4122,3 +4122,102 @@ get_upgraded_weapon_model_index(weapon)
 
 	return 0;
 }
+
+place_treasure_chest(script_noteworthy, origin, angles, place_bottom)
+{
+	if(!IsDefined(place_bottom))
+	{
+		place_bottom = true;
+	}
+
+	forward = AnglesToForward(angles);
+	right = AnglesToRight(angles);
+	up = AnglesToUp(angles);
+
+	clip1 = Spawn( "script_model", origin + (forward * 16) + (right * 16) );
+	clip1.angles = angles;
+	clip1 SetModel( "collision_geo_64x64x256" );
+	clip1 Hide();
+
+	clip2 = Spawn( "script_model", origin + (forward * -16) + (right * 16) );
+	clip2.angles = angles;
+	clip2 SetModel( "collision_geo_64x64x256" );
+	clip2 Hide();
+
+	if(place_bottom)
+	{
+		place_treasure_chest_bottom(origin, angles);
+
+		origin = origin + (up * 14.5);
+	}
+
+	trigger = Spawn( "trigger_radius_use", origin + (up * 32), 0, 20, 70 );
+	trigger.angles = angles;
+	trigger.script_noteworthy = script_noteworthy;
+	trigger.targetname = "treasure_chest_use";
+	trigger.target = "magic_box_lid_" + trigger.script_noteworthy;
+	trigger.zombie_cost = 950;
+
+	chest_lid = Spawn( "script_model", origin + (right * 12) + (up * 15.1));
+	chest_lid.angles = angles;
+	chest_lid SetModel( "zombie_treasure_box_lid" );
+	chest_lid.targetname = trigger.target;
+	chest_lid.target = "magic_box_weapon_spawn_" + trigger.script_noteworthy;
+
+	chest_origin = Spawn( "script_model", origin );
+	chest_origin.angles = angles + (0, 90, 0); // need to add 90 degrees for weapons to float up with correct angles
+	chest_origin.targetname = chest_lid.target;
+	chest_origin.target = "magic_box_base_" + trigger.script_noteworthy;
+
+	chest_box = Spawn( "script_model", origin + (up * -3));
+	chest_box.angles = angles;
+	chest_box SetModel( "zombie_treasure_box" );
+	chest_box.targetname = chest_origin.target;
+
+	rubble = Spawn( "script_model", origin + (forward * 18) + (right * 6) + (up * 2.3) );
+	rubble.angles = angles + (0, 135, 0);
+	rubble SetModel( "zombie_coast_bearpile" );
+	rubble.script_noteworthy = trigger.script_noteworthy + "_rubble";
+	rubble.targetname = "intercom"; // for fire sale sound
+}
+
+place_treasure_chest_bottom(origin, angles)
+{
+	if(IsDefined(level.override_place_treasure_chest_bottom))
+	{
+		[[level.override_place_treasure_chest_bottom]](origin, angles);
+		return;
+	}
+
+	forward = AnglesToForward(angles);
+	right = AnglesToRight(angles);
+	up = AnglesToUp(angles);
+
+	block1 = Spawn( "script_model", origin + (forward * 33.75) + (up * 2.25) );
+	block1.angles = angles + (0, 45, 0);
+	block1 SetModel( "p_glo_cinder_block_large" );
+
+	block2 = Spawn( "script_model", origin + (forward * 11.25) + (up * 2.25) );
+	block2.angles = angles + (0, 90, 0);
+	block2 SetModel( "p_glo_cinder_block_large" );
+
+	block3 = Spawn( "script_model", origin + (forward * -11.25) + (up * 2.25) );
+	block3.angles = angles + (0, 135, 0);
+	block3 SetModel( "p_glo_cinder_block_large" );
+
+	block4 = Spawn( "script_model", origin + (forward * -33.75) + (up * 2.25) );
+	block4.angles = angles + (0, 90, 0);
+	block4 SetModel( "p_glo_cinder_block_large" );
+
+	top1 = Spawn( "script_model", origin + (forward * -48) + (right * -8) + (up * 11.5) );
+	top1.angles = angles + (0, 90, 90);
+	top1 SetModel( "p_jun_wood_plank_large02" );
+
+	top2 = Spawn( "script_model", origin + (forward * -48) + (right * 0) + (up * 11.5) );
+	top2.angles = angles + (0, 90, 90);
+	top2 SetModel( "p_jun_wood_plank_large02" );
+
+	top3 = Spawn( "script_model", origin + (forward * -48) + (right * 8) + (up * 11.5) );
+	top3.angles = angles + (0, 90, 90);
+	top3 SetModel( "p_jun_wood_plank_large02" );
+}
