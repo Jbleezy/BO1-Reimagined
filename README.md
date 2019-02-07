@@ -904,6 +904,7 @@
 ### Verruckt
 * Added super-sprinters (only spawn after the power is on, start spawning on round 10, all super-sprinters by round 13)
 * Now uses marine characters and voicelines from World at War
+* Added Mystery Box locations in the North Balcony zone and the Kitchen zone
 * Decreased cost of the door between the North Upstairs zone and the Kitchen zone from 1000 points to 750 points
 * Fixed zone issue in the South Balcony zone near the Showers zone door
 * Fixed zombie pathing near Speed Cola
@@ -1023,7 +1024,7 @@
 
 ### Call of the Dead
 * Players now start with Semtex
-* Added Mystery Box spawn location in the Ship Rear zone
+* Added Mystery Box location in the Ship Rear zone
 * Removed zombie spawn delay at the beginning of a match
 * Decreased the delay between switching Pack-a-Punch locations from 100-120 seconds to 15 seconds
 * Zombies now spawn in the Coast zone when in the Walkway zone

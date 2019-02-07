@@ -4134,15 +4134,40 @@ place_treasure_chest(script_noteworthy, origin, angles, place_bottom)
 	right = AnglesToRight(angles);
 	up = AnglesToUp(angles);
 
-	clip1 = Spawn( "script_model", origin + (forward * 16) + (right * 16) );
-	clip1.angles = angles;
-	clip1 SetModel( "collision_geo_64x64x256" );
-	clip1 Hide();
+	if(IsDefined(level.treasure_box_use_alternate_clip))
+	{
+		clip1 = Spawn( "script_model", origin + (forward * 48) + (up * 64) );
+		clip1.angles = angles;
+		clip1 SetModel( "collision_geo_32x32x128" );
+		clip1 Hide();
 
-	clip2 = Spawn( "script_model", origin + (forward * -16) + (right * 16) );
-	clip2.angles = angles;
-	clip2 SetModel( "collision_geo_64x64x256" );
-	clip2 Hide();
+		clip2 = Spawn( "script_model", origin + (forward * 16) + (up * 64) );
+		clip2.angles = angles;
+		clip2 SetModel( "collision_geo_32x32x128" );
+		clip2 Hide();
+
+		clip3 = Spawn( "script_model", origin + (forward * -16) + (up * 64) );
+		clip3.angles = angles;
+		clip3 SetModel( "collision_geo_32x32x128" );
+		clip3 Hide();
+
+		clip4 = Spawn( "script_model", origin + (forward * -48) + (up * 64) );
+		clip4.angles = angles;
+		clip4 SetModel( "collision_geo_32x32x128" );
+		clip4 Hide();
+	}
+	else
+	{
+		clip1 = Spawn( "script_model", origin + (forward * 16) + (right * 16) );
+		clip1.angles = angles;
+		clip1 SetModel( "collision_geo_64x64x256" );
+		clip1 Hide();
+
+		clip2 = Spawn( "script_model", origin + (forward * -16) + (right * 16) );
+		clip2.angles = angles;
+		clip2 SetModel( "collision_geo_64x64x256" );
+		clip2 Hide();
+	}
 
 	if(place_bottom)
 	{
@@ -4174,9 +4199,19 @@ place_treasure_chest(script_noteworthy, origin, angles, place_bottom)
 	chest_box SetModel( "zombie_treasure_box" );
 	chest_box.targetname = chest_origin.target;
 
-	rubble = Spawn( "script_model", origin + (forward * 18) + (right * 6) + (up * 2.3) );
-	rubble.angles = angles + (0, 135, 0);
-	rubble SetModel( "zombie_coast_bearpile" );
+	rubble = Spawn( "script_model", origin );
+	if(IsDefined(level.treasure_box_rubble_model))
+	{
+		rubble.origin = rubble.origin + (up * -2);
+		rubble.angles = angles;
+		rubble SetModel( level.treasure_box_rubble_model );
+	}
+	else
+	{
+		rubble.origin = rubble.origin + (forward * 18) + (right * 6) + (up * 2.3);
+		rubble.angles = angles + (0, 135, 0);
+		rubble SetModel( "zombie_coast_bearpile" );
+	}
 	rubble.script_noteworthy = trigger.script_noteworthy + "_rubble";
 	rubble.targetname = "intercom"; // for fire sale sound
 }

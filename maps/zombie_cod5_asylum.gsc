@@ -85,6 +85,7 @@ main()
 	level.use_zombie_heroes = true;
 
 	override_blocker_prices();
+	override_box_locations();
 
 	//init the perk machines
 	maps\_zombiemode::main();
@@ -1944,4 +1945,19 @@ override_blocker_prices()
 			}
 		}
 	}
+}
+
+override_box_locations()
+{
+	level.treasure_box_rubble_model = "zombie_treasure_box_rubble";
+
+	origin = (826, 425.5, 228);
+	angles = (0, 90, 0);
+	maps\_zombiemode_weapons::place_treasure_chest("north_balcony", origin, angles, false);
+
+	level.treasure_box_use_alternate_clip = true;
+
+	origin = (-546, 458, 228);
+	angles = (0, 180, 0);
+	maps\_zombiemode_weapons::place_treasure_chest("kitchen", origin, angles, false);
 }
