@@ -4171,9 +4171,9 @@ place_treasure_chest(script_noteworthy, origin, angles)
 
 	if(level.treasure_box_bottom)
 	{
-		place_treasure_chest_bottom(origin, angles);
+		up_amount = place_treasure_chest_bottom(origin, angles);
 
-		origin = origin + (up * 14.5);
+		origin = origin + (up * up_amount);
 	}
 
 	trigger = Spawn( "trigger_radius_use", origin + (up * 32), 0, 20, 70 );
@@ -4227,8 +4227,8 @@ place_treasure_chest_bottom(origin, angles)
 {
 	if(IsDefined(level.override_place_treasure_chest_bottom))
 	{
-		[[level.override_place_treasure_chest_bottom]](origin, angles);
-		return;
+		up_amount = [[level.override_place_treasure_chest_bottom]](origin, angles);
+		return up_amount;
 	}
 
 	forward = AnglesToForward(angles);
@@ -4262,4 +4262,6 @@ place_treasure_chest_bottom(origin, angles)
 	top3 = Spawn( "script_model", origin + (forward * -48) + (right * 8) + (up * 11.5) );
 	top3.angles = angles + (0, 90, 90);
 	top3 SetModel( "p_jun_wood_plank_large02" );
+
+	return 14.5;
 }

@@ -2141,12 +2141,49 @@ override_blocker_prices()
 
 override_box_locations()
 {
-	PrecacheModel("p_glo_cinder_block_large");
 	PrecacheModel("p_jun_wood_plank_large02");
-
+	
+	level.override_place_treasure_chest_bottom = ::zombie_cod5_factory_place_treasure_chest_bottom;
 	level.treasure_box_rubble_model = "zombie_factory_bearpile";
 
 	origin = (-576, 537, 1);
 	angles = (0, 270, 0);
 	maps\_zombiemode_weapons::place_treasure_chest("mainframe", origin, angles);
+}
+
+zombie_cod5_factory_place_treasure_chest_bottom(origin, angles)
+{
+	forward = AnglesToForward(angles);
+	right = AnglesToRight(angles);
+	up = AnglesToUp(angles);
+
+	block1 = Spawn( "script_model", origin + (forward * 35) + (up * -4.25) );
+	block1.angles = angles;
+	block1 SetModel( "zombie_pile_wood_box" );
+
+	block2 = Spawn( "script_model", origin + (forward * 10) + (up * -4.25) );
+	block2.angles = angles + (0, 337.5, 0);
+	block2 SetModel( "zombie_pile_wood_box" );
+
+	block3 = Spawn( "script_model", origin + (forward * -15) + (up * -4.25) );
+	block3.angles = angles + (0, 348.75, 0);
+	block3 SetModel( "zombie_pile_wood_box" );
+
+	block4 = Spawn( "script_model", origin + (forward * -40) + (up * -4.25) );
+	block4.angles = angles + (0, 45, 0);
+	block4 SetModel( "zombie_pile_wood_box" );
+
+	top1 = Spawn( "script_model", origin + (forward * -48) + (right * -8) + (up * 10.5) );
+	top1.angles = angles + (0, 90, 90);
+	top1 SetModel( "p_jun_wood_plank_large02" );
+
+	top2 = Spawn( "script_model", origin + (forward * -48) + (right * 0) + (up * 10.5) );
+	top2.angles = angles + (0, 90, 90);
+	top2 SetModel( "p_jun_wood_plank_large02" );
+
+	top3 = Spawn( "script_model", origin + (forward * -48) + (right * 8) + (up * 10.5) );
+	top3.angles = angles + (0, 90, 90);
+	top3 SetModel( "p_jun_wood_plank_large02" );
+
+	return 13.5;
 }
