@@ -2148,7 +2148,7 @@ override_box_locations()
 
 	origin = (-576, 537, 1);
 	angles = (0, 270, 0);
-	maps\_zombiemode_weapons::place_treasure_chest("mainframe", origin, angles);
+	maps\_zombiemode_weapons::place_treasure_chest("mainframe_chest", origin, angles);
 }
 
 zombie_cod5_factory_place_treasure_chest_bottom(origin, angles)

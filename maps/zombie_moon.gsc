@@ -2370,11 +2370,34 @@ override_box_locations()
 	PrecacheModel("p_glo_cinder_block_large");
 	PrecacheModel("p_jun_wood_plank_large02");
 
-	origin = (-819, 1826, -362);
+	level.override_place_treasure_chest_bottom = ::zombie_moon_place_treasure_chest_bottom;
+
+	origin = (-819, 1810.5, -362);
 	angles = (0, 90, 0);
-	maps\_zombiemode_weapons::place_treasure_chest("tunnel6", origin, angles);
+	maps\_zombiemode_weapons::place_treasure_chest("tunnel6_chest", origin, angles, true);
 
 	origin = (875, 1102, -232);
 	angles = (0, 270, 0);
-	maps\_zombiemode_weapons::place_treasure_chest("tunnel11", origin, angles);
+	maps\_zombiemode_weapons::place_treasure_chest("tunnel11_chest", origin, angles, true);
+}
+
+zombie_moon_place_treasure_chest_bottom(origin, angles)
+{
+	forward = AnglesToForward(angles);
+	right = AnglesToRight(angles);
+	up = AnglesToUp(angles);
+
+	block1 = Spawn( "script_model", origin + (forward * 30) + (up * -4.5) );
+	block1.angles = angles;
+	block1 SetModel( "collision_geo_32x32x32" );
+
+	block2 = Spawn( "script_model", origin + (up * -4.5) );
+	block2.angles = angles;
+	block2 SetModel( "collision_geo_32x32x32" );
+
+	block3 = Spawn( "script_model", origin + (forward * -30) + (up * -4.5) );
+	block3.angles = angles;
+	block3 SetModel( "collision_geo_32x32x32" );
+
+	return 14.75;
 }

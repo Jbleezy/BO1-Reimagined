@@ -919,106 +919,53 @@ init_starting_chest_location()
 {
 	level.chest_index = 0;
 	start_chest_found = false;
+	forced_start_chest = GetDvar(level.script + "_initial_box_location");
+
 	for( i = 0; i < level.chests.size; i++ )
 	{
-		//set the initial box location from settings on maps that are random
-		if(level.gamemode == "survival")
+		if(level.gamemode == "survival" && forced_start_chest != "" && forced_start_chest != "random")
 		{
-			if((level.script == "zombie_theater" || level.script == "zombie_pentagon" || level.script == "zombie_coast" || level.script == "zombie_temple" || level.script == "zombie_moon") && GetDvar(level.script + "_initial_box_location") != "random")
+			if(level.chests[i].script_noteworthy == forced_start_chest)
 			{
-				if(level.script == "zombie_pentagon")
-				{
-					if(level.chests[i].script_noteworthy == GetDvar(level.script + "_initial_box_location"))
-					{
-						level.chest_index = i;
-						level.chests[level.chest_index] hide_rubble();
-						level.chests[level.chest_index].hidden = false;
-					}
-					else
-					{
-						level.chests[i] hide_chest();
-					}
-				}
-				else
-				{
-					if(IsSubStr(level.chests[i].script_noteworthy, GetDvar(level.script + "_initial_box_location")))
-					{
-						level.chest_index = i;
-						level.chests[level.chest_index] hide_rubble();
-						level.chests[level.chest_index].hidden = false;
-					}
-					else
-					{
-						level.chests[i] hide_chest();
-					}
-				}
-			}
-			else if( isdefined( level.random_pandora_box_start ) && level.random_pandora_box_start == true )
-			{
-				if ( ( start_chest_found || (IsDefined( level.chests[i].start_exclude ) && level.chests[i].start_exclude == 1) ) )
-				{
-					level.chests[i] hide_chest();
-				}
-				else
-				{
-					level.chest_index = i;
-					level.chests[level.chest_index] hide_rubble();
-					level.chests[level.chest_index].hidden = false;
-					start_chest_found = true;
-				}
-
+				level.chest_index = i;
+				level.chests[level.chest_index] hide_rubble();
+				level.chests[level.chest_index].hidden = false;
 			}
 			else
 			{
-				// Semi-random implementation (not completely random).  The list is randomized
-				//	prior to getting here.
-				// Pick from any box marked as the "start_chest"
-				if ( start_chest_found || !IsDefined(level.chests[i].script_noteworthy ) || ( !IsSubStr( level.chests[i].script_noteworthy, "start_chest" ) ) )
-				{
-					level.chests[i] hide_chest();
-				}
-				else
-				{
-					level.chest_index = i;
-					level.chests[level.chest_index] hide_rubble();
-					level.chests[level.chest_index].hidden = false;
-					start_chest_found = true;
-				}
+				level.chests[i] hide_chest();
 			}
+		}
+		else if( isdefined( level.random_pandora_box_start ) && level.random_pandora_box_start == true )
+		{
+			if ( ( start_chest_found || (IsDefined( level.chests[i].start_exclude ) && level.chests[i].start_exclude == 1) ) )
+			{
+				level.chests[i] hide_chest();
+			}
+			else
+			{
+				level.chest_index = i;
+				level.chests[level.chest_index] hide_rubble();
+				level.chests[level.chest_index].hidden = false;
+				start_chest_found = true;
+			}
+
 		}
 		else
 		{
-			if( ( isdefined( level.random_pandora_box_start ) && level.random_pandora_box_start == true ) || level.script == "zombie_pentagon" )
+			// Semi-random implementation (not completely random).  The list is randomized
+			//	prior to getting here.
+			// Pick from any box marked as the "start_chest"
+			if ( start_chest_found || !IsDefined(level.chests[i].script_noteworthy ) || ( !IsSubStr( level.chests[i].script_noteworthy, "start_chest" ) ) )
 			{
-				if ( start_chest_found )
-				{
-					level.chests[i] hide_chest();
-				}
-				else
-				{
-					level.chest_index = i;
-					level.chests[level.chest_index] hide_rubble();
-					level.chests[level.chest_index].hidden = false;
-					start_chest_found = true;
-				}
-
+				level.chests[i] hide_chest();
 			}
 			else
 			{
-				// Semi-random implementation (not completely random).  The list is randomized
-				//	prior to getting here.
-				// Pick from any box marked as the "start_chest"
-				if ( start_chest_found || !IsDefined(level.chests[i].script_noteworthy ) || ( !IsSubStr( level.chests[i].script_noteworthy, "start_chest" ) ) )
-				{
-					level.chests[i] hide_chest();
-				}
-				else
-				{
-					level.chest_index = i;
-					level.chests[level.chest_index] hide_rubble();
-					level.chests[level.chest_index].hidden = false;
-					start_chest_found = true;
-				}
+				level.chest_index = i;
+				level.chests[level.chest_index] hide_rubble();
+				level.chests[level.chest_index].hidden = false;
+				start_chest_found = true;
 			}
 		}
 	}
@@ -4123,11 +4070,16 @@ get_upgraded_weapon_model_index(weapon)
 	return 0;
 }
 
-place_treasure_chest(script_noteworthy, origin, angles)
+place_treasure_chest(script_noteworthy, origin, angles, start_exclude)
 {
 	if(!IsDefined(level.treasure_box_bottom))
 	{
 		level.treasure_box_bottom = true;
+	}
+
+	if(!IsDefined(start_exclude))
+	{
+		start_exclude = false;
 	}
 
 	forward = AnglesToForward(angles);
@@ -4136,22 +4088,17 @@ place_treasure_chest(script_noteworthy, origin, angles)
 
 	if(IsDefined(level.treasure_box_use_alternate_clip))
 	{
-		clip1 = Spawn( "script_model", origin + (forward * 48) + (up * 64) );
+		clip1 = Spawn( "script_model", origin + (forward * 26) + (up * 64) );
 		clip1.angles = angles;
 		clip1 SetModel( "collision_geo_32x32x128" );
 		clip1 Hide();
 
-		clip2 = Spawn( "script_model", origin + (forward * 16) + (up * 64) );
+		clip2 = Spawn( "script_model", origin + (up * 64) );
 		clip2.angles = angles;
 		clip2 SetModel( "collision_geo_32x32x128" );
 		clip2 Hide();
 
-		clip3 = Spawn( "script_model", origin + (forward * -16) + (up * 64) );
-		clip3.angles = angles;
-		clip3 SetModel( "collision_geo_32x32x128" );
-		clip3 Hide();
-
-		clip4 = Spawn( "script_model", origin + (forward * -48) + (up * 64) );
+		clip4 = Spawn( "script_model", origin + (forward * -26) + (up * 64) );
 		clip4.angles = angles;
 		clip4 SetModel( "collision_geo_32x32x128" );
 		clip4 Hide();
@@ -4173,26 +4120,31 @@ place_treasure_chest(script_noteworthy, origin, angles)
 	{
 		up_amount = place_treasure_chest_bottom(origin, angles);
 
-		origin = origin + (up * up_amount);
+		if(IsDefined(up_amount))
+		{
+			origin = origin + (up * up_amount);
+		}
 	}
 
 	trigger = Spawn( "trigger_radius_use", origin + (up * 32), 0, 20, 70 );
 	trigger.angles = angles;
+	id = trigger GetEntityNumber();
 	trigger.script_noteworthy = script_noteworthy;
 	trigger.targetname = "treasure_chest_use";
-	trigger.target = "magic_box_lid_" + trigger.script_noteworthy;
+	trigger.target = "magic_box_lid_" + id;
 	trigger.zombie_cost = 950;
+	trigger.start_exclude = start_exclude;
 
 	chest_lid = Spawn( "script_model", origin + (right * 12) + (up * 15.1));
 	chest_lid.angles = angles;
 	chest_lid SetModel( "zombie_treasure_box_lid" );
 	chest_lid.targetname = trigger.target;
-	chest_lid.target = "magic_box_weapon_spawn_" + trigger.script_noteworthy;
+	chest_lid.target = "magic_box_weapon_spawn_" + id;
 
 	chest_origin = Spawn( "script_model", origin );
 	chest_origin.angles = angles + (0, 90, 0); // need to add 90 degrees for weapons to float up with correct angles
 	chest_origin.targetname = chest_lid.target;
-	chest_origin.target = "magic_box_base_" + trigger.script_noteworthy;
+	chest_origin.target = "magic_box_base_" + id;
 
 	chest_box = Spawn( "script_model", origin + (up * -3));
 	chest_box.angles = angles;
@@ -4200,7 +4152,7 @@ place_treasure_chest(script_noteworthy, origin, angles)
 	chest_box.targetname = chest_origin.target;
 
 	rubble = Spawn( "script_model", origin );
-	if(IsDefined(level.treasure_box_rubble_alternate_origin))
+	if(IsDefined(level.treasure_box_rubble_use_alternate_origin))
 	{
 		rubble.origin = rubble.origin + (up * -2);
 		rubble.angles = angles;

@@ -1396,5 +1396,5 @@ override_box_locations()
 
 	origin = (-2701, -1415, 369);
 	angles = (0, 275.625, 0);
-	maps\_zombiemode_weapons::place_treasure_chest("shipback_far", origin, angles);
+	maps\_zombiemode_weapons::place_treasure_chest("shipback_far_chest", origin, angles);
 }

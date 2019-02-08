@@ -1951,15 +1951,15 @@ override_box_locations()
 {
 	level.treasure_box_bottom = false;
 	level.treasure_box_rubble_model = "zombie_treasure_box_rubble";
-	level.treasure_box_rubble_alternate_origin = true;
+	level.treasure_box_rubble_use_alternate_origin = true;
 
 	origin = (826, 425.5, 228);
 	angles = (0, 90, 0);
-	maps\_zombiemode_weapons::place_treasure_chest("north_balcony", origin, angles);
+	maps\_zombiemode_weapons::place_treasure_chest("north_balcony_chest", origin, angles);
 
 	level.treasure_box_use_alternate_clip = true;
 
-	origin = (-546, 458, 228);
+	origin = (-548, 458, 228);
 	angles = (0, 180, 0);
-	maps\_zombiemode_weapons::place_treasure_chest("kitchen", origin, angles);
+	maps\_zombiemode_weapons::place_treasure_chest("kitchen_chest", origin, angles);
 }
