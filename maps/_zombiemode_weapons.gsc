@@ -2064,11 +2064,11 @@ treasure_chest_fly_away(up, fire_sale)
 	{
 		self hide_chest();
 
-		anchor playsound("zmb_box_move");
-		playsoundatposition ("zmb_whoosh", soundpoint.origin );
-
 		if(!fire_sale)
 		{
+			anchor playsound("zmb_box_move");
+			playsoundatposition ("zmb_whoosh", soundpoint.origin );
+
 			if( is_true( level.player_4_vox_override ) )
 			{
 				playsoundatposition ("zmb_vox_rich_magicbox", soundpoint.origin );
@@ -2118,7 +2118,7 @@ treasure_chest_fly_away(up, fire_sale)
        	}
         else
         {
-        	anchor Vibrate( direction, 10, 1, 2.5);
+        	anchor Vibrate( direction, 10, 0.5, 2.5);
         }
 	}
 
@@ -4116,10 +4116,10 @@ place_treasure_chest(script_noteworthy, origin, angles, start_exclude)
 		clip2 Hide();
 	}
 
-	if(level.treasure_box_bottom)
+	if(IsDefined(level.override_place_treasure_chest_bottom))
 	{
-		up_amount = place_treasure_chest_bottom(origin, angles);
-
+		up_amount = [[level.override_place_treasure_chest_bottom]](origin, angles);
+		
 		if(IsDefined(up_amount))
 		{
 			origin = origin + (up * up_amount);
@@ -4164,7 +4164,6 @@ place_treasure_chest(script_noteworthy, origin, angles, start_exclude)
 	}
 	if(IsDefined(level.treasure_box_rubble_model))
 	{
-		
 		rubble SetModel( level.treasure_box_rubble_model );
 	}
 	else
@@ -4173,47 +4172,4 @@ place_treasure_chest(script_noteworthy, origin, angles, start_exclude)
 	}
 	rubble.script_noteworthy = trigger.script_noteworthy + "_rubble";
 	rubble.targetname = "intercom"; // for fire sale sound
-}
-
-place_treasure_chest_bottom(origin, angles)
-{
-	if(IsDefined(level.override_place_treasure_chest_bottom))
-	{
-		up_amount = [[level.override_place_treasure_chest_bottom]](origin, angles);
-		return up_amount;
-	}
-
-	forward = AnglesToForward(angles);
-	right = AnglesToRight(angles);
-	up = AnglesToUp(angles);
-
-	block1 = Spawn( "script_model", origin + (forward * 33.75) + (up * 2.25) );
-	block1.angles = angles + (0, 45, 0);
-	block1 SetModel( "p_glo_cinder_block_large" );
-
-	block2 = Spawn( "script_model", origin + (forward * 11.25) + (up * 2.25) );
-	block2.angles = angles + (0, 90, 0);
-	block2 SetModel( "p_glo_cinder_block_large" );
-
-	block3 = Spawn( "script_model", origin + (forward * -11.25) + (up * 2.25) );
-	block3.angles = angles + (0, 135, 0);
-	block3 SetModel( "p_glo_cinder_block_large" );
-
-	block4 = Spawn( "script_model", origin + (forward * -33.75) + (up * 2.25) );
-	block4.angles = angles + (0, 90, 0);
-	block4 SetModel( "p_glo_cinder_block_large" );
-
-	top1 = Spawn( "script_model", origin + (forward * -48) + (right * -8) + (up * 11.5) );
-	top1.angles = angles + (0, 90, 90);
-	top1 SetModel( "p_jun_wood_plank_large02" );
-
-	top2 = Spawn( "script_model", origin + (forward * -48) + (right * 0) + (up * 11.5) );
-	top2.angles = angles + (0, 90, 90);
-	top2 SetModel( "p_jun_wood_plank_large02" );
-
-	top3 = Spawn( "script_model", origin + (forward * -48) + (right * 8) + (up * 11.5) );
-	top3.angles = angles + (0, 90, 90);
-	top3 SetModel( "p_jun_wood_plank_large02" );
-
-	return 14.5;
 }

@@ -1183,7 +1183,6 @@
 * Nuke: damages enemy players down to 1 health
 * Bonus Points: enemy players lose a random amount of points between 500 and 2500 points
 * Perk Bottle: enemy players lose a random perk
-* Mystery Box can initially spawn in the start room on maps where the Mystery Box spawns randomly
 * Turrets attack players (won't attack the team that activated the turret)
 * Players gain 10 points for slowing down a player if the player is below full health
 * If a player assisted in getting an enemy player down, the player will gain 5% of the player's points who downed
