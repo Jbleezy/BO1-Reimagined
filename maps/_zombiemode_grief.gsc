@@ -396,7 +396,7 @@ giveback_player_weapons()
 			continue;
 		}
 
-		if(IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon) && weapon == self.weapon_taken_by_losing_additionalprimaryweapon[0])
+		if(IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon) && IsDefined(self.weapon_taken_by_losing_additionalprimaryweapon[0]) && weapon == self.weapon_taken_by_losing_additionalprimaryweapon[0])
 		{
 			if(self.weapon_taken_by_losing_additionalprimaryweapon[0] == self.lastActiveStoredWeap)
 			{
@@ -495,7 +495,7 @@ grief_damage()
 		}
 
 		// special check for betties when player is prone
-		if(weapon == "mine_bouncing_betty" && self getstance() == "prone" && mod == "MOD_GRENADE_SPLASH")
+		if(weapon == "mine_bouncing_betty" && mod == "MOD_GRENADE_SPLASH" && self GetStance() == "prone" && self IsOnGround())
 		{
 			continue;
 		}
@@ -505,7 +505,8 @@ grief_damage()
 			force_slowdown = false;
 		}
 
-		if(mod == "MOD_MELEE" || weapon == "knife_ballistic_zm" || weapon == "knife_ballistic_upgraded_zm" || weapon == "knife_ballistic_bowie_zm" || weapon == "knife_ballistic_bowie_upgraded_zm" || ((weapon == "thundergun_zm" || weapon == "thundergun_upgraded_zm") && IsDefined(vec)))
+		tgun_hit = (weapon == "thundergun_zm" || weapon == "thundergun_upgraded_zm") && IsDefined(vec);
+		if(mod == "MOD_MELEE" || IsSubStr(weapon, "knife_ballistic_") || tgun_hit)
 		{
 			force_slowdown = true;
 			self thread push(weapon, mod, attacker, vec);
