@@ -6590,11 +6590,8 @@ end_game()
 		}
 
 		players[i] EnableInvulnerability();
-		players[i] FreezeControls(true);
-		/*if(level.gamemode == "survival")
-		{
-			players[i] FreezeControls(true);
-		}*/	
+
+		players[i] thread freeze_controls_on_ground();
 	}
 
 	StopAllRumbles();
@@ -6852,12 +6849,21 @@ player_fake_death()
 	self AllowStand( false );
 	self AllowCrouch( false );
 	self AllowSprint( false );
-	self SetStance("prone"); // force prone otherwise players will stay up if near an entity
+	self SetStance("prone");
 
 	self.ignoreme = true;
 	self EnableInvulnerability();
+}
 
-	wait .5;
+freeze_controls_on_ground()
+{
+	level endon( "intermission" );
+
+	while(!self IsOnGround())
+	{
+		wait_network_frame();
+	}
+
 	self FreezeControls( true );
 }
 
