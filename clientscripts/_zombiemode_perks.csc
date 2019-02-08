@@ -180,14 +180,14 @@ spawn_new_bump_triggers()
 			// perks["specialty_additionalprimaryweapon"] = (1480.8, 3450, -65);
 			break;
 		case "zombie_cod5_prototype":
-			perks["specialty_additionalprimaryweapon"] = (-160, -528, 1);
+			//perks["specialty_additionalprimaryweapon"] = (-160, -528, 1);
 			break;
 		case "zombie_cod5_asylum":
 			perks["specialty_armorvest"] = (1326, -415, 106);
 			perks["specialty_fastreload"] = (-572, 706, 267);
 			perks["specialty_rof"] = (437, -584, 261);
 			perks["specialty_quickrevive"] = (1144, 403, 97);
-			perks["specialty_additionalprimaryweapon"] = (-91, 540, 64);
+			//perks["specialty_additionalprimaryweapon"] = (-91, 540, 64);
 			break;
 		case "zombie_cod5_sumpf":
 			// These are spawned later on after randomization has finished
