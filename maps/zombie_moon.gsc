@@ -2367,8 +2367,7 @@ zombie_moon_place_revive_machine()
 
 override_box_locations()
 {
-	PrecacheModel("p_glo_cinder_block_large");
-	PrecacheModel("p_jun_wood_plank_large02");
+	PrecacheModel("zombie_moon_treasure_box_bottom");
 
 	level.override_place_treasure_chest_bottom = ::zombie_moon_place_treasure_chest_bottom;
 
@@ -2387,17 +2386,11 @@ zombie_moon_place_treasure_chest_bottom(origin, angles)
 	right = AnglesToRight(angles);
 	up = AnglesToUp(angles);
 
-	block1 = Spawn( "script_model", origin + (forward * 30) + (up * -4.5) );
+	block_model = "zombie_moon_treasure_box_bottom";
+
+	block1 = Spawn( "script_model", origin + (up * 3) );
 	block1.angles = angles;
-	block1 SetModel( "collision_geo_32x32x32" );
+	block1 SetModel( block_model );
 
-	block2 = Spawn( "script_model", origin + (up * -4.5) );
-	block2.angles = angles;
-	block2 SetModel( "collision_geo_32x32x32" );
-
-	block3 = Spawn( "script_model", origin + (forward * -30) + (up * -4.5) );
-	block3.angles = angles;
-	block3 SetModel( "collision_geo_32x32x32" );
-
-	return 14.75;
+	return 13;
 }

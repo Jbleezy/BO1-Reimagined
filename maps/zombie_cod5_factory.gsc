@@ -2188,5 +2188,5 @@ zombie_cod5_factory_place_treasure_chest_bottom(origin, angles)
 	top3.angles = angles + (0, 90, 90);
 	top3 SetModel( top_model );
 
-	return 13.5;
+	return 13.25;
 }

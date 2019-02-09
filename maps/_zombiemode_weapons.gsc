@@ -4159,7 +4159,7 @@ place_treasure_chest(script_noteworthy, origin, angles, start_exclude)
 	}
 	else
 	{
-		rubble.origin = rubble.origin + (forward * 18) + (right * 6) + (up * 2.3);
+		rubble.origin = rubble.origin + (forward * 18) + (right * 6) + (up * 2.5);
 		rubble.angles = angles + (0, 135, 0);
 	}
 	if(IsDefined(level.treasure_box_rubble_model))

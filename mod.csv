@@ -394,6 +394,7 @@ xmodel,t5_weapon_quantum_bomb_viewmodel
 xmodel,t5_weapon_quantum_bomb_world
 xmodel,p_glo_cinder_block_large
 xmodel,p_jun_wood_plank_large01
+xmodel,zombie_moon_treasure_box_bottom
 
 //ANIMS
 xanim,p_zombie_perkacola_drink
