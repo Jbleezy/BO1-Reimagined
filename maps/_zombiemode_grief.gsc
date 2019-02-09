@@ -323,20 +323,17 @@ store_player_weapons()
 
 	self.lastActiveStoredWeap = self GetCurrentWeapon();
 
-	//dont store the weapon attachment name as the last active weapon or can't switch to it
+	// don't store the weapon attachment name as the last active weapon because it can't be switched to
 	if(WeaponInventoryType(self.lastActiveStoredWeap) == "altmode")
 	{
 		self.lastActiveStoredWeap = WeaponAltWeaponName(self.lastActiveStoredWeap);
 	}
-
-	self SetLastStandPrevWeap( self.lastActiveStoredWeap );
 
 	self.weaponEquipment["melee"] = self get_player_melee_weapon();
 	self.weaponEquipment["lethal"] = self get_player_lethal_grenade();
 	self.weaponEquipment["tactical"] = self get_player_tactical_grenade();
 	self.weaponEquipment["mine"] = self get_player_placeable_mine();
 	
-	self.hadpistol = false;
 	for( i = 0; i < self.weaponInventory.size; i++ )
 	{
 		weapon = self.weaponInventory[i];
@@ -466,18 +463,8 @@ giveback_player_weapons()
 		}
 		else
 		{
-			self thread switch_to_combat_knife();
+			self SwitchToWeapon("combat_" + self get_player_melee_weapon());
 		}
-	}
-}
-
-switch_to_combat_knife()
-{
-	melee = self get_player_melee_weapon();
-	if(IsDefined(melee))
-	{
-		wep = "combat_" + melee;
-		self SwitchToWeapon(wep);
 	}
 }
 
@@ -579,7 +566,7 @@ push(weapon, mod, attacker, vec) //prone, bowie/ballistic crouch, bowie/ballisti
 		scalar = .5;
 	}
 	
-	if((mod == "MOD_MELEE" && (attacker._bowie_zm_equipped || attacker._sickle_zm_equipped)) || weapon == "knife_ballistic_zm" || weapon == "knife_ballistic_upgraded_zm")
+	if((mod == "MOD_MELEE" && (attacker HasWeapon("bowie_knife_zm") || attacker HasWeapon("sickle_knife_zm"))) || IsSubStr(weapon, "knife_ballistic_"))
 	{
 		scalar *= 1.5;
 	}
