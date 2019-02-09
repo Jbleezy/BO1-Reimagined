@@ -419,6 +419,7 @@
 * Weapon fails happen less often
 * Kills all zombies at once
 * Gives 50 points for each kill
+* Zombies are now flung based on the angle of the Thundergun shot
 * Decreased range by 6.25%
 * Fixed empty clip idle, drop, raise, and sprint in animations
 * Zombies no longer gib from being knocked down

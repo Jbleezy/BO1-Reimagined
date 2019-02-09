@@ -571,7 +571,7 @@ push(weapon, mod, attacker, vec) //prone, bowie/ballistic crouch, bowie/ballisti
 		scalar *= 1.5;
 	}
 
-	vec = vec * (scalar, scalar, scalar);
+	vec = vector_scale(vec, scalar);
 
 	self SetVelocity(vec);
 }
