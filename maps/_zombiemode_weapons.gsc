@@ -2012,7 +2012,7 @@ treasure_chest_move( player_vox )
 	self.chest_origin.chest_moving = false;
 }
 
-treasure_chest_fly_away(up, fire_sale)
+treasure_chest_fly_away(up, no_sound)
 {
 	if(!IsDefined(up))
 	{
@@ -2064,11 +2064,11 @@ treasure_chest_fly_away(up, fire_sale)
 	{
 		self hide_chest();
 
-		if(!fire_sale)
-		{
-			anchor playsound("zmb_box_move");
-			playsoundatposition ("zmb_whoosh", soundpoint.origin );
+		anchor playsound("zmb_box_move");
+		playsoundatposition ("zmb_whoosh", soundpoint.origin );
 
+		if(!no_sound)
+		{
 			if( is_true( level.player_4_vox_override ) )
 			{
 				playsoundatposition ("zmb_vox_rich_magicbox", soundpoint.origin );
