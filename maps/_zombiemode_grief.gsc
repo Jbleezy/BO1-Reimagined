@@ -331,10 +331,10 @@ store_player_weapons()
 
 	self SetLastStandPrevWeap( self.lastActiveStoredWeap );
 
-	self.melee = self get_player_melee_weapon();
-	self.lethal = self get_player_lethal_grenade();
-	self.tac = self get_player_tactical_grenade();
-	self.mine = self get_player_placeable_mine();
+	self.weaponEquipment["melee"] = self get_player_melee_weapon();
+	self.weaponEquipment["lethal"] = self get_player_lethal_grenade();
+	self.weaponEquipment["tactical"] = self get_player_tactical_grenade();
+	self.weaponEquipment["mine"] = self get_player_placeable_mine();
 	
 	self.hadpistol = false;
 	for( i = 0; i < self.weaponInventory.size; i++ )
@@ -373,7 +373,7 @@ store_player_weapons()
 }
 
 giveback_player_weapons()
-{	
+{
 	for( i = 0; i < self.weaponInventory.size; i++ )
 	{
 		weapon = self.weaponInventory[i];
@@ -430,22 +430,27 @@ giveback_player_weapons()
 		}
 	}
 
-	self set_player_melee_weapon(self.melee);
-	self thread maps\_zombiemode::set_melee_actionslot();
-	
-	self set_player_lethal_grenade(self.lethal);
-
-	if(IsDefined(self.tac))
+	if(IsDefined(self.weaponEquipment["melee"]))
 	{
-		self set_player_tactical_grenade(self.tac);
+		self set_player_melee_weapon(self.weaponEquipment["melee"]);
+		self maps\_zombiemode::set_melee_actionslot();
+	}
+	
+	if(IsDefined(self.weaponEquipment["lethal"]))
+	{
+		self set_player_lethal_grenade(self.weaponEquipment["lethal"]);
 	}
 
-	if(IsDefined(self.mine))
+	if(IsDefined(self.weaponEquipment["tactical"]))
 	{
-		self giveweapon(self.mine);
-		self set_player_placeable_mine(self.mine);
-		self setactionslot(4,"weapon",self.mine);
-		self setweaponammoclip(self.mine,2);
+		self set_player_tactical_grenade(self.weaponEquipment["tactical"]);
+	}
+
+	if(IsDefined(self.weaponEquipment["mine"]))
+	{
+		self set_player_placeable_mine(self.weaponEquipment["mine"]);
+		self SetActionSlot(4, "weapon", self.weaponEquipment["mine"]);
+		self SetWeaponAmmoClip(self.weaponEquipment["mine"], 2);
 	}
 
 	if( self.lastActiveStoredWeap != "none" && !is_placeable_mine(self.lastActiveStoredWeap) && !is_melee_weapon(self.lastActiveStoredWeap) )
@@ -468,8 +473,6 @@ giveback_player_weapons()
 
 switch_to_combat_knife()
 {
-	wait_network_frame();
-
 	melee = self get_player_melee_weapon();
 	if(IsDefined(melee))
 	{

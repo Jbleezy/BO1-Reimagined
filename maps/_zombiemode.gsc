@@ -1934,15 +1934,15 @@ onPlayerSpawned()
 	{
 		self waittill( "spawned_player" );
 
-		if(!flag("round_restarting"))
-		{
-			self thread give_starting_weapon("m1911_zm");
-			self thread set_melee_actionslot();
-		}
-
 		self freezecontrols( true );
 
 		self init_player_offhand_weapons();
+
+		if(!flag("round_restarting"))
+		{
+			self thread give_starting_weapon("m1911_zm");
+			self set_melee_actionslot();
+		}
 
 		self enablehealthshield( false );
 /#
@@ -8861,7 +8861,6 @@ character_names_hud()
 
 set_melee_actionslot()
 {
-	wait_network_frame();
 	melee = self get_player_melee_weapon();
 	if(IsDefined(melee))
 	{

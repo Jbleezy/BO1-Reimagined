@@ -307,7 +307,6 @@ do_sickle_flourish_end( gun )
 	// TODO: race condition?
 	if ( self maps\_laststand::player_is_in_laststand() || is_true( self.intermission ) )
 	{
-		iprintln("got here");
 		self TakeWeapon(weapon);
 		self.lastActiveWeapon = "none"; // this should be handled by laststand.gsc, but then we couldn't FFOTD the fix
 		return;
