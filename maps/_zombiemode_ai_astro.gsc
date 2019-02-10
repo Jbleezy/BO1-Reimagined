@@ -300,7 +300,7 @@ astro_zombie_can_spawn()
 
 	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
 	{
-		return RandomInt(100) < 1; //1% chance
+		return RandomInt(200) < 3; //1.5% chance
 	}
 
 	if ( level.zombie_total > level.zombies_left_before_astro_spawn )
@@ -325,6 +325,20 @@ astro_zombie_manager()
 
 	while ( true )
 	{
+		while( level.zombie_total <= 0 )
+		{
+			wait( 0.1 );
+		}
+
+		if(get_enemy_count() >= level.zombie_ai_limit)
+		{
+			while(get_enemy_count() >= level.zombie_ai_limit)
+			{
+				wait .1;
+			}
+			wait 1;
+		}
+
 		if ( !is_true( level.on_the_moon ) )
 		{
 			wait( 0.5 );
@@ -351,14 +365,14 @@ astro_zombie_manager()
 astro_zombie_total_update()
 {
 	level.zombie_total_update = true;
-	level.zombies_left_before_astro_spawn = RandomIntRange( int( level.zombie_total * 0.25 ), int( level.zombie_total * 0.75 ) );
 
-	if ( level.round_number >= level.next_astro_round && level.num_astro_zombies < level.max_astro_zombies )
+	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
 	{
 		level thread astro_zombie_manager();
 	}
-	else if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
+	else if ( level.round_number >= level.next_astro_round && level.num_astro_zombies < level.max_astro_zombies )
 	{
+		level.zombies_left_before_astro_spawn = RandomIntRange( int( level.zombie_total * 0.25 ), int( level.zombie_total * 0.75 ) );
 		level thread astro_zombie_manager();
 	}
 
@@ -833,8 +847,7 @@ astro_zombie_die()
 
 	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
 	{
-		level.zombie_total_update = true;
-		level thread astro_zombie_manager();
+		level thread astro_zombie_total_update();
 	}
 
 	return self maps\_zombiemode_spawner::zombie_death_animscript();

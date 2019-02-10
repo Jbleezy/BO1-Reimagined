@@ -505,7 +505,11 @@ _try_spawn_napalm(spawn_point)
 		{
 			// teleport the zombie to our spawner
 			ai ForceTeleport(spawnOrigin, spawn_point.angles);
-			level.special_zombie_spawned_this_round = true;
+
+			if(level.gamemode != "snr" && level.gamemode != "race" && level.gamemode != "gg")
+			{
+				level.special_zombie_spawned_this_round = true;
+			}
 		}
 	}
 
@@ -718,7 +722,10 @@ _try_spawn_sonic(spawn_point)
 			// teleport the zombie to our spawner
 			ai ForceTeleport(spawnOrigin, spawn_point.angles);
 			
-			level.special_zombie_spawned_this_round = true;
+			if(level.gamemode != "snr" && level.gamemode != "race" && level.gamemode != "gg")
+			{
+				level.special_zombie_spawned_this_round = true;
+			}
 		}
 	}
 

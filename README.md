@@ -1220,10 +1220,10 @@
 
 #### Race
 * Unlimited zombies
+* 1 second initial zombie spawn rate
 * Auto revive after 10 seoconds
-* Starts at round 1, every 45 seconds round increases until round 20
-* Gain 500 points on each round increase if you are alive
-* Team with most kills after round 20 or first team to 1000 kills wins
+* Starts at round 1, every 30 seconds round increases until round 20
+* Team with most kills after round 20 or first team to 500 kills wins
 * Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
 * Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
 
@@ -1231,7 +1231,7 @@
 * Unlimited ammo
 * Unlimited zombies
 * 2,000 health zombies
-* .5 second zombie spawn rate
+* 1 second zombie spawn rate
 * Only sprinting zombies
 * Auto revive after 10 seoconds
 * Wall weapons disabled

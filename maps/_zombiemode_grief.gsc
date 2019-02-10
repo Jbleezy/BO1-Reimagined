@@ -30,7 +30,6 @@ init()
 			level thread increase_zombie_health();
 			level thread display_round_number();
 			level thread increase_zombie_move_speed();
-			level thread increase_zombie_spawn_rate();
 		}
 		else if(level.gamemode == "race")
 		{
@@ -42,15 +41,10 @@ init()
 			level thread unlimited_ammo();
 			level thread increase_zombie_health();
 			level thread increase_zombie_move_speed();
-			level thread increase_zombie_spawn_rate();
 			level thread setup_gungame_weapons();
 		}
 
-		if(level.script == "zombie_temple")
-		{
-			level thread unlimited_shrieker_and_napalm_spawns();
-		}
-
+		level thread increase_zombie_spawn_rate();
 		level thread unlimited_powerups();
 		level thread unlimited_barrier_points();
 		level thread unlimited_zombies();
@@ -1176,7 +1170,14 @@ increase_zombie_move_speed()
 increase_zombie_spawn_rate()
 {
 	wait 1;
-	level.zombie_vars["zombie_spawn_delay"] = .5;
+	if(level.gamemode == "snr")
+	{
+		level.zombie_vars["zombie_spawn_delay"] = .5;
+	}
+	else
+	{
+		level.zombie_vars["zombie_spawn_delay"] = 1;
+	}
 }
 
 display_round_number()
@@ -1777,7 +1778,7 @@ race_win_watcher()
 
 		for(i=0;i<teams.size;i++)
 		{
-			if(team_kills[teams[i]] >= 1000)
+			if(team_kills[teams[i]] >= 500)
 			{
 				level.vs_winning_team = teams[i];
 				level notify( "end_game" );
@@ -1797,7 +1798,7 @@ increase_round_number_over_time()
 
 	while(1)
 	{
-		wait 43;
+		wait 28;
 
 		level.old_music_state = undefined; // need this to be able to play the same music again
 		level thread maps\_zombiemode_audio::change_zombie_music( "round_start" );
@@ -1844,12 +1845,6 @@ increase_round_number_over_time()
 			if(IsDefined(players[i] get_player_placeable_mine()))
 			{
 				players[i] setweaponammoclip(players[i] get_player_placeable_mine(), 2);
-			}
-
-			if(is_player_valid(players[i]))
-			{
-				players[i].score += 500;
-				players[i] maps\_zombiemode_score::set_player_score_hud();
 			}
 		}
 
@@ -1936,18 +1931,6 @@ auto_revive_after_time()
 	self maps\_laststand::revive_hud_show_n_fade(10);
 	wait 10;
 	self maps\_laststand::auto_revive();
-}
-
-unlimited_shrieker_and_napalm_spawns()
-{
-	level endon("end_game");
-
-	while(1)
-	{
-		level.special_zombie_spawned_this_round = false;
-
-		wait 1;
-	}
 }
 
 unlimited_ammo()

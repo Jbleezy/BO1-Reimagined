@@ -1092,7 +1092,7 @@ napalm_zombie_count_watch()
 	self waittill("death");
 	level.napalmZombieCount--;
 
-	if(is_true(self.shrinked))
+	/*if(is_true(self.shrinked))
 	{
 		//Will spawn next round if killed with shrink ray
 		level.nextNapalmSpawnRound = level.round_number + 1;
@@ -1100,7 +1100,9 @@ napalm_zombie_count_watch()
 	else
 	{
 		level.nextNapalmSpawnRound = level.round_number + RandomIntRange(level.napalmZombieMinRoundWait, level.napalmZombieMaxRoundWait + 1);
-	}
+	}*/
+
+	level.nextNapalmSpawnRound = level.round_number + 1;
 }
 
 napalm_clear_radius_fx_all_players()

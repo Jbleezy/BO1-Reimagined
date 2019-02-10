@@ -1105,7 +1105,7 @@ sonic_zombie_count_watch()
 	level.sonicZombieCount--;
 
 	//Update next spawn time
-	if(is_true(self.shrinked))
+	/*if(is_true(self.shrinked))
 	{
 		//Will spawn next round if killed with shrink ray
 		level.nextSonicSpawnRound = level.round_number + 1;
@@ -1113,7 +1113,9 @@ sonic_zombie_count_watch()
 	else
 	{
 		level.nextSonicSpawnRound = level.round_number + RandomIntRange(level.sonicZombieMinRoundWait, level.sonicZombieMaxRoundWait + 1);
-	}
+	}*/
+	
+	level.nextSonicSpawnRound = level.round_number + 1;
 
 	attacker = self.attacker;
 	if ( isdefined( attacker ) && isplayer( attacker ) && is_true( attacker.screamAttackBlur ) )
