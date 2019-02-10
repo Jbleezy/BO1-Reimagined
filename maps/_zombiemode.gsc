@@ -1874,6 +1874,10 @@ onPlayerDowned()
 				self.gg_wep_num--;
 				self maps\_zombiemode_grief::update_gungame_hud();
 			}
+			else
+			{
+				self.gg_kill_count = 0;
+			}
 
 			self.player_bought_pack = undefined;
 
@@ -5478,7 +5482,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		{
 			if(level.gamemode != "survival" && eInflictor.owner.vsteam != self.vsteam)
 			{
-				self notify("grief_damage", sWeapon, sMeansOfDeath, eAttacker);
+				self notify("grief_damage", sWeapon, sMeansOfDeath, eInflictor.owner);
 			}
 			return 0;
 		}
