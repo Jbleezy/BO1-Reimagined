@@ -206,8 +206,7 @@
 		//FRAME_CHOICE_DVARFLOATLIST_VIS( 23, "@MENU_ENABLE_CONSOLE_CAPS", monkeytoy, { "@MENU_YES_CAPS" 0 "@MENU_NO_CAPS" 1 }, ;, ( dvar(ui_allowConsole) && ( ( !dvarBool(cg_allow_mature) && !IsInGame() && !dvarBool(ui_multiplayer) ) || ( IsInGame() && !dvarBool(ui_multiplayer) ) ) ) )
 		//FRAME_CHOICE_DVARFLOATLIST_VIS( 24, "@MENU_ENABLE_CONSOLE_CAPS", monkeytoy, { "@MENU_YES_CAPS" 0 "@MENU_NO_CAPS" 1 }, ;, ( dvar(ui_allowConsole) && dvarBool(cg_allow_mature) && !IsInGame() && !dvarBool(ui_multiplayer) ) )
 
-   		FRAME_CHOICE_DVARFLOATLIST_VIS( 23, "@MENU_MATURE_CAPS", cg_mature, { "@MENU_MATURE_UNRESTRICTED_CAPS" 1 "@MENU_MATURE_REDUCED_CAPS" 0 }, setdvar cg_blood "0", ( dvarString( "cg_mature" ) == "1" && dvarBool(cg_allow_mature) && !dvarBool(ui_multiplayer) && SHOW_MATURE ) )
-   		FRAME_CHOICE_DVARFLOATLIST_VIS( 23, "@MENU_MATURE_CAPS", cg_mature, { "@MENU_MATURE_UNRESTRICTED_CAPS" 1 "@MENU_MATURE_REDUCED_CAPS" 0 }, setdvar cg_blood "1", ( dvarString( "cg_mature" ) == "0" && dvarBool(cg_allow_mature) && !dvarBool(ui_multiplayer) && SHOW_MATURE ) )
+   		FRAME_CHOICE_DVARFLOATLIST_VIS( 23, "@MENU_MATURE_CAPS", cg_blood, { "@MENU_MATURE_UNRESTRICTED_CAPS" 1 "@MENU_MATURE_REDUCED_CAPS" 0 }, ;, ( dvarBool(cg_allow_mature) && !dvarBool(ui_multiplayer) && SHOW_MATURE ) )
 
    		//FRAME_CHOICE_DVARFLOATLIST_VIS( 23, "@MENU_MATURE_CAPS", cg_mature, { "@MENU_MATURE_UNRESTRICTED_CAPS" 1 "@MENU_MATURE_REDUCED_CAPS" 0 }, setdvar cg_blood dvarInt("cg_mature"), ( dvarBool(cg_allow_mature) && !dvarBool(ui_multiplayer) && SHOW_MATURE ) )
 

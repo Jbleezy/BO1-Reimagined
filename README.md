@@ -74,6 +74,7 @@
 
 ## Settings
 * Removed popup menu when changing graphic content to unrestricted
+* Reduced graphic content now only removes blood
 * Combat settings: removed Sprint/Hold Breath option and Steady Sniper option (sniper scopes are always steady now)
 * Combat settings: added Previous Weapon option
 * Combat settings: changed name of "USE EQUIPMENT" to "EQUIPMENT"
