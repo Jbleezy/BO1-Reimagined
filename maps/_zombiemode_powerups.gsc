@@ -664,11 +664,6 @@ watch_for_drop()
 {
 	flag_wait( "begin_spawning" );
 
-	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
-	{
-		return;
-	}
-
 	players = get_players();
 	level.zombie_vars["zombie_powerup_drop_increment"] = ((players.size - 1) * 1000) + 2500;
 	score_to_drop = level.zombie_vars["zombie_powerup_drop_increment"];
