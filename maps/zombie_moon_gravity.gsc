@@ -640,6 +640,11 @@ check_player_gravity()
 {
 	flag_wait( "all_players_connected" );
 
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
+
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{

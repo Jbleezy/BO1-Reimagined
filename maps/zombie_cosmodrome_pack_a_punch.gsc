@@ -165,12 +165,6 @@ pack_print( str )
 
 launch_rocket()
 {
-	if(level.gamemode != "survival")
-	{
-		self disable_trigger();
-		return;
-	}
-
 	//the control panel
 	panel = getent("rocket_launch_panel","targetname");
 	
@@ -184,6 +178,11 @@ launch_rocket()
 	
 	//still need to authorize the launch by using the landers
 	self setHintString( &"ZOMBIE_COSMODROME_WAITING_AUTHORIZAION");
+
+	if(level.gamemode != "survival")
+	{
+		return;
+	}
 	
 	flag_wait("launch_activated");
 	

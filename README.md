@@ -419,7 +419,7 @@
 * Weapon fails happen less often
 * Kills all zombies at once
 * Gives 50 points for each kill
-* Zombies are now flung based on the angle of the Thundergun shot
+* Zombies are now flung based on the angles of the player who fired the Thundergun
 * Decreased range by 6.25%
 * Fixed empty clip idle, drop, raise, and sprint in animations
 * Zombies no longer gib from being knocked down
@@ -1198,6 +1198,7 @@
 * Call of the Dead: director spawns a random powerup instead of a Wunderwaffe
 * Shangri-La: Pack-a-Punch stairs are open from the start of the match
 * Moon: start at Receiving Bay zone
+* Moon: players can always breathe in low gravity
 * Moon: PES and hacker disabled
 * Moon: No Man's Land disabled
 * Moon: teleporter disabled
