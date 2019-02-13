@@ -2371,7 +2371,7 @@ override_box_locations()
 
 	level.override_place_treasure_chest_bottom = ::zombie_moon_place_treasure_chest_bottom;
 
-	origin = (-819, 1810.5, -362);
+	origin = (-819, 1863, -362);
 	angles = (0, 90, 0);
 	maps\_zombiemode_weapons::place_treasure_chest("tunnel6_chest", origin, angles, true);
 
@@ -2391,6 +2391,17 @@ zombie_moon_place_treasure_chest_bottom(origin, angles)
 	block1 = Spawn( "script_model", origin + (up * 3) );
 	block1.angles = angles;
 	block1 SetModel( block_model );
+
+	// for projectile collision
+	block2 = Spawn( "script_model", origin + (forward * -2.5) + (up * -4) );
+	block2.angles = angles;
+	block2 SetModel( "zombie_treasure_box" );
+	block2 Hide();
+
+	block3 = Spawn( "script_model", origin + (forward * 2.5) + (up * -4) );
+	block3.angles = angles;
+	block3 SetModel( "zombie_treasure_box" );
+	block3 Hide();
 
 	return 13;
 }

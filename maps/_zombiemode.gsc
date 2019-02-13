@@ -1703,6 +1703,8 @@ onPlayerConnect_clientDvars()
 		//self SetClientDvar("r_enablePlayerShadow", 1);
 	}
 
+	self setClientDvar("cg_mature", "1");
+
 	self setClientDvar("cg_drawFriendlyFireCrosshair", "1");
 
 	// reset dvar that changes when double tap is bought
