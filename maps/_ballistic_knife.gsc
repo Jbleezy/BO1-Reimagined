@@ -93,7 +93,7 @@ on_spawn( watcher, player )
 			trigger_pos[2] = retrievable_model.origin[2] + (vec_scale * normal[2]);
 		}*/
 
-		pickup_trigger = Spawn( "trigger_radius", retrievable_model.origin, 0, 64, 128 );
+		pickup_trigger = Spawn( "trigger_radius", retrievable_model.origin, 0, 32, 64 );
 		pickup_trigger SetCursorHint( "HINT_NOICON" );
 		pickup_trigger.owner = player;
 		retrievable_model.retrievableTrigger = pickup_trigger;
