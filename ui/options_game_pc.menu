@@ -475,7 +475,8 @@
 		CHOICE_DVARSTRINGLIST_VIS( 4, "@MENU_ZOMBIE_TEMPLE_CAPS", zombie_temple_initial_box_location, {
 			"@MPUI_RANDOM_CAPS"; "random";
 			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_TEMPLE_CAVES1"; "caves1_chest";
-			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_TEMPLE_BRIDGE"; "bridge_chest"
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_TEMPLE_BRIDGE"; "bridge_chest";
+			"@REIMAGINED_INITIAL_MAGICBOX_ZOMBIE_TEMPLE_POWER"; "power_chest"
 		}, ;, when(dvarString("ui_options_game_popup") == "initial_box_locations"))
 
 		CHOICE_DVARSTRINGLIST_VIS( 5, "@MENU_ZOMBIE_MOON_CAPS", zombie_moon_initial_box_location, {

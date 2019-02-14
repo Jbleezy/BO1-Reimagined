@@ -87,6 +87,7 @@ main()
 	level.zombiemode_sidequest_init = ::temple_sidequest_of_awesome;
 
 	override_blocker_prices();
+	override_box_locations();
 
 	maps\_zombiemode::main();
 
@@ -1285,6 +1286,19 @@ override_blocker_prices()
 					break;
 				}
 			}
+		}
+	}
+}
+
+override_box_locations()
+{
+	chests = GetEntArray( "treasure_chest_use", "targetname" );
+	for( i = 0; i < chests.size; i++ )
+	{
+		if(chests[i].script_noteworthy == "power_chest")
+		{
+			chests[i].start_exclude = false;
+			break;
 		}
 	}
 }

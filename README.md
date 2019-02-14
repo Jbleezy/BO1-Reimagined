@@ -161,7 +161,6 @@
 ### Pistols
 * Increased move speed from 100% to 110%
 * Increased move speed while aiming from 200% to 220%
-* Increased sprint duration from 100% to 110%
 
 ### Shotguns
 * Decreased spread when aiming
@@ -175,12 +174,10 @@
 ### Submachine Guns
 * Decreased move speed from 110% to 105%
 * Decreased move speed while aiming from 220% to 210%
-* Decreased sprint duration from 110% to 105%
 
 ### AK74u
 * Increased move speed from 100% to 105%
 * Increased move speed while aiming from 200% to 210%
-* Increased sprint duration from 100% to 105%
 * Upgraded: fixed fire sound
 
 ### AUG
@@ -393,7 +390,6 @@
 * Added sound from Black Ops 2 that plays when attempting to fire without any ammo
 * Increased move speed from 100% to 105%
 * Increased move speed while aiming from 100% to 105%
-* Increased sprint duration from 100% to 105%
 * Decreased first raise time from 2.4 seconds to 1.8 seconds
 * Fixed first raise animation lasting too long at the end
 * Unupgraded: increased impact damage from 1000 to 1500
@@ -446,7 +442,6 @@
 * Upgraded: camo now displays on more of the weapon
 * Increased move speed from 100% to 105%
 * Increased move speed while aiming from 100% to 105%
-* Increased sprint duration from 100% to 105%
 * Decreased first raise time by 50%
 * Fixed an error in the sprint out animation
 
@@ -554,7 +549,6 @@
 * Can now be repurchased to refill ammo
 * Can now be picked up while pressing the melee button
 * Increased move speed from 100% to 110%
-* Increased sprint duration from 100% to 110%
 
 ##### Bouncing Betty
 * Increased placing speed
@@ -1069,6 +1063,7 @@
 * Mule Kick now spawns in randomly with Double Tap, PHD Flopper, Stamin-Up, and Deadshot
 * Removed Mule Kick perk spawn location in the Waterfall zone
 * Added random perk spawn location in the Waterslide End zone
+* Mystery Box can now start in the Water Wheels zone
 * Zombies now spawn in the Minecart zone when in the Waterslide End zone after the power is on
 * Zombies now spawn in the Waterfall Tunnel zone when in the Upper Waterfall zone
 * Zombies now spawn in the Waterfall zone when in the upper part of the Waterfall Tunnel zone
