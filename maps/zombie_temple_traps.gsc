@@ -343,22 +343,40 @@ temple_trap_light_green()
 */
 temple_trap_move_switch()
 {
+	default_amount = 5;
+	default_time = .75;
+	extra_time = 0;
 
 	// Rotate switch model
 	trap_switch = undefined;
 	for(i=0; i<self.trap_switches.size; i++)
 	{
 		trap_switch = self.trap_switches[i];
-		trap_switch movey(-5,.75);//rotatepitch( 30, .5 );
+		//trap_switch movey(-5,.75);//rotatepitch( 30, .5 );
+
+		amount = (self.init_y - default_amount) - trap_switch.origin[1];
+		time = (abs(amount) / default_amount) * default_time;
+		if(time == 0)
+		{
+			time = .05;
+		}
+		extra_time = default_time - time;
+
+		trap_switch movey(amount, time);
 	}
+
 	if(isDefined(trap_switch))
 	{
-
 		trap_switch playloopsound("zmb_pressure_plate_loop");
 		//trap_switch playsound( "amb_sparks_l_b" );
 		trap_switch waittill( "movedone" );
 		trap_switch stoploopsound();
 		trap_switch playsound("zmb_pressure_plate_lock");
+	}
+
+	if(extra_time > 0)
+	{
+		wait extra_time;
 	}
 
 	// Set switch back when availible
@@ -367,14 +385,17 @@ temple_trap_move_switch()
 	for(i=0; i<self.trap_switches.size; i++)
 	{
 		trap_switch = self.trap_switches[i];
-		trap_switch movey(5,.75);
+		//trap_switch movey(5,.75);
+
+		amount = self.init_y - trap_switch.origin[1];
+		
+		trap_switch movey(amount, default_time);
 		trap_switch playloopsound("zmb_pressure_plate_loop");
 		//trap_switch playsound( "amb_sparks_l_b" );
 		trap_switch waittill( "movedone" );
 		trap_switch stoploopsound();
 		trap_switch playsound("zmb_pressure_plate_lock");
 	}
-
 }
 
 ///////////////////////////////////////////////////////
@@ -448,14 +469,17 @@ waterfall_trap_init()
 
 waterfall_trap_think()
 {
-	self.zombie_cost = 500;
+	self.useTrigger.zombie_cost = 500;
 	flag_wait("power_on");
+
+	self.useTrigger thread update_string();
+	self.init_y = self.trap_switches[0].origin[1];
 
 	while (1)
 	{
 		//Set trap as usable
 		self notify("trap_ready");
-		self.useTrigger SetHintString(&"REIMAGINED_USE_WATER_TRAP", self.zombie_cost);
+		self.useTrigger SetHintString(&"REIMAGINED_USE_WATER_TRAP", self.useTrigger.zombie_cost);
 
 		//Wait for a use trigger to be activated
 
@@ -464,18 +488,19 @@ waterfall_trap_think()
 		// Did a valid player use the trigger?
 		if( is_player_valid( who ) && !who in_revive_trigger() )
 		{
-			if( who.score < self.zombie_cost)
+			if( who.score < self.useTrigger.zombie_cost)
 			{
 				continue;
 			}
 
 			play_sound_at_pos( "purchase", who.origin );
-			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
+			who maps\_zombiemode_score::minus_to_player_score( self.useTrigger.zombie_cost );
 
 			//Added for sidequest
 			who.used_waterfall = true;
 
 			//"animate" the switch
+			self.useTrigger._trap_in_use = 1;
 			self.useTrigger SetHintString(&"REIMAGINED_WATER_TRAP_ACTIVE");
 			self thread temple_trap_move_switch();
 			self waittill( "switch_activated" );
@@ -507,8 +532,8 @@ waterfall_trap_think()
 			self notify("trap_off");
 
 			//Hide Use Message
+			self.useTrigger._trap_cooling_down = 1;
 			self.useTrigger SetHintString(&"ZOMBIE_TEMPLE_WATER_TRAP_COOL");
-
 
 			array_thread(self.water_drop_trigs, ::trigger_off);
 			waterfall_trap_off();
@@ -519,6 +544,9 @@ waterfall_trap_think()
 			{
 				level waittill_notify_or_timeout("fire_sale_on", 30);
 			}
+
+			self.useTrigger._trap_in_use = 0;
+			self.useTrigger._trap_cooling_down = 0;
 		}
 	}
 }
@@ -1979,4 +2007,36 @@ override_thundergun_damage_func(player,gib)
 handle_knockdown_pain_notetracks( note )
 {
 
+}
+
+update_string()
+{
+	self.old_cost = self.zombie_cost;
+
+	while(1)
+	{
+		while(!level.zombie_vars["zombie_powerup_fire_sale_on"])
+		{
+			wait_network_frame();
+		}
+
+		self.zombie_cost = 10;
+
+		if(!is_true(self._trap_in_use) && !is_true(self._trap_cooling_down))
+		{
+			self SetHintString( &"REIMAGINED_USE_WATER_TRAP", self.zombie_cost );
+		}
+
+		while(level.zombie_vars["zombie_powerup_fire_sale_on"])
+		{
+			wait_network_frame();
+		}
+
+		self.zombie_cost = self.old_cost;
+
+		if(!is_true(self._trap_in_use) && !is_true(self._trap_cooling_down))
+		{
+			self SetHintString( &"REIMAGINED_USE_WATER_TRAP", self.zombie_cost );
+		}
+	}
 }

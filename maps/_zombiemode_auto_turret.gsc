@@ -29,6 +29,7 @@ init()
 	{
 		level.auto_turret_cost = 1500;
 	}
+	level.auto_turret_default_cost = level.auto_turret_cost;
 
 	if( !isDefined( level.auto_turret_timeout ) )
 	{
@@ -272,8 +273,6 @@ auto_turret_update_timeout()
 
 update_string()
 {
-	level.old_auto_turret_cost = level.auto_turret_cost;
-
 	while(1)
 	{
 		while(!level.zombie_vars["zombie_powerup_fire_sale_on"])
@@ -281,10 +280,7 @@ update_string()
 			wait_network_frame();
 		}
 
-		if(level.auto_turret_cost != 10)
-		{
-			level.auto_turret_cost = 10;
-		}
+		level.auto_turret_cost = 10;
 
 		self SetHintString( &"ZOMBIE_AUTO_TURRET", level.auto_turret_cost );
 
@@ -293,10 +289,7 @@ update_string()
 			wait_network_frame();
 		}
 
-		if(level.auto_turret_cost != level.old_auto_turret_cost)
-		{
-			level.auto_turret_cost = level.old_auto_turret_cost;
-		}
+		level.auto_turret_cost = level.auto_turret_default_cost;
 
 		self SetHintString( &"ZOMBIE_AUTO_TURRET", level.auto_turret_cost );
 	}

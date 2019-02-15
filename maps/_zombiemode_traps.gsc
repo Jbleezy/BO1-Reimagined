@@ -226,6 +226,7 @@ trap_init()
 	{
 		self.zombie_cost = 1000;
 	}
+	self.default_cost = self.zombie_cost;
 	self._trap_in_use = 0;
 	self._trap_cooling_down = 0;
 
@@ -1300,8 +1301,6 @@ move_trap_handle(end_angle, rotate_amount, negative)
 
 update_string()
 {
-	self.old_zombie_cost = self.zombie_cost;
-
 	while(1)
 	{
 		while(!level.zombie_vars["zombie_powerup_fire_sale_on"])
@@ -1311,7 +1310,7 @@ update_string()
 
 		self.zombie_cost = 10;
 
-		if(!self._trap_in_use && !self._trap_cooling_down)
+		if(!is_true(self._trap_in_use) && !is_true(self._trap_cooling_down))
 		{
 			self trap_set_string( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 		}
@@ -1321,9 +1320,9 @@ update_string()
 			wait_network_frame();
 		}
 
-		self.zombie_cost = self.old_zombie_cost;
+		self.zombie_cost = self.default_cost;
 
-		if(!self._trap_in_use && !self._trap_cooling_down)
+		if(!is_true(self._trap_in_use) && !is_true(self._trap_cooling_down))
 		{
 			self trap_set_string( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 		}
