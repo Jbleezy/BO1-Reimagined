@@ -477,7 +477,7 @@ player_teleporting( index, user, first_time )
 
 		if(spawn)
 		{
-			ss thread maps\_zombiemode_powerups::special_powerup_drop(ss.origin, is_powerup, true);
+			ss thread maps\_zombiemode_powerups::special_powerup_drop(ss.origin, is_powerup);
 		}
 	}
 

@@ -939,8 +939,7 @@
 
 #### Teleporters
 * Teleporters now kill zombies on any round
-* Guranteed teleporter powerup when first linking teleporter
-* Teleporter powerup stays on the map until picked up or another teleporter powerup spawns
+* Guranteed teleporter powerup when linking each teleporter
 * Chance decrease per round of teleporter powerup spawn decreased from 15% to 5%
 * Minimum of 15% chance of teleporter powerup spawn
 * Hellhounds always spawn whenever a teleporter powerup does not spawn

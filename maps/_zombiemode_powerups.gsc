@@ -1330,12 +1330,15 @@ special_drop_setup(is_powerup, permament)
 		self powerup_setup( powerup );
 
 		if(!permament)
+		{
 			self thread powerup_timeout();
+		}
 		else
 		{
 			level notify("new_special_powerup");
 			self thread powerup_timeout_on_next_powerup();
-		}	
+		}
+		
 		self thread powerup_wobble();
 		self thread powerup_grab();
 	}
