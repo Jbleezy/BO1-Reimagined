@@ -6560,6 +6560,8 @@ end_game()
 {
 	level waittill ( "end_game" );
 
+	flag_set("round_restarting");
+
 	clientnotify( "zesn" );
 	level thread maps\_zombiemode_audio::change_zombie_music( "game_over" );
 
