@@ -1338,7 +1338,7 @@ special_drop_setup(is_powerup, permament)
 			level notify("new_special_powerup");
 			self thread powerup_timeout_on_next_powerup();
 		}
-		
+
 		self thread powerup_wobble();
 		self thread powerup_grab();
 	}
@@ -2304,7 +2304,10 @@ full_ammo_powerup( drop_item, player )
 
 	if(level.gamemode != "survival")
 	{
-		level thread empty_clip_powerup( drop_item, player );
+		item = SpawnStruct();
+		item.caution = true;
+		item.hint = &"REIMAGINED_CLIP_UNLOAD";
+		level thread empty_clip_powerup( item, player );
 	}
 
 	//array_thread (players, ::full_ammo_on_hud, drop_item);
@@ -2974,6 +2977,9 @@ bonus_points_team_powerup( item, player )
 
 	if(level.gamemode != "survival")
 	{
+		item = SpawnStruct();
+		item.caution = true;
+		item.hint = &"REIMAGINED_LOSE_POINTS";
 		level thread lose_points_team_powerup( item, player, points );
 	}
 }
