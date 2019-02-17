@@ -26,7 +26,7 @@ main()
 	level thread setup_music_egg();
 	//level thread force_player4_override();
 	level thread waitfor_forest_zone_entry();
-	level thread door_vox();
+	//level thread door_vox();
 	level thread poweron_vox();
 	level thread setup_moon_visit_vox();
 	level thread intro_vox_or_skit();

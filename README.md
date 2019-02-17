@@ -1131,7 +1131,6 @@
 * Jump pad in Receiving Bay now only pushes players upwards
 * Excavator sounds no longer linked to FPS
 * Teleporter sounds no longer linked to FPS
-* Announcer tells players when entering a new zone through the airlocks if the zone that the player is going into is not outside
 * Fixed a bug where the sky would turn bright right after restarting the map
 * Removed certain triggers on the map that move players
 
