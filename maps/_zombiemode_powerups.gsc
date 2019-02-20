@@ -554,7 +554,7 @@ is_valid_powerup(powerup_name)
 	{
 		return false;
 	}
-	else if( powerup_name == "bonus_points_team" )					// never drops with regular powerups
+	else if( powerup_name == "bonus_points_team" && level.gamemode == "survival" )					// never drops with regular powerups
 	{
 		return false;
 	}
