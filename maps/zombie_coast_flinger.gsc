@@ -144,7 +144,6 @@ play_delayed_activate_sound()
 ------------------------------------*/
 flinger_fling(activator)
 {
-
 	//any players reviving on the flinger? if so then wait until they are done before flinging..then fling immediately afterwards ;)
 	players_reviving = true;
 	while(players_reviving)
@@ -218,16 +217,31 @@ flinger_fling(activator)
 			}
 		}
 	}
+
+	players = get_players();
+	players_being_flung = false;
+	for(i = 0; i < players.size; i++)
+	{
+		if(is_true(players[i]._being_flung))
+		{
+			players_being_flung = true;
+			break;
+		}
+	}
+
+	kill_zombs = false;
+	if(players_being_flung && !flag("residence_beach_group"))
+	{
+		kill_zombs = true;
+		flag_set("residence_beach_group");
+	}
+
 	//flinger stays open for 2 seconds then resets after the area is clear
 	wait( 2 );
 
 	// Kill all zombies after using flinger if zone isn't open and all players are here
-	if(!flag("side_beach_debris") && !flag("balcony_enter") && !flag("res_2_lighthouse1") && !flag("lighthouse_residence_front"))
+	if(kill_zombs)
 	{
-		flag_set("residence_beach_group");
-
-		wait_network_frame();
-
 		num_players_in_zone = 0;
 		players = get_players();
 		for(i = 0; i < players.size; i++)
