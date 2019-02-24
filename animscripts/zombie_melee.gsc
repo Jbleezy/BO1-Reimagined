@@ -166,6 +166,11 @@ MeleeCombat()
 					continue;
 				}
 
+				if(zombie_attack == level._zombie_run_melee["zombie"][2] && attack_times != 2)
+				{
+					continue;
+				}
+
 				if ( !IsDefined( self.enemy ) )
 				{
 					break;
