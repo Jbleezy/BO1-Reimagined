@@ -360,13 +360,18 @@ zombie_faller_do_fall()
 	if ( physDist > 0 )
 	{
 		//high enough above the ground to play some of the falling loop before we can play the land
-		fallAnim = level._zombie_fall_anims["zombie"]["fall_loop"];
-		if ( IsDefined( fallAnim ) )
+		ground_pos = groundpos_ignore_water_new( self.origin );
+		if( self.origin[2] - ground_pos[2] >= 20)
 		{
-			self.fall_anim = fallAnim;
-			self animcustom(::zombie_fall_loop);
-			self waittill("faller_on_ground");
+			fallAnim = level._zombie_fall_anims["zombie"]["fall_loop"];
+			if ( IsDefined( fallAnim ) )
+			{
+				self.fall_anim = fallAnim;
+				self animcustom(::zombie_fall_loop);
+				self waittill("faller_on_ground");
+			}
 		}
+
 		//play land
 		self.landAnim = landAnim;
 		self animcustom(::zombie_land);
@@ -382,6 +387,8 @@ zombie_faller_do_fall()
 
 	// let the default spawn logic know we are done
 	self notify("zombie_custom_think_done", spot.script_noteworthy );
+
+	self notify("land_anim_finished");
 }
 
 zombie_fall_loop()

@@ -800,6 +800,7 @@
 * Zombies can now gib when damaged from the Bowie Knife or Sickle
 * Fixed certain zombie swipes that damaged players at incorrect times
 * Ceiling spawner zombies now fall from the ceiling quicker
+* Ceiling spawner zombies now always play land animation
 
 ### Hellhounds
 * Initial hellhound round always happens on round 5 or 6

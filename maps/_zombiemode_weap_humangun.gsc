@@ -762,7 +762,7 @@ humangun_zombie_1st_hit_response( upgraded, player )
 	}
 	if(is_true(self.in_the_ceiling))
 	{
-		self waittill("fall_anim_finished");
+		self waittill("land_anim_finished");
 	}
 	if(is_true(self.is_traversing))
 	{
