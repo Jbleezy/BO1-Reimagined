@@ -145,8 +145,8 @@ init_powerups()
 	add_zombie_powerup( "random_weapon", "zombie_pickup_minigun", &"ZOMBIE_POWERUP_MAX_AMMO", true, false, false );
 
 	// bonus points
-	add_zombie_powerup( "bonus_points_player", "zombie_z_money_icon", &"ZOMBIE_POWERUP_BONUS_POINTS", true, false, false );
-	add_zombie_powerup( "bonus_points_team", "zombie_z_money_icon", &"ZOMBIE_POWERUP_BONUS_POINTS", false, false, false );
+	add_zombie_powerup( "bonus_points_player", "zombie_z_money_icon", &"REIMAGINED_BONUS_POINTS", true, false, false );
+	add_zombie_powerup( "bonus_points_team", "zombie_z_money_icon", &"REIMAGINED_BONUS_POINTS", false, false, false );
 	add_zombie_powerup( "lose_points_team", "zombie_z_money_icon", &"ZOMBIE_POWERUP_LOSE_POINTS", false, false, true );
 
 	// lose perk
