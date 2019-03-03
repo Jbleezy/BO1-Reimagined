@@ -795,7 +795,7 @@ monkey_pack_update_perk()
 		{
 			monkey_print( "pack destroyed " + self.machine.targetname );
 
-			//self monkey_pack_take_perk();
+			self monkey_pack_take_perk();
 
 			// need to wait for the perk to actually be taken from the player
 			wait_network_frame();
@@ -1804,7 +1804,7 @@ monkey_zombie_attack_perk()
 		if ( self monkey_zombie_perk_damage( self.machine_damage ) )
 		{
 			//self monkey_pack_take_perk();
-			//break;
+			break;
 		}
 
 		wait( time );
@@ -2959,7 +2959,7 @@ monkey_zombie_perk_init()
 	assertex( isdefined( machine ), "no machine found for " + self.target );
 	if ( isdefined( machine ) )
 	{
-		machine.monkey_health = 100000000;
+		machine.monkey_health = 100;
 	}
 }
 
