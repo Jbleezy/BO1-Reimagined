@@ -685,6 +685,10 @@
 * Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, the player already has the weapon, the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or the player bled out)
 * Gives ammo back if the player already has the weapon that they had previously lost when perk is rebought
 
+### Stamin-Up
+* No longer gives 110% sprint speed with any weapon
+* Now gives +10% move speed and +10% sprint speed
+
 ## Powerups
 * Decreased initial chance for a powerup to drop from 3% to 2%
 * Chance for a powerup to drop now gradually increases when a zombie is killed and doesn't drop a powerup

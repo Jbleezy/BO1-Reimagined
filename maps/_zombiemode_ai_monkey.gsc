@@ -275,8 +275,8 @@ init_monkey_specific_zombie_anims()
 	level.monkey_perk_attack_anims["specialty_armorvest"]["left_top"]		=	%ai_zombie_monkey_attack_perks_left_top_jugg;
 	level.monkey_perk_attack_anims["specialty_armorvest"]["right_top"]		=	%ai_zombie_monkey_attack_perks_right_top_jugg;
 
-	level.monkey_perk_attack_anims["specialty_longersprint"]["left_top"]	=	%ai_zombie_monkey_attack_perks_left_top_marathon;
-	level.monkey_perk_attack_anims["specialty_longersprint"]["right_top"]	=	%ai_zombie_monkey_attack_perks_right_top_marathon;
+	level.monkey_perk_attack_anims["specialty_endurance"]["left_top"]	=	%ai_zombie_monkey_attack_perks_left_top_marathon;
+	level.monkey_perk_attack_anims["specialty_endurance"]["right_top"]	=	%ai_zombie_monkey_attack_perks_right_top_marathon;
 
 	level.monkey_perk_attack_anims["specialty_quickrevive"]["left_top"]		=	%ai_zombie_monkey_attack_perks_left_top_revive;
 	level.monkey_perk_attack_anims["specialty_quickrevive"]["right_top"]	=	%ai_zombie_monkey_attack_perks_right_top_revive;

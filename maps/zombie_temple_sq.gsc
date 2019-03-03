@@ -114,7 +114,7 @@ init()
 
 	level thread gong_watcher();
 
-	level._sq_perk_array = array("specialty_armorvest","specialty_quickrevive","specialty_fastreload","specialty_rof","specialty_longersprint","specialty_flakjacket","specialty_deadshot");
+	level._sq_perk_array = array("specialty_armorvest","specialty_quickrevive","specialty_fastreload","specialty_rof","specialty_endurance","specialty_flakjacket","specialty_deadshot");
 
 	if ( isdefined( level.zombie_additionalprimaryweapon_machine_origin ) )
 	{

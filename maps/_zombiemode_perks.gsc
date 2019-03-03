@@ -1296,7 +1296,7 @@ turn_marathon_on()
 		machine[i] playsound("zmb_perks_power_on");
 		machine[i] thread perk_fx( "marathon_light" );
 	}
-	level notify( "specialty_longersprint_power_on" );
+	level notify( "specialty_endurance_power_on" );
 }
 
 // Divetonuke
@@ -1442,6 +1442,11 @@ vending_trigger_think()
 {
 	self endon("death");
 
+	if(self.script_noteworthy == "specialty_longersprint")
+	{
+		self.script_noteworthy = "specialty_endurance";
+	}
+
 	//self thread turn_cola_off();
 	perk = self.script_noteworthy;
 	solo = false;
@@ -1515,8 +1520,8 @@ vending_trigger_think()
 		cost = 2000;
 		break;
 
-	case "specialty_longersprint_upgrade":
-	case "specialty_longersprint":
+	case "specialty_endurance_upgrade":
+	case "specialty_endurance":
 		cost = 2000;
 		break;
 
@@ -1599,8 +1604,8 @@ vending_trigger_think()
 		self SetHintString( &"ZOMBIE_PERK_DOUBLETAP", cost );
 		break;
 
-	case "specialty_longersprint_upgrade":
-	case "specialty_longersprint":
+	case "specialty_endurance_upgrade":
+	case "specialty_endurance":
 		self SetHintString( &"ZOMBIE_PERK_MARATHON", cost );
 		break;
 
@@ -1728,8 +1733,8 @@ vending_trigger_think()
 			sound = "mus_perks_doubletap_sting";
 			break;
 
-		case "specialty_longersprint_upgrade":
-		case "specialty_longersprint":
+		case "specialty_endurance_upgrade":
+		case "specialty_endurance":
 			sound = "mus_perks_phd_sting";
 			break;
 
@@ -2287,8 +2292,8 @@ perk_hud_create( perk )
 		shader = "specialty_doubletap_zombies";
 		break;
 
-	case "specialty_longersprint_upgrade":
-	case "specialty_longersprint":
+	case "specialty_endurance_upgrade":
+	case "specialty_endurance":
 		shader = "specialty_marathon_zombies";
 		break;
 
@@ -2370,7 +2375,7 @@ perk_flash_audio( perk )
             alias = "zmb_hud_flash_speed";
             break;
 
-        case "specialty_longersprint":
+        case "specialty_endurance":
             alias = "zmb_hud_flash_stamina";
             break;
 
@@ -2466,8 +2471,8 @@ perk_give_bottle_begin( perk )
 		weapon = "zombie_perk_bottle_doubletap";
 		break;
 
-	case "specialty_longersprint_upgrade":
-	case "specialty_longersprint":
+	case "specialty_endurance_upgrade":
+	case "specialty_endurance":
 		weapon = "zombie_perk_bottle_marathon";
 		break;
 
@@ -2519,8 +2524,8 @@ perk_give_bottle_end( gun, perk )
 		weapon = "zombie_perk_bottle_doubletap";
 		break;
 
-	case "specialty_longersprint_upgrade":
-	case "specialty_longersprint":
+	case "specialty_endurance_upgrade":
+	case "specialty_endurance":
 		weapon = "zombie_perk_bottle_marathon";
 		break;
 

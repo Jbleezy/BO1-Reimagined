@@ -668,7 +668,7 @@ init_random_perk_machines()
 {
 	randMachines = [];
 	randMachines = _add_machine(randMachines, "vending_jugg", "mus_perks_jugganog_sting", "specialty_armorvest", "mus_perks_jugganog_jingle", "jugg_perk", "zombie_vending_jugg");
-	randMachines = _add_machine(randMachines, "vending_marathon", "mus_perks_stamin_sting", "specialty_longersprint", "mus_perks_stamin_jingle", "marathon_perk", "zombie_vending_marathon");
+	randMachines = _add_machine(randMachines, "vending_marathon", "mus_perks_stamin_sting", "specialty_endurance", "mus_perks_stamin_jingle", "marathon_perk", "zombie_vending_marathon");
 	randMachines = _add_machine(randMachines, "vending_divetonuke", "mus_perks_phd_sting", "specialty_flakjacket", "mus_perks_phd_jingle", "divetonuke_perk", "zombie_vending_nuke");
 	randMachines = _add_machine(randMachines, "vending_deadshot", "mus_perks_deadshot_sting", "specialty_deadshot", "mus_perks_deadshot_jingle", "tap_deadshot", "zombie_vending_ads");
 	randMachines = _add_machine(randMachines, "vending_sleight", "mus_perks_speed_sting", "specialty_fastreload", "mus_perks_speed_jingle", "speedcola_perk", "zombie_vending_sleight");

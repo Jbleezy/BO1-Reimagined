@@ -187,8 +187,8 @@ init_audio_aliases()
 		level.plr_vox["perk"]["specialty_fastreload_response"]	        =		undefined;				//SPEED COLA PURCHASE RESPONSE
 		level.plr_vox["perk"]["specialty_rof"]					        =		"perk_doubletap";	    //DOUBLETAP ROOTBEER PURCHASE
 		level.plr_vox["perk"]["specialty_rof_response"]			        =		undefined;				//DOUBLETAP ROOTBEER PURCHASE RESPONSE
-		level.plr_vox["perk"]["specialty_longersprint"]					=		"perk_stamin";	        //MARATHON PURCHASE
-		level.plr_vox["perk"]["specialty_longersprint_response"]		=		undefined;				//MARATHON PURCHASE RESPONSE
+		level.plr_vox["perk"]["specialty_endurance"]					=		"perk_stamin";	        //MARATHON PURCHASE
+		level.plr_vox["perk"]["specialty_endurance_response"]		=		undefined;				//MARATHON PURCHASE RESPONSE
 		level.plr_vox["perk"]["specialty_flakjacket"]					=		"perk_phdflopper";	    //DIVETONUKE PURCHASE
 		level.plr_vox["perk"]["specialty_flakjacket_response"]			=		undefined;				//DIVETONUKE PURCHASE RESPONSE
 		level.plr_vox["perk"]["specialty_deadshot"]					    =		"perk_deadshot";	    //DEADSHOT PURCHASE

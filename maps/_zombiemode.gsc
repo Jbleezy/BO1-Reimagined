@@ -1710,6 +1710,8 @@ onPlayerConnect_clientDvars()
 	// reset dvar that changes when double tap is bought
 	self SetClientDvar("player_burstFireCooldown", .2);
 
+	self SetClientDvar("player_enduranceSpeedScale", 1.1);
+
 	// disable melee lunge
 	self setClientDvar( "aim_automelee_enabled", 0 );
 
