@@ -536,7 +536,7 @@ slowdown(weapon, mod, attacker, force_slowdown)
 		self AllowSprint(true);
 	}
 	self SetBlur( 0, .2 );
-	self SetMoveSpeedScale( 1 );
+	self SetMoveSpeedScale( self.move_speed );
 
 	self.slowdown_wait = false;
 }

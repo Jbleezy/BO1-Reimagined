@@ -165,10 +165,13 @@ spear_trap_slow(activator, trap)
 		}
 		self setvelocity((0,0,0));
 		self.move_speed = .2;
-		self SetMoveSpeedScale(.2);
+		self SetMoveSpeedScale(self.move_speed);
 		wait 1.0;
 		self.move_speed = 1;
-		self SetMoveSpeedScale(1);
+		if(!is_true(self.slowdown_wait))
+		{
+			self SetMoveSpeedScale(self.move_speed);
+		}
 		wait 0.5;
 	}
 	else if(self.animname == "zombie")
@@ -1503,7 +1506,7 @@ watch_slow_trigger_exit(player)
 	if(!player is_player_maze_slow())
 	{
 		player.move_speed = .35;
-		player SetMoveSpeedScale( 0.35 );
+		player SetMoveSpeedScale( player.move_speed );
 		player clientnotify( "sle" );//notify to override footstep audio
 		//player setvelocity((0,0,0));
 	}
@@ -1526,7 +1529,10 @@ watch_slow_trigger_exit(player)
 		player allowSprint(true);
 		player allowProne(true);
 		player.move_speed = 1;
-		player SetMoveSpeedScale( 1.0 );
+		if(!is_true(player.slowdown_wait))
+		{
+			player SetMoveSpeedScale(player.move_speed);
+		}
 		player clientnotify( "sll" );//notify to override footstep audio
 	}
 }
