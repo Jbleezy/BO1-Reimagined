@@ -1630,13 +1630,12 @@ blocker_trigger_think()
 			}
 
 			// set the score
-			player.rebuild_barrier_reward += cost;
 			if( player.rebuild_barrier_reward < level.zombie_vars["rebuild_barrier_cap_per_round"] )
 			{
 				player maps\_zombiemode_score::player_add_points( "rebuild_board", cost );
 				player play_sound_on_ent( "purchase" );
-
 			}
+			player.rebuild_barrier_reward += cost;
 			// general contractor achievement for dlc 2. keep track of how many board player repaired.
 			if(IsDefined(player.board_repair))
 			{
