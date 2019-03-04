@@ -103,6 +103,7 @@
 * Ammo now gets added at the same time that it does in the reload animation of all weapons
 
 ### New Weapons
+
 #### Combat Knife
 * Wield your current knife by pressing the new melee weapon keybind (found in combat settings)
 * If you have no other weapon, you will hold your knife by default

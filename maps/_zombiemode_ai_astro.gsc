@@ -366,14 +366,17 @@ astro_zombie_total_update()
 {
 	level.zombie_total_update = true;
 
-	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
+	if(level.num_astro_zombies < level.max_astro_zombies)
 	{
-		level thread astro_zombie_manager();
-	}
-	else if ( level.round_number >= level.next_astro_round && level.num_astro_zombies < level.max_astro_zombies )
-	{
-		level.zombies_left_before_astro_spawn = RandomIntRange( int( level.zombie_total * 0.25 ), int( level.zombie_total * 0.75 ) );
-		level thread astro_zombie_manager();
+		if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
+		{
+			level thread astro_zombie_manager();
+		}
+		else if(level.round_number >= level.next_astro_round)
+		{
+			level.zombies_left_before_astro_spawn = RandomIntRange( int( level.zombie_total * 0.25 ), int( level.zombie_total * 0.75 ) );
+			level thread astro_zombie_manager();
+		}
 	}
 
 	_debug_astro_print( "next astro round = " + level.next_astro_round );
