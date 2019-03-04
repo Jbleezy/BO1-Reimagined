@@ -105,7 +105,6 @@ nml_dogs_init()
 //******************************************************************************
 nml_setup_round_spawner()
 {
-
 	// Remember the last round number for when we return
 	if(IsDefined(level.round_number))
 	{

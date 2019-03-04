@@ -914,13 +914,28 @@ moon_round_think_func()
 
 		level notify( "start_of_round" );
 
-		// returning from earth: restore the zombie total if there were zombies remaining when you left
+		// returning from earth: restore the zombie total if there were zombies remaining when you left, and restore the amount of powerups dropped
 		if(flag("teleporter_used"))
 		{
 			flag_clear("teleporter_used");
-			if ( level.prev_round_zombies != 0)
+
+			if(IsDefined(level.prev_round_zombies) && level.prev_round_zombies != 0)
 			{
 				level.zombie_total = level.prev_round_zombies;
+			}
+
+			if(IsDefined(level.prev_powerup_drop_count) && level.prev_powerup_drop_count != 0)
+			{
+				level.powerup_drop_count = level.prev_powerup_drop_count;
+			}
+
+			for(i = 0; i < players.size; i++)
+			{
+				if(IsDefined(players[i].prev_rebuild_barrier_reward) && players[i].prev_rebuild_barrier_reward != 0)
+				{
+					iprintln(players[i].prev_rebuild_barrier_reward);
+					players[i].rebuild_barrier_reward = players[i].prev_rebuild_barrier_reward;
+				}
 			}
 		}
 

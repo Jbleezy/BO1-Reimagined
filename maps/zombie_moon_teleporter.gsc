@@ -525,6 +525,7 @@ teleporter_ending( teleporter_ent, was_aborted )
 						break;
 					}
 				}
+
 				if(astro_spawned)
 				{
 					level.prev_round_zombies = (zombies.size - 1) + level.zombie_total;
@@ -534,6 +535,13 @@ teleporter_ending( teleporter_ent, was_aborted )
 					level.prev_round_zombies = zombies.size + level.zombie_total;
 				}
 
+				level.prev_powerup_drop_count = level.powerup_drop_count;
+
+				players = get_players();
+				for(i = 0; i < players.size; i++)
+				{
+					players[i].prev_rebuild_barrier_reward = players[i].rebuild_barrier_reward;
+				}
 
 				// No pickups in No Mans Land
  				flag_clear( "zombie_drop_powerups" );
