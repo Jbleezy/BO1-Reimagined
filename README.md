@@ -458,7 +458,7 @@
 * Director is no longer attracted towards the human zombie
 * Shooting the Director while he is calm no longer makes him angry
 * Owner of V-R11 gets 50% of any points that the player who they shot earns for its duration (previously 75%)
-* Unupgraded: permamently makes the Director calm when shot at him
+* Unupgraded: permanently makes the Director calm when shot at him
 * Unupgraded: human zombie lasts for 10 seconds
 * Upgraded: human zombie lasts for 15 seconds
 * Upgraded: human zombie explodes when it dies
@@ -1114,7 +1114,7 @@
 * Melee stones step: Increased melee range for stones
 * Mud pit step: radio is no longer required to be played in order to complete
 * Fixed a bug where players could clip through the wall behind Pack-a-Punch during the sidequest
-* Reward: all players get permament perks
+* Reward: all players get permanent perks
 
 ### Moon
 * Players now start with Semtex
@@ -1154,7 +1154,7 @@
 * Full sidequest completable without Richtofen
 * No longer requires the completion of previous sidequests
 * Part 1 reward - 90 second Death Machines for the rest of the match
-* Full reward - permament perks
+* Full reward - permanent perks
 * Richtofen now does not get the full reward until the end with everyone else
 
 ### Dead Ops Arcade
@@ -1192,7 +1192,7 @@
 * Der Riese: all teleporters are linked
 * Der Riese: powerup spawns from the start of each match
 * Der Riese: full health hellhounds spawn from every teleporter use
-* Kino Der Toten: teleporter is permamently linked to the mainframe
+* Kino Der Toten: teleporter is permanently linked to the mainframe
 * Five: teleporters disabled
 * Five: Pack-a-Punch door is now a 1500 point buyable door
 * Ascension: Pack-a-Punch door is now a 2000 point buyable door

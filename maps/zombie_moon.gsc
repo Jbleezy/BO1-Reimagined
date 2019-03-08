@@ -2390,7 +2390,7 @@ override_box_locations()
 	angles = (0, 90, 0);
 	maps\_zombiemode_weapons::place_treasure_chest("tunnel6_chest", origin, angles, true);
 
-	origin = (875, 1102, -232);
+	origin = (874, 1102, -232);
 	angles = (0, 270, 0);
 	maps\_zombiemode_weapons::place_treasure_chest("tunnel11_chest", origin, angles, true);
 }
