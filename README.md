@@ -905,6 +905,7 @@
 
 ### Verruckt
 * Added super-sprinters (only spawn after the power is on, start spawning on round 10, all super-sprinters by round 13)
+* Added Mystery Box light
 * Now uses marine characters and voicelines from World at War
 * Added Mystery Box locations in the North Balcony zone and the Kitchen zone
 * Decreased cost of the door between the North Upstairs zone and the Kitchen zone from 1000 points to 750 points

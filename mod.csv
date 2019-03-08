@@ -320,6 +320,8 @@ fx,weapon/meat/fx_meat_impact
 fx,misc/fx_zombie_powerup_on_red
 fx,misc/fx_zombie_powerup_red_grab
 fx,misc/fx_zombie_powerup_red_wave
+fx,maps/zombie/fx_zombie_factory_marker
+fx,maps/zombie/fx_zombie_factory_marker_fl
 fx,maps/zombie/fx_zmb_ent_stolen
 fx,maps/zombie/fx_zombie_packapunch
 
