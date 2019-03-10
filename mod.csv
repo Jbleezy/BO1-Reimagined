@@ -41,6 +41,7 @@ rawfile,maps/zombie_cod5_asylum.gsc
 
 //SHI NO NUMA
 rawfile,maps/zombie_cod5_sumpf.gsc
+rawfile,maps/zombie_cod5_sumpf_fx.gsc
 rawfile,maps/zombie_cod5_sumpf_perks.gsc
 rawfile,maps/zombie_cod5_sumpf_trap_perk_electric.gsc
 rawfile,maps/zombie_cod5_sumpf_trap_pendulum.gsc

@@ -911,6 +911,14 @@ treasure_chest_init()
 		level.chest_index = 0;
 	}
 
+	// Show the beacon
+	if( !isDefined( level.pandora_show_func ) )
+	{
+		level.pandora_show_func = ::default_pandora_show_func;
+	}
+
+	level.chests[level.chest_index] thread [[ level.pandora_show_func ]]();
+
 	array_thread( level.chests, ::treasure_chest_think );
 
 }
@@ -976,14 +984,6 @@ init_starting_chest_location()
 		level.chests = array_swap(level.chests,0,level.chest_index);
 		level.chest_index = 0;
 	}
-
-	// Show the beacon
-	if( !isDefined( level.pandora_show_func ) )
-	{
-		level.pandora_show_func = ::default_pandora_show_func;
-	}
-
-	level.chests[level.chest_index] thread [[ level.pandora_show_func ]]();
 }
 
 

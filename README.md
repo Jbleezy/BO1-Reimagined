@@ -900,12 +900,13 @@
 * Added out of bounds death barriers to all maps
 
 ### Nacht Der Untoten
+* Added Mystery Box light
 * Now uses marine characters and voicelines from World at War
 * Zombies now spawn in the Help Room zone and the Upstairs zone when in the corner in the Start zone near the Help Room zone door
 
 ### Verruckt
-* Added super-sprinters (only spawn after the power is on, start spawning on round 10, all super-sprinters by round 13)
 * Added Mystery Box light
+* Added super-sprinters (only spawn after the power is on, start spawning on round 10, all super-sprinters by round 13)
 * Now uses marine characters and voicelines from World at War
 * Added Mystery Box locations in the North Balcony zone and the Kitchen zone
 * Decreased cost of the door between the North Upstairs zone and the Kitchen zone from 1000 points to 750 points
@@ -914,6 +915,7 @@
 * Removed intro text
 
 ### Shi No Numa
+* Changed Mystery Box light color to blue
 * Removed the need power hintstring for perks while they are spawning
 * Fixed a bug where players were able to buy Quick Revive on solo while it was still in the process of spawning
 * Last perk is buyable while it is spawning
