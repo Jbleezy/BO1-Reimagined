@@ -429,17 +429,20 @@
 * Kills zombies in 1-3 shots depending on how far away the zombie was from the shot
 * No longer drops powerups
 * Damages frozen enemies
-* Enemies that die from the Winter's Howl will now shatter automatically 2x faster
+* Enemies that die from the Winter's Howl will now shatter automatically after 3 seconds (previously 5-6 seconds)
 * Enemies that die from the shatter effect no longer get frozen
 * Shatter effect now gives points
-* Shatter effect now deals the same damage at any range
 * Shatter effect no longer gibs zombies
+* Unupgraded: increase minimum damage from 500 to 750
+* Unupgraded: increase maximum damage from 1000 to 1500
 * Unupgraded: increased maximum damage range by 500%
-* Unupgraded: increased damage of shatter effect to 500 (previously 250-500 depending on range)
+* Unupgraded: shatter effect now deals 500 damage (previously 250-500 depending on range)
 * Upgraded: decreased radius by 33% (now has the same radius as the unupgraded version)
+* Unupgraded: increase minimum damage from 750 to 1000
+* Unupgraded: increase maximum damage from 1500 to 2000
 * Upgraded: increased maximum damage range by 375%
 * Upgraded: decreased shatter range by 60% (now has the same range as the unupgraded version)
-* Upgraded: decreased damage of shatter effect to 500 (previously 500-750 depending on range)
+* Upgraded: shatter effect now deals 500 damage (previously 500-750 depending on range)
 * Upgraded: camo now displays on more of the weapon
 * Increased move speed from 100% to 105%
 * Increased move speed while aiming from 100% to 105%

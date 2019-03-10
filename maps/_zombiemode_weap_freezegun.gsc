@@ -21,20 +21,19 @@ init()
 	set_zombie_var( "freezegun_cylinder_radius",				120 ); // 10 feet
 	set_zombie_var( "freezegun_inner_range",					300 ); // 5 feet
 	set_zombie_var( "freezegun_outer_range",					600 ); // 50 feet
-	set_zombie_var( "freezegun_inner_damage",					1000 );
-	set_zombie_var( "freezegun_outer_damage",					500 );
+	set_zombie_var( "freezegun_inner_damage",					1500 );
+	set_zombie_var( "freezegun_outer_damage",					750 );
 	set_zombie_var( "freezegun_shatter_range",					180 ); // 150 feet
 	set_zombie_var( "freezegun_shatter_inner_damage",			500 );
 	set_zombie_var( "freezegun_shatter_outer_damage",			500 );
 	set_zombie_var( "freezegun_cylinder_radius_upgraded",		120 ); // 15 feet
 	set_zombie_var( "freezegun_inner_range_upgraded",			450 ); // 10 feet
 	set_zombie_var( "freezegun_outer_range_upgraded",			900 ); // 75 feet
-	set_zombie_var( "freezegun_inner_damage_upgraded",			1500 );
-	set_zombie_var( "freezegun_outer_damage_upgraded",			750 );
+	set_zombie_var( "freezegun_inner_damage_upgraded",			2000 );
+	set_zombie_var( "freezegun_outer_damage_upgraded",			1000 );
 	set_zombie_var( "freezegun_shatter_range_upgraded",			180 ); // 25 feet
 	set_zombie_var( "freezegun_shatter_inner_damage_upgraded",	500 );
 	set_zombie_var( "freezegun_shatter_outer_damage_upgraded",	500 );
-
 
 	level._effect[ "freezegun_shatter" ]				= LoadFX( "weapon/freeze_gun/fx_freezegun_shatter" );
 	level._effect[ "freezegun_crumple" ]				= LoadFX( "weapon/freeze_gun/fx_freezegun_crumple" );
@@ -43,7 +42,6 @@ init()
 	level._effect[ "freezegun_damage_sm" ]				= LoadFX( "maps/zombie/fx_zombie_freeze_md" );
 	level._effect[ "freezegun_shatter_upgraded" ]		= LoadFX( "weapon/freeze_gun/fx_exp_freezegun_impact" );
 	level._effect[ "freezegun_crumple_upgraded" ]		= LoadFX( "weapon/freeze_gun/fx_exp_freezegun_impact" );
-
 
 	level._effect[ "freezegun_shatter_gib_fx" ]			= LoadFX( "weapon/bullet/fx_flesh_gib_fatal_01" );
 	level._effect[ "freezegun_shatter_gibtrail_fx" ]	= LoadFX( "weapon/freeze_gun/fx_trail_freezegun_blood_streak" );
@@ -340,36 +338,23 @@ freezegun_debug_print( msg, color )
 
 freezegun_do_damage( upgraded, player, dist_ratio )
 {
-	damage = 0;
-	inner_range = freezegun_get_inner_range( upgraded );
-	outer_range = freezegun_get_outer_range( upgraded );
-	one_hit_range = 1.0;
-	two_hit_range = (outer_range - inner_range) / outer_range;
-	three_hit_range = 0;
-	if(dist_ratio >= two_hit_range)
+	damage = Int( LerpFloat( int(self.maxhealth / 3) + 1, int((self.maxhealth * 2) / 3) + 1, dist_ratio ) );
+	if(dist_ratio >= 1)
 	{
-		dist_ratio = (dist_ratio - two_hit_range) * (1 / (one_hit_range - two_hit_range));
-		damage = Int( LerpFloat( int(self.maxhealth / 2) + 1, self.maxhealth, dist_ratio ) );
-	}
-	else
-	{
-		dist_ratio = (dist_ratio - three_hit_range) * (1 / (two_hit_range - three_hit_range));
-		damage = Int( LerpFloat( int(self.maxhealth / 3) + 1, int(self.maxhealth / 2) + 1, dist_ratio ) );
+		damage = self.maxhealth;
 	}
 
+	self.freezegun_damage += damage;
+
 	min_damage = Int( LerpFloat( freezegun_get_outer_damage(upgraded), freezegun_get_inner_damage(upgraded), dist_ratio ) );
-	if(damage < min_damage)
+	if(self.freezegun_damage >= self.maxhealth)
 	{
-		damage = min_damage;
-	}
-	if(self.animname == "thief_zombie" || self.animname == "director_zombie")
-	{
-		damage = min_damage;
+		min_damage = self.maxhealth;
 	}
 
 	self freezegun_debug_print( damage, (0, 1, 0) );
 
-	self DoDamage( damage, player.origin, player, undefined, "projectile" );
+	self DoDamage( min_damage, player.origin, player, undefined, "projectile" );
 }
 
 freezegun_set_extremity_damage_fx()
@@ -405,8 +390,6 @@ freezegun_damage_response( player, amount )
 			return;
 		}
 	}
-
-	self.freezegun_damage += amount;
 
 	new_move_speed = self.zombie_move_speed;
 
@@ -489,7 +472,7 @@ freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger )
 	orig_attacker = self.attacker;
 	shatter_trigger waittill( "damage", amount, attacker, dir, org, mod );
 
-	if(self is_freezegun_shatter_damage(mod))
+	if(self is_freezegun_damage(mod))
 	{
 		self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
 	}
@@ -542,7 +525,6 @@ freezegun_wait_for_crumple( player, weap, shatter_trigger, crumple_trigger )
 	crumple_trigger waittill( "trigger" );
 
 	self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
-	//self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
 }
 
 
@@ -639,11 +621,11 @@ freezegun_death( hit_location, hit_origin, player )
 
 	if(!is_true(self.in_the_ground) && !is_true(self.in_the_ceiling))
 	{
-		wait( anim_len / 2 ); // force the zombie to crumple if he is untouched after time
+		//wait( anim_len / 2 ); // force the zombie to crumple if he is untouched after time
+		wait 3;
 	}
 
 	self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
-	//self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
 }
 
 
