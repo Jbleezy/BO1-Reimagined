@@ -1251,7 +1251,10 @@ master_electric_switch()
 	zombs = GetAiSpeciesArray("axis");
 	for(i=0;i<zombs.size;i++)
 	{
-		zombs[i] maps\_zombiemode_spawner::set_zombie_run_cycle();
+		if(!zombs[i] maps\_zombiemode_weap_freezegun::enemy_damaged_by_freezegun())
+		{
+			zombs[i] maps\_zombiemode_spawner::set_zombie_run_cycle();
+		}
 	}
 
 	level notify ("sleight_on");
@@ -1890,7 +1893,6 @@ move_speed_cola()
 	}
 }
 
-// woot dat strat is possible now
 fix_zombie_pathing()
 {
 	speed_machine = getent("vending_sleight", "targetname");
@@ -1913,7 +1915,6 @@ fix_zombie_pathing()
 			{
 				zombs[i].recalculating = true;
 				zombs[i] thread recalculate_pathing(good_spot);
-				//iprintln("recalculating");
 			}
 		}
 		wait .05;
