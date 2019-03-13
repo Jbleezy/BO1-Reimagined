@@ -443,11 +443,11 @@ freezegun_do_gib( gib_type, upgraded )
 }
 
 
-freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
+freezegun_do_shatter( player, weap, shatter_trigger )
 {
 	freezegun_debug_print( "shattered" );
 
-	self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
+	self freezegun_cleanup_freezegun_triggers( shatter_trigger );
 
 	upgraded = (weap == "freezegun_upgraded_zm");
 	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_PROJECTILE_SPLASH", weap );
@@ -465,42 +465,30 @@ freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger )
 }
 
 
-freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger )
+freezegun_wait_for_shatter( player, weap, shatter_trigger )
 {
-	shatter_trigger endon( "cleanup_freezegun_triggers" );
+	self endon( "cleanup_freezegun_triggers" );
 
-	orig_attacker = self.attacker;
 	shatter_trigger waittill( "damage", amount, attacker, dir, org, mod );
 
 	if(self is_freezegun_damage(mod))
 	{
-		self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
+		self thread freezegun_do_crumple( player, weap, shatter_trigger );
 	}
 	else
 	{
-		self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
+		self thread freezegun_do_shatter( player, weap, shatter_trigger );
 	}
-
-	/*if ( isDefined( attacker ) && attacker == orig_attacker && "MOD_PROJECTILE" == mod && ("freezegun_zm" == attacker GetCurrentWeapon() || "freezegun_upgraded_zm" == attacker GetCurrentWeapon()) )
-	{
-		// player doesn't get the shatter result if they hit him again with the freezegun's attack
-		self thread freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger );
-	}
-	else
-	{
-		self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
-	}*/
 }
 
 
-freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger )
+freezegun_do_crumple( player, weap, shatter_trigger )
 {
 	freezegun_debug_print( "crumpled" );
 
-	self freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger );
+	self freezegun_cleanup_freezegun_triggers( shatter_trigger );
 
 	upgraded = (weap == "freezegun_upgraded_zm");
-	//self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_PROJECTILE_SPLASH", weap );
 
 	if ( isDefined( self ) )
 	{
@@ -518,26 +506,51 @@ freezegun_do_crumple( player, weap, shatter_trigger, crumple_trigger )
 }
 
 
-freezegun_wait_for_crumple( player, weap, shatter_trigger, crumple_trigger )
+freezegun_wait_for_crumple( player, weap, shatter_trigger )
 {
-	crumple_trigger endon( "cleanup_freezegun_triggers" );
+	self endon( "cleanup_freezegun_triggers" );
 
-	crumple_trigger waittill( "trigger" );
+	test_origin = self.origin;
+	touching = false;
+	while(1)
+	{
+		zombies = GetAiSpeciesArray( "axis", "all" );
+		zombies = array_merge(zombies, get_players());
+		for(i=0;i<zombies.size;i++)
+		{
+			origin = zombies[i].origin;
 
-	self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
+			if ( !zombies[i] DamageConeTrace( test_origin, self ) && !BulletTracePassed( origin, test_origin, false, undefined ) && !SightTracePassed( origin, test_origin, false, undefined ) )
+			{
+				continue;
+			}
+
+			if(DistanceSquared(origin, test_origin) < 72*72)
+			{
+				touching = true;
+				break;
+			}
+		}
+
+		if(touching)
+		{
+			break;
+		}
+
+		wait_network_frame();
+	}
+
+	self thread freezegun_do_shatter( player, weap, shatter_trigger );
 }
 
 
-freezegun_cleanup_freezegun_triggers( shatter_trigger, crumple_trigger )
+freezegun_cleanup_freezegun_triggers( shatter_trigger )
 {
 	self notify( "cleanup_freezegun_triggers" );
-	shatter_trigger notify( "cleanup_freezegun_triggers" );
-	crumple_trigger notify( "cleanup_freezegun_triggers" );
 
 	level.freezegun_shatter_triggers = array_remove(level.freezegun_shatter_triggers, shatter_trigger);
 
-	shatter_trigger self_delete();
-	crumple_trigger self_delete();
+	shatter_trigger Delete();
 }
 
 
@@ -602,10 +615,10 @@ freezegun_death( hit_location, hit_origin, player )
 	shatter_trigger linkto( self );
 	level.freezegun_shatter_triggers = array_add(level.freezegun_shatter_triggers, shatter_trigger, false);
 
-	spawnflags = 1 + 2 + 4 + 16 + 64; // SF_TOUCH_AI_AXIS | SF_TOUCH_AI_ALLIES | SF_TOUCH_AI_NEUTRAL | SF_TOUCH_VEHICLE | SF_TOUCH_ONCE
+	/*spawnflags = 1 + 2 + 4 + 16 + 64; // SF_TOUCH_AI_AXIS | SF_TOUCH_AI_ALLIES | SF_TOUCH_AI_NEUTRAL | SF_TOUCH_VEHICLE | SF_TOUCH_ONCE
 	crumple_trigger = spawn( "trigger_radius", self.origin, spawnflags, 15, 72 );
 	crumple_trigger enablelinkto();
-	crumple_trigger linkto( self );
+	crumple_trigger linkto( self );*/
 
 	weap = self.damageweapon;
 	if(weap != "freezegun_zm" && weap != "freezegun_upgraded_zm")
@@ -613,10 +626,8 @@ freezegun_death( hit_location, hit_origin, player )
 		weap = "freezegun_zm";
 	}
 
-	//self thread freezegun_do_shatter( player, weap );
-
-	self thread freezegun_wait_for_shatter( player, weap, shatter_trigger, crumple_trigger );
-	self thread freezegun_wait_for_crumple( player, weap, shatter_trigger, crumple_trigger );
+	self thread freezegun_wait_for_shatter( player, weap, shatter_trigger );
+	self thread freezegun_wait_for_crumple( player, weap, shatter_trigger );
 	self endon( "cleanup_freezegun_triggers" );
 
 	if(!is_true(self.in_the_ground) && !is_true(self.in_the_ceiling))
@@ -625,7 +636,7 @@ freezegun_death( hit_location, hit_origin, player )
 		wait 3;
 	}
 
-	self thread freezegun_do_shatter( player, weap, shatter_trigger, crumple_trigger );
+	self thread freezegun_do_shatter( player, weap, shatter_trigger );
 }
 
 
