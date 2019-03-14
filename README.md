@@ -182,6 +182,7 @@
 * Upgraded: fixed fire sound
 
 ### AUG
+* Upgraded: decreased reserve ammo from 390 to 360
 * Upgraded: added name of weapon attachment on HUD
 
 ### Ballistic Knife
