@@ -338,15 +338,21 @@ freezegun_debug_print( msg, color )
 
 freezegun_do_damage( upgraded, player, dist_ratio )
 {
+	min_damage = Int( LerpFloat( freezegun_get_outer_damage(upgraded), freezegun_get_inner_damage(upgraded), dist_ratio ) );
 	damage = Int( LerpFloat( int(self.maxhealth / 3) + 1, int((self.maxhealth * 2) / 3) + 1, dist_ratio ) );
+
 	if(dist_ratio >= 1)
 	{
 		damage = self.maxhealth;
 	}
 
+	if(self.animname == "thief_zombie" || self.animname == "director_zombie")
+	{
+		damage = min_damage;
+	}
+
 	self.freezegun_damage += damage;
 
-	min_damage = Int( LerpFloat( freezegun_get_outer_damage(upgraded), freezegun_get_inner_damage(upgraded), dist_ratio ) );
 	if(self.freezegun_damage >= self.maxhealth)
 	{
 		min_damage = self.maxhealth;
