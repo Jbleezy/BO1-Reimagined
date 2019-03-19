@@ -8871,6 +8871,12 @@ character_names_hud()
 
 set_melee_actionslot()
 {
+	// must wait if it is not a round restart or else the player doesn't get the melee weapon
+	if(!flag("round_restarting"))
+	{
+		wait_network_frame();
+	}
+
 	melee = self get_player_melee_weapon();
 	if(IsDefined(melee))
 	{
