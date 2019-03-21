@@ -865,8 +865,7 @@
 * Electrified zombies no longer drop a Max Ammo from the Director and a normal powerup at the same time
 
 ### Monkeys (Shangri-La)
-* Keep attempting to spawn until successfully spawned during the whole duration while a powerup is active on the ground
-* Now always cycle through Nukes and Fire Sales
+* Monkeys keep attempting to spawn until successfully spawned during the whole duration while a powerup is active on the ground
 * Players now earn normal kill points for killing a monkey (previously was 500 points)
 * The powerup that a Monkey picks up no longer has to initially be a Max Ammo for Perk Bottle to be cycled through (still has to be picked up as a Max Ammo)
 * Fixed a bug where monkeys would not spawn in certain situations where the max amount of zombies were already spawned in

@@ -1240,16 +1240,11 @@ _powerup_Randomize(monkey)
 
 	powerup_cycle[powerup_cycle.size] = "full_ammo"; //Ammo is always last
 
-	//Remove fire sale so the players can not get firesale too early.
-	//if(level.chest_moves < 1)
-	//{
-	//	powerup_cycle = array_remove_nokeys(powerup_cycle, "fire_sale");
-	//}
-
-	//if(level.round_number<=1)
-	//{
-	//	powerup_cycle = array_remove_nokeys(powerup_cycle, "nuke");
-	//}
+	//Remove fire sale so the players can not get fire sale too early.
+	if(level.chest_moves < 1)
+	{
+		powerup_cycle = array_remove_nokeys(powerup_cycle, "fire_sale");
+	}
 
 	//Find current power up name
 	currentPowerUp = undefined;
@@ -1268,8 +1263,8 @@ _powerup_Randomize(monkey)
 		powerup_cycle = array_remove(powerup_cycle, currentPowerUp);
 		powerup_cycle = array_insert(powerup_cycle, currentPowerUp, 0);
 	}
-	//Add Perk bottel if this is a max ammo and its the f
-	if(currentPowerUp == "full_ammo")//&& self.grab_count == 1
+	//Add Perk bottle if this is a max ammo
+	if(currentPowerUp == "full_ammo") //&& self.grab_count == 1
 	{
 		index = randomintrange(1, powerup_cycle.size - 1);
 		powerup_cycle = array_insert(powerup_cycle, "free_perk", index);
