@@ -518,7 +518,7 @@
 * Fixed a bug where zombies would not always switch back to their normal run animation after a Gersch Device ends
 * Changed upwards projectile speed
 
-##### Matroyshka Dolls
+##### Matryoshka Dolls
 * Now uses model from Black Ops 3
 * Infinite explosion damage (except for the Director)
 * Increased explosion damage on the Director from 4500 to 9000
