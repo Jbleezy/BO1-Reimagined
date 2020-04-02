@@ -759,7 +759,15 @@ init_random_perk_machines()
 
 			if(machine_model.targetname == "vending_additionalprimaryweapon")
 			{
-				machine_model.origin = machine_model.origin + (0, 0, -6);
+				if(i == 4)
+				{
+					// Turntable
+					machine_model.origin = machine_model.origin + (0, 0, -8);
+				}
+				else
+				{
+					machine_model.origin = machine_model.origin + (0, 0, -6);
+				}
 			}
 
 			// Fix script_string being for wrong perks
@@ -1234,7 +1242,7 @@ zombie_temple_place_revive_machine()
 zombie_temple_place_additionalprimaryweapon_machine()
 {
 	level.zombiemode_using_additionalprimaryweapon_perk = true;
-	origin = (1494.0, -1566.4, -360.4);
+	origin = (1494.0, -1567.4, -360.4);
 	angles = (0, 180, 0);
 
 	machine_trigger = Spawn( "trigger_radius_use", origin + (0, 0, 50), 0, 20, 70 );
