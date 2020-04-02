@@ -875,7 +875,7 @@ wait_for_player_to_take( player, weapon, packa_timer )
 					index = maps\_zombiemode_weapons::get_upgraded_weapon_model_index(upgrade_weapon);
 
 					player GiveWeapon( upgrade_weapon, index, player maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( upgrade_weapon ) );
-					player GiveStartAmmo( upgrade_weapon );
+					player maps\_zombiemode_weapons::give_max_ammo(upgrade_weapon, 1);
 				}
 
 				player SwitchToWeapon( upgrade_weapon );
@@ -1931,6 +1931,7 @@ give_perk( perk, bought )
 
 	if(perk == "specialty_additionalprimaryweapon")
 	{
+		self SetPerk("specialty_stockpile");
 		self SetClientDvar("ui_show_mule_wep_indicator", "1");
 		self thread give_back_additional_weapon();
 		self thread additional_weapon_indicator(perk, perk_str);
@@ -2207,14 +2208,16 @@ perk_think( perk )
 			break;
 
 		case "specialty_additionalprimaryweapon":
+			self UnsetPerk("specialty_stockpile");
 			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
 			self SetClientDvar("ui_show_mule_wep_indicator", "0");
-			//only take weapon from here if perk is lost from a way besides downing
-			//weapon is not taken properly from here if downed, so called in _zombiemode::player_laststand() instead
+			// only take weapon from here if perk is lost from a way besides downing
+			// weapon is not taken properly from here if downed, so called in _zombiemode::player_laststand() instead
 			if ( result == perk_str )
 			{
 				self.weapon_taken_by_losing_additionalprimaryweapon = self maps\_zombiemode::take_additionalprimaryweapon();
 			}
+			self remove_stockpile_ammo();
 			break;
 
 		case "specialty_deadshot":
@@ -2972,5 +2975,17 @@ move_faster_while_ads(perk_str)
 		}
 		previous_ads = current_ads;
 		wait .001;
+	}
+}
+
+remove_stockpile_ammo()
+{
+	primary_weapons = self GetWeaponsList();
+	for(i = 0; i < primary_weapons.size; i++)
+	{
+		if(self GetWeaponAmmoStock(primary_weapons[i]) > WeaponMaxAmmo(primary_weapons[i]))
+		{
+			self SetWeaponAmmoStock(primary_weapons[i], WeaponMaxAmmo(primary_weapons[i]));
+		}
 	}
 }

@@ -1363,17 +1363,24 @@ treasure_chest_think()
 					user thread treasure_chest_give_weapon( self.chest_origin.weapon_string );
 
 					// fix for grenade ammo
-					if(!user HasPerk("specialty_stockpile"))
+					if(is_lethal_grenade(self.chest_origin.weapon_string) || is_tactical_grenade(self.chest_origin.weapon_string))
 					{
-						if(is_lethal_grenade(self.chest_origin.weapon_string) && user GetWeaponAmmoClip(self.chest_origin.weapon_string) > 4)
+						ammo = 0;
+						if(is_lethal_grenade(self.chest_origin.weapon_string))
 						{
-							user SetWeaponAmmoClip(self.chest_origin.weapon_string, 4);
+							ammo = 4;
+						}
+						else if(is_tactical_grenade(self.chest_origin.weapon_string))
+						{
+							ammo = 3;
 						}
 
-						if(is_tactical_grenade(self.chest_origin.weapon_string) && user GetWeaponAmmoClip(self.chest_origin.weapon_string) > 3)
+						/*if(user HasPerk("specialty_stockpile"))
 						{
-							user SetWeaponAmmoClip(self.chest_origin.weapon_string, 3);
-						}
+							ammo += 1;
+						}*/
+
+						user SetWeaponAmmoClip(self.chest_origin.weapon_string, ammo);
 					}
 
 					break;
@@ -1736,12 +1743,20 @@ decide_hide_show_hint( endon_notify )
 						if(weapon_type != "grenade")
 						{
 							max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
+							if(players[i] HasPerk("specialty_stockpile"))
+							{
+								max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
+							}
 						}
 
 						dual_wield_weapon = WeaponDualWieldWeaponName(self.zombie_weapon_upgrade);
 						if(dual_wield_weapon != "none")
 						{
 							max_ammo += WeaponClipSize(dual_wield_weapon);
+							if(players[i] HasPerk("specialty_stockpile"))
+							{
+								max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
+							}
 							player_ammo += players[i] GetWeaponAmmoClip(dual_wield_weapon);
 						}
 
@@ -1750,17 +1765,29 @@ decide_hide_show_hint( endon_notify )
 						{
 							player_alt_ammo = players[i] GetAmmoCount(alt_weapon);
 							max_alt_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
+							if(players[i] HasPerk("specialty_stockpile"))
+							{
+								max_alt_ammo += WeaponClipSize(alt_weapon);
+							}
 						}
 					}
 					else if(has_weapon_upgrade)
 					{
 						player_ammo = players[i] GetAmmoCount(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
 						max_ammo = WeaponMaxAmmo(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name) + WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
+						if(players[i] HasPerk("specialty_stockpile"))
+						{
+							max_ammo += WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
+						}
 
 						dual_wield_weapon = WeaponDualWieldWeaponName(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
 						if(dual_wield_weapon != "none")
 						{
 							max_ammo += WeaponClipSize(dual_wield_weapon);
+							if(players[i] HasPerk("specialty_stockpile"))
+							{
+								max_ammo += WeaponClipSize(dual_wield_weapon);
+							}
 							player_ammo += players[i] GetWeaponAmmoClip(dual_wield_weapon);
 						}
 
@@ -1769,21 +1796,29 @@ decide_hide_show_hint( endon_notify )
 						{
 							player_alt_ammo = players[i] GetAmmoCount(alt_weapon);
 							max_alt_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
+							if(players[i] HasPerk("specialty_stockpile"))
+							{
+								max_alt_ammo += WeaponClipSize(alt_weapon);
+							}
 						}
 					}
 
 					// fix for grenade ammo
-					if(!players[i] HasPerk("specialty_stockpile"))
+					if(is_lethal_grenade(self.zombie_weapon_upgrade) || is_tactical_grenade(self.zombie_weapon_upgrade))
 					{
-						if(is_lethal_grenade(self.zombie_weapon_upgrade) && max_ammo > 4)
+						if(is_lethal_grenade(self.zombie_weapon_upgrade))
 						{
 							max_ammo = 4;
 						}
-
-						if(is_tactical_grenade(self.zombie_weapon_upgrade) && max_ammo > 3)
+						else if(is_tactical_grenade(self.zombie_weapon_upgrade))
 						{
 							max_ammo = 3;
 						}
+
+						/*if(players[i] HasPerk("specialty_stockpile"))
+						{
+							max_ammo += 1;
+						}*/
 					}
 
 					if(IsDefined(player_ammo) && IsDefined(max_ammo) && !IsDefined(player_alt_ammo) && !IsDefined(max_alt_ammo) && player_ammo == max_ammo)
@@ -3066,7 +3101,7 @@ treasure_chest_give_weapon( weapon_string )
 		{
 			self notify( "zmb_lost_knife" );
 		}
-		self GiveStartAmmo( weapon_string );
+		self give_max_ammo(weapon_string, 1);
 		self SwitchToWeapon( weapon_string );
 		return;
 	}
@@ -3159,7 +3194,7 @@ treasure_chest_give_weapon( weapon_string )
 	}
 
 	self GiveWeapon( weapon_string, 0 );
-	self GiveStartAmmo( weapon_string );
+	self give_max_ammo(weapon_string, 1);
 	self SwitchToWeapon( weapon_string );
 
 	self play_weapon_vo(weapon_string);
@@ -3668,12 +3703,12 @@ weapon_give( weapon, weapon_unupgraded )
 	{
 		if(self HasWeapon(weapon_unupgraded))
 		{
-			self GiveMaxAmmo(weapon_unupgraded);
+			self give_max_ammo(weapon_unupgraded);
 			return;
 		}
 		else if(self HasWeapon(level.zombie_weapons[weapon_unupgraded].upgrade_name))
 		{
-			self GiveMaxAmmo(level.zombie_weapons[weapon_unupgraded].upgrade_name);
+			self give_max_ammo(level.zombie_weapons[weapon_unupgraded].upgrade_name);
 			return;
 		}
 	}
@@ -3681,12 +3716,12 @@ weapon_give( weapon, weapon_unupgraded )
 	{
 		if(self HasWeapon(weapon))
 		{
-			self GiveMaxAmmo(weapon);
+			self give_max_ammo(weapon);
 			return;
 		}
 		else if(IsDefined(level.zombie_weapons[weapon]) && IsDefined(level.zombie_weapons[weapon].upgrade_name) && self HasWeapon(level.zombie_weapons[weapon].upgrade_name))
 		{
-			self GiveMaxAmmo(level.zombie_weapons[weapon].upgrade_name);
+			self give_max_ammo(level.zombie_weapons[weapon].upgrade_name);
 			return;
 		}
 	}
@@ -3751,23 +3786,30 @@ weapon_give( weapon, weapon_unupgraded )
 	}
 
 	acquire_weapon_toggle( weapon, self );
-	self GiveStartAmmo( weapon );
+	self give_max_ammo(weapon, 1);
 	self SwitchToWeapon( weapon );
 
 	self play_weapon_vo(weapon);
 
 	// fix for grenade ammo
-	if(!self HasPerk("specialty_stockpile"))
+	if(is_lethal_grenade(weapon) || is_tactical_grenade(weapon))
 	{
-		if(is_lethal_grenade(weapon) && self GetWeaponAmmoClip(weapon) > 4)
+		ammo = 0;
+		if(is_lethal_grenade(weapon))
 		{
-			self SetWeaponAmmoClip(weapon, 4);
+			ammo = 4;
+		}
+		else if(is_tactical_grenade(weapon))
+		{
+			ammo = 3;
 		}
 
-		if(is_tactical_grenade(weapon) && self GetWeaponAmmoClip(weapon) > 3)
+		/*if(self HasPerk("specialty_stockpile"))
 		{
-			self SetWeaponAmmoClip(weapon, 3);
-		}
+			ammo += 1;
+		}*/
+
+		self SetWeaponAmmoClip(weapon, ammo);
 	}
 }
 
@@ -3858,6 +3900,10 @@ ammo_give( weapon )
 	if(!is_offhand_weapon(weapon))
 	{
 		max_ammo += WeaponClipSize(weapon);
+		if(self HasPerk("specialty_stockpile"))
+		{
+			max_ammo += WeaponClipSize(weapon);
+		}
 	}
 
 	ammo_count = self GetAmmoCount( weapon );
@@ -3866,6 +3912,10 @@ ammo_give( weapon )
 	if(dual_wield_weapon != "none")
 	{
 		max_ammo += WeaponClipSize(dual_wield_weapon);
+		if(self HasPerk("specialty_stockpile"))
+		{
+			max_ammo += WeaponClipSize(dual_wield_weapon);
+		}
 		ammo_count += self GetWeaponAmmoClip(dual_wield_weapon);
 	}
 
@@ -3882,6 +3932,10 @@ ammo_give( weapon )
 		if(alt_weapon != "none")
 		{
 			max_alt_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
+			if(self HasPerk("specialty_stockpile"))
+			{
+				max_alt_ammo += WeaponClipSize(alt_weapon);
+			}
 
 			if( self getammocount( alt_weapon ) < max_alt_ammo )
 			{
@@ -3935,32 +3989,27 @@ ammo_give( weapon )
 	{
 		self play_sound_on_ent( "purchase" );
 
-		ammo_to_remove = 0;
-		if(dual_wield_weapon != "none")
-		{
-			ammo_to_remove = WeaponClipSize(weapon) + WeaponClipSize(dual_wield_weapon) - self GetWeaponAmmoClip(weapon) - self GetWeaponAmmoClip(dual_wield_weapon);
-		}
-
-		self GiveStartAmmo( weapon );
-
-		// on dual wield weapons, ammo from stock isn't removed when filling clips
-		if(dual_wield_weapon != "none")
-		{
-			self SetWeaponAmmoStock(weapon, self GetWeaponAmmoStock(weapon) - ammo_to_remove);
-		}
+		self give_max_ammo(weapon, 1);
 
 		// fix for grenade ammo
-		if(!self HasPerk("specialty_stockpile"))
+		if(is_lethal_grenade(weapon) || is_tactical_grenade(weapon))
 		{
-			if(is_lethal_grenade(weapon) && self GetWeaponAmmoClip(weapon) > 4)
+			ammo = 0;
+			if(is_lethal_grenade(weapon))
 			{
-				self SetWeaponAmmoClip(weapon, 4);
+				ammo = 4;
+			}
+			else if(is_tactical_grenade(weapon))
+			{
+				ammo = 3;
 			}
 
-			if(is_tactical_grenade(weapon) && self GetWeaponAmmoClip(weapon) > 3)
+			/*if(self HasPerk("specialty_stockpile"))
 			{
-				self SetWeaponAmmoClip(weapon, 3);
-			}
+				ammo += 1;
+			}*/
+
+			self SetWeaponAmmoClip(weapon, ammo);
 		}
 
 		return true;
@@ -4172,4 +4221,64 @@ place_treasure_chest(script_noteworthy, origin, angles, start_exclude)
 	}
 	rubble.script_noteworthy = trigger.script_noteworthy + "_rubble";
 	rubble.targetname = "intercom"; // for fire sale sound
+}
+
+give_max_ammo(weapon, give_start_ammo)
+{
+	if(!IsDefined(give_start_ammo))
+	{
+		give_start_ammo = 0;
+	}
+
+	dual_wield_weapon = WeaponDualWieldWeaponName(weapon);
+	alt_weapon = WeaponAltWeaponName(weapon);
+
+	max_ammo = WeaponMaxAmmo(weapon) + WeaponClipSize(weapon);
+	ammo_to_remove = WeaponClipSize(weapon) - self GetWeaponAmmoClip(weapon);
+	if(dual_wield_weapon != "none")
+	{
+		max_ammo += WeaponClipSize(dual_wield_weapon);
+		ammo_to_remove += WeaponClipSize(dual_wield_weapon) - self GetWeaponAmmoClip(dual_wield_weapon);
+	}
+
+	alt_max_ammo = 0;
+	alt_ammo_to_remove = 0;
+	if(alt_weapon != "none")
+	{
+		alt_max_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
+		alt_ammo_to_remove = WeaponClipSize(alt_weapon) - self GetWeaponAmmoClip(alt_weapon);
+	}
+
+	if(give_start_ammo)
+	{
+		self GiveStartAmmo(weapon);
+	}
+	else
+	{
+		self GiveMaxAmmo(weapon);
+	}
+
+	if(self HasPerk("specialty_stockpile"))
+	{
+		if(give_start_ammo)
+		{
+			// add 1 stock clip (GiveStartAmmo always gives normal stock ammo)
+			self SetWeaponAmmoStock(weapon, max_ammo - ammo_to_remove);
+
+			if(alt_weapon != "none")
+			{
+				self SetWeaponAmmoStock(alt_weapon, alt_max_ammo - alt_ammo_to_remove);
+			}
+		}
+		else
+		{
+			// remove 1 stock clip (GiveMaxAmmo adds 2 stock clips if player has perk "specialty_stockpile")
+			self SetWeaponAmmoStock(weapon, self GetWeaponAmmoStock(weapon) - WeaponClipSize(weapon));
+		}
+	}
+	else if(give_start_ammo && dual_wield_weapon != "none")
+	{
+		// on dual wield weapons, ammo from stock isn't removed when filling clips from GiveStartAmmo
+		self SetWeaponAmmoStock(weapon, self GetWeaponAmmoStock(weapon) - ammo_to_remove);
+	}
 }

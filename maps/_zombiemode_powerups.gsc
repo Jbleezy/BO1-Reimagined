@@ -2275,27 +2275,34 @@ full_ammo_powerup( drop_item, player )
 			// Fill the clip
 			//players[i] SetWeaponAmmoClip( primary_weapons[x], WeaponClipSize( primary_weapons[x] ) );
 
-			// weapon only uses clip ammo, so GiveMaxAmmo() won't work
+			// weapon only uses clip ammo, so GiveMaxAmmo won't work
 			if(WeaponMaxAmmo(primary_weapons[x]) == 0)
 			{
 				players[i] SetWeaponAmmoClip(primary_weapons[x], WeaponClipSize(primary_weapons[x]));
 				continue;
 			}
 
-			players[i] GiveMaxAmmo( primary_weapons[x] );
+			players[i] maps\_zombiemode_weapons::give_max_ammo(primary_weapons[x]);
 
 			// fix for grenade ammo
-			if(!players[i] HasPerk("specialty_stockpile"))
+			if(is_lethal_grenade(primary_weapons[x]) || is_tactical_grenade(primary_weapons[x]))
 			{
-				if(is_lethal_grenade(primary_weapons[x]) && players[i] GetWeaponAmmoClip(primary_weapons[x]) > 4)
+				ammo = 0;
+				if(is_lethal_grenade(primary_weapons[x]))
 				{
-					players[i] SetWeaponAmmoClip(primary_weapons[x], 4);
+					ammo = 4;
+				}
+				else if(is_tactical_grenade(primary_weapons[x]))
+				{
+					ammo = 3;
 				}
 
-				if(is_tactical_grenade(primary_weapons[x]) && players[i] GetWeaponAmmoClip(primary_weapons[x]) > 3)
+				/*if(players[i] HasPerk("specialty_stockpile"))
 				{
-					players[i] SetWeaponAmmoClip(primary_weapons[x], 3);
-				}
+					ammo += 1;
+				}*/
+
+				players[i] SetWeaponAmmoClip(primary_weapons[x], ammo);
 			}
 		}
 
@@ -3279,7 +3286,7 @@ tesla_weapon_powerup( ent_player, powerup, time )
 	// Just replenish the time if it's already active
 	if ( ent_player.zombie_vars[ "zombie_powerup_tesla_on" ] && (weapon == ent_player GetCurrentWeapon() && (IsDefined(ent_player.has_tesla) && ent_player.has_tesla) ))
 	{
-		ent_player GiveMaxAmmo( weapon );
+		ent_player maps\_zombiemode_weapons::give_max_ammo(weapon);
 
 		if ( ent_player.zombie_vars[ "zombie_powerup_tesla_time" ] < time )
 		{

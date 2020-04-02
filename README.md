@@ -683,11 +683,12 @@
 ### Mule Kick
 * Only available on Call of the Dead, Shangri-La, and Moon
 * Fixed not being available offline on every map except for Moon
+* Carry an additional clip of stock ammo for every weapon
 * Added jingle
 * Fixed 3rd person model
-* Third weapon slot will now always be the correct weapon
-* Added the Mule Kick perk icon as an indicator for which weapon is the player's third weapon
-* Lost weapon is given back when perk is rebought (except if it was a limited weapon and someone else has it now, the player already has the weapon, the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or the player bled out)
+* Additional weapon slot will now always be the correct weapon
+* Added the Mule Kick perk icon as an indicator for which weapon is the player's additional weapon
+* Lost weapon is given back when perk is rebought (except if it was a limited weapon and another player has it now, the player already has the weapon, the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or the player bled out)
 * Gives ammo back if the player already has the weapon that they had previously lost when perk is rebought
 
 ### Stamin-Up

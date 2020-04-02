@@ -4849,10 +4849,18 @@ award_grenades_for_survivors()
 				ammo_clip = players[i] GetWeaponAmmoClip(lethal_grenade);
 			}
 			ammo_clip += 2;
-			if(ammo_clip > 4)
+
+			max_clip = 4;
+			/*if(players[i] HasPerk("specialty_stockpile"))
 			{
-				ammo_clip = 4;
+				max_clip = 5;
+			}*/
+
+			if(ammo_clip > max_clip)
+			{
+				ammo_clip = max_clip;
 			}
+
 			players[i] SetWeaponAmmoClip( lethal_grenade, ammo_clip );
 		}
 	}
