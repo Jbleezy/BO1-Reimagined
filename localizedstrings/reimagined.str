@@ -121,8 +121,8 @@ LANG_ENGLISH       	"Meat"
 
 //HUD
 
-REFERENCE          	ZOMBIES_REMAINING
-LANG_ENGLISH       	"Zombies Remaining: "
+REFERENCE          	ENEMIES_REMAINING
+LANG_ENGLISH       	"Enemies Remaining: "
 
 REFERENCE          	TIME
 LANG_ENGLISH       	"Time: "

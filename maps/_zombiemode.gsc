@@ -255,7 +255,7 @@ post_all_players_connected()
 
 	level thread timer_hud();
 
-	level thread zombies_remaining_hud();
+	level thread enemies_remaining_hud();
 
 	level thread sidequest_hud();
 }
@@ -8412,7 +8412,7 @@ update_time(level_var, client_var)
 	}
 }
 
-zombies_remaining_hud()
+enemies_remaining_hud()
 {
 	if(level.gamemode != "survival" && level.gamemode != "grief" && level.gamemode != "ffa")
 	{
