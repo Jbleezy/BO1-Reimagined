@@ -269,27 +269,7 @@ watch_use_trigger( trigger, model, callback, weapon, playerSoundOnUse, npcSoundO
 
 pick_up( weapon, model, trigger ) // self == player
 {
-	// if we're not currently on the ballistic knife and the clip is empty then put the ammo in the clip
-	current_weapon = self GetCurrentWeapon();
-	if( current_weapon != weapon )
-	{
-		// if the clip is empty, fill it
-		clip_ammo = self GetWeaponAmmoClip( weapon );
-		if( !clip_ammo )
-		{
-			self SetWeaponAmmoClip( weapon , 1 );
-		}
-		else
-		{
-			new_ammo_stock = self GetWeaponAmmoStock( weapon ) + 1;
-			self SetWeaponAmmoStock( weapon , new_ammo_stock );		
-		}
-	}
-	else
-	{
-		new_ammo_stock = self GetWeaponAmmoStock( weapon ) + 1;
-		self SetWeaponAmmoStock( weapon, new_ammo_stock );		
-	}
+	self SetWeaponAmmoStock( weapon, self GetWeaponAmmoStock( weapon ) + 1 );
 
 	model destroy_ent();
 	trigger destroy_ent();

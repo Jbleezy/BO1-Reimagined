@@ -187,6 +187,7 @@
 
 ### Ballistic Knife
 * Knives pick up automatically when close to them
+* Knives that are picked up no longer automatically fill the clip if the Ballistic Knife is not the player's current weapon
 * Decreased time to start reloading from .7 seconds to .5 seconds
 * Fixed a bug where a knife could be picked up if the player had max reserve ammo
 * Obtaining the Bowie Knife or Sickle no longer gives you more ammo
