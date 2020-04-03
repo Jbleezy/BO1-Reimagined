@@ -295,6 +295,8 @@
 
 		POPUP_TITLE_VIS( 90 10 120 80, "@REIMAGINED_HUD_OPTIONS", when(dvarString("ui_options_game_popup") == "hud_options") )
 
+		CHOICE_DVARFLOATLIST_VIS( 1, "@REIMAGINED_HEALTH_BAR", hud_health_bar_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))
+
 		CHOICE_DVARFLOATLIST_VIS( 2, "@REIMAGINED_ENEMY_COUNTER", hud_zombs_remaining_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))
 
 		CHOICE_DVARFLOATLIST_VIS( 3, "@REIMAGINED_TIMER", hud_time_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))

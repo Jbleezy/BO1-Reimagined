@@ -1,0 +1,58 @@
+#include "ui/menudef.h"
+
+{
+	assetGlobalDef
+	{
+		fadeClamp						1
+		fadeCycle						1
+		fadeAmount						.1
+	}
+
+	menuDef
+	{
+		name							"health_bar"
+		rect							0 0 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+		fullscreen						0
+		visible							when(DvarBool("hud_health_bar_on"))
+
+		itemDef
+		{
+			name						"health_bar_text"
+			type						ITEM_TYPE_TEXT
+			rect						0 11 0 0
+			foreColor					1 1 1 1
+			textScale					TEXTSIZE_DEFAULT
+			textStyle					ITEM_TEXTSTYLE_SHADOWED
+			textFont					UI_FONT_NORMAL
+			textalign					ITEM_ALIGN_TOP_CENTER
+			exp							text(DvarInt("hud_health_bar_value"))
+			visible						1
+			decoration
+		}
+
+		itemDef
+		{
+			name						"health_bar_background"
+			type						ITEM_TYPE_IMAGE
+			style						WINDOW_STYLE_SHADER
+			rect						-64.5 2 129 10
+			foreColor					0 0 0 0.5
+			background					"white"
+			visible						1
+			decoration
+		}
+
+		itemDef
+		{
+			name						"health_bar_shader"
+			type						ITEM_TYPE_IMAGE
+			style						WINDOW_STYLE_SHADER
+			rect						-62.5 4 0 6
+			exp							rect W(DvarInt("hud_health_bar_width"))
+			foreColor					1 1 1 1
+			background					"white"
+			visible						1
+			decoration
+		}
+	}
+}

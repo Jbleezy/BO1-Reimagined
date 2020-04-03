@@ -468,7 +468,7 @@ precache_models()
 	PrecacheModel( "p_zom_counter_8" );
 	PrecacheModel( "p_zom_counter_9" );
 
-	//	Player Tombstone
+	// Player Tombstone
 	precachemodel("zombie_revive");
 
 	PrecacheModel( "zombie_z_money_icon" );
@@ -2035,6 +2035,8 @@ onPlayerSpawned()
 				self thread player_grenade_watcher();
 
 				self thread player_gravity_fix();
+
+				self thread health_bar_hud();
 
 				self thread character_names_hud();
 
@@ -8809,6 +8811,21 @@ disable_character_dialog()
 				wait .1;
 			}
 		}
+	}
+}
+
+health_bar_hud()
+{
+	health_bar_width_max = 125;
+
+	while (1)
+	{
+		health_ratio = self.health / self.maxhealth;
+
+		self SetClientDvar("hud_health_bar_value", self.health);
+		self SetClientDvar("hud_health_bar_width", health_bar_width_max * health_ratio);
+
+		wait 0.05;
 	}
 }
 

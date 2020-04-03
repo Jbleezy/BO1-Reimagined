@@ -168,6 +168,8 @@ menufile,ui/options_game_pc.menu
 menufile,ui/options_shoot_pc.menu
 menufile,ui/hud.menu
 menufile,ui/hud_zombie.menu
+menufile,ui/hud_reimagined.menu
+menufile,ui/hud_zombie.txt
 
 //WEAPONS
 weapon,sp/m1911_zm

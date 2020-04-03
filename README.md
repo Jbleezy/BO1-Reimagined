@@ -55,6 +55,7 @@
 ## HUD
 * HUD items now have some distance away from the edge of the screen
 * Damage icon time now matches the health regeneration time
+* Health bar displayed to the top center of the HUD
 * Zombie counter displayed on the top left of the HUD
 * Game time displayed on the top right of the HUD
 * Round time displayed on the top right of the HUD
