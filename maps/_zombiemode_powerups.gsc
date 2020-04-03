@@ -3308,9 +3308,9 @@ tesla_weapon_powerup( ent_player, powerup, time )
 	ent_player increment_is_drinking();
 	ent_player._zombie_gun_before_tesla = ent_player GetCurrentWeapon();
 
-	// give player a minigun
+	// give player a tesla
 	ent_player GiveWeapon( weapon, 0, ent_player maps\_zombiemode_weapons::get_pack_a_punch_weapon_options( weapon ) );
-	ent_player GiveMaxAmmo( weapon );
+	ent_player maps\_zombiemode_weapons::give_max_ammo(weapon);
 	ent_player SwitchToWeapon( weapon );
 
 	if(weapon == "tesla_gun_powerup_upgraded_zm" && ent_player HasWeapon("tesla_gun_powerup_zm"))
