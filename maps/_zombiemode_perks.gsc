@@ -954,7 +954,10 @@ upgrade_knuckle_crack_begin()
 
 	if ( gun != "none" && !is_placeable_mine( gun ) && !is_equipment( gun ) )
 	{
-		self notify( "zmb_lost_knife" );
+		if ( issubstr( gun, "knife_ballistic_" ) )
+		{
+			self notify( "zmb_lost_knife" );
+		}
 		self TakeWeapon( gun );
 	}
 	else

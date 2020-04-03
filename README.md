@@ -191,7 +191,8 @@
 * Decreased time to start reloading from .7 seconds to .5 seconds
 * Fixed a bug where a knife could be picked up if the player had max reserve ammo
 * Obtaining the Bowie Knife or Sickle no longer gives you more ammo
-* Fixed a bug where a knife could not be picked up if another knife is fired after the first knife and lands before the first knife
+* Fixed a bug where a knife could not be picked up if another knife is fired and lands before the first knife
+* Fixed a bug where knives on the ground would disappear whenever the player uses the Pack-a-Punch machine
 * No longer gibs zombies on impact
 * Knife now glows as soon as it is attached to a zombie
 * Knife no longer attaches to a zombie if the knife kills the zombie
