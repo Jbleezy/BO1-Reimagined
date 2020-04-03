@@ -251,7 +251,11 @@ watch_use_trigger( trigger, model, callback, weapon, playerSoundOnUse, npcSoundO
 			}
 		}
 
-		if(player GetFractionMaxAmmo(weapon) == 1)
+		max_ammo = WeaponMaxAmmo(weapon);
+		if(player HasPerk("specialty_stockpile"))
+			max_ammo += WeaponClipSize(weapon);
+
+		if(player GetWeaponAmmoStock(weapon) >= max_ammo)
 			continue;
 
 		if ( isdefined( playerSoundOnUse ) )
