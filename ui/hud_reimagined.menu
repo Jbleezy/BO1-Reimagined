@@ -63,14 +63,11 @@
 		fullscreen			0
 		visible				when(dvarBool("hud_enemy_counter_on") && dvarBool("hud_enemy_counter_on_game"))
 
-		#define X_START 4
-		#define Y_START 2
-
 		itemDef
 		{
 			name				"enemy_counter_text"
 			type				ITEM_TYPE_TEXT
-			rect 				X_START Y_START 0 0
+			rect 				4 2 0 0
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -84,8 +81,8 @@
 		{
 			name				"enemy_counter_value"
 			type				ITEM_TYPE_TEXT
-			rect 				X_START Y_START 0 0
-			exp 				rect X(X_START + getTextWidth(locString("REIMAGINED_ENEMIES_REMAINING"), UI_FONT_NORMAL, TEXTSIZE_DEFAULT))
+			rect 				4 2 0 0
+			exp 				rect X(4 + getTextWidth(locString("REIMAGINED_ENEMIES_REMAINING"), UI_FONT_NORMAL, TEXTSIZE_DEFAULT))
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -104,38 +101,28 @@
 		fullscreen			0
 		visible				when(dvarBool("hud_timer_on"))
 
-		#undef X_START
-		#undef Y_START
-		#define X_START -4
-		#define Y_START 2
-
 		itemDef
 		{
 			name				"total_timer"
 			type				ITEM_TYPE_TEXT
-			rect 				X_START Y_START 0 0
-			exp					rect Y(Y_START + (dvarInt("cg_drawFPS") * 18) + (dvarInt("cg_drawFPS") * dvarInt("onlinegame") * 9))
+			rect 				-4 2 0 0
+			exp					rect Y(2 + (dvarInt("cg_drawFPS") * 18) + (dvarInt("cg_drawFPS") * dvarInt("onlinegame") * 9))
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_RIGHT
-			exp 				text(locString("REIMAGINED_TIME") + dvarString("hud_total_time"))
+			exp 				text(locString("REIMAGINED_TOTAL_TIME") + dvarString("hud_total_time"))
 			visible				1
 			decoration
 		}
-
-		#undef X_START
-		#undef Y_START
-		#define X_START -4
-		#define Y_START 15
 
 		itemDef
 		{
 			name				"round_timer"
 			type				ITEM_TYPE_TEXT
-			rect 				X_START Y_START 0 0
-			exp					rect Y(Y_START + (dvarInt("cg_drawFPS") * 18) + (dvarInt("cg_drawFPS") * dvarInt("onlinegame") * 9))
+			rect 				-4 16 0 0
+			exp					rect Y(16 + (dvarInt("cg_drawFPS") * 18) + (dvarInt("cg_drawFPS") * dvarInt("onlinegame") * 9))
 			forecolor			1 1 1 0
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -156,24 +143,19 @@
 				forecolor 		1 1 1 0
 			}
 		}
-		
-		#undef X_START
-		#undef Y_START
-		#define X_START -4
-		#define Y_START 28
 
 		itemDef
 		{
 			name			"round_total_timer"
 			type			ITEM_TYPE_TEXT
-			rect 			X_START Y_START 0 0
-			exp				rect Y(Y_START + (dvarInt("cg_drawFPS") * 18) + (dvarInt("cg_drawFPS") * dvarInt("onlinegame") * 9))
+			rect 			-4 30 0 0
+			exp				rect Y(30 + (dvarInt("cg_drawFPS") * 18) + (dvarInt("cg_drawFPS") * dvarInt("onlinegame") * 9))
 			forecolor		1 1 1 0
 			textscale		TEXTSIZE_DEFAULT
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_TOP_RIGHT
-			exp 			text(locString("REIMAGINED_TOTAL_TIME") + dvarString("hud_round_total_time"))
+			exp 			text(locString("REIMAGINED_ROUND_TOTAL_TIME") + dvarString("hud_round_total_time"))
 			visible			1
 			decoration
 
@@ -193,7 +175,7 @@
 		{
 			name				"sidequest_timer"
 			type				ITEM_TYPE_TEXT
-			rect 				0 26 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			rect 				0 30 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED

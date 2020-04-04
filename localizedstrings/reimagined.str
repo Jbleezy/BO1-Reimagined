@@ -124,14 +124,14 @@ LANG_ENGLISH       	"Meat"
 REFERENCE          	ENEMIES_REMAINING
 LANG_ENGLISH       	"Enemies Remaining: "
 
-REFERENCE          	TIME
-LANG_ENGLISH       	"Time: "
+REFERENCE          	TOTAL_TIME
+LANG_ENGLISH       	"Total: "
 
 REFERENCE          	ROUND_TIME
-LANG_ENGLISH       	"Round Time: "
+LANG_ENGLISH       	"Round: "
 
-REFERENCE          	TOTAL_TIME
-LANG_ENGLISH       	"Total Time: "
+REFERENCE          	ROUND_TOTAL_TIME
+LANG_ENGLISH       	"Round Total: "
 
 REFERENCE          	SIDEQUEST_COMPLETE
 LANG_ENGLISH       	"Sidequest Complete! Time: "
