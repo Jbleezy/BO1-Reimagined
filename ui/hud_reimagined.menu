@@ -77,6 +77,7 @@
 			visible				1
 			decoration
 		}
+
 		itemDef
 		{
 			name				"enemy_counter_value"
@@ -137,6 +138,7 @@
 				name			"fadein"
 				forecolor 		1 1 1 1
 			}
+
 			state
 			{
 				name 			"fadeout"
@@ -164,6 +166,7 @@
 				name			"fadein"
 				forecolor 		1 1 1 1
 			}
+
 			state
 			{
 				name 			"fadeout"
@@ -190,6 +193,7 @@
 				name			"fadein"
 				forecolor 		1 1 1 1
 			}
+
 			state
 			{
 				name 			"fadeout"
@@ -224,6 +228,7 @@
 				name			"fadein"
 				forecolor 		1 1 1 1
 			}
+			
 			state
 			{
 				name 			"fadeout"
@@ -254,6 +259,7 @@
 			visible				when(dvarBool("hud_character_name_on_white"))
 			decoration
 		}
+
 		itemDef
 		{
 			name				"character_name_blue"
@@ -269,6 +275,7 @@
 			visible				when(dvarBool("hud_character_name_on_blue"))
 			decoration
 		}
+
 		itemDef
 		{
 			name				"character_name_yellow"
@@ -284,6 +291,7 @@
 			visible				when(dvarBool("hud_character_name_on_yellow"))
 			decoration
 		}
+
 		itemDef
 		{
 			name				"character_name_green"
@@ -324,6 +332,7 @@
 				name			"fadein"
 				forecolor 		1 1 1 1
 			}
+
 			state
 			{
 				name 			"fadeout"
@@ -373,33 +382,36 @@
 			visible				1
 			decoration
 		}
+
 		itemDef
 		{
 			name				"vs_friendly_logo"
 		    type                ITEM_TYPE_IMAGE
-		    rect              	-80 0 32 32
+		    rect              	-92 0 32 32
 		    forecolor           1 1 1 1
 		    exp                	material(dvarString("vs_logo"))
 		    style             	WINDOW_STYLE_SHADER
 		    visible           	when(dvarBool("vs_top_logos_on"))
 		    decoration
 		}
+
 		itemDef
 		{
 			name				"vs_enemy_logo"
 		    type                ITEM_TYPE_IMAGE
-		    rect              	80 0 32 32
+		    rect              	60 0 32 32
 		    forecolor           1 1 1 1
 		    exp                	material(dvarString("vs_logo_enemy"))
 		    style             	WINDOW_STYLE_SHADER
 		    visible           	when(dvarBool("vs_top_logos_on"))
 		    decoration
 		}
+
 		itemDef
 		{
 			name				"vs_friendly_name"
 			type				ITEM_TYPE_TEXT
-			rect 				-64 16 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			rect 				-76 16 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -409,11 +421,12 @@
 			visible				when(dvarBool("vs_top_playernames_on"))
 			decoration
 		}
+
 		itemDef
 		{
 			name				"vs_enemy_name"
 			type				ITEM_TYPE_TEXT
-			rect 				64 16 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			rect 				76 16 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -423,11 +436,12 @@
 			visible				when(dvarBool("vs_top_playernames_on"))
 			decoration
 		}
+
 		itemDef
 		{
 			name				"vs_friendly_counter"
 			type				ITEM_TYPE_TEXT
-			rect 				-64 30 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			rect 				-76 30 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
 			forecolor			.4 0 0 1
 			textscale			TEXTSIZE_LARGE
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -437,11 +451,12 @@
 			visible				when(dvarBool("vs_counter_friendly_num_on"))
 			decoration
 		}
+
 		itemDef
 		{
 			name				"vs_enemy_counter"
 			type				ITEM_TYPE_TEXT
-			rect 				64 30 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			rect 				76 30 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
 			forecolor			.4 0 0 1
 			textscale			TEXTSIZE_LARGE
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
