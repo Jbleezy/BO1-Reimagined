@@ -394,78 +394,84 @@ get_grenade_icon(weapon, nade_type)
 
 hud_message_handler(clientnum, state)
 {
-	MENU_NAME = "weaponinfo_zombie"; // MUST MATCH MENU FILE DEFINES
+	// MUST MATCH MENU FILE DEFINES
+	menu_name = "";
+	item_name = "";
+	fade_type = "";
+	fade_time = 0;
 
 	if(state == "hud_zone_name_in")
 	{
-		ITEM_NAME = "hud_zone_name";
-		FADE_IN_TIME = 250; // MUST MATCH MENU FILE DEFINES
-		FADE_OUT_TIME = 250; // MUST MATCH MENU FILE DEFINES
-		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadein", FADE_IN_TIME);
+		menu_name = "zone_name";
+		item_name = "zone_name_text";
+		fade_type = "fadein";
+		fade_time = 250;
 	}
 	else if(state == "hud_zone_name_out")
 	{
-		ITEM_NAME = "hud_zone_name";
-		FADE_IN_TIME = 250; // MUST MATCH MENU FILE DEFINES
-		FADE_OUT_TIME = 250; // MUST MATCH MENU FILE DEFINES
-		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadeout", FADE_OUT_TIME);
+		menu_name = "zone_name";
+		item_name = "zone_name_text";
+		fade_type = "fadeout";
+		fade_time = 250;
 	}
 	else if(state == "hud_round_time_in")
 	{
-		ITEM_NAME = "hud_round_time";
-		FADE_IN_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		FADE_OUT_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadein", FADE_IN_TIME);
+		menu_name = "timer";
+		item_name = "round_timer";
+		fade_type = "fadein";
+		fade_time = 1000;
 	}
 	else if(state == "hud_round_time_out")
 	{
-		ITEM_NAME = "hud_round_time";
-		FADE_IN_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		FADE_OUT_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadeout", FADE_OUT_TIME);
+		menu_name = "timer";
+		item_name = "round_timer";
+		fade_type = "fadeout";
+		fade_time = 1000;
 	}
 	else if(state == "hud_round_total_time_in")
 	{
-		ITEM_NAME = "hud_round_total_time";
-		FADE_IN_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		FADE_OUT_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadein", FADE_IN_TIME);
+		menu_name = "timer";
+		item_name = "round_total_timer";
+		fade_type = "fadein";
+		fade_time = 1000;
 	}
 	else if(state == "hud_round_total_time_out")
 	{
-		ITEM_NAME = "hud_round_total_time";
-		FADE_IN_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		FADE_OUT_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadeout", FADE_OUT_TIME);
+		menu_name = "timer";
+		item_name = "round_total_timer";
+		fade_type = "fadeout";
+		fade_time = 1000;
 	}
 	else if(state == "hud_sidequest_time_in")
 	{
-		ITEM_NAME = "hud_sidequest_time";
-		FADE_IN_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		FADE_OUT_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadein", FADE_IN_TIME);
+		menu_name = "timer";
+		item_name = "sidequest_timer";
+		fade_type = "fadein";
+		fade_time = 1000;
 	}
 	else if(state == "hud_sidequest_time_out")
 	{
-		ITEM_NAME = "hud_sidequest_time";
-		FADE_IN_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		FADE_OUT_TIME = 1000; // MUST MATCH MENU FILE DEFINES
-		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadeout", FADE_OUT_TIME);
+		menu_name = "timer";
+		item_name = "sidequest_timer";
+		fade_type = "fadeout";
+		fade_time = 1000;
 	}
 	else if(state == "hud_mule_wep_in")
 	{
-		ITEM_NAME = "hud_mule_wep";
-		FADE_IN_TIME = 250; // MUST MATCH MENU FILE DEFINES
-		FADE_OUT_TIME = 250; // MUST MATCH MENU FILE DEFINES
-		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadein", FADE_IN_TIME);
+		menu_name = "mule_wep_indicator";
+		item_name = "mule_wep_indicator_image";
+		fade_type = "fadein";
+		fade_time = 250;
 	}
 	else if(state == "hud_mule_wep_out")
 	{
-		ITEM_NAME = "hud_mule_wep";
-		FADE_IN_TIME = 250; // MUST MATCH MENU FILE DEFINES
-		FADE_OUT_TIME = 250; // MUST MATCH MENU FILE DEFINES
-		AnimateUI(clientnum, MENU_NAME, ITEM_NAME, "fadeout", FADE_OUT_TIME);
+		menu_name = "mule_wep_indicator";
+		item_name = "mule_wep_indicator_image";
+		fade_type = "fadeout";
+		fade_time = 250;
 	}
+
+	AnimateUI(clientnum, menu_name, item_name, fade_type, fade_time);
 }
 
 // Infinate client systems

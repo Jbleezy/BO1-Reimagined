@@ -8231,18 +8231,18 @@ total_time()
 	level.total_time = 0;
 	while(1)
 	{
-		update_time(level.total_time, "total_time");
+		update_time(level.total_time, "hud_total_time");
 
 		//adjust the spacing of round_time and road_total_time whenever updating total_time to 10 mins, 1 hour, or 10 hours
 		if(level.gamemode == "survival" || level.gamemode == "grief" || level.gamemode == "ffa")
 		{
 			if(level.total_time == 600 || level.total_time == 3600 || level.total_time == 36000)
 			{
-				update_time(level.round_time, "round_time");
+				update_time(level.round_time, "hud_round_time");
 
 				if(level.gamemode == "survival")
 				{
-					update_time(level.round_total_time, "round_total_time");
+					update_time(level.round_total_time, "hud_round_total_time");
 				}
 			}
 		}
@@ -8317,7 +8317,7 @@ round_time_loop()
 		{
 			level.round_total_time = level.total_time;
 
-			update_time(level.round_total_time, "round_total_time");
+			update_time(level.round_total_time, "hud_round_total_time");
 
 			players = get_players();
 			for(i=0;i<players.size;i++)
@@ -8352,7 +8352,7 @@ round_time()
 	level.round_time = 0;
 	while(1)
 	{
-		update_time(level.round_time, "round_time");
+		update_time(level.round_time, "hud_round_time");
 
 		wait 1;
 
@@ -8363,49 +8363,6 @@ round_time()
 update_time(level_var, client_var)
 {
 	time = to_mins_short(level_var);
-
-	/*if(IsDefined(level.total_time) && level_var != level.total_time)
-	{
-		if(level.total_time >= 36000) //10 hours (10:00:00)
-		{
-			if(level_var < 600)
-			{
-				time = "       " + time; //7 spaces (9:59)
-				//time = "00:0" + time;
-			}
-			else if(level_var < 3600)
-			{
-				time = "     " + time;	//5 spaces (59:59)
-				//time = "00:" + time;
-			}
-			else if(level_var < 36000)
-			{
-				time = "  " + time;	//2 spaces (9:59:59)
-				//time = "0" + time;
-			}
-		}
-		else if(level.total_time >= 3600) //1 hour (1:00:00)
-		{
-			if(level_var < 600)
-			{
-				time = "     " + time;	//5 spaces (9:59)
-				//time = "0:0" + time;
-			}
-			else if(level_var < 3600)
-			{
-				time = "   " + time; //3 spaces (59:59)
-				//time = "0:" + time;
-			}
-		}
-		else if(level.total_time >= 600) //10 mins (10:00)
-		{
-			if(level_var < 600)
-			{
-				time = "  " + time; //2 spaces (9:59)
-				//time = "0" + time;
-			}
-		}
-	}*/
 
 	players = get_players();
 	for(i=0;i<players.size;i++)
@@ -8433,7 +8390,7 @@ enemies_remaining_hud()
 				set = false;
 				for(i=0;i<players.size;i++)
 				{
-					players[i] SetClientDvar("hud_zombs_remaining_on_game", false);
+					players[i] SetClientDvar("hud_enemy_counter_on_game", false);
 				}
 			}
 		}
@@ -8443,21 +8400,21 @@ enemies_remaining_hud()
 
 			if( zombs == 0 || is_true(flag("round_restarting")) )
 			{
-				if(GetDvar("zombs_remaining") != "")
+				if(GetDvar("hud_enemy_counter_value") != "")
 				{
 					for(i=0;i<players.size;i++)
 					{
-						players[i] SetClientDvar("zombs_remaining", "");
+						players[i] SetClientDvar("hud_enemy_counter_value", "");
 					}
 				}
 			}
 			else
 			{
-				if(GetDvarInt("zombs_remaining") != zombs)
+				if(GetDvarInt("hud_enemy_counter_value") != zombs)
 				{
 					for(i=0;i<players.size;i++)
 					{
-						players[i] SetClientDvar("zombs_remaining", zombs);
+						players[i] SetClientDvar("hud_enemy_counter_value", zombs);
 					}
 				}
 			}
@@ -8467,7 +8424,7 @@ enemies_remaining_hud()
 				set = true;
 				for(i=0;i<players.size;i++)
 				{
-					players[i] SetClientDvar("hud_zombs_remaining_on_game", true);
+					players[i] SetClientDvar("hud_enemy_counter_on_game", true);
 				}
 			}
 		}
@@ -8497,8 +8454,8 @@ sidequest_hud()
 		players = get_players();
 		for(i=0;i<players.size;i++)
 		{
-			players[i] SetClientDvar("sidequest_text", "REIMAGINED_SIDEQUEST_PART_ONE_COMPLETE");
-			players[i] SetClientDvar("sidequest_time", time);
+			players[i] SetClientDvar("hud_sidequest_text", "REIMAGINED_SIDEQUEST_PART_ONE_COMPLETE");
+			players[i] SetClientDvar("hud_sidequest_time", time);
 			players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_in");
 		}
 
@@ -8539,8 +8496,8 @@ sidequest_hud()
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		players[i] SetClientDvar("sidequest_text", "REIMAGINED_SIDEQUEST_COMPLETE");
-		players[i] SetClientDvar("sidequest_time", time);
+		players[i] SetClientDvar("hud_sidequest_text", "REIMAGINED_SIDEQUEST_COMPLETE");
+		players[i] SetClientDvar("hud_sidequest_time", time);
 		players[i] send_message_to_csc("hud_anim_handler", "hud_sidequest_time_in");
 	}
 
@@ -8574,7 +8531,7 @@ zone_hud()
 
 		self send_message_to_csc("hud_anim_handler", "hud_zone_name_out");
 		wait .25;
-		self SetClientDvar("zone_name", name);
+		self SetClientDvar("hud_zone_name", name);
 		self send_message_to_csc("hud_anim_handler", "hud_zone_name_in");
 	}
 }
@@ -8832,10 +8789,10 @@ health_bar_hud()
 character_names_hud()
 {
 	//disable any hud names of players that have disconnected
-	self SetClientDvar( "hud_player_zm_name_on_white", false );
-	self SetClientDvar( "hud_player_zm_name_on_blue", false );
-	self SetClientDvar( "hud_player_zm_name_on_yellow", false );
-	self SetClientDvar( "hud_player_zm_name_on_green", false );
+	self SetClientDvar( "hud_character_name_on_white", false );
+	self SetClientDvar( "hud_character_name_on_blue", false );
+	self SetClientDvar( "hud_character_name_on_yellow", false );
+	self SetClientDvar( "hud_character_name_on_green", false );
 
 	if(level.gamemode != "survival")
 		return;
@@ -8887,9 +8844,9 @@ character_names_hud()
 			{
 				color = "green";
 			}
-			self SetClientDvar( "hud_player_zm_name_" + color, name );
-			self SetClientDvar( "hud_player_zm_name_offset_" + color, offset * 20 );
-			self SetClientDvar( "hud_player_zm_name_on_" + color, true );
+			self SetClientDvar( "hud_character_name_" + color, name );
+			self SetClientDvar( "hud_character_name_offset_" + color, offset * 20 );
+			self SetClientDvar( "hud_character_name_on_" + color, true );
 		}
 	}
 }

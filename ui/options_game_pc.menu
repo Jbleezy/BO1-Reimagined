@@ -52,24 +52,29 @@
 				setDvar character_dialog 1;
 			}
 
-			if(dvarString(com_maxfps) == "85") // default setting
+			if(dvarString(com_maxfps) == "85") // default value
 			{
 				setDvar com_maxfps 90;
 			}
 
-			if(dvarString(hud_playernames_on) == "")
+			if(dvarString(hud_health_bar_on) == "")
 			{
-				setDvar hud_playernames_on 1;
+				setDvar hud_health_bar_on 1;
 			}
 
-			if(dvarString(hud_time_on) == "")
+			if(dvarString(hud_character_names_on) == "")
 			{
-				setDvar hud_time_on 1;
+				setDvar hud_character_names_on 1;
 			}
 
-			if(dvarString(hud_zombs_remaining_on) == "")
+			if(dvarString(hud_timer_on) == "")
 			{
-				setDvar hud_zombs_remaining_on 1;
+				setDvar hud_timer_on 1;
+			}
+
+			if(dvarString(hud_enemy_counter_on) == "")
+			{
+				setDvar hud_enemy_counter_on 1;
 			}
 
 			if(dvarString(hud_zone_name_on) == "")
@@ -297,13 +302,13 @@
 
 		CHOICE_DVARFLOATLIST_VIS( 1, "@REIMAGINED_HEALTH_BAR", hud_health_bar_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))
 
-		CHOICE_DVARFLOATLIST_VIS( 2, "@REIMAGINED_ENEMY_COUNTER", hud_zombs_remaining_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))
+		CHOICE_DVARFLOATLIST_VIS( 2, "@REIMAGINED_ENEMY_COUNTER", hud_enemy_counter_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))
 
-		CHOICE_DVARFLOATLIST_VIS( 3, "@REIMAGINED_TIMER", hud_time_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))
+		CHOICE_DVARFLOATLIST_VIS( 3, "@REIMAGINED_TIMER", hud_timer_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))
 
 		CHOICE_DVARFLOATLIST_VIS( 4, "@REIMAGINED_ZONE_NAMES", hud_zone_name_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))
 
-		CHOICE_DVARFLOATLIST_VIS( 5, "@REIMAGINED_CHAR_NAMES", hud_playernames_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))
+		CHOICE_DVARFLOATLIST_VIS( 5, "@REIMAGINED_CHAR_NAMES", hud_character_names_on, { "@MENU_YES_CAPS" 1 "@MENU_NO_CAPS" 0 }, ;, when(dvarString("ui_options_game_popup") == "hud_options"))
 
 		// MAP SPECIFIC OPTIONS
 

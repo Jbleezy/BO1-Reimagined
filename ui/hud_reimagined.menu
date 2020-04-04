@@ -10,48 +10,463 @@
 
 	menuDef
 	{
-		name							"health_bar"
-		rect							0 0 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
-		fullscreen						0
-		visible							when(DvarBool("hud_health_bar_on"))
+		name				"health_bar"
+		rect				0 0 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+		fullscreen			0
+		visible				when(dvarBool("hud_health_bar_on"))
 
 		itemDef
 		{
-			name						"health_bar_text"
-			type						ITEM_TYPE_TEXT
-			rect						0 11 0 0
-			foreColor					1 1 1 1
-			textScale					TEXTSIZE_DEFAULT
-			textStyle					ITEM_TEXTSTYLE_SHADOWED
-			textFont					UI_FONT_NORMAL
-			textalign					ITEM_ALIGN_TOP_CENTER
-			exp							text(DvarInt("hud_health_bar_value"))
-			visible						1
+			name				"health_bar_value"
+			type				ITEM_TYPE_TEXT
+			rect				0 11 0 0
+			foreColor			1 1 1 1
+			textScale			TEXTSIZE_DEFAULT
+			textStyle			ITEM_TEXTSTYLE_SHADOWED
+			textFont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp					text(dvarInt("hud_health_bar_value"))
+			visible				1
 			decoration
 		}
 
 		itemDef
 		{
-			name						"health_bar_background"
-			type						ITEM_TYPE_IMAGE
-			style						WINDOW_STYLE_SHADER
-			rect						-64.5 2 129 10
-			foreColor					0 0 0 0.5
-			background					"white"
-			visible						1
+			name				"health_bar_background_image"
+			type				ITEM_TYPE_IMAGE
+			style				WINDOW_STYLE_SHADER
+			rect				-64.5 2 129 10
+			foreColor			0 0 0 0.5
+			background			"white"
+			visible				1
 			decoration
 		}
 
 		itemDef
 		{
-			name						"health_bar_shader"
-			type						ITEM_TYPE_IMAGE
-			style						WINDOW_STYLE_SHADER
-			rect						-62.5 4 0 6
-			exp							rect W(DvarInt("hud_health_bar_width"))
-			foreColor					1 1 1 1
-			background					"white"
-			visible						1
+			name				"health_bar_image"
+			type				ITEM_TYPE_IMAGE
+			style				WINDOW_STYLE_SHADER
+			rect				-62.5 4 0 6
+			exp					rect W(dvarInt("hud_health_bar_width"))
+			foreColor			1 1 1 1
+			background			"white"
+			visible				1
+			decoration
+		}
+	}
+
+	menuDef
+	{
+		name				"enemy_counter"
+		rect				0 0 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_TOP
+		fullscreen			0
+		visible				when(dvarBool("hud_enemy_counter_on") && dvarBool("hud_enemy_counter_on_game"))
+
+		#define X_START 4
+		#define Y_START 2
+
+		itemDef
+		{
+			name				"enemy_counter_text"
+			type				ITEM_TYPE_TEXT
+			rect 				X_START Y_START 0 0
+			forecolor			1 1 1 1
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_LEFT
+			exp 				text(locString("REIMAGINED_ENEMIES_REMAINING"))
+			visible				1
+			decoration
+		}
+		itemDef
+		{
+			name				"enemy_counter_value"
+			type				ITEM_TYPE_TEXT
+			rect 				X_START Y_START 0 0
+			exp 				rect X(X_START + getTextWidth(locString("REIMAGINED_ENEMIES_REMAINING"), UI_FONT_NORMAL, TEXTSIZE_DEFAULT))
+			forecolor			1 1 1 1
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_LEFT
+			exp 				text(dvarString("hud_enemy_counter_value"))
+			visible				1
+			decoration
+		}
+	}
+
+	menuDef
+	{
+		name				"timer"
+		rect				0 0 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_TOP
+		fullscreen			0
+		visible				when(dvarBool("hud_timer_on"))
+
+		#undef X_START
+		#undef Y_START
+		#define X_START -4
+		#define Y_START 2
+
+		itemDef
+		{
+			name				"total_timer"
+			type				ITEM_TYPE_TEXT
+			rect 				X_START Y_START 0 0
+			exp					rect Y(Y_START + (dvarInt("cg_drawFPS") * 18) + (dvarInt("cg_drawFPS") * dvarInt("onlinegame") * 9))
+			forecolor			1 1 1 1
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_RIGHT
+			exp 				text(locString("REIMAGINED_TIME") + dvarString("hud_total_time"))
+			visible				1
+			decoration
+		}
+
+		#undef X_START
+		#undef Y_START
+		#define X_START -4
+		#define Y_START 15
+
+		itemDef
+		{
+			name				"round_timer"
+			type				ITEM_TYPE_TEXT
+			rect 				X_START Y_START 0 0
+			exp					rect Y(Y_START + (dvarInt("cg_drawFPS") * 18) + (dvarInt("cg_drawFPS") * dvarInt("onlinegame") * 9))
+			forecolor			1 1 1 0
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_RIGHT
+			exp 				text(locString("REIMAGINED_ROUND_TIME") + dvarString("hud_round_time"))
+			visible				1
+			decoration
+
+			state
+			{
+				name			"fadein"
+				forecolor 		1 1 1 1
+			}
+			state
+			{
+				name 			"fadeout"
+				forecolor 		1 1 1 0
+			}
+		}
+		
+		#undef X_START
+		#undef Y_START
+		#define X_START -4
+		#define Y_START 28
+
+		itemDef
+		{
+			name			"round_total_timer"
+			type			ITEM_TYPE_TEXT
+			rect 			X_START Y_START 0 0
+			exp				rect Y(Y_START + (dvarInt("cg_drawFPS") * 18) + (dvarInt("cg_drawFPS") * dvarInt("onlinegame") * 9))
+			forecolor		1 1 1 0
+			textscale		TEXTSIZE_DEFAULT
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_NORMAL
+			textalign		ITEM_ALIGN_TOP_RIGHT
+			exp 			text(locString("REIMAGINED_TOTAL_TIME") + dvarString("hud_round_total_time"))
+			visible			1
+			decoration
+
+			state
+			{
+				name			"fadein"
+				forecolor 		1 1 1 1
+			}
+			state
+			{
+				name 			"fadeout"
+				forecolor 		1 1 1 0
+			}
+		}
+
+		itemDef
+		{
+			name				"sidequest_timer"
+			type				ITEM_TYPE_TEXT
+			rect 				0 26 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			forecolor			1 1 1 1
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp 				text(locString(ToUpper(dvarString("hud_sidequest_text"))) + dvarString("hud_sidequest_time"))
+			visible				1
+			decoration
+
+			state
+			{
+				name			"fadein"
+				forecolor 		1 1 1 1
+			}
+			state
+			{
+				name 			"fadeout"
+				forecolor 		1 1 1 0
+			}
+		}
+	}
+
+	menuDef
+	{
+		name				"zone_name"
+		rect				0 0 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_BOTTOM
+		fullscreen			0
+		visible				when(dvarBool("hud_zone_name_on"))
+
+		itemDef
+		{
+			name				"zone_name_text"
+			type				ITEM_TYPE_TEXT
+			rect 				4 -98 0 0
+			forecolor			1 1 1 1
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_BOTTOM_LEFT
+			exp					text(locString(ToUpper(dvarString("hud_zone_name"))))
+			visible				1
+			decoration
+
+			state
+			{
+				name			"fadein"
+				forecolor 		1 1 1 1
+			}
+			state
+			{
+				name 			"fadeout"
+				forecolor 		1 1 1 0
+			}
+		}
+	}
+
+	menuDef
+	{
+		name				"character_names"
+		rect				-163 -93 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_BOTTOM
+		fullscreen			0
+		visible				when(dvarBool("hud_character_names_on") && !dvarBool("cl_paused"))
+
+		itemDef
+		{
+			name				"character_name_white"
+			type            	ITEM_TYPE_TEXT
+			rect				0 0 60 40
+			exp					rect Y(0 - dvarInt("hud_character_name_offset_white"))
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_RIGHT
+			forecolor			1 1 1 1
+			exp 				text(locString(toUpper(dvarString("hud_character_name_white"))))
+			visible				when(dvarBool("hud_character_name_on_white"))
+			decoration
+		}
+		itemDef
+		{
+			name				"character_name_blue"
+			type            	ITEM_TYPE_TEXT
+			rect				0 0 60 40
+			exp					rect Y(0 - dvarInt("hud_character_name_offset_blue"))
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_RIGHT
+			forecolor			0.486275 0.811765 0.933333 1
+			exp 				text(locString(toUpper(dvarString("hud_character_name_blue"))))
+			visible				when(dvarBool("hud_character_name_on_blue"))
+			decoration
+		}
+		itemDef
+		{
+			name				"character_name_yellow"
+			type            	ITEM_TYPE_TEXT
+			rect				0 0 60 40
+			exp					rect Y(0 - dvarInt("hud_character_name_offset_yellow"))
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_RIGHT
+			forecolor			0.964706 0.792157 0.313726 1
+			exp 				text(locString(toUpper(dvarString("hud_character_name_yellow"))))
+			visible				when(dvarBool("hud_character_name_on_yellow"))
+			decoration
+		}
+		itemDef
+		{
+			name				"character_name_green"
+			type            	ITEM_TYPE_TEXT
+			rect				0 0 60 40
+			exp					rect Y(0 - dvarInt("hud_character_name_offset_green"))
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_RIGHT
+			forecolor			0.513726 0.92549 0.5333331 1
+			exp 				text(locString(toUpper(dvarString("hud_character_name_green"))))
+			visible				when(dvarBool("hud_character_name_on_green"))
+			decoration
+		}
+	}
+	
+	menuDef
+	{
+		name				"mule_wep_indicator"
+		rect				0 0 0 0
+		fullscreen			0
+		visible				when(dvarBool("ui_show_mule_wep_indicator"))
+
+		itemDef
+		{
+			name			"mule_wep_indicator_image"
+			type			ITEM_TYPE_IMAGE
+			rect			-105 -85 24 24 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_BOTTOM
+			forecolor		1 1 1 0
+			exp            	material("specialty_extraprimaryweapon_zombies")
+		    style      		WINDOW_STYLE_SHADER
+		    visible     	1
+			decoration
+
+			state
+			{
+				name			"fadein"
+				forecolor 		1 1 1 1
+			}
+			state
+			{
+				name 			"fadeout"
+				forecolor 		1 1 1 0
+			}
+		}
+	}
+
+	menuDef
+	{
+		name				"vs_logo"
+		rect				0 0 0 0
+		fullscreen			0
+		visible				when(dvarBool("vs_logo_on"))
+
+		itemDef
+		{
+			name				"vs_logo_image"
+		    type                ITEM_TYPE_IMAGE
+		    rect              	4 -68 64 64 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_BOTTOM
+		    forecolor           1 1 1 1
+		    exp                	material(dvarString("vs_logo"))
+		    style             	WINDOW_STYLE_SHADER
+		    visible           	1
+		    decoration
+		}
+	}
+
+	menuDef
+	{
+		name				"vs_gamemode"
+		rect				0 2 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+		fullscreen			0
+		visible				1
+
+		itemDef
+		{
+			name				"vs_gamemode_text"
+			type				ITEM_TYPE_TEXT
+			rect 				0 0 0 0
+			forecolor			1 1 1 1
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp					text(locString(toUpper("REIMAGINED_GAMEMODE_" + dvarString("zm_gamemode_name"))) + locString(toUpper("REIMAGINED_GAMEMODE_" + dvarString("zm_gamemode_name2"))))
+			visible				1
+			decoration
+		}
+		itemDef
+		{
+			name				"vs_friendly_logo"
+		    type                ITEM_TYPE_IMAGE
+		    rect              	-80 0 32 32
+		    forecolor           1 1 1 1
+		    exp                	material(dvarString("vs_logo"))
+		    style             	WINDOW_STYLE_SHADER
+		    visible           	when(dvarBool("vs_top_logos_on"))
+		    decoration
+		}
+		itemDef
+		{
+			name				"vs_enemy_logo"
+		    type                ITEM_TYPE_IMAGE
+		    rect              	80 0 32 32
+		    forecolor           1 1 1 1
+		    exp                	material(dvarString("vs_logo_enemy"))
+		    style             	WINDOW_STYLE_SHADER
+		    visible           	when(dvarBool("vs_top_logos_on"))
+		    decoration
+		}
+		itemDef
+		{
+			name				"vs_friendly_name"
+			type				ITEM_TYPE_TEXT
+			rect 				-64 16 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			forecolor			1 1 1 1
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp 				text(dvarString("vs_friendly_playername"))
+			visible				when(dvarBool("vs_top_playernames_on"))
+			decoration
+		}
+		itemDef
+		{
+			name				"vs_enemy_name"
+			type				ITEM_TYPE_TEXT
+			rect 				64 16 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			forecolor			1 1 1 1
+			textscale			TEXTSIZE_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp 				text(dvarString("vs_enemy_playername"))
+			visible				when(dvarBool("vs_top_playernames_on"))
+			decoration
+		}
+		itemDef
+		{
+			name				"vs_friendly_counter"
+			type				ITEM_TYPE_TEXT
+			rect 				-64 30 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			forecolor			.4 0 0 1
+			textscale			TEXTSIZE_LARGE
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp 				text(dvarString("vs_counter_friendly_num"))
+			visible				when(dvarBool("vs_counter_friendly_num_on"))
+			decoration
+		}
+		itemDef
+		{
+			name				"vs_enemy_counter"
+			type				ITEM_TYPE_TEXT
+			rect 				64 30 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			forecolor			.4 0 0 1
+			textscale			TEXTSIZE_LARGE
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textfont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_TOP_CENTER
+			exp 				text(dvarString("vs_counter_enemy_num"))
+			visible				when(dvarBool("vs_counter_enemy_num_on"))
 			decoration
 		}
 	}
