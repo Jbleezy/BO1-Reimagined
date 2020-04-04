@@ -58,10 +58,10 @@
 * Zombie counter displayed on the top left
 * Total time displayed on the top right
 * Round time displayed on the top right
-* Total time at the end of each round displayed on the top right
+* Total time at the end of each round displayed on the top right between rounds
 * Sidequest completion time displayed on top center
 * Health bar displayed on the bottom left
-* Zone name displayed on the top left
+* Zone name displayed on the bottom left
 * Character names displayed next to player's points
 * Ammo display on HUD no longer fades away
 * Grenades on HUD are now more spread out

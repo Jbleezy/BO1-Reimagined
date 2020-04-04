@@ -11,31 +11,16 @@
 	menuDef
 	{
 		name				"health_bar"
-		rect				4 -111 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_BOTTOM
+		rect				4 -113 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_BOTTOM
 		fullscreen			0
 		visible				when(dvarBool("hud_health_bar_on"))
-
-		itemDef
-		{
-			name				"health_bar_value"
-			type				ITEM_TYPE_TEXT
-			rect 				57 0 0 0
-			foreColor			1 1 1 1
-			textScale			TEXTSIZE_DEFAULT
-			textStyle			ITEM_TEXTSTYLE_SHADOWED
-			textFont			UI_FONT_NORMAL
-			textalign			ITEM_ALIGN_CENTER
-			exp					text(dvarInt("hud_health_bar_value"))
-			visible				1
-			decoration
-		}
 
 		itemDef
 		{
 			name				"health_bar_background_image"
 			type				ITEM_TYPE_IMAGE
 			style				WINDOW_STYLE_SHADER
-			rect				0 0 114 12
+			rect				0 0 114 14
 			foreColor			0 0 0 0.5
 			background			"white"
 			visible				1
@@ -47,11 +32,25 @@
 			name				"health_bar_image"
 			type				ITEM_TYPE_IMAGE
 			style				WINDOW_STYLE_SHADER
-			//rect				-62.5 5.5 125 8
-			rect				2 2 110 8
+			rect				2 2 110 10
 			exp					rect W(dvarInt("hud_health_bar_width"))
-			foreColor			1 1 1 1
+			foreColor			1 1 1 0.8
 			background			"white"
+			visible				1
+			decoration
+		}
+
+		itemDef
+		{
+			name				"health_bar_value"
+			type				ITEM_TYPE_TEXT
+			rect 				57 13 0 0
+			foreColor			1 1 1 1
+			textScale			TEXTSIZE_SMALL
+			textStyle			ITEM_TEXTSTYLE_SHADOWED
+			textFont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_CENTER
+			exp					text(dvarInt("hud_health_bar_value"))
 			visible				1
 			decoration
 		}
@@ -169,7 +168,7 @@
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
 			textalign			ITEM_ALIGN_TOP_CENTER
-			exp 				text(locString(ToUpper(dvarString("hud_sidequest_text"))) + dvarString("hud_sidequest_time"))
+			exp 				text(locString(toUpper(dvarString("hud_sidequest_text"))) + dvarString("hud_sidequest_time"))
 			visible				1
 			decoration
 
@@ -190,7 +189,7 @@
 	menuDef
 	{
 		name				"zone_name"
-		rect				0 0 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_TOP
+		rect				0 0 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_BOTTOM
 		fullscreen			0
 		visible				when(dvarBool("hud_zone_name_on"))
 
@@ -198,14 +197,14 @@
 		{
 			name				"zone_name_text"
 			type				ITEM_TYPE_TEXT
-			rect 				4 16 0 0
-			exp					rect Y(16 - (!dvarInt("hud_enemy_counter_on") * 14))
+			rect 				4 -114.5 0 0
+			exp					rect Y(-114.5 + (!dvarInt("hud_health_bar_on") * 16))
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
 			textfont			UI_FONT_NORMAL
-			textalign			ITEM_ALIGN_TOP_LEFT
-			exp					text(locString(ToUpper(dvarString("hud_zone_name"))))
+			textalign			ITEM_ALIGN_LEFT
+			exp					text(locString(toUpper(dvarString("hud_zone_name"))))
 			visible				1
 			decoration
 
