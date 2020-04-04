@@ -8773,7 +8773,7 @@ disable_character_dialog()
 
 health_bar_hud()
 {
-	health_bar_width_max = 125;
+	health_bar_width_max = 110;
 
 	while (1)
 	{

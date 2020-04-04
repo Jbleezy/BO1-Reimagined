@@ -55,14 +55,14 @@
 ## HUD
 * HUD items now have some distance away from the edge of the screen
 * Damage icon time now matches the health regeneration time
-* Health bar displayed to the top center of the HUD
-* Zombie counter displayed on the top left of the HUD
-* Game time displayed on the top right of the HUD
-* Round time displayed on the top right of the HUD
-* Game time and round time displayed at the end of each round on the top center of the HUD
-* Sidequest completion time displayed on top center of the HUD
-* Character names displayed next to player's points on the HUD
-* Current zone displayed above round number on the HUD
+* Zombie counter displayed on the top left
+* Total time displayed on the top right
+* Round time displayed on the top right
+* Total time at the end of each round displayed on the top right
+* Sidequest completion time displayed on top center
+* Health bar displayed on the bottom left
+* Zone name displayed on the top left
+* Character names displayed next to player's points
 * Ammo display on HUD no longer fades away
 * Grenades on HUD are now more spread out
 * Removed Reload, No Ammo, and Low Ammo HUD messages
