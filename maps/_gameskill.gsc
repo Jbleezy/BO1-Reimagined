@@ -1652,7 +1652,7 @@ playerBreathingSound(healthcap)
 		}
 		// Player still has a lot of health so no breathing sound
 		healthcap = self.maxhealth * 0.2;
-		if (player.health >= healthcap || player maps\_laststand::player_is_in_laststand() || player.sessionstate == "spectator")
+		if (player.health > healthcap || player maps\_laststand::player_is_in_laststand() || player.sessionstate == "spectator")
 		{
 			player notify ("end_heartbeat_loop");
 			continue;
@@ -1661,7 +1661,7 @@ playerBreathingSound(healthcap)
 	//		continue;
 		if (level.player_pain_vox == 0)
  		{
- 			//playsoundatposition  ("chr_breathing_hurt_start", (0,0,0));
+ 			//playsoundatposition("chr_breathing_hurt_start", (0,0,0));
  			player playLocalSound("chr_breathing_hurt");
  			level.player_pain_vox = 1;
  		}
@@ -1683,35 +1683,34 @@ playerHeartbeatSound(healthcap)
 
  	level thread heartbeat_init();
 
-
 	self.breathingStopTime = -10000;
 	self.hearbeatwait = .46;
 	wait (2);
-	player = self;
+
 	for (;;)
 	{
 		wait .2;
-		//if (player.health <= 0)
+		//if (self.health <= 0)
 		//return;
 
 		// Player still has a lot of health so no hearbeat sound and set to default hearbeat wait
 		healthcap = self.maxhealth * 0.2;
-		if (player.health >= healthcap || player.sessionstate == "spectator")
+		if (self.health > healthcap || self.sessionstate == "spectator")
 		{
 			continue;
 		}
 
-		level thread event_heart_beat( "stressed" , 1 );
+		self thread event_heart_beat( "panicked" , 1 );
 
 		level notify ("player_pain");
-		//player playloopsound("NULL");
-		//player thread playerSndHearbeatOneShots
+		//self playloopsound("NULL");
+		//self thread playerSndHearbeatOneShots
 
-		player waittill( "end_heartbeat_loop" );
-		//player stoploopsound (1);
+		self waittill( "end_heartbeat_loop" );
+		//self stoploopsound (1);
 
 	  	wait (.2);
-		level thread event_heart_beat( "none" , 0 );
+		self thread event_heart_beat( "none" , 0 );
 
 		level.player_pain_vox = 0;
 
@@ -1725,114 +1724,123 @@ heartbeat_init()
 	level.current_breathing_waittime = 4;
 	level.breathing_waittime = 4;
 	level.emotional_state_system = 0;
-
 }
 
 event_heart_beat( emotion, loudness )
 {
-
 	// Emotional State of Player
 	// sedated (super slow heartbeat )
 	// relaxed ( normal heart beat )
 	// stressed (fast heartbeat)
 
-//	iprintlnbold (emotion );
-	level.current_emotion = emotion;
-	if(!IsDefined (level.last_emotion))
+	self.current_emotion = emotion;
+	if(!IsDefined(self.last_emotion))
 	{
-		level.last_emotion = "undefined";
-	}
-	if( level.current_emotion != level.last_emotion)
-	{
-		if(level.emotional_state_system == 0)
-		{
-			level.emotional_state_system = 1;
-			level thread play_heart_beat();
-			level thread play_breathing();
-
-		}
-		if(!IsDefined (loudness) || (loudness == 0))
-		{
-			level.loudness = 0;
-		}
-		else
-		{
-			level.loudness = loudness;
-
-		}
-		switch (emotion)
-		{
-			case "sedated":
-				level.heart_waittime = 3;
-				level.breathing_waittime = 4;
-				level.last_emotion = "sedated";
-				break;
-
-			case "relaxed":
-				level.heart_waittime = 2;
-				level.breathing_waittime = 4;
-				level.last_emotion = "relaxed";
-				break;
-
-			case "stressed":
-				level.heart_waittime = 0.5;
-				level.breathing_waittime = 2;
-				level.last_emotion = "stressed";
-				break;
-
-			case "panicked":
-				level.heart_waittime = 0.3;
-				level.breathing_waittime = 1.5;
-				level.last_emotion = "panicked";
-				break;
-
-			case "none":
-				level.last_emotion = "none";
-				level notify ("no_more_heartbeat");
-				playsoundatposition ("vox_breath_scared_stop", (0,0,0));
-				level.emotional_state_system = 0;
-				break;
-
-			default: AssertMsg("Not a Valid Emotional State.  Please switch with sedated, relaxed, happy, stressed, or none");
-		}
-		thread heartbeat_state_transitions();  //(controls the wait between breaths and beats
+		self.last_emotion = "undefined";
 	}
 
+	if(self.emotional_state_system == 0)
+	{
+		self.emotional_state_system = 1;
+		self thread play_heart_beat();
+		self thread play_breathing();
+	}
+
+	if(!IsDefined (loudness) || (loudness == 0))
+	{
+		self.loudness = 0;
+	}
+	else
+	{
+		self.loudness = loudness;
+
+	}
+
+	switch (emotion)
+	{
+		case "sedated":
+			self.heart_waittime = 3;
+			self.breathing_waittime = 4;
+			self.last_emotion = "sedated";
+			break;
+
+		case "relaxed":
+			self.heart_waittime = 2;
+			self.breathing_waittime = 4;
+			self.last_emotion = "relaxed";
+			break;
+
+		case "stressed":
+			self.heart_waittime = 0.5;
+			self.breathing_waittime = 2;
+			self.last_emotion = "stressed";
+			break;
+
+		case "panicked":
+			self.heart_waittime = 0.3;
+			self.breathing_waittime = 1.5;
+			self.last_emotion = "panicked";
+			break;
+
+		case "none":
+			self.last_emotion = "none";
+			self notify ("no_more_heartbeat");
+			playsoundatposition ("vox_breath_scared_stop", (0,0,0));
+			self.emotional_state_system = 0;
+			break;
+
+		default: AssertMsg("Not a Valid Emotional State.  Please switch with sedated, relaxed, happy, stressed, or none");
+	}
+
+	self thread heartbeat_state_transitions();  // controls the wait between breaths and beats
 }
+
 heartbeat_state_transitions()
 {
-	while (level.current_heart_waittime > level.heart_waittime)
+	self notify("heartbeat_state_transitions");
+	self endon("heartbeat_state_transitions");
+
+	/*while (level.current_heart_waittime > level.heart_waittime)
 	{
 		//iprintlnbold ("current: " + level.current_heart_waittime + "goal: "  + level.heart_waittime);
 		level.current_heart_waittime = level.current_heart_waittime - .10;
 		wait(.30);
 
-	}
-	while (level.current_heart_waittime < level.heart_waittime)
+	}*/
+
+	prev_health = self.health;
+	self.current_heart_waittime = self.heart_waittime;
+
+	while(self.current_heart_waittime <= 2)
 	{
-		//iprintlnbold ("current: " + level.current_heart_waittime + "goal: "  + level.heart_waittime);
-		level.current_heart_waittime = level.current_heart_waittime + .05;
+		if(self.health < prev_health)
+		{
+			self.current_heart_waittime = self.heart_waittime;
+		}
+		prev_health = self.health;
+
+		self.current_heart_waittime = self.current_heart_waittime + .05;
+
 		wait(.40);
 	}
-	level.current_heart_waittime = level.heart_waittime;
 }
-play_heart_beat ()
+
+play_heart_beat()
 {
-	player = getplayers()[0];
-	level endon ("no_more_heartbeat");
-	if(!IsDefined ( level.heart_wait_counter) )
+	self endon ("no_more_heartbeat");
+	if(!IsDefined ( self.heart_wait_counter) )
 	{
-		level.heart_wait_counter = 0;
+		self.heart_wait_counter = 0;
 	}
 	while( 1 )
 	{
-		while( level.heart_wait_counter < level.current_heart_waittime)
+		while( self.heart_wait_counter < self.current_heart_waittime)
 		{
 			wait(0.1);
-			level.heart_wait_counter = level.heart_wait_counter +0.1;
+			self.heart_wait_counter = self.heart_wait_counter +0.1;
 		}
 
-		if (level.loudness == 0)
+		if (self.loudness == 0)
 		{
 			playsoundatposition ("chr_heart_beat_ingame", (0,0,0));
 		}
@@ -1842,30 +1850,32 @@ play_heart_beat ()
 		}
 
 		//player PlayRumbleOnEntity("damage_light");
-		level.heart_wait_counter = 0;
+		self.heart_wait_counter = 0;
 
 	}
 
 }
+
 play_breathing()
 {
-	level endon ("no_more_heartbeat");
+	self endon ("no_more_heartbeat");
 
-	if(!IsDefined ( level.breathing_wait_counter) )
+	if(!IsDefined ( self.breathing_wait_counter) )
 	{
-		level.breathing_wait_counter = 0;
+		self.breathing_wait_counter = 0;
 	}
 	for(;;)
 	{
-		while( level.breathing_wait_counter < level.current_breathing_waittime )
+		while( self.breathing_wait_counter < self.current_breathing_waittime )
 		{
 			wait(0.1);
-			level.breathing_wait_counter = level.breathing_wait_counter +0.1;
+			self.breathing_wait_counter = self.breathing_wait_counter +0.1;
 		}
 		playsoundatposition ("amb_player_breath_cold", (0,0,0));
-		level.breathing_wait_counter = 0;
+		self.breathing_wait_counter = 0;
 	}
 }
+
 //kevin addin special case to stop the heartbeat and breathing when the player has landed after the base jump.
 base_jump_heartbeat_stop()
 {
