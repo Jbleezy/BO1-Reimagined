@@ -471,7 +471,7 @@ setSkill( reset, skill_override )
 
 	if ( GetDvar( "zombiemode" ) == "1" )
 	{
-		level.healthOverlayCutoff = .25;
+		level.healthOverlayCutoff = 0.2;
 	}
 }
 
@@ -1274,15 +1274,8 @@ playerHealthRegen()
 	veryHurt = false;
 	playerJustGotRedFlashing = false;
 
-	/*if( !IsDefined( level.zombiemode ) || !level.zombiemode )  // don't play breathing/heartbeat sounds in zombie mode
-	{
-	    self thread playerBreathingSound(self.maxhealth * 0.35);
-	    self thread playerHeartbeatSound(self.maxhealth * 0.75);
-	    self thread endPlayerBreathingSoundOnDeath();
-	}*/
-
-	self thread playerBreathingSound(self.maxhealth * 0.25);
-	self thread playerHeartbeatSound(self.maxhealth * 0.25);
+	self thread playerBreathingSound(self.maxhealth * 0.2);
+	self thread playerHeartbeatSound(self.maxhealth * 0.2);
 	self thread endPlayerBreathingSoundOnDeath();
 
 	invulTime = 0;

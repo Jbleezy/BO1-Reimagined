@@ -33,7 +33,6 @@
 * Players can now move after diving quicker
 * Decreased dive startup time
 * Added a points cap of 10 million
-* Red screens now start at 25% health (previously 20% health)
 * Added heartbeat and breathing sounds when low on health
 * Added heartbeat sound when down
 * Text when getting revived in solo now only displays "Reviving"
