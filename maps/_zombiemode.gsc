@@ -5635,13 +5635,13 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 			return 0;
 		}
 
-		if(self.health > 70)
+		if(self.health > 75)
 		{
-			return 70;
+			return 75;
 		}
 
-		iDamage = 70;
-		finalDamage = 70;
+		iDamage = 75;
+		finalDamage = 75;
 	}
 
 	//iprintln("i: " + iDamage);
