@@ -34,7 +34,7 @@
 			style				WINDOW_STYLE_SHADER
 			rect				2 2 110 10
 			exp					rect W(dvarInt("hud_health_bar_width"))
-			foreColor			1 1 1 0.8
+			foreColor			1 1 1 0.85
 			background			"white"
 			visible				1
 			decoration
