@@ -13,7 +13,7 @@
 ## Change Notes
 
 ## General
-* Insta kill rounds (rounds where zombies have round 1 health) start at round 163 and happen every odd round thereafter
+* Insta kill rounds (rounds where zombies have round 1 health) happen every odd round starting at round 163
 * Any hintstring that previously showed "Press & hold" or "Press" at the beginning has been changed to only show "Hold"
 * Power hintstrings on classic maps have been changed to show the same hintstring on non classic maps
 * Hintstrings are now invisible while the current action is not available for the player
@@ -23,22 +23,23 @@
 * Maps now auto restart correctly (box gets randomized again)
 
 ## Players
-* Players automatically get 3 self revives in solo (except for on Moon before initially leaving No Man's Land)
 * Unlimited sprint
-* All players are attracted equally
 * Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%
+* Players automatically get 3 self revives in solo (except for on Moon before initially leaving No Man's Land)
 * Decreased normal health regeneration time from 2.4 seconds to 2 seconds
 * Decreased low health regeneration delay from 5 seconds to 4 seconds
 * Normal health regeneration rate is no longer instant
 * Changed health regeneration rate to 100 health per second (previously fully restored health in 0.5 seconds)
 * Removed melee lunging
+* Removed maximum fall damage cap (previously capped at 110)
+* All players are attracted equally
 * Players can now dive again right away after just diving
 * Players can now move after diving quicker
 * Decreased dive startup time
 * Added a points cap of 10 million
 * Added heartbeat and breathing sounds when low on health
 * Added heartbeat sound when down
-* Text when getting revived in solo now only displays "Reviving"
+* Text when being revived in solo now only displays "Reviving"
 * Added death hands animation from Black Ops 2
 * Dead players can chat with alive players
 * Players can now red screen after bleeding out and respawning

@@ -2034,6 +2034,8 @@ onPlayerSpawned()
 
 				self thread player_grenade_watcher();
 
+				self thread fall_velocity_check();
+
 				self thread player_gravity_fix();
 
 				self thread health_bar_hud();
@@ -5621,6 +5623,32 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 
 			return 0;
 		}
+
+		// increase fall damage beyond 110
+		if(finalDamage >= 110)
+		{
+			min_velocity = 420;
+			max_velocity = 740;
+			if (self.divetoprone)
+			{
+				min_velocity = 300;
+				max_velocity = 560;
+			}
+			diff_velocity = max_velocity - min_velocity;
+			velocity = abs(self.fall_velocity);
+			if (velocity < min_velocity)
+			{
+				velocity = min_velocity;
+			}
+
+			fall_damage = int(((velocity - min_velocity) / diff_velocity) * 110);
+
+			if(fall_damage > iDamage)
+			{
+				iDamage = fall_damage;
+				finalDamage = fall_damage;
+			}
+		}
 	}
 
 	players = get_players();
@@ -9131,6 +9159,26 @@ player_gravity_fix()
 		else if(force != 1)
 		{
 			force = 1;
+		}
+
+		wait_network_frame();
+	}
+}
+
+fall_velocity_check()
+{
+	self endon("disconnect");
+
+	while (1)
+	{
+		if(!self isOnGround())
+		{
+			vel = self getVelocity();
+			self.fall_velocity = vel[2];
+		}
+		else
+		{
+			self.fall_velocity = 0;
 		}
 
 		wait_network_frame();
