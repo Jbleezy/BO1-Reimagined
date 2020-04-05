@@ -490,10 +490,6 @@ apply_difficulty_frac_with_func( difficulty_func, current_frac )
 	level.playerHealth_RegularRegenDelay = [[ difficulty_func ]]( "playerHealth_RegularRegenDelay", current_frac );
 	level.worthyDamageRatio = [[ difficulty_func ]]( "worthyDamageRatio", current_frac );
 
-	level.playerHealth_RegularRegenDelay = 2500;
-	level.perk_healthRegenMultiplier = 1.25;
-	level.perk_longHealthRegenMultiplier = 1.25;
-
 	if ( level.auto_adjust_threatbias )
 	{
 		thread apply_threat_bias_to_all_players(difficulty_func, current_frac);
@@ -519,6 +515,9 @@ apply_difficulty_frac_with_func( difficulty_func, current_frac )
 
 	thread coop_damage_and_accuracy_scaling(difficulty_func, current_frac);
 
+	level.playerHealth_RegularRegenDelay = 2000;
+	level.longRegenTime = 4000;
+	level.perk_healthRegenMultiplier = 1.25;
 
 	//prof_end( "apply_difficulty_frac_with_func" );
 }
@@ -1269,8 +1268,6 @@ playerHealthRegen()
 	oldratio = 1;
 	health_add = 0;
 
-	regenRate = 0.1; // 0.017;
-
 	veryHurt = false;
 	playerJustGotRedFlashing = false;
 
@@ -1303,7 +1300,15 @@ playerHealthRegen()
 		wait( 0.05 );
 		waittillframeend; // if we're on hard, we need to wait until the bolt damage check before we decide what to do
 
-		if( self.health == self.maxHealth )
+		health_ratio = self.health / self.maxhealth;
+		max_health_ratio = self.maxhealth / 100;
+		regenRate = 0.05 / max_health_ratio;
+		if(self HasPerk("specialty_quickrevive"))
+		{
+			regenRate *= level.perk_healthRegenMultiplier;
+		}
+
+		if( health_ratio > level.healthOverlayCutoff )
 		{
 			if( self player_flag( "player_has_red_flashing_overlay" ) )
 			{
@@ -1315,7 +1320,11 @@ playerHealthRegen()
 			playerJustGotRedFlashing = false;
 			veryHurt = false;
 			playerHadMaxHealth = true;
-			continue;
+
+			if(self.health == self.maxhealth)
+			{
+				continue;
+			}
 		}
 
 		if( self.health <= 0 )
@@ -1325,7 +1334,6 @@ playerHealthRegen()
 		}
 
 		wasVeryHurt = veryHurt;
-		health_ratio = self.health / self.maxHealth;
 
 		if( health_ratio <= level.healthOverlayCutoff )
 		{
@@ -1339,8 +1347,8 @@ playerHealthRegen()
 				num2 = 2;
 				if(self HasPerk("specialty_quickrevive"))
 				{
-					num1 /= level.perk_longHealthRegenMultiplier;
-					num2 /= level.perk_longHealthRegenMultiplier;
+					num1 /= level.perk_healthRegenMultiplier;
+					num2 /= level.perk_healthRegenMultiplier;
 				}
 				self startfadingblur( num1, num2 );
 
@@ -1359,52 +1367,41 @@ playerHealthRegen()
 
 		if( health_ratio >= oldratio )
 		{
-			playerHealth_RegularRegenDelay = level.playerHealth_RegularRegenDelay;
-			if(self HasPerk("specialty_quickrevive"))
-			{
-				playerHealth_RegularRegenDelay /= level.perk_healthRegenMultiplier;
-			}
-
-			if( gettime() - hurttime < playerHealth_RegularRegenDelay )
-			{
-				continue;
-			}
-
-			/*if( gettime() - hurttime < level.playerHealth_RegularRegenDelay )
-			{
-				continue;
-			}*/
-
 			if( veryHurt )
 			{
 				self.veryhurt = 1;
-				newHealth = health_ratio;
 
 				longRegenTime = level.longRegenTime;
 				if(self HasPerk("specialty_quickrevive"))
 				{
-					longRegenTime /= level.perk_longHealthRegenMultiplier;
+					longRegenTime /= level.perk_healthRegenMultiplier;
 				}
 
-				if( gettime() > hurtTime + longRegenTime )
+				if(gettime() - hurttime < longRegenTime)
 				{
-					newHealth += regenRate;
-				}
-
-				/*if( gettime() > hurtTime + level.longRegenTime )
-				{
-					newHealth += regenRate;
-				}*/
-
-				if ( newHealth >= 1 )
-				{
-					reduceTakeCoverWarnings();
+					continue;
 				}
 			}
 			else
 			{
-				newHealth = 1;
-				self.veryhurt = 0;
+				playerHealth_RegularRegenDelay = level.playerHealth_RegularRegenDelay;
+				if(self HasPerk("specialty_quickrevive"))
+				{
+					playerHealth_RegularRegenDelay /= level.perk_healthRegenMultiplier;
+				}
+
+				if(gettime() - hurttime < playerHealth_RegularRegenDelay)
+				{
+					continue;
+				}
+			}
+
+			newHealth = health_ratio;
+			newHealth += regenRate;
+
+			if ( newHealth >= 1 )
+			{
+				reduceTakeCoverWarnings();
 			}
 
 			if( newHealth > 1.0 )
@@ -1654,7 +1651,7 @@ playerBreathingSound(healthcap)
 			return;
 		}
 		// Player still has a lot of health so no breathing sound
-		healthcap = self.maxhealth * 0.25;
+		healthcap = self.maxhealth * 0.2;
 		if (player.health >= healthcap || player maps\_laststand::player_is_in_laststand() || player.sessionstate == "spectator")
 		{
 			player notify ("end_heartbeat_loop");
@@ -1698,7 +1695,7 @@ playerHeartbeatSound(healthcap)
 		//return;
 
 		// Player still has a lot of health so no hearbeat sound and set to default hearbeat wait
-		healthcap = self.maxhealth * 0.25;
+		healthcap = self.maxhealth * 0.2;
 		if (player.health >= healthcap || player.sessionstate == "spectator")
 		{
 			continue;
@@ -2295,7 +2292,7 @@ redFlashingOverlay( overlay )
 	longRegenTime = level.longRegenTime;
 	if(self HasPerk("specialty_quickrevive"))
 	{
-		longRegenTime /= level.perk_longHealthRegenMultiplier;
+		longRegenTime /= level.perk_healthRegenMultiplier;
 	}
 
 	stopFlashingBadlyTime = gettime() + longRegenTime;

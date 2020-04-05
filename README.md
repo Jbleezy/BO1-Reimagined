@@ -27,7 +27,10 @@
 * Unlimited sprint
 * All players are attracted equally
 * Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%
-* Increased normal health regeneration time from 2.4 seconds to 2.5 seconds
+* Decreased normal health regeneration time from 2.4 seconds to 2 seconds
+* Decreased low health regeneration delay from 5 seconds to 4 seconds
+* Normal health regeneration rate is no longer instant
+* Changed health regeneration rate to 100 health per second (previously fully restored health in 0.5 seconds)
 * Removed melee lunging
 * Players can now dive again right away after just diving
 * Players can now move after diving quicker
