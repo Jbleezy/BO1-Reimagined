@@ -1741,9 +1741,9 @@ onPlayerConnect_clientDvars()
 	// remove hold breath and variable zoom hintstrings when scoped in
 	self SetClientDvar("cg_drawBreathHint", 0);
 
-	// turn zombies remaining HUD off initially
-	self SetClientDvar("hud_zombs_remaining_on_game", false);
-	self SetClientDvar("zombs_remaining", "");
+	// turn enemy counter HUD off initially
+	self SetClientDvar("hud_enemy_counter_on_game", false);
+	self SetClientDvar("hud_enemy_counter_value", "");
 
 	// reset versus HUD dvars
 	self SetClientDvar("vs_logo_on", 0);
