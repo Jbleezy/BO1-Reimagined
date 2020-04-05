@@ -5743,7 +5743,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 	// when it wasn't. This led to SREs about undefined and int being compared on death (self.lives was never defined on the host). While
 	// adding the check for the solo game flag we found that we would have to create a complex OR inside of the if check below. By breaking
 	// the conditions out in to their own variables we keep the complexity without making it look like a mess.
-	solo_death = ( players.size == 1 && flag( "solo_game" ) && self.lives == 0 ); // there is only one player AND the flag is set AND self.lives equals 0
+	solo_death = ( players.size == 1 && flag( "solo_game" ) && (self.lives == 0 || self.num_perks == 0) ); // there is only one player AND the flag is set AND self.lives equals 0
 	non_solo_death = ( players.size > 1 || ( players.size == 1 && !flag( "solo_game" ) ) ); // the player size is greater than one OR ( players.size equals 1 AND solo flag isn't set )
 
 	if ( (solo_death || non_solo_death) ) // if only one player on their last life or any game that started with more than one player
@@ -5757,7 +5757,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 
 	if( count == players.size )
 	{
-		if ( players.size == 1 && flag( "solo_game" ) && self.lives > 0 )
+		if ( players.size == 1 && flag( "solo_game" ) && self.lives > 0 && self.num_perks > 0 )
 		{
 			self thread wait_and_revive();
 			return finalDamage;

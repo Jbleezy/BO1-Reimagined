@@ -25,7 +25,7 @@
 ## Players
 * Unlimited sprint
 * Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%
-* Players automatically get 3 self revives in solo (except for on Moon before initially leaving No Man's Land)
+* Self revives in solo are active whenever the player has at least 1 perk
 * Decreased normal health regeneration time from 2.4 seconds to 2 seconds
 * Decreased low health regeneration delay from 5 seconds to 4 seconds
 * Normal health regeneration rate is no longer instant
@@ -666,11 +666,11 @@
 * All perk machines now make a sound when bumping into them
 
 ### Quick Revive
-* No longer gives the player a self revive in solo
 * Decreases health regeneration delay by 25%
 * Increases health regeneration rate by 25%
 * Increased cost in solo from 500 points to 1500 points
-* Powered off in solo when the power is off
+* No longer gives the player a self revive in solo
+* No longer automatically powered on in solo
 * Hintstring now says "Quick Revive" in solo and coop
 
 ### Speed Cola

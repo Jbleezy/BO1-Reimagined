@@ -1455,7 +1455,6 @@ vending_trigger_think()
 	solo = false;
 	flag_init( "_start_zm_pistol_rank" );
 
-	//TODO  TEMP Disable Revive in Solo games
 	if ( IsDefined(perk) &&
 		(perk == "specialty_quickrevive" || perk == "specialty_quickrevive_upgrade") )
 	{
@@ -1463,20 +1462,12 @@ vending_trigger_think()
 		players = GetPlayers();
 		if ( players.size == 1 )
 		{
-			//solo = true;
 			flag_set( "solo_game" );
 			level.solo_lives_given = 0;
 			players[0].lives = 0;
 			if(level.gamemode == "survival")
 			{
-				if(IsDefined(level.give_solo_lives_func))
-				{
-					level thread [[level.give_solo_lives_func]]();
-				}
-				else
-				{
-					players[0].lives = 3;
-				}
+				players[0].lives = 3;
 			}
 			level maps\_zombiemode::zombiemode_solo_last_stand_pistol();
 		}
