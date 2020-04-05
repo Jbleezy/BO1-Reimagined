@@ -475,9 +475,10 @@
 * Upgraded: human zombie explodes when it dies
 * Upgraded: removed explosion effect from shooting the same human zombie multiple times
 
-#### Baby Gun
+#### Shrink Ray
 * Weapon fails happen less often
 * Fixed a bug that caused an error to happen when shrinking enemies and allowing them to regrow many times throughout a game
+* Shrunk zombies: increased damage from 5 to 10
 * Unupgraded: decreased range by 6.25%
 * Unupgraded: increased radius by 50%
 * Upgraded: decreased range by 62.5% (now has the same range as the unupgraded version)
@@ -816,6 +817,7 @@
 * Zombies can no longer be headless while alive
 * 4 round and 5 round special rounds now happen more equally
 * Max health: 1 million
+* Decreased damage from 60 to 50
 * Fixed a bug that caused ceiling spawns to be able to be disabled
 * Fixed a bug that caused spawning zombies to be able to collide with players while they were still invisible to the player
 * Zombies can now gib when damaged from the Bowie Knife or Sickle
@@ -859,10 +861,11 @@
 * Grenades thrown back by monkeys will no longer damage the player that threw the grenade if they have PHD Flopper
 
 ### Director
-* Always drops Wunderwaffe regardless of whether or not you have completed the sidequest
-* Upgraded assault rifles no longer deal extra damage to the Director
 * No longer gains additional health for each additional player
+* Upgraded assault rifles no longer deal extra damage to the Director
 * No longer affected by explosive damage scaling
+* Increased damage from 60 to 80
+* Always drops Wunderwaffe regardless of whether or not you have completed the sidequest
 * Only slows down players close to him when shot at while calm
 * Fixed a bug that caused shotgun damage on the Director to only count one pellet of damage per shot
 * Fixed a bug that caused the Director to not be able to electrify a player anymore after the player knifed an electrified zombie during an insta kill
@@ -902,6 +905,7 @@
 
 ### Cosmonaut
 * No longer affected by explosive damage scaling
+* Decreased damage from 60 to 50
 * Fixed a bug where the Cosmonaut would get stuck in place if spawned in while a player was on the jump pads
 * Fixed a bug where the Cosmonaut would be attracted towards a Gersch Device and move faster than intended after the Pack-a-Punch gates had been hacked
 * Cosmonaut no longer teleports players that activate a jump pad between the time of being grabbed and when they would have been teleported

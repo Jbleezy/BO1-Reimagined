@@ -243,7 +243,7 @@ zombie_spawn_init( animname_set )
 	self.deathFunction = ::zombie_death_animscript;
 	self.flame_damage_time = 0;
 
-	self.meleeDamage = 60;	// 45
+	self.meleeDamage = 50;
 	self.no_powerups = true;
 
 	self zombie_history( "zombie_spawn_init -> Spawned = " + self.origin );

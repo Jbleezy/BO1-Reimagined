@@ -288,7 +288,7 @@ shrink_zombie(upgraded, attacker)
 
 		//override damage
 		saved_meleeDamage = self.meleeDamage;
-		self.meleeDamage = 5;
+		self.meleeDamage = 10;
 		//Disable Attacks
 		//self.in_special_attack = true;
 
