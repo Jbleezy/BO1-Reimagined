@@ -5614,18 +5614,21 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 
 	if( sMeansOfDeath == "MOD_FALLING" )
 	{
-		if ( self HasPerk( "specialty_flakjacket" ) && isdefined( self.divetoprone ) && self.divetoprone == 1 )
+		if ( self HasPerk( "specialty_flakjacket" ) )
 		{
-			if ( IsDefined( level.zombiemode_divetonuke_perk_func ) )
+			if ( isdefined( self.divetoprone ) && self.divetoprone == 1 )
 			{
-				[[ level.zombiemode_divetonuke_perk_func ]]( self, self.origin );
+				if ( IsDefined( level.zombiemode_divetonuke_perk_func ) )
+				{
+					[[ level.zombiemode_divetonuke_perk_func ]]( self, self.origin );
+				}
 			}
 
 			return 0;
 		}
 
 		// increase fall damage beyond 110
-		if(finalDamage >= 110)
+		if(iDamage >= 110)
 		{
 			min_velocity = 420;
 			max_velocity = 740;

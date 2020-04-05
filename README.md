@@ -682,7 +682,14 @@
 * 1.5x bullet damage (stacks with Deadshot)
 * Decreased time between burst fire shots by 25%
 
-### Deadshot
+### Stamin-Up
+* No longer gives 110% sprint speed with any weapon
+* Now gives +10% move speed and +10% sprint speed
+
+### PHD Flopper
+* Fixed a bug where players took 1 damage when falling without diving
+
+### Deadshot Daiquiri
 * Increased cost from 1000 to 1500
 * 2x headshot damage (stacks with Double Tap)
 * Removed headshot aim assist with controllers
@@ -697,10 +704,6 @@
 * Added the Mule Kick perk icon as an indicator for which weapon is the player's additional weapon
 * Lost weapon is given back when perk is rebought (except if it was a limited weapon and another player has it now, the player already has the weapon, the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or the player bled out)
 * Gives ammo back if the player already has the weapon that they had previously lost when perk is rebought
-
-### Stamin-Up
-* No longer gives 110% sprint speed with any weapon
-* Now gives +10% move speed and +10% sprint speed
 
 ## Powerups
 * Decreased initial chance for a powerup to drop from 3% to 2%
