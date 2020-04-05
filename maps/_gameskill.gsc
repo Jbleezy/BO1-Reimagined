@@ -1323,6 +1323,7 @@ playerHealthRegen()
 
 			if(self.health == self.maxhealth)
 			{
+				oldratio = 1;
 				continue;
 			}
 		}

@@ -51,6 +51,7 @@
 * Fixed a bug where a player was able to revive another player by bleeding out next to them in water
 * Fixed a bug where downed players were able to occasionally damage alive players
 * Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
+* Fixed a bug where the first damage taken after being revived or respawning would sometimes not register
 * Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the fire button while spawning in
 * Fixed players getting stuck in the air when jumping next to an object with high FPS
 
