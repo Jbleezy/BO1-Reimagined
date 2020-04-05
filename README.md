@@ -667,8 +667,8 @@
 
 ### Quick Revive
 * No longer gives the player a self revive in solo
-* Decreases normal health regeneration time from 2.5 seconds to 2 seconds
-* Decreases low health regeneration time from 5 seconds to 4 seconds
+* Decreases health regeneration delay by 25%
+* Increases health regeneration rate by 25%
 * Increased cost in solo from 500 points to 1500 points
 * Powered off in solo when the power is off
 * Hintstring now says "Quick Revive" in solo and coop
