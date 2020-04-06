@@ -833,7 +833,7 @@ centrifuge_damage()
 		{
 			if ( ent GetStance() == "stand" )
 			{
-				RadiusDamage(ent.origin, 10, 50, 50, undefined, "MOD_UNKNOWN");
+				RadiusDamage(ent.origin + (0, 0, 5), 10, 80, 80, undefined, "MOD_UNKNOWN");
 				ent SetStance( "crouch" );
 			}
 		}

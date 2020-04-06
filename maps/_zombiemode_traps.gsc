@@ -769,7 +769,7 @@ trap_damage(activator)
 			case "rotating":
 				if ( ent GetStance() == "stand" )
 				{
-					ent dodamage( 155, ent.origin+(0,0,20) );
+					radiusdamage(ent.origin + (0, 0, 5), 10, 80, 80, undefined, "MOD_UNKNOWN");
 					ent SetStance( "crouch" );
 				}
 				break;
@@ -854,19 +854,20 @@ player_elec_damage()
 			//self playloopsound ("electrocution");
 			self playsound("zmb_zombie_arc");
 		}
-		if(!self hasperk("specialty_armorvest") || self.health - 100 < 1)
-		{
-			radiusdamage(self.origin,10,self.health + 100,self.health + 100);
-			self.is_burning = undefined;
 
+		damage = 0;
+		if(!self hasperk("specialty_armorvest"))
+		{
+			damage = self.health + 100;
 		}
 		else
 		{
-			self dodamage(50, self.origin);
-			wait(.1);
-			//self playsound("zmb_zombie_arc");
-			self.is_burning = undefined;
+			damage = 25;
 		}
+
+		radiusdamage(self.origin + (0, 0, 5), 10, damage, damage, undefined, "MOD_UNKNOWN");
+		wait 0.1;
+		self.is_burning = undefined;
 	}
 }
 
@@ -885,18 +886,19 @@ player_fire_damage()
 		self.is_burning = 1;
 		self setburn(1.25);
 
-		if(!self hasperk("specialty_armorvest") /*|| !self hasperk("specialty_armorvest_upgrade")*/ || self.health - 100 < 1)
+		damage = 0;
+		if(!self hasperk("specialty_armorvest"))
 		{
-			radiusdamage(self.origin,10,self.health + 100,self.health + 100);
-			self.is_burning = undefined;
+			damage = self.health + 100;
 		}
 		else
 		{
-			self dodamage(50, self.origin);
-			wait(.1);
-			//self playsound("zmb_zombie_arc");
-			self.is_burning = undefined;
+			damage = 25;
 		}
+
+		radiusdamage(self.origin + (0, 0, 5), 10, damage, damage, undefined, "MOD_UNKNOWN");
+		wait(.1);
+		self.is_burning = undefined;
 	}
 }
 

@@ -755,8 +755,11 @@
 * All trap triggers now display active and cooldown hintstrings
 * All traps now take players' points as soon as the trigger is activated
 * Fixed traps showing damage FX when player is spectating if the player bled out in a trap and the trap is active
+* Fixed a bug where sometimes traps would not kill players
 
 ### Electric Traps (All Maps)
+* Increased player damage with Jugger-Nog from 16 to 25
+* No longer instantly kills players with 100 health or less if they have Jugger-Nog
 * Decreased stun duration from 2.5 seconds to 1.5 seconds (now matches the duration of the electricity being on screen)
 * Only the trap handle that was activated now moves down
 
@@ -764,15 +767,11 @@
 * Decreased cooldown time from 90 seconds to 25 seconds (same as Verruckt and Der Riese)
 
 ### Flogger (Shi No Numa)
+* Changed player damage to 80 (previously 25 damage in solo and instantly kills in coop)
+* Cannot damage a player again if the player is still touching the flogger and has already been damaged by the flogger
 * Both triggers are now completely independent of eachother
 * One trigger can not be activated if the other trigger is currently active
 * Lights and hintstrings now display correctly when activating one trigger while the other trigger is on cooldown
-* Deals 100 damage to players
-* Cannot damage a player again if the player is still touching the flogger and has already been damaged by the flogger
-
-### Electric Traps (Der Riese)
-* Fixed a bug that caused the Trench Gun trap to turn on when opening the door to the teleporter room next to the Trench Gun room while still having the door for next tot the trap closed
-* Traps now display a hintstring when the power is on but the trap cannot be activated due to a door being closed
 
 ### Turrets (Kino Der Toten and Ascension)
 * Increased minimum damage from 250 to 500
@@ -960,9 +959,11 @@
 * Mid round hellhounds now spawn when no doors are open
 * Mid round hellhounds now have the same delay between spawns as zombies
 * Players will no longer get stuck on curbs
-* Fixed Mystery Box use trigger in the laboratory
+* Fixed Mystery Box use trigger in the Laboratory
 * Easter egg song now plays the whole song
 * Removed intro text
+* Fixed a bug that caused the Laboratory trap to turn on when opening the door to Teleporter A while still having the trap door closed
+* Traps now display a hintstring when the power is on but the trap cannot be activated due to a door being closed
 * Fixed a bug where a hellhound round could end prematurely if hellhounds were spawned from the teleporters and killed before the hellhound round started to spawn hellhounds
 
 #### Teleporters
@@ -1025,9 +1026,9 @@
 * The easter egg song teddy bears will float up and rotate around while the song is active
 
 #### Centrifuge
+* Changed player damage to 80 (previously 16 damage in solo and 40 damage in coop)
 * Increased maximum cooldown time from 90 seconds to 180 seconds
 * No longer stops spinning for entire rounds
-* Deals 50 damage to players
 * Fixed a bug where zombies that were killed from the Centrifuge in higher rounds became invisible and invincible
 * The player that is closest to a zombie that is killed from the Centrifuge gets the kill
 
@@ -1086,7 +1087,7 @@
 ### Shangri-La
 * Players now start with Semtex
 * Pack-a-Punch stones do not have to be stepped on at the same time
-* Quick Revive now spawns in randomly with Juggernog and Speed Cola
+* Quick Revive now spawns in randomly with Jugger-Nog and Speed Cola
 * Mule Kick now spawns in randomly with Double Tap, PHD Flopper, Stamin-Up, and Deadshot
 * Removed Mule Kick perk spawn location in the Waterfall zone
 * Added random perk spawn location in the Waterslide End zone

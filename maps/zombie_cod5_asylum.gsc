@@ -983,24 +983,21 @@ player_elec_damage()
 			//self playloopsound ("electrocution");
 			self playsound("zmb_zombie_arc");
 		}
-		if(!self hasperk("specialty_armorvest") || self.health - 100 < 1)
+
+		damage = 0;
+		if(!self hasperk("specialty_armorvest"))
 		{
-
-			radiusdamage(self.origin,10,self.health + 100,self.health + 100);
-			self.is_burning = undefined;
-
+			damage = self.health + 100;
 		}
 		else
 		{
-			self dodamage(50, self.origin);
-			wait(.1);
-			//self playsound("zombie_arc");
-			self.is_burning = undefined;
+			damage = 25;
 		}
 
-
+		radiusdamage(self.origin + (0, 0, 5), 10, damage, damage, undefined, "MOD_UNKNOWN");
+		wait 0.1;
+		self.is_burning = undefined;
 	}
-
 }
 
 zombie_elec_death(flame_chance, who)
