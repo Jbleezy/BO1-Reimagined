@@ -96,8 +96,8 @@
 		{
 			name			"fuelpercentage"
 			type			ITEM_TYPE_OWNERDRAW_TEXT
-			rect			0 (WEAPINFO_Y + 45) 20 20
-			exp				rect X( WEAPON_AMMO_X + 20 )
+			rect			0 (WEAPINFO_Y + 45) 60 40
+			exp				rect X( WEAPON_AMMO_X + 21 )
 			textscale		0.55
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_EXTRABIG
@@ -335,39 +335,6 @@
 			decoration
 		}
 		#endif
-	}
-
-	menuDef
-	{
-		name			"fueltankinfo"
-		rect			0 0 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_BOTTOM
-		fullScreen		0
-		visible			1
-
-		itemDef
-		{
-			name			"heaticon"
-			type			ITEM_TYPE_OWNERDRAW
-			rect			(WEAPINFO_X+8) (WEAPINFO_Y+38) 80 40
-			forecolor		1 1 1 1
-			ownerdraw		CG_PLAYER_FUEL_AMMO_VALUE
-			visible			1
-			decoration
-		}
-		itemDef
-		{
-			name			"fuelpercentage"
-			type			ITEM_TYPE_OWNERDRAW_TEXT
-			rect			(WEAPINFO_X - 50) (WEAPINFO_Y + 46) 1 1
-			textscale		0.55
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textfont		UI_FONT_EXTRABIG
-			forecolor		AMMO_COLOR 1
-			textalign		ITEM_ALIGN_RIGHT
-			ownerdraw		CG_PLAYER_FUEL_PERCENTAGE
-			visible			1
-			decoration
-		}
 	}
 
 	#define	DPAD_BASE_SIZE			32
