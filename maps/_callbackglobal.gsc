@@ -453,9 +453,8 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 		self.maxHealth = maxHealth;
 	}
 
-	if( isdefined( self.divetoprone ) && self.divetoprone == 1 )
+	/*if( isdefined( self.divetoprone ) && self.divetoprone == 1 )
 	{
-
 		if( sMeansOfDeath == "MOD_GRENADE_SPLASH" )
 		{
 
@@ -471,7 +470,7 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 				}
 			}
 		}
-	}
+	}*/
 	println("CB PD");
 
 	if( isdefined( eAttacker ) && ((isPlayer( eAttacker )) && (eAttacker.team == self.team))&& ( !isDefined( level.friendlyexplosivedamage ) || !level.friendlyexplosivedamage ))

@@ -158,6 +158,7 @@
 
 ### Explosive Weapons
 * Removed shellshock effect from all explosive weapon damage
+* No longer deal half damage to players if they were diving away from the explosion
 * Damage scaling over rounds is now done at a more consistent rate
 * Damage scaling caps at round 100
 
@@ -701,6 +702,7 @@
 * Carry an additional clip of stock ammo for every weapon
 * Added jingle
 * Fixed 3rd person model
+* Removed bottom part of machine model
 * Additional weapon slot will now always be the correct weapon
 * Added the Mule Kick perk icon as an indicator for which weapon is the player's additional weapon
 * Lost weapon is given back when perk is rebought (except if it was a limited weapon and another player has it now, the player already has the weapon, the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or the player bled out)
