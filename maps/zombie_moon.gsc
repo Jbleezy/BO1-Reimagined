@@ -2386,7 +2386,7 @@ override_box_locations()
 
 	level.override_place_treasure_chest_bottom = ::zombie_moon_place_treasure_chest_bottom;
 
-	origin = (-819, 1863, -362);
+	origin = (-819, 1810.5, -362);
 	angles = (0, 90, 0);
 	maps\_zombiemode_weapons::place_treasure_chest("tunnel6_chest", origin, angles, true);
 
