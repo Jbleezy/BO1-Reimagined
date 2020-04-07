@@ -4175,7 +4175,13 @@ place_treasure_chest(script_noteworthy, origin, angles, start_exclude)
 		}
 	}
 
-	trigger = Spawn( "trigger_radius_use", origin + (up * 32), 0, 20, 70 );
+	trig_origin = origin + (up * 32);
+	if(IsDefined(level.treasure_box_use_alternate_trigger))
+	{
+		trig_origin = origin + (up * 32) + (right * -18.5);
+	}
+	
+	trigger = Spawn( "trigger_radius_use", trig_origin, 0, 20, 70 );
 	trigger.angles = angles;
 	id = trigger GetEntityNumber();
 	trigger.script_noteworthy = script_noteworthy;

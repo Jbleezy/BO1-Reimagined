@@ -1956,6 +1956,7 @@ override_box_locations()
 	maps\_zombiemode_weapons::place_treasure_chest("north_balcony_chest", origin, angles);
 
 	level.treasure_box_use_alternate_clip = true;
+	level.treasure_box_use_alternate_trigger = true;
 
 	origin = (-548, 458, 228);
 	angles = (0, 180, 0);
