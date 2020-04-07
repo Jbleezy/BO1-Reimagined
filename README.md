@@ -288,7 +288,7 @@
 ### Kar98k
 * Unupgraded: increased damage from 170 to 500
 * Unupgraded: increased headshot damage from 350 to 1000
-* Upgraded: 50 round clip, no reserve ammo
+* Upgraded: increased reserve ammo from 60 to 64
 * Upgraded: increased damage from 1200 to 3000
 * Upgraded: increased headshot damage from 2000 to 6000
 
