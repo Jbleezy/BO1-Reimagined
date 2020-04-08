@@ -933,7 +933,6 @@ moon_round_think_func()
 			{
 				if(IsDefined(players[i].prev_rebuild_barrier_reward) && players[i].prev_rebuild_barrier_reward != 0)
 				{
-					iprintln(players[i].prev_rebuild_barrier_reward);
 					players[i].rebuild_barrier_reward = players[i].prev_rebuild_barrier_reward;
 				}
 			}
