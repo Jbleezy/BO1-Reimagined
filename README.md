@@ -422,7 +422,6 @@
 * Bulbs now light up correctly after reload cancelling
 
 #### Thundergun
-* Changed fire type to automatic
 * Weapon fails happen less often
 * Kills all zombies at once
 * Gives 50 points for each kill
