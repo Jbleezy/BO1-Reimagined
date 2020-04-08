@@ -908,6 +908,7 @@
 * No longer attracted towards Monkey Bombs
 
 ### Cosmonaut
+* Can be killed by the Wave Gun
 * No longer affected by explosive damage scaling
 * Decreased damage from 60 to 50
 * Fixed a bug where the Cosmonaut would get stuck in place if spawned in while a player was on the jump pads

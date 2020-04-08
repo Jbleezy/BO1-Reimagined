@@ -116,7 +116,7 @@ astro_prespawn()
 	self.actor_damage_func = ::astro_actor_damage;
 	self.nuke_damage_func = ::astro_nuke_damage;
 	self.custom_damage_func = ::astro_custom_damage;
-	self.microwavegun_sizzle_func = ::astro_microwavegun_sizzle;
+	//self.microwavegun_sizzle_func = ::astro_microwavegun_sizzle;
 
 	//self.noChangeDuringMelee = true;
 

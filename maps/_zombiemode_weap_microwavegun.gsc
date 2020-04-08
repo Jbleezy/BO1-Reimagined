@@ -367,7 +367,7 @@ microwavegun_sizzle_zombie( player, sizzle_vec, index )
 		self.microwavegun_death = true;
 		instant_explode = false;
 
-		if ( !self.isdog )
+		if ( !self.isdog && isdefined( self.animname ) && self.animname != "astro_zombie" )
 		{
 			if ( self.has_legs )
 			{
