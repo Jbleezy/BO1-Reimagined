@@ -188,14 +188,14 @@
 * Upgraded: fixed fire sound
 
 ### AUG
-* Upgraded: decreased reserve ammo from 390 to 360
+* Upgraded: decreased stock ammo from 390 to 360
 * Upgraded: added name of weapon attachment on HUD
 
 ### Ballistic Knife
 * Knives pick up automatically when close to them
 * Knives that are picked up no longer automatically fill the clip if the Ballistic Knife is not the player's current weapon
 * Decreased time to start reloading from .7 seconds to .5 seconds
-* Fixed a bug where a knife could be picked up if the player had max reserve ammo
+* Fixed a bug where a knife could be picked up if the player had max stock ammo
 * Obtaining the Bowie Knife or Sickle no longer gives you more ammo
 * Fixed a bug where a knife could not be picked up if another knife is fired and lands before the first knife
 * Fixed a bug where knives on the ground would disappear whenever the player uses the Pack-a-Punch machine
@@ -250,7 +250,7 @@
 ### CZ75 Dual Wield
 * Decreased recoil
 * Fixed empty clip idle, drop, and raise animations
-* Unupgraded: increased reserve ammo from 228 to 240
+* Unupgraded: increased stock ammo from 228 to 240
 
 ### Double-Barreled Shotgun
 * Spread increases while moving
@@ -263,22 +263,22 @@
 * Removed (replaced by PSG1)
 
 ### Famas
-* Unupgraded: increased reserve ammo from 150 to 300
-* Upgraded: increased reserve ammo from 225 to 450
+* Unupgraded: increased stock ammo from 150 to 300
+* Upgraded: increased stock ammo from 225 to 450
 
 ### FG42
-* Upgraded: decreased reserve ammo from 400 to 384
+* Upgraded: decreased stock ammo from 400 to 384
 
 ### G11
-* Unupgraded: increased reserve ammo from 144 to 192
-* Upgraded: increased reserve ammo from 288 to 384
+* Unupgraded: increased stock ammo from 144 to 192
+* Upgraded: increased stock ammo from 288 to 384
 
 ### Gewehr 43
 * Unupgraded: increased damage from 120 to 130
-* Upgraded: decreased reserve ammo from 170 to 168
+* Upgraded: decreased stock ammo from 170 to 168
 
 ### HK21
-* Upgraded: decreased reserve ammo from 750 to 600
+* Upgraded: decreased stock ammo from 750 to 600
 
 ### HS10
 * Upgraded: fixed right weapon fire sound
@@ -288,7 +288,7 @@
 ### Kar98k
 * Unupgraded: increased damage from 170 to 500
 * Unupgraded: increased headshot damage from 350 to 1000
-* Upgraded: increased reserve ammo from 60 to 64
+* Upgraded: increased stock ammo from 60 to 64
 * Upgraded: increased damage from 1200 to 3000
 * Upgraded: increased headshot damage from 2000 to 6000
 
@@ -313,7 +313,7 @@
 * Added empty clip animations
 
 ### M16
-* Unupgraded: increased reserve ammo from 120 to 150
+* Unupgraded: increased stock ammo from 120 to 150
 * Upgraded: increased grenade launcher damage scaling over rounds
 * Upgraded: decreased grenade launcher explosion radius by 36%
 * Upgraded: increased grenade launcher impact damage from 700 to 800
@@ -323,7 +323,7 @@
 * Upgraded: ammo for weapon attachment now shows on HUD
 
 ### M1911
-* Upgraded: decreased reserve ammo from 50 to 48
+* Upgraded: decreased stock ammo from 50 to 48
 * Upgraded: increased impact damage from 1000 to 1200
 * Upgraded: increased minimum explosion damage from 75 to 300
 * Upgraded: camo now displays when downed in solo
@@ -347,8 +347,8 @@
 * Upgraded: fire effect now plays when damaging a zombie
 
 ### PM63
-* Unupgraded: increased reserve ammo from 100 to 120
-* Upgraded: increased reserve ammo from 225 to 250
+* Unupgraded: increased stock ammo from 100 to 120
+* Upgraded: increased stock ammo from 225 to 250
 * Upgraded: decreased hipfire spread
 * Upgraded: decreased recoil
 
@@ -371,8 +371,8 @@
 * Changed buy hintstring from "Sawed-Off Shotgun" to "Sawed-Off Double-Barreled Shotgun"
 
 ### Spectre
-* Unupgraded: increased reserve ammo from 120 to 240
-* Upgraded: increased reserve ammo from 225 to 360
+* Unupgraded: increased stock ammo from 120 to 240
+* Upgraded: increased stock ammo from 225 to 360
 
 ### Stakeout
 * Changed dive animation times
@@ -381,15 +381,15 @@
 * Upgraded: changed name from "Spatz-447 +" to "Spatz-447"
 
 ### Thompson
-* Upgraded: decreased reserve ammo from 250 to 240
+* Upgraded: decreased stock ammo from 250 to 240
 
 ### Trench Gun
 * Spread increases while moving
 * Fixed shell eject effect showing 2 shells
 
 ### Type 100
-* Unupgraded: increased reserve ammo from 160 to 180
-* Upgraded: increased reserve ammo from 220 to 240
+* Unupgraded: increased stock ammo from 160 to 180
+* Upgraded: increased stock ammo from 220 to 240
 
 ### Wonder Weapons
 
@@ -626,7 +626,7 @@
 
 ## Wallbuys
 * Decreased upgraded ammo cost from 4500 points to 2500 points
-* Can now purchase ammo if reserve ammo is full but clip ammo is not full
+* Can now purchase ammo if stock ammo is full but clip ammo is not full
 * Can now purchase ammo for weapons with attachments if only the attachment ammo is not full
 * Can now purchase ammo for dual wield weapons if only the left weapon clip is not full
 * Purchasing ammo for dual wield weapons will no longer fully fill the stock ammo if either of the clips are not full
