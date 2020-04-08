@@ -485,6 +485,9 @@
 * Upgraded: decreased range by 62.5% (now has the same range as the unupgraded version)
 * Upgraded: increased radius by 7% (now has the same radius as the unupgraded version)
 
+#### Zap Gun Dual Wield
+* Upgraded: decreased stock ammo from 100 to 96
+
 #### Wave Gun
 * Weapon fails happen less often
 * Kills all zombies at once

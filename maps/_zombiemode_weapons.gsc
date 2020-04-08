@@ -4264,6 +4264,15 @@ give_max_ammo(weapon, give_start_ammo)
 		self GiveMaxAmmo(weapon);
 	}
 
+	// upgraded zap gun - remove 4 ammo from stock so stock ammo is divisible by clip size
+	// had to be done from here since weaponfile for zap gun isn't in raw
+	if(weapon == "microwavegundw_upgraded_zm")
+	{
+		max_ammo -= 4;
+		self SetWeaponAmmoStock(weapon, self GetWeaponAmmoStock(weapon) - 4);
+	}
+
+	// specialty_stockpile - give weapons 1 extra stock clip
 	if(self HasPerk("specialty_stockpile"))
 	{
 		if(give_start_ammo)
