@@ -137,7 +137,7 @@ PlayerLastStand( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sH
 		self VisionSetLastStand( "laststand", 1 );
 	}
 
-	if(self._retain_perks)
+	if(IsDefined(self._retain_perks))
 	{
 		self.health = 250;
 	}
