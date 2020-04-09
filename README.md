@@ -1060,6 +1060,7 @@
 * Zombies now spawn in the Coast zone when in the Walkway zone
 * Increased cost of the debris between the Lighthouse Shore zone and the Lower Ship Center zone from 750 points to 1000 points
 * Zombies no longer take damage from the water when low on health
+* Fixed a bug where players could occasionally die in the Lighthouse Station Roof zone if they jumped too far off the staircase
 
 #### Flinger
 * Zombies flung now count as actual kills

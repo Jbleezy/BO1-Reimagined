@@ -302,7 +302,9 @@ coast_zone_init()
 	flag_init( "always_on" );
 	flag_set( "always_on" );
 
-	// Start now in lighthouse, lighthouse1_zone
+	zone_volume = Spawn( "trigger_radius", (-900, 700, 450), 0, 128, 128 );
+	zone_volume.targetname = "residence_roof_zone";
+	zone_volume.script_noteworthy = "player_volume";
 
 	// exit through lighthouse to beach facing ship.
 	add_adjacent_zone( "start_zone", "lighthouse1_zone", "lighthouse_enter" );
