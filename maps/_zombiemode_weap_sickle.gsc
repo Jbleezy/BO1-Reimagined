@@ -182,11 +182,7 @@ give_sickle_think(player)
 
 give_sickle()
 {
-	//self SetPerk( "specialty_altmelee" );
-
-	has_fastswitch = self HasPerk("specialty_fastswitch");
-
-	if(has_fastswitch)
+	if(self HasPerk("specialty_fastads"))
 	{
 		self UnSetPerk("specialty_fastswitch");
 	}
@@ -196,7 +192,7 @@ give_sickle()
 
 	self waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
 
-	if(has_fastswitch && !self maps\_laststand::player_is_in_laststand() && !is_true(self.intermission) && self.sessionstate != "spectator")
+	if(self HasPerk("specialty_fastads"))
 	{
 		self SetPerk("specialty_fastswitch");
 	}

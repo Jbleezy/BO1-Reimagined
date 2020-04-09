@@ -133,8 +133,7 @@ gasmask_activation_watcher_thread()
 	{
 		self waittill_either("equip_gasmask_zm_activate", "equip_gasmask_zm_deactivate");
 
-		has_fastswitch = self HasPerk("specialty_fastswitch");
-		if(has_fastswitch)
+		if(self HasPerk("specialty_fastads"))
 		{
 			self UnSetPerk("specialty_fastswitch");
 		}
@@ -206,7 +205,7 @@ gasmask_activation_watcher_thread()
 			self TakeWeapon("lower_equip_gasmask_zm");
 		}
 
-		if(has_fastswitch)
+		if(self HasPerk("specialty_fastads"))
 		{
 			self SetPerk("specialty_fastswitch");
 		}

@@ -909,9 +909,7 @@ wait_for_timeout( weapon, packa_timer )
 //
 do_knuckle_crack()
 {
-	has_fastswitch = self HasPerk("specialty_fastswitch");
-
-	if(has_fastswitch)
+	if(self HasPerk("specialty_fastads"))
 	{
 		self UnSetPerk("specialty_fastswitch");
 	}
@@ -920,7 +918,7 @@ do_knuckle_crack()
 
 	self waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
 
-	if(has_fastswitch && !self maps\_laststand::player_is_in_laststand() && !is_true(self.intermission) && self.sessionstate != "spectator")
+	if(self HasPerk("specialty_fastads"))
 	{
 		self SetPerk("specialty_fastswitch");
 	}
@@ -1758,23 +1756,22 @@ vending_trigger_think()
 
 
 		// do the drink animation
-		has_fastswitch = player HasPerk("specialty_fastswitch");
-		if(has_fastswitch)
+		if(player HasPerk("specialty_fastads"))
 		{
 			player UnSetPerk("specialty_fastswitch");
 		}
 		gun = player perk_give_bottle_begin( perk );
-		self thread give_perk_think(player, gun, perk, cost, has_fastswitch);
+		self thread give_perk_think(player, gun, perk, cost);
 	}
 }
 
-give_perk_think(player, gun, perk, cost, has_fastswitch)
+give_perk_think(player, gun, perk, cost)
 {
 	player waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
 
 	if ( !player maps\_laststand::player_is_in_laststand() && !is_true( player.intermission ) )
 	{
-		if(has_fastswitch)
+		if(player HasPerk("specialty_fastads"))
 		{
 			player SetPerk("specialty_fastswitch");
 		}
