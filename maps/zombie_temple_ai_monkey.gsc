@@ -1032,21 +1032,11 @@ _monkey_zombieTempleEscapeDeathCallback()
 		/*if( is_true(self.attacking_player) && noMeleeHits && isFavoriteEnemy )
 		{
 			self.attacker maps\_zombiemode_score::player_add_points( "thundergun_fling", 500, (0,0,0), false );
-		}
-		else
-		{	//Do damage event so we only ward 10 points
-			self.attacker maps\_zombiemode_score::player_add_points( "damage" );
 		}*/
 
-		event = "death";
-		if ( issubstr( self.damageweapon, "knife_ballistic_" ) )
-		{
-			event = "ballistic_knife_death";
-		}
-		
 		if(!is_true(self.nuked) && !is_true(self.trap_death))
 		{
-			self.attacker maps\_zombiemode_score::player_add_points( event, self.damagemod, self.damagelocation, false );
+			self.attacker maps\_zombiemode_score::player_add_points( "damage" );
 		}
 	}
 
