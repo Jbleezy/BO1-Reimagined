@@ -1742,7 +1742,7 @@ onPlayerConnect_clientDvars()
 	self SetClientDvar("cg_drawBreathHint", 0);
 
 	// turn enemy counter HUD off initially
-	self SetClientDvar("hud_enemy_counter_on_game", false);
+	self SetClientDvar("hud_enemy_counter_on_game", 0);
 	self SetClientDvar("hud_enemy_counter_value", "");
 
 	// reset versus HUD dvars
@@ -1966,6 +1966,11 @@ onPlayerSpawned()
 			"cg_fov", "90",
 			"cg_thirdPersonAngle", "0",
 			"ui_show_mule_wep_indicator", "0" );
+		
+		self setClientDvar("hud_timer_on_game", 1);
+		self setClientDvar("hud_health_bar_on_game", 1);
+		self setClientDvar("hud_zone_name_on_game", 1);
+		self setClientDvar("hud_character_names_on_game", 1);
 
 		self SetDepthOfField( 0, 0, 512, 4000, 4, 0 );
 
@@ -2798,6 +2803,9 @@ spawnSpectator()
 	self SetElectrified(0);
 	self SetBurn(0);
 	self SetBlur(0);
+
+	self setClientDvar("hud_health_bar_on_game", 0);
+	self setClientDvar("hud_zone_name_on_game", 0);
 
 	println( "*************************Zombie Spectator***" );
 	self detachAll();
@@ -7691,6 +7699,12 @@ player_intermission()
 	self.archivetime = 0;
 	self.psoffsettime = 0;
 	self.friendlydamage = undefined;
+
+	self SetClientDvar("hud_enemy_counter_on_game", 0);
+	self setClientDvar("hud_timer_on_game", 0);
+	self setClientDvar("hud_health_bar_on_game", 0);
+	self setClientDvar("hud_zone_name_on_game", 0);
+	self setClientDvar("hud_character_names_on_game", 0);
 
 	points = getstructarray( "intermission", "targetname" );
 

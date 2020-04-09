@@ -10,54 +10,6 @@
 
 	menuDef
 	{
-		name				"health_bar"
-		rect				4 -113 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_BOTTOM
-		fullscreen			0
-		visible				when(dvarBool("hud_health_bar_on"))
-
-		itemDef
-		{
-			name				"health_bar_background_image"
-			type				ITEM_TYPE_IMAGE
-			style				WINDOW_STYLE_SHADER
-			rect				0 0 114 14
-			foreColor			0 0 0 0.5
-			background			"white"
-			visible				1
-			decoration
-		}
-
-		itemDef
-		{
-			name				"health_bar_image"
-			type				ITEM_TYPE_IMAGE
-			style				WINDOW_STYLE_SHADER
-			rect				2 2 110 10
-			exp					rect W(dvarInt("hud_health_bar_width"))
-			foreColor			1 1 1 0.85
-			background			"white"
-			visible				1
-			decoration
-		}
-
-		itemDef
-		{
-			name				"health_bar_value"
-			type				ITEM_TYPE_TEXT
-			rect 				57 13 0 0
-			foreColor			1 1 1 1
-			textScale			TEXTSIZE_SMALL
-			textStyle			ITEM_TEXTSTYLE_SHADOWED
-			textFont			UI_FONT_NORMAL
-			textalign			ITEM_ALIGN_CENTER
-			exp					text(dvarInt("hud_health_bar_value"))
-			visible				1
-			decoration
-		}
-	}
-
-	menuDef
-	{
 		name				"enemy_counter"
 		rect				0 0 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_TOP
 		fullscreen			0
@@ -84,7 +36,7 @@
 		name				"timer"
 		rect				0 0 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_TOP
 		fullscreen			0
-		visible				when(dvarBool("hud_timer_on"))
+		visible				when(dvarBool("hud_timer_on") && dvarBool("hud_timer_on_game"))
 
 		itemDef
 		{
@@ -188,10 +140,58 @@
 
 	menuDef
 	{
+		name				"health_bar"
+		rect				4 -113 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_BOTTOM
+		fullscreen			0
+		visible				when(dvarBool("hud_health_bar_on") && dvarBool("hud_health_bar_on_game"))
+
+		itemDef
+		{
+			name				"health_bar_background_image"
+			type				ITEM_TYPE_IMAGE
+			style				WINDOW_STYLE_SHADER
+			rect				0 0 114 14
+			foreColor			0 0 0 0.5
+			background			"white"
+			visible				1
+			decoration
+		}
+
+		itemDef
+		{
+			name				"health_bar_image"
+			type				ITEM_TYPE_IMAGE
+			style				WINDOW_STYLE_SHADER
+			rect				2 2 110 10
+			exp					rect W(dvarInt("hud_health_bar_width"))
+			foreColor			1 1 1 0.85
+			background			"white"
+			visible				1
+			decoration
+		}
+
+		itemDef
+		{
+			name				"health_bar_value"
+			type				ITEM_TYPE_TEXT
+			rect 				57 13 0 0
+			foreColor			1 1 1 1
+			textScale			TEXTSIZE_SMALL
+			textStyle			ITEM_TEXTSTYLE_SHADOWED
+			textFont			UI_FONT_NORMAL
+			textalign			ITEM_ALIGN_CENTER
+			exp					text(dvarInt("hud_health_bar_value"))
+			visible				1
+			decoration
+		}
+	}
+
+	menuDef
+	{
 		name				"zone_name"
 		rect				0 0 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_BOTTOM
 		fullscreen			0
-		visible				when(dvarBool("hud_zone_name_on"))
+		visible				when(dvarBool("hud_zone_name_on") && dvarBool("hud_zone_name_on_game"))
 
 		itemDef
 		{
@@ -227,7 +227,7 @@
 		name				"character_names"
 		rect				-163 -93 0 0 HORIZONTAL_ALIGN_USER_RIGHT VERTICAL_ALIGN_USER_BOTTOM
 		fullscreen			0
-		visible				when(dvarBool("hud_character_names_on") && !dvarBool("cl_paused"))
+		visible				when(dvarBool("hud_character_names_on") && dvarBool("hud_character_names_on_game") && !dvarBool("cl_paused"))
 
 		itemDef
 		{
