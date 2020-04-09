@@ -490,6 +490,7 @@
 #### Wave Gun
 * Weapon fails happen less often
 * Kills all zombies at once
+* No longer instantly kills zombies traversing over barriers
 * Gives 50 points for each kill
 * Decreased range by 6.25%
 
@@ -1053,7 +1054,7 @@
 
 ### Call of the Dead
 * Players now start with Semtex
-* Added Mystery Box location in the Ship Rear zone
+* Added Mystery Box location in the Ship Stern zone
 * Removed zombie spawn delay at the beginning of a match
 * Decreased the delay between switching Pack-a-Punch locations from 100-120 seconds to 15 seconds
 * Zombies now spawn in the Coast zone when in the Walkway zone

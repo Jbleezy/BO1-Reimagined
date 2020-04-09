@@ -380,11 +380,14 @@ microwavegun_sizzle_zombie( player, sizzle_vec, index )
 		}
 		else
 		{
-			self.a.nodeath = undefined;
+			if ( self.isdog )
+			{
+				self.a.nodeath = undefined;
+			}
 			instant_explode = true;
 		}
 
-		if ( is_true( self.is_traversing ) || is_true( self.in_the_ceiling ) )
+		if ( is_true( self.in_the_ground ) || is_true( self.in_the_ceiling ) )
 		{
 			self.deathanim = undefined;
 			instant_explode = true;
