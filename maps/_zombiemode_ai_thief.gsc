@@ -1906,7 +1906,7 @@ player_knuckle_crack_begin()
 
 player_do_knuckle_crack()
 {
-	if(self HasPerk("specialty_fastads"))
+	if(self HasPerk("specialty_fastreload"))
 	{
 		self UnSetPerk("specialty_fastswitch");
 	}
@@ -1915,7 +1915,7 @@ player_do_knuckle_crack()
 
 	self waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
 
-	if(self HasPerk("specialty_fastads"))
+	if(self HasPerk("specialty_fastreload"))
 	{
 		self SetPerk("specialty_fastswitch");
 	}

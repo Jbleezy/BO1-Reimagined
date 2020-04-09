@@ -182,7 +182,7 @@ give_sickle_think(player)
 
 give_sickle()
 {
-	if(self HasPerk("specialty_fastads"))
+	if(self HasPerk("specialty_fastreload"))
 	{
 		self UnSetPerk("specialty_fastswitch");
 	}
@@ -192,7 +192,7 @@ give_sickle()
 
 	self waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
 
-	if(self HasPerk("specialty_fastads"))
+	if(self HasPerk("specialty_fastreload"))
 	{
 		self SetPerk("specialty_fastswitch");
 	}
