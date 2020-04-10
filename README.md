@@ -1029,7 +1029,6 @@
 * Added Double Tap perk machine in the Outside Launch Area zone
 * Zombies no longer spawn in the Stairs zone when in the Centrifuge Zone
 * Zombies now spawn in the Stairs zone when in the Upper Centrifuge Zone
-* The easter egg song teddy bears will float up and rotate around while the song is active
 
 #### Centrifuge
 * Changed player damage to 80 (previously 16 damage in solo and 40 damage in coop)

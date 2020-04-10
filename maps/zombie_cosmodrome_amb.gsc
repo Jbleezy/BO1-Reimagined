@@ -183,7 +183,7 @@ setup_teddybear_audio()
     level.music_override = false;
     array_thread( GetEntArray( "mus_teddybear", "targetname" ), ::teddybear_egg );
     //Make the Teddy Bear Dance in this function
-    array_thread( GetEntArray( "mus_teddybear", "targetname" ), ::dancing_teddy_bear );
+    //array_thread( GetEntArray( "mus_teddybear", "targetname" ), ::dancing_teddy_bear );
 }
 
 teddybear_egg()
