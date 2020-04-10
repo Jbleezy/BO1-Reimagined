@@ -1056,8 +1056,8 @@
 * Added Mystery Box location in the Ship Stern zone
 * Removed zombie spawn delay at the beginning of a match
 * Decreased the delay between switching Pack-a-Punch locations from 100-120 seconds to 15 seconds
-* Zombies now spawn in the Coast zone when in the Walkway zone
-* Increased cost of the debris between the Lighthouse Shore zone and the Lower Ship Center zone from 750 points to 1000 points
+* Zombies now spawn in the Beach zone when in the Ship Path zone
+* Increased cost of the debris between the Lighthouse Cove zone and the Lower Ship Cargo Hold zone from 750 points to 1000 points
 * Zombies no longer take damage from the water when low on health
 * Fixed a bug where players could occasionally die in the Lighthouse Station Roof zone if they jumped too far off the staircase
 
@@ -1096,12 +1096,12 @@
 * Quick Revive now spawns in randomly with Jugger-Nog and Speed Cola
 * Mule Kick now spawns in randomly with Double Tap, PHD Flopper, Stamin-Up, and Deadshot
 * Removed Mule Kick perk spawn location in the Waterfall zone
-* Added random perk spawn location in the Waterslide End zone
+* Added random perk spawn location in the Waterslide Exit zone
 * Mystery Box can now start in the Water Wheels zone
-* Zombies now spawn in the Minecart zone when in the Waterslide End zone after the power is on
+* Zombies now spawn in the Minecart Area zone when in the Waterslide Exit zone after the power is on
 * Zombies now spawn in the Waterfall Tunnel zone when in the Upper Waterfall zone
 * Zombies now spawn in the Waterfall zone when in the upper part of the Waterfall Tunnel zone
-* Increased cost of the door between the Waterslide End zone and the Turntable zone from 1000 points to 1250 points
+* Increased cost of the door between the Waterslide Exit zone and the Turntable zone from 1000 points to 1250 points
 * Increased cost of the debris between the Waterfall zone and the Water Cave zone from 1000 points to 1250 points
 * Added Pack-a-Punch FX
 * Eclipse mode activatable with 1-4 players
