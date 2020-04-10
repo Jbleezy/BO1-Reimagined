@@ -89,7 +89,7 @@
 * Option to show FPS on HUD
 * Option to add weapon cycle delay
 * Option to enable or disable fog
-* Options to enable or disable timer, zombie counter, zone names, and character names
+* Options to enable or disable enemy counter, timer, health bar, zone names, and character names
 * Option to enable or disable character dialog (host only)
 * Option to choose which room you start in on Verruckt (host only)
 * Option to choose which perk you start with on No Man's Land (host only)

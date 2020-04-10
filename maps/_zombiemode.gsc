@@ -8270,7 +8270,7 @@ total_time()
 {
 	level endon( "intermission" );
 
-	flag_wait( "begin_spawning" );
+	level waittill("fade_introblack");
 
 	level.total_time = 0;
 	while(1)
@@ -8313,13 +8313,12 @@ round_time_loop()
 		return;
 	}
 
-	flag_wait( "begin_spawning" );
-
 	if(level.script == "zombie_moon" && level.gamemode == "survival")
 	{
 		level waittill( "end_of_round" );
-		level waittill( "start_of_round" );
 	}
+
+	level waittill( "start_of_round" );
 
 	while(1)
 	{
