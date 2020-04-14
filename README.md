@@ -911,11 +911,12 @@
 * Can be killed by the Wave Gun
 * No longer affected by explosive damage scaling
 * Decreased damage from 60 to 50
-* Fixed a bug where the Cosmonaut would get stuck in place if spawned in while a player was on the jump pads
-* Fixed a bug where the Cosmonaut would be attracted towards a Gersch Device and move faster than intended after the Pack-a-Punch gates had been hacked
-* Cosmonaut no longer teleports players that activate a jump pad between the time of being grabbed and when they would have been teleported
+* No longer teleports players that activate a jump pad between the time of being grabbed and when they would have been teleported
 * Now kills any zombies nearby when Cosmonaut explodes
 * Removed name above Cosmonaut's head
+* Now dies if trapped in a zone due to the excavator being active
+* Fixed a bug where the Cosmonaut would get stuck in place if spawned in while a player was on the jump pads
+* Fixed a bug where the Cosmonaut would be attracted towards a Gersch Device and move faster than intended after the Pack-a-Punch gates had been hacked
 
 ## Maps
 * Easter egg songs can now be reactivated once the song is over
@@ -1246,8 +1247,8 @@
 * Every player starts with 10,000 points and will get 5,000 points at the beginning of each new round if they have less than 5,000 points
 * Win a round by getting all enemy players down
 * Win the game by winning 3 rounds
-* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
-* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
+* Shangri-La: unlimited Napalm and Shrieker zombies can spawn (only one of each can be spawned in at a time)
+* Moon: unlimited Cosmonaut zombies can spawn (only one can be spawned in at a time)
 
 #### Race
 * Unlimited zombies
@@ -1255,8 +1256,8 @@
 * Auto revive after 10 seoconds
 * Starts at round 1, every 30 seconds round increases until round 20
 * Team with most kills after round 20 or first team to 500 kills wins
-* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
-* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
+* Shangri-La: unlimited Napalm and Shrieker zombies can spawn (only one of each can be spawned in at a time)
+* Moon: unlimited Cosmonaut zombies can spawn (only one can be spawned in at a time)
 
 #### Gun Game
 * Unlimited ammo
@@ -1273,8 +1274,8 @@
 * Only the player who killed the zombie can grab and see the gun increment powerup
 * Going down will set the player back one weapon
 * New powerup: upgrade weapon powerup (for 30 seconds get the upgraded version of any weapon you are currently on)
-* Shangri-La: unlimited napalm and shrieker zombies can spawn (only one of each can be spawned in at a time)
-* Moon: unlimited cosmonauts zombies can spawn (only one can be spawned in at a time)
+* Shangri-La: unlimited Napalm and Shrieker zombies can spawn (only one of each can be spawned in at a time)
+* Moon: unlimited Cosmonaut zombies can spawn (only one can be spawned in at a time)
 
 ## SPECIAL THANKS
 * **_ApexModder_** - perk bump sounds, assisted with localized strings, assisted with client scripting, assisted with menu scripting
