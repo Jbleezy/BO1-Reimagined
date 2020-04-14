@@ -839,15 +839,6 @@ astro_zombie_die()
 
 	_debug_astro_print( "astro killed in " + level.round_number );
 
-	if(IsDefined(self.attacker))
-	{
-		self.attacker thread [[level.quantum_bomb_results["zombie_fling"].result_func]]( self.origin );
-	}
-	else
-	{
-		level thread [[level.quantum_bomb_results["zombie_fling"].result_func]]( self.origin );
-	}
-
 	if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
 	{
 		level thread astro_zombie_total_update();
@@ -875,6 +866,7 @@ astro_player_pulse()
 	foot_org = self.origin + ( 0, 0, 8 );
 	mid_org = ( foot_org[0], foot_org[1], ( foot_org[2] + eye_org[2] ) / 2 );
 	astro_org = self.origin;
+	attacker = self.attacker;
 
 	if ( isdefined( self.player_to_headbutt ) )
 	{
@@ -938,10 +930,17 @@ astro_player_pulse()
 		player_velocity = dir;
 		//boost_velocity = player_velocity + ( 0, 0, 100 );
 		player SetVelocity( player_velocity );
+	}
 
-		if( isdefined( level.ai_astro_explode ) )
+	if( isdefined( level.ai_astro_explode ) )
+	{
+		if(IsDefined(attacker))
 		{
-			player thread [[ level.ai_astro_explode ]]( mid_org );
+			attacker thread [[ level.ai_astro_explode ]]( mid_org );
+		}
+		else
+		{
+			level thread [[ level.ai_astro_explode ]]( mid_org );
 		}
 	}
 }
