@@ -9158,7 +9158,7 @@ player_gravity_fix()
 
 	while(1)
 	{
-		if(GetDvar("noclip") == 1)
+		if(GetDvarInt("sv_cheats"))
 		{
 			wait_network_frame();
 			continue;
