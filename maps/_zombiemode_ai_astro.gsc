@@ -491,7 +491,7 @@ astro_zombie_headbutt_think()
 			headbutt_anim = %ai_zombie_astro_headbutt;
 			time = getAnimLength( headbutt_anim );
 			self animscripted( "headbutt_anim", self.origin, self.angles, headbutt_anim, "normal", %body, 1, 0.1 );
-			self.player_to_headbutt thread astro_restore_move_speed( time );
+			self.player_to_headbutt thread astro_restore_move_speed( self, time );
 			wait( time );
 
 			self.next_headbutt_time = GetTime() + level.astro_headbutt_delay;
@@ -502,11 +502,11 @@ astro_zombie_headbutt_think()
 	}
 }
 
-astro_restore_move_speed( time )
+astro_restore_move_speed( astro, time )
 {
 	self endon( "disconnect" );
 
-	wait( time );
+	astro waittill_notify_or_timeout("death", time);
 	self AllowJump( true );
 	self AllowProne( true );
 	self AllowCrouch( true );
