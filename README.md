@@ -913,7 +913,7 @@
 * Decreased damage from 60 to 50
 * No longer teleports players that activate a jump pad between the time of being grabbed and when they would have been teleported
 * Now kills any zombies nearby when Cosmonaut explodes
-* Removed name above Cosmonaut's head
+* Removed name above head
 * Now dies if trapped in a zone due to the excavator being active
 * Fixed a bug where the Cosmonaut would get stuck in place if spawned in while a player was on the jump pads
 * Fixed a bug where the Cosmonaut would be attracted towards a Gersch Device and move faster than intended after the Pack-a-Punch gates had been hacked

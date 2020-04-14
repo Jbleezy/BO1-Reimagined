@@ -1717,8 +1717,9 @@ onPlayerConnect_clientDvars()
 	// disable deadshot aim assist on controllers
 	self setClientDvar( "aim_autoAimRangeScale", 0 );
 
-	// disable dev names on cosmonaut
+	// disable names on cosmonaut
 	self SetClientDvar("r_zombieNameAllowDevList", 0);
+	self SetClientDvar("r_zombieNameAllowFriends", 0);
 
 	// makes FPS area in corner smaller
 	self SetClientDvar("cg_drawFPSLabels", 0);
