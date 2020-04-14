@@ -854,7 +854,7 @@ astro_delay_delete()
 	self SetPlayerCollision( 0 );
 	self thread maps\_zombiemode_spawner::zombie_eye_glow_stop();
 	wait_network_frame();
-	self Hide();
+	self Delete();
 }
 
 //-----------------------------------------------------------------
@@ -952,12 +952,18 @@ astro_actor_damage( weapon, damage, attacker )
 {
 	self endon( "death" );
 
-	switch( weapon )
+	if(weapon == "microwavegundw_zm" || weapon == "microwavegundw_upgraded_zm")
 	{
-	case "microwavegundw_zm":
-	case "microwavegundw_upgraded_zm":
-		damage = 0;
-		break;
+		if(weapon == "microwavegundw_zm")
+		{
+			damage = 1500;
+		}
+		else
+		{
+			damage = 2000;
+		}
+
+		self maps\_zombiemode_weap_microwavegun::microwavegun_zap_death_fx(weapon);
 	}
 
 	return damage;

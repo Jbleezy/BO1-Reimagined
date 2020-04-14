@@ -484,7 +484,7 @@
 * Upgraded: decreased range by 62.5% (now has the same range as the unupgraded version)
 * Upgraded: increased radius by 7% (now has the same radius as the unupgraded version)
 
-#### Zap Gun Dual Wield
+#### Zap Gun
 * Upgraded: decreased stock ammo from 100 to 96
 
 #### Wave Gun
@@ -908,6 +908,7 @@
 * No longer attracted towards Monkey Bombs
 
 ### Cosmonaut
+* Can be damaged by the Zap Gun (unupgraded: 1500 damage, upgraded: 2000 damage)
 * Can be killed by the Wave Gun
 * No longer affected by explosive damage scaling
 * Decreased damage from 60 to 50

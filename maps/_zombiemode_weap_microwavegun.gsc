@@ -564,7 +564,7 @@ microwavegun_zap_death_fx( weapon )
 	{
 		self thread [[ self.microwavegun_zap_head_gib_func ]]( weapon );
 	}
-	else if ( "quad_zombie" != self.animname )
+	else if ( "quad_zombie" != self.animname && "astro_zombie" != self.animname )
 	{
 		self thread microwavegun_zap_head_gib( weapon );
 	}
