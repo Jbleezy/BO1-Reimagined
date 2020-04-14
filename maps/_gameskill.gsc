@@ -1436,7 +1436,7 @@ playerHealthRegen()
 		{
 			 // if player's health is <= 1, code's player_deathInvulnerableTime has kicked in and the player won't lose health for a while.
 			 // set the health to 2 so we can at least detect when they're getting hit.
-			self setnormalhealth( 2 / self.maxHealth );
+			self setnormalhealth( 1 / self.maxHealth );
 			invulWorthyHealthDrop = true;
 /#
 			if ( !isDefined( level.player_deathInvulnerableTimeout ) )
