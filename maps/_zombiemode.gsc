@@ -1743,7 +1743,12 @@ onPlayerConnect_clientDvars()
 
 	// turn enemy counter HUD off initially
 	self SetClientDvar("hud_enemy_counter_on_game", 0);
+
 	self SetClientDvar("hud_enemy_counter_value", "");
+	self SetClientDvar("hud_total_time", "");
+	self SetClientDvar("hud_round_time", "");
+	self SetClientDvar("hud_round_total_time", "");
+	self SetClientDvar("hud_zone_name", "");
 
 	// reset versus HUD dvars
 	self SetClientDvar("vs_logo_on", 0);
