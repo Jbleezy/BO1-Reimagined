@@ -1029,7 +1029,7 @@ moon_zone_init()
 	// west airlock from recieving
 	add_adjacent_zone( "airlock_west_zone", "water_zone", "catacombs_west" );
 	add_adjacent_zone( "airlock_west_zone", "cata_left_start_zone", "catacombs_west" );
-	add_adjacent_zone( "water_zone", "cata_left_start_zone", "catacombs_west" );
+	//add_adjacent_zone( "water_zone", "cata_left_start_zone", "catacombs_west" );
 
 	// single door (tunnel 6)
 	add_adjacent_zone( "cata_left_start_zone", "cata_left_middle_zone", "tunnel_6_door1" );
@@ -1037,14 +1037,14 @@ moon_zone_init()
 	// east airlock from recieving
 	add_adjacent_zone( "airlock_east_zone", "water_zone", "catacombs_east" );
 	add_adjacent_zone( "airlock_east_zone", "cata_right_start_zone", "catacombs_east" );
-	add_adjacent_zone( "cata_right_start_zone", "water_zone", "catacombs_east" );
+	//add_adjacent_zone( "cata_right_start_zone", "water_zone", "catacombs_east" );
 
 	// airlock east to power
 	add_adjacent_zone( "airlock_east2_zone", "generator_zone", "catacombs_east4" );
 	add_adjacent_zone( "airlock_east2_zone", "cata_right_end_zone", "catacombs_east4" );
 
 	// airlock west to power
-	add_adjacent_zone( "airlock_west2_zone", "cata_left_middle_zone", "catacombs_west4" );
+	add_adjacent_zone( "airlock_west2_zone", "cata_left_middle_zone", "catacombs_west4", true );
 	add_adjacent_zone( "airlock_west2_zone", "generator_zone", "catacombs_west4" );
 
 	// single doors (tunnel 11)

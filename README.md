@@ -957,6 +957,7 @@
 * Added Mystery Box location in the Mainframe zone
 * Zombies now spawn in the Outside Warehouse zone when in the Courtyard zone
 * Zombies now spawn in the Bridge Warehouse Side zone when in the Upper Warehouse zone
+* Zombies no longer spawn in the Upper Warehouse zone when in the Bridge Warehouse Side zone
 * Zombies no longer spawn in the Outside Laboratory zone when in the Teleporter A zone
 * Zombies no longer spawn in the Outside Laboratory zone when in the Teleporter C zone
 * Increased cost of the door between the Outside Warehouse zone and the Warehouse zone from 750 points to 1000 points
@@ -1003,7 +1004,7 @@
 
 ### Five
 * All 6 barriers in the Conference Room zone are always active
-* Zombies no longer spawn in the Quick Reive hallway when in the Speed Cola hallway
+* Zombies no longer spawn in the Quick Reive hallway when in the Hallway zone
 * Trap pieces are already in place
 * Decreased cost of the 2 debris between the North War Room zone and the South War Room zone from 1250 points to 1000 points
 * Pack-a-Punch machine will stay available for as long as the defcon room is active
@@ -1152,6 +1153,9 @@
 * Moved Quick Revive perk machine to Tunnel 6
 * Added Mystery Box locations in Tunnel 6 and Tunnel 11
 * Added Fire Sale, Max Ammo, and Perk Bottle to jump pad powerup cycle
+* Zombies no longer spawn in the Launch Area zone when in the Upper Tunnel 6 zone
+* Zombies no longer spawn in the Launch Area zone when in the Upper Tunnel 11 zone
+* Zombies no longer spawn in the M.P.D. zone when in the Lower Tunnel 6 zone
 * Removed the forced jumping in low gravity
 * Excavators will not reactivate for places that have already been breached
 * Fixed the invisible digger glitch
