@@ -174,6 +174,15 @@ respin_box_thread(hacker)
 
 	self.chest.no_fly_away = undefined;
 
+	if(is_tactical_grenade(self.chest.chest_origin.weapon_string))
+	{
+		self.chest sethintstring( &"REIMAGINED_TRADE_EQUIPMENT" );
+	}
+	else
+	{
+		self.chest sethintstring( &"ZOMBIE_TRADE_WEAPONS" );
+	}
+
 	if(!flag("moving_chest_now"))
 	{
 		self.chest enable_trigger();
