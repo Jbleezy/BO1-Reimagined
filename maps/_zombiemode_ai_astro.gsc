@@ -416,6 +416,8 @@ astro_zombie_think()
 
 	self thread astro_zombie_headbutt_think();
 
+	self thread astro_zombie_trapped_think();
+
 	while( true )
 	{
 		if ( !self.entered_level )
@@ -1055,4 +1057,52 @@ _debug_astro_print( str )
 		iprintln( str );
 	}
 	#/
+}
+
+astro_zombie_trapped_think()
+{
+	self endon("death");
+
+	flag_wait_any("teleporter_blocked", "hangar_blocked");
+
+	kill_astro = 0;
+
+	while(1)
+	{
+		self waittill("bad_path");
+
+		zone = self get_current_zone();
+
+		if(flag("teleporter_blocked"))
+		{
+			if(zone == "cata_left_start_zone" && !flag("catacombs_west"))
+			{
+				kill_astro = 1;
+			}
+			else if(zone == "cata_left_middle_zone" && (!flag("catacombs_west") || !flag("tunnel_6_door1")))
+			{
+				kill_astro = 1;
+			}
+		}
+		if(flag("hangar_blocked"))
+		{
+			if(zone == "cata_right_start_zone" && !flag("catacombs_east"))
+			{
+				kill_astro = 1;
+			}
+			else if(zone == "cata_right_middle_zone" && (!flag("tunnel_11_door2") || !flag("catacombs_east4")))
+			{
+				kill_astro = 1;
+			}
+			else if(zone == "cata_right_end_zone" && !flag("catacombs_east4"))
+			{
+				kill_astro = 1;
+			}
+		}
+
+		if(kill_astro)
+		{
+			self DoDamage(self.health + 1000, self.origin);
+		}
+	}
 }

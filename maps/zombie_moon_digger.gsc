@@ -961,16 +961,6 @@ digger_think_blocker(blocker,digger_name,dmg_trig)
 
 			blocker thread kill_anyone_touching_blocker();
 
-			zombs = GetAISpeciesArray("axis");
-			for(i = 0; i < zombs.size; i++)
-			{
-				if(zombs[i].animname == "astro_zombie")
-				{
-					zombs[i] thread kill_trapped_cosmonaut(digger_name);
-					break;
-				}
-			}
-
 			dmg_trig trigger_on();
 
 			for(i=0;i<zones.size;i++)
@@ -1144,48 +1134,6 @@ zombie_ragdoll_death()
 	self LaunchRagdoll(my_velocity_with_lift, self.origin);
 	wait_network_frame();
 	self dodamage(self.health + 666, self.origin);
-}
-
-kill_trapped_cosmonaut(digger_name)
-{
-	self endon("death");
-
-	self waittill("bad_path");
-
-	zone = self get_current_zone();
-	kill_cosmonaut = 0;
-
-	if(digger_name == "teleporter")
-	{
-		if(zone == "cata_left_start_zone" && !flag("catacombs_west"))
-		{
-			kill_cosmonaut = 1;
-		}
-		else if(zone == "cata_left_middle_zone" && (!flag("catacombs_west") || !flag("tunnel_6_door1")))
-		{
-			kill_cosmonaut = 1;
-		}
-	}
-	else if(digger_name == "hangar")
-	{
-		if(zone == "cata_right_start_zone" && !flag("catacombs_east"))
-		{
-			kill_cosmonaut = 1;
-		}
-		else if(zone == "cata_right_middle_zone" && (!flag("tunnel_11_door2") || !flag("catacombs_east4")))
-		{
-			kill_cosmonaut = 1;
-		}
-		else if(zone == "cata_right_end_zone" && !flag("catacombs_east4"))
-		{
-			kill_cosmonaut = 1;
-		}
-	}
-
-	if(kill_cosmonaut)
-	{
-		self DoDamage(self.health + 1000, self.origin);
-	}
 }
 
 digger_think_blocker_remove(blocker,digger_name,dmg_trig)
