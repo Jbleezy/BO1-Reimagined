@@ -6301,7 +6301,7 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 			{
 				min_damage *= 2;
-				damage *= 2;
+				final_damage *= 2;
 			}
 
 			if(final_damage < min_damage)
