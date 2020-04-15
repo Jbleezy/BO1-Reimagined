@@ -31,7 +31,7 @@ hack_powerups()
 		{
 			struct = SpawnStruct();
 			struct.origin = powerup.origin;
-			struct.radius = 72;
+			struct.radius = 96;
 			struct.height = 72;
 			struct.script_float = 5;
 			struct.script_int = 5000;
