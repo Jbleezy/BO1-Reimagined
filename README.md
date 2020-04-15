@@ -553,6 +553,7 @@
 * 100% chance of fling effect when thrown near Cosmonaut or zombie
 * Guaranteed results order: teleport player, revive players, give nearest perk, open nearest door, upgrade weapon, stop excavator, fling effect
 * All other effects have a chance of spawning when none of the forced effects are activated
+* Fling effect only kills zombies within line of sight
 * Fling effet now kills all zombies at once
 * Free perk effect now only gives the perk to the player who threw the QED
 * Revive player effect now only revives players near where the QED was thrown

@@ -761,6 +761,7 @@ quantum_bomb_zombie_fling_result( position )
 	range = 300;
 	range_squared = range * range;
 	zombies = quantum_bomb_get_cached_closest_zombies( position );
+	view_pos = position + (0, 0, 40);
 	for ( i = 0; i < zombies.size; i++ )
 	{
 		zombie = zombies[i];
@@ -776,6 +777,11 @@ quantum_bomb_zombie_fling_result( position )
 		if ( test_origin_squared > range_squared )
 		{
 			break;
+		}
+
+		if ( !zombie DamageConeTrace( view_pos ) && !BulletTracePassed( view_pos, test_origin, false, undefined ) && !SightTracePassed( view_pos, test_origin, false, undefined ) )
+		{
+			continue;
 		}
 
 		// the closer they are, the harder they get flung
