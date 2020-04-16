@@ -218,23 +218,17 @@ thundergun_get_enemies_in_range()
 
 			// the closer they are, the harder they get flung
 			dist_mult = (fling_range_squared - test_range_squared) / fling_range_squared;
-			/*fling_vec = VectorNormalize( test_origin - view_pos );
-
-			// within 6 feet, just push them straight away from the player, ignoring radial motion
-			if ( 5000 < test_range_squared )
-			{
-				fling_vec = fling_vec + VectorNormalize( test_origin - radial_origin );
-			}
-			fling_vec = (fling_vec[0], fling_vec[1], abs( fling_vec[2] ));*/
 			
-			// add more to the up angle so they always get flung up
 			angles = self GetPlayerAngles();
-			up_angle = 90 - angles[0];
-			up_angle = (180 - up_angle) / 3;
-			angles = (angles[0] - up_angle, angles[1], angles[2]);
+			up_angle = angles[0];
+			if(up_angle > -15)
+			{
+				up_angle = -15;
+			}
+			angles = (up_angle, angles[1], angles[2]);
 
 			fling_vec = AnglesToForward(angles);
-			fling_vec = vector_scale( fling_vec, 100 + 100 * dist_mult );
+			fling_vec = vector_scale( fling_vec, 200 + 200 * dist_mult );
 			level.thundergun_fling_vecs[level.thundergun_fling_vecs.size] = fling_vec;
 
 			zombies[i] thread setup_thundergun_vox( self, true, false, false );
