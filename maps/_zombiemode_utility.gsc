@@ -3313,7 +3313,7 @@ get_current_zone()
 		{
 			continue;
 		}
-
+		
 		zone = level.zones[ zone_name ];
 
 		// Okay check to see if the entity is in one of the zone volumes
@@ -3321,6 +3321,12 @@ get_current_zone()
 		{
 			if ( self IsTouching(zone.volumes[i]) )
 			{
+				// HACK - (Kino Der Toten) make upper part of Lobby Hallway zone count as Lobby zone
+				if(level.script == "zombie_theater" && zone_name == "foyer2_zone" && self.origin[2] > 200)
+				{
+					zone_name = "foyer_zone";
+				}
+
 				touching_zones[touching_zones.size] = zone_name;
 				break;
 			}

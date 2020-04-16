@@ -992,6 +992,7 @@
 * Reward: spawns a random powerup at the teleporter powerup spawn location
 
 ### Kino Der Toten
+* Upper part of Lobby Hallway zone is now part of Lobby zone
 * Players no longer get teleported to special rooms unless both radios on the map have been activated
 * Players no longer get teleported out of the Pack-a-Punch room if there is a weapon currently in the Pack-a-Punch machine
 * Box lights now blink correctly with higher FPS
