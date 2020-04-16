@@ -661,6 +661,7 @@ zombie_goto_entrance( node, endon_bad_path )
 
 tear_into_building_loop()
 {
+	self endon( "stop_tear_into_building_loop" );
 	self endon( "death" );
 	level endon( "intermission" );
 
@@ -669,6 +670,8 @@ tear_into_building_loop()
 	self tear_into_building();
 
 	self reset_attack_spot();
+
+	wait_network_frame(); // need this for zombies to attack correctly
 
 	self endon( "stop_tear_into_building" );
 
@@ -708,12 +711,14 @@ tear_into_building_loop_watch_for_bad_path()
 	self endon( "death" );
 	level endon( "intermission" );
 
+	self notify("stop_check_for_traverse");
+
 	while(all_chunks_destroyed(self.first_node.barrier_chunks))
 	{
 		wait_network_frame();
 	}
 
-	wait_network_frame();
+	self thread check_for_traverse();
 
 	self notify("stop_tear_into_building");
 
@@ -724,6 +729,20 @@ tear_into_building_loop_watch_for_bad_path()
 	self.ignoreall = true;
 
 	self thread tear_into_building_loop();
+}
+
+// sometimes zombies still traverse after turning off find flesh
+// if that happens we need to turn back on find flesh or else they won't move until barrier chunks are destroyed
+check_for_traverse()
+{
+	self endon("stop_check_for_traverse");
+
+	self waittill("zombie_start_traverse");
+
+	self notify("stop_tear_into_building_loop");
+	self reset_attack_spot();
+	self thread find_flesh();
+	self thread tear_into_building_loop_end();
 }
 
 tear_into_building_loop_end()
@@ -850,9 +869,6 @@ zombie_bad_path_timeout()
 // Node is the player's origin
 tear_into_building()
 {
-	//chrisp - added this
-	//checkpass = false;
-
 	self endon( "death" ); // this is a zombie
 	self endon("teleporting");
 
@@ -860,10 +876,6 @@ tear_into_building()
 
 	while( 1 )
 	{
-		//also check
-	//if( IsDefined( self.first_node)
-	//{
-
 		if( IsDefined( self.first_node.script_noteworthy ) )
 		{
 			if( self.first_node.script_noteworthy == "no_blocker" )
@@ -881,24 +893,15 @@ tear_into_building()
 		// remember all_chunks_destroyed is in utility script _zombie_utility
 		if( all_chunks_destroyed( self.first_node.barrier_chunks ) ) // If barrier_chunks status says all chunks are destroyed then continue
 		{
-			// latest
 			// Send this notify but only accept the first time it comes through.
 			self zombie_history( "tear_into_building -> all chunks destroyed" ); // Enter the building if all chunks are gone. This is threaded for each zombie
-			/*for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
-			{
-				self.first_node.attack_spots_taken[i] = false;
-			}*/
-			//return;
+			return;
 		}
 
 		// If an attacking_spot is availiable then they well grab one, if not they taunt.
-		// Jluyties (02/04/10)Added the ability for zombies to taunt while they wait to attack a window
 		if( !get_attack_spot( self.first_node ) )
 		{
 			self zombie_history( "tear_into_building -> Could not find an attack spot" );
-			//Print3d(self.origin+(0,0,70), "Hey I am waiting to attack, play random " );
-			//Print3d(self.origin+(0,0,70), "Hey I am waiting to attack", ( 1, 0.8, 0.5), 1, 1, 5);
-			//IPrintLnBold( "Hey I am waiting to attack " );
 
 			self thread do_a_taunt();
 			wait .5;
@@ -909,9 +912,9 @@ tear_into_building()
 		self.goalradius = 2;
 		//self maps\_zombiemode_utility:: lerp( chunk );
 		self SetGoalPos( self.attacking_spot, self.first_node.angles );
-		attacking_spot1a = self.attacking_spot; //I grab the origIn of the attacking_spot that is an one of 3 of an index
+		attacking_spot1a = self.attacking_spot;
 		self waittill( "goal" );
-		//	MM- 05/09
+
 		//	If you wait for "orientdone", you NEED to also have a timeout.
 		//	Otherwise, zombies could get stuck waiting to do their facing.
 		self waittill_notify_or_timeout( "orientdone", 1 );
@@ -923,13 +926,8 @@ tear_into_building()
 		if( all_chunks_destroyed( self.first_node.barrier_chunks ) )
 		{
 			self zombie_history( "tear_into_building -> all chunks destroyed" );
-			/*for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
-			{
-				self.first_node.attack_spots_taken[i] = false;
-			}*/
 			return;
 		}
-	//}
 
 		// Now tear down boards
 		while( 1 )
@@ -939,15 +937,7 @@ tear_into_building()
 				self [[self.zombie_board_tear_down_callback]]();
 			}
 
-			//chunk = priority_board_bar_selection( self.origin, self.first_node.barrier_chunks);
-
-			// get_closest_non_destroyed_chunk calls into _zombiemode_utility and returns if any chunks are still there
-
-				chunk = get_closest_non_destroyed_chunk( self.origin, self.first_node.barrier_chunks );
-
-
-
-			//chunk = get_linear_destroyed_chunk ( self.origin, self.first_node.barrier_chunks );
+			chunk = get_closest_non_destroyed_chunk( self.origin, self.first_node.barrier_chunks );
 
 			if( !IsDefined( chunk ) )
 			{
@@ -965,62 +955,29 @@ tear_into_building()
 					continue;
 				}
 
-				/*for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
-				{
-					self.first_node.attack_spots_taken[i] = false;
-				}*/
 				return;
 			}
 
 			self zombie_history( "tear_into_building -> animating" );
 
-			// Jl added second thread check for now, I need to make this cleaner
 			tear_anim = get_tear_anim(chunk, self);
-			//tear_anim2 = get_tear_anim2(chunk, self);
 
 			chunk maps\_zombiemode_blockers::update_states("target_by_zombie");
-			// figure if this is legacy.
 
-			//self maps\_zombiemode_utility:: lerp( chunk );
-			//self AnimScripted( "tear_anim", self.origin, self.first_node.angles, tear_anim );
-
-			// Jl jan/6/10 I added this hack which costs extra entities to force an ai into position if the lerp on animscripted is still too off
-			//self maps\_zombiemode_utility:: lerp( chunk );
-
-
-			// Jl jan 12th/6, finnaly fixed anim lerp bug so anims play off of the right spot now.
-
-			// Jl jan 19/10
 			self thread maps\_zombiemode_audio::do_zombies_playvocals( "teardown", self.animname );
 			self AnimScripted( "tear_anim", attacking_spot1a, self.first_node.angles, tear_anim, "normal", undefined, 1, 0.3 );
-
-			// JL jan 19/10 I changed the 7th argument to %body just to make sure this wasn't causing the hickup
-			//self AnimScripted( "tear_anim", attacking_spot1a, self.first_node.angles, tear_anim, "normal", %body, 1, 0.3 );
-
-			// JL This was the og call that had the hickups inbetween each animation
-			// self AnimScripted( "tear_anim", self.origin, self.first_node.angles, tear_anim );
-
-
 
 			// play long tear sound here - SG
 			if ( tear_anim == %ai_zombie_bar_bend_l || tear_anim == %ai_zombie_bar_bend_l_2 || tear_anim == %ai_zombie_bar_bend_r || tear_anim == %ai_zombie_bar_bend_r_2 || tear_anim == %ai_zombie_bar_bend_m_1 || tear_anim == %ai_zombie_bar_bend_m_2 )
 			{
-				    self playsound( "zmb_bar_bend" );
+				self playsound( "zmb_bar_bend" );
 			}
-
-			// jl dec 15 09
-			//thread grate_shake_swap();
-
 
 			self zombie_tear_notetracks( "tear_anim", chunk, self.first_node, tear_anim );
 
 			//chrisp - fix the extra tear anim bug
 			if( all_chunks_destroyed( self.first_node.barrier_chunks ) )
 			{
-				/*for( i = 0; i < self.first_node.attack_spots_taken.size; i++ )
-				{
-					self.first_node.attack_spots_taken[i] = false;
-				}*/
 				return;
 			}
 
@@ -1031,8 +988,6 @@ tear_into_building()
 				self do_a_taunt();
 			}
 		}
-
-		self reset_attack_spot();
 	}
 }
 
@@ -1068,7 +1023,6 @@ do_a_taunt()
 		anime = random(level._zombie_board_taunt[self.animname]);
 		self thread maps\_zombiemode_audio::do_zombies_playvocals( "taunt", self.animname );
 		self animscripted("zombie_taunt",self.origin,self.angles,anime, "normal", undefined, 1, 0.4 );
-		//self animscripted("zombie_taunt",self.origin,self.angles,anime, "normal", %body, 1, 0.4 );
 		wait(getanimlength(anime));
 		self ForceTeleport(self.old_origin);
 		return true;
@@ -1224,6 +1178,9 @@ reset_attack_spot()
 		index = self.attacking_spot_index;
 		node.attack_spots_taken[index] = false;
 
+		self.prev_attacking_node = node;
+		self.prev_attacking_spot_index = index;
+
 		self.attacking_node = undefined;
 		self.attacking_spot_index = undefined;
 	}
@@ -1231,7 +1188,16 @@ reset_attack_spot()
 
 get_attack_spot( node )
 {
-	index = get_attack_spot_index( node );
+	index = undefined;
+	if(IsDefined(self.prev_attacking_node) && self.prev_attacking_node == node)
+	{
+		index = self.prev_attacking_spot_index;
+	}
+	else
+	{
+		index = self get_attack_spot_index( node );
+	}
+
 	if( !IsDefined( index ) )
 	{
 		return false;

@@ -795,8 +795,10 @@
 * Doors that fall down now get deleted after 1 second (previously 60 seconds)
 
 ## Barriers
-* Increased maximum amount of barrier rebuild points by 10
+* Increased maximum amount of barrier rebuild points each round by 10
 * Can no longer rebuild barriers while sprinting or diving
+* Removed limit of 3 zombies being able to traverse over a barrier at once
+* Zombies now immediately traverse over a barrier if there are no boards on it (previously would go into position to tear down boards first)
 * Fixed a bug where zombies would get stuck in a barrier if a board was repaired as the zombie was beginning to go over the barrier
 * Zombies behind a barrier will now only attack if they can see a player
 * All wall barriers and metal vent barriers can now be rebuilt
