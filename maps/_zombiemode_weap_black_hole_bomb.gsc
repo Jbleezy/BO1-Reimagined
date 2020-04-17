@@ -110,7 +110,7 @@ player_handle_black_hole_bomb()
 
 		while( velocitySq != 0 )
 		{
-			wait( 0.05 );
+			wait( 0.1 );
 
 			if( !isDefined( grenade ) )
 			{

@@ -1711,6 +1711,11 @@ onPlayerConnect_clientDvars()
 
 	self SetClientDvar("player_enduranceSpeedScale", 1.1);
 
+	// look up and down 90 degrees
+	// can't set to exactly 90 or else looking completely up or down will cause the player to move in the opposite direction
+	self setClientDvar( "player_view_pitch_up", 89.9999 );
+	self setClientDvar( "player_view_pitch_down", 89.9999 );
+
 	// disable melee lunge
 	self setClientDvar( "aim_automelee_enabled", 0 );
 

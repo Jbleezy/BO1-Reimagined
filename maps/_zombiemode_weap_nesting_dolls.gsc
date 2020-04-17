@@ -416,7 +416,7 @@ doll_behavior_explode_when_stopped( parent, doll_id, index )
 
 	while( velocitySq != 0 )
 	{
-		wait( 0.05 );
+		wait( 0.1 );
 
 		if( !isDefined( self ) )
 		{

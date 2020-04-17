@@ -33,18 +33,19 @@
 * Removed melee lunging
 * Removed maximum fall damage cap (previously capped at 110)
 * All players are attracted equally
-* Players can now dive again right away after just diving
-* Players can now move after diving quicker
+* Can now dive again right away after just diving
+* Can now move after diving quicker
 * Decreased dive startup time
+* Can now look up and down 90 degrees (previously 85 degrees)
 * Added a points cap of 10 million
 * Added heartbeat and breathing sounds when low on health
 * Added heartbeat sound when down
 * Text when being revived in solo now only displays "Reviving"
 * Added death hands animation from Black Ops 2
 * Dead players can chat with alive players
-* Players can now red screen after bleeding out and respawning
+* Can now red screen after bleeding out and respawning
 * Characters no longer make hurt sounds from explosions if you have PHD Flopper
-* Players can now shoot when looking at another player
+* Can now shoot when looking at another player
 * Player names now disappear instantly after being out of line of sight of them
 * If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
 * Lean is now disabled while down since downed players cannot be revived while they are leaning

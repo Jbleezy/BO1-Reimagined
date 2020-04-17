@@ -73,7 +73,7 @@ player_handle_cymbal_monkey()
 
 		while( velocitySq != 0 )
 		{
-			wait( 0.05 );
+			wait( 0.1 );
 
 			if( !isDefined( grenade ) )
 			{
