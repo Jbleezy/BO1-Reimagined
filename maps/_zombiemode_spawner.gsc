@@ -1189,7 +1189,7 @@ reset_attack_spot()
 get_attack_spot( node )
 {
 	index = undefined;
-	if(IsDefined(self.prev_attacking_node) && self.prev_attacking_node == node)
+	if(IsDefined(self.prev_attacking_node) && self.prev_attacking_node == node && !node.attack_spots_taken[self.prev_attacking_spot_index])
 	{
 		index = self.prev_attacking_spot_index;
 	}
