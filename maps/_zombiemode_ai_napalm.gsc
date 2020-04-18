@@ -358,14 +358,7 @@ napalm_zombie_spawn( animname_set )
 	anim_org = self.origin + (0, 0, -45);	// start the animation 45 units below the ground
 
 	self Hide();
-	anchor = Spawn("script_origin", self.origin);
-	anchor.angles = self.angles;
-	self linkto(anchor);
-	anchor.origin = anim_org;
-	anchor.angles = angles;
-	wait_network_frame();
-	self Unlink();
-	anchor Delete();
+	self ForceTeleport(anim_org, angles);
 	self thread maps\_zombiemode_spawner::hide_pop();
 
 	//Damage trigger around spawn location for a short period

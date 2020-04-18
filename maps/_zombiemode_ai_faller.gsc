@@ -195,6 +195,22 @@ do_zombie_fall()
 
 	if( spots.size < 1 )
 	{
+		spot = undefined;
+		zone = level.zones[self.zone_name];
+		if(IsDefined(zone))
+		{
+			spot = zone.fall_locations[0];
+		}
+		else
+		{
+			spot = GetStructArray("zombie_fall", "targetname")[0];
+		}
+
+		if(IsDefined(spot))
+		{
+			self ForceTeleport(spot.origin, spot.angles);
+		}
+
 		//IPrintLnBold("deleting zombie faller - no available fall locations");
 		//can't delete if we're in the middle of spawning, so wait a frame
 		self Hide();//hide so we're not visible for one frame while waiting to delete
@@ -238,21 +254,14 @@ do_zombie_fall()
 	level thread zombie_fall_death(self, spot);
 	self thread zombie_faller_death_wait();
 
-	self Hide();
-	self.anchor = spawn("script_origin", self.origin);
-	self.anchor.angles = self.angles;
-	self linkto(self.anchor);
-	self.anchor.origin = anim_org;
-	// face goal
 	target_org = maps\_zombiemode_spawner::get_desired_origin();
 	if (IsDefined(target_org))
 	{
 		anim_ang = VectorToAngles(target_org - self.origin);
-		self.anchor.angles = (0, anim_ang[1], 0);
 	}
-	wait_network_frame();
-	self unlink();
-	self.anchor delete();
+
+	self Hide();
+	self ForceTeleport(anim_org, anim_ang);
 	self thread maps\_zombiemode_spawner::hide_pop();
 
 	spot thread zombie_fall_fx(self);

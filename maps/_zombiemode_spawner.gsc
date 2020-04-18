@@ -4660,11 +4660,6 @@ do_zombie_rise()
 
 	level thread zombie_rise_death(self, spot);
 
-	self Hide();
-	self.anchor = spawn("script_origin", self.origin);
-	self.anchor.angles = self.angles;
-	self linkto(self.anchor);
-	self.anchor.origin = anim_org;
 	// face goal
 	target_org = maps\_zombiemode_spawner::get_desired_origin();
 	if (IsDefined(target_org))
@@ -4672,9 +4667,9 @@ do_zombie_rise()
 		anim_ang = VectorToAngles(target_org - self.origin);
 		self.anchor.angles = (0, anim_ang[1], 0);
 	}
-	wait_network_frame();
-	self unlink();
-	self.anchor delete();
+
+	self Hide();
+	self ForceTeleport(anim_org, anim_ang);
 	self thread hide_pop();
 
 	spot thread zombie_rise_fx(self);
