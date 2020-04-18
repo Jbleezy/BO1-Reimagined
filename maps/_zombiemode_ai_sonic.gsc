@@ -359,7 +359,7 @@ sonic_zombie_spawn( animname_set )
 	self.rising = true;
 
 	// make invulnerable for now....
-	self magic_bullet_shield();
+	//self magic_bullet_shield();
 
 	anim_org = self.origin + (0, 0, -45);	// start the animation 45 units below the ground
 
@@ -387,7 +387,7 @@ sonic_zombie_spawn( animname_set )
 	wait( Max(0, time/speedUp - fxWait) );
 
 	self.rising = false;
-	self stop_magic_bullet_shield();
+	//self stop_magic_bullet_shield();
 	self.a.disablepain = true;
 }
 

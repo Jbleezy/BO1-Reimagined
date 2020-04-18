@@ -897,7 +897,8 @@
 * Grenades thrown back by monkeys will no longer damage the player that threw the grenade if they have PHD Flopper
 
 ### Napalm
-* Kills from napalm explosion or flames count for the player who killed the napalm or the player who triggered the napalm
+* Kills from napalm explosion or flames count for the player who killed the Napalm or the player who triggered the Napalm
+* Can be damaged while in the ground
 * No longer gains additional health for each additional player
 * No longer gives additional points when killed
 * No longer affected by explosive damage scaling
@@ -905,6 +906,7 @@
 
 ### Shrieker
 * Decreased health multiplier from 2.5 to 2
+* Can be damaged while in the ground
 * No longer gains additional health for each additional player
 * No longer gives points when damaged
 * No longer affected by insta kills

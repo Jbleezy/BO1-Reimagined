@@ -353,7 +353,7 @@ napalm_zombie_spawn( animname_set )
 
 	self.a.disablepain = true;
 	// make invulnerable for now....
-	self magic_bullet_shield();
+	//self magic_bullet_shield();
 
 	anim_org = self.origin + (0, 0, -45);	// start the animation 45 units below the ground
 
@@ -380,7 +380,7 @@ napalm_zombie_spawn( animname_set )
 	wait( time );
 
 	self.rising = false;
-	self stop_magic_bullet_shield();
+	//self stop_magic_bullet_shield();
 	self.a.disablepain = true;
 	self BloodImpact( "hero" );
 
