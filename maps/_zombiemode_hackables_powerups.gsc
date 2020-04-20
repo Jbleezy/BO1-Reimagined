@@ -31,11 +31,12 @@ hack_powerups()
 		{
 			struct = SpawnStruct();
 			struct.origin = powerup.origin;
-			struct.radius = 96;
+			struct.radius = 80;
 			struct.height = 72;
 			struct.script_float = 5;
 			struct.script_int = 5000;
 			struct.powerup = powerup;
+			struct.no_bullet_trace = true; // BulletTracePassed causes issues with not being able to hack powerups
 
 			powerup thread powerup_pickup_watcher(struct);
 

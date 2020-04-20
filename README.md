@@ -596,6 +596,7 @@
 ##### Hacker
 * Every player can have the hacker
 * Does not move locations when picked up
+* All hackables can now be hacked while crouch or prone
 * Can now only hack one item at a time
 * Melee disabled during hack
 * Pressing the lethal grenade button or ADS button will no longer restart a hack
@@ -603,7 +604,7 @@
 * Hacking a Max Ammo gives a Perk Bottle
 * Hacking a powerup will reset its timer
 * Hacking a Death Machine will now give the Max Ammo its correct glow color
-* Increased powerup hack trigger radius by 50%
+* Increased powerup hack trigger radius by 25%
 * Buying a hacked wallbuy will give you the upgraded version of that weapon
 * Unupgraded and upgraded ammo both cost the price of unupgraded ammo when hacked
 * Wallbuy hintstrings now update when hacked to reflect their current prices

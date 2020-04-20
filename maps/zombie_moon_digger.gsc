@@ -760,7 +760,7 @@ digger_think_panel(blocker_name,trig_name,start_flag,hacked_flag,hacked_before_b
 	struct.breached_flag = breached_flag;
 	struct.start_flag = start_flag;
 	struct.custom_debug_color = (255,0,0);
-	struct.radius = 64;
+	struct.radius = 36;
 	struct.height = 64;
 	struct.custom_string = &"ZOMBIE_MOON_DISABLE_DIGGER";
 	struct.no_bullet_trace = true;

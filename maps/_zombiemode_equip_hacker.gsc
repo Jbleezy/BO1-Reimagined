@@ -277,7 +277,7 @@ add_eligable_pooled_items()
 			height = candidate.height;
 		}
 
-		trigger = Spawn( "trigger_radius_use", candidate.origin, 0, radius, height);
+		trigger = Spawn( "trigger_radius", candidate.origin, 0, radius, height);
 		trigger UseTriggerRequireLookAt();
 		trigger SetCursorHint( "HINT_NOICON" );
 		trigger.radius = radius;
@@ -475,7 +475,7 @@ hack_trigger_think()
 						qualifier_passed = hackable [[hackable._hack_qualifier_func]](player);
 					}
 
-					if ( player hacker_active() && qualifier_passed &&  !hackable._trigger.beingHacked)
+					if ( player hacker_active() && qualifier_passed && !hackable._trigger.beingHacked)
 					{
 						hackable._trigger SetInvisibleToPlayer( player, false );
 					}
@@ -575,10 +575,10 @@ can_hack( hackable )
 		return false;
 	}
 
-	if ( !IsDefined(hackable.no_touch_check) && !self IsTouching( hackable._trigger ) )
+	/*if ( !IsDefined(hackable.no_touch_check) && !self IsTouching( hackable._trigger ) )
 	{
 		return false;
-	}
+	}*/
 
 	if ( !self is_facing( hackable ) )
 	{
@@ -797,7 +797,7 @@ hackable_object_thread()
 
 	if(!IsDefined(self.pooled))
 	{
-		trigger = Spawn( "trigger_radius_use", self.origin, 0, radius, height);
+		trigger = Spawn( "trigger_radius", self.origin, 0, radius, height);
 		trigger UseTriggerRequireLookAt();
 		trigger SetCursorHint( "HINT_NOICON" );
 		trigger.radius = radius;
