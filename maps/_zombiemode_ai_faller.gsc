@@ -262,6 +262,7 @@ do_zombie_fall()
 
 	self Hide();
 	self ForceTeleport(anim_org, anim_ang);
+	wait_network_frame();
 	self thread maps\_zombiemode_spawner::hide_pop();
 
 	spot thread zombie_fall_fx(self);

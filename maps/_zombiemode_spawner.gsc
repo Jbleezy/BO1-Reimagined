@@ -4670,6 +4670,7 @@ do_zombie_rise()
 
 	self Hide();
 	self ForceTeleport(anim_org, anim_ang);
+	wait_network_frame();
 	self thread hide_pop();
 
 	spot thread zombie_rise_fx(self);

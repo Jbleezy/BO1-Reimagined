@@ -359,6 +359,7 @@ napalm_zombie_spawn( animname_set )
 
 	self Hide();
 	self ForceTeleport(anim_org, angles);
+	wait_network_frame();
 	self thread maps\_zombiemode_spawner::hide_pop();
 
 	//Damage trigger around spawn location for a short period
