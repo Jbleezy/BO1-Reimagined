@@ -375,7 +375,7 @@ init_summon_box(create)
 		struct.radius = 48;
 		struct.height = 72;
 		struct.script_int = 1200;
-		struct.script_float = 5;
+		struct.script_float = 3;
 		struct.no_bullet_trace = true;
 		struct.chest = self;
 

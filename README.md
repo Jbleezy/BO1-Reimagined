@@ -601,6 +601,9 @@
 * Melee disabled during hack
 * Pressing the lethal grenade button or ADS button will no longer restart a hack
 * Removed points reward given between rounds
+* Decreased time to hack doors from 32.7 seconds to 15 seconds
+* Decreased time to hack players from 10 seconds to 1.5 seconds
+* Decreased time to hack teddy bear locations from 5 seconds to 3 seconds
 * Hacking a Max Ammo gives a Perk Bottle
 * Hacking a powerup will reset its timer
 * Hacking a Death Machine will now give the Max Ammo its correct glow color
@@ -609,8 +612,6 @@
 * Unupgraded and upgraded ammo both cost the price of unupgraded ammo when hacked
 * Wallbuy hintstrings now update when hacked to reflect their current prices
 * Doors are free to hack
-* Time to hack doors decreased from 32.7 seconds to 15 seconds
-* Time to hack players decreased from 10 seconds to 1.5 seconds
 * Hacking the box twice no longer gives you 950 points
 * Hacking a teddy bear location will now only lock that box for the remainder of the current round
 * Fire sale box can spawn at locations where the box has been hacked
