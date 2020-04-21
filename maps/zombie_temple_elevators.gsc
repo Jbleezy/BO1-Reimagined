@@ -537,13 +537,10 @@ geyser_blocker_think(blocker)
 	switch ( self.script_noteworthy ) 
 	{
 	case "start_geyser":
-		if(level.gamemode == "survival")
-		{
-			//flag_wait_any("cave02_to_cave_water","cave_water_to_power","cave_water_to_waterfall");
-			flag_wait("power_on");
-			exploder(8);
-			geyser_sounds( "geyser02", "evt_water_spout02", "evt_geyser_amb", 1.0 );
-		}
+		//flag_wait_any("cave02_to_cave_water","cave_water_to_power","cave_water_to_waterfall");
+		flag_wait("power_on");
+		exploder(8);
+		geyser_sounds( "geyser02", "evt_water_spout02", "evt_geyser_amb", 1.0 );
 		break;
 
 	case "minecart_geyser":
