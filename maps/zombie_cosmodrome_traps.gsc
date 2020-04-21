@@ -829,11 +829,11 @@ centrifuge_damage()
 	{
 		self waittill( "trigger", ent );
 
-		if( isplayer(ent) && ent.health > 1 )
+		if( isplayer(ent) && !ent maps\_laststand::player_is_in_laststand() )
 		{
 			if ( ent GetStance() == "stand" )
 			{
-				RadiusDamage(ent.origin + (0, 0, 5), 10, 80, 80, undefined, "MOD_UNKNOWN");
+				RadiusDamage(ent.origin + (0, 0, 5), 10, 125, 125, undefined, "MOD_UNKNOWN");
 				ent SetStance( "crouch" );
 			}
 		}

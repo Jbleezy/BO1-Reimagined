@@ -351,13 +351,13 @@ playerPenDamage(trap)
 
 	if(!self maps\_laststand::player_is_in_laststand())
 	{
-		RadiusDamage(self.origin + (0, 0, 5), 10, 80, 80, undefined, "MOD_UNKNOWN");
+		RadiusDamage(self.origin + (0, 0, 5), 10, 125, 125, undefined, "MOD_UNKNOWN");
 		self SetStance( "crouch" );
 	}
 
+	self.touching_trap = true;
 	while(self IsTouching(trap))
 	{
-		self.touching_trap = true;
 		wait_network_frame();
 	}
 	self.touching_trap = false;

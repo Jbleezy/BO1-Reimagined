@@ -776,7 +776,7 @@
 * Decreased cooldown time from 90 seconds to 25 seconds (same as Verruckt and Der Riese)
 
 ### Flogger (Shi No Numa)
-* Changed player damage to 80 (previously 25 damage in solo and instantly kills in coop)
+* Changed player damage to 125 (previously 25 damage in solo and instantly kills in coop)
 * Cannot damage a player again if the player is still touching the flogger and has already been damaged by the flogger
 * Both triggers are now completely independent of eachother
 * One trigger can not be activated if the other trigger is currently active
@@ -1043,7 +1043,7 @@
 * Zombies now spawn in the Stairs zone when in the Upper Centrifuge Zone
 
 #### Centrifuge
-* Changed player damage to 80 (previously 16 damage in solo and 40 damage in coop)
+* Increased player damage in solo from 16 to 125
 * Increased maximum cooldown time from 90 seconds to 180 seconds
 * No longer stops spinning for entire rounds
 * Fixed a bug where zombies that were killed from the Centrifuge in higher rounds became invisible and invincible
@@ -1059,8 +1059,8 @@
 #### Sidequest
 * Completable with any amount of players
 * Monkey round step: buttons no longer have to be pressed at the same time, only on the same monkey round
-* Lunar lander step: First use centrifuge lander, then use Stamin-Up lander, then use PHD Flopper lander, and last use Speed Cola lander
-* Lunar lander step - HITSAM easter egg now only requiers the letters SAM (was not enough room to fit HITSAM)
+* Lunar lander step: first use Centrifuge lander, then use Stamin-Up lander, then use PHD Flopper lander, and last use Speed Cola lander
+* Lunar lander step: HITSAM easter egg now only requiers the letters SAM (was not enough room to fit HITSAM)
 * Reward: 90 second Death Machines for the rest of the match
 
 ### Call of the Dead
