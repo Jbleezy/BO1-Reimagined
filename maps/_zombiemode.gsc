@@ -8359,7 +8359,7 @@ round_time_loop()
 			level waittill( "end_of_round" );
 		}
 
-		if(is_true(flag("enter_nml")))
+		while(is_true(flag("enter_nml")))
 		{
 			level waittill( "end_of_round" ); //end no man's land
 			level waittill( "end_of_round" ); //end actual round

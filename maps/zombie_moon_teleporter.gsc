@@ -763,11 +763,11 @@ teleporter_to_nml_power_down()
 	}
 
 	// Waittill round over for return reset.
-	if(flag("teleporter_used") && is_true(level.first_teleporter_use))
+	/*if(flag("teleporter_used") && is_true(level.first_teleporter_use))
 	{
 		level waittill("between_round_over");
 		wait_network_frame();
-	}
+	}*/
 
 	if(!isDefined(level.first_teleporter_use))
 	{
@@ -775,7 +775,7 @@ teleporter_to_nml_power_down()
 	}
 
 	// waittill next round over after return to moon.
-	level waittill("between_round_over");
+	//level waittill("between_round_over");
 
 	flag_wait("power_on");
 

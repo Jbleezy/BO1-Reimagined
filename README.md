@@ -1171,8 +1171,8 @@
 * Added line of sight check on explosions for breaching windows
 * Fixed bug where players could stay on jump pads in low gravity indefinitely by diving upon landing on them
 * Jump pads now fling players correctly when a player dives on a jump pad
-* Crawlers get deleted if players are too far away from then and no players are looking at them
-* Pack-a-Punch hackable gates are now solid when moving (players were able to hack Pack-a-Punch and then escape before the gates closed to get 1000 points)
+* Pack-a-Punch hackable gates are now solid when moving (previously players were able to hack Pack-a-Punch and then escape before the gates closed to get 1000 points)
+* Teleporter can be used unlimited times per round
 * Teleporting no longer resets the amount of powerups that can be obtained in a round
 * Fixed a bug where players would sometimes be moving in a different direction after teleporting
 * Fixed a bug where the next round would only have one zombie if players teleported to No Man's Land while the round was changing and the Cosmonaut was spawned in
