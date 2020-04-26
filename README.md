@@ -1047,6 +1047,8 @@
 * Increased maximum cooldown time from 90 seconds to 180 seconds
 * No longer stops spinning for entire rounds
 * Fixed a bug where zombies that were killed from the Centrifuge in higher rounds became invisible and invincible
+* Can damage a player if they are diving or crouching in the air
+* Cannot damage a player again if the player is still touching the Centrifuge and has already been damaged by the Centrifuge
 * The player that is closest to a zombie that is killed from the Centrifuge gets the kill
 
 #### Lunar Lander

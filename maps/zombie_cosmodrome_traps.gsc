@@ -831,11 +831,7 @@ centrifuge_damage()
 
 		if( isplayer(ent) && !ent maps\_laststand::player_is_in_laststand() )
 		{
-			if ( ent GetStance() == "stand" )
-			{
-				RadiusDamage(ent.origin + (0, 0, 5), 10, 125, 125, undefined, "MOD_UNKNOWN");
-				ent SetStance( "crouch" );
-			}
+			ent thread centrifuge_player_damage(self);
 		}
 		else
 		{
@@ -851,6 +847,29 @@ centrifuge_damage()
 	}
 }
 
+centrifuge_player_damage(centrifuge)
+{
+	self endon("death");
+	self endon("disconnect");
+
+	if(IsDefined(self.touching_centrifuge) && self.touching_centrifuge)
+	{
+		return;
+	}
+
+	if(!self maps\_laststand::player_is_in_laststand())
+	{
+		RadiusDamage(self.origin + (0, 0, 5), 10, 125, 125, undefined, "MOD_UNKNOWN");
+		self SetStance( "crouch" );
+	}
+
+	self.touching_centrifuge = true;
+	while(self IsTouching(centrifuge))
+	{
+		wait_network_frame();
+	}
+	self.touching_centrifuge = false;
+}
 
 //*****************************************************************************
 // Link the origins that need to play sound durring spinning, also track when the fuge is spinning
