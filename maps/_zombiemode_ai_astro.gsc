@@ -1102,7 +1102,8 @@ astro_zombie_trapped_think()
 
 		if(kill_astro)
 		{
-			self DoDamage(self.health + 1000, self.origin);
+			closest_player = get_closest_player(self.origin);
+			self DoDamage(self.health + 1000, self.origin, closest_player);
 		}
 	}
 }
