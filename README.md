@@ -1044,7 +1044,7 @@
 
 #### Centrifuge
 * Increased player damage in solo from 16 to 125
-* Increased maximum cooldown time from 90 seconds to 180 seconds
+* Increased maximum cooldown time from 90 seconds to 120 seconds
 * No longer stops spinning for entire rounds
 * Fixed a bug where zombies that were killed from the Centrifuge in higher rounds became invisible and invincible
 * Can damage a player if they are diving or crouching in the air
