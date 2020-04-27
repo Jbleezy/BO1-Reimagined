@@ -142,8 +142,9 @@ electric_trap_think()
 					level thread maps\zombie_cod5_sumpf::turnLightGreen(self.script_string);
 
 					//Play the 'alarm' sound to alert players that the traps are available again (playing on a temp ent in case the PA is already in use.
-					pa_system = getent("speaker_by_log", "targetname");
-					playsoundatposition("warning", pa_system.origin);
+					//pa_system = getent("speaker_by_log", "targetname");
+					//playsoundatposition("warning", pa_system.origin);
+					playsoundatposition("warning", self.origin);
 					self notify("available");
 
 					self.in_use = 0;

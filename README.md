@@ -775,10 +775,11 @@
 
 ### Electric Traps (Shi No Numa)
 * Decreased cooldown time from 90 seconds to 25 seconds (same as Verruckt and Der Riese)
+* Trap ready sound plays near the trap (previously played near the Flogger)
 
 ### Flogger (Shi No Numa)
 * Changed player damage to 125 (previously 25 damage in solo and instantly kills in coop)
-* Cannot damage a player again if the player is still touching the flogger and has already been damaged by the flogger
+* Cannot damage a player again if the player is still touching the Flogger and has already been damaged by the Flogger
 * Both triggers are now completely independent of eachother
 * One trigger can not be activated if the other trigger is currently active
 * Lights and hintstrings now display correctly when activating one trigger while the other trigger is on cooldown
