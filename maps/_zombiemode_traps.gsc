@@ -15,6 +15,9 @@
 //*****************************************************************************
 init()
 {
+	PrecacheString(&"REIMAGINED_TRAP_ACTIVE");
+	PrecacheString(&"REIMAGINED_TRAP_COOLDOWN");
+
 	level.trap_kills = 0;
 
 	traps = GetEntArray( "zombie_trap", "targetname" );
@@ -317,7 +320,7 @@ trap_use_think( trap )
 			}
 
 			trap._trap_in_use = 1;
-			trap trap_set_string( &"ZOMBIE_TRAP_ACTIVE" );
+			trap trap_set_string( &"REIMAGINED_TRAP_ACTIVE" );
 
 			play_sound_at_pos( "purchase", who.origin );
 
@@ -340,8 +343,8 @@ trap_use_think( trap )
 			trap trigger_off();
 
 			trap._trap_cooling_down = 1;
-			trap trap_set_string( &"ZOMBIE_TRAP_COOLDOWN" );
-			
+			trap trap_set_string( &"REIMAGINED_TRAP_COOLDOWN" );
+
 			/#
 			if ( GetDvarInt( #"zombie_cheat" ) >= 1 )
 			{

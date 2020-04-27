@@ -4,6 +4,10 @@
 
 init()
 {
+	PrecacheString(&"REIMAGINED_AUTO_TURRET_BUY");
+	PrecacheString(&"REIMAGINED_AUTO_TURRET_ACTIVE");
+	PrecacheString(&"REIMAGINED_AUTO_TURRET_COOLDOWN");
+
 	level.auto_turret_array = GetEntArray( "auto_turret_trigger", "script_noteworthy" );
 
 	if( !isDefined( level.auto_turret_array ) )

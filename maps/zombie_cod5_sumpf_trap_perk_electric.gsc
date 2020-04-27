@@ -97,7 +97,7 @@ electric_trap_think()
 					self thread electric_trap_move_switch(self);
 					//need to play a 'woosh' sound here, like a gas furnace starting up
 					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
-					self sethintstring(&"ZOMBIE_TRAP_ACTIVE");
+					self sethintstring(&"REIMAGINED_TRAP_ACTIVE");
 					level thread maps\zombie_cod5_sumpf::turnLightRed(self.script_string);
 					self waittill("switch_activated");
 					//set the score
@@ -115,7 +115,7 @@ electric_trap_think()
 
 					//wait until done and then re-enable the valve for purchase again
 					self waittill("elec_done");
-					self sethintstring(&"ZOMBIE_TRAP_COOLDOWN");
+					self sethintstring(&"REIMAGINED_TRAP_COOLDOWN");
 
 					clientnotify(self.script_string +"off");
 

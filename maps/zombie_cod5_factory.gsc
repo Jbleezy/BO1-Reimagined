@@ -52,10 +52,6 @@ main()
 	precachestring(&"WAW_ZOMBIE_INACTIVE_TPAD");
 	precachestring(&"WAW_ZOMBIE_START_TPAD");
 
-	PrecacheString(&"REIMAGINED_POWER_UP_TPAD");
-	PrecacheString(&"REIMAGINED_TELEPORT_TO_CORE");
-	PrecacheString(&"REIMAGINED_LINK_TPAD");
-
 	precacheshellshock("electrocution");
 	precachemodel("zombie_zapper_cagelight_red");
 	precachemodel("zombie_zapper_cagelight_green");
@@ -75,11 +71,16 @@ main()
 	precachestring(&"WAW_ZOMBIE_BETTY_ALREADY_PURCHASED");
 	precachestring(&"WAW_ZOMBIE_BETTY_HOWTO");
 
+	PrecacheString(&"REIMAGINED_POWER_UP_TPAD");
+	PrecacheString(&"REIMAGINED_TELEPORT_TO_CORE");
+	PrecacheString(&"REIMAGINED_LINK_TPAD");
+
 	PrecacheString(&"REIMAGINED_TRAP_BRIDGE_EE");
 	PrecacheString(&"REIMAGINED_DOOR_CLOSED");
+
 	PrecacheString(&"ZOMBIE_BUTTON_BUY_TRAP");
-	PrecacheString(&"ZOMBIE_TRAP_ACTIVE");
-	PrecacheString(&"ZOMBIE_TRAP_COOLDOWN");
+	PrecacheString(&"REIMAGINED_TRAP_ACTIVE");
+	PrecacheString(&"REIMAGINED_TRAP_COOLDOWN");
 
 	include_weapons();
 	include_powerups();
@@ -1130,7 +1131,7 @@ electric_trap_think( enable_flag )
 					//turn off the valve triggers associated with this trap until available again
 					//array_thread (triggers, ::trigger_off);
 
-					array_thread( triggers, ::hint_string, &"ZOMBIE_TRAP_ACTIVE");
+					array_thread( triggers, ::hint_string, &"REIMAGINED_TRAP_ACTIVE");
 
 					play_sound_at_pos( "purchase", who.origin );
 					self thread electric_trap_move_switch(self);
@@ -1166,7 +1167,7 @@ electric_trap_think( enable_flag )
 						self.zapper_fx_switch_org delete();
 					}
 
-					array_thread(triggers, ::hint_string, &"ZOMBIE_TRAP_COOLDOWN");
+					array_thread(triggers, ::hint_string, &"REIMAGINED_TRAP_COOLDOWN");
 
 					//turn the damage detection trigger off until the flames are used again
 			 		self.zombie_dmg_trig trigger_off();

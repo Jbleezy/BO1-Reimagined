@@ -260,12 +260,12 @@ zipThink()
 		if (IsDefined(zipBuyTrigger[i].script_noteworthy) && zipBuyTrigger[i].script_noteworthy == "static")
 		{
 			zipBuyTrigger[i] trigger_on();
-			zipBuyTrigger[i] sethintstring(&"ZOMBIE_TRAP_ACTIVE");
+			zipBuyTrigger[i] sethintstring(&"REIMAGINED_TRAP_ACTIVE");
 			zipBuyTrigger[i] waittill("zipDone");
 		}
 	}
 
-	self sethintstring(&"ZOMBIE_TRAP_COOLDOWN");
+	self sethintstring(&"REIMAGINED_TRAP_COOLDOWN");
 
 	waittime = 15;
 
@@ -330,7 +330,7 @@ zipThink()
 							else if (IsDefined(zipBuyTrigger[i].script_noteworthy) && zipBuyTrigger[i].script_noteworthy == "static")//&& !IsDefined(level.direction)
 							{
 								zipBuyTrigger[i] trigger_on();
-								zipBuyTrigger[i] sethintstring(&"ZOMBIE_TRAP_ACTIVE");
+								zipBuyTrigger[i] sethintstring(&"REIMAGINED_TRAP_ACTIVE");
 
 								//zipBuyTrigger[i] thread recallZipSwitch (180);
 								//zipBuyTrigger[i] trigger_off();
@@ -372,7 +372,7 @@ zipThink()
 							//always reenable the trigger on the zipline
 							if (IsDefined(zipBuyTrigger[i].script_noteworthy) && zipBuyTrigger[i].script_noteworthy == "nonstatic")
 							{
-								zipBuyTrigger[i] sethintstring(&"ZOMBIE_TRAP_COOLDOWN");
+								zipBuyTrigger[i] sethintstring(&"REIMAGINED_TRAP_COOLDOWN");
 								zipBuyTrigger[i] setcursorhint( "HINT_NOICON" );
 
 								zipBuyTrigger[i] triggerOn();
@@ -382,7 +382,7 @@ zipThink()
 							if (IsDefined(zipBuyTrigger[i].script_noteworthy) && zipBuyTrigger[i].script_noteworthy == "static")
 							{
 								zipBuyTrigger[i] trigger_on();
-								zipBuyTrigger[i] sethintstring(&"ZOMBIE_TRAP_COOLDOWN");
+								zipBuyTrigger[i] sethintstring(&"REIMAGINED_TRAP_COOLDOWN");
 							}
 								//zipBuyTrigger[i] trigger_on();
 						}

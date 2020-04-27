@@ -61,8 +61,8 @@ main()
 	precachestring(&"WAW_ZOMBIE_INTRO_ASYLUM_LEVEL_SEPTEMBER");
 
 	PrecacheString(&"ZOMBIE_BUTTON_BUY_TRAP");
-	PrecacheString(&"ZOMBIE_TRAP_ACTIVE");
-	PrecacheString(&"ZOMBIE_TRAP_COOLDOWN");
+	PrecacheString(&"REIMAGINED_TRAP_ACTIVE");
+	PrecacheString(&"REIMAGINED_TRAP_COOLDOWN");
 
 	include_weapons();
 	include_powerups();
@@ -737,7 +737,7 @@ electric_trap_think()
 				{
 					self.in_use = 1;
 					play_sound_at_pos( "purchase", who.origin );
-					self sethintstring( &"ZOMBIE_TRAP_ACTIVE" );
+					self sethintstring( &"REIMAGINED_TRAP_ACTIVE" );
 					self thread electric_trap_move_switch(self);
 					
 					//set the score
@@ -781,7 +781,7 @@ electric_trap_think()
 					//turn the damage detection trigger off until the flames are used again
 			 		self.zombie_dmg_trig trigger_off();
 					//array_thread(triggers, ::hint_string, &"ZOMBIE_TRAP_COOLDOWN" );
-					self sethintstring( &"ZOMBIE_TRAP_COOLDOWN" );
+					self sethintstring( &"REIMAGINED_TRAP_COOLDOWN" );
 
 					wait(25);
 

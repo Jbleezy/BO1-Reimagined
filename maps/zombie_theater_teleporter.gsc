@@ -131,7 +131,7 @@ teleport_core_think( index )
 				//turn the light green
 				trigger maps\zombie_theater_magic_box::turnLightGreen("teleporter_indicator_light1", true );
 
-				pad SetHintString( &"ZOMBIE_THEATER_START_CORE" );
+				pad SetHintString( &"REIMAGINED_START_CORE" );
 			}
 		}
 	}
@@ -186,7 +186,7 @@ teleport_pad_hide_use()
 	// ww: pad should work like Der Rise, so it gets the "power on first" hint string
 	//pad SetHintString( &"ZOMBIE_NEED_POWER" );
 	flag_wait( "power_on" );
-	pad SetHintString( &"ZOMBIE_THEATER_START_CORE" );
+	pad SetHintString( &"REIMAGINED_START_CORE" );
 
 }
 

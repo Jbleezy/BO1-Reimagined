@@ -137,7 +137,7 @@ penThink()
 					triggers[j].ready = false;
 
 					//triggers[j] thread hint_string(&"ZOMBIE_TRAP_ACTIVE");
-					array_thread(triggers, ::hint_string, &"ZOMBIE_TRAP_ACTIVE" );
+					array_thread(triggers, ::hint_string, &"REIMAGINED_TRAP_ACTIVE" );
 					triggers[i] thread change_hint_string_on_cooldown();
 
 					play_sound_at_pos( "purchase", who.origin );
@@ -160,7 +160,7 @@ penThink()
 
 					self waittill("penDown");
 
-					triggers[j] thread hint_string(&"ZOMBIE_TRAP_COOLDOWN");
+					triggers[j] thread hint_string(&"REIMAGINED_TRAP_COOLDOWN");
 					//array_thread(triggers, ::hint_string, &"ZOMBIE_TRAP_COOLDOWN" );
 
 					level.pen_in_use = 0;
