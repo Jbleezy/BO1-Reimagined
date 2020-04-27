@@ -785,10 +785,12 @@
 * Lights and hintstrings now display correctly when activating one trigger while the other trigger is on cooldown
 
 ### Turrets (Kino Der Toten and Ascension)
+* Added 45 second cooldown
 * Increased minimum damage from 250 to 500
 * Kills zombies in 4 shots
 * Locks on to a new target quicker
 * Targets the zombie that is closest to the turret
+* Shows hintstring when active
 * Nova crawlers now do not explode from turret damage
 * No longer deals damage to players
 

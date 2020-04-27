@@ -36,6 +36,11 @@ init()
 		level.auto_turret_timeout = 30;
 	}
 
+	if( !isDefined( level.auto_turret_cooldown ) )
+	{
+		level.auto_turret_cooldown = 45;
+	}
+
 	for( i = 0; i < level.auto_turret_array.size; i++ )
 	{
 		level.auto_turret_array[i] SetCursorHint( "HINT_NOICON" );
@@ -84,6 +89,9 @@ auto_turret_think()
 
 	self.audio_origin = self.origin;
 
+	self._trap_in_use = 0;
+	self._trap_cooling_down = 0;
+
 	flag_wait("power_on");
 
 	self thread update_string();
@@ -93,7 +101,7 @@ auto_turret_think()
 		self.turret.owner = undefined;
 
 		//cost = level.auto_turret_cost;
-		self SetHintString( &"ZOMBIE_AUTO_TURRET", level.auto_turret_cost );
+		self SetHintString( &"REIMAGINED_AUTO_TURRET_BUY", level.auto_turret_cost );
 //		self thread add_teampot_icon();
 
 		self waittill( "trigger", player );
@@ -133,7 +141,8 @@ auto_turret_think()
 		self thread auto_turret_activate();
 		self PlaySound( "zmb_turret_startup" );
 
-		self disable_trigger();
+		self._trap_in_use = 1;
+		self SetHintString( &"REIMAGINED_AUTO_TURRET_ACTIVE" );
 
 		self waittill( "turret_deactivated" );
 
@@ -145,7 +154,18 @@ auto_turret_think()
 
 	    playsoundatposition( "zmb_turret_down", self.audio_origin );
 
-		self enable_trigger();
+		self._trap_cooling_down = 1;
+		self SetHintString( &"REIMAGINED_AUTO_TURRET_COOLDOWN" );
+
+		if(!level.zombie_vars["zombie_powerup_fire_sale_on"])
+		{
+			level waittill_notify_or_timeout("fire_sale_on", level.auto_turret_cooldown);
+		}
+
+		self notify( "available" );
+
+		self._trap_in_use = 0;
+		self._trap_cooling_down = 0;
 	}
 }
 
@@ -165,7 +185,7 @@ activate_move_handle()
 		}
 
 		self notify( "switch_activated" );
-		self waittill( "turret_deactivated" );
+		self waittill( "available" );
 
 		self.handle rotatepitch( -160, .5 );
 		self.handle waittill( "rotatedone" );
@@ -275,22 +295,22 @@ update_string()
 {
 	while(1)
 	{
-		while(!level.zombie_vars["zombie_powerup_fire_sale_on"])
-		{
-			wait_network_frame();
-		}
+		level waittill("fire_sale_on");
 
 		level.auto_turret_cost = 10;
 
-		self SetHintString( &"ZOMBIE_AUTO_TURRET", level.auto_turret_cost );
-
-		while(level.zombie_vars["zombie_powerup_fire_sale_on"])
+		if(!is_true(self._trap_in_use) && !is_true(self._trap_cooling_down))
 		{
-			wait_network_frame();
+			self SetHintString( &"REIMAGINED_AUTO_TURRET_BUY", level.auto_turret_cost );
 		}
+
+		level waittill("fire_sale_off");
 
 		level.auto_turret_cost = level.auto_turret_default_cost;
 
-		self SetHintString( &"ZOMBIE_AUTO_TURRET", level.auto_turret_cost );
+		if(!is_true(self._trap_in_use) && !is_true(self._trap_cooling_down))
+		{
+			self SetHintString( &"REIMAGINED_AUTO_TURRET_BUY", level.auto_turret_cost );
+		}
 	}
 }

@@ -48,6 +48,15 @@ LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy Bouncing Betty [Cost: 1000]"
 REFERENCE          	TRAP_BRIDGE_EE
 LANG_ENGLISH       	"Why are you trying to activate the trap before the bridge is down?"
 
+REFERENCE          	AUTO_TURRET_BUY
+LANG_ENGLISH       	"Hold ^3[{+activate}]^7 to activate the turret [Cost: &&1]"
+
+REFERENCE          	AUTO_TURRET_ACTIVE
+LANG_ENGLISH       	"The turret is active"
+
+REFERENCE          	AUTO_TURRET_COOLDOWN
+LANG_ENGLISH       	"The turret is recharging"
+
 REFERENCE          	DOOR_CLOSED
 LANG_ENGLISH       	"The door must be opened"
 
