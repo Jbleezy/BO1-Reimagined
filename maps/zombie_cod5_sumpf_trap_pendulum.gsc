@@ -307,6 +307,8 @@ trap_sounds(motor_left, motor_right, wheel_left, wheel_right)
 }
 penDamage(parent, who)
 {
+	parent endon("penDown");
+
 	thread customTimer();
 	while(1)
 	{

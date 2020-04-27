@@ -250,7 +250,7 @@ activate_electric_trap(who)
 	}
 
 	//do the damage
-	self.zombie_dmg_trig thread elec_barrier_damage(who);
+	self.zombie_dmg_trig thread elec_barrier_damage(self, who);
 
 	// reset the zapper model
 	level waittill("arc_done");
@@ -293,8 +293,9 @@ play_electrical_sound()
 
 
 }
-elec_barrier_damage(who)
+elec_barrier_damage(trap, who)
 {
+	trap endon("elec_done");
 
 	while(1)
 	{
