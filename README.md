@@ -47,6 +47,7 @@
 * Characters no longer make hurt sounds from explosions if you have PHD Flopper
 * Can now shoot when looking at another player
 * Player names now disappear instantly after being out of line of sight of them
+* Added a minimum weapon switch delay of 50 milliseconds
 * If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
 * Lean is now disabled while down since downed players cannot be revived while they are leaning
 * Fixed a bug where players were able to damage themselves by meleeing and leaning at the same time
@@ -88,7 +89,7 @@
 * Option to change FOV (65-120 in intervals of 5)
 * Option to change max FPS (60, 90, 120, 180, 240, 360, 500, 750, 1000, or unlimited)
 * Option to show FPS on HUD
-* Option to add weapon cycle delay
+* Option to change weapon switch delay
 * Option to enable or disable fog
 * Options to enable or disable enemy counter, timer, health bar, zone names, and character names
 * Option to enable or disable character dialog (host only)
