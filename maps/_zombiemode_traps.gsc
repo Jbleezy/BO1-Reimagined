@@ -341,15 +341,17 @@ trap_use_think( trap )
 
 			trap._trap_cooling_down = 1;
 			trap trap_set_string( &"ZOMBIE_TRAP_COOLDOWN" );
-/#
+			
+			/#
 			if ( GetDvarInt( #"zombie_cheat" ) >= 1 )
 			{
 				trap._trap_cooldown_time = 5;
 			}
-#/
+			#/
+
 			if(!level.zombie_vars["zombie_powerup_fire_sale_on"])
 			{
-				level waittill_notify_or_timeout("fire_sale_on", 30);
+				level waittill_notify_or_timeout("fire_sale_on", trap._trap_cooldown_time);
 			}
 			
 			trap._trap_cooling_down = 0;
