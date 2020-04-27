@@ -2021,10 +2021,7 @@ update_string()
 
 	while(1)
 	{
-		while(!level.zombie_vars["zombie_powerup_fire_sale_on"])
-		{
-			wait_network_frame();
-		}
+		level waittill("fire_sale_on");
 
 		self.zombie_cost = 10;
 
@@ -2033,10 +2030,7 @@ update_string()
 			self SetHintString( &"REIMAGINED_USE_WATER_TRAP", self.zombie_cost );
 		}
 
-		while(level.zombie_vars["zombie_powerup_fire_sale_on"])
-		{
-			wait_network_frame();
-		}
+		level waittill("fire_sale_off");
 
 		self.zombie_cost = self.old_cost;
 

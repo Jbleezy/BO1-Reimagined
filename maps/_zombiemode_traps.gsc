@@ -1305,10 +1305,7 @@ update_string()
 {
 	while(1)
 	{
-		while(!level.zombie_vars["zombie_powerup_fire_sale_on"])
-		{
-			wait_network_frame();
-		}
+		level waittill("fire_sale_on");
 
 		self.zombie_cost = 10;
 
@@ -1317,10 +1314,7 @@ update_string()
 			self trap_set_string( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 		}
 
-		while(level.zombie_vars["zombie_powerup_fire_sale_on"])
-		{
-			wait_network_frame();
-		}
+		level waittill("fire_sale_off");
 
 		self.zombie_cost = self.default_cost;
 
