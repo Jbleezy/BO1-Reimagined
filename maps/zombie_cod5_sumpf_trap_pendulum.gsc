@@ -91,7 +91,7 @@ penThink()
 	self.zombie_cost = 750;
 	self.in_use = 0;
 	level.pen_in_use = 0;
-	self sethintstring( &"WAW_ZOMBIE_ACTIVATE_TRAP" );
+	self sethintstring( &"ZOMBIE_BUTTON_BUY_TRAP", self.zombie_cost );
 	self setcursorhint( "HINT_NOICON" );
 
 	triggers = getentarray("pendulum_buy_trigger","targetname");
@@ -184,7 +184,7 @@ change_hint_string_on_cooldown()
 		wait_network_frame();
 	if(!self.ready)
 	{
-		self thread hint_string(&"ZOMBIE_TRAP_COOLDOWN");
+		self thread hint_string(&"REIMAGINED_TRAP_COOLDOWN");
 	}
 	else
 	{

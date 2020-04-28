@@ -54,11 +54,17 @@ main()
 	precachestring(&"WAW_ZOMBIE_BETTY_ALREADY_PURCHASED");
 	precachestring(&"WAW_ZOMBIE_BETTY_HOWTO");
 
-	precachestring(&"REIMAGINED_ZIPLINE_ACTIVATE");
-	precachestring(&"REIMAGINED_ZIPLINE_USE");
-	precachestring(&"ZOMBIE_BUTTON_BUY_TRAP");
+	PrecacheString(&"REIMAGINED_DOOR_CLOSED");
+
+	PrecacheString(&"ZOMBIE_BUTTON_BUY_TRAP");
 	PrecacheString(&"REIMAGINED_TRAP_ACTIVE");
 	PrecacheString(&"REIMAGINED_TRAP_COOLDOWN");
+
+	PrecacheString(&"REIMAGINED_ZIPLINE_ACTIVATE");
+	PrecacheString(&"REIMAGINED_ZIPLINE_BUY");
+	PrecacheString(&"REIMAGINED_ZIPLINE_ACTIVE");
+	PrecacheString(&"REIMAGINED_ZIPLINE_COOLDOWN");
+	PrecacheString(&"REIMAGINED_ZIPLINE_DEACTIVATED");
 
 	// DCS: switching over to use structs.
 	level.dog_spawn_func = maps\_zombiemode_ai_dogs::dog_spawn_factory_logic;
@@ -374,7 +380,7 @@ init_zombie_sumpf()
 
 	// JMA - setup zipline deactivated trigger
 	zipHintDeactivated = getent("zipline_deactivated_hint_trigger", "targetname");
-	zipHintDeactivated sethintstring(&"WAW_ZOMBIE_ZIPLINE_DEACTIVATED");
+	zipHintDeactivated sethintstring(&"REIMAGINED_ZIPLINE_DEACTIVATED");
 	zipHintDeactivated SetCursorHint("HINT_NOICON");
 
 	// JMA - setup log trap clear debris hint string
@@ -384,7 +390,7 @@ init_zombie_sumpf()
 	{
 		for(i = 0; i < penBuyTrigger.size; i++)
 		{
-			penBuyTrigger[i] sethintstring( &"WAW_ZOMBIE_CLEAR_DEBRIS" );
+			penBuyTrigger[i] sethintstring( &"REIMAGINED_DOOR_CLOSED" );
 			penBuyTrigger[i] setCursorHint( "HINT_NOICON" );
 		}
 
