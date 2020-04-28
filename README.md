@@ -790,6 +790,7 @@
 * Kills zombies in 4 shots
 * Locks on to a new target quicker
 * Targets the zombie that is closest to the turret
+* Added green light when turret is ready
 * Shows hintstring when active
 * Nova crawlers now do not explode from turret damage
 * No longer deals damage to players

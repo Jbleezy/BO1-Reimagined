@@ -8,6 +8,8 @@ init()
 	PrecacheString(&"REIMAGINED_AUTO_TURRET_ACTIVE");
 	PrecacheString(&"REIMAGINED_AUTO_TURRET_COOLDOWN");
 
+	level._effect["auto_turret_light_ready"] = LoadFX("maps/zombie/fx_zombie_auto_turret_light_ready");
+
 	level.auto_turret_array = GetEntArray( "auto_turret_trigger", "script_noteworthy" );
 
 	if( !isDefined( level.auto_turret_array ) )
@@ -106,7 +108,11 @@ auto_turret_think()
 
 		//cost = level.auto_turret_cost;
 		self SetHintString( &"REIMAGINED_AUTO_TURRET_BUY", level.auto_turret_cost );
-//		self thread add_teampot_icon();
+
+		self.turret_fx = Spawn( "script_model", self.turret.origin );
+		self.turret_fx SetModel( "tag_origin" );
+		self.turret_fx.angles = self.turret.angles;
+		PlayFxOnTag( level._effect["auto_turret_light_ready"], self.turret_fx, "tag_origin" );
 
 		self waittill( "trigger", player );
 		index = maps\_zombiemode_weapons::get_player_index(player);
@@ -205,6 +211,12 @@ auto_turret_activate()
 {
 	self endon( "turret_deactivated" );
 
+	self.turret_fx delete();
+	self.turret_fx = Spawn( "script_model", self.turret.origin );
+	self.turret_fx SetModel( "tag_origin" );
+	self.turret_fx.angles = self.turret.angles;
+	PlayFxOnTag( level._effect["auto_turret_light"], self.turret_fx, "tag_origin" );
+
 	self thread activate_move_handle();
 	self waittill( "switch_activated" );
 
@@ -248,11 +260,6 @@ auto_turret_activate()
 	self.turret SetMode( "manual" );
 	self.turret thread maps\_mgturret::burst_fire_unmanned();
 	self.turret_active = true;
-
-	self.turret_fx = Spawn( "script_model", self.turret.origin );
-	self.turret_fx SetModel( "tag_origin" );
-	self.turret_fx.angles = self.turret.angles;
-	PlayFxOnTag( level._effect["auto_turret_light"], self.turret_fx, "tag_origin" );
 
 	self.curr_time = level.auto_turret_timeout;
 
