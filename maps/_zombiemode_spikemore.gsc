@@ -111,24 +111,22 @@ buy_spikemores()
 					who thread show_spikemore_hint("already_purchased");
 				}*/
 
+				play_sound_at_pos( "purchase", self.origin );
 
+				//set the score
+				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
+				who thread spikemore_setup();
+
+				if( self.spikemores_triggered == false )
+				{
+					model = getent( self.target, "targetname" );
+					model thread maps\_zombiemode_weapons::weapon_show( who );
+					self.spikemores_triggered = true;
+				}
 			}
 			else
 			{
 				who maps\_zombiemode_audio::create_and_play_dialog( "general", "no_money", undefined, 1 );
-			}
-
-			play_sound_at_pos( "purchase", self.origin );
-
-			//set the score
-			who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
-			who thread spikemore_setup();
-
-			if( self.spikemores_triggered == false )
-			{
-				model = getent( self.target, "targetname" );
-				model thread maps\_zombiemode_weapons::weapon_show( who );
-				self.spikemores_triggered = true;
 			}
 		}
 	}
