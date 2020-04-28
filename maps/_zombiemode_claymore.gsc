@@ -84,6 +84,7 @@ buy_claymores()
 				//set the score
 				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 				who thread claymore_setup();
+				who notify( "zmb_disable_claymore_prompt" );
 
 				// JMA - display the claymores
 				if( self.claymores_triggered == false )
@@ -92,6 +93,10 @@ buy_claymores()
 					model thread maps\_zombiemode_weapons::weapon_show( who );
 					self.claymores_triggered = true;
 				}
+			}
+			else
+			{
+				who maps\_zombiemode_audio::create_and_play_dialog( "general", "no_money", undefined, 1 );
 			}
 		}
 	}

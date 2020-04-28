@@ -116,6 +116,7 @@ buy_spikemores()
 				//set the score
 				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 				who thread spikemore_setup();
+				who notify( "zmb_disable_spikemore_prompt" );
 
 				if( self.spikemores_triggered == false )
 				{

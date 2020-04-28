@@ -84,6 +84,7 @@ buy_bouncing_betties()
 				//set the score
 				who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 				who thread bouncing_betty_setup();
+				who notify( "zmb_disable_betty_prompt" );
 
 				// JMA - display the bouncing betties
 				if( self.betties_triggered == false )
@@ -92,6 +93,10 @@ buy_bouncing_betties()
 					model thread maps\_zombiemode_weapons::weapon_show( who );
 					self.betties_triggered = true;
 				}
+			}
+			else
+			{
+				who maps\_zombiemode_audio::create_and_play_dialog( "general", "no_money", undefined, 1 );
 			}
 		}
 	}
