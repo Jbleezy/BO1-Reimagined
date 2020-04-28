@@ -15,14 +15,12 @@ main()
 	PreCacheModel( "viewmodel_vtn_nva_standard_arms" );// Takeo
 	PreCacheModel( "viewmodel_usa_hazmat_arms" );// Richtofen
 
-
 	// Light model cacheing for Gantry
-	
-	PreCacheModel("p_rus_rb_lab_warning_light_01");
-  PreCacheModel("p_rus_rb_lab_warning_light_01_off");
-  PreCacheModel("p_rus_rb_lab_light_core_on");
-  PreCacheModel("p_rus_rb_lab_light_core_off");            
 
+	PreCacheModel("p_rus_rb_lab_warning_light_01");
+  	PreCacheModel("p_rus_rb_lab_warning_light_01_off");
+  	PreCacheModel("p_rus_rb_lab_light_core_on");
+  	PreCacheModel("p_rus_rb_lab_light_core_off");
 
 	//needs to be first for create fx
 	maps\zombie_cosmodrome_fx::main();
@@ -35,6 +33,8 @@ main()
 	PreCacheModel("p_zom_cosmo_lunar_control_panel_dlc_on");
 
 	//maps\_zombiemode_powercell::powercell_precache();
+
+	PrecacheString(&"REIMAGINED_DOOR_CLOSED");
 
 	if(GetDvarInt( #"artist") > 0)
 	{

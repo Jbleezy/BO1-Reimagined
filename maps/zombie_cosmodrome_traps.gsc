@@ -1078,7 +1078,7 @@ door_firetrap_init()
 
 	if(!flag("base_entry_2_north_path"))
 	{
-		door_trap trap_set_string( &"ZOMBIE_COSMODROME_DOOR_CLOSED" );
+		door_trap trap_set_string( &"REIMAGINED_DOOR_CLOSED" );
 	}
 	flag_wait("base_entry_2_north_path");
 
