@@ -319,7 +319,7 @@ spikemore_detonation()
 
 	if( self.owner.mines.size > amount )
 	{
-		self.owner.mines[0] _spikemore_SmallSpearDetonate();
+		self _spikemore_SmallSpearDetonate();
 	}
 
 	while(1)

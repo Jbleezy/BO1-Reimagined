@@ -183,9 +183,9 @@ betty_think()
 
 	if( self.owner.mines.size > amount )
 	{
-		self.owner.mines[0].too_many_mines_explode = true;
-		self.owner.mines[0].trigger notify("trigger");
-		self.owner.mines = array_remove_nokeys( self.owner.mines, self.owner.mines[0] );
+		self.too_many_mines_explode = true;
+		self.trigger notify("trigger");
+		self.owner.mines = array_remove_nokeys( self.owner.mines, self );
 	}
 
 	self waittill_not_moving();
@@ -195,34 +195,37 @@ betty_think()
 
 	wait(1);
 
-	while(1)
+	if(!(IsDefined(self.too_many_mines_explode) && self.too_many_mines_explode))
 	{
-		trigger waittill( "trigger", ent );
+		while(1)
+		{
+			trigger waittill( "trigger", ent );
 
-		if(IsDefined(self.too_many_mines_explode) && self.too_many_mines_explode)
+			if(IsDefined(self.too_many_mines_explode) && self.too_many_mines_explode)
+				break;
+
+			if ( isdefined( self.owner ) && ent == self.owner )
+			{
+				continue;
+			}
+
+			if( level.gamemode == "survival" && isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != "axis" )
+			{
+				continue;
+			}
+
+			if( level.gamemode != "survival" && IsPlayer(ent) && ent.vsteam == self.owner.vsteam )
+			{
+				continue;
+			}
+
+			if ( ent damageConeTrace(self.origin, self) == 0 )
+			{
+				continue;
+			}
+
 			break;
-
-		if ( isdefined( self.owner ) && ent == self.owner )
-		{
-			continue;
 		}
-
-		if( level.gamemode == "survival" && isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != "axis" )
-		{
-			continue;
-		}
-
-		if( level.gamemode != "survival" && IsPlayer(ent) && ent.vsteam == self.owner.vsteam )
-		{
-			continue;
-		}
-
-		if ( ent damageConeTrace(self.origin, self) == 0 )
-		{
-			continue;
-		}
-
-		break;
 	}
 
 	wait_to_fire_betty();

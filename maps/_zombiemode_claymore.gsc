@@ -296,7 +296,7 @@ claymore_detonation()
 
 	if( self.owner.mines.size > amount )
 	{
-		self.owner.mines[0] detonate( self.owner );
+		self detonate( self.owner );
 	}
 
 	while(1)
