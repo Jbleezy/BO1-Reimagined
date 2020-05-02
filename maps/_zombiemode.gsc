@@ -1709,7 +1709,7 @@ onPlayerConnect_clientDvars()
 	// reset dvar that changes when double tap is bought
 	self SetClientDvar("player_burstFireCooldown", .2);
 
-	self SetClientDvar("player_enduranceSpeedScale", 1.1);
+	self SetClientDvar("player_enduranceSpeedScale", 1.07);
 
 	// look up and down 90 degrees
 	// can't set to exactly 90 or else looking completely up or down will cause the player to move in the opposite direction
