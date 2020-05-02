@@ -1746,9 +1746,6 @@ onPlayerConnect_clientDvars()
 	// remove hold breath and variable zoom hintstrings when scoped in
 	self SetClientDvar("cg_drawBreathHint", 0);
 
-	// turn enemy counter HUD off initially
-	self SetClientDvar("hud_enemy_counter_on_game", 0);
-
 	self SetClientDvar("hud_enemy_counter_value", "");
 	self SetClientDvar("hud_total_time", "");
 	self SetClientDvar("hud_round_time", "");
@@ -1977,6 +1974,7 @@ onPlayerSpawned()
 			"cg_thirdPersonAngle", "0",
 			"ui_show_mule_wep_indicator", "0" );
 		
+		self SetClientDvar("hud_enemy_counter_on_game", 1);
 		self setClientDvar("hud_timer_on_game", 1);
 		self setClientDvar("hud_health_bar_on_game", 1);
 		self setClientDvar("hud_zone_name_on_game", 1);
@@ -8432,53 +8430,28 @@ enemies_remaining_hud()
 		return;
 	}
 
-	set = false;
-
 	while(1)
 	{
 		players = get_players();
-		if( is_true(flag("enter_nml")) )
+		zombs = level.zombie_total + get_enemy_count();
+
+		if( zombs == 0 || is_true(flag("enter_nml")) || is_true(flag("round_restarting")) )
 		{
-			if(set)
+			if(GetDvar("hud_enemy_counter_value") != "")
 			{
-				set = false;
 				for(i=0;i<players.size;i++)
 				{
-					players[i] SetClientDvar("hud_enemy_counter_on_game", false);
+					players[i] SetClientDvar("hud_enemy_counter_value", "");
 				}
 			}
 		}
 		else
 		{
-			zombs = level.zombie_total + get_enemy_count();
-
-			if( zombs == 0 || is_true(flag("round_restarting")) )
+			if(GetDvarInt("hud_enemy_counter_value") != zombs)
 			{
-				if(GetDvar("hud_enemy_counter_value") != "")
-				{
-					for(i=0;i<players.size;i++)
-					{
-						players[i] SetClientDvar("hud_enemy_counter_value", "");
-					}
-				}
-			}
-			else
-			{
-				if(GetDvarInt("hud_enemy_counter_value") != zombs)
-				{
-					for(i=0;i<players.size;i++)
-					{
-						players[i] SetClientDvar("hud_enemy_counter_value", zombs);
-					}
-				}
-			}
-
-			if(!set)
-			{
-				set = true;
 				for(i=0;i<players.size;i++)
 				{
-					players[i] SetClientDvar("hud_enemy_counter_on_game", true);
+					players[i] SetClientDvar("hud_enemy_counter_value", zombs);
 				}
 			}
 		}
