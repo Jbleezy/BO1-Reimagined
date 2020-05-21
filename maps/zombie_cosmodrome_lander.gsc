@@ -599,7 +599,7 @@ lander_buy_think()
 				 	break;
 			}
 
-			self lander_take_off(call_box.destination, who);
+			self lander_take_off(call_box.destination, who, true);
 		}
 		else // Not enough money
 		{
@@ -759,7 +759,7 @@ lander_intro_think()
 }
 
 
-lander_take_off(dest, activator)
+lander_take_off(dest, activator, lander_buy)
 {
 	//disable_zip_buys( "take_off" );
 	flag_clear("lander_grounded");
@@ -770,11 +770,7 @@ lander_take_off(dest, activator)
 	//turn off lights on lander bases
 	lander_lights_red();
 
-	level notify("LS", self); //lander start
-
-	wait .25;
-
-	lander thread lock_players(dest, activator);
+	lander thread lock_players(dest, activator, lander_buy);
 
 	//cooldown
 	level notify("LU",lander.riders);
@@ -972,7 +968,7 @@ player_blocking_lander(activator)
 //---------------------------------------------------------------------------
 // finds the closest spots for players to link to
 //---------------------------------------------------------------------------
-lock_players(destination, activator)
+lock_players(destination, activator, lander_buy)
 {
 	lander = getent( "lander", "targetname" );
 	lander.riders = 0;
@@ -990,7 +986,6 @@ lock_players(destination, activator)
 
 	crumb = getstruct( rider_trigger.target, "targetname" );
 
-
 	lander thread takeoff_nuke( undefined, 80 ,1 ,rider_trigger, activator);
 	lander thread takeoff_knockdown(81,250);
 
@@ -998,6 +993,46 @@ lock_players(destination, activator)
 
 	//for detecting if the player was in last stand but got revived during the lander ride
 	lander_trig = getent("zip_buy","script_noteworthy");
+
+	// activator gets locked no matter what
+	if(IsDefined(lander_buy) && lander_buy)
+	{
+		max_dist = 10000;
+		grab = -1;
+		for ( j = 0; j < 4; j++ )
+		{
+			if ( isdefined( taken[j] ) && taken[j] == 1 )
+			{
+				continue;
+			}
+
+			dist = distance2d( activator.origin, spots[j].origin );
+			if ( dist < max_dist )
+			{
+				max_dist = dist;
+				grab = j;
+			}
+		}
+		
+		taken[grab] = 1;
+		lander.riders++;
+		activator playerlinktodelta( spots[grab], undefined, 1, 180, 180, 180, 180, true );
+		if(activator maps\_laststand::player_is_in_laststand() )
+		{
+			activator.on_lander_last_stand = 1;
+			activator.lander_link_spot = spots[grab];
+			activator thread laststand_lander_link();
+		}
+		else
+		{
+			activator enableinvulnerability();	
+			activator thread maps\_zombiemode::store_crumb( crumb.origin );
+			activator.lander = true;
+			activator.lander_link_spot = spots[grab];
+			activator.on_lander_last_stand = undefined;
+			activator setclientflag(0);
+		}
+	}
 
 	x=0;
 	while(!flag("lander_grounded"))
@@ -1658,7 +1693,7 @@ lander_cooldown_think()
 
 	while(1)
 	{
-		level waittill("LS", trig); //lander start
+		level waittill("LU",riders,trig);
 
 		flag_set("lander_inuse");
 
@@ -1683,8 +1718,6 @@ lander_cooldown_think()
 				lander_callboxes[i] setcursorhint( "HINT_NOICON" );
 			}
 		}
-
-		level waittill("LU",riders);
 
 		//wait for the lander to not be in use anymore
 		while(level.lander_in_use)

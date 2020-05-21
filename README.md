@@ -1062,6 +1062,7 @@
 * Lander station no longer kills or moves players if the lander station moves down while the player is standing on it
 * Kills from the lunar lander now count as actual kills
 * Zombies now have a better death animation when killed by the lunar lander
+* Player who activates the lunar lander is forced to ride the lunar lander
 
 #### Sidequest
 * Completable with any amount of players
