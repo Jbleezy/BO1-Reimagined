@@ -2365,11 +2365,11 @@ player_too_many_weapons_monitor()
 
 		if ( primary_weapons_to_take.size > weapon_limit )
 		{
-			if(self GetCurrentWeapon() == primary_weapons_to_take[primary_weapons_to_take.size])
+			if(self GetCurrentWeapon() == primary_weapons_to_take[primary_weapons_to_take.size - 1])
 			{
 				self SwitchToWeapon(primary_weapons_to_take[0]);
 			}
-			self TakeWeapon(primary_weapons_to_take[primary_weapons_to_take.size]);
+			self TakeWeapon(primary_weapons_to_take[primary_weapons_to_take.size - 1]);
 			/*if ( !isdefined( level.player_too_many_weapons_monitor_callback ) || self [[level.player_too_many_weapons_monitor_callback]]( primary_weapons_to_take ) )
 			{
 				self thread player_too_many_weapons_monitor_takeaway_sequence( primary_weapons_to_take );
