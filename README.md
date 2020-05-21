@@ -1106,7 +1106,6 @@
 * Lighthouse dials can now be rotated faster
 * Rotating a lighthouse dial no longer rotates other lighthouse dials
 * Human zombie travelling up the light house needs to be damaged for 10000 health (previously 5000 health multiplied the amount of players)
-* Reward: Winter's Howl powerup that stays on the map until picked up
 * Reward: upgraded Wunderwaffe from every Wunderwaffe powerup for the rest of the game
 
 ### Shangri-La

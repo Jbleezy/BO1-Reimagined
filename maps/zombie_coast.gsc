@@ -514,9 +514,6 @@ include_weapons()
 	include_weapon( "tesla_gun_powerup_zm", false );
 	include_weapon( "tesla_gun_powerup_upgraded_zm", false );
 
-	include_weapon( "freezegun_zm", false );
-	include_weapon( "freezegun_upgraded_zm", false );
-
 	// limited weapons
 	maps\_zombiemode_weapons::add_limited_weapon( "m1911_zm", 0 );
 	//maps\_zombiemode_weapons::add_limited_weapon( "tesla_gun_zm", 1 );
