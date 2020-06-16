@@ -171,7 +171,7 @@ spawn_new_bump_triggers()
 			// These are spawned later on after randomization has finished
 			// perks["specialty_armorvest"] = (14282, -15032, -578);
 			// perks["specialty_fastreload"] = (14277, -15036, -577);
-			//perks["specialty_quickrevive"] = (18, -150, 29);
+			// perks["specialty_quickrevive"] = (18, -150, 29);
 			perks["specialty_quickrevive"] = (-671.1, 1672.6, -470.4);
 			perks["specialty_rof"] = (1597, 3812, -291);
 			perks["specialty_longersprint"] = (676, 2232, -326);
@@ -180,14 +180,14 @@ spawn_new_bump_triggers()
 			// perks["specialty_additionalprimaryweapon"] = (1480.8, 3450, -65);
 			break;
 		case "zombie_cod5_prototype":
-			//perks["specialty_additionalprimaryweapon"] = (-160, -528, 1);
+			// perks["specialty_additionalprimaryweapon"] = (-160, -528, 1);
 			break;
 		case "zombie_cod5_asylum":
 			perks["specialty_armorvest"] = (1326, -415, 106);
 			perks["specialty_fastreload"] = (-572, 706, 267);
 			perks["specialty_rof"] = (437, -584, 261);
 			perks["specialty_quickrevive"] = (1144, 403, 97);
-			//perks["specialty_additionalprimaryweapon"] = (-91, 540, 64);
+			// perks["specialty_additionalprimaryweapon"] = (-91, 540, 64);
 			break;
 		case "zombie_cod5_sumpf":
 			// These are spawned later on after randomization has finished
@@ -243,9 +243,12 @@ spawn_new_bump_triggers()
 
 spawn_audio_bump_trigger(perk, origin)
 {
-	trigger = Spawn(0, origin, "trigger_radius", 0, 80, 80);
-	trigger.radius = 80; // must match the Spawn() arg
-	trigger.height = 80; // must match the Spawn() arg
+	radius = 72;
+	height = 80;
+
+	trigger = Spawn(0, origin, "trigger_radius", 0, radius, height);
+	trigger.radius = radius; // must match the Spawn() arg
+	trigger.height = height; // must match the Spawn() arg
 	// trigger = SpawnStruct(); // TODO: Spawn a actual trigger
 	trigger.targetname = "audio_bump_trigger";
 	trigger.script_sound = "fly_bump_bottle";
