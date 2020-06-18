@@ -769,10 +769,6 @@ init_random_perk_machines()
 					machine_model.origin = machine_model.origin + (0, 0, -6);
 				}
 			}
-
-			// Fix script_string being for wrong perks
-			// Call this inside of `if` to make sure we have a origin to spawn at
-			level thread maps\_zombiemode_perks::add_bump_trigger(machine.script_noteworthy, machine_model.origin);
 		}
 
 		if(isDefined(clip))

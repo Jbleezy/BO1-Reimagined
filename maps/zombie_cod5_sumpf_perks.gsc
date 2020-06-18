@@ -116,13 +116,11 @@ activate_vending_machine(machine, origin, entity)
 
 	switch(machine)
 	{
-
 	   case "zombie_vending_jugg_on":
 	        level notify("juggernog_sumpf_on");
 	        level notify( "specialty_armorvest_power_on" );
 	        clientnotify("jugg_on");
 			entity maps\_zombiemode_perks::perk_fx("jugger_light");
-			level thread maps\_zombiemode_perks::add_bump_trigger("specialty_armorvest", origin);
            break;
 
 	   case "zombie_vending_doubletap_on":
@@ -130,7 +128,6 @@ activate_vending_machine(machine, origin, entity)
 	        level notify( "specialty_rof_power_on" );
 	        clientnotify("doubletap_on");
 			entity maps\_zombiemode_perks::perk_fx("doubletap_light");
-			level thread maps\_zombiemode_perks::add_bump_trigger("specialty_rof", origin);
 	        break;
 
 	   case "zombie_vending_revive_on":
@@ -138,7 +135,6 @@ activate_vending_machine(machine, origin, entity)
 	        level notify( "specialty_quickrevive_power_on" );
 	        clientnotify("revive_on");
 			entity maps\_zombiemode_perks::perk_fx("revive_light");
-			level thread maps\_zombiemode_perks::add_bump_trigger("specialty_quickrevive", origin);
            break;
 
        case "zombie_vending_sleight_on":
@@ -146,7 +142,6 @@ activate_vending_machine(machine, origin, entity)
 	        level notify( "specialty_fastreload_power_on" );
 	        clientnotify("fast_reload_on");
 			entity maps\_zombiemode_perks::perk_fx("sleight_light");
-			level thread maps\_zombiemode_perks::add_bump_trigger("specialty_fastreload", origin);
            break;
    }
 
@@ -291,6 +286,26 @@ vending_randomization_effect(index)
 	// 	shock = spawnfx(level._effect["zapper"], origin);
 	// shock = spawnfx(level._effect["stub"], origin);
 
+	script_noteworthy = "";
+	if(machines[j].targetname == "vending_jugg")
+	{
+		script_noteworthy = "specialty_armorvest";
+	}
+	else if(machines[j].targetname == "vending_revive")
+	{
+		script_noteworthy = "specialty_quickrevive";
+	}
+	else if(machines[j].targetname == "vending_sleight")
+	{
+		script_noteworthy = "specialty_fastreload";
+	}
+	else if(machines[j].targetname == "vending_doubletap")
+	{
+		script_noteworthy = "specialty_rof";
+	}
+
+	level thread maps\_zombiemode_perks::add_bump_trigger(script_noteworthy, origin);
+
 	if( level.vending_model_info.size  > 1 )
 	{
 		PlayFxOnTag(level._effect["zombie_perk_start"], machines[j], "tag_origin" );
@@ -298,10 +313,8 @@ vending_randomization_effect(index)
 	}
 	else
 	{
-
 		PlayFxOnTag(level._effect["zombie_perk_4th"], machines[j], "tag_origin" );
 		playsoundatposition("rando_perk", machines[j].origin);
-
 	}
 
 	true_model = machines[j].model;

@@ -174,8 +174,6 @@ place_doubletap_machine()
 			level.struct_class_names["targetname"][machine_monkey_struct.targetname][size] = machine_monkey_struct;
 		}
 	}
-
-	level thread maps\_zombiemode_perks::add_bump_trigger(machine_trigger.script_noteworthy, machine.origin);
 }
 
 place_additionalprimaryweapon_machine()
@@ -301,8 +299,6 @@ place_additionalprimaryweapon_machine()
 			level.struct_class_names["targetname"][machine_monkey_struct.targetname][size] = machine_monkey_struct;
 		}
 	}
-
-	level thread add_bump_trigger(machine_trigger.script_noteworthy, machine.origin);
 
 	level.zombiemode_using_additionalprimaryweapon_perk = true;
 }
@@ -1436,9 +1432,6 @@ electric_perks_dialog()
 	}
 }
 
-
-//
-//
 vending_trigger_think()
 {
 	self endon("death");
@@ -1446,6 +1439,18 @@ vending_trigger_think()
 	if(self.script_noteworthy == "specialty_longersprint")
 	{
 		self.script_noteworthy = "specialty_endurance";
+	}
+
+	if(level.script != "zombie_cod5_sumpf")
+	{
+		machine = GetEntArray(self.target, "targetname");
+		for(i = 0; i < machine.size; i++)
+		{
+			if(IsDefined(machine[i].classname) && machine[i].classname == "script_model")
+			{
+				level thread add_bump_trigger(self.script_noteworthy, machine[i].origin);
+			}
+		}	
 	}
 
 	//self thread turn_cola_off();
