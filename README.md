@@ -1146,6 +1146,7 @@
 * Available whenever the power is on
 * Kills from the minecart now count as actual kills
 * Travels back up 2x faster
+* Player who activates the minecart is forced to ride the minecart
 
 #### Geysers
 * Available whenever the power is on

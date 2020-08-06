@@ -277,7 +277,7 @@ minecart_add_linkEnt( offsetOrigin )
 }
 
 
-minecart_link_passengers()
+minecart_link_passengers(activator)
 {
 	wait(0.5);
 
@@ -304,7 +304,7 @@ minecart_link_passengers()
 		closestEnt = undefined;
 		closestDist = 0.0;
 
-		playerNear = self minecart_contains(player);
+		playerNear = self minecart_contains(player) || player == activator;
 		if ( !playerNear )
 		{
 			continue;
@@ -831,7 +831,7 @@ minecart_lever_think()
 		
 		self thread minecart_lever_move( false );
 
-		self.minecart minecart_link_passengers();
+		self.minecart minecart_link_passengers(player);
 		self.minecart thread _minecart_nuke(player);
 		
 		//Put front gate back up
