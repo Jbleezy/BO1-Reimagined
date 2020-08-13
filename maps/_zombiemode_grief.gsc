@@ -756,13 +756,9 @@ round_restart(same_round)
 		display_round_won();
 	}
 
-	SetTimeScale(.5);
-
 	wait 1;
 
 	fade_out(1, false);
-
-	SetTimeScale(1);
 
 	zombs = GetAiSpeciesArray("axis");
 	for(i=0;i<zombs.size;i++)

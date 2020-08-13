@@ -6769,20 +6769,10 @@ end_game()
 
 	UploadStats();
 
-	if(level.gamemode != "survival")
-	{
-		SetTimeScale(.5);
-	}
-
 	wait( 1 );
 
 	//play_sound_at_pos( "end_of_game", ( 0, 0, 0 ) );
 	wait( 2 );
-
-	if(level.gamemode != "survival")
-	{
-		SetTimeScale(1);
-	}
 
 	intermission();
 	//wait( level.zombie_vars["zombie_intermission_time"] );
