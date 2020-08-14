@@ -185,7 +185,7 @@ place_additionalprimaryweapon_machine()
 
 	switch ( Tolower( GetDvar( #"mapname" ) ) )
 	{
-	/*case "zombie_cod5_prototype":
+	case "zombie_cod5_prototype":
 		level.zombie_additionalprimaryweapon_machine_origin = (-160, -528, 1);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 0, 0);
 		level.zombie_additionalprimaryweapon_machine_clip_origin = (-162, -517, 17);
@@ -232,7 +232,7 @@ place_additionalprimaryweapon_machine()
 		level.zombie_additionalprimaryweapon_machine_monkey_origins[0] = (398.8, 1398.6, 60);
 		level.zombie_additionalprimaryweapon_machine_monkey_origins[1] = (380.8, 1358.6, 60);
 		level.zombie_additionalprimaryweapon_machine_monkey_origins[2] = (398.8, 1318.6, 60);
-		break;*/
+		break;
 	case "zombie_coast":
 		level.zombie_additionalprimaryweapon_machine_origin = (2424.4, -2884.3, 308);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 231.6, 0);

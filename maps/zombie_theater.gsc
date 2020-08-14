@@ -196,16 +196,6 @@ include_weapons()
   	include_weapon( "cz75dw_zm" );
   	include_weapon( "cz75dw_upgraded_zm", false );
 
-	//	Weapons - Shotguns
-	include_weapon( "ithaca_zm", false, true );						// shotgun
-	include_weapon( "ithaca_upgraded_zm", false );
-	include_weapon( "rottweil72_zm", false, true );
-	include_weapon( "rottweil72_upgraded_zm", false );
-	include_weapon( "spas_zm" );						//
-	include_weapon( "spas_upgraded_zm", false );
-	include_weapon( "hs10_zm" );
-	include_weapon( "hs10_upgraded_zm", false );
-
 	//	Weapons - Assault Rifles
 	include_weapon( "aug_acog_zm" );
 	include_weapon( "aug_acog_mk_upgraded_zm", false );
@@ -236,8 +226,12 @@ include_weapons()
 
 	//	Weapons - Special
 	include_weapon( "zombie_cymbal_monkey" );
+	include_weapon( "sniper_explosive_zm" );
+	include_weapon( "sniper_explosive_upgraded_zm", false );
 	include_weapon( "ray_gun_zm" );
 	include_weapon( "ray_gun_upgraded_zm", false );
+	include_weapon( "microwavegundw_zm" );
+	include_weapon( "microwavegundw_upgraded_zm" );
 
 	include_weapon( "thundergun_zm", true );
 	include_weapon( "thundergun_upgraded_zm", false );
@@ -408,6 +402,8 @@ wait_for_power()
 	level notify("doubletap_on");
 	wait_network_frame();
 	level notify("Pack_A_Punch_on" );
+	wait_network_frame();
+	level notify("additionalprimaryweapon_on");
 	wait_network_frame();
 
 	// start quad round
