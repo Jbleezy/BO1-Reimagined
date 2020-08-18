@@ -1974,7 +1974,15 @@ onPlayerSpawned()
 			"cg_thirdPersonAngle", "0",
 			"ui_show_mule_wep_indicator", "0" );
 		
-		self SetClientDvar("hud_enemy_counter_on_game", 1);
+		if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
+		{
+			self SetClientDvar("hud_enemy_counter_on_game", 0);
+		}
+		else
+		{
+			self SetClientDvar("hud_enemy_counter_on_game", 1);
+		}
+
 		self setClientDvar("hud_timer_on_game", 1);
 		self setClientDvar("hud_health_bar_on_game", 1);
 		self setClientDvar("hud_zone_name_on_game", 1);
