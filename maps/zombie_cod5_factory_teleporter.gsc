@@ -376,10 +376,6 @@ teleport_pad_active_think( index )
 //-------------------------------------------------------------------------------
 player_teleporting( index, user, first_time )
 {
-	level endon("round_restarted");
-
-	self thread cleanup_on_round_restart(index, user);
-
 	if(!IsDefined(first_time))
 		first_time = false;
 
@@ -500,19 +496,6 @@ player_teleporting( index, user, first_time )
 	level notify("teleporter_end");
 }
 
-cleanup_on_round_restart(index, user)
-{
-	level endon("teleporter_end");
-
-	level waittill( "round_restarted" );
-
-	self notify( "fx_done" );
-
-	flag_waitopen("round_restarting");
-
-	setClientSysState( "levelNotify", "black_box_end", user );
-}
-
 //-------------------------------------------------------------------------------
 // pad fx for the start of the teleport
 //-------------------------------------------------------------------------------
@@ -624,6 +607,8 @@ teleport_pad_player_fx( delay )
 //-------------------------------------------------------------------------------
 teleport_players(user)
 {
+	level endon("round_restarted");
+
 	player_radius = 16;
 
 	players = getplayers();
@@ -652,6 +637,8 @@ teleport_players(user)
 
 			if ( self player_is_near_pad( players[i] ) )
 			{
+				players[i] thread cleanup_on_round_restart();
+
 				players_touching[player_idx] = i;
 				player_idx++;
 
@@ -778,6 +765,20 @@ teleport_players(user)
 
 	// play beam fx at the core
 	exploder( 106 );
+}
+
+cleanup_on_round_restart()
+{
+	level endon("teleporter_end");
+
+	level waittill( "round_restarted" );
+
+	setClientSysState( "levelNotify", "black_box_end", self );
+
+	self.teleport_origin delete();
+	self.teleport_origin = undefined;
+
+	self.inteleportation = false;
 }
 
 //-------------------------------------------------------------------------------

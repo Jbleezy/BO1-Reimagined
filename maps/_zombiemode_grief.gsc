@@ -738,7 +738,6 @@ round_restart(same_round)
 
 	//let player who just downed get last stand stuff initialized first
 	wait_network_frame();
-	level notify( "round_restarted" );
 
 	//dont let players bleedout or enter last stand during round restart
 	players = get_players();
@@ -759,6 +758,8 @@ round_restart(same_round)
 	wait 1;
 
 	fade_out(1, false);
+
+	level notify( "round_restarted" );
 
 	zombs = GetAiSpeciesArray("axis");
 	for(i=0;i<zombs.size;i++)

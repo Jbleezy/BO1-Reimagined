@@ -665,9 +665,15 @@ cleanup_on_round_restart()
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
-		players[i].inteleportation = false;
 		setClientSysState( "levelNotify", "black_box_end", players[i] );
-		//setClientSysState( "levelNotify", "t2bfx", players[i] );
+
+		if(IsDefined(players[i].teleport_origin))
+		{
+			players[i].teleport_origin delete();
+			players[i].teleport_origin = undefined;
+		}
+
+		players[i].inteleportation = false;
 	}
 }
 
