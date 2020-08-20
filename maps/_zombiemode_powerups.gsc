@@ -4025,7 +4025,7 @@ meat_powerup( drop_item, player )
 
 			if(is_true(player.has_meat))
 			{
-				wait(WeaponFireTime("meat_zm") * 2);
+				wait(WeaponFireTime("meat_zm"));
 
 				player meat_powerup_take_weapon();
 
