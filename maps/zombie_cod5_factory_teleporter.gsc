@@ -862,7 +862,6 @@ teleport_core_think()
 						trigger waittill( "trigger" );
 					}
 
-
 					//				trigger teleport_trigger_invisible( true );
 
 					//				iprintlnbold( &"WAW_ZOMBIE_LINK_ACTIVE" );
@@ -886,7 +885,16 @@ teleport_core_think()
 								if ( level.active_links == 3 )
 								{
 									exploder( 101 );
-									ClientNotify( "pap1" );	// Pack-A-Punch door on
+
+									if(level.gamemode == "survival")
+									{
+										ClientNotify( "pap1" );	// Pack-A-Punch door on
+									}
+									else
+									{
+										level thread delay_clientnotify("pap1"); // needs a delay or it won't work
+									}
+
 									teleporter_vo( "linkall", trigger );
 //										if( level.round_number <= 7 )
 //										{
@@ -909,6 +917,13 @@ teleport_core_think()
 				wait( .05 );
 			}
 	}
+}
+
+delay_clientnotify(notify_string)
+{
+	wait 1;
+
+	ClientNotify(notify_string);
 }
 
 stop_countdown()
