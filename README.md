@@ -77,7 +77,8 @@
 * Score highlights now only show one positive amount and one negative amount per player at a time
 * Negative score color is now slightly brighter
 * Yellow insta kill shows on HUD during insta kill rounds
-* Removed blur when paused ingame
+* Removed blur on in-game pause menu
+* Removed black border on top and bottom of in-game pause menu
 
 ## Settings
 * Removed popup menu when changing graphic content to unrestricted
@@ -360,6 +361,7 @@
 ### RPK
 * Fixed animation bug when switching weapons from the RPK with an empty clip
 * Fixed dive to prone animation from looping
+* Fixed sprint footstep sounds happening too fast
 
 ### Sawed-Off Double-Barreled Shotgun
 * Decreased range by 25%
