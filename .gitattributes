@@ -1,3 +1,1 @@
-*.gsc linguist-language=GameScript
-*.csc linguist-language=GameScript
-*.menu linguist-language=Menu
+*.inc linguist-vendored
