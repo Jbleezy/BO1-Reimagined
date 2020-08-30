@@ -170,6 +170,7 @@ menufile,ui/hud.menu
 menufile,ui/hud_zombie.menu
 menufile,ui/hud_reimagined.menu
 menufile,ui/hud_zombie.txt
+menufile,ui_mp/leftside_options.inc
 
 //WEAPONS
 weapon,sp/m1911_zm
