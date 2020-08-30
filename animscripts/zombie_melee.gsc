@@ -133,9 +133,10 @@ MeleeCombat()
 
 		zombie_attack = pick_zombie_melee_anim( self );
 
-		// these anim's fire notes happen at incorrect times
 		fire_note = "fire";
-		if(zombie_attack == level._zombie_melee["zombie"][2] || zombie_attack == level._zombie_run_melee["zombie"][2])
+
+		// these anim's fire notes happen at incorrect times
+		if(zombie_attack == level._zombie_melee["zombie"][2] || zombie_attack == level._zombie_walk_melee["zombie"][1] || zombie_attack == level._zombie_walk_melee["zombie"][3] || zombie_attack == level._zombie_run_melee["zombie"][1] || zombie_attack == level._zombie_run_melee["zombie"][2])
 		{
 			fire_note = "sndnt#zmb_attack_whoosh";
 		}
@@ -162,11 +163,6 @@ MeleeCombat()
 
 				// these notes happen multiple times but these are the only ones we should melee on
 				if(zombie_attack == level._zombie_melee["zombie"][2] && attack_times != 2 && attack_times != 4)
-				{
-					continue;
-				}
-
-				if(zombie_attack == level._zombie_run_melee["zombie"][2] && attack_times != 2)
 				{
 					continue;
 				}
