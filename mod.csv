@@ -408,6 +408,11 @@ xmodel,zombie_moon_treasure_box_bottom
 xanim,p_zombie_perkacola_drink
 xanim,ai_zombie_fast_sprint_01
 xanim,ai_zombie_fast_sprint_02
+xanim,ai_zombie_attack_v6
+xanim,ai_zombie_run_attack_v2
+xanim,ai_zombie_run_attack_v3
+xanim,ai_zombie_walk_attack_v2
+xanim,ai_zombie_walk_attack_v4
 
 //PLAYER ANIMS
 rawfile,mp/playeranim.script

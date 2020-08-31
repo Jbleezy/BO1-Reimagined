@@ -133,16 +133,6 @@ MeleeCombat()
 
 		zombie_attack = pick_zombie_melee_anim( self );
 
-		fire_note = "fire";
-
-		// these anim's fire notes happen at incorrect times
-		if(zombie_attack == level._zombie_melee["zombie"][2] || zombie_attack == level._zombie_walk_melee["zombie"][1] || zombie_attack == level._zombie_walk_melee["zombie"][3] || zombie_attack == level._zombie_run_melee["zombie"][1] || zombie_attack == level._zombie_run_melee["zombie"][2])
-		{
-			fire_note = "sndnt#zmb_attack_whoosh";
-		}
-
-		attack_times = 0;
-
 		if ( isDefined( self.melee_anim_func ) )
 		{
 			self thread [[ self.melee_anim_func ]]( zombie_attack );
@@ -157,16 +147,8 @@ MeleeCombat()
 			{
 				break;
 			}
-			else if ( note == fire_note )
+			else if ( note == "fire" )
 			{
-				attack_times++;
-
-				// these notes happen multiple times but these are the only ones we should melee on
-				if(zombie_attack == level._zombie_melee["zombie"][2] && attack_times != 2 && attack_times != 4)
-				{
-					continue;
-				}
-
 				if ( !IsDefined( self.enemy ) )
 				{
 					break;
