@@ -108,6 +108,7 @@
 * Neck shots now give 100 points for a kill
 * Melee kills can no longer count as headshots
 * All weapons now have sprint and dive animations
+* All weapons now always use correct empty clip drop animation
 * Ammo now gets added at the same time that it does in the reload animation of all weapons
 
 ### New Weapons
