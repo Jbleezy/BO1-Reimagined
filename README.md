@@ -139,8 +139,8 @@
 * 71 rounds per clip
 * Unupgraded: damage - 100
 * Unupgraded: headshot damage - 400
-* Unupgraded: damage - 140
-* Unupgraded: headshot damage - 700
+* Unupgraded: damage - 150
+* Unupgraded: headshot damage - 600
 
 #### PSG1
 * Upgraded name: Psychotic Salient Genius

@@ -6199,10 +6199,14 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		case "mp5k_upgraded_zm":
 		case "mpl_upgraded_zm":
 		case "pm63_upgraded_zm":
-		case "ppsh_upgraded_zm":
 			final_damage = 140;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 				final_damage *= 5;
+			break;
+		case "ppsh_upgraded_zm":
+			final_damage = 150;
+			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
+				final_damage *= 4;
 			break;
 		case "m16_gl_upgraded_zm":
 		case "famas_upgraded_zm":
