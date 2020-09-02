@@ -131,16 +131,16 @@
 * 30 rounds per clip
 * Unupgraded: damage - 150
 * Unupgraded: headshot damage - 600
-* Unupgraded: damage - 210
-* Unupgraded: headshot damage - 1050
+* Upgraded: damage - 210
+* Upgraded: headshot damage - 1050
 
 #### PPSH
 * Upgraded name: The Reaper
 * 71 rounds per clip
 * Unupgraded: damage - 100
 * Unupgraded: headshot damage - 400
-* Unupgraded: damage - 150
-* Unupgraded: headshot damage - 600
+* Upgraded: damage - 150
+* Upgraded: headshot damage - 600
 
 #### PSG1
 * Upgraded name: Psychotic Salient Genius
@@ -148,8 +148,8 @@
 * 10 rounds per clip
 * Unupgraded: damage - 500
 * Unupgraded: headshot damage - 2500
-* Unupgraded: damage - 1000
-* Unupgraded: headshot damage - 8000
+* Upgraded: damage - 1000
+* Upgraded: headshot damage - 8000
 
 #### Stoner63
 * Upgraded name: Stoned69
@@ -157,8 +157,8 @@
 * Upgraded: 90 rounds per clip
 * Unupgraded: damage - 160
 * Unupgraded: headshot damage - 480
-* Unupgraded: damage - 230
-* Unupgraded: headshot damage - 690
+* Upgraded: damage - 230
+* Upgraded: headshot damage - 690
 
 ### Explosive Weapons
 * Removed shellshock effect from all explosive weapon damage
