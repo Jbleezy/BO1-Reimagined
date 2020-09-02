@@ -734,7 +734,7 @@ round_restart(same_round)
 	}
 
 	flag_set("round_restarting");
-	flag_clear( "spawn_zombies");
+	flag_clear("spawn_zombies");
 
 	//let player who just downed get last stand stuff initialized first
 	wait_network_frame();
@@ -867,10 +867,12 @@ round_restart(same_round)
 	if(level.gamemode == "snr")
 	{
 		level.snr_round_number++;
-		display_round_number();
+		level thread display_round_number();
 	}
 
-	flag_set( "spawn_zombies");
+	wait 5;
+
+	flag_set("spawn_zombies");
 }
 
 set_grief_viewmodel()
