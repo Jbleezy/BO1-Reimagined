@@ -193,6 +193,7 @@
 
 ### AUG
 * Upgraded: decreased stock ammo from 390 to 360
+* Upgraded: increased shotgun stock ammo from 30 to 36
 * Upgraded: added name of weapon attachment on HUD
 
 ### Ballistic Knife
@@ -231,6 +232,8 @@
 * Upgraded: increased impact damage from 1000 to 1200
 * Upgraded: increased minimum explosive damage from 75 to 300
 
+### Commando
+* Upgraded: increased stock ammo from 360 to 480
 
 ### Crossbow Explosive Bolt
 * Added on Moon
@@ -274,7 +277,7 @@
 * Upgraded: decreased stock ammo from 400 to 384
 
 ### G11
-* Unupgraded: increased stock ammo from 144 to 192
+* Unupgraded: increased stock ammo from 144 to 240
 * Upgraded: increased stock ammo from 288 to 384
 
 ### Gewehr 43
@@ -318,6 +321,8 @@
 
 ### M16
 * Unupgraded: increased stock ammo from 120 to 150
+* Upgraded: increased stock ammo from 270 to 300
+* Upgraded: increased grenade launcher stock ammo from 8 to 10
 * Upgraded: increased grenade launcher damage scaling over rounds
 * Upgraded: decreased grenade launcher explosion radius by 36%
 * Upgraded: increased grenade launcher impact damage from 700 to 800
@@ -346,6 +351,7 @@
 * Now uses World at War upgraded camo on Der Riese
 
 ### Olympia
+* Unupgraded: increased stock ammo from 38 to 40
 * Unupgraded: increased maximum damage per pellet from 120 to 180
 * Upgraded: increased maximum damage per pellet from 200 to 300
 * Upgraded: fire effect now plays when damaging a zombie
@@ -380,6 +386,7 @@
 * Upgraded: increased stock ammo from 225 to 360
 
 ### Stakeout
+* Unupgraded: increased stock ammo from 54 to 60
 * Changed dive animation times
 
 ### STG-44
