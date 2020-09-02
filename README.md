@@ -143,7 +143,7 @@
 * Unupgraded: headshot damage - 700
 
 #### PSG1
-* Upgraded name: Psychotic Salient Genius 115
+* Upgraded name: Psychotic Salient Genius
 * Replaces the Dragunov
 * 10 rounds per clip
 * Unupgraded: damage - 500
