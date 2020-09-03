@@ -394,6 +394,7 @@
 
 ### Thompson
 * Upgraded: decreased stock ammo from 250 to 240
+* Fixed empty raise animation
 
 ### Trench Gun
 * Spread increases while moving
