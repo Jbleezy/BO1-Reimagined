@@ -366,7 +366,7 @@
 * Upgraded: now given to the player when downed on solo if they have the weapon
 
 ### RPK
-* Fixed animation bug when switching weapons from the RPK with an empty clip
+* Fixed empty drop animation
 * Fixed dive to prone animation from looping
 * Fixed sprint footstep sounds happening too fast
 
@@ -749,9 +749,9 @@
 * Increased minimum damage from 300 to 500
 * Kills zombies in 4 body shots
 * Kills zombies in 2 headshots
-* Decreased weapon raise time from 1.55 seconds to 1.1 seconds
-* Decreased weapon drop time from .75 seconds to .3 seconds
-* Powerup can now drop while one is already active
+* Decreased raise time from 1.55 seconds to 1.1 seconds
+* Decreased drop time from .75 seconds to .3 seconds
+* Powerup can now spawn while one is already active
 
 ### Fire Sale
 * Traps cost 10 points
