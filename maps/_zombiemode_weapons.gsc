@@ -1718,84 +1718,50 @@ decide_hide_show_hint( endon_notify )
 			{
 				if(DistanceSquared( players[i].origin, self.origin ) < dist)
 				{
+					weapon = self.zombie_weapon_upgrade;
 					current_weapon = players[i] GetCurrentWeapon();
 					primaryWeapons = players[i] GetWeaponsListPrimaries();
 					weapon_type = WeaponType( self.zombie_weapon_upgrade );
-					has_weapon = players[i] HasWeapon(self.zombie_weapon_upgrade);
 					pap_triggers = GetEntArray("zombie_vending_upgrade", "targetname");
-
-					if(weapon_type != "grenade" && pap_triggers.size > 0)
-					{
-						has_weapon_upgrade = players[i] has_upgrade(self.zombie_weapon_upgrade);
-					}
-					else
-					{
-						has_weapon_upgrade = false;
-					}
+					has_weapon = players[i] HasWeapon(self.zombie_weapon_upgrade);
+					has_weapon_upgrade = players[i] has_upgrade(self.zombie_weapon_upgrade) && weapon_type != "grenade" && pap_triggers.size > 0;
 					player_ammo = undefined;
 					max_ammo = undefined;
 					player_alt_ammo = undefined;
 					max_alt_ammo = undefined;
-					if(has_weapon)
+
+					if(has_weapon || has_weapon_upgrade)
 					{
-						player_ammo = players[i] GetAmmoCount(self.zombie_weapon_upgrade);
-						max_ammo = WeaponMaxAmmo(self.zombie_weapon_upgrade);
+						if(has_weapon_upgrade)
+						{
+							weapon = level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name;
+						}
+
+						player_ammo = players[i] GetWeaponAmmoStock(weapon);
+						max_ammo = WeaponMaxAmmo(weapon);
+						dual_wield_weapon = WeaponDualWieldWeaponName(weapon);
+						alt_weapon = WeaponAltWeaponName(weapon);
+
 						if(weapon_type != "grenade")
 						{
-							max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
 							if(players[i] HasPerk("specialty_stockpile"))
 							{
-								max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
+								max_ammo += WeaponClipSize(weapon);
 							}
 						}
-
-						dual_wield_weapon = WeaponDualWieldWeaponName(self.zombie_weapon_upgrade);
+	
 						if(dual_wield_weapon != "none")
 						{
-							max_ammo += WeaponClipSize(dual_wield_weapon);
 							if(players[i] HasPerk("specialty_stockpile"))
 							{
-								max_ammo += WeaponClipSize(self.zombie_weapon_upgrade);
+								max_ammo += WeaponClipSize(weapon);
 							}
-							player_ammo += players[i] GetWeaponAmmoClip(dual_wield_weapon);
 						}
 
-						alt_weapon = WeaponAltWeaponName(self.zombie_weapon_upgrade);
 						if(alt_weapon != "none")
 						{
-							player_alt_ammo = players[i] GetAmmoCount(alt_weapon);
-							max_alt_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
-							if(players[i] HasPerk("specialty_stockpile"))
-							{
-								max_alt_ammo += WeaponClipSize(alt_weapon);
-							}
-						}
-					}
-					else if(has_weapon_upgrade)
-					{
-						player_ammo = players[i] GetAmmoCount(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
-						max_ammo = WeaponMaxAmmo(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name) + WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
-						if(players[i] HasPerk("specialty_stockpile"))
-						{
-							max_ammo += WeaponClipSize(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
-						}
-
-						dual_wield_weapon = WeaponDualWieldWeaponName(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
-						if(dual_wield_weapon != "none")
-						{
-							max_ammo += WeaponClipSize(dual_wield_weapon);
-							if(players[i] HasPerk("specialty_stockpile"))
-							{
-								max_ammo += WeaponClipSize(dual_wield_weapon);
-							}
-							player_ammo += players[i] GetWeaponAmmoClip(dual_wield_weapon);
-						}
-
-						alt_weapon = WeaponAltWeaponName(level.zombie_weapons[self.zombie_weapon_upgrade].upgrade_name);
-						if(alt_weapon != "none")
-						{
-							player_alt_ammo = players[i] GetAmmoCount(alt_weapon);
-							max_alt_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
+							player_alt_ammo = players[i] GetWeaponAmmoStock(alt_weapon);
+							max_alt_ammo = WeaponMaxAmmo(alt_weapon);
 							if(players[i] HasPerk("specialty_stockpile"))
 							{
 								max_alt_ammo += WeaponClipSize(alt_weapon);
@@ -3101,7 +3067,7 @@ treasure_chest_give_weapon( weapon_string )
 		{
 			self notify( "zmb_lost_knife" );
 		}
-		self give_max_ammo(weapon_string, 1);
+		self give_max_ammo(weapon_string);
 		self SwitchToWeapon( weapon_string );
 		return;
 	}
@@ -3895,52 +3861,44 @@ ammo_give( weapon )
 
 	// Should we give ammo to the player
 	give_ammo = false;
-
 	max_ammo = WeaponMaxAmmo(weapon);
+	ammo_count = self GetWeaponAmmoStock( weapon );
+	dual_wield_weapon = WeaponDualWieldWeaponName( weapon );
+	alt_weapon = WeaponAltWeaponName(weapon);
+
 	if(!is_offhand_weapon(weapon))
 	{
-		max_ammo += WeaponClipSize(weapon);
 		if(self HasPerk("specialty_stockpile"))
 		{
 			max_ammo += WeaponClipSize(weapon);
 		}
 	}
 
-	ammo_count = self GetAmmoCount( weapon );
-
-	dual_wield_weapon = WeaponDualWieldWeaponName( weapon );
 	if(dual_wield_weapon != "none")
 	{
-		max_ammo += WeaponClipSize(dual_wield_weapon);
 		if(self HasPerk("specialty_stockpile"))
 		{
 			max_ammo += WeaponClipSize(dual_wield_weapon);
 		}
-		ammo_count += self GetWeaponAmmoClip(dual_wield_weapon);
 	}
 
 	// compare it with the ammo player actually has, if more or equal just dont give the ammo, else do
-	if( ammo_count < max_ammo )
+	if(ammo_count < max_ammo)
 	{
 		give_ammo = true;
 	}
 
-	if(!give_ammo)
+	if(!give_ammo && alt_weapon != "none")
 	{
-		alt_weapon = WeaponAltWeaponName(weapon);
-
-		if(alt_weapon != "none")
+		max_alt_ammo = WeaponMaxAmmo(alt_weapon);
+		if(self HasPerk("specialty_stockpile"))
 		{
-			max_alt_ammo = WeaponMaxAmmo(alt_weapon) + WeaponClipSize(alt_weapon);
-			if(self HasPerk("specialty_stockpile"))
-			{
-				max_alt_ammo += WeaponClipSize(alt_weapon);
-			}
+			max_alt_ammo += WeaponClipSize(alt_weapon);
+		}
 
-			if( self getammocount( alt_weapon ) < max_alt_ammo )
-			{
-				give_ammo = true;
-			}
+		if( self GetWeaponAmmoStock( alt_weapon ) < max_alt_ammo )
+		{
+			give_ammo = true;
 		}
 	}
 
@@ -3985,11 +3943,16 @@ ammo_give( weapon )
 		}
 	}*/
 
-	if( give_ammo )
+	if(give_ammo)
 	{
 		self play_sound_on_ent( "purchase" );
 
-		self give_max_ammo(weapon, 1);
+		self give_max_ammo(weapon);
+
+		if(alt_weapon != "none")
+		{
+			self give_max_ammo(alt_weapon);
+		}
 
 		// fix for grenade ammo
 		if(is_lethal_grenade(weapon) || is_tactical_grenade(weapon))
