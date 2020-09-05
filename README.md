@@ -341,6 +341,7 @@
 * Can now fire without aiming
 * Decreased time to start reloading from 1.06 seconds to .5 seconds
 * Fixed dive to prone animation from looping
+* Fixed sprint footstep sounds happening too slow
 * Unupgraded: increased maximum explosion damage from 320 to 1500
 * Unupgraded: increased minimum explosion damage from 100 to 375
 * Upgraded: increased maximum explosion damage from 600 to 2500
