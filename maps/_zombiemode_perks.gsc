@@ -1897,8 +1897,6 @@ give_perk( perk, bought )
 	if( perk == "specialty_deadshot" )
 	{
 		self SetClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
-		perk_str = perk + "_stop";
-		//self thread move_faster_while_ads(perk_str);
 		self SetPerk("specialty_fastsprintrecovery");
 		self SetPerk("specialty_stalker");
 	}
@@ -1927,7 +1925,7 @@ give_perk( perk, bought )
 
 	if(perk == "specialty_additionalprimaryweapon")
 	{
-		self SetPerk("specialty_stockpile");
+		//self SetPerk("specialty_stockpile");
 		self SetClientDvar("ui_show_mule_wep_indicator", "1");
 		self thread give_back_additional_weapon();
 		self thread additional_weapon_indicator(perk, perk_str);
@@ -2204,21 +2202,25 @@ perk_think( perk )
 			break;
 
 		case "specialty_additionalprimaryweapon":
-			self UnsetPerk("specialty_stockpile");
-			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
-			self SetClientDvar("ui_show_mule_wep_indicator", "0");
 			// only take weapon from here if perk is lost from a way besides downing
 			// weapon is not taken properly from here if downed, so called in _zombiemode::player_laststand() instead
 			if ( result == perk_str )
 			{
 				self.weapon_taken_by_losing_additionalprimaryweapon = self maps\_zombiemode::take_additionalprimaryweapon();
 			}
-			self remove_stockpile_ammo();
+
+			if(self HasPerk("specialty_stockpile"))
+			{
+				self remove_stockpile_ammo();
+			}
+
+			//self UnsetPerk("specialty_stockpile");
+			self send_message_to_csc("hud_anim_handler", "hud_mule_wep_out");
+			self SetClientDvar("ui_show_mule_wep_indicator", "0");
 			break;
 
 		case "specialty_deadshot":
 			self ClearClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
-			//self SetMoveSpeedScale(self.move_speed);
 			self UnsetPerk("specialty_fastsprintrecovery");
 			self UnsetPerk("specialty_stalker");
 			break;

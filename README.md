@@ -20,7 +20,7 @@
 * Round now ends immediately when last zombie is killed (previously up to a one second delay)
 * Intermission time decreased from 15 seconds to 10 seconds
 * Maps now auto restart in coop after intermission
-* Maps now auto restart correctly (box gets randomized again)
+* Maps now auto restart correctly (box location gets randomized again)
 
 ## Players
 * Unlimited sprint
@@ -716,8 +716,7 @@
 
 ### Mule Kick
 * Only available on Call of the Dead, Shangri-La, and Moon
-* Fixed not being available offline on every map except for Moon
-* Carry an additional clip of stock ammo for every weapon
+* Fixed not being available when playing offline on every map except for Moon
 * Added jingle
 * Fixed 3rd person model
 * Removed bottom part of machine model
