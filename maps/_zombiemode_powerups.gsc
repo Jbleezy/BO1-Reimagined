@@ -4252,15 +4252,15 @@ meat_powerup_create_meat_stink(player)
 
 meat_powerup_activate_meat_on_player(time)
 {
-	self notify("meat active");
-	self endon("meat active");
+	self notify("meat_active");
+	self endon("meat_active");
 	self endon("disconnect");
 
 	self.meat_stink_active = true;
 	level notify("meat_powerup_active");
 	level notify("attractor_positions_generated");
 
-	self waittill_notify_or_timeout("player_downed", time);
+	self waittill_any_or_timeout(time, "player_downed", "round_restarted");
 
 	self.meat_stink_active = undefined;
 	level notify("attractor_positions_generated");
