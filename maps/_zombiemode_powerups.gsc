@@ -1499,8 +1499,10 @@ powerup_grab()
 				continue;
 
 			//no picking up meat if the player already has meat powerup
-			if(self.powerup_name == "meat" && IsDefined(players[i].has_meat))
+			if(self.powerup_name == "meat" && is_true(players[i].has_meat))
+			{
 				continue;
+			}
 
 			// QED random weapon only needs to be triggered, does not need player within distance
 			if ( DistanceSquared( players[i].origin, self.origin ) < range_squared || ( self.powerup_name == "random_weapon" && !IsDefined(self.gg_powerup) ) )
@@ -3996,20 +3998,25 @@ slow_down_powerup_player( drop_item )
 meat_powerup( drop_item, player )
 {
 	player endon("disconnect");
+	player endon("death");
 	player endon("player_downed");
+	player endon("meat_time_over");
 
-	player._zombie_gun_before_meat = player GetCurrentWeapon();
+	player notify("replace_weapon_powerup");
+
+	level._zombie_meat_powerup_last_stand_func = ::meat_watch_gunner_downed;
+	player.has_meat = true;
+	player.has_powerup_weapon = true;
 
 	player increment_is_drinking();
+	player._zombie_gun_before_meat = player GetCurrentWeapon();
+
 	player GiveWeapon("meat_zm");
 	player GiveMaxAmmo("meat_zm");
 	player SwitchToWeapon("meat_zm");
-	player.has_powerup_weapon = true;
-	player.has_meat = true;
 
-	player thread meat_powerup_check_for_player_downed();
-
-	player thread meat_powerup_weapon_change();
+	level thread meat_powerup_replace(player, "meat_time_over");
+	level thread meat_powerup_weapon_change(player);
 
 	while(1)
 	{
@@ -4029,31 +4036,35 @@ meat_powerup( drop_item, player )
 
 				player meat_powerup_take_weapon();
 
-				return;
+				break;
 			}
 		}
 	}
 }
 
-meat_powerup_check_for_player_downed()
+meat_powerup_replace(player, str_gun_return_notify)
 {
-	self endon("disconnect");
-	self endon("threw_meat");
+	player endon( "death" );
+	player endon( "disconnect" );
+	player endon( "player_downed" );
+	player endon( str_gun_return_notify );
 
-	self waittill("player_meat_end");
+	player waittill( "replace_weapon_powerup" );
 
-	self TakeWeapon("meat_zm");
-	self.has_meat = undefined;
-	self.gg_wep_changed = undefined;
+	player TakeWeapon( "meat_zm" );
+
+	player.has_meat = false;
+
+	player decrement_is_drinking();
 }
 
-meat_powerup_weapon_change()
+meat_powerup_weapon_change(player)
 {
-	self endon("disconnect");
-	self endon("threw_meat");
-	self endon("player_meat_end");
+	player endon("disconnect");
+	player endon("meat_time_over");
+	player endon("player_downed");
 
-	self EnableWeaponCycling();
+	player EnableWeaponCycling();
 
 	// if the player is currently switching a weapon when they grab the powerup, the weapon won't switch back correctly without waiting
 	wait_network_frame();
@@ -4061,9 +4072,9 @@ meat_powerup_weapon_change()
 	while(1)
 	{
 		// "weapon_switch_complete" is for if the player switches back to their normal weapon before the "weapon_change" notify of the powerup weapon
-		self waittill_any("weapon_change", "weapon_change_complete", "weapon_switch_complete");
+		player waittill_any("weapon_change", "weapon_change_complete", "weapon_switch_complete");
 
-		if(self GetCurrentWeapon() == "meat_zm" || is_true(self.is_ziplining))
+		if(player GetCurrentWeapon() == "meat_zm" || is_true(player.is_ziplining))
 		{
 			continue;
 		}
@@ -4071,7 +4082,7 @@ meat_powerup_weapon_change()
 		break;
 	}
 	
-	self meat_powerup_take_weapon(false);
+	player meat_powerup_take_weapon(false);
 }
 
 meat_powerup_take_weapon(weapon_swap)
@@ -4102,14 +4113,38 @@ meat_powerup_take_weapon(weapon_swap)
 
 	self decrement_is_drinking();
 	self.has_powerup_weapon = false;
-	self.has_meat = undefined;
-	self notify("threw_meat");
+	self.has_meat = false;
+	self notify("meat_time_over");
 
 	if(level.gamemode == "gg" && IsDefined(self.gg_wep_changed))
 	{
 		self.gg_wep_changed = undefined;
 		self maps\_zombiemode_grief::update_gungame_weapon(true);
 	}
+}
+
+meat_watch_gunner_downed()
+{
+	if(!is_true(self.has_meat))
+	{
+		return;
+	}
+
+	if(self HasWeapon("meat_zm"))
+	{
+		self TakeWeapon( "meat_zm" );
+	}
+
+	//self decrement_is_drinking();
+
+	// this gives the player back their weapons
+	self notify("meat_time_over");
+
+	// wait a frame to let last stand finish initializing
+	wait(0.05);
+	self.has_meat = false;
+	self.has_powerup_weapon = false;
+	self.gg_wep_changed = undefined;
 }
 
 meat_powerup_create_meat_stink_player(player)
@@ -4225,7 +4260,7 @@ meat_powerup_activate_meat_on_player(time)
 	level notify("meat_powerup_active");
 	level notify("attractor_positions_generated");
 
-	self waittill_notify_or_timeout("player_meat_end", time);
+	self waittill_notify_or_timeout("player_downed", time);
 
 	self.meat_stink_active = undefined;
 	level notify("attractor_positions_generated");
