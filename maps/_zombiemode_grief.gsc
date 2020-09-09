@@ -62,7 +62,7 @@ init()
 		}
 	}
 
-	level thread intro_vox();
+	//level thread intro_vox();
 }
 
 grief_precache()
@@ -698,7 +698,7 @@ grief_msg(msg, var1)
 		self.grief_hud1 FadeOverTime( 1 );
 		self.grief_hud1.alpha = 1;
 		self thread grief_msg_fade_away(self.grief_hud1);
-		self playlocalsound( "vs_" + enemies_alive + "rivup" );
+		//self playlocalsound( "vs_" + enemies_alive + "rivup" );
 	}
 	else if (enemies_alive == 0 && players_alive >= 1)
 	{
@@ -706,7 +706,7 @@ grief_msg(msg, var1)
 		self.grief_hud1 FadeOverTime( 1 );
 		self.grief_hud1.alpha = 1;
 		self thread grief_msg_fade_away(self.grief_hud1);
-		self playlocalsound( "vs_0rivup" );
+		//self playlocalsound( "vs_0rivup" );
 		wait(2.5);
 		self.grief_hud2 SetText( &"REIMAGINED_SURVIVE_TO_WIN" );
 		self.grief_hud2 FadeOverTime( 1 );
@@ -823,7 +823,7 @@ round_restart(same_round)
 		if(level.gamemode != "snr")
 		{
 			players[i] thread grief_msg(&"REIMAGINED_ANOTHER_CHANCE");
-			players[i] playlocalsound( "vs_restart" );
+			//players[i] playlocalsound( "vs_restart" );
 		}
 
 		if(level.gamemode == "snr")
@@ -1447,7 +1447,7 @@ snr_round_win()
 			{
 				if(players[i].vsteam == team)
 				{
-					players[i] playlocalsound( "vs_0rivup" );
+					//players[i] playlocalsound( "vs_0rivup" );
 				}
 			}
 			level thread round_restart();
