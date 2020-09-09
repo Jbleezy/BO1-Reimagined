@@ -1901,11 +1901,6 @@ onPlayerDowned()
 				}
 			}
 		}
-
-		if(level.gamemode != "survival")
-		{
-			self notify("player_meat_end");
-		}
 	}
 }
 
@@ -2697,6 +2692,11 @@ player_laststand( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, s
 	if( IsDefined( level._zombie_tesla_powerup_last_stand_func ) )
 	{
 		self thread [[level._zombie_tesla_powerup_last_stand_func]]();
+	}
+
+	if( IsDefined( level._zombie_meat_powerup_last_stand_func ) )
+	{
+		self thread [[level._zombie_meat_powerup_last_stand_func]]();
 	}
 
 	if( IsDefined( self.intermission ) && self.intermission )
