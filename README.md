@@ -189,6 +189,7 @@
 ### AK74u
 * Increased move speed from 100% to 105%
 * Increased move speed while aiming from 200% to 210%
+* Changed wallbuy hintstring from "AK-74u" to "AK74u"
 * Upgraded: fixed fire sound
 
 ### AUG
@@ -380,7 +381,7 @@
 * Fixed animations
 * Fixed shell eject effect showing 2 shells
 * Changed name from "Sawed-Off Double-Barreled Shotgun w/ Grip" to "Sawed-Off Double-Barreled Shotgun"
-* Changed buy hintstring from "Sawed-Off Shotgun" to "Sawed-Off Double-Barreled Shotgun"
+* Changed wallbuy hintstring from "Sawed-Off Shotgun" to "Sawed-Off Double-Barreled Shotgun"
 
 ### Spectre
 * Unupgraded: increased stock ammo from 120 to 240

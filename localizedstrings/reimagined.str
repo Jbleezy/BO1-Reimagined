@@ -24,8 +24,11 @@ LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy Weapon [Cost: &&1], Ammo [Cos
 REFERENCE           WEAPONCOSTAMMO_UPGRADE_HACKED
 LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy Upgraded Weapon [Cost: &&1], Ammo [Cost: &&2],\n                         Upgraded Ammo [Cost: &&3]"
 
-REFERENCE           BUY_DOUBLEBARREL_SAWED
+REFERENCE           WEAPON_DOUBLEBARREL_SAWED
 LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy Sawed-Off Double-Barreled Shotgun [Cost: &&1]"
+
+REFERENCE           WEAPON_AK74U
+LANG_ENGLISH        "Hold ^3[{+activate}]^7 to buy AK74u [Cost: &&1]"
 
 REFERENCE          	MYSTERY_BOX
 LANG_ENGLISH        "Hold ^3[{+activate}]^7 to use Mystery Box [Cost: &&1]"
