@@ -588,15 +588,6 @@ score_highlight( scoring_player, score, value )
 		y *= 2;
 	}
 
-	if(value < 1)
-	{
-		y += 5;
-	}
-	else
-	{
-		y -= 5;
-	}
-
 	time = 0.5;
 	half_time = time * 0.5;
 	quarter_time = time * 0.25;
@@ -649,6 +640,14 @@ score_highlight( scoring_player, score, value )
 	// Move the hud
 	hud MoveOverTime( time );
 	hud.x -= 50;
+	if(value < 1)
+	{
+		hud.y += 5;
+	}
+	else
+	{
+		hud.y -= 5;
+	}
 
 	wait( half_time );
 
