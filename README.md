@@ -706,7 +706,7 @@
 
 ### Stamin-Up
 * No longer gives 110% sprint speed with any weapon
-* Now gives +7% move speed and sprint speed
+* Now gives +10% move speed and sprint speed
 
 ### PHD Flopper
 * Fixed a bug where players took 1 damage when falling without diving
