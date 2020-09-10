@@ -1882,9 +1882,9 @@ give_perk( perk, bought )
 
 	if(perk == "specialty_fastreload")
 	{
-		self SetPerk("specialty_fastads");
 		self SetPerk("specialty_fastswitch");
-		self SetPerk("specialty_fastoffhand");
+		//self SetPerk("specialty_fastads");
+		//self SetPerk("specialty_fastoffhand");
 	}
 
 	//increase burst fire rate with double tap
@@ -1897,8 +1897,8 @@ give_perk( perk, bought )
 	if( perk == "specialty_deadshot" )
 	{
 		self SetClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
-		self SetPerk("specialty_fastsprintrecovery");
-		self SetPerk("specialty_stalker");
+		//self SetPerk("specialty_fastsprintrecovery");
+		//self SetPerk("specialty_stalker");
 	}
 	else if( perk == "specialty_deadshot_upgrade" )
 	{
@@ -2192,9 +2192,9 @@ perk_think( perk )
 			break;
 
 		case "specialty_fastreload":
-			self UnsetPerk("specialty_fastads");
 			self UnsetPerk("specialty_fastswitch");
-			self UnsetPerk("specialty_fastoffhand");
+			//self UnsetPerk("specialty_fastads");
+			//self UnsetPerk("specialty_fastoffhand");
 			break;
 
 		case "specialty_rof":
@@ -2221,8 +2221,8 @@ perk_think( perk )
 
 		case "specialty_deadshot":
 			self ClearClientFlag(level._ZOMBIE_PLAYER_FLAG_DEADSHOT_PERK);
-			self UnsetPerk("specialty_fastsprintrecovery");
-			self UnsetPerk("specialty_stalker");
+			//self UnsetPerk("specialty_fastsprintrecovery");
+			//self UnsetPerk("specialty_stalker");
 			break;
 
 		case "specialty_deadshot_upgrade":
