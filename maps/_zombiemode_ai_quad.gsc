@@ -718,7 +718,7 @@ quad_death_explo( origin, death_vars )
             {
             	zombies[i].trap_death = true;
 				zombies[i].no_powerups = true;
-				zombies[i] dodamage(self.health + 100, self.origin, self.attacker, 0, "explosive");
+				zombies[i] dodamage(level.zombie_health, self.origin, self.attacker, 0, "explosive");
                	//zombies[i] StartRagdoll();
             	//zombies[i] LaunchRagdoll( VectorNormalize(zombies[i].origin - origin) * (25,25,25) );
             }
@@ -738,6 +738,11 @@ quad_death_explo( origin, death_vars )
 			if ( !is_immune )
 			{
 				players[i] ShellShock( "explosion", 2.5 );
+
+				if(!players[i] maps\_laststand::player_is_in_laststand() && players[i].sessionstate != "spectator")
+				{
+					radiusdamage(players[i].origin + (0, 0, 5), 10, level.zombie_health, level.zombie_health, self, "MOD_EXPLOSIVE");
+				}
 			}
         }
     }
@@ -745,8 +750,7 @@ quad_death_explo( origin, death_vars )
 	self.exploded = true;
 	//self RadiusDamage( origin, death_vars["explo_radius_zomb"], level.zombie_health, level.zombie_health, self, "MOD_EXPLOSIVE" );
 
-
-    //PhysicsExplosionSphere( origin, death_vars["explo_radius_zomb"], 175, 2 );
+    PhysicsExplosionSphere( origin, 175, death_vars["explo_radius_zomb"], 2 );
 }
 
 quad_damage_func( player )
