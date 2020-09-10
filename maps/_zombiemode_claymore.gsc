@@ -478,6 +478,8 @@ show_claymore_hint(string)
 
 	self setup_client_hintelem();
 	self.hintelem setText(text);
+	self.hintelem.font = "small";
+	self.hintelem.fontscale = 1.25;
 	wait(3.5);
 	self.hintelem settext("");
 }

@@ -582,6 +582,7 @@
 * Can now be repurchased to refill ammo
 * Can now be picked up while pressing the melee button
 * Increased move speed from 100% to 110%
+* Decreased first purchase HUD text font size
 
 ##### Bouncing Betty
 * Increased placing speed
