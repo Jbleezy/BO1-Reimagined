@@ -728,6 +728,9 @@ grief_msg_fade_away(text)
 
 round_restart(same_round)
 {
+	level notify("round_restart");
+	level endon("round_restart");
+
 	if(flag("round_restarting"))
 	{
 		return;
@@ -854,9 +857,6 @@ round_restart(same_round)
 
 	level thread maps\_zombiemode::award_grenades_for_survivors(); // get 2 extra grenades when you spawn back in
 
-	// had to put here instead of the very end, since display_round_number is a timed function and if this flag isnt cleared players cant take damage from traps (and at this point players are spawned back in)
-	flag_clear("round_restarting");
-
 	level thread fade_in(0, 1, true);
 
 	for(i=0;i<players.size;i++)
@@ -869,6 +869,8 @@ round_restart(same_round)
 		level.snr_round_number++;
 		level thread display_round_number();
 	}
+
+	flag_clear("round_restarting");
 
 	wait 5;
 

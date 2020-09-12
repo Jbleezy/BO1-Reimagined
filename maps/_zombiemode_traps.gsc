@@ -759,9 +759,6 @@ trap_damage(activator)
 		// Is player standing in the electricity?
 		if( isplayer(ent) )
 		{
-			if(flag("round_restarting"))
-				continue;
-
 			switch ( self._trap_type )
 			{
 			case "electric":
