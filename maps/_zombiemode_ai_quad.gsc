@@ -741,7 +741,7 @@ quad_death_explo( origin, death_vars )
 
 				if(!players[i] maps\_laststand::player_is_in_laststand() && players[i].sessionstate != "spectator")
 				{
-					radiusdamage(players[i].origin + (0, 0, 5), 10, level.zombie_health, level.zombie_health, self, "MOD_EXPLOSIVE");
+					players[i] dodamage(40, self.origin, self, 0, "explosive");
 				}
 			}
         }
