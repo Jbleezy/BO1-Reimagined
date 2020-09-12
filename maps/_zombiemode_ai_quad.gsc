@@ -712,6 +712,11 @@ quad_death_explo( origin, death_vars )
 
     for(i = 0; i < zombies.size; i++)
     {
+		if ( !BulletTracePassed( zombies[i].origin, self.origin, false, undefined ) && !SightTracePassed( zombies[i].origin, self.origin, false, undefined ) && !zombies[i] DamageConeTrace(self.origin, self) )
+		{
+			continue;
+		}
+
         if( IsAlive(zombies[i]) && zombies[i] != self && Distance( origin, zombies[i].origin ) <= death_vars["explo_radius_zomb"] )
         {
             if( zombies[i].animname != "quad_zombie" )
@@ -727,6 +732,11 @@ quad_death_explo( origin, death_vars )
 
     for(i = 0; i < players.size; i++)
     {
+		if ( !BulletTracePassed( players[i].origin, self.origin, false, undefined ) && !SightTracePassed( players[i].origin, self.origin, false, undefined ) && !players[i] DamageConeTrace(self.origin, self) )
+		{
+			continue;
+		}
+
         if( Distance( origin, players[i].origin ) <= death_vars["explo_radius_plr"] )
         {
 			is_immune = false;
