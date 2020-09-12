@@ -9067,7 +9067,7 @@ revive_waypoint_color_think(time)
 	self endon( "disconnect" );
 	self endon( "player_revived" );
 	self endon( "bled_out" );
-	self endon( "round_restarting" );
+	self endon( "round_restarted" );
 
 	start_time = GetTime();
 	time_ms = time * 1000;
@@ -9096,7 +9096,7 @@ revive_waypoint_color_think(time)
 
 destroy_revive_waypoint()
 {
-	self waittill_any("player_revived", "bled_out", "round_restarting", "_zombie_game_over", "disconnect", "death");
+	self waittill_any("player_revived", "bled_out", "round_restarted", "_zombie_game_over", "disconnect", "death");
 
 	if(IsDefined(self.reviveWaypoint))
 		self.reviveWaypoint destroy_hud();
