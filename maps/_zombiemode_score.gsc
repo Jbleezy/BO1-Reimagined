@@ -588,6 +588,15 @@ score_highlight( scoring_player, score, value )
 		y *= 2;
 	}
 
+	if(value < 1)
+	{
+		y += 5;
+	}
+	else
+	{
+		y -= 5;
+	}
+
 	time = 0.5;
 	half_time = time * 0.5;
 	quarter_time = time * 0.25;
