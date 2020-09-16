@@ -421,6 +421,7 @@
 * Unupgraded: increased minimum explosion damage from 300 to 750
 * Upgraded: increased impact damage from 1000 to 2000
 * Upgraded: increased minimum explosion damage from 300 to 1000
+* Upgraded: camo now displays on more of the weapon
 
 #### Wunderwaffe
 * Now always arcs to other zombies within line of sight
