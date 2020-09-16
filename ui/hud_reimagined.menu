@@ -141,7 +141,7 @@
 	menuDef
 	{
 		name				"health_bar"
-		rect				4 -113 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_BOTTOM
+		rect				4 -111.5 0 0 HORIZONTAL_ALIGN_USER_LEFT VERTICAL_ALIGN_USER_BOTTOM
 		fullscreen			0
 		visible				when(dvarBool("hud_health_bar_on") && dvarBool("hud_health_bar_on_game"))
 
@@ -197,8 +197,8 @@
 		{
 			name				"zone_name_text"
 			type				ITEM_TYPE_TEXT
-			rect 				4 -114.5 0 0
-			exp					rect Y(-114.5 + (!dvarInt("hud_health_bar_on") * 16))
+			rect 				4 -112.5 0 0
+			exp					rect Y(-112.5 + (!dvarInt("hud_health_bar_on") * 16))
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
