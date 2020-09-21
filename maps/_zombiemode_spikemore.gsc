@@ -5,7 +5,7 @@
 init()
 {
 	level.spikemore_detonate_radius = 96.0;
-	level.spikemore_fire_radius = 200.0;
+	level.spikemore_fire_radius = 256.0;
 
 	level.spikemore_projectile_damage = 1500; // damage per projectile
 	level.spikemore_projectile_speed = 1500;

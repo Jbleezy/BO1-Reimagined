@@ -162,9 +162,10 @@
 
 ### Explosive Weapons
 * Removed shellshock effect from all explosive weapon damage
-* No longer deal half damage to players if they were diving away from the explosion
+* Explosion radius is the same for all explosive weapons
 * Damage scaling over rounds is now done at a more consistent rate
 * Damage scaling caps at round 100
+* No longer deal half damage to players if they were diving away from the explosion
 
 ### Light Machine Guns
 * Decreased move speed from 87.5% to 85%
@@ -224,12 +225,13 @@
 ### China Lake
 * Can now fire without aiming
 * Now rechambers while aiming
+* Increased explosion radius by 28%
+* Increased damage scaling over rounds
 * Decreased sprint recovery time from .6 seconds to .3 seconds
 * Decreased time to start rechambering and reloading after firing from 1 second to .5 seconds
 * Unupgraded: decreased rechamber time from 2 seconds to 1 second
-* Upgraded: decreased rechamber time from 1.4 seconds to .7 seconds
-* Increased damage scaling over rounds
 * Unupgraded: increased minimum explosive damage from 75 to 150
+* Upgraded: decreased rechamber time from 1.4 seconds to .7 seconds
 * Upgraded: increased impact damage from 1000 to 1200
 * Upgraded: increased minimum explosive damage from 75 to 300
 
@@ -240,6 +242,7 @@
 * Added on Moon
 * Crossbow bolt beeping rate no longer changes depending on your FPS
 * No longer gibs zombies on impact
+* Increased explosion radius by 28%
 * Increased damage scaling over rounds
 * Unupgraded: changed name from "Crossbow Explosive Tip" to "Crossbow Explosive Bolt"
 * Unupgraded: increased impact damage from 675 to 750 (weapon file shows it is suppose to do this amount of damage but it does not)
@@ -334,6 +337,7 @@
 
 ### M1911
 * Upgraded: decreased stock ammo from 50 to 48
+* Upgraded: increased explosion radius by 28%
 * Upgraded: increased impact damage from 1000 to 1200
 * Upgraded: increased minimum explosion damage from 75 to 300
 * Upgraded: camo now displays when downed in solo
@@ -341,6 +345,7 @@
 ### M72 LAW
 * Can now fire without aiming
 * Decreased time to start reloading from 1.06 seconds to .5 seconds
+* Increased explosion radius by 12%
 * Fixed dive to prone animation from looping
 * Fixed sprint footstep sounds happening too slow
 * Unupgraded: increased maximum explosion damage from 320 to 1500
@@ -553,6 +558,7 @@
 * Removed 1 player limit
 
 ##### Monkey Bombs
+* Increased explosion radius by 156%
 * Zombies are no longer attracted before it activates
 * Zombies get attracted immediately once it activates
 * All zombies get attracted directly to the Monkey Bomb
@@ -582,6 +588,7 @@
 * Limit of 80 mines placed on the map at once (each player can place equal amount of mines in coop)
 * Can now be repurchased to refill ammo
 * Can now be picked up while pressing the melee button
+* Increased explosion radius by 28%
 * Increased move speed from 100% to 110%
 * Decreased first purchase HUD text font size
 
