@@ -177,10 +177,10 @@ bhb_teleport_loc_check( grenade, model, info )
 {
 	if( IsDefined( level.teleport_target_trigger ) && grenade IsTouching( level.teleport_target_trigger ) )
 	{
-		level._be SetClientFlag( level._SCRIPTMOVER_CLIENT_FLAG_BLACKHOLE );
-		grenade thread maps\_zombiemode_weap_black_hole_bomb::do_black_hole_bomb_sound( level._be, info ); // WW: This might not work if it is based on the model
+		model SetClientFlag( level._SCRIPTMOVER_CLIENT_FLAG_BLACKHOLE );
+		grenade thread maps\_zombiemode_weap_black_hole_bomb::do_black_hole_bomb_sound( model, info ); // WW: This might not work if it is based on the model
 
-		level thread teleport_target( grenade, level._be);
+		level thread teleport_target( grenade, model);
 
 		return true;
 	}
@@ -190,7 +190,7 @@ bhb_teleport_loc_check( grenade, model, info )
 
 teleport_target( grenade, model )
 {
-  level.teleport_target_trigger Delete();
+  	level.teleport_target_trigger Delete();
 	level.teleport_target_trigger = undefined;
 
 	// move into the vortex
@@ -198,7 +198,7 @@ teleport_target( grenade, model )
 
 	time = 3.0;
 
-	model MoveTo( grenade.origin + (0,0,50), time, time - 0.05 );
+	level._be MoveTo( grenade.origin + (0,0,50), time, time - 0.05 );
 	
 	wait( time );
 
@@ -207,24 +207,25 @@ teleport_target( grenade, model )
 
 	// "Teleport" the object to the new location
 	
-	model Hide();
+	level._be Hide();
 	
 	playsoundatposition( "zmb_gersh_teleporter_out", grenade.origin + (0,0,50) );
 	
 	wait( 0.5 );
 	
-	model StopLoopSound( 1 );
+	level._be StopLoopSound( 1 );
 	
 	wait( 0.5 );
   
-  for(i = 0; i < teleport_targets.size; i ++)
-  {
-  	PlayFX( level._effect[ "black_hole_bomb_event_horizon" ], teleport_targets[i].origin + (0,0,2500));
-  }
+  	for(i = 0; i < teleport_targets.size; i ++)
+  	{
+  		PlayFX( level._effect[ "black_hole_bomb_event_horizon" ], teleport_targets[i].origin + (0,0,2500));
+  	}
   
-  model PlaySound( "zmb_gersh_teleporter_go" );
+  	level._be PlaySound( "zmb_gersh_teleporter_go" );
 	wait( 2.0 );
 
+	model Delete();
 	level notify("be2_tp_done");
 }
 

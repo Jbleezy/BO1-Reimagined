@@ -265,18 +265,15 @@ bhb_teleport_loc_check( grenade, model, info )
 {
 	if( IsDefined( level.teleport_target_trigger ) && grenade IsTouching( level.teleport_target_trigger ) )
 	{
-		plates = GetEntArray("sq_cassimir_plates", "targetname");
+		//spot = Spawn("script_model", plates[0].origin);
+		//spot SetModel("tag_origin");
 
-		spot = Spawn("script_model", plates[0].origin);
-		spot SetModel("tag_origin");
+		model SetClientFlag( level._SCRIPTMOVER_CLIENT_FLAG_BLACKHOLE );
+		//spot thread delete_soon();
 
-		spot SetClientFlag( level._SCRIPTMOVER_CLIENT_FLAG_BLACKHOLE );
-		spot thread delete_soon();
+		grenade thread maps\_zombiemode_weap_black_hole_bomb::do_black_hole_bomb_sound( model, info ); // WW: This might not work if it is based on the model
 
-		grenade thread maps\_zombiemode_weap_black_hole_bomb::do_black_hole_bomb_sound( plates[0], info ); // WW: This might not work if it is based on the model
-
-
-		level thread teleport_target( grenade, plates );
+		level thread teleport_target( grenade, model );
 
 		return true;
 	}
@@ -287,18 +284,19 @@ bhb_teleport_loc_check( grenade, model, info )
 
 //
 //	Move the device into position
-teleport_target( grenade, models )
+teleport_target( grenade, model )
 {
-  level.teleport_target_trigger Delete();
+  	level.teleport_target_trigger Delete();
 	level.teleport_target_trigger = undefined;
 
 	// move into the vortex
 	wait( 1.0 );	// pacing pause
 
 	time = 3.0;
-	for(i = 0; i < models.size; i ++)
+	plates = GetEntArray("sq_cassimir_plates", "targetname");
+	for(i = 0; i < plates.size; i ++)
 	{
-		models[i] MoveTo( grenade.origin + (0,0,50), time, time - 0.05 );
+		plates[i] MoveTo( grenade.origin + (0,0,50), time, time - 0.05 );
 	}
 
 	wait( time );
@@ -308,36 +306,37 @@ teleport_target( grenade, models )
 
 	// "Teleport" the object to the new location
 
-	for(i = 0; i < models.size; i ++)
+	for(i = 0; i < plates.size; i ++)
 	{
-		models[i] Hide();
+		plates[i] Hide();
 	}
 
 	playsoundatposition( "zmb_gersh_teleporter_out", grenade.origin + (0,0,50) );
 
 	wait( 0.5 );
 
-	for(i = 0; i < models.size; i ++)
+	for(i = 0; i < plates.size; i ++)
 	{
-		models[i] DontInterpolate();
-		models[i].angles = teleport_targets[i].angles;
-		models[i].origin = teleport_targets[i].origin;
-		models[i] StopLoopSound( 1 );
+		plates[i] DontInterpolate();
+		plates[i].angles = teleport_targets[i].angles;
+		plates[i].origin = teleport_targets[i].origin;
+		plates[i] StopLoopSound( 1 );
 	}
 
 	wait( 0.5 );
 
-  for(i = 0; i < models.size; i ++)
-  {
-		models[i] Show();
+  	for(i = 0; i < plates.size; i ++)
+  	{
+		plates[i] Show();
 	}
 
-  PlayFXOnTag( level._effect[ "black_hole_bomb_event_horizon" ], models[0], "tag_origin" );
+  	PlayFXOnTag( level._effect[ "black_hole_bomb_event_horizon" ], plates[0], "tag_origin" );
 
-  models[0] PlaySound( "zmb_gersh_teleporter_go" );
-	models[0] playsound( "evt_clank" );
+  	plates[0] PlaySound( "zmb_gersh_teleporter_go" );
+	plates[0] playsound( "evt_clank" );
 	wait( 2.0 );
 
+	model Delete();
 	level notify("ctvg_tp_done");
 }
 
