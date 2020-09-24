@@ -526,6 +526,7 @@
 * Changed upwards projectile speed
 
 ##### Semtex
+* Can no longer be cancelled while throwing
 * Now always cost 250 points to buy (previously costed 130 points after first buy)
 * Semtex beeping rate no longer changes depending on your FPS
 * Changed upwards projectile speed
