@@ -1227,6 +1227,7 @@
 * Full reward - permanent perks
 * Richtofen now does not get the full reward until the end with everyone else
 * Pipe is already in place
+* QED now does no effect when teleporting objects
 
 ### Dead Ops Arcade
 * Fates are now always in the same order (Fate of Fortune - top, Fate of Firepower - right, Fate of Friendship - bottom, Fate of Furious Feet - left)

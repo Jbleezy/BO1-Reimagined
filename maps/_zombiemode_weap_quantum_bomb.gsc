@@ -212,7 +212,7 @@ quantum_bomb_select_result( position )
 	}
 
 	// forced results (in order of priority)
-	forced_results = array("player_teleport", "auto_revive", "give_nearest_perk", "open_nearest_door", "pack_or_unpack_current_weapon", "remove_digger", "zombie_fling");
+	forced_results = array("ctvg", "be2", "player_teleport", "auto_revive", "give_nearest_perk", "open_nearest_door", "pack_or_unpack_current_weapon", "remove_digger", "zombie_fling");
 
 	for ( i = 0; i < forced_results.size; i++ )
 	{

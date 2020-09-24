@@ -119,7 +119,7 @@ stage_logic_2()
 		level._be_origin_animate Delete();
 	}
 
-	maps\_zombiemode_weap_quantum_bomb::quantum_bomb_register_result( "be2", undefined, 100, ::be2_validation );
+	maps\_zombiemode_weap_quantum_bomb::quantum_bomb_register_result( "be2", ::be2_result, 100, ::be2_validation );
 	level._be_pos = level._be.origin;
 	level waittill("be2_validation");
 	
@@ -233,10 +233,17 @@ be2_validation( position )
 {
 	if(DistanceSquared(level._be_pos, position) < (164 * 164))
 	{
-		level notify("be2_validation");
+		return true;
 	}
 
 	return false;
+}
+
+be2_result( position )
+{
+	[[level.quantum_bomb_play_mystery_effect_func]]( position );
+
+	level notify("be2_validation");
 }
 
 exit_stage_2(success)

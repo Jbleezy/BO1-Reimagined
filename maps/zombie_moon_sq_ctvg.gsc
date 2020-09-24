@@ -101,7 +101,7 @@ plates()
 		plates[i].angles = targs[i].angles;
 	}
 
-	maps\_zombiemode_weap_quantum_bomb::quantum_bomb_register_result( "ctvg", ::dud_func, 100, ::ctvg_validation );
+	maps\_zombiemode_weap_quantum_bomb::quantum_bomb_register_result( "ctvg", ::ctvg_result, 100, ::ctvg_validation );
 	level._ctvg_pos = targs[0].origin;
 	level waittill("ctvg_validation");
 	maps\_zombiemode_weap_quantum_bomb::quantum_bomb_deregister_result("ctvg");
@@ -184,10 +184,6 @@ wire()
 	flag_set("w_placed");
 }
 
-dud_func( position )
-{
-}
-
 vg_qualifier()
 {
 	num = self GetEntityNumber();
@@ -246,10 +242,17 @@ ctvg_validation( position )
 {
 	if(DistanceSquared(level._ctvg_pos, position) < (128 * 128))
 	{
-		level notify("ctvg_validation");
+		return true;
 	}
 
 	return false;
+}
+
+ctvg_result( position )
+{
+	[[level.quantum_bomb_play_mystery_effect_func]]( position );
+
+	level notify("ctvg_validation");
 }
 
 delete_soon()
