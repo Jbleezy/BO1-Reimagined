@@ -1226,6 +1226,7 @@
 * Part 1 reward - 90 second Death Machines for the rest of the match
 * Full reward - permanent perks
 * Richtofen now does not get the full reward until the end with everyone else
+* Pipe is already in place
 
 ### Dead Ops Arcade
 * Fates are now always in the same order (Fate of Fortune - top, Fate of Firepower - right, Fate of Friendship - bottom, Fate of Furious Feet - left)

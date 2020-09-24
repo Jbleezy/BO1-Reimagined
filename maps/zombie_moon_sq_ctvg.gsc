@@ -138,6 +138,7 @@ monitor_wire_disconnect()
 
 wire()
 {
+	/*
 	level endon("wire_restart");
 	wires = getstructarray("sq_wire_pos", "targetname");
 	wires = array_randomize(wires);
@@ -174,7 +175,11 @@ wire()
 
 	who._has_wire = undefined;
 	who remove_sidequest_icon("sq", "wire");
+	*/
+
 	clientnotify("wp");
+
+	flag_wait("c_built");
 
 	flag_set("w_placed");
 }
