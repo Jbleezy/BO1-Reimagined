@@ -176,6 +176,7 @@ teleport_target_event()
 
 	teleport_target_spark = Spawn( "script_model", teleport_target_spark.origin );
 	teleport_target_spark SetModel( "tag_origin" );
+	teleport_target_spark LinkTo( level.teleport_target );
 	PlayFXOnTag( level._effect["switch_sparks"], teleport_target_spark, "tag_origin" );
 
 	// Trigger for bomb distance check - lowered the origin so the hit detection pics up all ground levels
