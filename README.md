@@ -544,11 +544,11 @@
 * Fixed a bug where tactical grenades wouldn't work if they were thrown before a previously thrown tactical grenade had activated
 * Now always stay upright
 
-##### Gersch Device
+##### Gersh Device
 * Now uses model from Black Ops 3
 * Zombies get attracted immediately
-* Fixed a bug where zombies would attempt to get sucked into a Gersch Device shortly after it had already disappeared
-* Fixed a bug where zombies would not always switch back to their normal run animation after a Gersch Device ends
+* Fixed a bug where zombies would attempt to get sucked into a Gersh Device shortly after it had already disappeared
+* Fixed a bug where zombies would not always switch back to their normal run animation after a Gersh Device ends
 * Changed upwards projectile speed
 
 ##### Matryoshka Dolls
@@ -949,7 +949,7 @@
 * Removed name above head
 * Now dies if trapped in a zone due to the excavator being active
 * Fixed a bug where the Cosmonaut would get stuck in place if spawned in while a player was on the jump pads
-* Fixed a bug where the Cosmonaut would be attracted towards a Gersch Device and move faster than intended after the Pack-a-Punch gates had been hacked
+* Fixed a bug where the Cosmonaut would be attracted towards a Gersh Device and move faster than intended after the Pack-a-Punch gates had been hacked
 
 ## Maps
 * Easter egg songs can now be reactivated once the song is over
@@ -1194,7 +1194,7 @@
 * Removed the forced jumping in low gravity
 * Excavators will not reactivate for places that have already been breached
 * Fixed the invisible digger glitch
-* Gersch Devices and QEDs no longer breach windows
+* Gersh Devices and QEDs no longer breach windows
 * Added line of sight check on explosions for breaching windows
 * Fixed bug where players could stay on jump pads in low gravity indefinitely by diving upon landing on them
 * Jump pads now fling players correctly when a player dives on a jump pad
@@ -1327,11 +1327,11 @@
 * **_MasadaDRM_** - assisted with weapons and sounds
 * **_xSanchez78_** - assisted with client scripting and localized strings
 * **_Kody_** - Wunderwaffe gold camo, fixed CIA and CDC viewmodels, assisted with animations
-* **_UltraZombieDino_** - Black Ops 3 P.E.S. model and animations, Black Ops 3 Gersch Device model, Black Ops 2 Ray Gun first raise and dry fire sounds, World at War marine models, assisted with World at War weapon models
+* **_UltraZombieDino_** - Black Ops 3 P.E.S. model and animations, Black Ops 3 Gersh Device model, Black Ops 2 Ray Gun first raise and dry fire sounds, World at War marine models, assisted with World at War weapon models
 * **_KagamineAddict_** - updated P.E.S. visor texture
 * **_Joshwoocool_** - Black Ops 2 grief shock FX and meat FX
 * **_Killer Potato_** - Call of Duty: WWII Stielhandgranate HUD icon
-* **_Jerri13_** - Black Ops 3 Gersch Device model
+* **_Jerri13_** - Black Ops 3 Gersh Device model
 * **_KHEL MHO_** - assisted with Springfield chalk model
 * **_ZeRoY_** - function list
 * **_UGX_** - scripting reference
