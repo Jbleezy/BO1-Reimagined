@@ -2,11 +2,11 @@
 
 ## Created by: Jbleezy
 
-[YouTube](https://youtube.com/ItsJbirdJustin)
+[YouTube](https://youtube.com/c/ItsJbirdJustin1)
 
 [Twitch](https://twitch.tv/jbleezy)
 
-[Twitter](https://twitter.com/jbird_justin)
+[Twitter](https://twitter.com/ItsJbleezy)
 
 [Donate](https://streamlabs.com/jbleezy)
 
