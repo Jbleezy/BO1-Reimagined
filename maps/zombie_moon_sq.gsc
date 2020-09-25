@@ -375,6 +375,8 @@ sidequest_logic()
 
 do_launch()
 {
+	level notify("start_launch");
+
 	// launch logic here.
 	play_sound_2d( "vox_xcomp_quest_step8_4" );
 	wait(10);

@@ -8517,7 +8517,7 @@ sidequest_hud()
 	}
 	else if(level.script == "zombie_moon")
 	{
-		flag_wait("be2");
+		level waittill("start_launch");
 	}
 
 	time = to_mins_short(level.total_time);
