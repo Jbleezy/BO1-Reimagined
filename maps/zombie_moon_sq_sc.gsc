@@ -199,10 +199,7 @@ sq_sc_switch()
 
 do_soul_swap(who)
 {
-	if(level.richtofen_in_game)
-	{
-		maps\zombie_moon_amb::player_4_override();
-	}
+	maps\zombie_moon_amb::player_4_override();
 
 	if(IsDefined(who))
 	{
