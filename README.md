@@ -422,6 +422,7 @@
 * Increased move speed while aiming from 100% to 105%
 * Decreased first raise time from 2.4 seconds to 1.8 seconds
 * Fixed first raise animation lasting too long at the end
+* Fixed knob being in incorrect position
 * Unupgraded: increased impact damage from 1000 to 1500
 * Unupgraded: increased minimum explosion damage from 300 to 750
 * Upgraded: increased impact damage from 1000 to 2000
