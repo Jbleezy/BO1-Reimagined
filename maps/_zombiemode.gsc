@@ -1724,7 +1724,7 @@ onPlayerConnect_clientDvars()
 
 	// disable names on cosmonaut
 	self SetClientDvar("r_zombieNameAllowDevList", 0);
-	self SetClientDvar("r_zombieNameAllowFriends", 0);
+	self SetClientDvar("r_zombieNameAllowFriendsList", 0);
 
 	// makes FPS area in corner smaller
 	self SetClientDvar("cg_drawFPSLabels", 0);
