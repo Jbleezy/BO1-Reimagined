@@ -656,6 +656,12 @@ freezegun_death( hit_location, hit_origin, player )
 	{
 		wait( anim_len * 0.625 ); // force the zombie to crumple if he is untouched after time
 	}
+	else
+	{
+		// must wait 2 frames - instant shatters cause crash eventually
+		wait_network_frame();
+		wait_network_frame();
+	}
 
 	self thread freezegun_do_shatter( player, weap, shatter_trigger );
 }
