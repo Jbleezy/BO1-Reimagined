@@ -462,7 +462,8 @@
 * Enemies that die from the Winter's Howl will now shatter automatically after 3 seconds (previously 5-6 seconds)
 * Enemies that die from the shatter effect no longer get frozen
 * Shatter effect now gives points
-* Shatter effect no longer gibs zombies
+* Shatter effect no longer shatters other zombies
+* Shatter effect no longer gibs other zombies that die from the shatter
 * Unupgraded: increase minimum damage from 500 to 750
 * Unupgraded: increase maximum damage from 1000 to 1500
 * Unupgraded: increased maximum damage range by 500%

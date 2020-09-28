@@ -479,7 +479,15 @@ freezegun_wait_for_shatter( player, weap, shatter_trigger )
 	wait_network_frame();
 	wait_network_frame();
 
-	shatter_trigger waittill( "damage", amount, attacker, dir, org, mod );
+	while(1)
+	{
+		shatter_trigger waittill( "damage", amount, attacker, dir, org, mod );
+
+		if(!is_freezegun_shatter_damage(mod))
+		{
+			break;
+		}
+	}
 
 	if(self is_freezegun_damage(mod))
 	{
