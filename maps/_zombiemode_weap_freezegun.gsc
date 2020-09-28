@@ -654,8 +654,7 @@ freezegun_death( hit_location, hit_origin, player )
 
 	if(!is_true(self.in_the_ground) && !is_true(self.in_the_ceiling))
 	{
-		//wait( anim_len / 2 ); // force the zombie to crumple if he is untouched after time
-		wait 3;
+		wait( anim_len * 0.625 ); // force the zombie to crumple if he is untouched after time
 	}
 
 	self thread freezegun_do_shatter( player, weap, shatter_trigger );

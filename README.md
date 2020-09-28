@@ -459,7 +459,7 @@
 * Kills zombies in 1-3 shots depending on how far away the zombie was from the shot
 * No longer drops powerups
 * Damages frozen enemies
-* Enemies that die from the Winter's Howl will now shatter automatically after 3 seconds (previously 5-6 seconds)
+* Enemies that die from the Winter's Howl will now shatter automatically after 3-4 seconds (previously 5-6 seconds)
 * Enemies that die from the shatter effect no longer get frozen
 * Shatter effect now gives points
 * Shatter effect no longer shatters other zombies
