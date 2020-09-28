@@ -120,7 +120,7 @@ freezegun_fired( upgraded )
 		}
 		else
 		{
-			level.freezegun_enemies[i] notify("damage");
+			level.freezegun_enemies[i] notify("damage", 0, self, undefined, undefined, "MOD_PROJECTILE");
 		}
 	}
 
