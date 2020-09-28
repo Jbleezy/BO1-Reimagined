@@ -475,6 +475,10 @@ freezegun_wait_for_shatter( player, weap, shatter_trigger )
 {
 	self endon( "cleanup_freezegun_triggers" );
 
+	// must wait 2 frames - instant shatters cause crash eventually
+	wait_network_frame();
+	wait_network_frame();
+
 	shatter_trigger waittill( "damage", amount, attacker, dir, org, mod );
 
 	if(self is_freezegun_damage(mod))
@@ -515,6 +519,10 @@ freezegun_do_crumple( player, weap, shatter_trigger )
 freezegun_wait_for_crumple( player, weap, shatter_trigger )
 {
 	self endon( "cleanup_freezegun_triggers" );
+
+	// must wait 2 frames - instant shatters cause crash eventually
+	wait_network_frame();
+	wait_network_frame();
 
 	test_origin = self.origin;
 	touching = false;
