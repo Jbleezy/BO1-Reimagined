@@ -524,7 +524,7 @@ freezegun_wait_for_crumple( player, weap, shatter_trigger )
 	wait_network_frame();
 	wait_network_frame();
 
-	test_origin = self.origin;
+	test_origin = self GetCentroid();
 	touching = false;
 	while(1)
 	{
@@ -532,14 +532,14 @@ freezegun_wait_for_crumple( player, weap, shatter_trigger )
 		zombies = array_merge(zombies, get_players());
 		for(i=0;i<zombies.size;i++)
 		{
-			origin = zombies[i].origin;
+			origin = zombies[i] GetCentroid();
 
 			if ( !zombies[i] DamageConeTrace( test_origin, self ) && !BulletTracePassed( origin, test_origin, false, undefined ) && !SightTracePassed( origin, test_origin, false, undefined ) )
 			{
 				continue;
 			}
 
-			if(DistanceSquared(origin, test_origin) < 72*72)
+			if(DistanceSquared(origin, test_origin) < 64*64)
 			{
 				touching = true;
 				break;
