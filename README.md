@@ -456,28 +456,29 @@
 #### Winter's Howl
 * Changed fire type to automatic
 * Weapon fails happen less often
-* Kills zombies in 1-3 shots depending on how far away the zombie was from the shot
+* Kills enemies in 1-3 shots depending on how far away the enemy was from the shot
 * No longer drops powerups
 * Damages frozen enemies
 * Enemies that die from the Winter's Howl will now shatter automatically after 3-4 seconds (previously 5-6 seconds)
 * Enemies that die from the shatter effect no longer get frozen
-* Shatter effect no longer shatters other zombies
-* Shatter effect no longer gibs other zombies that die from the shatter
+* Shatter effect no longer shatters other enemies
+* Shatter effect no longer gibs other enemies that die from the shatter
+* Increased move speed from 100% to 105%
+* Increased move speed while aiming from 100% to 105%
+* Decreased first raise time by 50%
+* Fixed an error that crashed the game if enemies were shattered instantly after being killed
+* Fixed an error in the sprint out animation
 * Unupgraded: increase minimum damage from 500 to 750
 * Unupgraded: increase maximum damage from 1000 to 1500
 * Unupgraded: increased maximum damage range by 500%
 * Unupgraded: shatter effect now deals 500 damage (previously 250-500 depending on range)
-* Upgraded: decreased radius by 33% (now has the same radius as the unupgraded version)
 * Unupgraded: increase minimum damage from 750 to 1000
 * Unupgraded: increase maximum damage from 1500 to 2000
+* Upgraded: decreased radius by 33% (now has the same radius as the unupgraded version)
 * Upgraded: increased maximum damage range by 375%
 * Upgraded: decreased shatter range by 60% (now has the same range as the unupgraded version)
 * Upgraded: shatter effect now deals 500 damage (previously 500-750 depending on range)
 * Upgraded: camo now displays on more of the weapon
-* Increased move speed from 100% to 105%
-* Increased move speed while aiming from 100% to 105%
-* Decreased first raise time by 50%
-* Fixed an error in the sprint out animation
 
 #### Scavenger
 * Infinite explosion damage
@@ -880,6 +881,7 @@
 * Same health no matter how many payers are in the match
 * No longer affected by insta kills or nukes
 * No longer affected by explosive damage scaling
+* Fixed a bug that crashed the game if the thief attempted to steal a player's weapon while they were using Pack-a-Punch
 
 ### Monkeys (Ascension)
 * Initial monkey round always happens 1 or 2 rounds after buying a perk
@@ -1046,7 +1048,6 @@
 * Fixed lighting on the top floor being incorrect
 * All characters now use the correct viewmodel arms
 * Fixed a bug that caused zombies to not go through a trap if the trap was active when a thief round ended
-* Fixed a bug that crashed the game if the thief attempted to steal a player's weapon while they were using Pack-a-Punch
 * Fixed a bug that caused the alarms during a thief round to not shut off at the end of a thief round if the thief was killed too quick
 
 #### Elevators
