@@ -161,7 +161,7 @@ pack_door_init()
 {
 	if(level.gamemode != "survival")
 	{
-		level thread pack_door_grief_init();
+		level thread pack_door_buyable_init();
 		return;
 	}
 
@@ -238,8 +238,10 @@ pack_door_init()
 	}
 }
 
-pack_door_grief_init()
+pack_door_buyable_init()
 {
+	add_adjacent_zone( "war_room_zone_south", "conference_level2", "war_room_entry", true );
+
 	trigger = GetEnt("pack_room_door","targetname");
 	doors = GetEntArray(trigger.target, "targetname");
 
