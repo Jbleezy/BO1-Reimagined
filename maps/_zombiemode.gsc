@@ -6309,19 +6309,27 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		}
 
 		// Death Machine - kills in 4 body shots or 2 headshots
-		if(weapon == "minigun_zm" && self.animname != "director_zombie" && self.animname != "astro_zombie")
+		if(weapon == "minigun_zm")
 		{
-			min_damage = 500;
-			final_damage = int(self.maxhealth / 4) + 1;
+			final_damage = 500;
 			if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
 			{
-				min_damage *= 2;
 				final_damage *= 2;
 			}
 
-			if(final_damage < min_damage)
+			if(self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "astro_zombie")
 			{
-				final_damage = min_damage;
+				min_damage = final_damage;
+				final_damage = int(self.maxhealth / 4) + 1;
+				if(sHitLoc == "head" || sHitLoc == "helmet" || sHitLoc == "neck")
+				{
+					final_damage *= 2;
+				}
+
+				if(final_damage < min_damage)
+				{
+					final_damage = min_damage;
+				}
 			}
 		}
 	}
