@@ -18,7 +18,7 @@ init()
 
 	level thread turn_power_on();
 
-	//level thread open_doors();
+	level thread open_doors();
 
 	level thread disable_special_rounds();
 
@@ -983,40 +983,94 @@ open_doors()
 	zombie_debris = GetEntArray( "zombie_debris", "targetname" );
 	if(level.script == "zombie_cod5_prototype")
 	{
-		zombie_doors[0] open_door();
-		zombie_debris[0] clear_debris();
-		zombie_debris[1] clear_debris();
-		zombie_debris[2] clear_debris();
+		for(i = 0; i < zombie_doors.size; i++)
+		{
+			zombie_doors[i] open_door();
+		}
+
+		for(i = 0; i < zombie_debris.size; i++)
+		{
+			zombie_debris[i] clear_debris();
+		}
+	}
+	else if(level.script == "zombie_cod5_asylum")
+	{
+		for(i = 0; i < zombie_doors.size; i++)
+		{
+			if(zombie_doors[i].target == "auto91")
+			{
+				zombie_doors[i] open_door();
+			}
+		}
 	}
 	else if(level.script == "zombie_cod5_sumpf")
 	{
-		zombie_doors[4] open_door();
-		zombie_debris[0] clear_debris();
-		zombie_debris[1] clear_debris();
+		for(i = 0; i < zombie_doors.size; i++)
+		{
+			if(zombie_doors[i].target == "attic_blocker")
+			{
+				zombie_doors[i] open_door();
+			}
+		}
+
+		for(i = 0; i < zombie_debris.size; i++)
+		{
+			if(zombie_debris[i].target == "upstairs_blocker")
+			{
+				zombie_debris[i] clear_debris();
+			}
+		}
 	}
 	else if(level.script == "zombie_cod5_factory")
 	{
-		zombie_doors[2] open_door();
-		zombie_doors[3] open_door();
+		for(i = 0; i < zombie_doors.size; i++)
+		{
+			if(zombie_doors[i].target == "outside_west_door" || zombie_doors[i].target == "outside_east_door")
+			{
+				zombie_doors[i] open_door();
+			}
+		}
 	}
 	else if(level.script == "zombie_pentagon")
 	{
-		zombie_doors[0] open_door();
-		zombie_doors[1] open_door();
-		zombie_debris[0] clear_debris();
+		for(i = 0; i < zombie_doors.size; i++)
+		{
+			if(zombie_doors[i].target == "pf824_auto2727")
+			{
+				zombie_doors[i] open_door();
+			}
+		}
+
+		for(i = 0; i < zombie_debris.size; i++)
+		{
+			if(zombie_debris[i].target == "war_room_stair")
+			{
+				zombie_debris[i] clear_debris();
+			}
+		}
 	}
 	else if(level.script == "zombie_cosmodrome")
 	{
-		zombie_doors[0] open_door();
-		zombie_doors[2] open_door();
-		zombie_doors[4] open_door();
-		zombie_doors[8] open_door();
+		for(i = 0; i < zombie_doors.size; i++)
+		{
+			if(zombie_doors[i].target == "pf41_auto2741" || zombie_doors[i].target == "pf41_auto2743" || zombie_doors[i].target == "pf41_auto2737" || zombie_doors[i].target == "pf41_auto2725")
+			{
+				zombie_doors[i] open_door();
+			}
+		}
 	}
 	else if(level.script == "zombie_moon")
 	{
 		level waittill("fade_introblack"); //causes error on fast_restart without a wait
+
 		zombie_airlock_buys = GetEntArray("zombie_airlock_buy", "targetname");
-		zombie_airlock_buys[13] maps\zombie_moon_utility::moon_door_opened();
+		for(i = 0; i < zombie_airlock_buys.size; i++)
+		{
+			if(zombie_airlock_buys[i].target == "pf1344_auto361")
+			{
+				zombie_airlock_buys[i] maps\zombie_moon_utility::moon_door_opened();
+			}
+		}
 	}
 }
 

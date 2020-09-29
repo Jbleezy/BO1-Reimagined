@@ -1265,17 +1265,24 @@
 * Players gain 10 points for slowing down a player if the player is below full health
 * If a player assisted in getting an enemy player down, the player will gain 5% of the player's points who downed
 * When a enemy player bleeds out, players gain 10% of their current points
+* Nacht Der Untoten: all doors and debris are open from the start of the match
+* Verruckt: BAR door is open from the start of the match
+* Shi No Numa: first room door and debris are open from the start of the match
+* Der Riese: first room doors are open from the start of the match
 * Der Riese: all teleporters are linked
-* Der Riese: powerup spawns from the start of each match
+* Der Riese: powerup spawns at the start of each match
 * Der Riese: full health hellhounds spawn from every teleporter use
 * Kino Der Toten: teleporter is permanently linked to the mainframe
-* Five: teleporters disabled
+* Five: first room door and debris between upper and lower War Room are open from the start of the match
 * Five: Pack-a-Punch door is now a 1500 point buyable door
+* Five: teleporters disabled
+* Ascension: first room doors, door near MP5K, and door above Juggernog are open from the start of the match
 * Ascension: Pack-a-Punch door is now a 2000 point buyable door
 * Ascension: rocket launch disabled
 * Call of the Dead: director spawns a random powerup instead of a Wunderwaffe
 * Shangri-La: Pack-a-Punch stairs are open from the start of the match
 * Moon: start at Receiving Bay zone
+* Moon: first room doors are open from the start of the match
 * Moon: players can always breathe in low gravity
 * Moon: PES and hacker disabled
 * Moon: No Man's Land disabled
