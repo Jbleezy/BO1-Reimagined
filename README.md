@@ -800,7 +800,7 @@
 * Trap ready sound plays near the trap (previously played near the Flogger)
 
 ### Flogger (Shi No Numa)
-* Changed player damage to 125 (previously 25 damage in solo and instantly kills in coop)
+* Changed player damage to 100 (previously 25 damage in solo and instantly kills in coop)
 * Cannot damage a player again if the player is still touching the Flogger and has already been damaged by the Flogger
 * Both triggers are now completely independent of eachother
 * One trigger can not be activated if the other trigger is currently active
@@ -1069,8 +1069,7 @@
 * Zombies now spawn in the Stairs zone when in the Upper Centrifuge Zone
 
 #### Centrifuge
-* Increased player damage in solo from 16 to 125
-* Increased player damage in coop from 44 to 125
+* Increased player damage to 100 (previously 16 in solo and 44 in coop)
 * Increased maximum cooldown time from 90 seconds to 120 seconds
 * No longer stops spinning for entire rounds
 * Fixed a bug where zombies that were killed from the Centrifuge in higher rounds became invisible and invincible
