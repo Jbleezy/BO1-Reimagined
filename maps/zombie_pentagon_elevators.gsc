@@ -378,6 +378,8 @@ enable_callboxes()
 //---------------------------------------------------------------------------
 elevator_move_to(elevator)
 {
+	level thread check_for_round_restart();
+
 	players = getplayers();
 	elevator close_elev_doors();
 
@@ -469,6 +471,18 @@ elevator_move_to(elevator)
 	elevator enable_callboxes();
 	level thread check_if_empty_floors();
 }
+
+check_for_round_restart()
+{
+	level endon("open_elev_doors");
+
+	level.round_restart_happened = false;
+
+	level waittill("round_restarted");
+
+	level.round_restart_happened = true;
+}
+
 //---------------------------------------------------------------------------
 // DCS 082710:	check for zombies within special closets.
 //							kill them and readd to spawn array
@@ -1072,7 +1086,7 @@ open_elev_doors()
 
 		for ( i = 0; i < self.elevator_players.size; i++ )
 		{
-			if(!self.elevator_players[i] IsTouching(check_trig))
+			if(!level.round_restart_happened && !self.elevator_players[i] IsTouching(check_trig))
 			{
 				self.elevator_players[i] SetOrigin( self.origin + (RandomFloatRange(-32,32), RandomFloatRange(-32,32), 10 ));
 				self.elevator_players[i] playsound( "zmb_laugh_child" );
@@ -1171,6 +1185,8 @@ open_elev_doors()
 			}
 		}
 	}
+
+	level notify("open_elev_doors");
 }
 
 relink_elev_doors(pos, elev, linked)
