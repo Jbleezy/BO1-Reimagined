@@ -26,7 +26,7 @@
 * Unlimited sprint
 * Backwards move speed, strafe move speed, and sprint strafe move speed are now all at 100%
 * Self revives in solo are active whenever the player has at least 1 perk
-* Decreased normal health regeneration time from 2.4 seconds to 2 seconds
+* Decreased normal health regeneration delay from 2.4 seconds to 2 seconds
 * Decreased low health regeneration delay from 5 seconds to 4 seconds
 * Normal health regeneration rate is no longer instant
 * Changed health regeneration rate to 100 health per second (previously fully restored health in 0.5 seconds)
