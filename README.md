@@ -101,7 +101,7 @@
 * Option to choose random, free-for-all, or custom teams in Versus gamemodes
 
 ## Weapons
-* All bullet damage (except for shotguns) will now deal full damage through multiple enemies or thin walls
+* All bullet damage (except for shotguns) will now deal full damage through multiple zombies or thin walls
 * All body shots now deal the same amount of damage
 * Neck shots, head shots, and helmet shots now all deal the same amount of damage
 * All body shots will now give 50 points for a kill
@@ -456,17 +456,17 @@
 #### Winter's Howl
 * Changed fire type to automatic
 * Weapon fails happen less often
-* Kills enemies in 1-3 shots depending on how far away the enemy was from the shot
+* Kills zombies in 1-3 shots depending on how far away the zombie was from the shot
 * No longer drops powerups
-* Damages frozen enemies
-* Enemies that die from the Winter's Howl will now shatter automatically after 3-4 seconds (previously 5-6 seconds)
-* Enemies that die from the shatter effect no longer get frozen
-* Shatter effect no longer shatters other enemies
-* Shatter effect no longer gibs other enemies that die from the shatter
+* Damages frozen zombies
+* Zombies that die from the Winter's Howl will now shatter automatically after 3-4 seconds (previously 5-6 seconds)
+* Zombies that die from the shatter effect no longer get frozen
+* Shatter effect no longer shatters other zombies
+* Shatter effect no longer gibs other zombies that die from the shatter
 * Increased move speed from 100% to 105%
 * Increased move speed while aiming from 100% to 105%
 * Decreased first raise time by 50%
-* Fixed an error that crashed the game if enemies were shattered instantly after being killed
+* Fixed an error that crashed the game if zombies were shattered instantly after being killed
 * Fixed an error in the sprint out animation
 * Unupgraded: increase minimum damage from 500 to 750
 * Unupgraded: increase maximum damage from 1000 to 1500
@@ -500,7 +500,7 @@
 
 #### Shrink Ray
 * Weapon fails happen less often
-* Fixed a bug that caused an error to happen when shrinking enemies and allowing them to regrow many times throughout a game
+* Fixed an error that crashed the game when shrinking zombies and allowing them to regrow many times throughout a game
 * Shrunk zombies: increased damage from 5 to 10
 * Unupgraded: decreased range by 6.25%
 * Unupgraded: increased radius by 50%
@@ -522,7 +522,7 @@
 #### Lethal Grenades
 * Cannot be thrown faster than intended when throwing a grenade right after after throwing one
 * Increased impact damage from 15 to 30
-* Impact damage now does not get decreased after damaging other enemies
+* Impact damage now does not get decreased after damaging other zombies
 
 ##### Frag Grenade
 * Changed upwards projectile speed
@@ -543,7 +543,7 @@
 #### Tactical Grenades
 * Now cannot be thrown faster than intended when throwing a grenade right after after throwing one
 * Increased impact damage from 15 to 30
-* Impact damage now does not get decreased after damaging other enemies
+* Impact damage now does not get decreased after damaging other zombies
 * Fixed a bug where tactical grenades wouldn't work if they were thrown before a previously thrown tactical grenade had activated
 * Now always stay upright
 
@@ -881,7 +881,7 @@
 * Same health no matter how many payers are in the match
 * No longer affected by insta kills or nukes
 * No longer affected by explosive damage scaling
-* Fixed a bug that crashed the game if the thief attempted to steal a player's weapon while they were using Pack-a-Punch
+* Fixed an error that crashed the game if the thief attempted to steal a player's weapon while they were using Pack-a-Punch
 
 ### Monkeys (Ascension)
 * Initial monkey round always happens 1 or 2 rounds after buying a perk
@@ -927,7 +927,7 @@
 * Grenades thrown back by monkeys will no longer damage the player that threw the grenade if they have PHD Flopper
 
 ### Napalm
-* Kills from napalm explosion or flames count for the player who killed the Napalm or the player who triggered the Napalm
+* Kills from Napalm explosion or flames count for the player who killed the Napalm or the player who triggered the Napalm
 * Can be damaged while in the ground
 * No longer gains additional health for each additional player
 * No longer gives additional points when killed
