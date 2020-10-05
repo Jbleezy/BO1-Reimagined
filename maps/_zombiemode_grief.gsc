@@ -2023,12 +2023,6 @@ update_gungame_weapon(decrement, upgrade)
 		}
 	}
 
-	if(IsDefined(self.has_meat))
-	{
-		self.gg_wep_changed = true;
-		return;
-	}
-
 	primaryWeapons = self GetWeaponsListPrimaries();
 	holding_primary = false;
 	for(j=0;j<primaryWeapons.size;j++)

@@ -4115,12 +4115,6 @@ meat_powerup_take_weapon(weapon_swap)
 	self.has_powerup_weapon = false;
 	self.has_meat = false;
 	self notify("meat_time_over");
-
-	if(level.gamemode == "gg" && IsDefined(self.gg_wep_changed))
-	{
-		self.gg_wep_changed = undefined;
-		self maps\_zombiemode_grief::update_gungame_weapon(true);
-	}
 }
 
 meat_watch_gunner_downed()
@@ -4144,7 +4138,6 @@ meat_watch_gunner_downed()
 	wait(0.05);
 	self.has_meat = false;
 	self.has_powerup_weapon = false;
-	self.gg_wep_changed = undefined;
 }
 
 meat_powerup_create_meat_stink_player(player)
