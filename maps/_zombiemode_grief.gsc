@@ -519,10 +519,9 @@ slowdown(weapon, mod, attacker, force_slowdown)
 	PlayFXOnTag( level._effect["grief_shock"], self, "J_SpineUpper" );
 
 	amount = .3;
-
-	if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon) || mod == "MOD_GRENADE" || mod == "MOD_GRENADE_SPLASH" || mod == "MOD_PROJECTILE" || mod == "MOD_PROJECTILE_SPLASH")
+	if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon))
 	{
-		amount /= 1.5;
+		amount = .2;
 	}
 
 	self AllowSprint(false);

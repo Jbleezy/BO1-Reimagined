@@ -1247,7 +1247,7 @@
 * No walking zombies
 * Shooting enemy players slows them down
 * Knifing enemy players pushes them
-* Upgraded weapons and explosive weapons slow enemy players down more
+* Upgraded weapons slow enemy players down more
 * Ballistic Knife, Bowie Knife, and Sickle push enemy players farther
 * Mines are triggerable by enemy players
 * Enemy mines are destroyable
