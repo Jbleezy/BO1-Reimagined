@@ -2876,7 +2876,7 @@ random_weapon_powerup( item, player )
 				}
 				else
 				{
-					player.sessionstate = "spectator";
+					player thread maps\_zombiemode::spawnSpectator();
 				}
 
 				return true;
