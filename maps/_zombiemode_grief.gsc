@@ -555,12 +555,12 @@ push(weapon, mod, attacker, vec) //prone, bowie/ballistic crouch, bowie/ballisti
 	if(!IsDefined(vec))
 	{
 		amount = 300;
-		vec = VectorNormalize( self.origin - attacker.origin ) * (amount, amount, amount);
+		vec = vector_scale(VectorNormalize(self.origin - attacker.origin), amount);
 	}
 
 	scalar = 1;
 
-	if(self GetStance() == "prone" )
+	if(self GetStance() == "prone")
 	{
 		scalar = .25;
 	}
@@ -569,7 +569,7 @@ push(weapon, mod, attacker, vec) //prone, bowie/ballistic crouch, bowie/ballisti
 		scalar = .5;
 	}
 	
-	if((mod == "MOD_MELEE" && (attacker HasWeapon("bowie_knife_zm") || attacker HasWeapon("sickle_knife_zm"))) || IsSubStr(weapon, "knife_ballistic_"))
+	if(mod == "MOD_MELEE" && (attacker HasWeapon("bowie_knife_zm") || attacker HasWeapon("sickle_knife_zm") || IsSubStr(weapon, "knife_ballistic_")))
 	{
 		scalar *= 1.5;
 	}
