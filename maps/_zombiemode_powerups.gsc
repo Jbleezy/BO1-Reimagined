@@ -3968,7 +3968,7 @@ hurt_players_powerup( drop_item, player )
 			continue;
 		}
 
-		RadiusDamage(players[i].origin, 10, players[i].health - 1, players[i].health - 1, undefined, "MOD_UNKNOWN");
+		RadiusDamage(players[i].origin, 10, 80, 80, undefined, "MOD_UNKNOWN");
 	}
 }
 
