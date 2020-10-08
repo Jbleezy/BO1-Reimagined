@@ -5,6 +5,8 @@
 
 main()
 {
+	level._uses_crossbow = true;
+
 	level thread clientscripts\zombie_moon_ffotd::main_start();
 
 	include_weapons();
