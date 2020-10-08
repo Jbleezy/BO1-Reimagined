@@ -3062,6 +3062,18 @@ empty_clip_powerup( item, player )
 			for ( j = 0; j < primaryWeapons.size; j++ )
 			{
 				players[i] SetWeaponAmmoClip( primaryWeapons[j], 0 );
+
+				dual_wield_name = WeaponDualWieldWeaponName( primaryWeapons[j] );
+				if( dual_wield_name != "none" )
+				{
+					players[i] SetWeaponAmmoClip( dual_wield_name, 0 );
+				}
+
+				alt_name = WeaponAltWeaponName( primaryWeapons[j] );
+				if( alt_name != "none" )
+				{
+					players[i] SetWeaponAmmoClip( alt_name, 0 );
+				}
 			}
 		}
 	}
