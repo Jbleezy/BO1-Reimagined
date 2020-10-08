@@ -16,6 +16,7 @@ init()
 	PrecacheShader( "black" );
 	// powerup Vars
 	set_zombie_var( "zombie_insta_kill", 				0 );
+	set_zombie_var( "zombie_damage_scalar", 			1 );
 	set_zombie_var( "zombie_point_scalar", 				1 );
 	set_zombie_var( "zombie_drop_item", 				0 );
 	set_zombie_var( "zombie_timer_offset", 				350 );	// hud offsets
@@ -224,7 +225,8 @@ init_player_zombie_vars()
 		players[p].zombie_vars[ "zombie_powerup_upgrade_weapon_on" ] = false; // upgrade weapon
 		players[p].zombie_vars[ "zombie_powerup_upgrade_weapon_time" ] = 0;
 
-		players[p].zombie_vars["zombie_point_scalar"] = 1; //point scaling for double points and half points
+		players[p].zombie_vars["zombie_point_scalar"] = 1;
+		players[p].zombie_vars["zombie_damage_scalar"] = 1;
 	}
 }
 
@@ -3955,7 +3957,11 @@ half_damage_powerup_player( drop_item )
 
 	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_half_damage_on", "zombie_powerup_half_damage_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
 
+	self.zombie_vars["zombie_damage_scalar"] = .5;
+
 	wait self.zombie_vars["zombie_powerup_half_damage_time"];
+
+	self.zombie_vars["zombie_damage_scalar"] = 1;
 }
 
 hurt_players_powerup( drop_item, player )

@@ -6388,9 +6388,9 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		final_damage = int(final_damage * 2);
 	}
 
-	if(is_true(attacker.zombie_vars["zombie_powerup_half_damage_on"]))
+	if(!is_true(self.nuked) && !is_true(self.marked_for_death))
 	{
-		final_damage = int(final_damage / 2);
+		final_damage = int(final_damage * attacker.zombie_vars["zombie_damage_scalar"]);
 	}
 
 	if ( is_true( self.in_water ) )
