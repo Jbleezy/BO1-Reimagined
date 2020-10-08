@@ -531,7 +531,7 @@ slowdown(weapon, mod, attacker, force_slowdown)
 
 	wait .75;
 
-	if(!self.is_drinking || IsDefined(self.has_meat))
+	if(!self is_drinking() || is_true(self.has_meat)) // holding meat counts as drinking
 	{
 		self AllowSprint(true);
 	}
