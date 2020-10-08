@@ -526,8 +526,8 @@ slowdown(weapon, mod, attacker, force_slowdown)
 	}
 
 	self AllowSprint(false);
-	self SetBlur( 1, .1 );
-	self SetMoveSpeedScale( self.move_speed * amount );	
+	self SetMoveSpeedScale( self.move_speed * amount );
+	self thread slowdown_blur();
 
 	wait .75;
 
@@ -535,10 +535,20 @@ slowdown(weapon, mod, attacker, force_slowdown)
 	{
 		self AllowSprint(true);
 	}
-	self SetBlur( 0, .2 );
 	self SetMoveSpeedScale( self.move_speed );
 
 	self.slowdown_wait = false;
+}
+
+slowdown_blur()
+{
+	self endon("grief_slowdown");
+
+	self SetBlur( 1, .1 );
+
+	wait .1;
+
+	self SetBlur( 0, .65 );
 }
 
 push(weapon, mod, attacker, vec) //prone, bowie/ballistic crouch, bowie/ballistic, crouch, regular
