@@ -1019,8 +1019,11 @@
 * Hellhounds will not spawn whenever a teleporter powerup spawns
 * Amount of hellhounds spawned in from teleporter is now 2 multiplied by the amount of players (previously always 4)
 * Max ammo now has the same chance of spawning from the teleporter as all other drops
-* Fixed a bug that allowed players to link teleporters while the teleporters were on cooldown
 * Mainframe no longer displays a hintstring for needing power or needing to activate a link
+* Decreased shellshock effect time from 4 seconds to 1.25 seconds
+* Vision effect times no longer linked to FPS
+* Fixed a bug that allowed players to link teleporters while the teleporters were on cooldown
+* Fixed a bug that caused no effect to happen after teleporting
 
 #### Sidequest
 * Reward: spawns a random powerup at the teleporter powerup spawn location
@@ -1036,6 +1039,9 @@
 * Teleporter light is now green initially after turning on the power
 * Teleporter mainframe pad no longer displays the need power hintstring
 * Teleporter mainframe pad will now display the link not active hintstring every time the teleporter needs to be linked
+* Decreased shellshock effect time from 3 seconds to 1.25 seconds
+* Vision effect times no longer linked to FPS
+* Fixed a bug that caused no effect to happen after teleporting
 
 ### Five
 * All 6 barriers in the Conference Room zone are always active

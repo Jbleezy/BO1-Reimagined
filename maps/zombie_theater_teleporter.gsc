@@ -857,13 +857,13 @@ teleport_aftereffects()
 teleport_aftereffect_shellshock()
 {
 	println( "*** Explosion Aftereffect***\n" );
-	self shellshock( "explosion", 3 );
+	self shellshock( "explosion", 1.25 );
 }
 
 teleport_aftereffect_shellshock_electric()
 {
 	println( "***Electric Aftereffect***\n" );
-	self shellshock( "electrocution", 3 );
+	self shellshock( "electrocution", 1.25 );
 }
 
 teleport_aftereffect_fov()

@@ -60,10 +60,10 @@ teleporter_init()
 
 	level.teleport_ae_funcs = [];
 
-	if( !IsSplitscreen() )
+	/*if( !IsSplitscreen() )
 	{
 		level.teleport_ae_funcs[level.teleport_ae_funcs.size] = maps\zombie_cod5_factory_teleporter::teleport_aftereffect_fov;
-	}
+	}*/
 	level.teleport_ae_funcs[level.teleport_ae_funcs.size] = maps\zombie_cod5_factory_teleporter::teleport_aftereffect_shellshock;
 	level.teleport_ae_funcs[level.teleport_ae_funcs.size] = maps\zombie_cod5_factory_teleporter::teleport_aftereffect_shellshock_electric;
 	level.teleport_ae_funcs[level.teleport_ae_funcs.size] = maps\zombie_cod5_factory_teleporter::teleport_aftereffect_bw_vision;
@@ -1150,13 +1150,13 @@ teleport_aftereffects()
 teleport_aftereffect_shellshock()
 {
 	println( "*** Explosion Aftereffect***\n" );
-	self shellshock( "explosion", 4 );
+	self shellshock( "explosion", 1.25 );
 }
 
 teleport_aftereffect_shellshock_electric()
 {
 	println( "***Electric Aftereffect***\n" );
-	self shellshock( "electrocution", 4 );
+	self shellshock( "electrocution", 1.25 );
 }
 
 // tae indicates to Clientscripts that a teleporter aftereffect should start
