@@ -116,7 +116,7 @@ freezegun_fired( upgraded )
 			{
 				weapon = "freezegun_upgraded_zm";
 			}
-			level.freezegun_enemies[i] notify("grief_damage", weapon, "MOD_PROJECTILE", self, true);
+			level.freezegun_enemies[i] notify("grief_damage", weapon, "MOD_PROJECTILE", self);
 		}
 		else
 		{
