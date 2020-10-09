@@ -3974,6 +3974,13 @@ hurt_players_powerup( drop_item, player )
 			continue;
 		}
 
+		if(players[i] maps\_laststand::player_is_in_laststand() || players[i].sessionstate == "spectator")
+		{
+			continue;
+		}
+
+		players[i] notify("grief_damage", "none", "MOD_UNKNOWN", player);
+
 		RadiusDamage(players[i].origin, 10, 80, 80, undefined, "MOD_UNKNOWN");
 	}
 }
