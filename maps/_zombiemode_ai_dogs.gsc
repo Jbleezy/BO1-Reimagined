@@ -725,7 +725,7 @@ dog_death()
 			event = "ballistic_knife_death";
 		}
 
-		if(!is_true(self.marked_for_death))
+		if(!IsDefined(self.nuked) && !IsDefined(self.trap_death))
 		{
 			self.attacker maps\_zombiemode_score::player_add_points( event, self.damagemod, self.damagelocation, true );
 		}
