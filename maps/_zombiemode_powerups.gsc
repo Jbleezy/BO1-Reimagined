@@ -4344,7 +4344,7 @@ upgrade_weapon_powerup( drop_item, player )
 		player maps\_zombiemode_grief::update_gungame_weapon(false, true);
 	}
 
-	player waittill_notify_or_timeout("player_downed", player.zombie_vars["zombie_powerup_upgrade_weapon_time"]);
+	player waittill_any_or_timeout(player.zombie_vars["zombie_powerup_upgrade_weapon_time"], "player_downed", "spawned_spectator");
 
 	if(player.zombie_vars["zombie_powerup_upgrade_weapon_on"])
 	{
@@ -4352,7 +4352,7 @@ upgrade_weapon_powerup( drop_item, player )
 		player.zombie_vars["zombie_powerup_upgrade_weapon_time"] = 0;
 	}
 
-	if(player maps\_laststand::player_is_in_laststand() || IsDefined(player.player_bought_pack))
+	if(player maps\_laststand::player_is_in_laststand() || player.sessionstate == "spectator" || IsDefined(player.player_bought_pack))
 	{
 		return;
 	}
