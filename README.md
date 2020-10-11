@@ -588,7 +588,7 @@
 * Removed unupgrade weapon effect
 
 #### Mines
-* Limit of 80 mines placed on the map at once (each player can place equal amount of mines in coop)
+* Limit of 30 mines per player placed on the map at once
 * Can now be repurchased to refill ammo
 * Can now be picked up while pressing the melee button
 * Increased explosion radius by 28%

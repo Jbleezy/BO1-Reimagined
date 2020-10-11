@@ -292,7 +292,7 @@ claymore_detonation()
 		self.owner.mines = [];
 	self.owner.mines = array_add( self.owner.mines, self );
 
-	amount = level.max_mines / get_players().size;
+	amount = level.max_mines;
 
 	if( self.owner.mines.size > amount )
 	{
