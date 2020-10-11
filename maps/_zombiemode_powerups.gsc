@@ -158,7 +158,7 @@ init_powerups()
 
 	// grief powerups
 	add_zombie_powerup( "meat", GetWeaponModel("meat_zm"), &"REIMAGINED_CLIP_UNLOAD", true, false, false );
-	add_zombie_powerup( "upgrade_weapon", "zombie_pickup_bonfire", &"REIMAGINED_CLIP_UNLOAD", false, false, false );
+	add_zombie_powerup( "upgrade_weapon", "zombie_pickup_bonfire", &"REIMAGINED_CLIP_UNLOAD", true, false, false );
 
 	// Randomize the order
 	randomize_powerups();
