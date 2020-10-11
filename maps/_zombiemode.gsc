@@ -6546,15 +6546,23 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		}
 
 		valid = false;
+
 		if(sWeapon == gg_wep || sWeapon == WeaponAltWeaponName(gg_wep) || sWeapon == gg_wep_upgraded || sWeapon == WeaponAltWeaponName(gg_wep_upgraded))
 		{
 			valid = true;
 		}
-		else if(gg_wep == "humangun_zm" && is_true(self.humangun_kill))
+
+		if(gg_wep == "tesla_gun_zm" && is_true(self.tesla_death))
 		{
 			valid = true;
 		}
-		else if(gg_wep == "shrink_ray_zm" && is_true(self.shrinked))
+
+		if(gg_wep == "humangun_zm" && is_true(self.humangun_kill))
+		{
+			valid = true;
+		}
+
+		if(gg_wep == "shrink_ray_zm" && is_true(self.shrinked))
 		{
 			valid = true;
 		}
