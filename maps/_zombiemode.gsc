@@ -6559,6 +6559,12 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 			valid = true;
 		}
 
+		// ballistic knife - must be a kill from the projectile
+		if((gg_wep == "knife_ballistic_zm" || gg_wep == "knife_ballistic_bowie_zm" || gg_wep == "knife_ballistic_sickle_zm") && sMeansOfDeath != "MOD_IMPACT")
+		{
+			valid = false;
+		}
+
 		if(valid)
 		{
 			if(attacker.gg_kill_count < level.gg_kills_to_next_wep)
