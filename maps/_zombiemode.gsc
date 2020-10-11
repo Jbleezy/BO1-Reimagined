@@ -1925,7 +1925,7 @@ onPlayerDeath()
 
 				if(players[i].vsteam == self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_friendly_players() == 0)
 				{
-					players[i] playlocalsound( "vs_solo" );
+					//players[i] playlocalsound( "vs_solo" );
 				}
 			}
 		}
@@ -6747,17 +6747,17 @@ end_game()
 			if(!IsDefined(level.vs_winning_team))
 			{
 				survived[i] SetText( &"REIMAGINED_YOU_TIED" );
-				players[i] playlocalsound( "vs_lose" );
+				//players[i] playlocalsound( "vs_lose" );
 			}
 			else if(players[i].vsteam == level.vs_winning_team)
 			{
 				survived[i] SetText( &"REIMAGINED_YOU_WIN" );
-				players[i] playlocalsound( "vs_win" );
+				//players[i] playlocalsound( "vs_win" );
 			}
 			else
 			{
 				survived[i] SetText( &"REIMAGINED_YOU_LOSE" );
-				players[i] playlocalsound( "vs_lose" );
+				//players[i] playlocalsound( "vs_lose" );
 			}
 		}
 		else if( level.round_number < 2 )
