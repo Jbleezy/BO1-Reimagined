@@ -1751,7 +1751,15 @@ increase_round_number_over_time()
 
 		maps\_zombiemode::ai_calculate_health( level.round_number );
 
-		level.zombie_vars["zombie_spawn_delay"] *= 0.95;
+		if(level.zombie_vars["zombie_spawn_delay"] > 0.5)
+		{
+			level.zombie_vars["zombie_spawn_delay"] *= 0.95;
+
+			if(level.zombie_vars["zombie_spawn_delay"] < 0.5)
+			{
+				level.zombie_vars["zombie_spawn_delay"] = 0.5;
+			}
+		}
 
 		level.zombie_move_speed = level.round_number * level.zombie_vars["zombie_move_speed_multiplier"];
 
