@@ -1662,7 +1662,6 @@ playerBreathingSound(healthcap)
 	//		continue;
 		if (level.player_pain_vox == 0)
  		{
- 			//playsoundatposition("chr_breathing_hurt_start", (0,0,0));
  			player playLocalSound("chr_breathing_hurt");
  			level.player_pain_vox = 1;
  		}
@@ -1786,7 +1785,7 @@ event_heart_beat( emotion, loudness )
 		case "none":
 			self.last_emotion = "none";
 			self notify ("no_more_heartbeat");
-			playsoundatposition ("vox_breath_scared_stop", (0,0,0));
+			self playlocalsound("vox_breath_scared_stop");
 			self.emotional_state_system = 0;
 			break;
 
@@ -1843,11 +1842,11 @@ play_heart_beat()
 
 		if (self.loudness == 0)
 		{
-			playsoundatposition ("chr_heart_beat_ingame", (0,0,0));
+			self playlocalsound("chr_heart_beat_ingame");
 		}
 		else
 		{
-			playsoundatposition ("chr_heart_beat_ingame", (0,0,0));
+			self playlocalsound("chr_heart_beat_ingame");
 		}
 
 		//player PlayRumbleOnEntity("damage_light");
@@ -1872,7 +1871,7 @@ play_breathing()
 			wait(0.1);
 			self.breathing_wait_counter = self.breathing_wait_counter +0.1;
 		}
-		playsoundatposition ("amb_player_breath_cold", (0,0,0));
+		self playlocalsound("amb_player_breath_cold");
 		self.breathing_wait_counter = 0;
 	}
 }
@@ -2096,7 +2095,7 @@ play_hurt_vox()
 		{
 			if(randomintrange(0,1) == 1)
 			{
-				playsoundatposition ("chr_breathing_hurt_start", self.origin);
+				self playlocalsound("chr_breathing_hurt_start");
 			}
 		}
 	}
