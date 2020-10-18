@@ -8311,7 +8311,7 @@ total_time()
 		update_time(level.total_time, "hud_total_time");
 
 		//adjust the spacing of round_time and road_total_time whenever updating total_time to 10 mins, 1 hour, or 10 hours
-		if(level.gamemode == "survival" || level.gamemode == "grief" || level.gamemode == "ffa")
+		if(level.gamemode == "survival" || level.gamemode == "grief")
 		{
 			if(level.total_time == 600 || level.total_time == 3600 || level.total_time == 36000)
 			{
@@ -8341,7 +8341,7 @@ round_time_loop()
 		players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_out");
 	}
 
-	if(!(level.gamemode == "survival" || level.gamemode == "grief" || level.gamemode == "ffa"))
+	if(!(level.gamemode == "survival" || level.gamemode == "grief"))
 	{
 		return;
 	}
@@ -8449,7 +8449,7 @@ update_time(level_var, client_var)
 
 enemies_remaining_hud()
 {
-	if(level.gamemode != "survival" && level.gamemode != "grief" && level.gamemode != "ffa")
+	if(level.gamemode != "survival" && level.gamemode != "grief")
 	{
 		return;
 	}
