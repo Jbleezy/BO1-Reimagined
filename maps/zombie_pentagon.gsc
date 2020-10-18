@@ -535,6 +535,11 @@ wait_for_laststand_notify()
 {
 	self endon("disconnect");
 
+	if(level.gamemode == "race" || level.gamemode == "gg")
+	{
+		return;
+	}
+
 	while(true)
 	{
 		num_on_floor = 0;
