@@ -226,12 +226,13 @@
 //NEW DEFINES
 #define IS_CAMPAIGN				( !dvarbool( zombiemode ) )
 #define IS_ZOMBIES				( dvarbool( zombiemode ) )
-#define IS_ZOMBIES_RESTART		( LOCAL_MATCH && (( SPLITSCREEN_HOST && NOT_CUSTOM_MATCH ) || ( dvarBool( sv_running ) && CUSTOM_MATCH && !dvarbool( splitscreen )))  )
+#define IS_ZOMBIES_RESTART		( SOLO || SPLITSCREEN_HOST || HOST )
 #define IS_NOT_ZOMBIES_RESTART	( !(IS_ZOMBIES_RESTART) )
 
 #define LOCAL_MATCH				( !dvarBool( onlinegame ) && !dvarBool( systemlinkparty ) )
 #define SOLO					( !dvarBool( splitscreen ) && !dvarBool( onlinegame ) && !dvarBool( systemlinkparty ) )
 #define NOT_SOLO				( dvarBool(splitscreen) || dvarBool( onlinegame ) || dvarBool( systemlinkparty ) )
+#define HOST					( dvarBool(onlinegameandhost) || dvarBool(onlineunrankedgameandhost) || dvarBool(systemlinkpartyandhost) )
 #define CUSTOM_MATCH			( dvarbool( systemlink ) || dvarbool( xblive_privatematch ) )
 #define XBOX_LIVE_PUBLIC		( dvarbool( onlinegame ) && !dvarbool( xblive_privatematch ) )
 #define SPLITSCREEN_HOST		( dvarbool( splitscreen ) && issplitscreenhost() == 1 )
@@ -326,11 +327,11 @@
 
 		FRAME_CHOICE_BUTTON_VIS_EX2(	3, "@MENU_RESTART_LEVEL_CAPS",
 										open "popup_restart_warning",
-										IS_ZOMBIES && ( IS_ZOMBIES_RESTART || SOLO ), ;, ZOMBIE_X_SHIFT )
+										IS_ZOMBIES && IS_ZOMBIES_RESTART, ;, ZOMBIE_X_SHIFT )
 		FRAME_CHOICE_DBUTTON_FOCUS_VIS_EX2(	3,
 											"@MENU_RESTART_LEVEL_CAPS",
 											CLEARHINT, CLEARHINT,
-											IS_ZOMBIES && IS_NOT_ZOMBIES_RESTART && NOT_SOLO, ;, ZOMBIE_X_SHIFT )
+											IS_ZOMBIES && IS_NOT_ZOMBIES_RESTART, ;, ZOMBIE_X_SHIFT )
 
 		FRAME_CHOICE_BUTTON_VIS_EX2(	4, "@PLATFORM_QUIT_CAPS",
 										SETUP_ACTION_ZOMBIE_QUIT,

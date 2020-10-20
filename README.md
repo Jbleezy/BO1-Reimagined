@@ -81,6 +81,7 @@
 * Removed black border on top and bottom of in-game pause menu
 
 ## Settings
+* Restart level button enabled for host in online matches
 * Removed popup menu when changing graphic content to unrestricted
 * Reduced graphic content now only removes blood
 * Combat settings: removed Sprint/Hold Breath option and Steady Sniper option (sniper scopes are always steady now)
