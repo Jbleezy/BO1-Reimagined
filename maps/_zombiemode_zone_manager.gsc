@@ -94,7 +94,7 @@ player_in_zone( zone_name )
 	players = get_players();
 	for(i = 0; i < players.size; i++)
 	{
-		if(players[i] maps\_zombiemode_utility::get_current_zone() == zone_name)
+		if(players[i] maps\_zombiemode_utility::get_current_zone() == zone_name && players[i].sessionstate != "spectator")
 		{
 			return true;
 		}
