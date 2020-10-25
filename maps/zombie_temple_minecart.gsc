@@ -871,7 +871,7 @@ minecart_lever_think()
 		self.minecart.speaker_left stoploopsound( 1 );
 
 		// Kill all zombies after using minecart if zone isn't open and all players were on minecart
-		if(!flag("waterfall_to_tunnel") && !flag("cave_water_to_waterfall") && maps\_zombiemode_zone_manager::get_players_in_zone("waterfall_lower_zone") >= get_number_of_valid_players())
+		if(!flag("waterfall_to_tunnel") && !flag("cave_water_to_waterfall") && maps\_zombiemode_zone_manager::get_players_in_zone("waterfall_lower_zone", true) == get_number_of_valid_players())
 		{
 			zombs = GetAiSpeciesArray("axis");
 			for(i=0;i<zombs.size;i++)

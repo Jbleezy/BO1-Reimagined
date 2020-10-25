@@ -1275,9 +1275,9 @@ defcon_pack_poi()
 	poi2 = GetEnt("pack_room_poi2", "targetname");
 
 	wait(0.5);
-	num_players = maps\_zombiemode_zone_manager::get_players_in_zone( zone_name );
+	num_players = maps\_zombiemode_zone_manager::get_players_in_zone( zone_name, true );
 
-	if(num_players == players.size)
+	if(num_players == get_number_of_valid_players())
 	{
 		if(level.zones["war_room_zone_south"].is_enabled)
 		{
@@ -1293,9 +1293,9 @@ defcon_pack_poi()
 		return;
 	}
 
-	while(num_players >= players.size && flag("defcon_active"))
+	while(num_players == get_number_of_valid_players() && flag("defcon_active"))
 	{
-		num_players = maps\_zombiemode_zone_manager::get_players_in_zone( zone_name );
+		num_players = maps\_zombiemode_zone_manager::get_players_in_zone( zone_name, true );
 		wait (0.1);
 	}
 

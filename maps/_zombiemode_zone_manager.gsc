@@ -58,12 +58,17 @@ zone_is_enabled( zone_name )
 //--------------------------------------------------------------
 //  Checks to see how many players are in a zone_name volume
 //--------------------------------------------------------------
-get_players_in_zone( zone_name )
+get_players_in_zone( zone_name, alive_players_only )
 {
 	// If the zone hasn't been enabled, don't even bother checking
 	if ( !zone_is_enabled( zone_name ) )
 	{
 		return false;
+	}
+
+	if(!IsDefined(alive_players_only))
+	{
+		alive_players_only = false;
 	}
 
 	num_in_zone = 0;
@@ -72,6 +77,11 @@ get_players_in_zone( zone_name )
 	{
 		if(players[i] maps\_zombiemode_utility::get_current_zone() == zone_name && players[i].sessionstate != "spectator")
 		{
+			if(alive_players_only && players[i] maps\_laststand::player_is_in_laststand())
+			{
+				continue;
+			}
+
 			num_in_zone++;
 		}
 	}
