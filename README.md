@@ -1056,6 +1056,7 @@
 * All characters now use the correct viewmodel arms
 * Fixed a bug that caused zombies to not go through a trap if the trap was active when a thief round ended
 * Fixed a bug that caused the alarms during a thief round to not shut off at the end of a thief round if the thief was killed too quick
+* Fixed a bug that caused zombies to start going through the Panic Room portal before the Panic Room door closed
 
 #### Elevators
 * Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1.25 seconds

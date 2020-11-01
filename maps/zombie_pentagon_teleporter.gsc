@@ -323,17 +323,20 @@ pack_door_solid_thread()
 	while( 1 )
 	{
 		players = get_players();
-		player_touching = false;
-		for( i = 0; i < players.size; i++ )
+		zombies = GetAIArray("axis");
+		ents = array_merge(players, zombies);
+		ent_touching = false;
+		
+		for( i = 0; i < ents.size; i++ )
 		{
-			if( players[i] IsTouching( self ) )
+			if( ents[i] IsTouching( self ) )
 			{
-				player_touching = true;
+				ent_touching = true;
 				break;
 			}
 		}
 
-		if( !player_touching )
+		if( !ent_touching )
 		{
 			self Solid();
 
@@ -366,26 +369,24 @@ clear_zombies_in_packroom()
 	{
 		return;
 	}
-	for (i = 0; i < zombies.size; i++)
-	{
-		if ( zombies[i] IsTouching(pack_room_trig) )
-		{
-			if(zombies[i].ignoreall == true ) // not through barricade
-			{
-				level.zombie_total++;
-				if(IsDefined(zombies[i].fx_quad_trail))
-				{
-					zombies[i].fx_quad_trail Delete();
-				}
-				zombies[i] maps\_zombiemode_spawner::reset_attack_spot();
 
-				zombies[i] notify("zombie_delete");
-				zombies[i] Delete();
-			}
-			else
+	for(i = 0; i < zombies.size; i++)
+	{
+		if(zombies[i] IsTouching(pack_room_trig) && zombies[i].ignoreall == true) // not through barricade
+		{
+			level.zombie_total++;
+			if(IsDefined(zombies[i].fx_quad_trail))
 			{
-				zombies[i] thread send_zombies_out(level.portal_pack);
+				zombies[i].fx_quad_trail Delete();
 			}
+			zombies[i] maps\_zombiemode_spawner::reset_attack_spot();
+
+			zombies[i] notify("zombie_delete");
+			zombies[i] Delete();
+		}
+		else if(zombies[i] maps\_zombiemode_zone_manager::entity_in_zone("conference_level2"))
+		{
+			zombies[i] thread send_zombies_out(level.portal_pack);
 		}
 	}
 }
@@ -1250,19 +1251,17 @@ special_pack_time_spawning()
 }
 special_pack_cleanup()
 {
-
 	while(flag("defcon_active"))
 	{
 		wait(1);
 	}
+
 	// Now clear the room of left over zombies.
-	if( level.zones["conference_level2"].is_occupied)
+	while(!is_packroom_clear())
 	{
-		while( level.zones["conference_level2"].is_occupied)
-		{
-			wait(1);
-		}
+		wait_network_frame();
 	}
+
 	level thread clear_zombies_in_packroom();
 }
 
