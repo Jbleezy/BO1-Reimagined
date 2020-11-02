@@ -1070,6 +1070,7 @@
 * Added 1 second delay before zombies can come through the teleporter after a player teleports
 * Added .1 second delay between zombie teleports to prevent zombies from getting stuck
 * Decreased maximum time for zombies to teleport from 20 seconds to 15 seconds
+* Fixed a bug that caused no FX or sound to happen when zombies teleported from the Panic Room portal to the War Room portal
 
 ### Ascension
 * Added Double Tap perk machine in the Outside Launch Area zone

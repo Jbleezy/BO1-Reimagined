@@ -1516,8 +1516,8 @@ send_zombies_out(portal)
 	{
 		// send to warroom mid first, then check floors.
 		self forceteleport(level.portal_mid.origin + (AnglesToForward(level.portal_mid.angles) * RandomFloatRange(0,32)),level.portal_mid.angles);
-		PlayFX(level._effect["transporter_beam"], level.portal_top.origin);
-		playsoundatposition( "evt_teleporter_go", level.portal_top.origin);
+		PlayFX(level._effect["transporter_beam"], level.portal_mid.origin);
+		playsoundatposition( "evt_teleporter_go", level.portal_mid.origin);
 
 		self thread cleanup_unoccupied_floor(move_speed);
 	}
