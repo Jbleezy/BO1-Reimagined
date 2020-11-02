@@ -456,7 +456,7 @@ freezegun_do_shatter( player, weap, shatter_trigger )
 	self freezegun_cleanup_freezegun_triggers( shatter_trigger );
 
 	upgraded = (weap == "freezegun_upgraded_zm");
-	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_PROJECTILE_SPLASH", weap );
+	self RadiusDamage( self.origin, freezegun_get_shatter_range( upgraded ), freezegun_get_shatter_inner_damage( upgraded ), freezegun_get_shatter_outer_damage( upgraded ), player, "MOD_EXPLOSIVE", weap );
 
 	if ( is_mature() )
 	{
@@ -681,7 +681,7 @@ is_freezegun_damage( mod )
 
 is_freezegun_shatter_damage( mod )
 {
-	return (("MOD_PROJECTILE_SPLASH" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
+	return (("MOD_EXPLOSIVE" == mod) && IsDefined( self.damageweapon ) && (self.damageweapon == "freezegun_zm" || self.damageweapon == "freezegun_upgraded_zm"));
 }
 
 
