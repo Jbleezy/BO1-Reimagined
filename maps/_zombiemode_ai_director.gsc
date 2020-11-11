@@ -840,7 +840,18 @@ director_watch_damage()
 	}
 	else
 	{
-		powerups = array("full_ammo", "fire_sale", "bonus_points_team", "double_points", "insta_kill", "nuke");
+		powerups = array("full_ammo", "double_points", "insta_kill", "nuke", "bonus_points_team", "meat");
+
+		if(level.chest_moves >= 1)
+		{
+			powerups = add_to_array(powerups, "fire_sale");
+		}
+
+		if(level.gamemode == "gg")
+		{
+			powerups = add_to_array(powerups, "upgrade_weapon");
+		}
+		
 		powerup = random(powerups);
 		level thread maps\_zombiemode_powerups::specific_powerup_drop( powerup, self.origin );
 	}
