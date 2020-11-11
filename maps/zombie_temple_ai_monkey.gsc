@@ -1213,7 +1213,12 @@ _powerup_Randomize(monkey)
 	self endon("stop_randomize");
 	monkey endon("remove");
 
-	powerup_cycle = array("fire_sale","nuke","double_points","insta_kill");
+	powerup_cycle = array("nuke", "double_points", "insta_kill");
+
+	if(level.chest_moves >= 1)
+	{
+		powerup_cycle = add_to_array(powerup_cycle, "fire_sale");
+	}
 
 	if(level.gamemode != "survival")
 	{
@@ -1229,12 +1234,6 @@ _powerup_Randomize(monkey)
 	powerup_cycle = array_randomize_knuth(powerup_cycle);
 
 	powerup_cycle[powerup_cycle.size] = "full_ammo"; //Ammo is always last
-
-	//Remove fire sale so the players can not get fire sale too early.
-	if(level.chest_moves < 1)
-	{
-		powerup_cycle = array_remove_nokeys(powerup_cycle, "fire_sale");
-	}
 
 	//Find current power up name
 	currentPowerUp = undefined;
