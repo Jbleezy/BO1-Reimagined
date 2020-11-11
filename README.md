@@ -690,6 +690,7 @@
 * Moon: teddy bear now has space helmet
 
 ## Perks
+* Removed perk limit
 * Perks now become active as soon as the player starts to put away the perk bottle
 * Added gloss to all perk bottles
 * Now uses 3rd person perk drink animation from Black Ops 2
