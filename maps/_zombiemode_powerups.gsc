@@ -1570,7 +1570,7 @@ powerup_grab()
 						break;
 
 					case "free_perk":
-						level thread free_perk_powerup( self );
+						level thread free_perk_powerup( self, players[i] );
 						//players[i] thread powerup_vo( "insta_kill" );
 						break;
 
@@ -2827,6 +2827,11 @@ free_perk_powerup( item, player )
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
+		if(level.gamemode != "survival" && players[i].vsteam != player.vsteam)
+		{
+			continue;
+		}
+
 		if ( !players[i] maps\_laststand::player_is_in_laststand() && !(players[i].sessionstate == "spectator") )
 		{
 			players[i] maps\_zombiemode_perks::give_random_perk();
