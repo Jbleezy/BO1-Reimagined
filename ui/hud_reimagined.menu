@@ -174,12 +174,12 @@
 		{
 			name				"health_bar_value"
 			type				ITEM_TYPE_TEXT
-			rect 				57 13 0 0
+			rect 				116 13 0 0
 			foreColor			1 1 1 1
 			textScale			TEXTSIZE_SMALL
 			textStyle			ITEM_TEXTSTYLE_SHADOWED
 			textFont			UI_FONT_NORMAL
-			textalign			ITEM_ALIGN_CENTER
+			textalign			ITEM_ALIGN_LEFT
 			exp					text(dvarInt("hud_health_bar_value"))
 			visible				1
 			decoration
@@ -213,7 +213,7 @@
 				name			"fadein"
 				forecolor 		1 1 1 1
 			}
-			
+
 			state
 			{
 				name 			"fadeout"
@@ -293,7 +293,7 @@
 			decoration
 		}
 	}
-	
+
 	menuDef
 	{
 		name				"mule_wep_indicator"
