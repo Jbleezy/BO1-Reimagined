@@ -209,44 +209,45 @@ place_additionalprimaryweapon_machine()
 		level.zombie_additionalprimaryweapon_machine_clip_origin = (-1100, -1365, 70);
 		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 0, 0);
 		break;
-	case "zombie_theater":
-		level.zombie_additionalprimaryweapon_machine_origin = (1172.4, -359.7, 320);
-		level.zombie_additionalprimaryweapon_machine_angles = (0, 90, 0);
-		level.zombie_additionalprimaryweapon_machine_clip_origin = (1160, -360, 448);
-		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 0, 0);
-		break;
 	case "zombie_pentagon":
 		level.zombie_additionalprimaryweapon_machine_origin = (-1081.4, 1496.9, -512);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 162.2, 0);
 		level.zombie_additionalprimaryweapon_machine_clip_origin = (-1084, 1489, -448);
 		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 341.4, 0);
 		break;
+	*/
+	case "zombie_theater":
+		level.zombie_additionalprimaryweapon_machine_origin = (635, 1240, -22);
+		level.zombie_additionalprimaryweapon_machine_angles = (0, 180, 0);
+		level.zombie_additionalprimaryweapon_machine_clip_origin = (635, 1240, 106);
+		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 90, 0);
+		break;
 	case "zombie_cosmodrome":
-		level.zombie_additionalprimaryweapon_machine_origin = (420.8, 1359.1, 55);
-		level.zombie_additionalprimaryweapon_machine_angles = (0, 270, 0);
-		level.zombie_additionalprimaryweapon_machine_clip_origin = (436, 1359, 177);
-		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 0, 0);
+		level.zombie_additionalprimaryweapon_machine_origin = (-705, 1488, -128);
+		level.zombie_additionalprimaryweapon_machine_angles = (0, 0, 0);
+		level.zombie_additionalprimaryweapon_machine_clip_origin = (-705, 1488, -128);
+		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 90, 0);
 
-		level.zombie_additionalprimaryweapon_machine_monkey_angles = (0, 0, 0);
+		level.zombie_additionalprimaryweapon_machine_monkey_angles = (0, 90, 0);
 		level.zombie_additionalprimaryweapon_machine_monkey_origins = [];
-		level.zombie_additionalprimaryweapon_machine_monkey_origins[0] = (398.8, 1398.6, 60);
-		level.zombie_additionalprimaryweapon_machine_monkey_origins[1] = (380.8, 1358.6, 60);
-		level.zombie_additionalprimaryweapon_machine_monkey_origins[2] = (398.8, 1318.6, 60);
-		break;*/
+		level.zombie_additionalprimaryweapon_machine_monkey_origins[0] = (-744.5, 1466, -123);
+		level.zombie_additionalprimaryweapon_machine_monkey_origins[1] = (-704.5, 1448, -123);
+		level.zombie_additionalprimaryweapon_machine_monkey_origins[2] = (-664.5, 1466, -123);
+		break;
 	case "zombie_coast":
 		level.zombie_additionalprimaryweapon_machine_origin = (2424.4, -2884.3, 308);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 231.6, 0);
 		level.zombie_additionalprimaryweapon_machine_clip_origin = (2435, -2893, 439);
 		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 322.2, 0);
 		break;
-	// added in random perk script
 	case "zombie_temple":
+		// added in random perk script
 		level.zombie_additionalprimaryweapon_machine_origin = (-1352.9, -1437.2, -485);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 297.8, 0);
 		level.zombie_additionalprimaryweapon_machine_clip_origin = (-1342, -1431, -361);
 		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 28.8, 0);
 		break;
-	case "zombie_moon": 
+	case "zombie_moon":
 		level.zombie_additionalprimaryweapon_machine_origin = (1480.8, 3450, -70);
 		level.zombie_additionalprimaryweapon_machine_angles = (0, 180, 0);
 		break;
@@ -680,7 +681,7 @@ vending_weapon_upgrade()
 			{
 				player SwitchToWeapon("combat_" + self get_player_melee_weapon());
 			}
-			
+
  			continue;
 		}
 
@@ -845,7 +846,7 @@ wait_for_player_to_take( player, weapon, packa_timer )
 				{
 					player SwitchToWeapon("combat_" + player get_player_melee_weapon());
 				}
-				
+
 	 			continue;
 			}
 
@@ -1450,7 +1451,7 @@ vending_trigger_think()
 			{
 				level thread add_bump_trigger(self.script_noteworthy, machine[i].origin);
 			}
-		}	
+		}
 	}
 
 	//self thread turn_cola_off();

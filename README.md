@@ -1031,6 +1031,7 @@
 * Reward: spawns a random powerup at the teleporter powerup spawn location
 
 ### Kino Der Toten
+* Moved Mule Kick perk machine from the VIP Lounge zone to the Stage zone
 * Upper part of Lobby Hallway zone is now part of Lobby zone
 * Players no longer get teleported to special rooms unless both radios on the map have been activated
 * Players no longer get teleported out of the Pack-a-Punch room if there is a weapon currently in the Pack-a-Punch machine
@@ -1075,6 +1076,7 @@
 
 ### Ascension
 * Added Double Tap perk machine in the Outside Launch Area zone
+* Moved Mule Kick perk machine from the Roof Connector Area zone to the Power Building zone
 * Zombies no longer spawn in the Stairs zone when in the Centrifuge Zone
 * Zombies now spawn in the Stairs zone when in the Upper Centrifuge Zone
 
