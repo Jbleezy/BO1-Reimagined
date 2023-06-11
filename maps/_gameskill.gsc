@@ -1303,10 +1303,6 @@ playerHealthRegen()
 		health_ratio = self.health / self.maxhealth;
 		max_health_ratio = self.maxhealth / 100;
 		regenRate = 0.05 / max_health_ratio;
-		if(self HasPerk("specialty_quickrevive"))
-		{
-			regenRate *= level.perk_healthRegenMultiplier;
-		}
 
 		if( health_ratio > level.healthOverlayCutoff )
 		{

@@ -716,7 +716,7 @@ revive_do_revive( playerBeingRevived, reviverGun )
 
 	if ( self HasPerk( "specialty_quickrevive" ) )
 	{
-		reviveTime = reviveTime / 2;
+		reviveTime = reviveTime / 1.5;
 	}
 	//else if ( self HasPerk( "specialty_quickrevive_upgrade" ) )
 	//{
@@ -1026,7 +1026,7 @@ revive_hud_think()
 					}
 				}
 
-				if( level.gamemode != "survival" && players[i].vsteam != playerToRevive.vsteam ) 
+				if( level.gamemode != "survival" && players[i].vsteam != playerToRevive.vsteam )
 				{
 					continue;
 				}

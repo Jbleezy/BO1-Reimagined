@@ -701,11 +701,10 @@
 * All perk machines now make a sound when bumping into them
 
 ### Quick Revive
-* Decreases health regeneration delay by 25%
-* Increases health regeneration rate by 25%
-* Increased cost in solo from 500 points to 1500 points
-* No longer gives the player a self revive in solo
 * No longer automatically powered on in solo
+* Increased cost in solo from 500 points to 1500 points
+* Decreases revive time by 33.33%
+* Decreases health regeneration delay by 25%
 * Hintstring now says "Quick Revive" in solo and coop
 
 ### Speed Cola
