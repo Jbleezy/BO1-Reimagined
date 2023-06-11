@@ -1520,7 +1520,7 @@ vending_trigger_think()
 
 	case "specialty_endurance_upgrade":
 	case "specialty_endurance":
-		cost = 2000;
+		cost = 2500;
 		break;
 
 	case "specialty_flakjacket_upgrade":
