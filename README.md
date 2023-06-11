@@ -657,7 +657,7 @@
 
 ## Wallbuys
 * Purchasing ammo no longer fills the clip
-* Decreased upgraded ammo cost from 4500 points to 2500 points
+* Decreased upgraded ammo cost from 4500 to 2500
 * Can now purchase ammo for weapons with attachments if only the attachment ammo is not full
 * Multiple players can now purchase the Bowie Knife and Sickle at the same time
 * Players now keep the Bowie Knife and Sickle if they down during the purchase animation
@@ -702,7 +702,7 @@
 
 ### Quick Revive
 * No longer automatically powered on in solo
-* Increased cost in solo from 500 points to 1500 points
+* Increased cost in solo from 500 to 1500
 * Decreases revive time by 33.33%
 * Decreases health regeneration delay by 25%
 * Hintstring now says "Quick Revive" in solo and coop
@@ -970,7 +970,7 @@
 * Added super-sprinters (only spawn after the power is on, start spawning on round 10, all super-sprinters by round 13)
 * Now uses marine characters and voicelines from World at War
 * Added Mystery Box locations in the North Balcony zone and the Kitchen zone
-* Decreased cost of the door between the North Upstairs zone and the Kitchen zone from 1000 points to 750 points
+* Decreased cost of the door between the North Upstairs zone and the Kitchen zone from 1000 to 750
 * Fixed zone issue in the South Balcony zone near the Showers zone door
 * Fixed zombie pathing near Speed Cola
 * Removed intro text
@@ -995,11 +995,11 @@
 * Zombies no longer spawn in the Upper Warehouse zone when in the Bridge Warehouse Side zone
 * Zombies no longer spawn in the Outside Laboratory zone when in the Teleporter A zone
 * Zombies no longer spawn in the Outside Laboratory zone when in the Teleporter C zone
-* Increased cost of the door between the Outside Warehouse zone and the Warehouse zone from 750 points to 1000 points
-* Increased cost of the door between the Outside Laboratory zone and the Laboratory zone from 750 points to 1000 points
-* Increased cost of the debris between the Laboratory zone and the Bridge Laboratory Side zone from 1000 points to 1250 points
-* Increased cost of the debris between the Warehouse zone and the Upper Warehouse zone from 1000 points to 1250 points
-* Increased cost of the door between the Upper Warehouse zone and the Teleporter B zone from 750 points to 1250 points
+* Increased cost of the door between the Outside Warehouse zone and the Warehouse zone from 750 to 1000
+* Increased cost of the door between the Outside Laboratory zone and the Laboratory zone from 750 to 1000
+* Increased cost of the debris between the Laboratory zone and the Bridge Laboratory Side zone from 1000 to 1250
+* Increased cost of the debris between the Warehouse zone and the Upper Warehouse zone from 1000 to 1250
+* Increased cost of the door between the Upper Warehouse zone and the Teleporter B zone from 750 to 1250
 * Decreased mid round hellhounds starting round from 16 to 15
 * Mid round hellhounds now spawn when no doors are open
 * Mid round hellhounds now have the same delay between spawns as zombies
@@ -1049,7 +1049,7 @@
 * All 6 barriers in the Conference Room zone are always active
 * Zombies no longer spawn in the Quick Reive hallway when in the Hallway zone
 * Trap pieces are already in place
-* Decreased cost of the 2 debris between the North War Room zone and the South War Room zone from 1250 points to 1000 points
+* Decreased cost of the 2 debris between the North War Room zone and the South War Room zone from 1250 to 1000
 * Pack-a-Punch machine will stay available for as long as the defcon room is active
 * If all players on a floor use an elevator or get downed when the power is off, all zombies will now respawn
 * If all players on a floor use an elevator or get downed when the power is on, all zombies that were in the map will now go through teleporters and all zombies that were in barriers will now respawn
@@ -1109,7 +1109,7 @@
 * Removed zombie spawn delay at the beginning of a match
 * Decreased the delay between switching Pack-a-Punch locations from 100-120 seconds to 15 seconds
 * Zombies now spawn in the Beach zone when in the Ship Path zone
-* Increased cost of the debris between the Lighthouse Cove zone and the Lower Ship Cargo Hold zone from 750 points to 1000 points
+* Increased cost of the debris between the Lighthouse Cove zone and the Lower Ship Cargo Hold zone from 750 to 1000
 * Zombies no longer take damage from the water when low on health
 * Fixed a bug where players could occasionally die in the Lighthouse Station Roof zone if they jumped too far off the staircase
 
@@ -1152,8 +1152,8 @@
 * Zombies now spawn in the Minecart Area zone when in the Waterslide Exit zone after the power is on
 * Zombies now spawn in the Waterfall Tunnel zone when in the Upper Waterfall zone
 * Zombies now spawn in the Waterfall zone when in the upper part of the Waterfall Tunnel zone
-* Increased cost of the door between the Waterslide Exit zone and the Turntable zone from 1000 points to 1250 points
-* Increased cost of the debris between the Waterfall zone and the Water Cave zone from 1000 points to 1250 points
+* Increased cost of the door between the Waterslide Exit zone and the Turntable zone from 1000 to 1250
+* Increased cost of the debris between the Waterfall zone and the Water Cave zone from 1000 to 1250
 * Added Pack-a-Punch FX
 * Eclipse mode activatable with 1-4 players
 * Can activate eclipse mode one more time after sidequest completion to stay in eclipse mode for the rest of the match
@@ -1269,7 +1269,7 @@
 * Insta Kill: enemy players do half damage to zombies for 30 seconds
 * Double Points: enemy players earn half points for 30 seconds
 * Nuke: deals 80 damage to enemy players
-* Bonus Points: enemy players lose a random amount of points between 500 and 2500 points
+* Bonus Points: enemy players lose a random amount of points between 500 and 2500
 * Perk Bottle: enemy players lose a random perk
 * Turrets attack players (won't attack the team that activated the turret)
 * Players gain 10 points for slowing down a player if the player is below full health
