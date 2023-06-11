@@ -1933,6 +1933,7 @@ give_perk( perk, bought )
 		self thread give_back_additional_weapon();
 		self thread additional_weapon_indicator(perk, perk_str);
 		self thread unsave_additional_weapon_on_bleedout();
+		self thread stowed_weapon_refill();
 	}
 
 
@@ -2988,5 +2989,132 @@ remove_stockpile_ammo()
 		{
 			self SetWeaponAmmoStock(primary_weapons[i], WeaponMaxAmmo(primary_weapons[i]));
 		}
+	}
+}
+
+stowed_weapon_refill()
+{
+	self endon("disconnect");
+	self endon("specialty_additionalprimaryweapon_stop");
+
+	vars = [];
+
+	while (1)
+	{
+		result = self waittill_any_return("weapon_change", "weapon_change_complete");
+
+		if(self hasPerk("specialty_additionalprimaryweapon"))
+		{
+			curr_wep = self getCurrentWeapon();
+			if(curr_wep == "none")
+			{
+				continue;
+			}
+
+			primaries = self getWeaponsListPrimaries();
+			for (i = 0; i < primaries.size; i++)
+			{
+				primary = primaries[i];
+
+				if(primary != curr_wep && (weaponAltWeaponName(curr_wep) == "none" || primary != weaponAltWeaponName(curr_wep)))
+				{
+					if(result != "weapon_change")
+					{
+						self thread refill_after_time(primary);
+					}
+				}
+				else
+				{
+					self notify(primary + "_reload_stop");
+				}
+			}
+		}
+	}
+}
+
+refill_after_time(primary)
+{
+	self endon(primary + "_reload_stop");
+	self endon("specialty_additionalprimaryweapon_stop");
+
+	vars = [];
+
+	reload_time = weaponReloadTime(primary);
+	reload_amount = undefined;
+
+	if(primary == "china_lake_zm" || primary == "python_zm" || primary == "ithaca_zm" || primary == "zombie_shotgun")
+	{
+		reload_amount = 1;
+
+		if(primary == "ithaca_upgraded_zm" || primary == "zombie_shotgun_upgraded")
+		{
+			reload_amount = 2;
+		}
+	}
+
+	if(!isDefined(reload_amount) && reload_time < 1)
+	{
+		reload_time = 1;
+	}
+
+	if(self hasPerk("specialty_fastreload"))
+	{
+		reload_time *= getDvarFloat("perk_weapReloadMultiplier");
+	}
+
+	wait reload_time;
+
+	ammo_clip = self getWeaponAmmoClip(primary);
+	ammo_stock = self getWeaponAmmoStock(primary);
+	missing_clip = weaponClipSize(primary) - ammo_clip;
+
+	if(missing_clip > ammo_stock)
+	{
+		missing_clip = ammo_stock;
+	}
+
+	if(isDefined(reload_amount) && missing_clip > reload_amount)
+	{
+		missing_clip = reload_amount;
+	}
+
+	self setWeaponAmmoClip(primary, ammo_clip + missing_clip);
+	self setWeaponAmmoStock(primary, ammo_stock - missing_clip);
+
+	dw_primary = weaponDualWieldWeaponName(primary);
+	if(dw_primary != "none")
+	{
+		ammo_clip = self getWeaponAmmoClip(dw_primary);
+		ammo_stock = self getWeaponAmmoStock(dw_primary);
+		missing_clip = weaponClipSize(dw_primary) - ammo_clip;
+
+		if(missing_clip > ammo_stock)
+		{
+			missing_clip = ammo_stock;
+		}
+
+		self setWeaponAmmoClip(dw_primary, ammo_clip + missing_clip);
+		self setWeaponAmmoStock(dw_primary, ammo_stock - missing_clip);
+	}
+
+	alt_primary = weaponAltWeaponName(primary);
+	if(alt_primary != "none")
+	{
+		ammo_clip = self getWeaponAmmoClip(alt_primary);
+		ammo_stock = self getWeaponAmmoStock(alt_primary);
+		missing_clip= weaponClipSize(alt_primary) - ammo_clip;
+
+		if(missing_clip> ammo_stock)
+		{
+			missing_clip= ammo_stock;
+		}
+
+		self setWeaponAmmoClip(alt_primary, ammo_clip + missing_clip);
+		self setWeaponAmmoStock(alt_primary, ammo_stock - missing_clip);
+	}
+
+	if(isDefined(reload_amount) && self getWeaponAmmoStock(primary) > 0 && self getWeaponAmmoClip(primary) < weaponClipSize(primary))
+	{
+		self refill_after_time(primary);
 	}
 }

@@ -729,7 +729,7 @@
 * Removed headshot aim assist with controllers
 
 ### Mule Kick
-* Only available on Call of the Dead, Shangri-La, and Moon
+* Removed on Nacht Der Untoten, Verruckt, Shi No Numa, Der Riese, and Five
 * Fixed not being available when playing offline on every map except for Moon
 * Added jingle
 * Fixed 3rd person model
@@ -738,6 +738,7 @@
 * Added the Mule Kick perk icon as an indicator for which weapon is the player's additional weapon
 * Lost weapon is given back when perk is rebought (except if it was a limited weapon and another player has it now, the player already has the weapon, the player has the upgraded version of the weapon and the weapon that the player had lost is the unupgraded version of that weapon, or the player bled out)
 * Gives ammo back if the player already has the weapon that they had previously lost when perk is rebought
+* Stowed weapons automatically reload over time
 
 ## Powerups
 * Decreased initial chance for a powerup to drop from 3% to 2%
