@@ -1076,7 +1076,7 @@
 
 ### Ascension
 * Added Double Tap perk machine in the Outside Launch Area zone
-* Moved Mule Kick perk machine from the Roof Connector Area zone to the Power Building zone
+* Moved Mule Kick perk machine to the top of the stairs in the Roof Connector Area zone
 * Zombies no longer spawn in the Stairs zone when in the Centrifuge Zone
 * Zombies now spawn in the Stairs zone when in the Upper Centrifuge Zone
 
