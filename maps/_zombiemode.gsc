@@ -4901,13 +4901,15 @@ ai_calculate_health( round_number )
 		return;
 	}
 
+	max_health = 100000;
+
 	//odd rounds starting on 163 are insta kill rounds
 	if(round_number >= 163)
 	{
 		//don't let players exploit NML
 		if(is_true(flag("enter_nml")))
 		{
-			level.zombie_health = 1000000;
+			level.zombie_health = max_health;
 		}
 		else if(round_number % 2 == 1)
 		{
@@ -4915,7 +4917,7 @@ ai_calculate_health( round_number )
 		}
 		else
 		{
-			level.zombie_health = 1000000;
+			level.zombie_health = max_health;
 		}
 		return;
 	}
@@ -4934,9 +4936,9 @@ ai_calculate_health( round_number )
 		}
 
 		//cap zombies health at 1 million
-		if(level.zombie_health > 1000000)
+		if(level.zombie_health > max_health)
 		{
-			level.zombie_health = 1000000;
+			level.zombie_health = max_health;
 			break;
 		}
 	}

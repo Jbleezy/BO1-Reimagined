@@ -856,7 +856,7 @@
 * Zombies that are not damaged no longer bleed out from being too far away from players
 * Zombies can no longer be headless while alive
 * 4 round and 5 round special rounds now happen more equally
-* Max health: 1 million
+* Max health: 100,000
 * Decreased damage from 60 to 50
 * Fixed a bug that caused ceiling spawns to be able to be disabled
 * Fixed a bug that caused spawning zombies to be able to collide with players while they were still invisible to the player
