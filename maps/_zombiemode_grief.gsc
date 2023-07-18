@@ -327,15 +327,15 @@ store_player_weapons()
 	self.weaponEquipment["lethal"] = self get_player_lethal_grenade();
 	self.weaponEquipment["tactical"] = self get_player_tactical_grenade();
 	self.weaponEquipment["mine"] = self get_player_placeable_mine();
-	
+
 	for( i = 0; i < self.weaponInventory.size; i++ )
 	{
 		weapon = self.weaponInventory[i];
-		
+
 		switch( weapon )
-		{	
-		case "syrette_sp": 
-		case "zombie_perk_bottle_doubletap": 
+		{
+		case "syrette_sp":
+		case "zombie_perk_bottle_doubletap":
 		case "zombie_perk_bottle_revive":
 		case "zombie_perk_bottle_jugg":
 		case "zombie_perk_bottle_sleight":
@@ -371,8 +371,8 @@ giveback_player_weapons()
 
 		switch( weapon )
 		{
-		case "syrette_sp": 
-		case "zombie_perk_bottle_doubletap": 
+		case "syrette_sp":
+		case "zombie_perk_bottle_doubletap":
 		case "zombie_perk_bottle_revive":
 		case "zombie_perk_bottle_jugg":
 		case "zombie_perk_bottle_sleight":
@@ -426,7 +426,7 @@ giveback_player_weapons()
 		self set_player_melee_weapon(self.weaponEquipment["melee"]);
 		self maps\_zombiemode::set_melee_actionslot();
 	}
-	
+
 	if(IsDefined(self.weaponEquipment["lethal"]))
 	{
 		self set_player_lethal_grenade(self.weaponEquipment["lethal"]);
@@ -568,7 +568,7 @@ push(weapon, mod, attacker, vec) //prone, bowie/ballistic crouch, bowie/ballisti
 	{
 		scalar = .5;
 	}
-	
+
 	if(mod == "MOD_MELEE" && (attacker HasWeapon("bowie_knife_zm") || attacker HasWeapon("sickle_knife_zm") || IsSubStr(weapon, "knife_ballistic_")))
 	{
 		scalar *= 1.5;
@@ -721,7 +721,7 @@ grief_msg(msg, var1)
 		self.grief_hud2 FadeOverTime( 1 );
 		self.grief_hud2.alpha = 1;
 		self thread grief_msg_fade_away(self.grief_hud2);
-	}	
+	}
 }
 
 grief_msg_fade_away(text)
@@ -840,9 +840,9 @@ round_restart(same_round)
 
 		if(level.gamemode == "snr")
 		{
-			if(players[i].score < 5000)
+			if(players[i].score < 10000)
 			{
-				players[i].score = 5000;
+				players[i].score = 10000;
 				players[i] maps\_zombiemode_score::set_player_score_hud();
 			}
 		}
@@ -965,7 +965,7 @@ turn_power_on()
 		case "zombie_coast":
 		case "zombie_moon":
 			trig = getent("use_elec_switch","targetname");
-			trig notify("trigger");	
+			trig notify("trigger");
 			break;
 		case "zombie_temple":
 			players = get_players();
@@ -1165,7 +1165,7 @@ get_number_of_valid_enemy_players()
 	{
 		if( is_player_valid(players[i]) && players[i].vsteam != self.vsteam )
 			num_player_valid += 1;
-	}	
+	}
 	return num_player_valid;
 }
 
@@ -1177,7 +1177,7 @@ get_number_of_valid_friendly_players()
 	{
 		if( is_player_valid(players[i]) && players[i].vsteam == self.vsteam )
 			num_player_valid += 1;
-	}	
+	}
 	return num_player_valid;
 }
 
@@ -1357,13 +1357,13 @@ add_grief_logo(logo)
 {
 	wait 1.75;
 	hud = create_simple_hud(self);
-	hud.alignX = "left"; 
+	hud.alignX = "left";
 	hud.alignY = "bottom";
-	hud.horzAlign = "user_left"; 
+	hud.horzAlign = "user_left";
 	hud.vertAlign = "user_bottom";
 	//hud.color = ( 0.21, 0, 0 );
-	//hud.x = x; 
-	hud.y = -4; 
+	//hud.x = x;
+	hud.y = -4;
 	hud.alpha = 1;
 	hud.fontscale = 32.0;
 
@@ -1375,9 +1375,9 @@ add_grief_logo(logo)
 gamemode_intro_hud(gamemode_name)
 {
 	gamemode = create_simple_hud();
-	gamemode.alignX = "center"; 
+	gamemode.alignX = "center";
 	gamemode.alignY = "bottom";
-	gamemode.horzAlign = "user_center"; 
+	gamemode.horzAlign = "user_center";
 	gamemode.vertAlign = "user_bottom";
 	gamemode.fontscale = 16;
 	gamemode.color = ( 1, 1, 1 );
@@ -1400,9 +1400,9 @@ add_gamemode_hud()
 {
 	flag_wait( "all_players_spawned" );
 	hud = create_simple_hud();
-	hud.alignX = "left"; 
+	hud.alignX = "left";
 	hud.alignY = "top";
-	hud.horzAlign = "user_left"; 
+	hud.horzAlign = "user_left";
 	hud.vertAlign = "user_top";
 	hud.color = ( 0.21, 0, 0 );
 	hud.fontscale = 9;
