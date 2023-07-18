@@ -8941,6 +8941,8 @@ set_gamemode()
 		level.vsteams = "";
 	}
 
+	SetDvar("vs_teams_game", level.vsteams); // used for versus score counter HUD position
+
 	level thread set_gamemode_name();
 }
 

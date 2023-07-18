@@ -374,7 +374,7 @@
 		{
 			name				"vs_friendly_logo"
 		    type                ITEM_TYPE_IMAGE
-		    rect              	-92 0 32 32
+		    rect              	-64 16 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
 		    forecolor           1 1 1 1
 		    exp                	material(dvarString("vs_logo"))
 		    style             	WINDOW_STYLE_SHADER
@@ -386,7 +386,7 @@
 		{
 			name				"vs_enemy_logo"
 		    type                ITEM_TYPE_IMAGE
-		    rect              	60 0 32 32
+		    rect              	32 16 32 32 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
 		    forecolor           1 1 1 1
 		    exp                	material(dvarString("vs_logo_enemy"))
 		    style             	WINDOW_STYLE_SHADER
@@ -398,7 +398,7 @@
 		{
 			name				"vs_friendly_name"
 			type				ITEM_TYPE_TEXT
-			rect 				-76 16 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			rect 				-48 16 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -413,7 +413,7 @@
 		{
 			name				"vs_enemy_name"
 			type				ITEM_TYPE_TEXT
-			rect 				76 16 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			rect 				48 16 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
 			forecolor			1 1 1 1
 			textscale			TEXTSIZE_DEFAULT
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -424,11 +424,15 @@
 			decoration
 		}
 
+		#define VS_COUNTER_Y 30
+		#define VS_COUNTER_Y_MOVE 16
+
 		itemDef
 		{
 			name				"vs_friendly_counter"
 			type				ITEM_TYPE_TEXT
-			rect 				-76 30 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			rect 				-48 VS_COUNTER_Y 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			exp					rect Y(VS_COUNTER_Y + ((dvarString("vs_teams_game") != "ffa") * VS_COUNTER_Y_MOVE))
 			forecolor			.4 0 0 1
 			textscale			TEXTSIZE_LARGE
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
@@ -443,7 +447,8 @@
 		{
 			name				"vs_enemy_counter"
 			type				ITEM_TYPE_TEXT
-			rect 				76 30 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			rect 				48 VS_COUNTER_Y 0 0 HORIZONTAL_ALIGN_USER_CENTER VERTICAL_ALIGN_USER_TOP
+			exp					rect Y(VS_COUNTER_Y + ((dvarString("vs_teams_game") != "ffa") * VS_COUNTER_Y_MOVE))
 			forecolor			.4 0 0 1
 			textscale			TEXTSIZE_LARGE
 			textstyle			ITEM_TEXTSTYLE_SHADOWED
