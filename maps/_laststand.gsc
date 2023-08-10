@@ -1,3 +1,4 @@
+#include common_scripts\utility;
 #include maps\_utility;
 #include maps\_hud_util;
 
@@ -328,6 +329,16 @@ laststand_clean_up_on_disconnect( playerBeingRevived, reviverGun )
 		self.reviveTextHud destroy();
 	}
 
+	if( isdefined (playerBeingRevived.beingRevivedProgressBar ) )
+	{
+		playerBeingRevived.beingRevivedProgressBar destroyElem();
+	}
+
+	if( isdefined( playerBeingRevived.revive_hud ))
+	{
+		playerBeingRevived.revive_hud setText( "" );
+	}
+
 	self revive_give_back_weapons( reviverGun );
 }
 
@@ -384,6 +395,17 @@ Laststand_Bleedout( delay )
 
 	self.bleedout_time = delay;
 
+	if ((!isDefined(self.fake_death) || !self.fake_death) && (!flag("solo_game") || level.gamemode != "survival"))
+	{
+		if (!isDefined(self.bleedoutProgressBar))
+		{
+			self.bleedoutProgressBar = self createBar( (1, 0, 0), level.primaryProgressBarWidth * 2, level.primaryProgressBarHeight );
+			self.bleedoutProgressBar setPoint("CENTER", undefined, level.primaryProgressBarX, level.primaryProgressBarY * 1.2);
+		}
+
+		self.bleedoutProgressBar thread laststand_bleedout_bar_update();
+	}
+
 	while ( self.bleedout_time > Int( delay * 0.5 ) )
 	{
 		self.bleedout_time -= .5;
@@ -411,6 +433,11 @@ Laststand_Bleedout( delay )
 		wait( 0.1 );
 	}
 
+	if (IsDefined(self.bleedoutProgressBar))
+	{
+		self.bleedoutProgressBar destroyElem();
+	}
+
 	self notify("bled_out");
 	wait_network_frame(); //to guarantee the notify gets sent and processed before the rest of this script continues to turn the guy into a spectator
 
@@ -433,6 +460,26 @@ Laststand_Bleedout( delay )
 	}
 }
 
+// scaleOverTime can only go to 30 seconds max
+laststand_bleedout_bar_update()
+{
+	self endon("death");
+
+	self updateBar(1);
+
+	if (level.gamemode == "survival" || level.gamemode == "grief" || level.gamemode == "snr")
+	{
+		self.bar scaleOverTime(30, int(self.width / 3), self.height);
+
+		wait 30;
+
+		self.bar scaleOverTime(15, 1, self.height);
+	}
+	else
+	{
+		self.bar scaleOverTime(10, 1, self.height);
+	}
+}
 
 // spawns the trigger used for the player to get revived
 revive_trigger_spawn()
@@ -740,6 +787,7 @@ revive_do_revive( playerBeingRevived, reviverGun )
 	if( !isdefined(self.reviveProgressBar) )
 	{
 		self.reviveProgressBar = self createPrimaryProgressBar();
+		self.reviveProgressBar.bar.color = (0.5, 0.5, 1);
 	}
 
 	if( !isdefined(self.reviveTextHud) )
@@ -747,9 +795,17 @@ revive_do_revive( playerBeingRevived, reviverGun )
 		self.reviveTextHud = newclientHudElem( self );
 	}
 
+	if( !isdefined(playerBeingRevived.beingRevivedProgressBar) )
+	{
+		playerBeingRevived.beingRevivedProgressBar = playerBeingRevived createPrimaryProgressBar();
+		playerBeingRevived.beingRevivedProgressBar.bar.color = (0.5, 0.5, 1);
+	}
+
 	self thread laststand_clean_up_on_disconnect( playerBeingRevived, reviverGun );
 
 	self.reviveProgressBar updateBar( 0.01, 1 / reviveTime );
+
+	playerBeingRevived.beingRevivedProgressBar updateBar( 0.01, 1 / reviveTime );
 
 	self.reviveTextHud.alignX = "center";
 	self.reviveTextHud.alignY = "middle";
@@ -801,6 +857,16 @@ revive_do_revive( playerBeingRevived, reviverGun )
 	if( isdefined( self.reviveTextHud ) )
 	{
 		self.reviveTextHud destroy();
+	}
+
+	if( isdefined( playerBeingRevived.beingRevivedProgressBar ) )
+	{
+		playerBeingRevived.beingRevivedProgressBar destroyElem();
+	}
+
+	if( isdefined( playerBeingRevived.revive_hud ) )
+	{
+		playerBeingRevived.revive_hud setText( "" );
 	}
 
 	if( IsDefined( playerBeingRevived.revivetrigger.auto_revive ) && playerBeingRevived.revivetrigger.auto_revive == true )
@@ -867,6 +933,11 @@ auto_revive( reviver )
 	self notify( "stop_revive_trigger" );
 	self.revivetrigger delete();
 	self.revivetrigger = undefined;
+
+	if (isDefined(self.bleedoutProgressBar))
+	{
+		self.bleedoutProgressBar destroyElem();
+	}
 
 	self laststand_enable_player_weapons();
 
@@ -939,6 +1010,11 @@ revive_success( reviver )
 	self.revivetrigger delete();
 	self.revivetrigger = undefined;
 
+	if (isDefined(self.bleedoutProgressBar))
+	{
+		self.bleedoutProgressBar destroyElem();
+	}
+
 	self laststand_enable_player_weapons();
 
 	self.ignoreme = false;
@@ -975,7 +1051,7 @@ revive_hud_create()
 
 	if( GetDvar( #"zombiemode" ) == "1" )
 	{
-		self.revive_hud.y = -80;
+		self.revive_hud.y = -145;
 	}
 }
 
@@ -1035,7 +1111,6 @@ revive_hud_think()
 			}
 
 			playerToRevive.revivetrigger.createtime = undefined;
-			wait( 3.5 );
 		}
 	}
 }

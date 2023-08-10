@@ -4,6 +4,7 @@
 #include maps\_music;
 #include maps\_zombiemode_utility;
 #include maps\_busing;
+#include maps\_hud_util;
 
 #using_animtree( "generic_human" );
 
@@ -1968,7 +1969,7 @@ onPlayerSpawned()
 			"cg_fov", "90",
 			"cg_thirdPersonAngle", "0",
 			"ui_show_mule_wep_indicator", "0" );
-		
+
 		if(level.gamemode == "snr" || level.gamemode == "race" || level.gamemode == "gg")
 		{
 			self SetClientDvar("hud_enemy_counter_on_game", 0);
@@ -4618,7 +4619,7 @@ chalk_one_up(override_round_number)
 		}
 
 		// set yellow insta kill on HUD
-		if(round_number >= 163 && round_number % 2 == 1 && 
+		if(round_number >= 163 && round_number % 2 == 1 &&
 			!is_true(flag("dog_round")) && !is_true(flag("thief_round")) && !is_true(flag("monkey_round")) && !is_true(flag("enter_nml")))
 		{
 			flag_set("insta_kill_round");
@@ -5776,6 +5777,7 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 	{
 		if(level.gamemode == "survival")
 		{
+			self.fake_death = true;
 			self thread maps\_laststand::PlayerLastStand( eInflictor, eAttacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime );
 			self player_fake_death();
 		}
@@ -5880,9 +5882,15 @@ wait_and_revive()
 	self.revive_hud SetText( &"GAME_REVIVING" );
 	self maps\_laststand::revive_hud_show_n_fade( solo_revive_time );
 
+	solo_revive_progress_bar = self createPrimaryProgressBar();
+	solo_revive_progress_bar.bar.color = (0.5, 0.5, 1);
+	solo_revive_progress_bar updateBar( 0.01, 1 / solo_revive_time );
+
 	flag_wait_or_timeout("instant_revive", solo_revive_time);
 
 	flag_clear( "wait_and_revive" );
+
+	solo_revive_progress_bar destroyElem();
 
 	self maps\_laststand::auto_revive( self );
 	self.lives--;
@@ -6521,8 +6529,8 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 	//iprintln(sWeapon);
 
-	if(level.gamemode == "gg" && (self.animname == "zombie" || self.animname == "quad_zombie" || self.animname == "zombie_dog") && 
-		IsDefined(attacker) && IsPlayer(attacker) && is_player_valid(attacker) && IsDefined(sWeapon) && 
+	if(level.gamemode == "gg" && (self.animname == "zombie" || self.animname == "quad_zombie" || self.animname == "zombie_dog") &&
+		IsDefined(attacker) && IsPlayer(attacker) && is_player_valid(attacker) && IsDefined(sWeapon) &&
 		sMeansOfDeath != "MOD_CRUSH" && !IsDefined(attacker.divetonuke_damage) && !IsDefined(self.nuked) && !is_true(self.trap_death))
 	{
 		gg_wep = level.gg_weps[attacker.gg_wep_num];
@@ -6606,7 +6614,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 				}
 
 				//allow weapons that normally cannot drop powerups to drop the gun game powerup
-				if(self.animname == "zombie" && 
+				if(self.animname == "zombie" &&
 				(gg_wep == "thundergun_zm" || gg_wep == "tesla_gun_zm" || gg_wep == "freezegun_zm" || gg_wep == "humangun_zm" || gg_wep == "sniper_explosive_bolt_zm" || gg_wep == "microwavegundw_zm"))
 				{
 					// DCS 031611: hack to prevent risers from dropping powerups under the ground.
@@ -8863,7 +8871,7 @@ character_names_hud()
 		else if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum")
 		{
 			name = "REIMAGINED_ZOMBIE_COD5_ASYLUM_PLAYER_NAME_" + players[j].entity_num;
-		} 
+		}
 		else if(level.script == "zombie_pentagon")
 		{
 			name = "REIMAGINED_ZOMBIE_PENTAGON_PLAYER_NAME_" + players[j].entity_num;

@@ -1873,8 +1873,6 @@ auto_revive_after_time()
 	self endon("player_revived");
 	level endon("end_game");
 
-	self.revive_hud setText( &"GAME_REVIVING" );
-	self maps\_laststand::revive_hud_show_n_fade(10);
 	wait 10;
 	self maps\_laststand::auto_revive();
 }

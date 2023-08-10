@@ -69,6 +69,11 @@
 * Health bar displayed on the bottom left
 * Zone name displayed on the bottom left
 * Character names displayed next to player's points
+* Bleed out bar displayed when downed
+* Revive bar displayed for downed player
+* Changed revive bar color to blue
+* Player is reviving you text gets removed instantly when player drops the revive
+* Player needs to be revived text updates to new player instantly
 * Ammo display on HUD no longer fades away
 * Grenades on HUD are now more spread out
 * Removed Reload, No Ammo, and Low Ammo HUD messages
