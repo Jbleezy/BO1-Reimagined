@@ -223,16 +223,16 @@ place_additionalprimaryweapon_machine()
 		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 90, 0);
 		break;
 	case "zombie_cosmodrome":
-		level.zombie_additionalprimaryweapon_machine_origin = (-275, 898, 216);
-		level.zombie_additionalprimaryweapon_machine_angles = (0, 180, 0);
-		level.zombie_additionalprimaryweapon_machine_clip_origin = (-275, 898, 216);
-		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 270, 0);
+		level.zombie_additionalprimaryweapon_machine_origin = (1, 2056, -174);
+		level.zombie_additionalprimaryweapon_machine_angles = (0, 0, 0);
+		level.zombie_additionalprimaryweapon_machine_clip_origin = (1, 2056, -174);
+		level.zombie_additionalprimaryweapon_machine_clip_angles = (0, 90, 0);
 
-		level.zombie_additionalprimaryweapon_machine_monkey_angles = (0, 270, 0);
+		level.zombie_additionalprimaryweapon_machine_monkey_angles = (0, 90, 0);
 		level.zombie_additionalprimaryweapon_machine_monkey_origins = [];
-		level.zombie_additionalprimaryweapon_machine_monkey_origins[0] = (-235.5, 920, 221);
-		level.zombie_additionalprimaryweapon_machine_monkey_origins[1] = (-275.5, 938, 221);
-		level.zombie_additionalprimaryweapon_machine_monkey_origins[2] = (-315.5, 920, 221);
+		level.zombie_additionalprimaryweapon_machine_monkey_origins[0] = (-38.5, 2034, -169);
+		level.zombie_additionalprimaryweapon_machine_monkey_origins[1] = (1.5, 2016, -169);
+		level.zombie_additionalprimaryweapon_machine_monkey_origins[2] = (41.5, 2034, -169);
 		break;
 	case "zombie_coast":
 		level.zombie_additionalprimaryweapon_machine_origin = (2424.4, -2884.3, 308);

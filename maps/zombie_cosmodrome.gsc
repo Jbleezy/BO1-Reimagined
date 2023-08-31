@@ -2,13 +2,13 @@
 #include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
-#include maps\_zombiemode_zone_manager; 
+#include maps\_zombiemode_zone_manager;
 //#include maps\_zombiemode_protips;
 
 main()
 {
 	level thread maps\zombie_cosmodrome_ffotd::main_start();
-	
+
 	// viewmodel arms for the level
 	PreCacheModel( "viewmodel_usa_pow_arms" ); // Dempsey
 	PreCacheModel( "viewmodel_rus_prisoner_arms" ); // Nikolai
@@ -60,7 +60,7 @@ main()
 	level.random_pandora_box_start = false;
 
 	level thread maps\_callbacksetup::SetupCallbacks();
-	
+
 	level.quad_move_speed = 35;
 
 	level.dog_spawn_func = maps\_zombiemode_ai_dogs::dog_spawn_factory_logic;
@@ -99,17 +99,17 @@ main()
 	level.monkey_zombie_failsafe = maps\zombie_cosmodrome_ai_monkey::monkey_cosmodrome_failsafe;
 	level.max_perks = 5;
 	level.max_solo_lives = 3;
-	
+
 	// WW (01/14/11) - Start introscreen client notify
 	level thread cosmodrome_fade_in_notify();
 
 	// DO ACTUAL ZOMBIEMODE INIT
 	maps\_zombiemode::main();
-	
+
 	maps\_zombiemode_weap_sickle::init();
 	maps\_zombiemode_weap_black_hole_bomb::init();
 	maps\_zombiemode_weap_nesting_dolls::init();
-	
+
 	// Turn off generic battlechatter - Steve G
 	battlechatter_off("allies");
 	battlechatter_off("axis");
@@ -125,7 +125,7 @@ main()
 	level.zone_manager_init_func = ::cosmodrome_zone_init;
 	init_zones[0] = "centrifuge_zone";
 	init_zones[1] = "centrifuge_zone2";
-	
+
 	level thread maps\_zombiemode_zone_manager::manage_zones( init_zones );
 
 	level thread electric_switch();
@@ -136,7 +136,7 @@ main()
 	level thread centrifuge_jumpup_fix();
 	level thread centrifuge_jumpdown_fix();
 	level thread centrifuge_init();
-	
+
 	// -- WWILLIAMS: CONTROLS THE PACK A PUNCH RISING SITUATION
 	level thread maps\zombie_cosmodrome_pack_a_punch::pack_a_punch_main();
 
@@ -147,15 +147,30 @@ main()
 	// Set the CosmoDrome Vision Set
 	level.zombie_visionset = "zombie_cosmodrome_nopower";
 	level thread fx_for_power_path();
-	
+
 	level thread spawn_life_brushes();
 	level thread spawn_kill_brushes();
 
 	init_sounds();
 
 	level thread maps\zombie_cosmodrome_ffotd::main_end();
+
+	move_monkey_lander_spawn();
 }
 
+move_monkey_lander_spawn()
+{
+	if (isDefined(level.struct_class_names["targetname"]["monkey_land"]))
+	{
+		for (i = 0; i < level.struct_class_names["targetname"]["monkey_land"].size; i++)
+		{
+			if (level.struct_class_names["targetname"]["monkey_land"][i].origin == (6, 1950, -152))
+			{
+				level.struct_class_names["targetname"]["monkey_land"][i].origin = (6, 1650, -152);
+			}
+		}
+	}
+}
 
 spawn_life_brushes()
 {
@@ -220,7 +235,7 @@ setup_water_physics()
   {
 		players[i] SetClientDvars("phys_buoyancy",1);
 	}
-}	
+}
 
 //------------------------------------------------------------------------------
 fx_for_power_path()
@@ -230,27 +245,27 @@ fx_for_power_path()
 	// trying out an fx at the end of the cable
 	while( 1 )
 	{
-		PlayFX(level._effect["dangling_wire"], ( -1066, 1024, -72), (0, 0, 1)  ); // first 
-		wait (0.3 + RandomFloat(0.5));	
-		PlayFX(level._effect["dangling_wire"], ( -900, 1446, -96), (0, 0, 1)  ); // second, perfect 
-		wait (0.3 + RandomFloat(0.5));	
-		PlayFX(level._effect["dangling_wire"], ( -895, 1442, -52), (0, 0, 1)  ); // second, perfect 
-		wait (0.3 + RandomFloat(0.5));	
+		PlayFX(level._effect["dangling_wire"], ( -1066, 1024, -72), (0, 0, 1)  ); // first
+		wait (0.3 + RandomFloat(0.5));
+		PlayFX(level._effect["dangling_wire"], ( -900, 1446, -96), (0, 0, 1)  ); // second, perfect
+		wait (0.3 + RandomFloat(0.5));
+		PlayFX(level._effect["dangling_wire"], ( -895, 1442, -52), (0, 0, 1)  ); // second, perfect
+		wait (0.3 + RandomFloat(0.5));
 		//wait (0.3 + RandomFloat(1.5));
 	}
-	
+
 }
 //------------------------------------------------------------------------------
 centrifuge_jumpup_fix()
 {
 	jumpblocker = GetEnt("centrifuge_jumpup", "targetname");
-	
+
 	if(!IsDefined(jumpblocker))
 	return;
-	
+
 	jump_pos = jumpblocker.origin;
 	centrifuge_occupied = false;
-	
+
 	while(true)
 	{
 		if(level.zones["centrifuge_zone"].is_occupied && centrifuge_occupied == false)
@@ -264,17 +279,17 @@ centrifuge_jumpup_fix()
 			jumpblocker MoveTo(jump_pos, 0.1);
 			jumpblocker ConnectPaths();
 			centrifuge_occupied = false;
-		}		
+		}
 		wait(1);
-	}	
-}	
+	}
+}
 centrifuge_jumpdown_fix()
 {
 	jumpblocker = GetEnt("centrifuge_jumpdown", "targetname");
-	
+
 	if(!IsDefined(jumpblocker))
 	return;
-	
+
 	jump_pos = jumpblocker.origin;
 	centrifuge2_occupied = true;
 
@@ -291,10 +306,10 @@ centrifuge_jumpdown_fix()
 			jumpblocker MoveTo(jump_pos, 0.1);
 			jumpblocker ConnectPaths();
 			centrifuge2_occupied = false;
-		}		
+		}
 		wait(1);
-	}	
-}	
+	}
+}
 //*****************************************************************************
 // WEAPON FUNCTIONS
 //
@@ -321,7 +336,7 @@ include_weapons()
 	include_weapon( "m14_upgraded_zm", false );
 
 	//	Weapons - Burst Rifles
-	include_weapon( "m16_zm", false, true );						
+	include_weapon( "m16_zm", false, true );
 	include_weapon( "m16_gl_upgraded_zm", false );
 	include_weapon( "g11_lps_zm" );
 	include_weapon( "g11_lps_upgraded_zm", false );
@@ -349,7 +364,7 @@ include_weapons()
 	include_weapon( "ithaca_upgraded_zm", false );
 	include_weapon( "rottweil72_zm", false, true );
 	include_weapon( "rottweil72_upgraded_zm", false );
-	include_weapon( "spas_zm" );						// 
+	include_weapon( "spas_zm" );						//
 	include_weapon( "spas_upgraded_zm", false );
 	include_weapon( "hs10_zm" );
 	include_weapon( "hs10_upgraded_zm", false );
@@ -407,7 +422,7 @@ include_weapons()
 
 	precacheItem( "explosive_bolt_zm" );
 	precacheItem( "explosive_bolt_upgraded_zm" );
-	
+
 	// get the sickle into the collector achievement list
 	level.collector_achievement_weapons = array_add( level.collector_achievement_weapons, "sickle_knife_zm" );
 }
@@ -424,10 +439,10 @@ include_powerups()
 	include_powerup( "full_ammo" );
 	include_powerup( "carpenter" );
 	include_powerup( "fire_sale" );
-	
+
 	// minigun
 	PreCacheItem( "minigun_zm" );
-	
+
 	include_powerup( "minigun" );
 	include_powerup( "free_perk" );
 }
@@ -475,7 +490,7 @@ magic_box_override()
 cosmodrome_zone_init()
 {
 	// Set flags here for your starting zone if there are any zones that need to be connected from the beginning.
-	// For instance, if your 
+	// For instance, if your
 	flag_init( "centrifuge" );
 	flag_set( "centrifuge" );
 
@@ -500,11 +515,11 @@ cosmodrome_zone_init()
 
 	// Drop-off connection - top of stairs in north path (one way drop)
 	add_adjacent_zone( "north_path_zone",  "roof_connector_zone",			"roof_connector_dropoff" );
-	
-	// open blast doors. 
+
+	// open blast doors.
 	add_adjacent_zone( "north_path_zone",		"under_rocket_zone",		"rocket_group" );
 	add_adjacent_zone( "control_room_zone",		"under_rocket_zone",		"rocket_group" );
-	
+
 	//############################################
 	//	Now set the connections that need to be made based on doors being open
 	//	Use add_zone_flags to connect any zones defined above.
@@ -585,28 +600,28 @@ cosmodrome_zone_init()
 //{
 //// 	pack_trigger = GetEnt( "zombie_vending_upgrade", "targetname" );
 //// 	pack_trigger trigger_off();
-//// 
+////
 //// 	// hide the batteries
 //// 	for ( i = 1; i <= 4; i++ )
 //// 	{
 //// 		battery = GetEnt( "pack_battery_0" + i, "targetname" );
 //// 		battery hide();
 //// 	}
-//// 
+////
 //// 	level.packBattery = 0;
-//// 
+////
 //// 	//MM - Pack on power on
 //// 	flag_wait( "power_on" );
-//// 
+////
 //// 	level notify( "powercell_done" );
 //// 	level notify( "Pack_A_Punch_on" );
-//// 
+////
 //// 	door_r = GetEnt( "pack_door_r", "targetname" );
 //// 	door_l = GetEnt( "pack_door_l", "targetname" );
-//// 
+////
 //// 	door_r RotateYaw( 160, 5, 0 );
 //// 	door_l RotateYaw( -160, 5, 0 );
-//// 
+////
 //// 	pack_trigger = GetEnt( "zombie_vending_upgrade", "targetname" );
 //// 	pack_trigger trigger_on();
 //}
@@ -631,13 +646,13 @@ powercell_dropoff()
 // 	{
 // 		level notify( "powercell_done" );
 // 		level notify( "Pack_A_Punch_on" );
-// 
+//
 // 		door_r = GetEnt( "pack_door_r", "targetname" );
 // 		door_l = GetEnt( "pack_door_l", "targetname" );
-// 
+//
 // 		door_r RotateYaw( 160, 5, 0 );
 // 		door_l RotateYaw( -160, 5, 0 );
-// 
+//
 // 		pack_trigger = GetEnt( "zombie_vending_upgrade", "targetname" );
 // 		pack_trigger trigger_on();
 // 	}
@@ -658,10 +673,10 @@ electric_switch()
 
 	trig waittill("trigger",user);
 
-	trig delete();	
+	trig delete();
 	flag_set( "power_on" );
 	Objective_State(8,"done");
-	
+
 	playsoundatposition( "zmb_poweron_front", (0,0,0) );
 }
 
@@ -672,7 +687,7 @@ electric_switch()
 //
 wait_for_power()
 {
-	master_switch = getent("elec_switch","targetname");	
+	master_switch = getent("elec_switch","targetname");
 	master_switch notsolid();
 
 	flag_wait( "power_on" );
@@ -694,21 +709,21 @@ wait_for_power()
 	level notify("marathon_on");
 	level notify("Pack_A_Punch_on" );
 
-//	clientnotify( "power_on" );	
+//	clientnotify( "power_on" );
 
 	clientnotify("ZPO");	 // Zombie Power On.
-	
+
 	//FX associated with turning on the power
-	exploder(5401);	
+	exploder(5401);
 
 
 	// Swap to the "power on" vision set
 	// level.zombie_visionset = "zombie_cosmodrome";
 	// VisionSetNaked( level.zombie_visionset, 2 );
-	
+
 	master_switch waittill("rotatedone");
 	playfx(level._effect["switch_sparks"] ,getstruct("elec_switch_fx","targetname").origin);
-	
+
 	//Sound - Shawn J  - adding temp sound to looping sparks & turning on power sources
 	//master_switch playloopsound("amb_sparks_loop");
 	master_switch playsound("zmb_turn_on");
@@ -721,7 +736,7 @@ custom_pandora_show_func( anchor, anchorTarget, pieces )
 {
 	level.pandora_light.angles = (-90, anchorTarget.angles[1] + 180, 0);
 	level.pandora_light moveto(anchorTarget.origin, 0.05);
-	wait(1);	
+	wait(1);
 	playfx( level._effect["lght_marker_flare"],level.pandora_light.origin );
 }
 
@@ -749,7 +764,7 @@ centrifuge_init()
 		//centrifuge link_centrifuge_pieces(); //currently no attachments
 		centrifuge centrifuge_rotate();
 	}
-}	
+}
 
 link_centrifuge_pieces()
 {
@@ -770,14 +785,14 @@ centrifuge_rotate()
 	{
 		self rotateyaw( 360, 20 );
 		self waittill("rotatedone");
-	}	
+	}
 }
 
 cosmodrome_precache()
 {
 	PreCacheModel("zombie_zapper_cagelight_red");
 	precachemodel("zombie_zapper_cagelight_green");
-	
+
 	// ww: therse pieces are used for the magic box televisions. the models are changed in csc
 	PreCacheModel( "p_zom_monitor_csm" );
 	PreCacheModel( "p_zom_monitor_csm_screen_catwalk" );
@@ -793,15 +808,15 @@ cosmodrome_precache()
 	PreCacheModel( "p_zom_monitor_csm_screen_warehouse" );
 	PreCacheModel( "p_zom_monitor_csm_screen_storage" );
 	PreCacheModel( "p_zom_monitor_csm_screen_topack" );
-	
+
 	//DCS; screens for rocket launch
 	PreCacheModel("p_zom_key_console_01");
 	PreCacheModel("p_zom_rocket_sign_02");
 	PreCacheModel("p_zom_rocket_sign_03");
 	PreCacheModel("p_zom_rocket_sign_04");
-	
+
 	PreCacheRumble( "damage_heavy" ); // rumble for centrifuge
-}	
+}
 
 precache_player_model_override()
 {
@@ -828,7 +843,7 @@ give_player_model_override( entity_num )
 			break;
 		case 3:
 			character\c_ger_richtofen_dlc2::main();// Richtofen
-			break;	
+			break;
 	}
 }
 
@@ -851,7 +866,7 @@ player_set_viewmodel_override( entity_num )
 		case 3:
 			// Richtofen
 			self SetViewModel( "viewmodel_usa_hazmat_arms" );
-			break;		
+			break;
 	}
 }
 // -- Offhand weapon override for cosmodrome
@@ -876,20 +891,20 @@ cosmodrome_offhand_weapon_overrride()
 offhand_weapon_give_override( str_weapon )
 {
 	self endon( "death" );
-	
+
 	if( is_tactical_grenade( str_weapon ) && IsDefined( self get_player_tactical_grenade() ) && !self is_player_tactical_grenade( str_weapon ) )
 	{
 		self SetWeaponAmmoClip( self get_player_tactical_grenade(), 0 );
 		self TakeWeapon( self get_player_tactical_grenade() );
 	}
-	
+
 	if( str_weapon == "zombie_black_hole_bomb" )
 	{
 		self maps\_zombiemode_weap_black_hole_bomb::player_give_black_hole_bomb();
 		//self maps\_zombiemode_weapons::play_weapon_vo( str_weapon ); // ww: need to figure out how we will get the sound here
 		return true;
 	}
-	
+
 	if( str_weapon == "zombie_nesting_dolls" )
 	{
 		self maps\_zombiemode_weap_nesting_dolls::player_give_nesting_dolls();
@@ -916,9 +931,9 @@ cosmodrome_fade_in_notify()
 {
 	// wait for fade_in function to finish
 	level waittill("fade_in_complete");
-	
+
 	// notify client -- "Zombie Introscreen Done"
 	level ClientNotify( "ZID" );
-	
+
 	wait_network_frame();
 }
