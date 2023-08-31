@@ -1,16 +1,16 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
 
 main()
 {
-	footsteps(); 
+	footsteps();
 	scriptedFX();
 	precacheFX();
 	level thread wind_settings();
 	maps\createfx\zombie_cod5_sumpf_fx::main();
 
 
-/////////////////////////////////////////	
+/////////////////////////////////////////
 	// Austin - comment out for now until we can clientside
 	//level thread post_lights();
 ///////////////////////////////////////
@@ -41,17 +41,17 @@ footsteps()
 scriptedFX()
 {
 
-////////////////////////////////////////////////////	
-	//light 
+////////////////////////////////////////////////////
+	//light
 	level._effect["hanging_light_fx"] = loadfx("env/light/fx_glow_hanginglamp");
 
 	level._effect["large_ceiling_dust"]		= LoadFx( "env/dirt/fx_dust_ceiling_impact_lg_mdbrown" );
 	level._effect["poltergeist"]			= LoadFx( "maps/zombie/fx_zombie_debris_removal" );
-	
+
 	level._effect["lght_marker_old"] 		= Loadfx("maps/zombie/fx_zombie_factory_marker");
 	level._effect["lght_marker"]			= Loadfx("maps/zombie/fx_zombie_factory_marker");
 	level._effect["lght_marker_flare"]		= Loadfx("maps/zombie/fx_zombie_factory_marker_fl");
-	
+
   level._effect["betty_explode"]			= loadfx("weapon/bouncing_betty/fx_explosion_betty_generic");
 	level._effect["betty_trail"]				= loadfx("weapon/bouncing_betty/fx_betty_trail");
 	//level._effect["trap_fire"]			= Loadfx("maps/zombie/fx_zombie_fire_trp");
@@ -82,20 +82,20 @@ wind_settings()
 
 precacheFX()
 {
-	level._effect["mp_fire_small_detail"]						    = loadfx("maps/mp_maps/fx_mp_fire_small_detail");	
+	level._effect["mp_fire_small_detail"]						    = loadfx("maps/mp_maps/fx_mp_fire_small_detail");
 	level._effect["mp_fire_small"]							        = loadfx("maps/mp_maps/fx_mp_fire_small");
-	level._effect["mp_fire_medium"]							        = loadfx("maps/mp_maps/fx_mp_fire_medium");	
+	level._effect["mp_fire_medium"]							        = loadfx("maps/mp_maps/fx_mp_fire_medium");
 	level._effect["mp_fire_large"]							        = loadfx("maps/mp_maps/fx_mp_fire_large");
 	level._effect["mp_light_glow_lantern"]		          = loadfx("maps/mp_maps/fx_mp_light_glow_lantern");
 	level._effect["mp_smoke_ambiance_indoor"]					  = loadfx("maps/mp_maps/fx_mp_smoke_ambiance_indoor");
-	level._effect["mp_smoke_ambiance_indoor_misty"]	    = loadfx("maps/mp_maps/fx_mp_smoke_ambiance_indoor_misty");	
-	level._effect["mp_smoke_ambiance_indoor_sm"]	      = loadfx("maps/mp_maps/fx_mp_smoke_ambiance_indoor_sm");	
-  level._effect["fx_fog_low_floor_sm"]			          = loadfx("env/smoke/fx_fog_low_floor_sm");	
-	level._effect["mp_smoke_column_tall"]					      = loadfx("maps/mp_maps/fx_mp_smoke_column_tall");	
-	level._effect["mp_smoke_column_short"]						  = loadfx("maps/mp_maps/fx_mp_smoke_column_short");	
-	level._effect["mp_fog_rolling_large"]					      = loadfx("maps/mp_maps/fx_mp_fog_rolling_thick_large_area");	
+	level._effect["mp_smoke_ambiance_indoor_misty"]	    = loadfx("maps/mp_maps/fx_mp_smoke_ambiance_indoor_misty");
+	level._effect["mp_smoke_ambiance_indoor_sm"]	      = loadfx("maps/mp_maps/fx_mp_smoke_ambiance_indoor_sm");
+  level._effect["fx_fog_low_floor_sm"]			          = loadfx("env/smoke/fx_fog_low_floor_sm");
+	level._effect["mp_smoke_column_tall"]					      = loadfx("maps/mp_maps/fx_mp_smoke_column_tall");
+	level._effect["mp_smoke_column_short"]						  = loadfx("maps/mp_maps/fx_mp_smoke_column_short");
+	level._effect["mp_fog_rolling_large"]					      = loadfx("maps/mp_maps/fx_mp_fog_rolling_thick_large_area");
 	level._effect["mp_fog_rolling_small"]					      = loadfx("maps/mp_maps/fx_mp_fog_rolling_thick_small_area");
-	level._effect["mp_flies_carcass"]                   = loadfx("maps/mp_maps/fx_mp_flies_carcass");	
+	level._effect["mp_flies_carcass"]                   = loadfx("maps/mp_maps/fx_mp_flies_carcass");
 	level._effect["mp_insects_swarm"]							      = loadfx("maps/mp_maps/fx_mp_insect_swarm");
 	level._effect["mp_insects_lantern"]							    = loadfx("maps/mp_maps/fx_mp_insects_lantern");
 	level._effect["mp_firefly_ambient"]						  	  = loadfx("maps/mp_maps/fx_mp_firefly_ambient");
@@ -108,27 +108,27 @@ precacheFX()
   level._effect["fx_bats_ambient"]							      = loadfx("maps/mp_maps/fx_bats_ambient");
   level._effect["mp_fire_torch"]							        = loadfx("maps/mp_maps/fx_mp_fire_torch");
 	level._effect["mp_dragonflies"]                     = loadfx("bio/insects/fx_insects_dragonflies_ambient");
-	level._effect["fx_mp_ray_moon_xsm_near"]            = loadfx("maps/mp_maps/fx_mp_ray_moon_xsm_near");  	   
+	level._effect["fx_mp_ray_moon_xsm_near"]            = loadfx("maps/mp_maps/fx_mp_ray_moon_xsm_near");
 	level._effect["fx_meteor_ambient"]							    = loadfx("maps/zombie/fx_meteor_ambient");
 	level._effect["fx_meteor_flash"]							      = loadfx("maps/zombie/fx_meteor_flash");
-	level._effect["fx_meteor_flash_spawn"]							= loadfx("maps/zombie/fx_meteor_flash_spawn");	 
+	level._effect["fx_meteor_flash_spawn"]							= loadfx("maps/zombie/fx_meteor_flash_spawn");
   level._effect["fx_meteor_hotspot"]						    	= loadfx("maps/zombie/fx_meteor_hotspot");
 
-	
+
 	level._effect["zapper"]							= loadfx("misc/fx_zombie_electric_trap");
-	
+
 	level._effect["zapper_light_ready"] = loadfx("misc/fx_zombie_zapper_light_green");
 	level._effect["zapper_light_notready"] = loadfx("misc/fx_zombie_zapper_light_red");
 	level._effect["switch_sparks"]			= loadfx("env/electrical/fx_elec_wire_spark_burst");
-	
+
 	level._effect["elec_md"] 			= loadfx("env/electrical/fx_elec_player_md");
 	level._effect["elec_sm"] 			= loadfx("env/electrical/fx_elec_player_sm");
-	level._effect["elec_torso"] 		= loadfx("env/electrical/fx_elec_player_torso");	
-	
+	level._effect["elec_torso"] 		= loadfx("env/electrical/fx_elec_player_torso");
+
 	//Special water rise fx
 	level._effect["rise_burst_water_swmp"]		  	= LoadFX("maps/zombie/fx_zombie_body_wtr_burst_smpf");
 	level._effect["rise_billow_water_swmp"]			= LoadFX("maps/zombie/fx_zombie_body_wtr_billow_smpf");
-	
+
 	//broken
 	level._effect["fx_light_god_ray_sm_sumpf_warm_v1"] 		= loadfx("env/light/fx_light_god_ray_sm_sumpf_warm_v1");
 
@@ -142,8 +142,8 @@ post_lights()
 {
 	//grab the lantern models
 	lanterns = getentarray("post_lamp","targetname");
-	
-	array_thread(lanterns,::swing_lanterns);	
+
+	array_thread(lanterns,::swing_lanterns);
 
 
 
@@ -153,15 +153,15 @@ swing_lanterns()
 {
 	org_angles = self.angles;
 	org_pos = self.origin;
-	
+
 	while(1)
 	{
 		self rotateto(self.angles + (randomintrange(-5,5),randomintrange(-5,5),0),randomfloatrange(.5,1));
 		self waittill("rotatedone");
 		self rotateto(org_angles,randomfloatrange(.5,1));
 		self waittill("rotatedone");
-			
-		
+
+
 		//self physicslaunch ( self.origin, (randomintrange(-20,20),randomintrange(-20,20),randomintrange(-20,20)) );
 	}
 }

@@ -1,4 +1,4 @@
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
 #include maps\_zombiemode_zone_manager;
@@ -1298,7 +1298,7 @@ play_electrical_sound()
 elec_barrier_damage(trap, who)
 {
 	trap endon("elec_done");
-	
+
 	while(1)
 	{
 		self waittill("trigger",ent);
@@ -1353,7 +1353,7 @@ player_elec_damage()
 			//self playloopsound ("electrocution");
 			self playsound("zmb_zombie_arc");
 		}
-		
+
 		damage = 0;
 		if(!self hasperk("specialty_armorvest"))
 		{
@@ -1405,7 +1405,7 @@ zombie_elec_death(flame_chance, who)
 		//wait(randomfloat(1.25));
 		self playsound("zmb_zombie_arc");
 	}
-	
+
 
 	self.trap_death = true;
 	self.no_powerups = true;
@@ -2143,7 +2143,7 @@ override_blocker_prices()
 override_box_locations()
 {
 	PrecacheModel("p_jun_wood_plank_large01");
-	
+
 	level.override_place_treasure_chest_bottom = ::zombie_cod5_factory_place_treasure_chest_bottom;
 	level.treasure_box_rubble_model = "zombie_factory_bearpile";
 

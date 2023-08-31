@@ -1,8 +1,8 @@
-#include maps\_utility; 
-#include common_scripts\utility; 
+#include maps\_utility;
+#include common_scripts\utility;
 #include maps\_zombiemode_utility;
 #include maps\_zombiemode_utility_raven;
-#include maps\_zombiemode;  
+#include maps\_zombiemode;
 
 temple_init_zone_spawn_locations()
 {
@@ -102,7 +102,7 @@ temple_create_spawner_list( zkeys )
 	level.zombie_rise_spawners 	= [];
 	level.zombie_fall_spawners  = [];
 	level.monkey_spawns         = [];
-	
+
 	for( z=0; z<zkeys.size; z++ )
 	{
 		zoneName = zkeys[z];
@@ -110,7 +110,7 @@ temple_create_spawner_list( zkeys )
 
 		if ( zone.is_enabled && zone.is_active )
 		{
-			// Add spawner locations 
+			// Add spawner locations
 			for ( x = 0; x < zone.spawn_locations.size; x++ )
 			{
 				if ( zone.spawn_locations[x].is_enabled )
@@ -119,7 +119,7 @@ temple_create_spawner_list( zkeys )
 				}
 			}
 
-			// add dog_spawn locations 
+			// add dog_spawn locations
 			// (we don't have dogs, but zombies need them for solo mode to figure out where to path to when the player is down)
 			for(x=0; x<zone.dog_locations.size; x++)
 			{
@@ -153,7 +153,7 @@ temple_create_spawner_list( zkeys )
 				for ( x=0; x < level.monkey_zombie_spawners.size; x++ )
 				{
 					spawner = level.monkey_zombie_spawners[x];
-					if ( IsDefined(spawner.script_noteworthy) && spawner.script_noteworthy == zoneName  
+					if ( IsDefined(spawner.script_noteworthy) && spawner.script_noteworthy == zoneName
 						&& isDefined(zone.barriers) && zone.barriers.size > 0 )
 					{
 						level.monkey_spawns[level.monkey_spawns.size] = spawner;
@@ -197,17 +197,17 @@ temple_round_spawning()
 	}
 
 /#
-	if ( GetDvarInt( #"zombie_cheat" ) == 2 || GetDvarInt( #"zombie_cheat" ) >= 4 ) 
+	if ( GetDvarInt( #"zombie_cheat" ) == 2 || GetDvarInt( #"zombie_cheat" ) >= 4 )
 	{
 		return;
 	}
 #/
 
-	ai_calculate_health( level.round_number ); 
+	ai_calculate_health( level.round_number );
 
 	ai_calculate_amount();
 
-	/*count = 0; 
+	/*count = 0;
 
 	//CODER MOD: TOMMY K
 	players = get_players();
@@ -234,11 +234,11 @@ temple_round_spawning()
 
 	if( player_num == 1 )
 	{
-		max += int( ( 0.5 * level.zombie_vars["zombie_ai_per_player"] ) * multiplier ); 
+		max += int( ( 0.5 * level.zombie_vars["zombie_ai_per_player"] ) * multiplier );
 	}
 	else
 	{
-		max += int( ( ( player_num - 1 ) * level.zombie_vars["zombie_ai_per_player"] ) * multiplier ); 
+		max += int( ( ( player_num - 1 ) * level.zombie_vars["zombie_ai_per_player"] ) * multiplier );
 	}
 
 	if( !isDefined( level.max_zombie_func ) )
@@ -288,12 +288,12 @@ temple_round_spawning()
 			flag_wait( "spawn_zombies" );
 		}
 
-		// RAVEN BEGIN bhackbarth: move the check into the loop to respect the spawn pausing flag 
+		// RAVEN BEGIN bhackbarth: move the check into the loop to respect the spawn pausing flag
 		// (if spawning is paused, level.enemy_spawns can be empty w/o repercussions)
 		if ( level.enemy_spawn_locations.size < 1 || !IsDefined(level.main_spawner) )
 		{
-			ASSERTMSG( "No active spawners in the map.  Check to see if the zone is active and if it's pointing to spawners." ); 
-			return; 
+			ASSERTMSG( "No active spawners in the map.  Check to see if the zone is active and if it's pointing to spawners." );
+			return;
 		}
 
 		// TODO MCG: try to put some priority on spawning fallers in *adjacent* zones
@@ -305,25 +305,25 @@ temple_round_spawning()
 		}
 		else if( Spawn_point == old_spawn )
 		{
-			spawn_point = level.enemy_spawn_locations[RandomInt( level.enemy_spawn_locations.size )]; 
+			spawn_point = level.enemy_spawn_locations[RandomInt( level.enemy_spawn_locations.size )];
 		}
 		old_spawn = spawn_point;
 
 		ai = _try_spawn_napalm(spawn_point);
-				
+
 		if ( !IsDefined(ai) )
 		{
 			ai = _try_spawn_monkey();
 		}
-		
+
 		if ( !IsDefined(ai) )
 		{
 			ai = _try_spawn_sonic(spawn_point);
 		}
-		
+
 		if ( !IsDefined(ai) )
 		{
-			//ai = spawn_zombie( spawn_point ); 
+			//ai = spawn_zombie( spawn_point );
 			ai = _try_spawn_zombie(spawn_point);
 		}
 
@@ -331,10 +331,10 @@ temple_round_spawning()
 		{
 			level.zombie_total--;
 			ai thread round_spawn_failsafe();
-			//count++; 
+			//count++;
 		}
 
-		wait( level.zombie_vars["zombie_spawn_delay"] ); 
+		wait( level.zombie_vars["zombie_spawn_delay"] );
 		wait_network_frame();
 	}
 }
@@ -384,7 +384,7 @@ zombie_speed_up_temple()
 			if ( !zombies[0] maps\zombie_temple_traps::zombie_on_mud() )
 			{
 				var = randomintrange(1, 4);
-				zombies[0] set_run_anim( "sprint" + var );                       
+				zombies[0] set_run_anim( "sprint" + var );
 				zombies[0].run_combatanim = level.scr_anim[zombies[0].animname]["sprint" + var];
 				zombies[0].zombie_move_speed = "sprint";
 			}
@@ -450,12 +450,12 @@ _try_spawn_napalm(spawn_point)
 	{
 		return undefined;
 	}
-	
+
 	if(isDefined(level.napalmZombieCount) && level.napalmZombieCount>0)
 	{
 		return undefined;
 	}
-	
+
 	if(level.special_zombie_spawned_this_round)
 	{
 		return undefined;
@@ -473,7 +473,7 @@ _try_spawn_napalm(spawn_point)
 		spawner = level.napalm_zombie_spawners[0];
 		//spawnOrigin = _get_non_visible_spawn_point();
 		spawnpoint = _get_special_spawn_point();
-		if ( !IsDefined(spawnpoint) ) 
+		if ( !IsDefined(spawnpoint) )
 		{
 			return undefined;
 		}
@@ -493,12 +493,12 @@ _try_spawn_napalm(spawn_point)
 			spawnOrigin = spawn_point.origin;
 			spawner.target = spawn_point.target;
 		}
-		
+
 		ai = spawn_zombie( spawner );
-		
+
 		//Set up spawner so it can be used by next spawn
 		spawner.script_string = undefined;
-		spawner.count = 100; 
+		spawner.count = 100;
 		spawner.last_spawn_time = GetTime();
 
 		if ( !spawn_failed(ai) )
@@ -521,7 +521,7 @@ _get_non_visible_spawn_point()
 	//pick a random player
 	players = get_players();
 	player = random(players);
-	
+
 	barriers = player maps\zombie_temple_ai_monkey::ent_GatherValidBarriers(undefined, false, true);
 	for(i=0;i<barriers.size;i++)
 	{
@@ -534,13 +534,13 @@ _get_non_visible_spawn_point()
 				break;
 			}
 		}
-		
+
 		if(barrierValid)
-		{	
+		{
 			return maps\zombie_temple_ai_monkey::getBarrierAttackLocation(barriers[i]);
 		}
 	}
-	
+
 	return undefined;
 }
 
@@ -553,11 +553,11 @@ _get_special_spawn_point()
 	{
 		zoneName = zkeys[z];
 		zone = level.zones[zoneName];
-		if ( zone.is_occupied ) 
+		if ( zone.is_occupied )
 		{
 			occupiedPoints = array_combine(occupiedPoints, zone.napalm_spawn_locations);
 		}
-		if ( zone.is_active ) 
+		if ( zone.is_active )
 		{
 			activePoints = array_combine(activePoints, zone.napalm_spawn_locations);
 		}
@@ -586,7 +586,7 @@ _can_spawn_napalm()
 	{
 		return RandomInt(200) < 3; //1.5% chance of spawning
 	}
-	
+
 	if ( GetDvarInt("zombiemode_debug_napalm") != 0 )
 	{
 		return true;
@@ -602,7 +602,7 @@ _can_spawn_napalm()
 	{
 		return false;
 	}
-	
+
 	if(forceSpawn)
 	{
 		return true;
@@ -638,7 +638,7 @@ _try_spawn_monkey()
 		spawner = level.monkey_spawns[RandomInt(level.monkey_spawns.size)];
 		ai = spawner StalingradSpawn();
 
-		if ( !spawn_failed(ai) ) 
+		if ( !spawn_failed(ai) )
 		{
 			ai maps\zombie_temple_ai_monkey::monkey_TempleThink(spawner);
 			level.monkeysSpawnedThisRound++;
@@ -667,12 +667,12 @@ _try_spawn_sonic(spawn_point)
 	{
 		return undefined;
 	}
-	
+
 	if(isDefined(level.sonicZombieCount) && level.sonicZombieCount>0)
 	{
 		return undefined;
 	}
-	
+
 	//Don't Spawn a sonic if a napalm is active for the first few rounds
 	if(level.special_zombie_spawned_this_round)
 	{
@@ -683,14 +683,14 @@ _try_spawn_sonic(spawn_point)
 	//{
 	//	return undefined;
 	//}
-	
+
 	ai = undefined;
 	if ( _can_spawn_sonic() )
 	{
 		spawner = level.sonic_zombie_spawners[0];
 		//spawnOrigin = _get_non_visible_spawn_point();
 		spawnpoint = _get_special_spawn_point();
-		if ( !IsDefined(spawnpoint) ) 
+		if ( !IsDefined(spawnpoint) )
 		{
 			return undefined;
 		}
@@ -709,19 +709,19 @@ _try_spawn_sonic(spawn_point)
 			spawnOrigin = spawn_point.origin;
 			spawner.target = spawn_point.target;
 		}
-		
+
 		ai = spawn_zombie( spawner );
-		
+
 		//Set up spawner so it can be used by next spawn
 		spawner.script_string = undefined;
-		spawner.count = 100; 
+		spawner.count = 100;
 		spawner.last_spawn_time = GetTime();
 
 		if ( !spawn_failed(ai) )
 		{
 			// teleport the zombie to our spawner
 			ai ForceTeleport(spawnOrigin, spawn_point.angles);
-			
+
 			if(level.gamemode != "snr" && level.gamemode != "race" && level.gamemode != "gg")
 			{
 				level.special_zombie_spawned_this_round = true;
@@ -748,7 +748,7 @@ _can_spawn_sonic()
 	{
 		return false;
 	}
-	
+
 	// wait until at least mid round to spawn the sonic zombie, if it's an appropriate sonic round
 	return level.zombie_total < level.zombiesLeftBeforeSonicSpawn;
 
@@ -764,7 +764,7 @@ _try_spawn_zombie(spawn_point)
 
 	ai = spawn_zombie( level.main_spawner );
 
-	level.main_spawner.count = 100; 
+	level.main_spawner.count = 100;
 	level.main_spawner.last_spawn_time = GetTime();
 
 	if ( !spawn_failed(ai) )
@@ -786,7 +786,7 @@ _try_spawn_zombie(spawn_point)
 zombie_tracking_init()
 {
 	flag_wait( "all_players_connected" );
-	
+
 	while(true)
 	{
 		zombies = GetAIArray("axis");
@@ -803,12 +803,12 @@ zombie_tracking_init()
 			}
 		}
 		//check every 10 seconds
-		wait(10);	
-	}	
+		wait(10);
+	}
 }
 
 //-------------------------------------------------------------------------------
-//	DCS 030111: 
+//	DCS 030111:
 //	if can't be seen kill and so replacement can spawn closer to player.
 //	self = zombie to check.
 //-------------------------------------------------------------------------------
@@ -820,10 +820,10 @@ delete_zombie_noone_looking(how_close)
 	{
 		how_close = 1000;
 	}
-	
+
 	self.inview = 0;
 	self.player_close = 0;
-	
+
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
@@ -831,7 +831,7 @@ delete_zombie_noone_looking(how_close)
 		if(players[i].sessionstate == "spectator")
 		{
 			continue;
-		}	 
+		}
 
 		can_be_seen = self player_can_see_me(players[i]);
 		if(can_be_seen)
@@ -844,9 +844,9 @@ delete_zombie_noone_looking(how_close)
 			if(dist < how_close)
 			{
 				self.player_close++;
-			}					
-		}		
-	}	
+			}
+		}
+	}
 
 	wait_network_frame();
 	if(self.inview == 0 && self.player_close == 0 )
@@ -858,27 +858,27 @@ delete_zombie_noone_looking(how_close)
 		if(IsDefined(self.electrified) && self.electrified == true)
 		{
 			return;
-		}		
-	
+		}
+
 		// zombie took damage, don't touch
 		if( self.health != level.zombie_health )
 		{
 			return;
-		}	
+		}
 		else
 		{
 			// exclude rising zombies that haven't finished rising.
 			if(IsDefined(self.in_the_ground) && self.in_the_ground == true)
 			{
 				return;
-			}				
-			
+			}
+
 			// exclude falling zombies that haven't dropped.
 			if(IsDefined(self.in_the_ceiling) && self.in_the_ceiling == true)
 			{
 				return;
 			}
-			
+
  			//IPrintLnBold("deleting zombie out of view");
 			level.zombie_total++;
 
@@ -889,7 +889,7 @@ delete_zombie_noone_looking(how_close)
 			self notify("zombie_delete");
 			//self notify("stop_fx");
 			self Delete();
-		}	
+		}
 	}
 }
 //-------------------------------------------------------------------------------
@@ -908,10 +908,10 @@ player_can_see_me( player )
 	playerToBanzaiUnitVec = VectorNormalize( playerToBanzaiVec );
 
 	forwardDotBanzai = VectorDot( playerUnitForwardVec, playerToBanzaiUnitVec );
-	angleFromCenter = ACos( forwardDotBanzai ); 
+	angleFromCenter = ACos( forwardDotBanzai );
 
 	playerFOV = GetDvarFloat( #"cg_fov" );
-	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );	
+	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );
 	if ( banzaiVsPlayerFOVBuffer <= 0 )
 	{
 		banzaiVsPlayerFOVBuffer = 0.2;

@@ -2338,7 +2338,7 @@ moon_give_solo_lives()
 {
 	flag_wait("enter_nml");
 	flag_waitopen("enter_nml");
-	
+
 	players = get_players();
 	players[0].lives = 3;
 }

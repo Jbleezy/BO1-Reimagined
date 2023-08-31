@@ -3313,7 +3313,7 @@ get_current_zone()
 		{
 			continue;
 		}
-		
+
 		zone = level.zones[ zone_name ];
 
 		// Okay check to see if the entity is in one of the zone volumes

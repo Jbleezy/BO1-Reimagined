@@ -1,5 +1,5 @@
 #include maps\_ambientpackage;
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
 #include animscripts\zombie_Utility;
@@ -12,7 +12,7 @@ main()
 	level._audio_alias_override = ::audio_alias_override;
 	level.player_4_vox_override = false;
 	level.been_to_moon_before = false;
-	
+
 	level.audio_zones_breached 			= [];
 	level.audio_zones_breached["1"] 	= false;
 	level.audio_zones_breached["2a"] 	= false;
@@ -22,7 +22,7 @@ main()
 	level.audio_zones_breached["4a"] 	= false;
 	level.audio_zones_breached["4b"] 	= false;
 	level.audio_zones_breached["5"] 	= false;
-	
+
 	level thread setup_music_egg();
 	//level thread force_player4_override();
 	level thread waitfor_forest_zone_entry();
@@ -59,12 +59,12 @@ play_radio_eastereggs()
 	{
 		return;
 	}
-	
+
 	while(1)
 	{
 		self thread maps\_zombiemode_sidequests::fake_use( "radio_activate" );
 		self waittill( "radio_activate" );
-		
+
 		if( isdefined( self.script_noteworthy ) )
 		{
 			breakout = self checkfor_radio_override();
@@ -77,10 +77,10 @@ play_radio_eastereggs()
 		{
 			break;
 		}
-		
+
 		wait(.1);
 	}
-	
+
 	level.radio_egg_counter++;
 	sound_ent = spawn( "script_origin", self.origin );
 	sound_ent playsound( "vox_story_1_log_" + level.radio_egg_counter );
@@ -97,15 +97,15 @@ checkfor_radio_override()
 	{
 		return true;
 	}
-	
+
 	for( i=0; i<level.glass.size; i++ )
 	{
 		if( level.glass[i].damage_state == 1 ) //no damage yet
-		{	
+		{
 			for( j=0; j<level.glass[i].fxpos_array.size; j++ )
 			{
 				glass_origin = level.glass[i].fxpos_array[j].origin;
-				
+
 				if( DistanceSquared( glass_origin, self.origin ) < 50*50 )
 				{
 					return true;
@@ -113,7 +113,7 @@ checkfor_radio_override()
 			}
 		}
 	}
-	
+
 	return false;
 }
 
@@ -133,11 +133,11 @@ eight_bit_easteregg()
 waitfor_eightbit_use()
 {
 	flag_wait( "power_on" );
-	
+
 	self thread maps\_zombiemode_sidequests::fake_use( "bit_hit", ::waitfor_override );
-	
+
 	self waittill( "bit_hit" );
-	
+
 	playsoundatposition( "mus_8bit_notice", self.origin );
 	wait(4);
 	playsoundatposition( self.script_string, self.origin );
@@ -151,12 +151,12 @@ intro_vox_or_skit()
 {
 	wait(1);
 	flag_wait( "all_players_connected" );
-	
+
 	playsoundatposition( "evt_warp_in", (0,0,0) );
-	
+
 	wait(3);
 	players = get_players();
-	
+
 	players[randomintrange(0,players.size)] thread maps\_zombiemode_audio::create_and_play_dialog( "general", "start" );
 }
 
@@ -169,7 +169,7 @@ poweron_vox()
 	{
 		level thread maps\zombie_moon_amb::play_mooncomp_vox( "vox_mcomp_power" );
 	}
-	
+
 	/*
 	players = get_players();
 	for(i=0;i<players.size;i++)
@@ -187,21 +187,21 @@ door_vox()
 {
 	wait(5);
 	array_thread( ( getstructarray( "door_vox", "targetname" ) ), ::track_door_entry_exit );
-	
+
 	//One of a kind doorway between two different pressurized areas
 	struct = getstruct( "door_vox_special", "targetname" );
 	struct thread track_door_entry_exit( 1 );
 }
 
 track_door_entry_exit( special )
-{	
+{
 	self.special = false;
-	
+
 	if( is_true( special ) )
 	{
 		self.special = true;
 	}
-	
+
 	while(1)
 	{
 		array_thread( getentarray( self.target, "targetname" ), ::waitfor_door_open, self );
@@ -213,9 +213,9 @@ track_door_entry_exit( special )
 		{
 			if( where == "outside" && !level.audio_zones_breached[self.script_noteworthy] )
 			{
-				
+
 				//iprintlnbold( "Entering Area " + self.script_int );
-				
+
 				ent PlaySoundToPlayer("vox_mcomp_enter_" + self.script_int, player);
 				//playsoundatposition( "vox_mcomp_enter_" + self.script_int, self.origin );
 			}
@@ -244,7 +244,7 @@ track_door_entry_exit( special )
 				}
 			}
 		}
-		
+
 		wait(3.5);
 	}
 }
@@ -252,15 +252,15 @@ track_door_entry_exit( special )
 waitfor_door_open( struct )
 {
 	struct endon( "other_door_opened" );
-	
+
 	while(1)
 	{
 		self waittill( "trigger", who );
-		
+
 		if( isplayer( who ) )
 		{
 			where = self.script_string;
-			
+
 			if( struct.special )
 			{
 				if( self.target == "pf17_auto347" )
@@ -272,12 +272,12 @@ waitfor_door_open( struct )
 					where = "inside";
 				}
 			}
-			
+
 			struct notify( "trigger", where, who, self );
 			struct notify( "other_door_opened" );
 			return;
 		}
-		
+
 		wait(.05);
 	}
 }
@@ -286,7 +286,7 @@ audio_alias_override()
 {
 	level.plr_vox["kill"]["explosive"]										=		"kill_explosive";		//PLAYER KILLS A ZOMBIE USING EXPLOSIVES
 	level.plr_vox["kill"]["explosive_response"]								=		undefined;				//RESPONSE TO ABOVE
-	
+
 	//NEW LINES FOR MOON
 //	level.plr_vox["general"]["moonbase"]									=		"enter_moonbase";
 //	level.plr_vox["general"]["moonbase_response"]							=		undefined;
@@ -325,8 +325,8 @@ audio_alias_override()
 	level.plr_vox["general"]["teleporter_response"]							=		undefined;
 	level.plr_vox["perk"]["specialty_additionalprimaryweapon"]				=		"perk_arsenal";
 	level.plr_vox["perk"]["specialty_additionalprimaryweapon_response"]		=		undefined;
-	level.plr_vox["powerup"]["bonus_points_solo"]							=		"powerup_pts_solo";	
-	level.plr_vox["powerup"]["bonus_points_solo_response"]					=		undefined;	
+	level.plr_vox["powerup"]["bonus_points_solo"]							=		"powerup_pts_solo";
+	level.plr_vox["powerup"]["bonus_points_solo_response"]					=		undefined;
 	level.plr_vox["powerup"]["bonus_points_team"]							=		"powerup_pts_team";
 	level.plr_vox["powerup"]["bonus_points_team_response"]					=		undefined;
 	level.plr_vox["powerup"]["lose_points"]									=		"powerup_antipts_zmb";
@@ -341,7 +341,7 @@ audio_alias_override()
 	level.plr_vox["general"]["moonjump_response"]							=		undefined;
 	level.plr_vox["weapon_pickup"]["grenade"]								=		"wpck_launcher";
 	level.plr_vox["weapon_pickup"]["grenade_response"]						=		undefined;
-		
+
 }
 
 force_player4_override()
@@ -356,7 +356,7 @@ player_4_override()
 {
 	level.player_4_vox_override = true;
 	level.devil_vox["prefix"] = "zmb_vox_rich_";
-	
+
 	//Change response lines so they are now Samantha response lines, if needed
 	level.plr_vox["general"]["crawl_spawn_response"]				=		"resp_s_spawn_crawl";
 	level.plr_vox["general"]["oh_shit_response"]					=		"resp_s_ohshit";
@@ -369,24 +369,24 @@ do_player_playvox_custom( prefix, index, sound_to_play, waittime, category, type
 	players = getplayers();
 	if( !IsDefined( level.player_is_speaking ) )
 	{
-		level.player_is_speaking = 0;	
+		level.player_is_speaking = 0;
 	}
-	
+
 	if( is_true(level.skit_vox_override) && !override )
 	    return;
-		
+
 	if ( is_true( self.in_low_gravity ) && !self maps\_zombiemode_equip_gasmask::gasmask_active() )
 	{
 		return;
 	}
-	
+
 	if( level.player_is_speaking != 1 )
 	{
 		level.player_is_speaking = 1;
 		self play_futz_or_not_moonvox( prefix, sound_to_play );
-		wait( waittime );		
+		wait( waittime );
 		level.player_is_speaking = 0;
-		
+
 		if( !flag( "solo_game" ) && ( isdefined (level.plr_vox[category][type + "_response"] )))
 		{
 			if ( isDefined( level._audio_custom_response_line ) )
@@ -395,7 +395,7 @@ do_player_playvox_custom( prefix, index, sound_to_play, waittime, category, type
 	        }
 			else
 			{
-			    level thread maps\_zombiemode_audio::setup_response_line( self, index, category, type ); 
+			    level thread maps\_zombiemode_audio::setup_response_line( self, index, category, type );
 			}
 		}
 	}
@@ -405,12 +405,12 @@ do_player_playvox_custom( prefix, index, sound_to_play, waittime, category, type
 play_futz_or_not_moonvox( prefix, sound_to_play )
 {
 	players = get_players();
-	
+
 	if( self.sessionstate == "spectator" )
 	{
 		return;
 	}
-	
+
 	for(i=0;i<players.size;i++)
 	{
 		if( self maps\_zombiemode_equipment::is_equipment_active("equip_gasmask_zm") )
@@ -432,7 +432,7 @@ play_futz_or_not_moonvox( prefix, sound_to_play )
 			}
 		}
 	}
-	
+
 	self waittill( "sound_done" + sound_to_play );
 }
 
@@ -440,38 +440,38 @@ play_futz_or_not_moonvox( prefix, sound_to_play )
 weapon_type_check_custom(weapon)
 {
     if( !IsDefined( self.entity_num ) )
-        return "crappy";    
-    
+        return "crappy";
+
     switch(self.entity_num)
     {
         case 0:   //DEMPSEY'S FAVORITE WEAPON: M16 UPGRADED: M16
             if( weapon == "m16_zm" )
                 return "favorite";
             else if( weapon == "m16_gl_upgraded_zm" )
-                return "favorite_upgrade";   
+                return "favorite_upgrade";
             break;
-            
+
         case 1:   //NIKOLAI'S FAVORITE WEAPON: FNFAL UPGRADED: HK21
             if( weapon == "fnfal_zm" )
                 return "favorite";
             else if( weapon == "hk21_upgraded_zm" )
-                return "favorite_upgrade";   
+                return "favorite_upgrade";
             break;
-            
+
         case 2:   //TAKEO'S FAVORITE WEAPON: AK74U UPGRADED: M14
             if( weapon == "ak74u_zm" )
                 return "favorite";
             else if( weapon == "m14_upgraded_zm" )
-                return "favorite_upgrade";   
-            break; 
-        
+                return "favorite_upgrade";
+            break;
+
         case 3:   //RICHTOFEN'S FAVORITE WEAPON: SPECTRE UPGRADED: G11
             if( !is_true( level.player_4_vox_override ) )
 			{
 				if( weapon == "spectre_zm" )
                 	return "favorite";
             	else if( weapon == "g11_lps_upgraded_zm" )
-                	return "favorite_upgrade";   
+                	return "favorite_upgrade";
 			}
 			else
 			{
@@ -480,9 +480,9 @@ weapon_type_check_custom(weapon)
             	else if( weapon == "mp40_upgraded_zm" )
                 	return "favorite_upgrade";
 			}
-            break;               
+            break;
     }
-    
+
     if( IsSubStr( weapon, "upgraded" ) )
         return "upgrade";
     else
@@ -509,26 +509,26 @@ music_egg()
     if( !isdefined( self ) )
 	{
 		return;
-	}	
-    
+	}
+
   	temp_ent = Spawn( "script_origin", self.origin );
 	temp_ent PlayLoopSound( "zmb_meteor_loop" );
-		
+
 	self thread maps\_zombiemode_sidequests::fake_use( "main_music_egg_hit", ::waitfor_override );
 	self waittill( "main_music_egg_hit", player);
-	
+
 	temp_ent StopLoopSound( 1 );
 	player PlaySound( "zmb_meteor_activate" );
-	
+
 	player maps\_zombiemode_audio::create_and_play_dialog( "eggs", "meteors", undefined, level.meteor_counter );
-		
+
 	level.meteor_counter = level.meteor_counter + 1;
-	
+
 	if( level.meteor_counter == 3 )
-	{ 
+	{
 	    level thread play_music_egg( player );
 	}
-	
+
 	wait(1.5);
 	temp_ent Delete();
 }
@@ -539,7 +539,7 @@ waitfor_override()
 	{
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -547,18 +547,18 @@ play_music_egg( player )
 {
 	level.music_override = true;
 	level thread maps\_zombiemode_audio::change_zombie_music( "egg" );
-	
+
 	wait(4);
-	
+
 	if( IsDefined( player ) )
 	{
 	    player maps\_zombiemode_audio::create_and_play_dialog( "eggs", "music_activate" );
 	}
-	
+
 	//LENGTH OF SONG
-	wait(199);	
+	wait(199);
 	level.music_override = false;
-	
+
 	if( level.music_round_override == false )
 		level thread maps\_zombiemode_audio::change_zombie_music( "wave_loop" );
 
@@ -570,12 +570,12 @@ play_mooncomp_vox( alias, digger )
 {
 	if( !IsDefined( alias ) )
 		return;
-		
+
 	if( !level.on_the_moon )
 		return;
-		
+
 	num = 0;
-	
+
 	if( isdefined( digger ) )
 	{
 		switch( digger )
@@ -588,19 +588,19 @@ play_mooncomp_vox( alias, digger )
 				break;
 			case "biodome":
 				num = 2;
-				break;	
+				break;
 		}
 	}
 	else
 	{
 		num = "";
 	}
-	
+
 	if( !IsDefined( level.mooncomp_is_speaking ) )
 	{
 		level.mooncomp_is_speaking = 0;
 	}
-	
+
 	if( level.mooncomp_is_speaking == 0 )
 	{
 		level.mooncomp_is_speaking = 1;
@@ -612,9 +612,9 @@ play_mooncomp_vox( alias, digger )
 do_mooncomp_vox( alias )
 {
 	level thread play_sound_2D( alias );
-	
+
 	players = get_players();
-	
+
 	for(i=0;i<players.size;i++)
 	{
 		if( players[i] maps\_zombiemode_equipment::is_equipment_active("equip_gasmask_zm") || is_true( players[i].in_low_gravity ) )
@@ -627,7 +627,7 @@ do_mooncomp_vox( alias )
 waitfor_forest_zone_entry()
 {
 	level waittill( "forest_zone" );
-	
+
 	while(1)
 	{
 		zone = level.zones[ "forest_zone" ];
@@ -656,7 +656,7 @@ setup_moon_visit_vox()
 	{
 		players[i] thread play_delayed_first_time_vox();
 	}
-	
+
 	level thread waitfor_first_player();
 }
 
@@ -664,26 +664,26 @@ play_delayed_first_time_vox()
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	self waittill( "equip_gasmask_zm_activate" );
 	self waittill( "weapon_change_complete" );
 
 	self playsoundtoplayer( "vox_mcomp_suit_on", self );
 	wait(1.5);
-	
+
 	self playsoundtoplayer( "vox_mcomp_start", self );
 	wait( 7 );
 
 	self thread play_maskon_vox();
 	self thread play_warning_vox();
-	
+
 	level notify( "first_player_vox", self );
 }
 
 waitfor_first_player()
 {
 	level waittill( "first_player_vox", who );
-	
+
 	who thread maps\_zombiemode_audio::create_and_play_dialog( "general", "teleporter", undefined, undefined, true );
 }
 
@@ -691,7 +691,7 @@ play_maskon_vox()
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	while(1)
 	{
 		self waittill( "equip_gasmask_zm_activate" );
@@ -706,32 +706,32 @@ play_warning_vox()
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	while(1)
 	{
 		while( !self.in_low_gravity )
 		{
 			wait(.1);
 		}
-		
+
 		if( is_true( self.in_low_gravity && self HasWeapon( "equip_gasmask_zm" ) && !self maps\_zombiemode_equip_gasmask::gasmask_active() ) )
 		{
 			self stopsounds();
 			wait(.05);
 
 			self playsoundtoplayer( "vox_mcomp_suit_reminder", self );
-			
+
 			while( self.in_low_gravity )
 			{
 				if( self maps\_zombiemode_equip_gasmask::gasmask_active() )
 				{
 					break;
 				}
-				
+
 				wait(.1);
 			}
 		}
-		
+
 		wait(8);
 	}
 }

@@ -8,7 +8,7 @@ main()
 {
 	level._effect["crossbow_enemy_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_red_os" );
 	level._effect["crossbow_friendly_light"] = loadfx( "weapon/crossbow/fx_trail_crossbow_blink_grn_os" );
-	
+
 	//SetDvarFloat("snd_crossbow_bolt_timer_interval", 0.4);
 	//SetDvarFloat("snd_crossbow_bolt_timer_divisor", 1.4);
 

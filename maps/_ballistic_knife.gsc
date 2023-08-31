@@ -18,7 +18,7 @@ on_spawn( watcher, player )
 	level endon( "game_ended" );
 
 	self waittill( "stationary", endpos, normal, angles, attacker, prey, bone );
-	
+
 	isFriendly = false;
 
 	if( isDefined(endpos) )
@@ -99,7 +99,7 @@ on_spawn( watcher, player )
 		retrievable_model.retrievableTrigger = pickup_trigger;
 
 		pickup_trigger SetTeamForTrigger( player.team );
-		
+
 		player ClientClaimTrigger( pickup_trigger );
 
 		// link the model and trigger, then link them to the ragdoll if needed
@@ -183,7 +183,7 @@ on_spawn_retrieve_trigger( watcher, player )
 
 
 	pickup_trigger SetTeamForTrigger( player.team );
-	
+
 	player ClientClaimTrigger( pickup_trigger );
 
 	// link the model and trigger, then link them to the ragdoll if needed

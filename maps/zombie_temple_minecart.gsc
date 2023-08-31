@@ -10,7 +10,7 @@ MIGHT TRY
 =================
 - Smashing through "do not enter" boards
 - Jump a gap?
-	
+
 TODO
 =================
 - Detail pass
@@ -30,7 +30,7 @@ TODO
 	- Reach teleport node and jump back to start
 	- Maybe pause for a while?
 	- Reenable lever
-	
+
 *****************************************************************************
 */
 #include common_scripts\utility;
@@ -53,7 +53,7 @@ precache_assets()
 minecart_main()
 {
 	flag_init("players_riding_minecart");
-	
+
 	level.minecart_levers = GetEntArray("minecart_lever_trigger", "targetname");
 	for (i=0; i<level.minecart_levers.size; i++)
 	{
@@ -61,7 +61,7 @@ minecart_main()
 		level.minecart_levers[i] thread minecart_lever_think();
 	}
 
-	if ( GetDvar("minecart_debug") == "" ) 
+	if ( GetDvar("minecart_debug") == "" )
 	{
 		SetDvar("minecart_debug", "0");
 	}
@@ -87,7 +87,7 @@ minecart_setup()
 
 	// Wheels turning
 	self minecart_init_anims(1.0);
-	
+
 	// Setup Passengers
 	//------------------
 	self.passengers		= [];
@@ -102,8 +102,8 @@ minecart_setup()
 	minecart_add_linkEnt( (  50, 0 - self.width, self.floorheight ) );		// front right
 	minecart_add_linkEnt( ( -66,  self.width, self.floorheight ) );		// back left
 	minecart_add_linkEnt( ( -66, 0 - self.width, self.floorheight ) );		// back right
-	minecart_add_linkEnt( (  -8,   0, self.floorheight ) );		// center 
-	
+	minecart_add_linkEnt( (  -8,   0, self.floorheight ) );		// center
+
 	// Add FX & Sounds
 	//-----------------
 	self.headlights_offset = ( 87,    0,  15);
@@ -113,13 +113,13 @@ minecart_setup()
 	self.headlights_angles_reverse = (0,180,0);
 
 	//self.headLights 	= SpawnAndLinkFXToOffset(level._effect["fx_headlight"], 	self, self.headlights_offset, ( 0, 0, 0));
-	
+
  	//Can't set max speed at runtime because it causes SRE when playing XBL
 	//self SetVehMaxSpeed( self.maxSpeed );
 
 	//Activate Switch
 	self.start_switch = GetEnt(self.targetname + "_start_switch", "targetname");
-	
+
 	// bind the clip cage to the minecart
 	self.cage = GetEnt(self.targetname + "_cage", "targetname");
 	if ( IsDefined(self.cage) )
@@ -136,17 +136,17 @@ minecart_setup()
 	}
 
 	self.door = GetEnt(self.targetname + "_door", "targetname");
-	if ( IsDefined(self.door) ) 
+	if ( IsDefined(self.door) )
 	{
 		self.door.closed = true;
 		self.door.clip = GetEnt(self.targetname + "_door_clip", "targetname");
-		
+
 		//Start with cage open
 		self thread _minecart_open_door(1.0);
 	}
 
 	self.pusher = GetEnt(self.targetname + "_pusher", "targetname");
-	if ( IsDefined(self.pusher) ) 
+	if ( IsDefined(self.pusher) )
 	{
 		self.pusher.out = false;
 	}
@@ -162,18 +162,18 @@ minecart_setup()
 	{
 		self.front LinkTo(self);
 	}
-	
+
 	self.front_doors = GetEntArray(self.targetname + "_front_door", "targetname");
 	self.front_doors_closed = true;
 	self.front_doors_clip = GetEnt(self.targetname + "_front_door_clip", "targetname");
-	
+
 	self.start_volume = GetEnt(self.targetname + "_start_volume", "targetname");
 	if( IsDefined(self.start_volume) )
 	{
 		self.start_volume.minecart = self;
 		self.start_volume thread show_players_on_mine_cart();
 	}
-	
+
 	self.trigger_splash = GetEnt( "trigger_minecart_water_splash", "targetname" );
 	if ( IsDefined( self.trigger_splash ) )
 	{
@@ -208,12 +208,12 @@ blocker_init(minecart)
 	self.unbroken = getEnt(self.target, "targetname");
 	self.broken = getEnt(self.unbroken.target, "targetname");
 //	self.struct_fx = getstruct(self.broken.target, "targetname");
-	
+
 	if(isDefined(self.broken))
 	{
 		self.broken hide();
 	}
-	
+
 	self thread blocker_think(minecart);
 }
 
@@ -221,7 +221,7 @@ blocker_think(minecart)
 {
 	minecart endon("minecart_end");
 	minecart waittill("minecart_start");
-	
+
 	while(1)
 	{
 		if(self blocker_is_mine_cart_touching(minecart))
@@ -232,7 +232,7 @@ blocker_think(minecart)
 		}
 
 		wait .05;
-	}	
+	}
 }
 blocker_is_mine_cart_touching(minecart)
 {
@@ -268,8 +268,8 @@ minecart_add_linkEnt( offsetOrigin )
 	linkEnt =  Spawn("script_model", (0,0,0));
 	linkEnt.offsetOrigin = offsetOrigin;
 	linkEnt LinkTo(self, "", linkEnt.offsetOrigin, (0,0,0));
-	linkEnt SetModel("tag_origin_animate");	
-	
+	linkEnt SetModel("tag_origin_animate");
+
 	linkEnt.occupied = false;
 
 	self.linkEnts[ self.linkEnts.size ] = linkEnt;
@@ -283,7 +283,7 @@ minecart_link_passengers(activator)
 
 	players = GetPlayers();
 
-	if ( IsDefined(self.cage_door) ) 
+	if ( IsDefined(self.cage_door) )
 	{
 		self.cage_door Solid();
 	}
@@ -330,9 +330,9 @@ minecart_link_passengers(activator)
 
 	array_thread( linkPlayers, ::player_minecart_ride, self );
 	level thread delayed_player_response_to_minecart_ride( linkPlayers );
-	
+
 	//Link Zombies
-	zombies = GetAiSpeciesArray( "axis", "all" ); 
+	zombies = GetAiSpeciesArray( "axis", "all" );
 	zombie_sort = get_array_of_closest( self.origin, zombies, undefined, undefined, 300.0 );
 	self.linkZombies = [];
 	for(i=0;i<zombie_sort.size;i++)
@@ -346,12 +346,12 @@ minecart_link_passengers(activator)
 		{
 			continue;
 		}
-		
+
 		if(is_true(zombie.shrinked))
 		{
 			continue;
 		}
-		
+
 		zombieNear = self minecart_contains(zombie);
 		if ( !zombieNear )
 		{
@@ -374,11 +374,11 @@ minecart_link_passengers(activator)
 		{
 			closestEnt.claimed = true;
 			zombie.minecart_link = closestEnt;
-			
+
 			self.linkZombies[self.linkZombies.size] = zombie;
 		}
 	}
-	
+
 	array_thread( self.linkZombies, ::zombie_minecart_ride, self );
 }
 
@@ -389,7 +389,7 @@ player_minecart_ride(minecart)
 	level endon("minecart_end");
 
 	self.is_on_minecart = true;
-	
+
 	self AllowSprint(false);
 
 	turn_angle = 360;
@@ -403,7 +403,7 @@ player_minecart_ride(minecart)
 		// teleport the player onto the minecart
 		self SetOrigin(self.minecart_link.origin);
 
-		while ( self maps\_laststand::player_is_in_laststand() ) 
+		while ( self maps\_laststand::player_is_in_laststand() )
 		{
 			wait(0.1);
 		}
@@ -420,19 +420,19 @@ player_minecart_ride(minecart)
 	//Allow player to look around
 	self EnableInvulnerability();
 	self playerLinkToMineCart(360);
-	
+
 	self thread minecart_screen_shake();
 }
 
 zombie_minecart_ride(minecart)
 {
 	level endon("minecart_end");
-	
+
 	self setplayercollision(0);
 	self linkto(self.minecart_link, "tag_origin", (0,0,0), (0,0,0));
 	self waittill("death");
 	self unlink();
-	
+
 }
 
 minecart_screen_shake(activeTime)
@@ -506,13 +506,13 @@ minecart_throw_zombie(zombie, vel, activator)
 	{
 		return;
 	}
-	
+
 	zombie StartRagdoll();
 	zombie launchragdoll(vel);
 	wait_network_frame();
-	
+
 	//level.zombie_total++; //Add the zombies back
-	
+
 	if(isDefined(zombie))
 	{
 		zombie.trap_death = true;
@@ -550,7 +550,7 @@ _minecart_nuke(activator)
 		{
 			continue;
 		}
-		
+
 		//level.zombie_total++; //Add the zombies back
 
 		zombies[i].trap_death = true;
@@ -565,10 +565,10 @@ _minecart_fire_spikemores()
 	{
 		return;
 	}
-	
+
 	//fire off all spikemores sitting on the minecart
 	minecart_spikemores = [];
-	
+
 	//NOTE: max 8 traces if 4 players placed 2 spikemores each.  if I had access to getgroundent or if IsTouching worked for spikemores, I wouldn't have to do this...
 	for (i = 0; i < level.spikemores.size; i++)
 	{
@@ -595,7 +595,7 @@ _minecart_fire_spikemores()
 
 #using_animtree("fxanim_props_dlc4");
 minecart_init_anims(anim_scale)
-{	
+{
 	self UseAnimTree(#animtree);
 	self.animname = "minecart";
 	level.scr_anim[self.animname]["wheels_turn"][0] = %fxanim_zom_ztem_minecart_wheels_anim;
@@ -607,7 +607,7 @@ minecart_spikemore_detonate()
 	self maps\_zombiemode_spikemore::_spikemore_SmallSpearActivate();
 }
 
-	
+
 minecart_begin_path(name)
 {
 	node = GetVehicleNode(self.targetname + "_" + name, "targetname");
@@ -650,7 +650,7 @@ minecart_animate_wheels()
 	{
 		self.wheel_spin_scale = 1.0;
 	}
-	
+
 	wheel_anim = level.scr_anim[ self.animname ][ "wheels_turn" ][ 0 ];
 	self SetAnimKnobRestart( wheel_anim, 1, 0.2, self.wheel_spin_scale );
 	self waittill("wheels_turn_stop");
@@ -688,7 +688,7 @@ Minecart Lever
 minecart_lever_move( to_on_position )
 {
 	play_sound_at_pos( "grab_metal_bar", self.origin );	// TEMP
-	
+
 	if (self.makeInvisible)
 	{
 		if (to_on_position)
@@ -699,7 +699,7 @@ minecart_lever_move( to_on_position )
 		{
 			self setinvisibletoall();
 		}
-	}	
+	}
 }
 
 minecart_lever_think()
@@ -721,19 +721,19 @@ minecart_lever_think()
 	minecart_poi = getent("minecart_poi","targetname");
 	minecart_poi 	create_zombie_point_of_interest( undefined, 30, 0, false );
 	minecart_poi thread create_zombie_point_of_interest_attractor_positions( 4, 45 );
-	
+
 	// Get The Cart
 	//---------------
 	if (IsDefined(self.target))
 	{
 		self.minecart = GetEnt(self.target, "targetname");
 	}
-	else	
+	else
 	{
 		self.minecart = GetEnt("minecart", "targetname");
 	}
 	self.minecart minecart_setup();
-	
+
 	// Wait For Power
 	//----------------
 	self minecart_lever_move( false );
@@ -747,7 +747,7 @@ minecart_lever_think()
 		self SetHintString( &"ZOMBIE_NEED_POWER" );
 
 		flag_wait("power_on");
-	
+
 		//Wait For Destination To Be Open
 		//-------------------------------
 		//self SetHintString( &"ZOMBIE_TEMPLE_DESTINATION_NOT_OPEN" );
@@ -755,9 +755,9 @@ minecart_lever_think()
 	}
 
 	wait(1.0);
-	
+
  	level notify("mine_cart_ready");
-	
+
 	while(1)
 	{
 		// Wait For The Cart To Arrive In Loading Area
@@ -776,17 +776,17 @@ minecart_lever_think()
 		{
 			self.minecart.front Solid();
 		}
-		
+
 		//Set The Hint String Now
 		//-----------------------
 		self SetHintString( &"ZOMBIE_TEMPLE_MINECART_COST", self.zombie_cost );
-		
+
 		// Wait For A Player To Pull The Lever
 		//-------------------------------------
 		while (1)
 		{
 			self waittill( "trigger", player );
-			
+
 			if( player.score >= self.zombie_cost )
 			{
 				play_sound_at_pos( "purchase", self.origin );
@@ -794,53 +794,53 @@ minecart_lever_think()
 				break;
 			}
 		}
-		
+
 		flag_set("players_riding_minecart");
 
 		level thread minecart_clean_up_corpses();
-		
+
 		self trigger_off(); // Moves the trigger down so the hint string doesn't pop up right away
-		
+
 		self SetHintString( &"ZOMBIE_TEMPLE_MINECART_UNAVAVILABLE" );
-		
+
 		if(isDefined(self.minecart.start_switch))
 		{
 			self.minecart.start_switch rotateRoll(180, .3, .1, .1);
 			self.minecart.start_switch waittill("rotatedone");
 		}
-		
+
 		//start opening front gate
 		frontDoorOpenTime = 0.25;
 		self.minecart thread _minecart_open_front_door(frontDoorOpenTime);
 		//wait frontDoorOpenTime;
-		
+
 		self.minecart thread _minecart_fire_spikemores();
 		self.minecart thread _minecart_close_door();
 		self.minecart thread _minecart_pusher_out();
-		
+
 		self.minecart.away = true;
 		//Removed for now
 		//exploder( 10 );//minecart start fx
-		
+
 		self.minecart minecart_start();
 
 		//play on linked ents offset to either side of the cart
 		self.minecart.speaker_left PlaySound( "evt_minecart_l" );
 		self.minecart.speaker_right PlaySound( "evt_minecart_r" );
 		self.minecart.speaker_left playloopsound( "zmb_singing", 5 );
-		
+
 		self thread minecart_lever_move( false );
 
 		self.minecart minecart_link_passengers(player);
 		self.minecart thread _minecart_nuke(player);
-		
+
 		//Put front gate back up
 		self.minecart thread _minecart_close_front_door_delay(2.0);
-				
+
 		//open the gate
 		cageOpenTime = 0.5;
 		self.minecart thread _minecart_open_door_delay(cageOpenTime, 2.0);
-		
+
 		//Start Zombie Spawns
 		//-------------------
 		//self.minecart minecart_spawn_zombies();
@@ -851,17 +851,17 @@ minecart_lever_think()
 		//-----------------------------------
 		maps\_zombiemode_zone_manager::zone_init( "waterfall_lower_zone" );
 		maps\_zombiemode_zone_manager::enable_zone( "waterfall_lower_zone" );
-	
-		
+
+
 		//all players on the minecart, the POI should be activated
 		if(should_activate_poi)
 		{
 			minecart_poi activate_zombie_point_of_interest();
 		}
-		
+
 		wait( 1.0 ); // gives the cart a second to get out of the trigger before bringing it back
 		self trigger_on(); // Raises the trigger back in to play space
-		
+
 		// Wait For The Cart To Reach The Unloading Area
 		//-----------------------------------------------
 		self.minecart waittill( "reached_stop_point" );
@@ -885,54 +885,54 @@ minecart_lever_think()
 		}
 
 		wait(1.0);
-		
+
 		flag_clear("players_riding_minecart");
-		
+
 		//turn off the POI if it was activated
 		if(should_activate_poi)
 		{
 			minecart_poi deactivate_zombie_point_of_interest();
 		}
-		
+
 		if(!GetDvarInt(#"scr_minecart_cheat"))
 		{
-		
+
 			// make a vehicle for the backwards path and hide it
 			backVehicle = SpawnVehicle(self.minecart.model + "_reverse", self.minecart.targetname + "_reverse", self.minecart.vehicletype, self.minecart.origin, self.minecart.angles);
 			maps\_vehicle::vehicle_init(backVehicle);
 			backVehicle.drivePath = false;
-	
+
 			// setup the headlights so we can massage them into the correct place
 			backVehicle.headlights_offset = self.minecart.headlights_offset_reverse;
 			backVehicle.headlights_angles = self.minecart.headlights_angles_reverse;
-	
+
 			// don't start the back minecart going yet
 			backVehicle minecart_stop_instant();
 			backVehicle minecart_begin_path("start");
 			backVehicle Hide();
-	
+
 			_minecart_lerp(self.minecart, backVehicle);
-			
+
 			backVehicle minecart_init_anims(.4);
-	
+
 			backVehicle thread play_loop_sound_on_entity( "evt_minecart_climb_loop" );
-			
+
 			// put the forward minecart back in place
 			self.minecart.away = false;
 			self.minecart minecart_begin_path("start");
-			
+
 			// start the backwards vehicle on it's way
 			backVehicle minecart_start(self.minecart.accel, true);
 			backVehicle waittill("reached_stop_point");
-			
-	
-	
+
+
+
 			backVehicle minecart_stop(self.minecart.accel, self.minecart.decel);
-	
+
 			_minecart_lerp(backVehicle, self.minecart);
 			backVehicle stop_loop_sound_on_entity( "evt_minecart_climb_loop" );
 			self.minecart PlaySound("evt_spiketrap_warn");
-			
+
 			backVehicle Delete();
 		}
 		else
@@ -941,7 +941,7 @@ minecart_lever_think()
 			self.minecart.away = false;
 			self.minecart minecart_begin_path("start");
 		}
-		
+
 		if(isDefined(self.minecart.start_switch))
 		{
 			self.minecart.start_switch rotateRoll(-180, .3, .1, .1);
@@ -954,7 +954,7 @@ check_should_activate_minecart_poi()
 {
 
 	all_players_riding = true;
-	
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
@@ -968,7 +968,7 @@ check_should_activate_minecart_poi()
 		}
 	}
 	return all_players_riding;
-	
+
 }
 
 
@@ -1001,14 +1001,14 @@ _minecart_lerp(start_vehicle, end_vehicle, time)
 minecart_crash(activator)
 {
 	speed = 500.0;
-	self minecart_stop_instant();  
-	
+	self minecart_stop_instant();
+
 	exploder(6); // minecart crash fx
 	if ( IsDefined( self.trigger_splash ) )
 	{
 		self.trigger_splash thread minecart_trigger_splash_activate();
 	}
-	
+
 	forward = AnglesToForward(self.angles);
 
 	forwardDist = 370.0;
@@ -1023,7 +1023,7 @@ minecart_crash(activator)
 	{
 		self.front NotSolid();
 	}
-	
+
 	//Throw off zombies
 	for(i=0;i<self.linkZombies.size;i++)
 	{
@@ -1038,7 +1038,7 @@ minecart_crash(activator)
 		{
 			continue;
 		}
-		
+
 		playersOnMineCart[playersOnMineCart.size] = player;
 
 		crashed_players[crashed_players.size] = player;
@@ -1046,10 +1046,10 @@ minecart_crash(activator)
 		player stoprumble( "tank_rumble" );
 		player PlayRumbleOnEntity( "damage_heavy" );
 		Earthquake( 0.5, 2, player.origin, 100, player );
-		
+
 		//allow player to hit the trigger_minecart_water_splash trigger for a couple seconds so we can play the splash effect on them
 		player.minecart_splash_time = gettime() + 2000;
-		
+
 		// unlink the minecart link, keeping the player linked to it
 		player.minecart_link Unlink();
 
@@ -1066,9 +1066,9 @@ minecart_crash(activator)
 	}
 
 	throw_velocity = (0,0,0);
-	
+
 	wait(time*0.9-0.1);
-	
+
 	if(playersOnMineCart.size>0)
 	{
 		old_origin = playersOnMineCart[0].minecart_link.origin;
@@ -1080,7 +1080,7 @@ minecart_crash(activator)
 		wait(0.1);
 	}
 
-	
+
 	self minecart_unlink_passengers( throw_velocity );
 
 	wait(0.5);
@@ -1106,9 +1106,9 @@ minecart_remove_invulnerable()
 
 //minecart_spawn_zombies()
 //{
-//	
+//
 //	triggers = getEntArray("trigger_minecart_spawner", "targetname");
-//	
+//
 //	for(i=0; i<triggers.size; i++)
 //	{
 //		triggers[i] thread _trigger_mine_cart_spawns(self);
@@ -1117,7 +1117,7 @@ minecart_remove_invulnerable()
 //_trigger_mine_cart_spawns(minecart)
 //{
 //	self waittill("trigger");
-//	
+//
 //	//Are all players on the mine cart??
 //	allPlayersInMineCart = true;
 //	players = get_players();
@@ -1130,9 +1130,9 @@ minecart_remove_invulnerable()
 //			playersNotInCart[playersNotInCart.size] = players[i];
 //		}
 //	}
-//	
+//
 //	spawner_or_poi = getEntArray(self.target, "targetname");
-//	
+//
 //	for(i=0; i<spawner_or_poi.size; i++)
 //	{
 //		if(spawner_or_poi[i].classname == "script_origin")
@@ -1146,12 +1146,12 @@ minecart_remove_invulnerable()
 //		else
 //		{
 //			spawner_zone = spawner_or_poi[i] _spawner_get_zone();
-//			
+//
 //			if(!isDefined(spawner_zone))
 //			{
 //				continue;
 //			}
-//			
+//
 //			//Check if there are players in the zone that are not on the mine cart
 //			safeToSpawn = true;
 //			for(j=0; j<playersNotInCart.size; j++)
@@ -1162,7 +1162,7 @@ minecart_remove_invulnerable()
 //					break;
 //				}
 //			}
-//			
+//
 //			if( safeToSpawn )
 //			{
 //				zombie = spawn_zombie(spawner_or_poi[i]);
@@ -1173,7 +1173,7 @@ minecart_remove_invulnerable()
 //				}
 //			}
 //		}
-//	}	
+//	}
 //}
 
 //_player_in_zone(zone)
@@ -1185,7 +1185,7 @@ minecart_remove_invulnerable()
 //			return true;
 //		}
 //	}
-//	
+//
 //	return false;
 //}
 
@@ -1193,15 +1193,15 @@ minecart_remove_invulnerable()
 //{
 //	self endon("death");
 //	minecart waittill( "reached_stop_point" );
-//	
+//
 //	wait 1.0;
-//	
+//
 //	//Check zombie is in an active zone
 // 	if( ! self _zombie_is_touching_active_zone())
 //	{
 //		self DoDamage(self.health + 666, self.origin);
 //	}
-//	
+//
 //}
 
 //_spawner_get_zone()
@@ -1223,7 +1223,7 @@ minecart_remove_invulnerable()
 //			}
 //		}
 //	}
-//	
+//
 //	return zone;
 //}
 
@@ -1246,7 +1246,7 @@ minecart_remove_invulnerable()
 //			}
 //		}
 //	}
-//	
+//
 //	return false;
 //}
 //
@@ -1341,14 +1341,14 @@ _minecart_open_front_door(time)
 			door = self.front_doors[i];
 			door rotateyaw(door.script_angles[1],time,0.1,0.1);
 		}
-		
+
 		if(isdefined(door))
 		{
 			door waittill("rotatedone");
 		}
 
 		self.front_doors_closed = false;
-		
+
 		if(isDefined(self.front_doors_clip))
 		{
 			self.front_doors_clip notsolid();
@@ -1364,14 +1364,14 @@ _minecart_close_front_door()
 		{
 			self.front_doors_clip solid();
 		}
-		
+
 		door = undefined;
 		for(i=0;i<self.front_doors.size;i++)
 		{
 			door = self.front_doors[i];
 			door rotateyaw(-1*door.script_angles[1],1.0,0.1,0.1);
 		}
-		
+
 		if(isdefined(door))
 		{
 			door waittill("rotatedone");
@@ -1399,7 +1399,7 @@ _minecart_pusher_out()
 
 			self.pusher waittill("movedone");
 			self.pusher.out = true;
-			
+
 			level waittill( "minecart_returned" );
 			wait(2.7);
 			self thread _minecart_pusher_in();
@@ -1429,19 +1429,19 @@ show_players_on_mine_cart()
 	{
 		return;
 	}
-	
+
 	//Scale starts fully extended for lighting
 	scale.origin = scale.origin + (0,0,-37);
-	
+
 	level waittill("mine_cart_ready");
-	
+
 	while(1)
 	{
 		count = 0;
 		if ( IsDefined(self.minecart) && !self.minecart.away )
 		{
 			players = getPlayers();
-			
+
 			//Count up the players on the mine cart
 			for(i=0; i< players.size; i++)
 			{
@@ -1451,7 +1451,7 @@ show_players_on_mine_cart()
 				}
 			}
 		}
-		
+
 		if ( height < count )
 		{
 			while ( height < count )
@@ -1525,11 +1525,11 @@ show_players_on_mine_cart()
 			scale MoveZ(dip, Abs(dip*0.1), 0, 0);
 			scale waittill("movedone");
 		}
-		
+
 		wait .1;
 	}
 }
-	
+
 minecart_trigger_splash_activate()
 {
 	self trigger_on();
@@ -1559,11 +1559,11 @@ delayed_player_response_to_minecart_ride( array )
 	{
 		return;
 	}
-	
+
 	wait(6);
-	
+
 	player = array[randomintrange(0,array.size)];
-	
+
 	if( isdefined( player ) && isPlayer( player ) )
 	{
 		player thread maps\_zombiemode_audio::create_and_play_dialog( "general", "mine_ride" );
@@ -1576,7 +1576,7 @@ delayed_player_response_to_minecart_ride( array )
 minecart_clean_up_corpses()
 {
 	corpse_trig = GetEnt( "minecart1_start_volume", "targetname" );
-	
+
 	corpses = GetCorpseArray();
 	if( IsDefined( corpses ) )
 	{
@@ -1586,12 +1586,12 @@ minecart_clean_up_corpses()
 			{
 				corpses[i] thread minecart_remove_corpses();
 			}
-		}		
-	}		
+		}
+	}
 }
 
 minecart_remove_corpses()
 {
 	PlayFX( level._effect["corpse_gib"], self.origin );
 	self Delete();
-}		
+}

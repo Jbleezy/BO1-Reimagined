@@ -851,7 +851,7 @@ director_watch_damage()
 		{
 			powerups = add_to_array(powerups, "upgrade_weapon");
 		}
-		
+
 		powerup = random(powerups);
 		level thread maps\_zombiemode_powerups::specific_powerup_drop( powerup, self.origin );
 	}
@@ -2561,7 +2561,7 @@ zombie_drop_max_ammo()
 		powerup.powerup_name = "full_ammo";
 		powerup.powerup_notify = "director_max_ammo_drop";
 		level.powerup_overrides[level.powerup_overrides.size] = powerup;
-		
+
 		level.director_max_ammo_available = false;
 		level.director_max_ammo_chance = level.director_max_ammo_chance_default;
 		//level thread maps\_zombiemode_powerups::specific_powerup_drop( "full_ammo", self.origin );

@@ -1,4 +1,4 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
 
@@ -572,7 +572,7 @@ is_valid_powerup(powerup_name)
 	{
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -1481,7 +1481,7 @@ powerup_grab()
 
 			// Don't let them grab the minigun, tesla, or random weapon if they're downed or reviving
 			//	due to weapon switching issues.
-			if ( (self.powerup_name == "minigun" || self.powerup_name == "tesla" || self.powerup_name == "random_weapon" || self.powerup_name == "upgrade_weapon" || 
+			if ( (self.powerup_name == "minigun" || self.powerup_name == "tesla" || self.powerup_name == "random_weapon" || self.powerup_name == "upgrade_weapon" ||
 				self.powerup_name == "meat") &&
 				( players[i] maps\_laststand::player_is_in_laststand() || ( players[i] UseButtonPressed() && players[i] in_revive_trigger() ) ) )
 			{
@@ -1592,7 +1592,7 @@ powerup_grab()
 						}
 						//players[i] thread powerup_vo( "random_weapon" ); // TODO: Audio should uncomment this once the sounds have been set up
 						break;
-						
+
 					case "bonus_points_player":
 						level thread bonus_points_player_powerup( self, players[i] );
 						players[i] thread powerup_vo( "bonus_points_solo" ); // TODO: Audio should uncomment this once the sounds have been set up
@@ -1715,7 +1715,7 @@ start_fire_sale( item )
 {
 	level notify ("powerup fire sale");
 	level endon ("powerup fire sale");
-	
+
 	level thread maps\_zombiemode_audio::do_announcer_playvox( level.devil_vox["powerup"]["fire_sale_short"] );
 
 	players = get_players();
@@ -1736,7 +1736,7 @@ start_fire_sale( item )
 			players[i].zombie_vars["zombie_powerup_fire_sale_time"] = 30;
 		}
 	}
-    
+
 	level.zombie_vars["zombie_powerup_fire_sale_on"] = true;
 
 	for(i = 0; i < players.size; i++)
@@ -1769,7 +1769,7 @@ start_bonfire_sale( item )
 {
 	level notify ("powerup bonfire sale");
 	level endon ("powerup bonfire sale");
-	
+
 	temp_ent = spawn("script_origin", (0,0,0));
 	temp_ent playloopsound ("zmb_double_point_loop");
 	level thread delete_on_bonfire_sale(temp_ent);
@@ -1816,12 +1816,12 @@ start_bonfire_sale( item )
 		players[i].zombie_vars["zombie_powerup_bonfire_sale_on"] = false;
 	}
 	level notify ( "bonfire_sale_off" );
-	
+
 	for (i = 0; i < players.size; i++)
 	{
 		players[i] playsound("zmb_points_loop_off");
 	}
-	
+
 	if(IsDefined(temp_ent))
 		temp_ent Delete();
 }
@@ -2260,7 +2260,7 @@ full_ammo_powerup( drop_item, player )
 		{
 			continue;
 		}
-		
+
 		// skip players in last stand
 		if ( players[i] maps\_laststand::player_is_in_laststand() )
 		{
@@ -3848,13 +3848,13 @@ powerup_hint_on_hud( item )
 	{
 		hudelem.color = (.6,0,0);
 	}
-	
+
 	hudelem fadeovertime(0.5);
 	hudelem.alpha = 1;
 	hudelem.label = item.hint;
 
 	// set time remaining for insta kill
-	hudelem thread powerup_hint_move_hud();		
+	hudelem thread powerup_hint_move_hud();
 
 	// offset in case we get another powerup
 	//level.zombie_timer_offset -= level.zombie_timer_offset_interval;
@@ -3865,7 +3865,7 @@ powerup_hint_move_hud()
 	wait 0.5;
 	move_fade_time = 1.5;
 
-	self FadeOverTime( move_fade_time ); 
+	self FadeOverTime( move_fade_time );
 	self MoveOverTime( move_fade_time );
 	self.y = 270;
 	self.alpha = 0;
@@ -4111,7 +4111,7 @@ meat_powerup_weapon_change(player)
 
 		break;
 	}
-	
+
 	player meat_powerup_take_weapon(false);
 }
 
@@ -4293,7 +4293,7 @@ timeout_on_down()
 {
 	self endon( "powerup_grabbed" );
 	self endon( "death" );
-	self endon( "powerup_timedout" ); 
+	self endon( "powerup_timedout" );
 
 	self.player waittill("player_downed");
 

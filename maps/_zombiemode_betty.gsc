@@ -1,4 +1,4 @@
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
 
@@ -12,7 +12,7 @@ init()
 {
 	PrecacheString(&"REIMAGINED_BETTY_PURCHASE");
 	PrecacheString(&"REIMAGINED_BETTY_PICKUP");
-	
+
 	trigs = getentarray("betty_purchase","targetname");
 	for(i=0; i<trigs.size; i++)
 	{
@@ -78,7 +78,7 @@ buy_bouncing_betties()
 				{
 					//who thread show_betty_hint("already_purchased");
 				}*/
-				
+
 				play_sound_at_pos( "purchase", self.origin );
 
 				//set the score

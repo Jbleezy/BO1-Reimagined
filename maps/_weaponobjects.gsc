@@ -13,7 +13,7 @@ init()
 	level.retrievableWeapons = [];
 	level.retrievableWeapons = getRetrievableWeapons();
 	setup_retrievable_hint_strings();
-	
+
 	level.weaponobjectexplodethisframe = false;
 }
 
@@ -51,7 +51,7 @@ onPlayerSpawned() // self == player
 			self create_ballistic_knife_watcher_zm( "knife_ballistic_upgraded", "knife_ballistic_upgraded_zm" );
 			self create_ballistic_knife_watcher_zm( "knife_ballistic_bowie", "knife_ballistic_bowie_zm" );
 			self create_ballistic_knife_watcher_zm( "knife_ballistic_bowie_upgraded", "knife_ballistic_bowie_upgraded_zm" );
-			
+
 			if ( isdefined( level.create_level_specific_weaponobject_watchers ) )
 			{
 				self [[level.create_level_specific_weaponobject_watchers]]();
@@ -250,7 +250,7 @@ create_weapon_object_watcher( name, weapon, ownerTeam )
 	weaponObjectWatcher = get_weapon_object_watcher( name );
 
 	if ( !IsDefined( weaponObjectWatcher ) )
-	{ 
+	{
 		weaponObjectWatcher = SpawnStruct();
 		self.weaponObjectWatcherArray[self.weaponObjectWatcherArray.size] = weaponObjectWatcher;
 	}
@@ -397,7 +397,7 @@ watch_weapon_object_alt_detonation() // self == player
 watch_weapon_object_alt_detonate() // self == player
 {
 	self endon("death");
-	self endon( "disconnect" );	
+	self endon( "disconnect" );
 	self endon( "detonated" );
 	level endon( "game_ended" );
 	self endon("no_alt_detonate");
@@ -419,7 +419,7 @@ delete_weapon_objects_on_disconnect() // self == player
 
 	watchers = [];
 
-	// make a psudo copy of the watchers out of the player 
+	// make a psudo copy of the watchers out of the player
 	// so that when the player ent gets cleaned we still have
 	// the object arrays to clean up
 	for ( watcher = 0; watcher < self.weaponObjectWatcherArray.size; watcher++ )
@@ -463,7 +463,7 @@ on_spawn_retrievable_weapon_object( watcher, player )
 	self.pickupTrigger enablelinkto();
 	self.pickupTrigger linkto( self );
 	thread watch_use_trigger( self.pickUpTrigger, watcher.pickUp );
-	
+
 	if ( isDefined( watcher.pickup_trigger_listener ) )
 	{
 		self thread [[watcher.pickup_trigger_listener]]( self.pickUpTrigger, player );
@@ -549,7 +549,7 @@ pick_up()
 {
 	player = self.owner;
 	self destroy_ent();
-	
+
 	clip_ammo = player GetWeaponAmmoClip( self.name );
 	clip_max_ammo = WeaponClipSize( self.name );
 	if( clip_ammo < clip_max_ammo )
@@ -570,12 +570,12 @@ add_weapon_object(watcher, weapon)
 	weapon.owner = self;
 	weapon.detonated = false;
 	weapon.name = watcher.weapon;
-	
+
 	if ( !is_true( watcher.skip_weapon_object_damage ) )
 	{
 		weapon thread weapon_object_damage(watcher);
 	}
-	
+
 	weapon.owner notify ("weapon_object_placed",weapon);
 
 
@@ -592,12 +592,12 @@ add_weapon_object(watcher, weapon)
 	RefreshHudAmmoCounter();
 }
 
-detonate_weapon_object_array() 
+detonate_weapon_object_array()
 {
 	if ( isDefined( self.disableDetonation ) && self.disableDetonation )
 		return;
 
-	if ( IsDefined(self.objectArray) ) 
+	if ( IsDefined(self.objectArray) )
 	{
 		for ( i = 0; i < self.objectArray.size; i++ )
 		{
@@ -609,9 +609,9 @@ detonate_weapon_object_array()
 	self.objectArray = [];
 }
 
-delete_weapon_object_array() 
+delete_weapon_object_array()
 {
-	if ( IsDefined(self.objectArray) ) 
+	if ( IsDefined(self.objectArray) )
 	{
 		for ( i = 0; i < self.objectArray.size; i++ )
 		{
@@ -680,11 +680,11 @@ weapon_object_damage( watcher ) // self == weapon object
 		}
 
 		// special grenades, should disable for a short time
-		if ( damage < 5 ) 
+		if ( damage < 5 )
 		{
 			if ( isdefined( watcher.specialGrenadeDisabledTime ) )
 			{
-				self thread disabled_by_special_grenade( watcher.specialGrenadeDisabledTime ); 
+				self thread disabled_by_special_grenade( watcher.specialGrenadeDisabledTime );
 			}
 			continue;
 		}

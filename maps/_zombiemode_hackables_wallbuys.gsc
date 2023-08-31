@@ -49,7 +49,7 @@ hack_wallbuys()
 wallbuy_hack(hacker)
 {
 	self.wallbuy.hacked = true;
-	model = getent( self.wallbuy.target, "targetname" ); 
+	model = getent( self.wallbuy.target, "targetname" );
 	self.wallbuy maps\_zombiemode_weapons::weapon_set_first_time_hint( level.zombie_weapons[self.wallbuy.zombie_weapon_upgrade].cost, level.zombie_weapons[self.wallbuy.zombie_weapon_upgrade].ammo_cost );
 	if(!self.wallbuy.first_time_triggered)
 	{

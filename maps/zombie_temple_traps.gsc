@@ -391,7 +391,7 @@ temple_trap_move_switch()
 		//trap_switch movey(5,.75);
 
 		amount = self.init_y - trap_switch.origin[1];
-		
+
 		trap_switch movey(amount, default_time);
 		trap_switch playloopsound("zmb_pressure_plate_loop");
 		//trap_switch playsound( "amb_sparks_l_b" );

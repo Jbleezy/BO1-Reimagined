@@ -1,7 +1,7 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
-#include maps\_zombiemode_utility; 
-#include maps\_music; 
+#include maps\_zombiemode_utility;
+#include maps\_music;
 #include maps\_busing;
 
 audio_init()
@@ -19,7 +19,7 @@ init_audio_aliases()
 		//ARRAY and PREFIX: Setting up a prefix and array for all Devil lines
 		level.devil_vox													=		[];
 		level.devil_vox["prefix"]										=		"zmb_vox_ann_";
-		
+
 		//POWERUPS: Play after a player picks up a powerup; plays for ALL players
 		level.devil_vox["powerup"]										=		[];
 		level.devil_vox["powerup"]["carpenter"]							=		"carpenter";
@@ -39,12 +39,12 @@ init_audio_aliases()
 		level.devil_vox["powerup"]["lose_points_team"]					=		"points_negative";
 		level.devil_vox["powerup"]["lose_perk"]							=		"powerup_negative";
 		level.devil_vox["powerup"]["empty_clip"]						=		"powerup_negative";
-	
+
 	//**Player Zombie Vox Categories**\\
 		//ARRAY and PREFIX: Creating the main player vox array, setting up the default alias prefix that will be added onto all lines
 		level.plr_vox 											        =		[];
 		level.plr_vox["prefix"]							                =		"vox_plr_";
-		
+
 		//GENERAL: Any lines that do not fit into an overall larger category.
 		level.plr_vox["general"]										=		[];
 		level.plr_vox["general"]["crawl_spawn"]							=		"spawn_crawl";		    //OCCURS WHEN THE PLAYER SHOOTS THE LEGS OFF A ZOMBIE, CREATING A CRAWLER
@@ -153,9 +153,9 @@ init_audio_aliases()
 		level.plr_vox["general"]["mine_see"]                 	 		=       "mine_see";
 		level.plr_vox["general"]["mine_see_response"]         			=       undefined;
 		level.plr_vox["general"]["mine_ride"]                 	 		=       "mine_ride";	//Working
-		level.plr_vox["general"]["mine_ride_response"]         			=       undefined;		
+		level.plr_vox["general"]["mine_ride_response"]         			=       undefined;
 		level.plr_vox["general"]["spikes_close"]                 	 	=       "spikes_close";	//Working
-		level.plr_vox["general"]["spikes_close_response"]         		=       undefined;		
+		level.plr_vox["general"]["spikes_close_response"]         		=       undefined;
 		level.plr_vox["general"]["spikes_damage"]                 	 	=       "spikes_dmg";	//Working
 		level.plr_vox["general"]["spikes_damage_response"]         		=       undefined;
 		level.plr_vox["general"]["geyser"]                 	 			=       "geyser";		//working
@@ -176,7 +176,7 @@ init_audio_aliases()
 		level.plr_vox["general"]["thief_steal_response"]         		=       undefined;
 		level.plr_vox["general"]["start"]								=		"start";
 		level.plr_vox["general"]["start_response"]						=		undefined;
-		
+
 		//PERKS: Play whenever a player buys a perk.
 		level.plr_vox["perk"]											=		[];
 		level.plr_vox["perk"]["specialty_armorvest"]			        =		"perk_jugga";			//JUGGERNOG PURCHASE
@@ -204,7 +204,7 @@ init_audio_aliases()
 		level.plr_vox["perk"]["steal_specialty_longersprint_response"]	=		undefined;
 		level.plr_vox["perk"]["steal_specialty_flakjacket"]			    =		"perk_steal_prone";
 		level.plr_vox["perk"]["steal_specialty_flakjacket_response"]	=		undefined;
-		
+
 		//POWERUPS: Play whenever a player picks up a powerup
 		level.plr_vox["powerup"]										=		[];
 		level.plr_vox["powerup"]["nuke"]								=		"powerup_nuke";		    //NUKE PICKUP
@@ -221,7 +221,7 @@ init_audio_aliases()
 		level.plr_vox["powerup"]["firesale_response"]					=		undefined;				//FIRESALE RESPONSE
 		level.plr_vox["powerup"]["minigun"]							    =		"powerup_minigun";	    //MINIGUN PICKUP
 		level.plr_vox["powerup"]["minigun_response"]					=		undefined;
-		
+
 		//WEAPON KILLS: Plays whenever certain Kill Criteria are met
 		level.plr_vox["kill"]											=		[];
 		level.plr_vox["kill"]["melee"]									=		"kill_melee";			//PLAYER KILLS A ZOMBIE USING MELEE
@@ -283,13 +283,13 @@ init_audio_aliases()
 		level.plr_vox["kill"]["napalm_response"]					    =		undefined;
 		level.plr_vox["kill"]["shrink"]						        	=		"kill_shrink";	    //working
 		level.plr_vox["kill"]["shrink_response"]					    =		undefined;
-		level.plr_vox["kill"]["shrunken"]						        =		"kill_shrunken";	//working    
+		level.plr_vox["kill"]["shrunken"]						        =		"kill_shrunken";	//working
 		level.plr_vox["kill"]["shrunken_response"]					    =		undefined;
-		level.plr_vox["kill"]["spikemore"]						        =		"kill_spikemore";	//working    
+		level.plr_vox["kill"]["spikemore"]						        =		"kill_spikemore";	//working
 		level.plr_vox["kill"]["spikemore_response"]					    =		undefined;
 		level.plr_vox["kill"]["thief"]						        	=		"kill_thief";	    //working
 		level.plr_vox["kill"]["thief_response"]					   	 	=		undefined;
-		
+
 		//WEAPON PICKUPS: Each will play after the Player buys or gets a weapon from the box.  Broken into weapon categories.
 		//Can be made weapon specific, if the need arises.
 		level.plr_vox["weapon_pickup"]									=		[];
@@ -356,7 +356,7 @@ init_audio_aliases()
 		level.plr_vox["weapon_pickup"]["shrink_response"]		    	=		undefined;
 		level.plr_vox["weapon_pickup"]["spikemore"]				    	=		"wpck_spikemore";	//working
 		level.plr_vox["weapon_pickup"]["spikemore_response"]		    =		undefined;
-	
+
 	    //EGGS and OTHER STUFF: Egg lines, achievements, etc
 		level.plr_vox["eggs"]											=		[];
 		level.plr_vox["eggs"]["achievement"]                            =       "achievement";
@@ -390,12 +390,12 @@ init_audio_aliases()
 		level.plr_vox["eggs"]["rod"]									=		"rod";
 //		level.plr_vox["eggs"]["safety"]									=		"safety";
 //		level.plr_vox["eggs"]["gameover"]								=		"gameover";
-	    
-	//**ZOMBIE VOCALIZATIONS**\\    
-	    //ARRAY and PREFIX: Setting up a prefix and array for all Zombie vocalizations  
+
+	//**ZOMBIE VOCALIZATIONS**\\
+	    //ARRAY and PREFIX: Setting up a prefix and array for all Zombie vocalizations
 	    level.zmb_vox                               =   [];
 	    level.zmb_vox["prefix"]                     =   "zmb_vocals_";
-	    
+
 	    //Standard Zombies
 	    level.zmb_vox["zombie"]                     =   [];
 	    level.zmb_vox["zombie"]["ambient"]          =   "zombie_ambience";
@@ -406,7 +406,7 @@ init_audio_aliases()
 	    level.zmb_vox["zombie"]["behind"]           =   "zombie_behind";
 	    level.zmb_vox["zombie"]["death"]            =   "zombie_death";
 	    level.zmb_vox["zombie"]["crawler"]          =   "zombie_crawler";
-	    
+
 	    //Quad Zombies
 		level.zmb_vox["quad_zombie"]                =   [];
 	    level.zmb_vox["quad_zombie"]["ambient"]     =   "quad_ambience";
@@ -414,7 +414,7 @@ init_audio_aliases()
 	    level.zmb_vox["quad_zombie"]["attack"]      =   "quad_attack";
 	    level.zmb_vox["quad_zombie"]["behind"]      =   "quad_behind";
 	    level.zmb_vox["quad_zombie"]["death"]       =   "quad_death";
-	    
+
 	    //Thief Zombies
 		level.zmb_vox["thief_zombie"]                =   [];
 	    level.zmb_vox["thief_zombie"]["ambient"]     =   "thief_ambience";
@@ -422,7 +422,7 @@ init_audio_aliases()
 	    level.zmb_vox["thief_zombie"]["steal"]       =   "thief_steal";
 	    level.zmb_vox["thief_zombie"]["death"]       =   "thief_death";
 	    level.zmb_vox["thief_zombie"]["anger"]       =   "thief_anger";
-	
+
 	    //Boss Zombies
 		level.zmb_vox["boss_zombie"]                =   [];
 	    level.zmb_vox["boss_zombie"]["ambient"]     =   "boss_ambience";
@@ -430,7 +430,7 @@ init_audio_aliases()
 	    level.zmb_vox["boss_zombie"]["attack"]      =   "boss_attack";
 	    level.zmb_vox["boss_zombie"]["behind"]      =   "boss_behind";
 	    level.zmb_vox["boss_zombie"]["death"]       =   "boss_death";
-	    
+
 	    //Monkey Zombies
 	    level.zmb_vox["monkey_zombie"]              =   [];
 	    level.zmb_vox["monkey_zombie"]["ambient"]   =   "monkey_ambience";
@@ -438,7 +438,7 @@ init_audio_aliases()
 	    level.zmb_vox["monkey_zombie"]["attack"]    =   "monkey_attack";
 	    level.zmb_vox["monkey_zombie"]["behind"]    =   "monkey_behind";
 	    level.zmb_vox["monkey_zombie"]["death"]     =   "monkey_death";
-		
+
 		if( isdefined( level._audio_alias_override ) )
 		{
 			level thread [[level._audio_alias_override]]();
@@ -448,8 +448,8 @@ init_audio_aliases()
 init_audio_functions()
 {
 	flag_wait( "all_players_connected" );
-	
-	players = get_players(); 
+
+	players = get_players();
 	for( i = 0; i < players.size; i++ )
 	{
 		players[i] thread zombie_behind_vox();
@@ -464,45 +464,45 @@ zombie_behind_vox()
 {
 	self endon("disconnect");
 	self endon("death");
-	
+
 	if(!IsDefined(level._zbv_vox_last_update_time))
 	{
-		level._zbv_vox_last_update_time = 0;	
+		level._zbv_vox_last_update_time = 0;
 		level._audio_zbv_shared_ent_list = GetAISpeciesArray("axis");
 	}
-	
+
 	while(1)
 	{
-		wait(1);		
-		
+		wait(1);
+
 		t = GetTime();
-		
+
 		if(t > level._zbv_vox_last_update_time + 1000)
 		{
 			level._zbv_vox_last_update_time = t;
 			level._audio_zbv_shared_ent_list = GetAISpeciesArray("axis");
 		}
-	
+
 		zombs = level._audio_zbv_shared_ent_list;
-		
+
 		played_sound = false;
-		
+
 		for(i=0;i<zombs.size;i++)
 		{
 			if(!isDefined(zombs[i]))
 			{
 				continue;
 			}
-			
+
 			if(zombs[i].isdog)
 			{
 				continue;
 			}
-				
-			dist = 200;	
-			z_dist = 50;	
+
+			dist = 200;
+			z_dist = 50;
 			alias = level.vox_behind_zombie;
-					
+
 			if(IsDefined(zombs[i].zombie_move_speed))
 			{
 				switch(zombs[i].zombie_move_speed)
@@ -510,10 +510,10 @@ zombie_behind_vox()
 					case "walk": dist = 200;break;
 					case "run": dist = 250;break;
 					case "sprint": dist = 275;break;
-				}	
-			}			
+				}
+			}
 			if(DistanceSquared(zombs[i].origin,self.origin) < dist * dist )
-			{				
+			{
 				yaw = self animscripts\utility::GetYawToSpot(zombs[i].origin );
 				z_diff = self.origin[2] - zombs[i].origin[2];
 				if( (yaw < -95 || yaw > 95) && abs( z_diff ) < 50 )
@@ -521,10 +521,10 @@ zombie_behind_vox()
 					zombs[i] thread maps\_zombiemode_audio::do_zombies_playvocals( "behind", zombs[i].animname );
 					played_sound = true;
 					break;
-				}			
+				}
 			}
 		}
-		
+
 		if(played_sound)
 		{
 			wait(5);		// Each player can only play one instance of this sound every 5 seconds - instead of the previous network storm.
@@ -544,23 +544,23 @@ attack_vox_network_choke()
 do_zombies_playvocals( alias_type, zombie_type )
 {
     self endon( "death" );
-    
+
     if( !IsDefined( zombie_type ) )
     {
         zombie_type = "zombie";
     }
-	
+
 	//Prevent shrinked zombies from playing vocals OTHER than shrinked ambients
 	if( is_true( self.shrinked ) )
 	{
 		return;
 	}
-    
+
     if( !IsDefined( self.talking ) )
     {
         self.talking = false;
     }
-    
+
     //DEBUG SECTION
     if( !IsDefined( level.zmb_vox[zombie_type] ) )
     {
@@ -569,7 +569,7 @@ do_zombies_playvocals( alias_type, zombie_type )
         #/
         return;
     }
-    
+
     if( !IsDefined( level.zmb_vox[zombie_type][alias_type] ) )
     {
         /#
@@ -577,24 +577,24 @@ do_zombies_playvocals( alias_type, zombie_type )
         #/
         return;
     }
-    
+
     if(alias_type == "attack")
     {
     	if(!IsDefined(level._num_attack_vox))
     	{
     		level thread attack_vox_network_choke();
     	}
-    	
+
     	if(level._num_attack_vox > 4)
     	{
     		return;
     	}
-    	
+
     	level._num_attack_vox ++;
   	}
-    
+
     alias = level.zmb_vox["prefix"] + level.zmb_vox[zombie_type][alias_type];
-    
+
     if( alias_type == "attack" || alias_type == "behind" || alias_type == "death" || alias_type == "anger" || alias_type == "steal" )
     {
         self PlaySound( alias );
@@ -606,20 +606,20 @@ do_zombies_playvocals( alias_type, zombie_type )
         self waittill( "sounddone" );
         self.talking = false;
     }
-}   
+}
 
 oh_shit_vox()
 {
 	self endon("disconnect");
 	self endon("death");
-	
+
 	while(1)
 	{
 		wait(1);
-		
+
 		players = getplayers();
 		zombs = GetAISpeciesArray("axis");
-	
+
 		if( players.size > 1 )
 		{
 			close_zombs = 0;
@@ -635,7 +635,7 @@ oh_shit_vox()
 				if( randomintrange( 0, 20 ) < 5 )
 				{
 					self create_and_play_dialog( "general", "oh_shit" );
-					wait(4);	
+					wait(4);
 				}
 			}
 		}
@@ -647,26 +647,26 @@ oh_shit_vox()
 //**call the function like so: player maps\_zombiemode_audio::create_and_play_dialog()
 
 create_and_play_dialog( category, type, response, force_variant, override )
-{              
+{
 	waittime = .25;
-	
+
 	/#
 	if( GetDvarInt( #"debug_audio" ) > 0 )
 	    level thread dialog_debugger( category, type );
 	#/
-	
+
 	if( !IsDefined( level.plr_vox[category][type] ) )
 	{
 		//IPrintLnBold( "No Category: " + category + " and Type: " + type );
 		return;
 	}
-	
+
 	//Preventing the player from spouting off a bunch of crap in laststand
 	if( self maps\_laststand::player_is_in_laststand() && ( type != "revive_down" || type != "revive_up" ) )
 	{
 	    return;
 	}
-	
+
 	alias_suffix = level.plr_vox[category][type];
 
 	if(level.script == "zombie_cod5_prototype" || level.script == "zombie_cod5_asylum")
@@ -678,29 +678,29 @@ create_and_play_dialog( category, type, response, force_variant, override )
 
 		alias_suffix += "_cod5_asylum";
 	}
-	
+
 	if( IsDefined( response ) )
 	    alias_suffix = response + alias_suffix;
-	    
+
 	index = maps\_zombiemode_weapons::get_player_index(self);
-	
+
 	if( is_true( level.player_4_vox_override ) && index == 3 )
 	{
 		index = 4;
 	}
-	
+
 	prefix = level.plr_vox["prefix"] + index + "_";
-	
+
 	if( !IsDefined ( self.sound_dialog ) )
 	{
 		self.sound_dialog = [];
 		self.sound_dialog_available = [];
 	}
-				
+
 	if ( !IsDefined ( self.sound_dialog[ alias_suffix ] ) )
 	{
-		num_variants = maps\_zombiemode_spawner::get_number_variants( prefix + alias_suffix );      
-		
+		num_variants = maps\_zombiemode_spawner::get_number_variants( prefix + alias_suffix );
+
 		//TOOK OUT THE ASSERT AND ADDED THIS CHECK FOR LOCS
 		if( num_variants <= 0 )
 		{
@@ -709,40 +709,40 @@ create_and_play_dialog( category, type, response, force_variant, override )
 		        PrintLn( "DIALOG DEBUGGER: No variants found for - " + prefix + alias_suffix );
 		    #/
 		    return;
-		}     
-		
-		/#      
+		}
+
+		/#
 		//assertex( num_variants > 0, "No dialog variants found for category: " + alias_suffix );
 		#/
-		
+
 		for( i = 0; i < num_variants; i++ )
 		{
-			self.sound_dialog[ alias_suffix ][ i ] = i;     
-		}	
-		
+			self.sound_dialog[ alias_suffix ][ i ] = i;
+		}
+
 		self.sound_dialog_available[ alias_suffix ] = [];
 	}
-	
+
 	if ( self.sound_dialog_available[ alias_suffix ].size <= 0 )
 	{
 		self.sound_dialog_available[ alias_suffix ] = self.sound_dialog[ alias_suffix ];
 	}
-  
+
 	variation = random( self.sound_dialog_available[ alias_suffix ] );
 	self.sound_dialog_available[ alias_suffix ] = array_remove( self.sound_dialog_available[ alias_suffix ], variation );
-    
+
     if( IsDefined( force_variant ) )
     {
         variation = force_variant;
     }
-    
+
     if( !IsDefined( override ) )
     {
         override = false;
     }
-    
+
 	sound_to_play = alias_suffix + "_" + variation;
-	
+
 	if( isdefined( level._audio_custom_player_playvox ) )
 	{
 		self thread [[level._audio_custom_player_playvox]]( prefix, index, sound_to_play, waittime, category, type, override );
@@ -758,20 +758,20 @@ do_player_playvox( prefix, index, sound_to_play, waittime, category, type, overr
 	players = getplayers();
 	if( !IsDefined( level.player_is_speaking ) )
 	{
-		level.player_is_speaking = 0;	
+		level.player_is_speaking = 0;
 	}
-	
+
 	if( is_true(level.skit_vox_override) && !override )
 	    return;
-	
+
 	if( level.player_is_speaking != 1 )
 	{
 		level.player_is_speaking = 1;
-		self playsound( prefix + sound_to_play, "sound_done" + sound_to_play );			
+		self playsound( prefix + sound_to_play, "sound_done" + sound_to_play );
 		self waittill( "sound_done" + sound_to_play );
-		wait( waittime );		
+		wait( waittime );
 		level.player_is_speaking = 0;
-		
+
 		if( !flag( "solo_game" ) && ( isdefined (level.plr_vox[category][type + "_response"] )))
 		{
 			if ( isDefined( level._audio_custom_response_line ) )
@@ -780,7 +780,7 @@ do_player_playvox( prefix, index, sound_to_play, waittime, category, type, overr
 	        }
 			else
 			{
-			    level thread setup_response_line( self, index, category, type ); 
+			    level thread setup_response_line( self, index, category, type );
 			}
 		}
 	}
@@ -792,21 +792,21 @@ setup_response_line( player, index, category, type )
 	Nikolai = 1;
 	Takeo = 2;
 	Richtofen = 3;
-	
+
 	switch( player.entity_num )
 	{
 		case 0:
 			level setup_hero_rival( player, Nikolai, Richtofen, category, type );
 		break;
-		
+
 		case 1:
 			level setup_hero_rival( player, Richtofen, Takeo, category, type );
 		break;
-		
+
 		case 2:
 			level setup_hero_rival( player, Dempsey, Nikolai, category, type );
 		break;
-		
+
 		case 3:
 			level setup_hero_rival( player, Takeo, Dempsey, category, type );
 		break;
@@ -817,12 +817,12 @@ setup_response_line( player, index, category, type )
 setup_hero_rival( player, hero, rival, category, type )
 {
 	players = getplayers();
-	
+
     playHero = false;
     playRival = false;
     hero_player = undefined;
     rival_player = undefined;
-    
+
 	for ( i = 0; i < players.size; i++ )
 	{
     	if ( players[i].entity_num == hero )
@@ -836,7 +836,7 @@ setup_hero_rival( player, hero, rival, category, type )
     	    rival_player = players[i];
     	}
 	}
-	
+
 	if(playHero && playRival)
 	{
 		if(randomfloatrange(0,1) < .5)
@@ -847,9 +847,9 @@ setup_hero_rival( player, hero, rival, category, type )
 		{
 			playHero = false;
 		}
-	}	
+	}
 	if( playHero && IsDefined( hero_player ) )
-	{		
+	{
 		if( distancesquared (player.origin, hero_player.origin) < 500*500)
 		{
 			hero_player create_and_play_dialog( category, type + "_response", "hr_" );
@@ -858,7 +858,7 @@ setup_hero_rival( player, hero, rival, category, type )
 		{
 			playRival = true;
 		}
-	}		
+	}
 	if( playRival && IsDefined( rival_player ) )
 	{
 		if( distancesquared (player.origin, rival_player.origin) < 500*500)
@@ -873,18 +873,18 @@ do_announcer_playvox( category, player )
 {
 	if( !IsDefined( category ) )
 		return;
-	
+
 	if( !IsDefined( level.devil_is_speaking ) )
 	{
 		level.devil_is_speaking = 0;
 	}
-	
+
 	alias = level.devil_vox["prefix"] + category;
-	
+
 	if( level.devil_is_speaking == 0 )
 	{
 		level.devil_is_speaking = 1;
-		players = get_players(); 
+		players = get_players();
 		for( i = 0; i < players.size; i++ )
 		{
 			if(IsDefined(player) && level.gamemode != "survival" && player.vsteam != players[i].vsteam)
@@ -906,12 +906,12 @@ player_killstreak_timer()
 {
 	self endon("disconnect");
 	self endon("death");
-	
-	if(getdvar ("zombie_kills") == "") 
+
+	if(getdvar ("zombie_kills") == "")
 	{
 		setdvar ("zombie_kills", "7");
-	}	
-	if(getdvar ("zombie_kill_timer") == "") 
+	}
+	if(getdvar ("zombie_kill_timer") == "")
 	{
 		setdvar ("zombie_kill_timer", "5");
 	}
@@ -919,48 +919,48 @@ player_killstreak_timer()
 	kills = GetDvarInt( #"zombie_kills");
 	time = GetDvarInt( #"zombie_kill_timer");
 
-	if (!isdefined (self.timerIsrunning))	
+	if (!isdefined (self.timerIsrunning))
 	{
 		self.timerIsrunning = 0;
 	}
 
 	while(1)
 	{
-		self waittill( "zom_kill", zomb );	
-		
+		self waittill( "zom_kill", zomb );
+
 		if( IsDefined( zomb._black_hole_bomb_collapse_death ) && zomb._black_hole_bomb_collapse_death == 1 )
 		{
 		    continue;
 		}
-		
+
 		if( is_true( zomb.microwavegun_death ) )
 		{
 			continue;
 		}
-		
+
 		self.killcounter ++;
 
-		if (self.timerIsrunning != 1)	
+		if (self.timerIsrunning != 1)
 		{
 			self.timerIsrunning = 1;
-			self thread timer_actual(kills, time);			
+			self thread timer_actual(kills, time);
 		}
-	}	
+	}
 }
 
 player_zombie_kill_vox( hit_location, player, mod, zombie )
 {
 	weapon = player GetCurrentWeapon();
 	dist = DistanceSquared( player.origin, zombie.origin );
-	
+
 	if( !isdefined(level.zombie_vars["zombie_insta_kill"] ) )
 		level.zombie_vars["zombie_insta_kill"] = 0;
-		
+
 	instakill = level.zombie_vars["zombie_insta_kill"];
-	
+
 	death = get_mod_type( hit_location, mod, weapon, zombie, instakill, dist, player );
 	chance = get_mod_chance( death );
-	
+
 	if( !IsDefined( player.force_wait_on_kill_line ) )
 	    player.force_wait_on_kill_line = false;
 
@@ -976,21 +976,21 @@ player_zombie_kill_vox( hit_location, player, mod, zombie )
 get_mod_chance( meansofdeath )
 {
 	chance = undefined;
-	
+
 	switch( meansofdeath )
 	{
 		case "sickle":                  chance = 40; break;
 		case "melee": 					chance = 40; break;
 		case "melee_instakill": 	    chance = 99; break;
 		case "weapon_instakill": 	    chance = 10; break;
-		case "explosive": 				chance = 60; break;	
-		case "flame":					chance = 60; break;	
-		case "raygun":					chance = 75; break;	
+		case "explosive": 				chance = 60; break;
+		case "flame":					chance = 60; break;
+		case "raygun":					chance = 75; break;
 		case "headshot":				chance = 99; break;
 		case "crawler":					chance = 30; break;
 		case "quad":					chance = 30; break;
 		case "astro":					chance = 99; break;
-		case "closekill":				chance = 15; break;	
+		case "closekill":				chance = 15; break;
 		case "bullet":					chance = 10; break;
 		case "claymore":                chance = 99; break;
 		case "dolls":                   chance = 99; break;
@@ -1003,13 +1003,13 @@ get_mod_type( impact, mod, weapon, zombie, instakill, dist, player )
 {
 	close_dist = 64 * 64;
 	far_dist = 400 * 400;
-	
+
 	//PREVENTING BLACK HOLE BOMB FROM CALLING A BUNCH OF WEAPON KILL LINES
 	if( IsDefined( zombie._black_hole_bomb_collapse_death ) && zombie._black_hole_bomb_collapse_death == 1 )
 	{
 	    return "default";
 	}
-	
+
 	if( is_placeable_mine( weapon ) )
 	{
 	    if( !instakill )
@@ -1017,7 +1017,7 @@ get_mod_type( impact, mod, weapon, zombie, instakill, dist, player )
 	    else
 	        return "weapon_instakill";
 	}
-	
+
 	//MELEE & MELEE_INSTAKILL
 	if( ( mod == "MOD_MELEE" ||
 				mod == "MOD_BAYONET" ||
@@ -1034,7 +1034,7 @@ get_mod_type( impact, mod, weapon, zombie, instakill, dist, player )
 		else
 			return "melee_instakill";
 	}
-	
+
 	if( IsDefined( zombie.damageweapon ) && zombie.damageweapon == "zombie_nesting_doll_single" )
 	{
 	    if( !instakill )
@@ -1042,12 +1042,12 @@ get_mod_type( impact, mod, weapon, zombie, instakill, dist, player )
 	    else
 	        return "weapon_instakill";
 	}
-	
+
 	//EXPLOSIVE & EXPLOSIVE_INSTAKILL
 	if( ( mod == "MOD_GRENADE" ||
 				mod == "MOD_GRENADE_SPLASH" ||
 				mod == "MOD_PROJECTILE_SPLASH" ||
-				mod == "MOD_EXPLOSIVE" ) && 
+				mod == "MOD_EXPLOSIVE" ) &&
 			  weapon != "ray_gun_zm" )
 	{
 		if( !instakill )
@@ -1055,13 +1055,13 @@ get_mod_type( impact, mod, weapon, zombie, instakill, dist, player )
 		else
 			return "weapon_instakill";
 	}
-	
+
 	//FLAME & FLAME_INSTAKILL
-	if( ( IsSubStr( weapon, "flame" ) || 
+	if( ( IsSubStr( weapon, "flame" ) ||
 				IsSubStr( weapon, "molotov_" ) ||
-				IsSubStr( weapon, "napalmblob_" ) ) && 
-			( mod == "MOD_BURNED" || 
-			 	mod == "MOD_GRENADE" || 
+				IsSubStr( weapon, "napalmblob_" ) ) &&
+			( mod == "MOD_BURNED" ||
+			 	mod == "MOD_GRENADE" ||
 			 	mod == "MOD_GRENADE_SPLASH" ) )
 	{
 		if( !instakill )
@@ -1069,7 +1069,7 @@ get_mod_type( impact, mod, weapon, zombie, instakill, dist, player )
 		else
 			return "weapon_instakill";
 	}
-	
+
 	//RAYGUN & RAYGUN_INSTAKILL
 	if( weapon == "ray_gun_zm" &&
 			dist > far_dist )
@@ -1079,9 +1079,9 @@ get_mod_type( impact, mod, weapon, zombie, instakill, dist, player )
 		else
 			return "weapon_instakill";
 	}
-		
+
 	//HEADSHOT
-	if( ( mod == "MOD_RIFLE_BULLET" || 
+	if( ( mod == "MOD_RIFLE_BULLET" ||
 		    mod == "MOD_PISTOL_BULLET" ) &&
 		  ( impact == "head" &&
 		  	dist > far_dist &&
@@ -1089,44 +1089,44 @@ get_mod_type( impact, mod, weapon, zombie, instakill, dist, player )
 	{
 		return "headshot";
 	}
-	
+
 	//QUAD
-	if( mod != "MOD_MELEE" && 
+	if( mod != "MOD_MELEE" &&
 			impact != "head" &&
 			zombie.animname == "quad_zombie" &&
 			!instakill )
 	{
 	    return "quad";
-	}	
-	
+	}
+
 	//ASTRO
-	if( mod != "MOD_MELEE" && 
+	if( mod != "MOD_MELEE" &&
 			impact != "head" &&
 			zombie.animname == "astro_zombie" &&
 			!instakill )
 	{
 	    return "astro";
 	}
-	
+
 	//CRAWLER
-	if( mod != "MOD_MELEE" && 
+	if( mod != "MOD_MELEE" &&
 			impact != "head" &&
 			!zombie.has_legs &&
 			!instakill )
 	{
 		return "crawler";
 	}
-	
+
 	//CLOSEKILL
 	if( mod != "MOD_BURNED" &&
-			dist < close_dist && 
+			dist < close_dist &&
 			!instakill )
 	{
 		return "closekill";
 	}
-	
+
 	//BULLET & BULLET_INSTAKILL
-	if( mod == "MOD_RIFLE_BULLET" || 
+	if( mod == "MOD_RIFLE_BULLET" ||
 		  mod == "MOD_PISTOL_BULLET" )
 	{
 		if( !instakill )
@@ -1134,7 +1134,7 @@ get_mod_type( impact, mod, weapon, zombie, instakill, dist, player )
 		else
 			return "weapon_instakill";
 	}
-	
+
 	return "default";
 }
 
@@ -1142,7 +1142,7 @@ timer_actual(kills, time)
 {
 	self endon("disconnect");
 	self endon("death");
-	
+
 	timer = gettime() + (time * 1000);
 	while(getTime() < timer)
 	{
@@ -1151,8 +1151,8 @@ timer_actual(kills, time)
 			self create_and_play_dialog( "kill", "streak" );
 
 			wait(1);
-		
-			//resets the killcounter and the timer 
+
+			//resets the killcounter and the timer
 			self.killcounter = 0;
 
 			timer = -1;
@@ -1164,7 +1164,7 @@ timer_actual(kills, time)
 }
 
 perks_a_cola_jingle_timer()
-{	
+{
 	self endon( "death" );
 	self thread play_random_broken_sounds();
 	while(1)
@@ -1174,9 +1174,9 @@ perks_a_cola_jingle_timer()
 		if(randomint(100) < 15)
 		{
 			self thread play_jingle_or_stinger(self.script_sound);
-			
-		}		
-	}	
+
+		}
+	}
 }
 
 play_jingle_or_stinger( perksacola )
@@ -1185,7 +1185,7 @@ play_jingle_or_stinger( perksacola )
 	if(!IsDefined (self.jingle_is_playing ))
 	{
 		self.jingle_is_playing = 0;
-	}	
+	}
 	if (IsDefined ( perksacola ))
 	{
 		if(self.jingle_is_playing == 0 && level.music_override == false)
@@ -1214,7 +1214,7 @@ play_random_broken_sounds()
 			playsoundatposition ("zmb_perks_broken_jingle", self.origin);
 			//playfx (level._effect["electric_short_oneshot"], self.origin);
 			playsoundatposition ("evt_electrical_surge", self.origin);
-	
+
 		}
 	}
 	else
@@ -1226,14 +1226,14 @@ play_random_broken_sounds()
 			playsoundatposition ("evt_electrical_surge", self.origin);
 		}
 	}
-}	
+}
 
 //SELF = Player Buying Perk
 perk_vox( perk )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	//Delay to prevent an early speech
 	wait( 1.5 );
 	if( !IsDefined( level.plr_vox["perk"][perk] ) )
@@ -1243,7 +1243,7 @@ perk_vox( perk )
 		#/
 		return;
 	}
-	
+
 	self create_and_play_dialog( "perk", perk );
 }
 
@@ -1251,13 +1251,13 @@ dialog_debugger( category, type )
 {
     /#
     PrintLn( "DIALOG DEBUGGER: Category - " + category + " Type - " + type + " Response - " + type + "_response" );
-    
+
     if( !IsDefined( level.plr_vox[category][type] ) )
     {
         IPrintLnBold( "Player tried to play a line, but no alias exists. Category: " + category + " Type: " + type );
         PrintLn( "DIALOG DEBUGGER ERROR: Alias Not Defined For " + category + " " + type );
     }
-    
+
     if( !IsDefined( level.plr_vox[category][type + "_response" ] ) )
         PrintLn( "DIALOG DEBUGGER ERROR: Response Alias Not Defined For " + category + " " + type + "_response" );
     #/
@@ -1269,11 +1269,11 @@ init_music_states()
     level.music_override = false;
     level.music_round_override = false;
     level.old_music_state = undefined;
-    
+
     level.zmb_music_states                                  =   [];
     level.zmb_music_states["round_start"]                   =   spawnStruct();
     level.zmb_music_states["round_start"].music             =   "mus_zombie_round_start";
-    level.zmb_music_states["round_start"].is_alias          =   true; 
+    level.zmb_music_states["round_start"].is_alias          =   true;
     level.zmb_music_states["round_start"].override          =   true;
     level.zmb_music_states["round_start"].round_override    =   true;
     level.zmb_music_states["round_start"].musicstate        =   "WAVE";
@@ -1307,7 +1307,7 @@ init_music_states()
     level.zmb_music_states["egg_safe"]                      =   spawnStruct();
     level.zmb_music_states["egg_safe"].music                =   "EGG_SAFE";
     level.zmb_music_states["egg_safe"].is_alias             =   false;
-    level.zmb_music_states["egg_safe"].override             =   false;  
+    level.zmb_music_states["egg_safe"].override             =   false;
 	level.zmb_music_states["egg_a7x"]                    	=   spawnStruct();
     level.zmb_music_states["egg_a7x"].music					=   "EGG_A7X";
     level.zmb_music_states["egg_a7x"].is_alias           	=   false;
@@ -1321,9 +1321,9 @@ init_music_states()
 change_zombie_music( state )
 {
     wait(.05);
-    
+
     m = level.zmb_music_states[state];
-    
+
     if( !IsDefined( m ) )
     {
         /#
@@ -1331,14 +1331,14 @@ change_zombie_music( state )
         #/
         return;
     }
-    
+
     do_logic =  true;
-    
+
     if( !IsDefined( level.old_music_state ) )
     {
         do_logic = false;
     }
-    
+
     if(do_logic)
     {
         if( level.old_music_state == m )
@@ -1350,28 +1350,28 @@ change_zombie_music( state )
             return;
         }
     }
-    
+
     if( !IsDefined( m.round_override ) )
         m.round_override = false;
-    
+
     if( m.override == true && level.music_override == true )
         return;
-        
+
     if( m.round_override == true && level.music_round_override == true )
-        return;    
-    
+        return;
+
     if( m.is_alias )
     {
         if( IsDefined( m.musicstate ) )
             setmusicstate( m.musicstate );
-            
+
         play_sound_2d( m.music );
     }
     else
     {
         setmusicstate( m.music );
     }
-    
+
     level.old_music_state = m;
 }
 
@@ -1380,50 +1380,50 @@ weapon_toggle_vox( alias, weapon )
 {
     self notify( "audio_activated_trigger" );
     self endon( "audio_activated_trigger" );
-    
+
     prefix = "vox_pa_switcher_";
     sound_to_play = prefix + alias;
     type = undefined;
-    
+
     if( IsDefined( weapon ) )
     {
         type = get_weapon_num( weapon );
-        
+
         if( !IsDefined( type ) )
         {
             return;
         }
     }
-    
+
     self StopSounds();
     wait(.05);
-    
+
     if( IsDefined( type ) )
     {
         self PlaySound( prefix + "weapon_" + type, "sounddone" );
         self waittill( "sounddone" );
     }
-    
+
     self PlaySound( sound_to_play + "_0" );
 }
 get_weapon_num( weapon )
 {
     weapon_num = undefined;
-    
+
     switch( weapon )
     {
-        case "humangun_zm":         
-            weapon_num =  0;   
+        case "humangun_zm":
+            weapon_num =  0;
         break;
-        
-		case "sniper_explosive_zm": 
-		    weapon_num =  1;   
+
+		case "sniper_explosive_zm":
+		    weapon_num =  1;
 		break;
-		
-		case "tesla_gun_zm":        
-		    weapon_num =  2;   
+
+		case "tesla_gun_zm":
+		    weapon_num =  2;
 		break;
     }
-    
+
     return weapon_num;
 }

@@ -1,4 +1,4 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
 
@@ -926,7 +926,7 @@ humangun_zombie_2nd_hit_response( player )
 
 	self.humangun_zombie_2nd_hit_response = true;
 	self setclientflag( level._ZOMBIE_ACTOR_FLAG_HUMANGUN_HIT_RESPONSE );
-	
+
 	self thread play_humangun_upgraded_effect_audio();
 
 	self waittill_any_or_timeout( level.zombie_vars["humangun_zombie_explosion_delay"], "humangun_zombie_3rd_hit_response", "goal", "bad_path", "death" );

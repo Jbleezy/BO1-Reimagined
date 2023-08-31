@@ -356,7 +356,7 @@ trap_use_think( trap )
 			{
 				level waittill_notify_or_timeout("fire_sale_on", trap._trap_cooldown_time);
 			}
-			
+
 			trap._trap_cooling_down = 0;
 
 			//COLLIN: Play the 'alarm' sound to alert players that the traps are available again (playing on a temp ent in case the PA is already in use.
@@ -1006,7 +1006,7 @@ zombie_trap_death( trap, param, activator )
 
 		// Make sure they're dead...physics launch didn't kill them.
 		self.a.gib_ref = "head";
-		
+
 		self.no_powerups = true;
 		self dodamage(self.health + 666, self.origin, activator);
 

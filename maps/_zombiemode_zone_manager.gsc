@@ -1,4 +1,4 @@
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_utility;
 
 //
@@ -128,7 +128,7 @@ entity_in_zone( zone_name )
 	{
 		return true;
 	}
-	
+
 	return false;
 }
 

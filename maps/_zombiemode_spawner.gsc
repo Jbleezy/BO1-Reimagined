@@ -1070,7 +1070,7 @@ should_attack_player_thru_boards()
 	self.player_targets = [];
 	for(i=0;i<players.size;i++)
 	{
-		if ( isAlive( players[i] ) && !isDefined( players[i].revivetrigger ) && distance2d( self.origin, players[i].origin ) <= 90 && 
+		if ( isAlive( players[i] ) && !isDefined( players[i].revivetrigger ) && distance2d( self.origin, players[i].origin ) <= 90 &&
 			players[i] DamageConeTrace(self GetEye(), players[i]) )
 		{
 			self.player_targets[self.player_targets.size] = players[i];
@@ -1263,7 +1263,7 @@ zombie_tear_notetracks( msg, chunk, node, tear_anim )
 			max_attack_times = 2;
 		}
 	}
-	
+
 
 	while( 1 )
 	{
@@ -5200,7 +5200,7 @@ zombie_complete_emerging_into_playable_area()
 zombie_tracking_init()
 {
 	flag_wait( "all_players_connected" );
-	
+
 	while(true)
 	{
 		zombies = GetAIArray("axis");
@@ -5215,11 +5215,11 @@ zombie_tracking_init()
 				zombies[i] thread delete_zombie_noone_looking(1500);
 			}
 		}
-		wait_network_frame();	
-	}	
-}	
+		wait_network_frame();
+	}
+}
 //-------------------------------------------------------------------------------
-//	DCS 030111: 
+//	DCS 030111:
 //	if can't be seen kill and so replacement can spawn closer to player.
 //	self = zombie to check.
 //-------------------------------------------------------------------------------
@@ -5258,7 +5258,7 @@ delete_zombie_noone_looking(how_close)
 
 	can_be_seen = false;
 	near = false;
-	
+
 	players = getplayers();
 	for ( i = 0; i < players.size; i++ )
 	{
@@ -5276,7 +5276,7 @@ delete_zombie_noone_looking(how_close)
 			can_be_seen = BulletTracePassed( players[i] GetEye(), self.origin, false, undefined ) && self player_can_see_me(players[i]);
 
 		if(!near)
-			near = level.zones[self get_current_zone()].is_active || Distance(self.origin, players[i].origin) < how_close;		
+			near = level.zones[self get_current_zone()].is_active || Distance(self.origin, players[i].origin) < how_close;
 	}
 
 	//reset player player_in_sight_time if a player can see zombie or player is near zombie
@@ -5293,7 +5293,7 @@ delete_zombie_noone_looking(how_close)
 		if(IsDefined(self.electrified) && self.electrified == true)
 		{
 			return;
-		}		
+		}
 		// zombie took damage, don't touch.
 		if(self.health != level.zombie_health)
 		{
@@ -5335,7 +5335,7 @@ delete_zombie_noone_looking(how_close)
 		self DoDamage(self.health + 1000, self.origin);
 		//self maps\_zombiemode_spawner::reset_attack_spot();
 		//self notify("zombie_delete");
-		//self Delete();	
+		//self Delete();
 	}
 }
 //-------------------------------------------------------------------------------
@@ -5354,10 +5354,10 @@ player_can_see_me( player )
 	playerToBanzaiUnitVec = VectorNormalize( playerToBanzaiVec );
 
 	forwardDotBanzai = VectorDot( playerUnitForwardVec, playerToBanzaiUnitVec );
-	angleFromCenter = ACos( forwardDotBanzai ); 
+	angleFromCenter = ACos( forwardDotBanzai );
 
 	playerFOV = GetDvarFloat( #"cg_fov" );
-	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );	
+	banzaiVsPlayerFOVBuffer = GetDvarFloat( #"g_banzai_player_fov_buffer" );
 	if ( banzaiVsPlayerFOVBuffer <= 0 )
 	{
 		banzaiVsPlayerFOVBuffer = 0.2;

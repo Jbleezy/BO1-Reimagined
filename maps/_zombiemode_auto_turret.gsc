@@ -279,7 +279,7 @@ auto_turret_deactivate()
 			self.turret.manual_targets[i] Delete();
 		}
 	}
-	
+
 	self.turret_active = false;
 	self.curr_time = -1;
 	self.turret SetMode( "auto_ai" );

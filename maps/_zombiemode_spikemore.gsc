@@ -1,4 +1,4 @@
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
 
@@ -200,7 +200,7 @@ pickup_spikemores()
 	{
 		player thread spikemore_watch();
 		player thread spikemore_setup();
-		
+
 		player notify( "zmb_enable_spikemore_prompt" );
 	}
 	else
@@ -331,7 +331,7 @@ spikemore_detonation()
 
 		if( level.gamemode == "survival" && isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != playerTeamToAllow )
 			continue;
-			
+
 		if( level.gamemode != "survival" && IsPlayer(ent) && ent.vsteam == self.owner.vsteam )
 			continue;
 
@@ -349,9 +349,9 @@ spikemore_detonation()
 delete_spikemores_on_death(ent)
 {
 	self waittill("death");
-	
+
 	self.owner.mines = array_removeUndefined(self.owner.mines);
-	
+
 	if(isDefined(self.tag_origin))
 	{
 		self.tag_origin Delete();

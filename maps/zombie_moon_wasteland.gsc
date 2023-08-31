@@ -271,16 +271,16 @@ Init_Moon_NML_Round( target_round )
 	}
 
 	level.chalk_override = " ";
-	
+
 	level thread clear_nml_rounds();
-		
+
 	// failsafe to clear hud.
 	level waittill("between_round_over");
 	if ( IsDefined( level.chalk_override ) )
 	{
 		level.chalk_hud1 SetText( level.chalk_override );
 		level.chalk_hud2 SetText( " " );
-	}	
+	}
 }
 
 clear_nml_rounds()

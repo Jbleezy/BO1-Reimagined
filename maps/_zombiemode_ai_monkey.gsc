@@ -1881,7 +1881,7 @@ play_player_perk_theft_vox( perk, monkey )
         wait(.05);
     }
 
-	while( IsDefined(monkey) && IsDefined(monkey.pack) && IsDefined(monkey.pack.machine) && IsDefined(monkey.pack.machine.monkey_health) && 
+	while( IsDefined(monkey) && IsDefined(monkey.pack) && IsDefined(monkey.pack.machine) && IsDefined(monkey.pack.machine.monkey_health) &&
 		monkey.pack.machine.monkey_health != 0 )
 	{
 	    wait(1);

@@ -1013,7 +1013,7 @@ lock_players(destination, activator, lander_buy)
 				grab = j;
 			}
 		}
-		
+
 		taken[grab] = 1;
 		lander.riders++;
 		activator playerlinktodelta( spots[grab], undefined, 1, 180, 180, 180, 180, true );
@@ -1025,7 +1025,7 @@ lock_players(destination, activator, lander_buy)
 		}
 		else
 		{
-			activator enableinvulnerability();	
+			activator enableinvulnerability();
 			activator thread maps\_zombiemode::store_crumb( crumb.origin );
 			activator.lander = true;
 			activator.lander_link_spot = spots[grab];

@@ -1,4 +1,4 @@
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_utility;
 #include maps\_music;
 #include maps\zombie_cod5_sumpf_perks;
@@ -398,13 +398,13 @@ init_zombie_sumpf()
 		zapper_lights = getentarray("pendulum_light","targetname");
 		for(i=0;i<zapper_lights.size;i++)
 		{
-			zapper_lights[i] setmodel("zombie_zapper_cagelight_red");	
+			zapper_lights[i] setmodel("zombie_zapper_cagelight_red");
 			if (isDefined(zapper_lights[i].target))
 			{
 				old_light_effect = getent(zapper_lights[i].target, "targetname");
 				light_effect = spawn("script_model",zapper_lights[i].origin + (0, 0, 10));
 				//light_effect = spawn("script_model",zapper_lights[i].origin);
-				light_effect setmodel("tag_origin");	
+				light_effect setmodel("tag_origin");
 				light_effect.angles = (0,270,0);
 				light_effect.targetname = "effect_pendulum_light" + i;
 				old_light_effect delete();

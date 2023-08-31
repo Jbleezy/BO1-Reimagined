@@ -250,7 +250,7 @@ do_sickle_flourish_end( gun )
 	{
 		ballistic_clip_ammo = self GetWeaponAmmoClip("knife_ballistic_zm");
 		ballistic_stock_ammo = self GetWeaponAmmoStock("knife_ballistic_zm");
-		
+
 		//self notify( "zmb_lost_knife" );
 		self TakeWeapon( "knife_ballistic_zm" );
 		self GiveWeapon( "knife_ballistic_sickle_zm" );

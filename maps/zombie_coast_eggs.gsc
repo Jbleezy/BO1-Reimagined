@@ -910,7 +910,7 @@ coast_egg_fuse_controller()
     {
         return;
     }
-	
+
 	// objects
 	fuse_array = getstructarray( "struct_ep", "targetname" );
 	fuse_delivered = undefined;
@@ -1187,7 +1187,7 @@ virgo()
     {
         return;
     }
-	
+
 	// objects
 	enta_egg_ice_break_trigger = GetEntArray( "trig_egg_break_ice", "targetname" );
 	ice_blocks = GetEntArray( "ent_bartender", "targetname" );

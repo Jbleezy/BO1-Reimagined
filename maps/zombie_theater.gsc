@@ -37,7 +37,7 @@ main()
 	precachemodel("zombie_theater_chandelier1arm_on");
 	precachemodel("zombie_theater_chandelier1_off");
 	precachemodel("zombie_theater_chandelier1_on");
-	
+
 	PrecacheString(&"REIMAGINED_START_CORE");
 
 	if(GetDvarInt( #"artist") > 0)

@@ -1,4 +1,4 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
 #include maps\_zombiemode_net;
@@ -218,7 +218,7 @@ thundergun_get_enemies_in_range()
 
 			// the closer they are, the harder they get flung
 			dist_mult = (fling_range_squared - test_range_squared) / fling_range_squared;
-			
+
 			angles = self GetPlayerAngles();
 			up_angle = angles[0];
 			if(up_angle > -15)

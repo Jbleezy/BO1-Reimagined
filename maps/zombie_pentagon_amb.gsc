@@ -1,7 +1,7 @@
 //
 // file: zombie_pentagon_amb.gsc
 // description: level ambience script for zombie_pentagon
-// scripter: 
+// scripter:
 //
 
 #include maps\_utility;
@@ -46,16 +46,16 @@ phone_egg()
 	}
 
 	self PlayLoopSound( "zmb_egg_phone_loop" );
-		
+
 	self waittill( "trigger", player );
-	
+
 	self StopLoopSound( 1 );
 	player PlaySound( "zmb_egg_phone_activate" );
-		
+
 	level.phone_counter = level.phone_counter + 1;
-	
+
 	if( level.phone_counter == 3 )
-	{ 
+	{
 		level pentagon_unlock_doa();
 	    playsoundatposition( "evt_doa_unlock", (0,0,0) );
 	    wait(5);
@@ -65,7 +65,7 @@ phone_egg()
 play_music_easter_egg()
 {
 	level.music_override = true;
-	
+
 	if( is_mature() )
 	{
 	    level thread maps\_zombiemode_audio::change_zombie_music( "egg" );
@@ -77,8 +77,8 @@ play_music_easter_egg()
 	    return;
 	    //level thread maps\_zombiemode_audio::change_zombie_music( "egg_safe" );
 	}
-	
-	wait(265);	
+
+	wait(265);
 	level.music_override = false;
 	level thread maps\_zombiemode_audio::change_zombie_music( "wave_loop" );
 
@@ -90,15 +90,15 @@ play_pentagon_announcer_vox( alias, defcon_level )
 {
 	if( !IsDefined( alias ) )
 		return;
-	
+
 	if( !IsDefined( level.pentann_is_speaking ) )
 	{
 		level.pentann_is_speaking = 0;
 	}
-	
+
 	if( IsDefined( defcon_level ) )
 	    alias = alias + "_" + defcon_level;
-	
+
 	if( level.pentann_is_speaking == 0 )
 	{
 		level.pentann_is_speaking = 1;
@@ -111,12 +111,12 @@ play_pentagon_announcer_vox( alias, defcon_level )
 play_initial_alarm()
 {
     structs = getstructarray( "defcon_alarms", "targetname" );
-    
+
     for(i=0;i<structs.size;i++)
     {
         playsoundatposition( "evt_thief_alarm_single", structs[i].origin );
     }
-    
+
     wait(.5);
 }
 
@@ -124,9 +124,9 @@ play_initial_alarm()
 pentagon_unlock_doa()
 {
 	level.ZOMBIE_PENTAGON_PLAYER_CF_UPDATEPROFILE = 0;
-	
+
 	players = get_players();
-	
+
 	array_thread( players, ::pentagon_delay_update );
 }
 
@@ -135,10 +135,10 @@ pentagon_delay_update()
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	self SetClientDvars( "zombietron_discovered", 1 );
-	
+
 	wait( 0.2 );
-	
+
 	self SetClientFlag( level.ZOMBIE_PENTAGON_PLAYER_CF_UPDATEPROFILE );
 }

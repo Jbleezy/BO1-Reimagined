@@ -1,11 +1,11 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
-#include maps\_zombietron_utility; 
+#include maps\_zombietron_utility;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 main()
 {
 	init_sounds();
-	init_fx();		
+	init_fx();
 	PrecacheModel( "zombie_meteor_chunk_lrg" );
 	PrecacheModel( "fxanim_zombies_crow_mod");
 }
@@ -23,7 +23,7 @@ init_text()
 	level.fate1_msg.alpha = 0;
 	level.fate1_msg SetText( &"ZOMBIETRON_FATE_FORTUNE");
 	level.fate1_msg.hidewheninmenu = true;
-	
+
 	level.fate2_msg 					= NewHudElem( level );
 	level.fate2_msg.alignX = "center";
 	level.fate2_msg.alignY = "middle";
@@ -36,7 +36,7 @@ init_text()
 	level.fate2_msg.alpha = 0;
 	level.fate2_msg SetText( &"ZOMBIETRON_FATE_FIREPOWER");
 	level.fate2_msg.hidewheninmenu = true;
-	
+
 	level.fate3_msg 					= NewHudElem( level );
 	level.fate3_msg.alignX = "center";
 	level.fate3_msg.alignY = "middle";
@@ -49,7 +49,7 @@ init_text()
 	level.fate3_msg.alpha = 0;
 	level.fate3_msg SetText( &"ZOMBIETRON_FATE_FRIENDSHIP");
 	level.fate3_msg.hidewheninmenu = true;
-	
+
 	level.fate4_msg 					= NewHudElem( level );
 	level.fate4_msg.alignX = "center";
 	level.fate4_msg.alignY = "middle";
@@ -62,7 +62,7 @@ init_text()
 	level.fate4_msg.alpha = 0;
 	level.fate4_msg SetText( &"ZOMBIETRON_FATE_FURIOUS_FEET");
 	level.fate4_msg.hidewheninmenu = true;
-	
+
 	level.fate_title1			= NewHudElem( level );
 	level.fate_title1.alignX 			= "center";
 	level.fate_title1.alignY 			= "middle";
@@ -75,7 +75,7 @@ init_text()
 	level.fate_title1.alpha 			= 0;
 	level.fate_title1 SetText( &"ZOMBIETRON_FATE_INTRO");
 	level.fate_title1.hidewheninmenu = true;
-	
+
 	level.fate_title2 						= NewHudElem( level );
 	level.fate_title2.alignX 			= "center";
 	level.fate_title2.alignY 			= "middle";
@@ -102,7 +102,7 @@ init_fx()
 	level._effect[ "firepower" ]		= LoadFx( "maps/zombie/fx_zombie_dog_lightning_buildup" );
 	level._effect[ "friendship" ]		= LoadFx( "maps/zombie/fx_zombie_dog_lightning_buildup" );
 	level._effect[ "rock_glow"]			= loadfx( "maps/zombie/fx_zmbtron_elec_player_trail" );
-	
+
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 time_to_choose_fate()
@@ -135,9 +135,9 @@ choose_fate_round()
 	lastArena = level.current_arena;
 	level.current_arena = maps\_zombietron_main::arena_findIndexByName("temple");
 	maps\_zombietron_main::move_players_to_start();
-	
+
 	maps\_zombietron_scenes::hide_temple_props( "none" );
-	
+
 	//set the mood overrides
 	if( IsDefined( level.weatherFx ) )
 	{
@@ -152,7 +152,7 @@ choose_fate_round()
 	{
 		level.weatherFx[level.weatherFx.size] = SpawnFx( level._effect[ "fog_amb" ], fog[i].origin );
 		TriggerFx( level.weatherFx[level.weatherFx.size-1] );
-	}	
+	}
 
 	VisionSetNaked( "huey_city", 0 );
 	dir = "-30 80 0";
@@ -162,15 +162,15 @@ choose_fate_round()
 	players = get_players();
 	for (i = 0; i < players.size; i++)
 	{
-		players[i] setClientDvars( 
+		players[i] setClientDvars(
 			"r_lightTweakSunLight", light,
-			"r_lightTweakSunColor", color, 
+			"r_lightTweakSunColor", color,
 			"r_lightTweakSunDirection", dir,
 			"r_exposureTweak", 1,
 			"r_exposureValue", exposure
 			);
 	}
-		
+
 	//initialize triggers
 	the_fates[0] = GetEnt("fate_trigger3","targetname");
 	the_fates[1] = GetEnt("fate_trigger4","targetname");
@@ -181,7 +181,7 @@ choose_fate_round()
 	the_fates[1] thread fate_of_firepower();
 	the_fates[2] thread fate_of_friendship();
 	the_fates[3] thread fate_of_furious_feet();
-	
+
 	array_thread(the_fates, ::trigger_off);
 	array_thread(the_fates, maps\_zombietron_fate::spawnRocks);
 
@@ -191,25 +191,25 @@ choose_fate_round()
 	{
 		target= "fate_player_spawn" + (i+1);
 		moveLoc = GetEnt(target,"targetname");
-		
+
 		players[i].oldLocation = players[i].origin;
 		players[i].oldAngles = players[i].angles;
 
-		players[i] SetOrigin( moveLoc.origin ); 
+		players[i] SetOrigin( moveLoc.origin );
 		players[i] SetPlayerAngles(moveLoc.angles);
 		if ( !isAlive(players[i])  )
 		{
 			maps\_zombietron_pickups::directed_pickup_award_to(players[i],"extra_life",level.extra_life_model);
 		}
 	}
-	
+
 	playsoundatposition( "zmb_fate_spawn", (0,0,0) );
 
 	maps\_zombietron_pickups::clear_mines();
 
 	//fade up
 	fade_in();
-	
+
 	//put up Text
 	level.fate_title1 FadeOverTime( 2 );
 	level.fate_title1.alpha 			= 1;
@@ -222,16 +222,16 @@ choose_fate_round()
 	level.fate_title1.alpha 			= 0;
 	level.fate_title2.alpha 			= 0;
 	wait 1;
-	
+
 	//level thread maps\createart\zombietron_art::do_lightning_loop();
 
-	
-	
+
+
 	//turn on all the fate triggers
 	array_thread(the_fates, ::trigger_on);
 	level thread add_objectives(the_fates);
 
-	//wait or time out.	
+	//wait or time out.
 	timeLeft 	= GetTime() + (level.zombie_vars["fate_wait"]*1000);
 	msgUp 		= false;
 	diff 			= timeLeft - GetTime();
@@ -264,15 +264,15 @@ choose_fate_round()
 			break;
 		}
 		wait 0.05;
-	}	
-	
+	}
+
 	//all done
 	//put up Text
 	wait 5;
 	level notify("the_fates_have_been_decided");
-	
+
 	playsoundatposition( "zmb_fate_decided", (0,0,0) );
-	
+
 	level.fate1_msg FadeOverTime( 1 );
 	level.fate2_msg FadeOverTime( 1 );
 	level.fate3_msg FadeOverTime( 1 );
@@ -314,7 +314,7 @@ choose_fate_round()
 	players = GetPlayers();
 	for (i=0;i<players.size;i++)
 	{
-		players[i] SetOrigin( players[i].oldLocation ); 
+		players[i] SetOrigin( players[i].oldLocation );
 		players[i] SetPlayerAngles(players[i].oldAngles);
 	}
 }
@@ -376,15 +376,15 @@ directed_fate_to(player,model,modelscale, fate_cb)
 	{
 		modelscale = 1;
 	}
-	
-	
+
+
 	origin = player.origin + (0,0,800);
 	object = Spawn( "script_model", origin );
 	yaw = RandomInt( 360 );
 	object.angles = ( 0, yaw, 0 );
 	object SetModel( model );
 	object SetScale(modelscale);
-	
+
 	while(1)
 	{
 		if ( object.origin[2] < player.origin[2] )//wtf
@@ -395,8 +395,8 @@ directed_fate_to(player,model,modelscale, fate_cb)
 		modz =(player.origin[0],player.origin[1],object.origin[2]-32);
 		object.origin = modz;
 		wait 0.05;
-	}	
-	
+	}
+
 	Playfx( level._effect["fate_explode"], object.origin );
 	player PlayRumbleOnEntity( "artillery_rumble");
 	object Delete();
@@ -408,10 +408,10 @@ fortune_fate()
 {
 	self.fate = "fortune";
 	self.fate_fortune = 1;
-	
+
 	self maps\_zombietron_score::update_multiplier_bar( level.zombie_vars["max_prize_inc_range"]+1 );//fated players start with 2x so give this guy a tickle
 	self maps\_zombietron_score::update_hud();
-	
+
 	maps\_zombietron_pickups::spawn_prize_glob();
 	maps\_zombietron_pickups::spawn_prize_glob();
 	maps\_zombietron_pickups::spawn_prize_glob();
@@ -426,10 +426,10 @@ fate_of_fortune()
 		{
 			continue;
 		}
-		
+
 		guy.fate = "fortune";
 		level thread directed_fate_to(guy,"zombietron_ruby",5, ::fortune_fate);
-		
+
 		//play some fx
 		Playfx( level._effect["fortune"], self.rock.origin );
 		//play some audio
@@ -437,7 +437,7 @@ fate_of_fortune()
 		//put some text up?
 		level thread fate_show_msg("fortune");
 		//PlaySoundAtPosition( "zmb_cha_ching", guy.origin + (0,0,650) );
-		self.rock Delete();	
+		self.rock Delete();
 		self notify("opened");
 		return;
 	}
@@ -471,7 +471,7 @@ fate_of_firepower()
 		playsoundatposition( "zmb_fate_choose", self.rock.origin );
 			//put some text up?
 		level thread fate_show_msg("firepower");
-		self.rock Delete();	
+		self.rock Delete();
 		self notify("opened");
 		return;
 	}
@@ -491,18 +491,18 @@ fate_of_friendship()
 		{
 			continue;
 		}
-	
+
 		guy.fate = "friendship";
 		level directed_fate_to(guy,"fxanim_zombies_crow_mod",4, ::friendship_fate);
-	
+
 		//play some fx
 		Playfx( level._effect["friendship"], self.rock.origin );
 		//play some audio
 		playsoundatposition( "zmb_fate_choose", self.rock.origin );
-	
+
 		//put some text up?
 		level thread fate_show_msg("friendship");
-		self.rock Delete();	
+		self.rock Delete();
 		self notify("opened");
 		return;
 	}
@@ -523,26 +523,26 @@ fate_of_furious_feet()
 		{
 			continue;
 		}
-	
+
 		guy.fate = "furious_feet";
 		level thread directed_fate_to(guy,"zombietron_lightning_bolt",1.75, ::furious_feet_fate);
 		wait 1;
 		level directed_fate_to(guy,"p_rus_boots",4, ::furious_feet_fate);
-		
+
 		// Guy with the boots fate gets more boosters
 		if ( guy.boosters < 3 )
 		{
 			guy.boosters = 3;
 			guy maps\_zombietron_score::update_hud();
 		}
-		
+
 		//play some fx
 		Playfx( level._effect["furious_feet"], self.rock.origin );
 		//play some audio
 		playsoundatposition( "zmb_fate_choose", self.rock.origin );
 		//put some text up?
 		level thread fate_show_msg("furious_feet");
-		self.rock Delete();	
+		self.rock Delete();
 		self notify("opened");
 		return;
 	}
@@ -575,4 +575,4 @@ add_objectives(the_triggers)
 		wait .2;
 	}
 }
-	
+

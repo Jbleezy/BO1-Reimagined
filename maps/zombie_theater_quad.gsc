@@ -1,4 +1,4 @@
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
 
@@ -10,7 +10,7 @@ init_roofs()
 	level thread quad_lobby_roof_break();
 	level thread quad_dining_roof_break();
 
-	level thread quad_roof_fx();	
+	level thread quad_roof_fx();
 }
 
 ////////////////////////////////////////////////////
@@ -28,9 +28,9 @@ quad_roof_crumble_fx_play()
 	//{
 	//	self waittill( "trigger", who );
 	//}
-	
+
 	play_quad_first_sounds();
-	
+
 	roof_parts = getEntArray(self.target, "targetname");
 
 	if(isDefined(roof_parts))
@@ -40,30 +40,30 @@ quad_roof_crumble_fx_play()
 			roof_parts[i] delete();
 		}
 	}
-	
-	fx = getStruct(self.target, "targetname");	
-	
+
+	fx = getStruct(self.target, "targetname");
+
 	if(isDefined(fx))
-	{		
+	{
 		//playfx(level._effect["quad_roof_break"], fx.origin);
 		//playsoundatposition( "zmb_quad_roof_break", fx.origin );
 		//thread play_wood_land_sound( fx.origin );
-		
-		// Rumble 		
+
+		// Rumble
 		thread rumble_all_players( "damage_heavy" );
 	}
 
 	// Trigger Light entrance
 	if(isDefined(self.script_noteworthy))
-	{		
+	{
 		clientnotify(self.script_noteworthy);
 		//iprintlnbold("GSC - Turning Power Light On:  " + self.script_noteworthy);
-	}	
-	
+	}
+
 	if (IsDefined(self.script_int))
 	{
 		exploder(self.script_int);
-	}		
+	}
 }
 
 play_quad_first_sounds()
@@ -99,7 +99,7 @@ play_wood_land_sound( origin )
 rumble_all_players(high_rumble_string, low_rumble_string, rumble_org, high_rumble_range, low_rumble_range)
 {
 	players = get_players();
-	
+
 	for (i = 0; i < players.size; i++)
 	{
 		if (isdefined (high_rumble_range) && isdefined (low_rumble_range) && isdefined(rumble_org))
@@ -161,7 +161,7 @@ quad_traverse_death_fx()
 ////////////////////////////////////////////////////
 
 begin_quad_introduction(quad_round_name)
-{	
+{
 	//handle dog cases
 	if(flag("dog_round"))
 	{
@@ -169,16 +169,16 @@ begin_quad_introduction(quad_round_name)
 	}
 	if (level.next_dog_round == (level.round_number + 1))
 		level.next_dog_round++;
-		
+
 	level.zombie_total = 0;
-	
+
 	// Remember the last round number for when we return
 	level.quad_round_name = quad_round_name;
 }
 
 Theater_Quad_Round()
 {
-	level.zombie_health = level.zombie_vars["zombie_health_start"]; 
+	level.zombie_health = level.zombie_vars["zombie_health_start"];
 
 	old_round = level.round_number;
 
@@ -189,7 +189,7 @@ Theater_Quad_Round()
 
 	//kill all active zombies
 	kill_all_zombies();
-	
+
 	level.round_number = old_round;
 }
 
@@ -197,44 +197,44 @@ spawn_second_wave_quads(second_wave_targetname)
 {
 	second_wave_spawners = [];
 	second_wave_spawners = GetEntArray(second_wave_targetname,"targetname");
-	
+
 	if( second_wave_spawners.size < 1 )
 	{
-		ASSERTMSG( "No second wave quad spawners in spawner array." ); 
-		return; 
-	}	
+		ASSERTMSG( "No second wave quad spawners in spawner array." );
+		return;
+	}
 
 	//iprintlnbold("Quad Zombie Second Wave...");
-	
+
 	for(i=0; i<second_wave_spawners.size; i++)
 	{
 		ai = spawn_zombie(second_wave_spawners[i]);
 		if( IsDefined( ai ) )
-		{	
+		{
 			ai thread maps\_zombiemode::round_spawn_failsafe();
 			ai thread quad_traverse_death_fx();
 		}
-		
-		wait(RandomInt(10,45));		
+
+		wait(RandomInt(10,45));
 	}
-	
+
 	wait_network_frame();
 }
 
 spawn_a_quad_zombie(spawn_array)
-{	
-	spawn_point = spawn_array[RandomInt( spawn_array.size )]; 
+{
+	spawn_point = spawn_array[RandomInt( spawn_array.size )];
 
-	ai = spawn_zombie( spawn_point ); 
+	ai = spawn_zombie( spawn_point );
 	if( IsDefined( ai ) )
-	{	
+	{
 		ai thread maps\_zombiemode::round_spawn_failsafe();
 		ai thread quad_traverse_death_fx();
 	}
-	
-	wait( level.zombie_vars["zombie_spawn_delay"] ); 
+
+	wait( level.zombie_vars["zombie_spawn_delay"] );
 	//wait(RandomInt(10,45));
-	
+
 	//iprintlnbold("Spawn a Quad Zombie...");
 	wait_network_frame();
 }
@@ -250,77 +250,77 @@ kill_all_zombies()
 			if( !IsDefined( zombies[i] ) )
 			{
 				continue;
-			}		
+			}
 
 			zombies[i] dodamage(zombies[i].health + 666, zombies[i].origin);
 			wait_network_frame();
 		}
-	}	
+	}
 }
 
-// This is used to prevent the round from ending when we are pacing the quad spawners.  It's possible to end 
+// This is used to prevent the round from ending when we are pacing the quad spawners.  It's possible to end
 //	the round if we kill a delayed quad spawner and there are no other zombies in the map.
 prevent_round_ending()
 {
 	level endon("quad_round_can_end");
-	
+
 	while( 1 )
 	{
 		if(level.zombie_total < 1)
 		{
 			level.zombie_total = 1;
 		}
-		
+
 		wait(0.5);
 	}
 }
 
 Intro_Quad_Spawn()
-{	
+{
 	timer = GetTime();
 	spawned = 0;
-	
+
 	previous_spawn_delay = level.zombie_vars["zombie_spawn_delay"];
-	
+
 	thread prevent_round_ending();
 	///////////////////////////////////////////////////////
 	// initial wave of quads
 	///////////////////////////////////////////////////////
 
 	//iprintlnbold("Quad Zombie Initial Wave...");
-	
+
 	//try to spawn a zombie.
 	initial_spawners = [];
-	
+
 	switch(level.quad_round_name)
 	{
 		case "initial_round":
 			initial_spawners = GetEntArray("initial_first_round_quad_spawner","targetname");
 			break;
-		
+
 		case "theater_round":
 			initial_spawners = GetEntArray("initial_theater_round_quad_spawner","targetname");
 			break;
-		
+
 		default:
-			ASSERTMSG( "No round specified for introducing quad round." ); 
+			ASSERTMSG( "No round specified for introducing quad round." );
 			return;
 	}
-	
+
 	if( initial_spawners.size < 1 )
 	{
-		ASSERTMSG( "No initial quad spawners in spawner array." ); 
-		return; 
-	}	
-			
+		ASSERTMSG( "No initial quad spawners in spawner array." );
+		return;
+	}
+
 	while(1)
 	{
 		// gradually introduce the quads by adjusting the delay between quad spawns
 		if(isDefined(level.delay_spawners))
 			manage_zombie_spawn_delay( timer );
-			
-		level.delay_spawners = true;	
-		
+
+		level.delay_spawners = true;
+
 		spawn_a_quad_zombie(initial_spawners);
 
 		wait(0.2);
@@ -330,13 +330,13 @@ Intro_Quad_Spawn()
 			break;
 		}
 	}
-	
+
 	///////////////////////////////////////////////////////
 	// second wave of quads
 	///////////////////////////////////////////////////////
-		
+
 	//iprintlnbold("Quad Zombie Second Wave...");
-	
+
 	spawned = 0;
 
 	second_spawners = [];
@@ -346,28 +346,28 @@ Intro_Quad_Spawn()
 		case "initial_round":
 			second_spawners = GetEntArray("initial_first_round_quad_spawner_second_wave","targetname");
 			break;
-		
+
 		case "theater_round":
-		
+
 			second_spawners = GetEntArray("theater_round_quad_spawner_second_wave","targetname");
 			break;
-		
+
 		default:
-			ASSERTMSG( "No round specified for second quad wave." ); 
+			ASSERTMSG( "No round specified for second quad wave." );
 			return;
 	}
-	
+
 	if( second_spawners.size < 1 )
 	{
-		ASSERTMSG( "No second quad spawners in spawner array." ); 
-		return; 
+		ASSERTMSG( "No second quad spawners in spawner array." );
+		return;
 	}
-	
+
 	while(1)
 	{
 		// gradually introduce the quads by adjusting the delay between quad spawns
 		manage_zombie_spawn_delay( timer );
-		
+
 		spawn_a_quad_zombie(second_spawners);
 
 		wait(0.2);
@@ -376,26 +376,26 @@ Intro_Quad_Spawn()
 		{
 			break;
 		}
-	}	
-	
+	}
+
 	// restore previous spawn delay
 	level.zombie_vars["zombie_spawn_delay"] = previous_spawn_delay;
-	
-	level.zombie_health = level.zombie_vars["zombie_health_start"]; 
+
+	level.zombie_health = level.zombie_vars["zombie_health_start"];
 	//level.round_number = 1;
 	level.zombie_total = 0;
 
 	///////////////////////////////////////////////////////
 	// mixed wave of quads and zombies
 	///////////////////////////////////////////////////////
-	
+
 	//iprintlnbold("Mixed Zombie Wave...");
-	
+
 	level.round_spawn_func = maps\_zombiemode::round_spawning;
 	level thread [[level.round_spawn_func]]();
-		
-	wait(2);	
-	
+
+	wait(2);
+
 	level notify("quad_round_can_end");
 	level.delay_spawners = undefined;
 }
@@ -404,19 +404,19 @@ manage_zombie_spawn_delay( start_timer )
 {
 	// quads will start to slowly spawn and then gradually spawn faster
 	if(GetTime() - start_timer < 15000 )
-	{		
+	{
 		level.zombie_vars["zombie_spawn_delay"] = RandomInt(30,45);
 	}
 	else if(GetTime() - start_timer < 25000 )
-	{		
+	{
 		level.zombie_vars["zombie_spawn_delay"] = RandomInt(15,30);
 	}
 	else if(GetTime() - start_timer < 35000 )
-	{		
+	{
 		level.zombie_vars["zombie_spawn_delay"] = RandomInt(10,15);
 	}
 	else if(GetTime() - start_timer < 50000 )
-	{		
+	{
 		level.zombie_vars["zombie_spawn_delay"] = RandomInt(5,10);
 	}
 }
@@ -502,7 +502,7 @@ play_quad_start_vo()
     wait(3);
     players = getplayers();
     player = players[RandomIntRange(0,players.size)];
-    
+
     player maps\_zombiemode_audio::create_and_play_dialog( "general", "quad_spawn" );
 }
 

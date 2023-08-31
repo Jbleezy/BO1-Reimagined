@@ -326,7 +326,7 @@ pack_door_solid_thread()
 		zombies = GetAIArray("axis");
 		ents = array_merge(players, zombies);
 		ent_touching = false;
-		
+
 		for( i = 0; i < ents.size; i++ )
 		{
 			if( ents[i] IsTouching( self ) )

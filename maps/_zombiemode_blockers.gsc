@@ -1,4 +1,4 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
 #using_animtree( "generic_human" );
@@ -1300,7 +1300,7 @@ blocker_init()
 destructible_glass_barricade(unbroken_section, node)
 {
 	unbroken_section SetCanDamage( true );
-	
+
 	while(1)
 	{
 		unbroken_section.health = 99999;
@@ -2579,7 +2579,7 @@ replace_chunk( chunk, perk, via_powerup )
 	{
 		sound = "zmb_vent_fix";
 	}*/
-	
+
 	/*iprintln("script_ender: " + self.script_ender);
 	iprintln("script_string: " + chunk.script_string);
 	iprintln("script_parameters: " + chunk.script_parameters);

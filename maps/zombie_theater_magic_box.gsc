@@ -1,4 +1,4 @@
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
 
@@ -12,14 +12,14 @@ magic_box_init()
 {
 	// Array must match array in zombie_theater.csc
 	// Start at 'start_chest' then order clockwise - finishing in the middle.
-	
+
 	// DCS: added to fix non-attacking dogs in alley, placed here because smallest theater specific script file.
-	level.dog_melee_range = 120;	
-	
+	level.dog_melee_range = 120;
+
 	level._BOX_INDICATOR_NO_LIGHTS = -1;
 	level._BOX_INDICATOR_FLASH_LIGHTS_MOVING = 99;
-	level._BOX_INDICATOR_FLASH_LIGHTS_FIRE_SALE = 98;	
-	
+	level._BOX_INDICATOR_FLASH_LIGHTS_FIRE_SALE = 98;
+
 	level._box_locations = array(	"start_chest",
 																"foyer_chest",
 																"crematorium_chest",
@@ -29,8 +29,8 @@ magic_box_init()
 																"dressing_chest",
 																"dining_chest",
 																"theater_chest");
-																
-	
+
+
 	level thread magic_box_update();
 	level thread watch_fire_sale();
 }
@@ -38,7 +38,7 @@ magic_box_init()
 get_location_from_chest_index(chest_index)
 {
 	chest_loc = level.chests[ chest_index ].script_noteworthy;
-	
+
 	for(i = 0; i < level._box_locations.size; i ++)
 	{
 		if(level._box_locations[i] == chest_loc)
@@ -46,7 +46,7 @@ get_location_from_chest_index(chest_index)
 			return i;
 		}
 	}
-	
+
 	AssertMsg("Unknown chest location - " + chest_loc);
 }
 
@@ -64,11 +64,11 @@ magic_box_update()
 
 	// Setup
 	box_mode = "Box Available";
-	
-	// Tell client 
-	
+
+	// Tell client
+
 	setclientsysstate( "box_indicator", get_location_from_chest_index(level.chest_index) );
-	
+
 	while( 1 )
 	{
 		switch( box_mode )
@@ -77,11 +77,11 @@ magic_box_update()
 			case "Box Available":
 				if( flag("moving_chest_now") )
 				{
-				
-					// Tell client 
-					
+
+					// Tell client
+
 					setclientsysstate( "box_indicator", level._BOX_INDICATOR_FLASH_LIGHTS_MOVING);	// flash everything.
-				
+
 					// Next Mode
 					box_mode = "Box is Moving";
 				}
@@ -95,7 +95,7 @@ magic_box_update()
 					wait(0.1);
 				}
 
-				// Tell client 
+				// Tell client
 				setclientsysstate( "box_indicator", get_location_from_chest_index(level.chest_index));
 
 				box_mode = "Box Available";
@@ -112,13 +112,13 @@ watch_fire_sale()
 	while ( 1 )
 	{
 		level waittill( "powerup fire sale" );
-		setclientsysstate( "box_indicator", level._BOX_INDICATOR_FLASH_LIGHTS_FIRE_SALE );	// flash everything. 
+		setclientsysstate( "box_indicator", level._BOX_INDICATOR_FLASH_LIGHTS_FIRE_SALE );	// flash everything.
 
 		while ( level.zombie_vars["zombie_powerup_fire_sale_time"] > 0)
 		{
 			wait( 0.1 );
 		}
-				
+
 		setclientsysstate( "box_indicator", get_location_from_chest_index(level.chest_index));
 	}
 }
@@ -129,29 +129,29 @@ watch_fire_sale()
 turnLightGreen(name, playfx)
 {
 	zapper_lights = getentarray( name, "script_noteworthy" );
-	
+
 	for(i=0;i<zapper_lights.size;i++)
 	{
 		if(isDefined(zapper_lights[i].fx))
 		{
 			zapper_lights[i].fx delete();
 		}
-		
+
 		if ( isDefined( playfx ) && playfx )
 		{
-			zapper_lights[i] setmodel("zombie_zapper_cagelight_green");	
+			zapper_lights[i] setmodel("zombie_zapper_cagelight_green");
 			zapper_lights[i].fx = maps\_zombiemode_net::network_safe_spawn( "trap_light_green", 2, "script_model", ( zapper_lights[i].origin[0], zapper_lights[i].origin[1], zapper_lights[i].origin[2] - 10 ) );
 			zapper_lights[i].fx setmodel("tag_origin");
 			zapper_lights[i].fx.angles = zapper_lights[i].angles;
 			playfxontag(level._effect["boxlight_light_ready"],zapper_lights[i].fx,"tag_origin");
 		}
 		else
-			zapper_lights[i] setmodel("zombie_zapper_cagelight");	
+			zapper_lights[i] setmodel("zombie_zapper_cagelight");
 	}
 }
 
 turnLightRed(name, playfx)
-{	
+{
 	zapper_lights = getentarray( name, "script_noteworthy" );
 
 	for(i=0;i<zapper_lights.size;i++)
@@ -160,10 +160,10 @@ turnLightRed(name, playfx)
 		{
 			zapper_lights[i].fx delete();
 		}
-		
+
 		if ( isDefined( playfx ) && playfx )
 		{
-			zapper_lights[i] setmodel("zombie_zapper_cagelight_red");	
+			zapper_lights[i] setmodel("zombie_zapper_cagelight_red");
 			zapper_lights[i].fx = maps\_zombiemode_net::network_safe_spawn( "trap_light_red", 2, "script_model", ( zapper_lights[i].origin[0], zapper_lights[i].origin[1], zapper_lights[i].origin[2] - 10 ) );
 			zapper_lights[i].fx setmodel("tag_origin");
 			zapper_lights[i].fx.angles = zapper_lights[i].angles;

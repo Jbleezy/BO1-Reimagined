@@ -1749,7 +1749,7 @@ decide_hide_show_hint( endon_notify )
 								max_ammo += WeaponClipSize(weapon);
 							}
 						}
-	
+
 						if(dual_wield_weapon != "none")
 						{
 							if(players[i] HasPerk("specialty_stockpile"))
@@ -2270,7 +2270,7 @@ treasure_chest_timeout()
 	weapon = self.chest_origin.weapon_string;
 
 	wait( 9 );
-	
+
 	/*if(IsDefined(player.already_got_weapons) && is_in_array(player.already_got_weapons, weapon))
 	{
 		player.already_got_weapons = array_remove(player.already_got_weapons, weapon);
@@ -4131,7 +4131,7 @@ place_treasure_chest(script_noteworthy, origin, angles, start_exclude)
 	if(IsDefined(level.override_place_treasure_chest_bottom))
 	{
 		up_amount = [[level.override_place_treasure_chest_bottom]](origin, angles);
-		
+
 		if(IsDefined(up_amount))
 		{
 			origin = origin + (up * up_amount);
@@ -4143,7 +4143,7 @@ place_treasure_chest(script_noteworthy, origin, angles, start_exclude)
 	{
 		trig_origin = origin + (up * 32) + (right * -18.5);
 	}
-	
+
 	trigger = Spawn( "trigger_radius_use", trig_origin, 0, 20, 70 );
 	trigger.angles = angles;
 	id = trigger GetEntityNumber();

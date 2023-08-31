@@ -1108,7 +1108,7 @@ sonic_zombie_count_watch()
 	{
 		level.nextSonicSpawnRound = level.round_number + RandomIntRange(level.sonicZombieMinRoundWait, level.sonicZombieMaxRoundWait + 1);
 	}*/
-	
+
 	level.nextSonicSpawnRound = level.round_number + 1;
 
 	attacker = self.attacker;

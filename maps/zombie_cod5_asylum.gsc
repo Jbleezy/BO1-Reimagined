@@ -193,7 +193,7 @@ give_player_model_override( entity_num )
 			break;
 		case 3:
 			character\c_usa_marine4_dlc5::main();// Marine4
-			break;	
+			break;
 	}
 }
 
@@ -216,7 +216,7 @@ player_set_viewmodel_override( entity_num )
 		case 3:
 			// Richtofen
 			self SetViewModel( "t4_viewhands_usa_marine" );
-			break;		
+			break;
 	}
 }
 
@@ -739,7 +739,7 @@ electric_trap_think()
 					play_sound_at_pos( "purchase", who.origin );
 					self sethintstring( &"REIMAGINED_TRAP_ACTIVE" );
 					self thread electric_trap_move_switch(self);
-					
+
 					//set the score
 					who maps\_zombiemode_score::minus_to_player_score( self.zombie_cost );
 

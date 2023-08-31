@@ -1,4 +1,4 @@
-#include maps\_utility; 
+#include maps\_utility;
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
 #include maps\_zombiemode_audio;
@@ -72,7 +72,7 @@ init_equipment_upgrade()
 			equipment_spawns[i] disable_trigger();
 			continue;
 		}
-		
+
 		hint_string = get_equipment_hint( equipment_spawns[i].zombie_equipment_upgrade );
 
 		equipment_spawns[i] SetHintString( hint_string );

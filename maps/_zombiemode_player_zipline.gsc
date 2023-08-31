@@ -8,7 +8,7 @@ player zipline - chrisp
 
 main()
 {
-	precache_zipline_assets();	
+	precache_zipline_assets();
 	init_player_ziplines();
 }
 
@@ -20,15 +20,15 @@ main()
 precache_zipline_assets()
 {
 	precachemodel("viewmodel_hands_no_model");
-	
+
 	//temp test with CUBA zipline anim to get it working
 	level.zipline_anims = [];
 	level.zipline_anims["zipline_grab"] = %pb_zombie_zipline_grab;
-	level.zipline_anims["zipline_release"] = %pb_zombie_zipline_release;	
+	level.zipline_anims["zipline_release"] = %pb_zombie_zipline_release;
 	level.zipline_anims["zipline_loop"] = %pb_zombie_zipline_loop;
 
 	level.zipline_animtree = #animtree;
-	
+
 }
 
 
@@ -38,17 +38,17 @@ init the usable player ziplines
 init_player_ziplines()
 {
 	//players get linked to these fake vehicles, which in turn get put onto splines which run along the zip_lines. There needs to be 4 placed in the map ( 1 for each player)
-	zipline_vehicles = getentarray("zipline_vehicles","script_noteworthy");	
-	
+	zipline_vehicles = getentarray("zipline_vehicles","script_noteworthy");
+
 	//each zipline needs to have a trigger_use with a targetname of "player_zipline" . The trigger needs to target the first node of the zipline vehicle spline. Optionally it can also target a script entity ( i.e. a gate )
-	zipline_trigs = getentarray("player_zipline","targetname");	
+	zipline_trigs = getentarray("player_zipline","targetname");
 	array_thread(zipline_trigs,::monitor_player_zipline,zipline_vehicles);
-	
+
 	flag_wait("all_players_spawned");
 	players = get_players();
 	array_thread(players,::jump_button_monitor);
-	
-	
+
+
 }
 
 
@@ -62,25 +62,25 @@ monitor_player_zipline(zipline_vehicles)
 	//this needs to target the start node of the vehicle spline that the zipline vehicle travels on
 	zip_path = self.target;
 
-	
+
 	//the zipline trigger should target both a "gate" and the start node of the vehicle spline
 	targets = getentarray(self.target,"targetname");
 	poi = undefined;
 	for(i=0;i<targets.size;i++)
 	{
-		
+
 		//the gate that opens, allowing access to the zipline. The script_string should hold any flag names that are required to allow access to the zipline
 		//TODO - make system able to handle the gate in a more elegant way than just deleting it ;)
 		if(targets[i].classname == "script_brushmodel"  || targets[i].classname == "script_model")
 		{
 			assertex( isDefined(targets[i].script_string), "The zipline gate needs to have a script_string reference with one or more flag names seperated by spaces");
-			
+
 			zip_hint_trig = Spawn( "trigger_radius_use", targets[i].origin );
 			zip_hint_trig SetCursorHint( "HINT_NOICON" );
 			zip_hint_trig sethintstring(&"ZOMBIE_COAST_ZIPLINE_NO_ACCESS");
-			
+
 			zipline_flags = strTok( targets[i].script_string, " " );
-			
+
 			if(targets[i].targetname == "zipline_test1") //we need to wait for multiple flags intead of "either" flag
 			{
 				//flag_wait("start_beach_group");
@@ -104,26 +104,26 @@ monitor_player_zipline(zipline_vehicles)
 			poi = targets[i];
 		}
 	}
-	
+
 	enemyoverride = [];
 	enemyoverride[0] = poi.origin;
 	enemyoverride[1] = poi;
-	
+
 
 	while(1)
 	{
 		self  waittill("trigger",who);
-				
+
 		if(!isplayer(who) )
 		{
-			
+
 			if(who.team == "axis")
 			{
 				who PlayLoopSound( "evt_zipline_slide", .5 );
 				who thread wait_to_end_looper();
 				continue;
 			}
-			
+
 			ai = getaiarray("axis");
 			followers = [];
 			for(i=0;i<ai.size;i++)
@@ -136,29 +136,29 @@ monitor_player_zipline(zipline_vehicles)
 					//ai[i] thread draw_debug_info();
 				}
 			}
-			who thread wait_for_human_zombie_exit_zipline(followers);			
+			who thread wait_for_human_zombie_exit_zipline(followers);
 			who thread reset_followers_on_death(followers);
 			continue;
 		}
-		
+
 		if( !who is_ok_to_zipline(zip_path))
 		{
 			continue;
 		}
-		 
+
 		if(isDefined(who.is_ziplining))
 		{
 			continue;
-		}		
+		}
 
 		//grab an available vehicle
 		vehicle = get_zipline_vehicle(zipline_vehicles);
-		
+
 		if(isDefined(vehicle) )
 		{
 			who.is_ziplining = true;
 			who thread do_player_zipline(vehicle,zip_path,self);
-			
+
 			//check to see if we should set up the zombie POI stuff
 			players = get_players();
 			ai = getaiarray("axis");
@@ -174,7 +174,7 @@ monitor_player_zipline(zipline_vehicles)
 			}
 			who thread wait_for_player_to_disconnect(followers);
 			who thread wait_for_player_exit_zipline(followers);
-		}		
+		}
 	}
 }
 
@@ -182,7 +182,7 @@ wait_to_end_looper()
 {
 	self endon("death");
 	self waittill( "zombie_end_traverse");
-	
+
 	if( IsDefined( self ) )
 	{
         self StopLoopSound( 1 );
@@ -197,7 +197,7 @@ wait_to_end_looper()
 //		wait(.05);
 //
 //	}
-//	
+//
 //}
 wait_for_player_to_disconnect(followers)
 {
@@ -218,7 +218,7 @@ wait_for_player_exit_zipline(followers)
 {
 	self endon("disconnect");
 	self endon("death");
-	
+
 	self waittill("exit_zipline");
 
 	for(i=0;i<followers.size;i++)
@@ -238,7 +238,7 @@ wait_for_player_exit_zipline(followers)
 wait_for_human_zombie_exit_zipline(followers)
 {
 	self endon("death");
-	
+
 	while(is_true(self.is_traversing))
 	{
 		wait(.05);
@@ -260,7 +260,7 @@ wait_for_human_zombie_exit_zipline(followers)
 
 reset_followers_on_death(followers)
 {
-	
+
 	self endon("zombie_end_traverse");
 	self waittill("death");
 	for(i=0;i<followers.size;i++)
@@ -274,7 +274,7 @@ reset_followers_on_death(followers)
 			}
 		}
 	}
-	
+
 }
 
 
@@ -288,42 +288,42 @@ is_ok_to_zipline(zip_path)
 {
 	//TODO: add whatever other checks need to be added
 
-	if(self maps\_laststand::player_is_in_laststand() ) 
+	if(self maps\_laststand::player_is_in_laststand() )
 	{
 		return false;
-	}	
-	
-	
+	}
+
+
 	weap = self getcurrentweapon();
 	if( weap == "syrette_sp")
 	{
 		return false;
 	}
-	
+
 	if( self getstance() == "stand" || is_true(self.divetoprone))
 	{
-		
+
 		if(!isDefined(self.jumptime))
 		{
 			return false;
-		}		
-		
+		}
+
 		if( self jumpbuttonpressed() || ( gettime() - self.jumptime <= 800) || is_true(self.divetoprone))
 		{
 			return true;
 		}
 
 //		//make sure the player is looking forward ( using the zipline spline end node as the direction the player should be looking...)
-//		end_node = 	get_zipline_end_node(zip_path);		
+//		end_node = 	get_zipline_end_node(zip_path);
 //		yaw  =  self animscripts\utility::GetYawToSpot(end_node.origin );
-//		
+//
 //		// make sure the player is looking withing a 70 degree "cone" of the direction he's supposed to be jumping
 //		if( yaw < 70 && yaw > -70 )
-//		{		
+//		{
 //			return true;
 //		}
 	}
-	return false;	
+	return false;
 }
 
 /*------------------------------------
@@ -333,42 +333,42 @@ self = a player
 do_player_zipline(vehicle,zip_path,zip_trig)
 {
 	self endon("disconnect");
-	
+
 	vehicle thread zipline_player_death_disconnect_failsafe(self);
 
 	self Allowstand(true);
-	self allowcrouch(true);	
+	self allowcrouch(true);
 	self EnableInvulnerability();
 
-	
+
 	// attach the vehicle and wait 1 network frame to give the client a chance to catch up.
 	// this helps eliminate the rubber-band effect
-	vehicle attachpath( getvehiclenode(zip_path,"targetname"));	
+	vehicle attachpath( getvehiclenode(zip_path,"targetname"));
 	wait_network_frame();
-	
+
 	has_perk = isDefined(self.perk_purchased);
 
 	weaponname = self getcurrentweapon();
-	
+
 	//set properties on the player for starting the zipline
 	self player_enter_zipline(vehicle,zip_path);
-	
+
 	//kevin adding audio
 	//iprintlnbold ("START");
 	sound_ent = spawn( "script_origin" , self.origin );
 	sound_ent linkto( self );
 	sound_ent playloopsound( "evt_zipline_slide" );
 	sound_ent thread force_deletion_of_soundent( self, vehicle );
-	
+
 
 	vehicle startpath();
 	wait(.5);
-	
+
 	self maps\_zombiemode_audio::create_and_play_dialog( "general", "zipline" );
-	
+
 	// so that it looks like the player is firing with one hand while breaching ;)
-	
-		
+
+
 	/*if(!has_perk) //the perk system already re-enables the weapons
 	{
 		//make sure the player doesn't enter the zipline carrying these
@@ -382,25 +382,25 @@ do_player_zipline(vehicle,zip_path,zip_trig)
 			}
 		}
 
-		self setviewmodel("viewmodel_hands_no_model");	
-		//self enableweapons();	
+		self setviewmodel("viewmodel_hands_no_model");
+		//self enableweapons();
 	}*/
-	
+
 	end_node = 	get_zipline_end_node(zip_path);
 	wait(.75);
 	//self EnableWeaponFire();
-	
+
 	while(distancesquared(vehicle.origin,end_node.origin) > (950*950))
 	{
 		wait(.05);
 	}
-		
+
 	//stop the rumble/quake before the player exits the zipline
 	self clearclientflag(level._CF_PLAYER_ZIPLINE_RUMBLE_QUAKE);
-	
+
 	//make the vehicle usable again once it's reached the end of the ride
-	vehicle waittill("reached_end_node");	
-	
+	vehicle waittill("reached_end_node");
+
 	self thread player_exit_zipline(vehicle,zip_trig);
 
 	//make sure the player doesn't enter the zipline carrying these
@@ -420,23 +420,23 @@ do_player_zipline(vehicle,zip_path,zip_trig)
 			self SwitchToWeapon( "combat_" + self get_player_melee_weapon() );
 		}
 	}
-	
+
 	if( IsDefined( sound_ent ) )
 	{
 	    sound_ent delete();
 	}
-	
+
 	//stop the telefraging thread
 	wait(2);
 	self.is_ziplining = undefined;
-		
+
 }
 
 force_deletion_of_soundent( player, vehicle )
 {
     vehicle endon( "reached_end_node" );
     vehicle endon( "player_unlinked" );
-    
+
     player waittill_any( "death", "disconnect" );
     self Delete();
 }
@@ -448,10 +448,10 @@ zipline_player_death_disconnect_failsafe(player)
 {
 	//this notify is sent off when the player finishes ziplining
 	self endon("player_unlinked");
-	player waittill_any("death","disconnect");	
+	player waittill_any("death","disconnect");
 
 	self unlink();
-	self.in_use = undefined;	
+	self.in_use = undefined;
 }
 
 /*------------------------------------
@@ -462,11 +462,11 @@ player_exit_zipline(vehicle,zip_trig)
 	vehicle.in_use = undefined;
 	vehicle notify("player_unlinked");
 	self DisableInvulnerability();
-	
+
 	//stop the clientside zipline fx
-	self clearclientflag(level._CF_PLAYER_ZIPLINE_FAKE_PLAYER_SETUP );	
+	self clearclientflag(level._CF_PLAYER_ZIPLINE_FAKE_PLAYER_SETUP );
 	self move_to_safe_landing_spot(zip_trig,vehicle,self);
-	
+
 	//unlink the player and reset everything
 	self unlink();
 
@@ -476,49 +476,49 @@ player_exit_zipline(vehicle,zip_trig)
 
 	//player dismounts the zipline
 	self setloweredweapon(0);
-	self Show();	
+	self Show();
 	wait(1);
 	//self maps\zombie_coast::coast_custom_viewmodel_override();
 	self EnableWeapons();
-	//self EnableWeaponFire();	
+	//self EnableWeaponFire();
 	//self EnableWeaponReload();
 	self notify("exit_zipline");
-	
+
 	//allow the stances
 	self allowcrouch(true);
 	self allowprone(true);
-		
+
 	// a little post effect
 	wait(.1);
 	Earthquake( RandomFloatRange( 0.35, 0.45 ), RandomFloatRange(.25, .5), self.origin, 100 );
 
 	self.zipline_vehicle = undefined;
-	
+
 	self allowads(true);
 	self allowsprint(true);
-	
+
 	self decrement_is_drinking();
 	//self EnableWeaponCycling();
 	//self enableoffhandweapons();
-	
+
 	self allowmelee(true);
-	
+
 
 }
 
 move_to_safe_landing_spot(zip_trig,vehicle,zipliner)
 {
-	
+
 	landing_spots = getstructarray(zip_trig.target,"targetname");
 	if(landing_spots.size < 1)
 	{
 		return;
 	}
-	
+
 	landing_spot_found = false;
 	while(!landing_spot_found)
 	{
-	
+
 		for(i=0;i< landing_spots.size;i++)
 		{
 			if ( zipliner_can_land_here(landing_spots[i].origin,zipliner) )
@@ -529,12 +529,12 @@ move_to_safe_landing_spot(zip_trig,vehicle,zipliner)
 		}
 		wait(.05);
 	}
-	
-	
+
+
 }
 zipliner_can_land_here(spot,zipliner)
 {
-	
+
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
@@ -547,21 +547,21 @@ zipliner_can_land_here(spot,zipliner)
 			return false;
 		}
 	}
-	return true;	
-	
+	return true;
+
 }
 /*
 zipline_debug_thread(veh)
 {
 	self endon("end_zipline_debug");
-	
+
 	while(1)
 	{
 		pos = self.origin + (0,0,128);
-		
+
 		pos += AnglesToForward(self.angles) * 1440;
 		pos -= AnglesToRight(self.angles) * 480;
-		
+
 		(pos, "O (" + self GetEntityNumber() + ") : " + self.origin, (0.2, 0.2, 0.8), 1, 3, 1);
 		Print3Dpos += (0,0,-32);
 		Print3D(pos, "A (" + self GetEntityNumber() + ") : " + self.angles, (0.2, 0.2, 0.8), 1, 3, 1);
@@ -581,41 +581,41 @@ do anything here to the player that needs to happen just before he starts ziplin
 player_enter_zipline(vehicle,path_start)
 {
 	self thread zombie_zipline_intersect_monitor();
-	
+
 	self setloweredweapon(1);
 	//self DisableWeaponFire();
-	
+
 	if(isDefined(self.perk_purchased))
 	{
 		self thread monitor_perk_on_zipline();
 	}
-	
+
 	self playerlinktodelta(vehicle,"tag_origin",.5,180,180,180,180);
-	
+
 	self.zipline_vehicle = vehicle;
-	
+
 	// wait until dtp is done
 	while(is_true(self.divetoprone)  )
 	{
 		wait(.05);
-	}	
+	}
 	//starts the rumble/quake effect
 	self setclientflag(level._CF_PLAYER_ZIPLINE_RUMBLE_QUAKE);
-	
+
 	//set up the fake player
 	self setclientflag(level._CF_PLAYER_ZIPLINE_FAKE_PLAYER_SETUP);
 	self allowsprint(false);
 
-			
+
 	if(!isDefined(self.perk_purchased))
 	{
-		self allowmelee(false);	
+		self allowmelee(false);
 		self DisableWeapons();
 		//self DisableWeaponFire();
-		//self DisableWeaponReload();	
+		//self DisableWeaponReload();
 		self increment_is_drinking();
 		self setstance("stand");
-		self allowcrouch(false);	
+		self allowcrouch(false);
 		self allowprone(false);
 		self allowads(false);
 
@@ -623,29 +623,29 @@ player_enter_zipline(vehicle,path_start)
 	//self DisableWeaponCycling();
 
 	self Hide();
-	
+
 	//wait a frame
-	wait_network_frame();	
+	wait_network_frame();
 }
 
 monitor_perk_on_zipline()
 {
 	self endon("disconnect");
 	//self setloweredweapon(1);
-		
+
 	while(isDefined(self.perk_purchased))
 	{
 		wait(.05);
-	}	
+	}
 
 	//self setviewmodel("viewmodel_hands_no_model");
-	
+
 	//self DisableWeaponReload();
-	self allowmelee(false);	
-		
+	self allowmelee(false);
+
 	self increment_is_drinking();
 	self setstance("stand");
-	self allowcrouch(false);	
+	self allowcrouch(false);
 	self allowprone(false);
 	self allowads(false);
 	self allowsprint(false);
@@ -660,14 +660,14 @@ zombie_zipline_intersect_monitor()
 {
 	self endon("exit_zipline");
 	self endon("disconnect");
-	
+
 	while(1)
 	{
 		ai = getaiarray();
 		count = 0;
 		for(i=0;i<ai.size;i++)
 		{
-			
+
 			if( !is_true(ai[i].is_ziplining) )
 			{
 				continue;
@@ -686,7 +686,7 @@ zombie_zipline_intersect_monitor()
 							self.zipline_vehicle.speed_reduced = true;
 						}
 					}
-				}				
+				}
 				else
 				{
 					if(isDefined(self.zipline_vehicle) && isDefined(self.zipline_vehicle.speed_reduced))
@@ -696,7 +696,7 @@ zombie_zipline_intersect_monitor()
 					}
 				}
 				continue;
-				
+
 			}
 			if( distancesquared(self.origin,ai[i].origin) < (18*18))
 			{
@@ -738,9 +738,9 @@ this gets the last node of the zipline vehicle spline
 ------------------------------------*/
 get_zipline_end_node(start_path)
 {
-	
+
 	start_node = getvehiclenode(start_path,"targetname");
-	
+
 	while(1)
 	{
 		if(isDefined(start_node.target))
@@ -762,12 +762,12 @@ get_zipline_end_node(start_path)
 
 flag_wait_any_array( flag_array )
 {
-                
+
   flag_activated = false;
-  
+
   while(!flag_activated)
   {
-                  
+
     for(i=0; i<flag_array.size; i++)
     {
       if( flag( flag_array[i] ) )
@@ -775,17 +775,17 @@ flag_wait_any_array( flag_array )
         flag_activated = true;
       }
     }
-    wait(.1);             
-  }                
+    wait(.1);
+  }
 }
 
 
 jump_button_monitor()
 {
-	
+
 	level endon("intermission");
 	self endon("disconnect");
-	
+
 	while(1)
 	{
 		if( self jumpbuttonpressed() )
@@ -793,7 +793,7 @@ jump_button_monitor()
 			self.jumptime = gettime();
 		}
 		wait(.1);
-	}	
+	}
 }
 
 

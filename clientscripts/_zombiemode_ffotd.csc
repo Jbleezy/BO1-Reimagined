@@ -127,7 +127,7 @@ include_weapons()
 	else if(GetDvar("mapname") == "zombie_coast")
 	{
 		include_weapon( "sticky_grenade_zm", false );
-		
+
 		include_weapon( "ak47_zm" );
 		include_weapon( "ak47_upgraded_zm", false );
 		include_weapon( "stoner63_zm" );

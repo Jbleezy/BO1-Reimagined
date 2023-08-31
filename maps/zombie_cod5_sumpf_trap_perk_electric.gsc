@@ -1,4 +1,4 @@
-#include common_scripts\utility; 
+#include common_scripts\utility;
 #include maps\_utility;
 #include maps\_zombiemode_utility;
 
@@ -358,7 +358,7 @@ player_elec_damage()
 			//self playloopsound ("electrocution");
 			self playsound("zombie_arc");
 		}
-		
+
 		damage = 0;
 		if(!self hasperk("specialty_armorvest"))
 		{

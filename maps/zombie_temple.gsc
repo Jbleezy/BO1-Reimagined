@@ -646,7 +646,7 @@ temple_powerup_fx_func()
 	{
 		playfxontag(level._effect["powerup_on"],self.fx_green,"tag_origin");
 	}
-	
+
 	self thread delete_powerup_fx_wait();
 }
 delete_powerup_fx_wait()
