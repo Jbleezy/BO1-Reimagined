@@ -133,11 +133,6 @@ gasmask_activation_watcher_thread()
 	{
 		self waittill_either("equip_gasmask_zm_activate", "equip_gasmask_zm_deactivate");
 
-		if(self HasPerk("specialty_fastreload"))
-		{
-			self UnSetPerk("specialty_fastswitch");
-		}
-
 		if(self maps\_zombiemode_equipment::is_equipment_active("equip_gasmask_zm"))
 		{
 			self increment_is_drinking();
@@ -203,11 +198,6 @@ gasmask_activation_watcher_thread()
 			self waittill( "weapon_change_complete" );
 
 			self TakeWeapon("lower_equip_gasmask_zm");
-		}
-
-		if(self HasPerk("specialty_fastreload"))
-		{
-			self SetPerk("specialty_fastswitch");
 		}
 
 		if ( !self maps\_laststand::player_is_in_laststand() )

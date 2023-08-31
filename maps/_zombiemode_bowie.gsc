@@ -139,20 +139,10 @@ give_bowie_think(player)
 
 give_bowie()
 {
-	if(self HasPerk("specialty_fastreload"))
-	{
-		self UnSetPerk("specialty_fastswitch");
-	}
-
 	gun = self do_bowie_flourish_begin();
 	self maps\_zombiemode_audio::create_and_play_dialog( "weapon_pickup", "bowie" );
 
 	self waittill_any( "fake_death", "death", "player_downed", "weapon_change_complete" );
-
-	if(self HasPerk("specialty_fastreload"))
-	{
-		self SetPerk("specialty_fastswitch");
-	}
 
 	// restore player controls and movement
 	self do_bowie_flourish_end( gun );
