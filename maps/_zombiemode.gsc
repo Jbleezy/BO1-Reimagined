@@ -8360,8 +8360,10 @@ round_time_loop()
 	{
 		level waittill( "end_of_round" );
 	}
-
-	level waittill( "start_of_round" );
+	else
+	{
+		level waittill("fade_introblack");
+	}
 
 	while(1)
 	{
