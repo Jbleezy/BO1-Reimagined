@@ -2760,6 +2760,8 @@ additional_weapon_indicator(perk, perk_str)
 	self endon("disconnect");
 	self endon(perk_str);
 
+	self waittill("weapon_change_complete");
+
 	indicated = false;
 	self.weapon_slots = [];
 
