@@ -661,7 +661,7 @@
 * Now uses model from Black Ops 3
 
 ## Wallbuys
-* Purchasing ammo no longer fills the clip
+* Purchasing ammo fully fills clip and stock
 * Decreased upgraded ammo cost from 4500 to 2500
 * Can now purchase ammo for weapons with attachments if only the attachment ammo is not full
 * Multiple players can now purchase the Bowie Knife and Sickle at the same time
