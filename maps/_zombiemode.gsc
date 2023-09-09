@@ -4864,7 +4864,7 @@ award_grenades_for_survivors()
 
 	for (i = 0; i < players.size; i++)
 	{
-		if (!players[i].is_zombie)
+		if (is_player_valid(players[i]))
 		{
 			lethal_grenade = players[i] get_player_lethal_grenade();
 			if( !players[i] HasWeapon( lethal_grenade ) )

@@ -48,12 +48,13 @@
 * Can now shoot when looking at another player
 * Player names now disappear instantly after being out of line of sight of them
 * Added a minimum weapon switch delay of 50 milliseconds
+* Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
 * If a player switches weapons while reviving, their weapon will not get switched when finishing a revive
 * Lean is now disabled while down since downed players cannot be revived while they are leaning
 * Fixed a bug where players were able to damage themselves by meleeing and leaning at the same time
 * Fixed a bug where a player was able to revive another player by bleeding out next to them in water
 * Fixed a bug where downed players were able to occasionally damage alive players
-* Too many weapons penalty has been changed to only take the weapon that the player shouldnt have
+* Fixed a bug where downed players would be awarded grenades during a round change
 * Fixed a bug where the first damage taken after being revived or respawning would sometimes not register
 * Fixed a bug where players were able to freeze in mid air with no weapon in hand if they held the fire button while spawning in
 * Fixed players getting stuck in the air when jumping next to an object with high FPS
