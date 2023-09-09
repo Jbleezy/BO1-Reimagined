@@ -1,9 +1,8 @@
 #include maps\_utility;
 #include common_scripts\utility;
 #include maps\_zombiemode_utility;
+#include maps\_hud_util;
 
-
-//
 init()
 {
 	PrecacheShader( "specialty_doublepoints_zombies" );
@@ -2724,7 +2723,7 @@ full_ammo_move_hud()
 
 	wait move_fade_time;
 
-	self destroyelem();
+	self destroyElem();
 }
 
 
