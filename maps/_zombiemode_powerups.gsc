@@ -2724,7 +2724,7 @@ full_ammo_move_hud()
 
 	wait move_fade_time;
 
-	self destroy();
+	self destroyelem();
 }
 
 
