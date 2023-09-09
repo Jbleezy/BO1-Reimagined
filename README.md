@@ -1101,7 +1101,7 @@
 * Decreased cooldown after using the lunar lander from 30 seconds to 15 seconds
 * Increased cooldown after calling the lunar lander from 3 seconds to 15 seconds
 * Lander station no longer kills or moves players if the lander station moves down while the player is standing on it
-* Kills from the lunar lander count as actual kills
+* Zombies killed from the lunar lander no longer respawn
 * Zombies have a better death animation when killed by the lunar lander
 * Player who activates the lunar lander is forced to ride the lunar lander
 
@@ -1123,7 +1123,7 @@
 * Fixed a bug where players could occasionally die in the Lighthouse Station Roof zone if they jumped too far off the staircase
 
 #### Flinger
-* Zombies flung count as actual kills
+* Zombies flung no longer respawn
 * Available whenever the power is on
 * Will not activate if the player is in the air
 * Removed explosion effect from flung zombies
@@ -1185,7 +1185,7 @@
 
 #### Minecart
 * Available whenever the power is on
-* Kills from the minecart count as actual kills
+* Zombies killed from the minecart no longer respawn
 * Travels back up 2x faster
 * Player who activates the minecart is forced to ride the minecart
 
