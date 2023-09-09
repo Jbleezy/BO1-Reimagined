@@ -692,6 +692,7 @@
 * Fixed a bug where the Mystery Box weapon would fly away if the Mystery Box was activated as a Fire Sale was ending and the Fire Sale was grabbed as the box was starting to move
 * Fixed a bug where weapons would be cycled through faster on higher FPS
 * Fixed a bug where the teddy bear would spawn in facing the wrong direction
+* Fixed a bug where the lid close sound would happen when moving
 * Ascension: teddy bear now has sickle
 * Moon: teddy bear now has space helmet
 

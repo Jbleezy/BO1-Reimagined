@@ -1976,7 +1976,7 @@ treasure_chest_move( player_vox )
 
 	level waittill("weapon_fly_away_end");
 
-	self.chest_lid thread treasure_chest_lid_close(false);
+	self.chest_lid thread treasure_chest_lid_close(false, false);
 	self setvisibletoall();
 
 	self treasure_chest_fly_away(true);
@@ -2300,13 +2300,22 @@ treasure_chest_lid_open()
 	play_sound_at_pos( "music_chest", self.origin );
 }
 
-treasure_chest_lid_close( timedOut )
+treasure_chest_lid_close( timedOut, playSound )
 {
+	if (!isDefined(playSound))
+	{
+		playSound = true;
+	}
+
 	closeRoll = -105;
 	closeTime = 0.5;
 
 	self RotateRoll( closeRoll, closeTime, ( closeTime * 0.5 ) );
-	play_sound_at_pos( "close_chest", self.origin );
+
+	if (playSound)
+	{
+		play_sound_at_pos( "close_chest", self.origin );
+	}
 
 	self notify("lid_closed");
 }
