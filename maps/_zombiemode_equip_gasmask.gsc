@@ -154,9 +154,23 @@ gasmask_activation_watcher_thread()
 				self [[level.zombiemode_gasmask_change_player_headmodel]]( ent_num, true );
 			}
 
-			wait .8;
+			time = 0.8;
+			if (self HasPerk("specialty_fastswitch"))
+			{
+				time *= 0.5;
+			}
+
+			wait time;
+
 			clientnotify( "gmsk2" );
-			wait 1.8;
+
+			time = 1.8;
+			if (self HasPerk("specialty_fastswitch"))
+			{
+				time *= 0.5;
+			}
+
+			wait time;
 
 			//self waittill( "weapon_change_complete" );
 
