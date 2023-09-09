@@ -208,7 +208,7 @@
 ### Ballistic Knife
 * Knives pick up automatically when close to them
 * Knives that are picked up no longer automatically fill the clip if the Ballistic Knife is not the player's current weapon
-* Decreased time to start reloading from .7 seconds to .5 seconds
+* Decreased time to start reloading from 0.7 seconds to 0.5 seconds
 * Fixed a bug where a knife could be picked up if the player had max stock ammo
 * Obtaining the Bowie Knife or Sickle no longer gives you more ammo
 * Fixed a bug where a knife could not be picked up if another knife is fired and lands before the first knife
@@ -234,11 +234,11 @@
 * Rechambers while aiming
 * Increased explosion radius by 28%
 * Increased damage scaling over rounds
-* Decreased sprint recovery time from .6 seconds to .3 seconds
-* Decreased time to start rechambering and reloading after firing from 1 second to .5 seconds
+* Decreased sprint recovery time from 0.6 seconds to 0.3 seconds
+* Decreased time to start rechambering and reloading after firing from 1 second to 0.5 seconds
 * Unupgraded: decreased rechamber time from 2 seconds to 1 second
 * Unupgraded: increased minimum explosive damage from 75 to 150
-* Upgraded: decreased rechamber time from 1.4 seconds to .7 seconds
+* Upgraded: decreased rechamber time from 1.4 seconds to 0.7 seconds
 * Upgraded: increased impact damage from 1000 to 1200
 * Upgraded: increased minimum explosive damage from 75 to 300
 
@@ -325,7 +325,7 @@
 ### M1 Garand
 * Added sound that plays when first obtaining
 * Fixed raise animation
-* Decreased raise time from .8 seconds to .6 seconds
+* Decreased raise time from 0.8 seconds to 0.6 seconds
 
 ### M14
 * Added empty clip animations
@@ -351,7 +351,7 @@
 
 ### M72 LAW
 * Can fire without aiming
-* Decreased time to start reloading from 1.06 seconds to .5 seconds
+* Decreased time to start reloading from 1.06 seconds to 0.5 seconds
 * Increased explosion radius by 12%
 * Fixed dive to prone animation from looping
 * Fixed sprint footstep sounds happening too slow
@@ -772,7 +772,7 @@
 * Kills zombies in 4 body shots
 * Kills zombies in 2 headshots
 * Decreased raise time from 1.55 seconds to 1.1 seconds
-* Decreased drop time from .75 seconds to .3 seconds
+* Decreased drop time from 0.75 seconds to 0.3 seconds
 * Powerup can spawn while one is already active
 
 ### Fire Sale
@@ -933,7 +933,7 @@
 * Fixed a bug where monkeys would not spawn in certain situations where the max amount of zombies were already spawned in
 * Monkey ambient sounds go away once all the powerups currently on the map have been picked up by monkeys
 * Fixed a bug where Monkeys would not go after a powerup that spawned at the same time or almost the same time as another powerup
-* Monkeys wait .5 seconds to spawn instead of a random amount between 0 and 1 second
+* Monkeys wait 0.5 seconds to spawn instead of a random amount between 0 and 1 second
 * Grenades thrown back by monkeys will no longer damage the player that threw the grenade if they have PHD Flopper
 
 ### Napalm
@@ -1078,7 +1078,7 @@
 * Fixed teleporters showing they were ready to use again too early after teleporting through them
 * Player height position is more accurate when exiting the teleporter
 * Added 1 second delay before zombies can come through the teleporter after a player teleports
-* Added .1 second delay between zombie teleports to prevent zombies from getting stuck
+* Added 0.1 second delay between zombie teleports to prevent zombies from getting stuck
 * Decreased maximum time for zombies to teleport from 20 seconds to 15 seconds
 * Fixed a bug that caused no FX or sound to happen when zombies teleported from the Panic Room portal to the War Room portal
 
@@ -1315,7 +1315,7 @@
 * Round based gamemode
 * Unlimited zombies
 * 2,000 health zombies
-* .5 second zombie spawn rate
+* 0.5 second zombie spawn rate
 * Only sprinting zombies
 * Every player starts each round with 10,000 points
 * Win a round by getting all enemy players down
