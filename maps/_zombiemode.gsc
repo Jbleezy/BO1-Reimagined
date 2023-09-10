@@ -3010,7 +3010,7 @@ last_stand_pistol_swap()
 	{
 		self SetWeaponAmmoStock( self.laststandpistol, doubleclip );
 	}
-	else if ( self.laststandpistol == "ray_gun_zm" || self.laststandpistol == "ray_gun_upgraded_zm" || self.laststandpistol == "m1911_upgraded_zm" )
+	else if ( self.laststandpistol == "ray_gun_zm" || self.laststandpistol == "ray_gun_upgraded_zm" || self.laststandpistol == "m1911_upgraded_zm" || self.laststandpistol == "freezegun_zm" || self.laststandpistol == "freezegun_upgraded_zm" || self.laststandpistol == "microwavegundw_zm" || self.laststandpistol == "microwavegundw_upgraded_zm" )
 	{
 		if ( self.stored_weapon_info[ self.laststandpistol ].total_amt >= ammoclip )
 		{

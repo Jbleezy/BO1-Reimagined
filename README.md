@@ -474,6 +474,7 @@
 * Increased move speed from 100% to 105%
 * Increased move speed while aiming from 100% to 105%
 * Decreased first raise time by 50%
+* Decreased last stand ammo from 3 clips to 1 clip
 * Fixed an error that crashed the game if zombies were shattered instantly after being killed
 * Fixed an error in the sprint out animation
 * Unupgraded: increase minimum damage from 500 to 750
@@ -516,6 +517,7 @@
 * Upgraded: increased radius by 7% (same radius as the unupgraded version)
 
 #### Zap Gun
+* Decreased last stand ammo from 2 clips to 1 clip
 * Upgraded: decreased stock ammo from 100 to 96
 
 #### Wave Gun
