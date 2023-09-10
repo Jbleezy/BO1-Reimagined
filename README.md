@@ -38,7 +38,7 @@
 * Can move after diving quicker
 * Decreased dive startup time
 * Can look up and down 90 degrees (previously 85 degrees)
-* Added a points cap of 10 million
+* Added a points cap of 1 million
 * Added heartbeat and breathing sounds when low on health
 * Added heartbeat sound when down
 * Text when being revived in solo only displays "Reviving"

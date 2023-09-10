@@ -467,10 +467,10 @@ set_player_score_hud( init )
 		}
 	}
 
-	// cap points at 10 million
-	if(self.score > 10000000)
+	// cap points at 1 million
+	if(self.score > 1000000)
 	{
-		self.score = 10000000;
+		self.score = 1000000;
 	}
 
 	if( IsDefined( init ) && init )
