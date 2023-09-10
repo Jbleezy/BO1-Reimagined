@@ -2941,43 +2941,21 @@ last_stand_pistol_rank_init()
 
 	flag_wait( "_start_zm_pistol_rank" );
 
-	if( flag( "solo_game" ) )
-	{
-		// ww: in a solo game the ranking of the pistols is a bit different based on the upgraded 1911 swap
-		// any pistol ranked 4 or lower will be ignored and the player will be given the upgraded 1911
-		level.pistol_values[ level.pistol_values.size ] = "m1911_zm";
-		level.pistol_values[ level.pistol_values.size ] = "cz75_zm";
-		level.pistol_values[ level.pistol_values.size ] = "cz75dw_zm";
-		level.pistol_values[ level.pistol_values.size ] = "python_zm";
-		level.pistol_values[ level.pistol_values.size ] = "python_upgraded_zm"; // ww: this is spot 4, anything scoring lower than this should be replaced
-		level.pistol_values[ level.pistol_values.size ] = "cz75_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "cz75dw_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "m1911_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "ray_gun_zm";
-		level.pistol_values[ level.pistol_values.size ] = "freezegun_zm";
-		level.pistol_values[ level.pistol_values.size ] = "ray_gun_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "freezegun_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "microwavegundw_zm";
-		level.pistol_values[ level.pistol_values.size ] = "microwavegundw_upgraded_zm";
-	}
-	else
-	{
-		level.pistol_values[ level.pistol_values.size ] = "m1911_zm";
-		level.pistol_values[ level.pistol_values.size ] = "cz75_zm";
-		level.pistol_values[ level.pistol_values.size ] = "cz75dw_zm";
-		level.pistol_values[ level.pistol_values.size ] = "python_zm";
-		level.pistol_values[ level.pistol_values.size ] = "python_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "cz75_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "cz75dw_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "m1911_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "ray_gun_zm";
-		level.pistol_values[ level.pistol_values.size ] = "freezegun_zm";
-		level.pistol_values[ level.pistol_values.size ] = "ray_gun_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "freezegun_upgraded_zm";
-		level.pistol_values[ level.pistol_values.size ] = "microwavegundw_zm";
-		level.pistol_values[ level.pistol_values.size ] = "microwavegundw_upgraded_zm";
-	}
-
+	level.pistol_values[ level.pistol_values.size ] = "m1911_zm";
+	level.pistol_values[ level.pistol_values.size ] = "cz75_zm";
+	level.pistol_values[ level.pistol_values.size ] = "cz75dw_zm";
+	level.pistol_values[ level.pistol_values.size ] = "python_zm";
+	level.pistol_values[ level.pistol_values.size ] = "cz75_upgraded_zm";
+	level.pistol_values[ level.pistol_values.size ] = "cz75dw_upgraded_zm";
+	level.pistol_values[ level.pistol_values.size ] = "python_upgraded_zm";
+	level.pistol_values[ level.pistol_values.size ] = "ray_gun_zm";
+	level.pistol_values[ level.pistol_values.size ] = "ray_gun_upgraded_zm";
+	level.pistol_value_solo_replace_below = level.pistol_values.size - 1;
+	level.pistol_values[ level.pistol_values.size ] = "m1911_upgraded_zm";
+	level.pistol_values[ level.pistol_values.size ] = "freezegun_zm";
+	level.pistol_values[ level.pistol_values.size ] = "freezegun_upgraded_zm";
+	level.pistol_values[ level.pistol_values.size ] = "microwavegundw_zm";
+	level.pistol_values[ level.pistol_values.size ] = "microwavegundw_upgraded_zm";
 }
 
 // ww: changing the _laststand scripts to this one so we interfere with SP less
@@ -3119,7 +3097,7 @@ last_stand_compare_pistols( struct_array )
 	if( flag( "solo_game" ) )
 	{
 		self._special_solo_pistol_swap = 0; // ww: this way the weapon knows to pack texture when given
-		if( highest_score_pistol.value <= 3 )
+		if( highest_score_pistol.value <= level.pistol_value_solo_replace_below )
 		{
 			self.hadpistol = false;
 			self._special_solo_pistol_swap = 1;

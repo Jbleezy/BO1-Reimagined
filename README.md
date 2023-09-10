@@ -26,6 +26,7 @@
 * Unlimited sprint
 * Backwards move speed, strafe move speed, and sprint strafe move speed are all at 100%
 * Self revives in solo are active whenever the player has at least 1 perk
+* Upgraded starting pistol given as self revive pistol above all others except Winter's Howl and Zap Gun
 * Decreased normal health regeneration delay from 2.4 seconds to 2 seconds
 * Decreased low health regeneration delay from 5 seconds to 4 seconds
 * Normal health regeneration rate is no longer instant
@@ -376,9 +377,6 @@
 * Upgraded: increased stock ammo from 225 to 250
 * Upgraded: decreased hipfire spread
 * Upgraded: decreased recoil
-
-### Python
-* Upgraded: given to the player when downed on solo if they have the weapon
 
 ### RPK
 * Fixed empty drop animation
