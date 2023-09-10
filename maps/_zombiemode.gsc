@@ -6479,7 +6479,7 @@ actor_killed_override(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		self.no_powerups = true;
 	}
 
-	if((sMeansOfDeath == "MOD_PROJECTILE" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH") && (sWeapon == "freezegun_zm" || sWeapon == "freezegun_upgraded_zm"))
+	if((sMeansOfDeath == "MOD_PROJECTILE" || sMeansOfDeath == "MOD_PROJECTILE_SPLASH" || sMeansOfDeath == "MOD_EXPLOSIVE") && (sWeapon == "freezegun_zm" || sWeapon == "freezegun_upgraded_zm"))
 	{
 		self.no_powerups = true;
 	}
