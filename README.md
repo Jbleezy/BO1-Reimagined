@@ -1072,6 +1072,7 @@
 #### Elevators
 * Decreased time to be able to use an elevator again after it has stopped from 2.1 seconds to 1.25 seconds
 * Hintstring for elevators will not show up until the elvator becomes usable again
+* Fixed a bug where the elevator call hintstring would show when the elevator was already at the current floor
 
 #### Teleporters
 * Teleporting no longer takes players' weapons away temporarily

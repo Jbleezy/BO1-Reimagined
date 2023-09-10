@@ -368,7 +368,7 @@ enable_callboxes()
 		}
 		else
 		{
-			//call_boxes[j] trigger_on();
+			call_boxes[j] trigger_off();
 			call_boxes[j] sethintstring( "" );
 		}
 	}
