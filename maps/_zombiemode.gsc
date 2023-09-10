@@ -3000,17 +3000,17 @@ last_stand_pistol_swap()
 	{
 		self._special_solo_pistol_swap = 0;
 		self.hadpistol = false;
-		self SetWeaponAmmoStock( self.laststandpistol, doubleclip );
+		self SetWeaponAmmoStock( self.laststandpistol, 0 );
 	}
-	else if( flag("solo_game") && self.laststandpistol == "m1911_upgraded_zm")
+	else if( !flag("solo_game") && self.laststandpistol == "m1911_upgraded_zm")
 	{
-		self SetWeaponAmmoStock( self.laststandpistol, doubleclip );
+		self SetWeaponAmmoStock( self.laststandpistol, 0 );
 	}
 	else if ( self.laststandpistol == "m1911_zm" )
 	{
 		self SetWeaponAmmoStock( self.laststandpistol, doubleclip );
 	}
-	else if ( self.laststandpistol == "ray_gun_zm" || self.laststandpistol == "ray_gun_upgraded_zm" )
+	else if ( self.laststandpistol == "ray_gun_zm" || self.laststandpistol == "ray_gun_upgraded_zm" || self.laststandpistol == "m1911_upgraded_zm" )
 	{
 		if ( self.stored_weapon_info[ self.laststandpistol ].total_amt >= ammoclip )
 		{

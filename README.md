@@ -347,6 +347,7 @@
 * Upgraded: increased explosion radius by 28%
 * Upgraded: increased impact damage from 1000 to 1200
 * Upgraded: increased minimum explosion damage from 75 to 300
+* Upgraded: decreased last stand ammo from 2 clips to 1 clip
 * Upgraded: camo displays when downed in solo
 
 ### M72 LAW
