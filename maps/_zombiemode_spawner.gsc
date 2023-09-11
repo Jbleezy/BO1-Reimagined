@@ -3405,7 +3405,7 @@ zombie_can_drop_powerups( zombie )
 //	award points on death
 zombie_death_points( origin, mod, hit_location, attacker, zombie )
 {
-	if( !IsDefined( attacker ) || !IsPlayer( attacker ) )
+	if( !IsDefined( attacker ) || !IsPlayer( attacker ) || is_true( zombie.nuked ) || is_true( zombie.trap_death) )
 	{
 		return;
 	}
