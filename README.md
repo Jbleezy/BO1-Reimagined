@@ -1277,7 +1277,7 @@
 * Max Ammo: unloads the clips of all the enemy players' weapons
 * Insta Kill: enemy players do half damage to zombies for 30 seconds
 * Double Points: enemy players earn half points for 30 seconds
-* Nuke: deals 80 damage to enemy players
+* Nuke: deals 75 damage to enemy players
 * Bonus Points: enemy players lose a random amount of points between 500 and 2500
 * Perk Bottle: enemy players lose a random perk
 * Turrets attack players (won't attack the team that activated the turret)

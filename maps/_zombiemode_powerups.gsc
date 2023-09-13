@@ -3985,7 +3985,7 @@ hurt_players_powerup( drop_item, player )
 
 		players[i] notify("grief_damage", "none", "MOD_UNKNOWN", player);
 
-		RadiusDamage(players[i].origin, 10, 80, 80, undefined, "MOD_UNKNOWN");
+		RadiusDamage(players[i].origin, 10, 75, 75, undefined, "MOD_UNKNOWN");
 	}
 }
 
