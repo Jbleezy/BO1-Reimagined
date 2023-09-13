@@ -518,17 +518,17 @@ slowdown(weapon, mod, attacker, force_slowdown)
 
 	PlayFXOnTag( level._effect["grief_shock"], self, "J_SpineUpper" );
 
-	amount = .3;
+	amount = 0.4;
 	if(maps\_zombiemode_weapons::is_weapon_upgraded(weapon))
 	{
-		amount = .2;
+		amount = 0.25;
 	}
 
 	self AllowSprint(false);
 	self SetMoveSpeedScale( self.move_speed * amount );
 	self thread slowdown_blur();
 
-	wait .75;
+	wait 0.75;
 
 	if(!self is_drinking() || is_true(self.has_meat)) // holding meat counts as drinking
 	{
