@@ -3983,6 +3983,17 @@ hurt_players_powerup( drop_item, player )
 			continue;
 		}
 
+		score = 400 * maps\_zombiemode_score::get_points_multiplier(players[i]);
+
+		if(players[i].score < score)
+		{
+			players[i] maps\_zombiemode_score::minus_to_player_score(players[i].score);
+		}
+		else
+		{
+			players[i] maps\_zombiemode_score::minus_to_player_score(score);
+		}
+
 		players[i] notify("grief_damage", "none", "MOD_UNKNOWN", player);
 
 		RadiusDamage(players[i].origin, 10, 75, 75, undefined, "MOD_UNKNOWN");
