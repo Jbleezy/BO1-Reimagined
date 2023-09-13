@@ -2977,8 +2977,6 @@ stowed_weapon_refill()
 	self endon("disconnect");
 	self endon("specialty_additionalprimaryweapon_stop");
 
-	vars = [];
-
 	while (1)
 	{
 		result = self waittill_any_return("weapon_change", "weapon_change_complete");
@@ -3017,7 +3015,13 @@ refill_after_time(primary)
 	self endon(primary + "_reload_stop");
 	self endon("specialty_additionalprimaryweapon_stop");
 
-	vars = [];
+	if(primary == "thundergun_zm" || primary == "thundergun_upgraded_zm")
+	{
+		if(self getWeaponAmmoClip(primary) != 0)
+		{
+			return;
+		}
+	}
 
 	reload_time = weaponReloadTime(primary);
 	reload_amount = undefined;
