@@ -173,10 +173,6 @@ spikemore_watch()
 			else
 			{
 				spikemore thread spikemore_detonation();
-				if(level.gamemode != "survival")
-				{
-					spikemore thread spikemore_damage();
-				}
 			}
 
 			self notify( "zmb_enable_spikemore_prompt" );
@@ -329,10 +325,7 @@ spikemore_detonation()
 		if ( isdefined( self.owner ) && ent == self.owner )
 			continue;
 
-		if( level.gamemode == "survival" && isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != playerTeamToAllow )
-			continue;
-
-		if( level.gamemode != "survival" && IsPlayer(ent) && ent.vsteam == self.owner.vsteam )
+		if( isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != playerTeamToAllow )
 			continue;
 
 		if ( !ent shouldAffectWeaponObject( self ) )

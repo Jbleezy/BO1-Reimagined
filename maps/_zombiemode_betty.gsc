@@ -139,11 +139,6 @@ bouncing_betty_watch()
 			betty thread betty_death_think();
 			//betty thread pickup_betty();
 
-			if(level.gamemode != "survival")
-			{
-				betty thread betty_damage();
-			}
-
 			self notify( "zmb_enable_betty_prompt" );
 		}
 	}
@@ -209,12 +204,7 @@ betty_think()
 				continue;
 			}
 
-			if( level.gamemode == "survival" && isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != "axis" )
-			{
-				continue;
-			}
-
-			if( level.gamemode != "survival" && IsPlayer(ent) && ent.vsteam == self.owner.vsteam )
+			if( isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != "axis" )
 			{
 				continue;
 			}

@@ -1271,8 +1271,6 @@
 * Knifing enemy players pushes them
 * Upgraded weapons slow enemy players down more
 * Ballistic Knife, Bowie Knife, and Sickle push enemy players farther
-* Mines are triggerable by enemy players
-* Enemy mines are destroyable
 * Added Bonus Points powerup
 * Added Meat powerup
 * Powerups have negative effects towards the enemy team

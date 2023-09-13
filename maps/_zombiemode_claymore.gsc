@@ -139,11 +139,6 @@ claymore_watch()
 			claymore thread claymore_detonation();
 			claymore thread play_claymore_effects();
 
-			if(level.gamemode != "survival")
-			{
-				claymore thread claymore_damage();
-			}
-
 			self notify( "zmb_enable_claymore_prompt" );
 		}
 	}
@@ -306,10 +301,7 @@ claymore_detonation()
 		if ( isdefined( self.owner ) && ent == self.owner )
 			continue;
 
-		if( level.gamemode == "survival" && isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != playerTeamToAllow )
-			continue;
-
-		if( level.gamemode != "survival" && IsPlayer(ent) && ent.vsteam == self.owner.vsteam )
+		if( isDefined( ent.pers ) && isDefined( ent.pers["team"] ) && ent.pers["team"] != playerTeamToAllow )
 			continue;
 
 		if ( !ent shouldAffectWeaponObject( self ) )
