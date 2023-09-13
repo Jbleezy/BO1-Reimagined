@@ -95,7 +95,6 @@ grief_precache()
 
 include_grief_powerups()
 {
-	include_powerup("bonus_points_team");
 	include_powerup("meat");
 
 	vending_weapon_upgrade_trigger = GetEntArray("zombie_vending_upgrade", "targetname");
@@ -113,7 +112,7 @@ include_grief_powerups()
 
 	wait_network_frame();
 	level.zombie_powerup_array = [];
-	level.zombie_powerup_array = array("full_ammo", "insta_kill", "double_points", "nuke", "bonus_points_team", "meat");
+	level.zombie_powerup_array = array("full_ammo", "insta_kill", "double_points", "nuke", "meat");
 
 	if(!IsSubStr(level.script, "zombie_cod5_") && level.gamemode != "gg")
 	{

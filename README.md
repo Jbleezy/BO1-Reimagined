@@ -1271,7 +1271,6 @@
 * Knifing enemy players pushes them
 * Upgraded weapons slow enemy players down more
 * Ballistic Knife, Bowie Knife, and Sickle push enemy players farther
-* Added Bonus Points powerup
 * Added Meat powerup
 * Powerups have negative effects towards the enemy team
 * Max Ammo: unloads the clips of all the enemy players' weapons

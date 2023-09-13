@@ -1222,7 +1222,6 @@ _powerup_Randomize(monkey)
 
 	if(level.gamemode != "survival")
 	{
-		powerup_cycle = add_to_array(powerup_cycle, "bonus_points_team");
 		powerup_cycle = add_to_array(powerup_cycle, "meat");
 	}
 

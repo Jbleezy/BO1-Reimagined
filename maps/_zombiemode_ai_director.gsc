@@ -840,7 +840,7 @@ director_watch_damage()
 	}
 	else
 	{
-		powerups = array("full_ammo", "double_points", "insta_kill", "nuke", "bonus_points_team", "meat");
+		powerups = array("full_ammo", "double_points", "insta_kill", "nuke", "meat");
 
 		if(level.chest_moves >= 1)
 		{
