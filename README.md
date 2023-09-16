@@ -8,6 +8,8 @@
 
 [Twitter](https://twitter.com/ItsJbleezy)
 
+[Discord](https://dsc.gg/Jbleezy)
+
 [Donate](https://streamlabs.com/jbleezy)
 
 ## Change Notes
