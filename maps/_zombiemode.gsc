@@ -1545,7 +1545,7 @@ difficulty_init()
 		else
 		{
 			players[p].score = 500;
-			//players[p].score = 10000000;
+			//players[p].score = 1000000;
 		}
 		players[p].score_total = players[p].score;
 		players[p].old_score = players[p].score;
@@ -5977,24 +5977,29 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 		final_damage = int( final_damage * 1.5 );
 	}
 
-	if((is_true(level.zombie_vars["zombie_insta_kill"]) || is_true(attacker.powerup_instakill) || is_true(attacker.personal_instakill)) && !is_true(self.magic_bullet_shield) && self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "sonic_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
+	powerup_instakill = is_true(attacker.powerup_instakill) && !is_true(attacker.powerup_half_damage);
+
+	if(is_true(level.zombie_vars["zombie_insta_kill"]) || is_true(attacker.personal_instakill) || powerup_instakill)
 	{
-		// insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
-		no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "tesla_gun_powerup_zm", "tesla_gun_powerup_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
-
-		if(!is_in_array(no_insta_kill_on_weps, weapon))
+		if(!is_true(self.magic_bullet_shield) && self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "sonic_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
 		{
-			if ( !is_true( self.no_gib ) )
-			{
-				self maps\_zombiemode_spawner::zombie_head_gib();
-			}
+			// insta kill should not effect these weapons as they already are insta kill, causes special anims and scripted things to not work
+			no_insta_kill_on_weps = array("tesla_gun_zm", "tesla_gun_upgraded_zm", "tesla_gun_powerup_zm", "tesla_gun_powerup_upgraded_zm", "humangun_zm", "humangun_upgraded_zm", "microwavegundw_zm", "microwavegundw_upgraded_zm");
 
-			if( is_true( self.in_water ) )
+			if(!is_in_array(no_insta_kill_on_weps, weapon))
 			{
-				self.water_damage = true;
-			}
+				if ( !is_true( self.no_gib ) )
+				{
+					self maps\_zombiemode_spawner::zombie_head_gib();
+				}
 
-			return self.maxhealth + 1000;
+				if( is_true( self.in_water ) )
+				{
+					self.water_damage = true;
+				}
+
+				return self.maxhealth + 1000;
+			}
 		}
 	}
 
@@ -6378,7 +6383,12 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 
 	if(!is_true(self.nuked) && !is_true(self.marked_for_death))
 	{
-		final_damage = int(final_damage * attacker.zombie_vars["zombie_damage_scalar"]);
+		powerup_half_damage = is_true(attacker.powerup_half_damage) && !is_true(attacker.powerup_instakill);
+
+		if(powerup_half_damage)
+		{
+			final_damage = int(final_damage * 0.5);
+		}
 	}
 
 	if ( is_true( self.in_water ) )

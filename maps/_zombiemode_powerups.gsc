@@ -15,7 +15,6 @@ init()
 	PrecacheShader( "black" );
 	// powerup Vars
 	set_zombie_var( "zombie_insta_kill", 				0 );
-	set_zombie_var( "zombie_damage_scalar", 			1 );
 	set_zombie_var( "zombie_point_scalar", 				1 );
 	set_zombie_var( "zombie_drop_item", 				0 );
 	set_zombie_var( "zombie_timer_offset", 				350 );	// hud offsets
@@ -225,7 +224,6 @@ init_player_zombie_vars()
 		players[p].zombie_vars[ "zombie_powerup_upgrade_weapon_time" ] = 0;
 
 		players[p].zombie_vars["zombie_point_scalar"] = 1;
-		players[p].zombie_vars["zombie_damage_scalar"] = 1;
 	}
 }
 
@@ -2241,13 +2239,17 @@ double_points_powerup_player( drop_item )
 	//	array_thread(level,::point_doubler_on_hud, drop_item);
 	//self thread point_doubler_on_hud( drop_item );
 
-	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_point_doubler_on", "zombie_powerup_point_doubler_time", "zmb_points_loop_off", "zmb_double_point_loop" );
+	// only change zombie_point_scalar if powerup isn't already active
+	if(!self.zombie_vars["zombie_powerup_point_doubler_on"])
+	{
+		self.zombie_vars["zombie_point_scalar"] *= 2;
+	}
 
-	self.zombie_vars["zombie_point_scalar"] = 2;
+	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_point_doubler_on", "zombie_powerup_point_doubler_time", "zmb_points_loop_off", "zmb_double_point_loop" );
 
 	wait self.zombie_vars["zombie_powerup_point_doubler_time"];
 
-	self.zombie_vars["zombie_point_scalar"] = 1;
+	self.zombie_vars["zombie_point_scalar"] /= 2;
 }
 
 full_ammo_powerup( drop_item, player )
@@ -2285,7 +2287,27 @@ full_ammo_powerup( drop_item, player )
 				continue;
 			}
 
-			players[i] maps\_zombiemode_weapons::give_max_ammo(primary_weapons[x]);
+			if(level.gamemode == "survival")
+			{
+				players[i] maps\_zombiemode_weapons::give_max_ammo(primary_weapons[x]);
+			}
+			else
+			{
+				drop_item.hint = &"REIMAGINED_CLIP_AMMO";
+
+				new_ammo = players[i] getWeaponAmmoStock(primary_weapons[x]) + weaponClipSize(primary_weapons[x]);
+				if(weaponDualWieldWeaponName(primary_weapons[x]) != "none")
+				{
+					new_ammo += weaponClipSize(weaponDualWieldWeaponName(primary_weapons[x]));
+				}
+
+				if(new_ammo > weaponMaxAmmo(primary_weapons[x]))
+				{
+					new_ammo = weaponMaxAmmo(primary_weapons[x]);
+				}
+
+				players[i] setWeaponAmmoStock(primary_weapons[x], new_ammo);
+			}
 
 			// fix for grenade ammo
 			if(is_lethal_grenade(primary_weapons[x]) || is_tactical_grenade(primary_weapons[x]))
@@ -2352,9 +2374,9 @@ insta_kill_powerup_player( drop_item )
 	//	array_thread (players, ::insta_kill_on_hud, drop_item);
 	//self thread insta_kill_on_hud( drop_item );
 
-	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_insta_kill_on", "zombie_powerup_insta_kill_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
-
 	self.powerup_instakill = true;
+
+	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_insta_kill_on", "zombie_powerup_insta_kill_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
 
 	wait self.zombie_vars["zombie_powerup_insta_kill_time"];
 
@@ -3081,6 +3103,10 @@ empty_clip_powerup( item, player )
 					players[i] SetWeaponAmmoClip( alt_name, 0 );
 				}
 			}
+
+			players[i] setweaponammoclip(players[i] get_player_lethal_grenade(), 0);
+			players[i] setweaponammoclip(players[i] get_player_tactical_grenade(), 0);
+			players[i] setweaponammoclip(players[i] get_player_placeable_mine(), 0);
 		}
 	}
 }
@@ -3790,6 +3816,21 @@ powerup_shader_on_hud( item, powerup_on_var, powerup_time_var, sound, loop_sound
 	if(!IsDefined(time))
 	{
 		time = 30;
+
+		switch(powerup_on_var)
+		{
+			case "zombie_powerup_point_doubler_on":
+			case "zombie_powerup_half_points_on":
+			case "zombie_powerup_insta_kill_on":
+			case "zombie_powerup_half_damage_on":
+				if(level.gamemode != "survival")
+				{
+					time = 15;
+				}
+				break;
+			default:
+				break;
+		}
 	}
 
 	// check to see if this is on or not
@@ -3930,13 +3971,17 @@ half_points_powerup_player( drop_item )
 	self endon ("grief powerup points scaled");
 	self endon ("disconnect");
 
-	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_half_points_on", "zombie_powerup_half_points_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
+	// only change zombie_point_scalar if powerup isn't already active
+	if(!self.zombie_vars["zombie_powerup_half_points_on"])
+	{
+		self.zombie_vars["zombie_point_scalar"] /= 2;
+	}
 
-	self.zombie_vars["zombie_point_scalar"] = .5;
+	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_half_points_on", "zombie_powerup_half_points_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
 
 	wait self.zombie_vars["zombie_powerup_half_points_time"];
 
-	self.zombie_vars["zombie_point_scalar"] = 1;
+	self.zombie_vars["zombie_point_scalar"] *= 2;
 }
 
 half_damage_powerup( drop_item, player )
@@ -3959,13 +4004,13 @@ half_damage_powerup_player( drop_item )
 	self endon( "powerup half damage" );
 	self endon ("disconnect");
 
-	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_half_damage_on", "zombie_powerup_half_damage_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
+	self.powerup_half_damage = true;
 
-	self.zombie_vars["zombie_damage_scalar"] = .5;
+	self thread powerup_shader_on_hud( drop_item, "zombie_powerup_half_damage_on", "zombie_powerup_half_damage_time", "zmb_insta_kill", "zmb_insta_kill_loop" );
 
 	wait self.zombie_vars["zombie_powerup_half_damage_time"];
 
-	self.zombie_vars["zombie_damage_scalar"] = 1;
+	self.powerup_half_damage = false;
 }
 
 hurt_players_powerup( drop_item, player )

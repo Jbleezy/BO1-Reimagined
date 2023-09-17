@@ -1274,10 +1274,12 @@
 * Upgraded weapons slow enemy players down more
 * Ballistic Knife, Bowie Knife, and Sickle push enemy players farther
 * Added Meat powerup
-* Powerups have negative effects towards the enemy team
-* Max Ammo: unloads the clips of all the enemy players' weapons
-* Insta Kill: enemy players do half damage to zombies for 30 seconds
-* Double Points: enemy players earn half points for 30 seconds
+* Max Ammo: decreased amount of ammo given from max stock to one clip
+* Max Ammo: unloads clip of all enemy players' weapons and takes away their grenades and mines
+* Double Points: decreased duration from 30 seconds to 15 seconds
+* Double Points: enemy players gain half points
+* Insta Kill: decreased duration from 30 seconds to 15 seconds
+* Insta Kill: enemy players deal half damage
 * Nuke: enemy players lose 400 points
 * Nuke: deals 75 damage to enemy players
 * Perk Bottle: enemy players lose a random perk
