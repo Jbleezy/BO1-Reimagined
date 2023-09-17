@@ -1317,7 +1317,7 @@
 #### Search & Rezurrect
 * Round based gamemode
 * Unlimited zombies
-* 2,000 health zombies
+* 2,500 health zombies
 * 0.5 second zombie spawn rate
 * Only sprinting zombies
 * Every player starts each round with 10,000 points
@@ -1338,7 +1338,7 @@
 #### Gun Game
 * Unlimited ammo
 * Unlimited zombies
-* 2,000 health zombies
+* 2,500 health zombies
 * 1 second zombie spawn rate
 * Only sprinting zombies
 * Auto revive after 10 seoconds

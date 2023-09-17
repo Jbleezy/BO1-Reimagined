@@ -1209,7 +1209,7 @@ unlimited_barrier_points()
 
 increase_zombie_health()
 {
-	level.zombie_health = 2000;
+	level.zombie_health = 2500;
 }
 
 unlimited_zombies()
