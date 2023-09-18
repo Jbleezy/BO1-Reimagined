@@ -471,7 +471,7 @@ grief_damage()
 			continue;
 		}
 
-		if(attacker.vsteam == self.vsteam)
+		if(isDefined(attacker) && attacker.vsteam == self.vsteam)
 		{
 			continue;
 		}
@@ -511,8 +511,11 @@ slowdown(weapon, mod, attacker, force_slowdown)
 
 	self.slowdown_wait = true;
 
-	attacker grief_damage_points(self);
-	attacker thread grief_downed_points_add_player(self);
+	if(isDefined(attacker))
+	{
+		attacker grief_damage_points(self);
+		attacker thread grief_downed_points_add_player(self);
+	}
 
 	PlayFXOnTag( level._effect["grief_shock"], self, "J_SpineUpper" );
 

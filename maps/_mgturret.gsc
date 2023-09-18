@@ -201,11 +201,6 @@ burst_fire_unmanned()
 			players = get_players();
 			for( i = 0; i < players.size; i++ )
 			{
-				if(players[i].vsteam == self.owner.vsteam)
-				{
-					continue;
-				}
-
 				if(players[i] maps\_laststand::player_is_in_laststand())
 				{
 					continue;

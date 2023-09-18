@@ -5501,9 +5501,9 @@ player_damage_override( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, 
 		// Turrets - don't damage players
 		if(sMeansOfDeath == "MOD_RIFLE_BULLET" && sWeapon == "zombie_bullet_crouch")
 		{
-			if(level.gamemode != "survival" && eInflictor.owner.vsteam != self.vsteam)
+			if(level.gamemode != "survival")
 			{
-				self notify("grief_damage", sWeapon, sMeansOfDeath, eInflictor.owner);
+				self notify("grief_damage", sWeapon, sMeansOfDeath);
 			}
 			return 0;
 		}

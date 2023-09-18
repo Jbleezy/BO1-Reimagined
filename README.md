@@ -1283,7 +1283,7 @@
 * Nuke: enemy players lose 400 points
 * Nuke: deals 75 damage to enemy players
 * Perk Bottle: enemy players lose a random perk
-* Turrets attack players (won't attack the team that activated the turret)
+* Turrets target players
 * Players gain 10 points for slowing down a player if the player is below full health
 * If a player assisted in getting an enemy player down, the player will gain 5% of the player's points who downed
 * When a enemy player bleeds out, players gain 10% of their current points
