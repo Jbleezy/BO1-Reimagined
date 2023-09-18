@@ -891,7 +891,7 @@ round_restart(same_round)
 
 	flag_clear("round_restarting");
 
-	wait 5;
+	wait 10;
 
 	flag_set("spawn_zombies");
 }
