@@ -8339,7 +8339,7 @@ round_time_loop()
 		players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_out");
 	}
 
-	if(!(level.gamemode == "survival" || level.gamemode == "grief"))
+	if(!(level.gamemode == "survival" || level.gamemode == "grief" || level.gamemode == "snr"))
 	{
 		return;
 	}
@@ -8376,6 +8376,10 @@ round_time_loop()
 		{
 			flag_wait( "last_monkey_down" );
 		}
+		else if(level.gamemode == "snr")
+		{
+			level waittill( "round_restart" );
+		}
 		else
 		{
 			level waittill( "end_of_round" );
@@ -8402,7 +8406,14 @@ round_time_loop()
 			}
 		}
 
-		level waittill("between_round_over");
+		if(level.gamemode == "snr")
+		{
+			level waittill( "round_restarted" );
+		}
+		else
+		{
+			level waittill("between_round_over");
+		}
 
 		players = get_players();
 		for(i=0;i<players.size;i++)
@@ -8412,7 +8423,10 @@ round_time_loop()
 				players[i] send_message_to_csc("hud_anim_handler", "hud_round_total_time_out");
 		}
 
-		level waittill( "start_of_round" );
+		if(level.gamemode != "snr")
+		{
+			level waittill( "start_of_round" );
+		}
 
 		if(is_true(flag("enter_nml")))
 		{
