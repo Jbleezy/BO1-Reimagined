@@ -1635,7 +1635,6 @@ onPlayerConnect()
 		player thread player_revive_monitor();
 
 		player thread onPlayerDowned();
-		player thread onPlayerDeath();
 
 		player freezecontrols( true );
 
@@ -1847,13 +1846,12 @@ onPlayerDowned()
 
 		if(level.gamemode != "survival" && get_number_of_valid_players() > 0)
 		{
-			if(level.gamemode != "race" && level.gamemode != "gg" && level.gamemode != "snr")
+			if(level.gamemode == "grief" || level.gamemode == "snr")
 			{
 				players = get_players();
 				for(i = 0; i < players.size; i++)
 				{
-					// only show grief message from a down if there are no other enemies still alive
-					if(players[i].vsteam != self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() == 0)
+					if(players[i].vsteam != self.vsteam)
 					{
 						players[i] thread maps\_zombiemode_grief::grief_msg();
 					}
@@ -1899,34 +1897,6 @@ onPlayerDowned()
 				if(IsDefined(pap_trigger[i].user) && pap_trigger[i].user == self)
 				{
 					pap_trigger[i] notify("pap_force_timeout");
-				}
-			}
-		}
-	}
-}
-
-onPlayerDeath()
-{
-	self endon( "disconnect" );
-
-	while(1)
-	{
-		self waittill("bled_out");
-
-		if(level.gamemode != "survival" && get_number_of_valid_players() > 0)
-		{
-			players = get_players();
-			for(i = 0; i < players.size; i++)
-			{
-				// only show grief message from a bleed out if there are other enemies still alive
-				if(players[i].vsteam != self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_enemy_players() > 0)
-				{
-					players[i] thread maps\_zombiemode_grief::grief_msg();
-				}
-
-				if(players[i].vsteam == self.vsteam && players[i] maps\_zombiemode_grief::get_number_of_valid_friendly_players() == 0)
-				{
-					//players[i] playlocalsound( "vs_solo" );
 				}
 			}
 		}
