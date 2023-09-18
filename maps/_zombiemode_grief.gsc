@@ -726,7 +726,7 @@ grief_msg(msg, var1)
 		self.grief_hud1.alpha = 1;
 		self thread grief_msg_fade_away(self.grief_hud1);
 		//self playlocalsound( "vs_0rivup" );
-		wait(2.5);
+		wait 1;
 		self.grief_hud2 SetText( &"REIMAGINED_SURVIVE_TO_WIN" );
 		self.grief_hud2 FadeOverTime( 1 );
 		self.grief_hud2.alpha = 1;
@@ -738,7 +738,7 @@ grief_msg_fade_away(text)
 {
 	self endon("grief_msg");
 
-	wait( 3.0 );
+	wait 4;
 
 	text FadeOverTime( 1 );
 	text.alpha = 0;
@@ -1459,6 +1459,10 @@ reduce_survive_zombie_amount()
 
 snr_round_win()
 {
+	level endon("round_restart");
+
+	wait 5;
+
 	team = undefined;
 	player = undefined;
 	players = get_players();
