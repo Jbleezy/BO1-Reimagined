@@ -115,7 +115,7 @@ thundergun_fired(currentweapon)
 		else if(IsPlayer(level.thundergun_fling_enemies[i]))
 		{
 			vec = vector_scale( level.thundergun_fling_vecs[i], 3 );
-			level.thundergun_fling_enemies[i] notify("grief_damage", currentweapon, "MOD_PROJECTILE", self, true, vec);
+			level.thundergun_fling_enemies[i] notify("grief_damage", currentweapon, "MOD_PROJECTILE", self, vec);
 		}
 	}
 

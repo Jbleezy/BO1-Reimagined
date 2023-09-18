@@ -143,7 +143,6 @@ post_all_players_connected()
 		players[i] setup_grief_msg();
 
 		players[i].slowdown_wait = false;
-		players[i].vs_attackers = [];
 		players[i] thread grief_damage();
 		players[i] thread grief_downed_points();
 		players[i] thread grief_bleedout_points();
@@ -464,7 +463,7 @@ grief_damage()
 {
 	while(1)
 	{
-		self waittill( "grief_damage", weapon, mod, attacker, force_slowdown, vec );
+		self waittill( "grief_damage", weapon, mod, attacker, vec );
 
 		if(!is_player_valid(self))
 		{
@@ -482,40 +481,36 @@ grief_damage()
 			continue;
 		}
 
-		if(!IsDefined(force_slowdown))
+		// player is already slowed down, don't slow them down again
+		if(is_true(self.slowdown_wait))
 		{
-			force_slowdown = false;
+			continue;
 		}
 
+		is_melee = false;
 		tgun_hit = (weapon == "thundergun_zm" || weapon == "thundergun_upgraded_zm") && IsDefined(vec);
 		if(mod == "MOD_MELEE" || IsSubStr(weapon, "knife_ballistic_") || tgun_hit)
 		{
-			force_slowdown = true;
+			is_melee = true;
 			self thread push(weapon, mod, attacker, vec);
 		}
 
-		self thread slowdown(weapon, mod, attacker, force_slowdown);
+		if(isDefined(attacker))
+		{
+			attacker grief_damage_points(self, is_melee);
+			attacker thread grief_downed_points_add_player(self);
+		}
+
+		self thread slowdown(weapon, mod, attacker);
 	}
 }
 
-slowdown(weapon, mod, attacker, force_slowdown)
+slowdown(weapon, mod, attacker)
 {
-	//player is already slowed down, don't slow them down again
-	if(is_true(self.slowdown_wait) && !force_slowdown)
-	{
-		return;
-	}
-
 	self notify("grief_slowdown");
 	self endon("grief_slowdown");
 
 	self.slowdown_wait = true;
-
-	if(isDefined(attacker))
-	{
-		attacker grief_damage_points(self);
-		attacker thread grief_downed_points_add_player(self);
-	}
 
 	PlayFXOnTag( level._effect["grief_shock"], self, "J_SpineUpper" );
 
@@ -580,11 +575,28 @@ push(weapon, mod, attacker, vec) //prone, bowie/ballistic crouch, bowie/ballisti
 	self SetVelocity(vec);
 }
 
-grief_damage_points(got_griefed)
+grief_damage_points(got_griefed, is_melee)
 {
-	if(got_griefed.health < got_griefed.maxhealth && is_player_valid(self))
+	score = 50;
+	if(is_melee)
 	{
-		self maps\_zombiemode_score::player_add_points( "damage" );
+		score = 100;
+	}
+
+	score *= maps\_zombiemode_score::get_points_multiplier(self);
+
+	if(is_player_valid(self))
+	{
+		self maps\_zombiemode_score::add_to_player_score(score);
+
+		if(got_griefed.score < score)
+		{
+			got_griefed maps\_zombiemode_score::minus_to_player_score(got_griefed.score);
+		}
+		else
+		{
+			got_griefed maps\_zombiemode_score::minus_to_player_score(score);
+		}
 	}
 }
 
@@ -594,41 +606,39 @@ grief_downed_points()
 	{
 		self waittill( "player_downed" );
 
-		if(self.vs_attackers.size > 0)
+		if(isDefined(self.vs_attacker))
 		{
-			percent = level.zombie_vars["penalty_downed"];
-			points = round_up_to_ten( int( self.score * percent ) );
-
-			for(i=0;i<self.vs_attackers.size;i++)
+			if(is_player_valid(self.vs_attacker))
 			{
-				if(is_player_valid(self.vs_attackers[i]))
-				{
-					self.vs_attackers[i] maps\_zombiemode_score::add_to_player_score( points );
-				}
+				score = 500 * maps\_zombiemode_score::get_points_multiplier(self.vs_attacker);
+				self.vs_attacker maps\_zombiemode_score::add_to_player_score(score);
 			}
 
-			self.vs_attackers = [];
+			self.vs_attacker = undefined;
 		}
 	}
 }
 
 grief_downed_points_add_player(gotgriefed)
 {
+	gotgriefed notify( "grief_downed_points_add_player" );
+	gotgriefed endon( "grief_downed_points_add_player" );
 	gotgriefed endon( "player_downed" );
 
-	if(is_in_array(gotgriefed.vs_attackers, self))
-	{
-		return;
-	}
+	gotgriefed.vs_attacker = self;
 
-	gotgriefed.vs_attackers = array_add(gotgriefed.vs_attackers, self);
+	health = gotgriefed.health;
+	time = getTime();
+	max_time = 3000;
 
-	while(gotgriefed.health < gotgriefed.maxhealth || gotgriefed.slowdown_wait)
+	wait_network_frame(); // need to wait at least one frame
+
+	while(((getTime() - time) < max_time || gotgriefed.health < health) && is_player_valid(gotgriefed))
 	{
 		wait_network_frame();
 	}
 
-	gotgriefed.vs_attackers = array_remove_nokeys(gotgriefed.vs_attackers, self);
+	gotgriefed.vs_attacker = undefined;
 }
 
 grief_bleedout_points(dead_player)
@@ -642,9 +652,8 @@ grief_bleedout_points(dead_player)
 		{
 			if(is_player_valid(players[i]) && players[i].vsteam != self.vsteam)
 			{
-				percent = level.zombie_vars["penalty_no_revive"];
-				points = round_up_to_ten( int( players[i].score * percent ) );
-				players[i] maps\_zombiemode_score::add_to_player_score( points );
+				score = 1000 * maps\_zombiemode_score::get_points_multiplier(players[i]);
+				players[i] maps\_zombiemode_score::add_to_player_score(score);
 			}
 		}
 	}

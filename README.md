@@ -1284,9 +1284,10 @@
 * Nuke: deals 75 damage to enemy players
 * Perk Bottle: enemy players lose a random perk
 * Turrets target players
-* Players gain 10 points for slowing down a player if the player is below full health
-* If a player assisted in getting an enemy player down, the player will gain 5% of the player's points who downed
-* When a enemy player bleeds out, players gain 10% of their current points
+* Stunning enemy players steals 50 points from them
+* Meleeing enemy players steals 100 points from them
+* Downing enemy players awards 500 points
+* Bleeding out enemy players awards 1000 points to all teammates
 * Nacht Der Untoten: all doors and debris are open from the start of the match
 * Verruckt: BAR door is open from the start of the match
 * Shi No Numa: first room door and debris are open from the start of the match
