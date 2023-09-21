@@ -93,22 +93,23 @@
 * Restart level button enabled for host in online matches
 * Removed popup menu when changing graphic content to unrestricted
 * Reduced graphic content only removes blood
-* Combat settings: removed Sprint/Hold Breath option and Steady Sniper option
-* Combat settings: added Previous Weapon option
-* Combat settings: changed name of "USE EQUIPMENT" to "EQUIPMENT"
-* Combat settings: changed name of "GROUND SUPPORT" to "PLACEABLE MINE"
-* Option to change FOV (65-120 in intervals of 5)
-* Option to change max FPS (60, 90, 120, 180, 240, 360, 500, 750, 1000, or unlimited)
-* Option to show FPS on HUD
-* Option to change weapon switch delay
-* Option to enable or disable fog
-* Options to enable or disable enemy counter, timer, health bar, zone names, and character names
-* Option to enable or disable character dialog (host only)
-* Option to choose which room you start in on Verruckt (host only)
-* Option to choose which perk you start with on No Man's Land (host only)
-* Option to choose the initial box location on maps that have a random initial box location (host only)
-* Option to choose which gamemode to play, including random which includes every gamemode except Survival (host only)
-* Option to choose random, free-for-all, or custom teams in Versus gamemodes
+* Added Previous Weapon option
+* Removed Sprint/Hold Breath option and Steady Sniper option
+* Changed name of "USE EQUIPMENT" to "EQUIPMENT"
+* Changed name of "GROUND SUPPORT" to "PLACEABLE MINE"
+* Added option to change FOV (65-120 in intervals of 5)
+* Added option to change FOV scale (0.2-2.0 in intervals of 0.1)
+* Added option to change max FPS (60, 90, 120, 180, 240, 360, 500, 750, 1000, or unlimited)
+* Added option to show FPS on HUD
+* Added option to change weapon switch delay (50-200 in intervals of 10)
+* Added option to enable or disable fog
+* Added options to enable or disable enemy counter, timer, health bar, zone names, and character names
+* Added option to enable or disable character dialog (host only)
+* Added option to choose which room you start in on Verruckt (host only)
+* Added option to choose which perk you start with on No Man's Land (host only)
+* Added option to choose the initial box location on maps that have a random initial box location (host only)
+* Added option to choose which gamemode to play, including random which includes every gamemode except Survival (host only)
+* Added option to choose random, free-for-all, or custom teams in Versus gamemodes (host only)
 
 ## Weapons
 * All bullet damage (except for shotguns) will deal full damage through multiple zombies or thin walls

@@ -223,52 +223,52 @@
    		// TODO - change 65.01 to 65 once game_mod fix is implemented
    		FRAME_CHOICE_DVARFLOATLIST_VIS( 24, "@PLATFORM_FOV_CAPS", cg_fov_settings, { "65" 65.01 "70" 70 "75" 75 "80" 80 "85" 85 "90" 90 "95" 95 "100" 100 "105" 105 "110" 110 "115" 115 "120" 120 }, ;, 1 )
 
-   		FRAME_CHOICE_DVARFLOATLIST_VIS( 25, "@REIMAGINED_MAX_FPS", com_maxfps, { "60" 60 "90" 90 "120" 120 "180" 180 "240" 240 "360" 360 "480" 480 "600" 600 "720" 720 "840" 840 "960" 960 "@MPUI_RULES_UNLIMITED_CAPS" 0 }, ;, 1 )
+		FRAME_CHOICE_DVARFLOATLIST_VIS( 25, "@REIMAGINED_FOV_SCALE", cg_fovScale, { "0.2" 0.2 "0.3" 0.3 "0.4" 0.4 "0.5" 0.5 "0.6" 0.6 "0.7" 0.7 "0.8" 0.8 "0.9" 0.9 "1.0" 1.0 "1.1" 1.1 "1.2" 1.2 "1.3" 1.3 "1.4" 1.4 "1.5" 1.5 "1.6" 1.6 "1.7" 1.7 "1.8" 1.8 "1.9" 1.9 "2.0" 2.0 }, ;, 1 )
 
-   		FRAME_CHOICE_DVARSTRINGLIST_VIS( 26, "@REIMAGINED_SHOW_FPS", cg_drawFPS, { "@MENU_YES_CAPS"; "Simple"; "@MENU_NO_CAPS"; "Off" }, ;, 1)
+   		FRAME_CHOICE_DVARFLOATLIST_VIS( 26, "@REIMAGINED_MAX_FPS", com_maxfps, { "60" 60 "90" 90 "120" 120 "180" 180 "240" 240 "360" 360 "480" 480 "600" 600 "720" 720 "840" 840 "960" 960 "@MPUI_RULES_UNLIMITED_CAPS" 0 }, ;, 1 )
 
-   		FRAME_CHOICE_DVARFLOATLIST_VIS( 27, "@REIMAGINED_WEAPON_SWITCH_DELAY", cg_weaponCycleDelay, { "50" 50 "60" 60 "70" 70 "80" 80 "90" 90 "100" 100 "110" 110 "120" 120 "130" 130 "140" 140 "150" 150 "160" 160 "170" 170 "180" 180 "190" 190 "200" 200 }, ;, 1)
+   		FRAME_CHOICE_DVARSTRINGLIST_VIS( 27, "@REIMAGINED_SHOW_FPS", cg_drawFPS, { "@MENU_YES_CAPS"; "Simple"; "@MENU_NO_CAPS"; "Off" }, ;, 1)
 
-   		FRAME_CHOICE_DVARYESNO_VIS( 28, "@REIMAGINED_FOG", r_fog_settings, ;, 1) //setdvar r_fog dvarbool("r_fog_settings")
+   		FRAME_CHOICE_DVARFLOATLIST_VIS( 28, "@REIMAGINED_WEAPON_SWITCH_DELAY", cg_weaponCycleDelay, { "50" 50 "60" 60 "70" 70 "80" 80 "90" 90 "100" 100 "110" 110 "120" 120 "130" 130 "140" 140 "150" 150 "160" 160 "170" 170 "180" 180 "190" 190 "200" 200 }, ;, 1)
+
+   		FRAME_CHOICE_DVARYESNO_VIS( 29, "@REIMAGINED_FOG", r_fog_settings, ;, 1) //setdvar r_fog dvarbool("r_fog_settings")
 
 		#undef	CHOICE_TEXT_COLOR_HL
 		#define	CHOICE_TEXT_COLOR_HL			0 0 0 1
-		FRAME_CHOICE_BUTTON_VIS( 29, "@REIMAGINED_HUD_OPTIONS", setdvar ui_options_game_popup "hud_options"; open mature_content_pc_disable_warning, 1 )
+		FRAME_CHOICE_BUTTON_VIS( 30, "@REIMAGINED_HUD_OPTIONS", setdvar ui_options_game_popup "hud_options"; open mature_content_pc_disable_warning, 1 )
 		#undef	CHOICE_TEXT_COLOR_HL
 		#define	CHOICE_TEXT_COLOR_HL			1 1 1 1
 
-		FRAME_CHOICE_SECTION_TITLE( 30, "@REIMAGINED_HOST_ONLY" )
+		FRAME_CHOICE_SECTION_TITLE( 31, "@REIMAGINED_HOST_ONLY" )
 
-		FRAME_CHOICE_DVARSTRINGLIST_VIS( 31, "@REIMAGINED_GAMEMODE_CAPS", zm_gamemode, { "@REIMAGINED_GAMEMODE_SURVIVAL_CAPS"; "survival"; "@REIMAGINED_GAMEMODE_GRIEF_CAPS"; "grief"; "@REIMAGINED_GAMEMODE_SNR_CAPS"; "snr"; "@REIMAGINED_GAMEMODE_RACE_CAPS"; "race"; "@REIMAGINED_GAMEMODE_GG_CAPS"; "gg"; "@MPUI_RANDOM_CAPS"; "random" }, ;, 1)
+		FRAME_CHOICE_DVARSTRINGLIST_VIS( 32, "@REIMAGINED_GAMEMODE_CAPS", zm_gamemode, { "@REIMAGINED_GAMEMODE_SURVIVAL_CAPS"; "survival"; "@REIMAGINED_GAMEMODE_GRIEF_CAPS"; "grief"; "@REIMAGINED_GAMEMODE_SNR_CAPS"; "snr"; "@REIMAGINED_GAMEMODE_RACE_CAPS"; "race"; "@REIMAGINED_GAMEMODE_GG_CAPS"; "gg"; "@MPUI_RANDOM_CAPS"; "random" }, ;, 1)
 		//	"@REIMAGINED_GAMEMODE_CTF_CAPS"; "ctf"; "@REIMAGINED_GAMEMODE_KOTH_CAPS"; "koth"; "@REIMAGINED_GAMEMODE_TURNED_CAPS"; "turned";
 
-		//FRAME_CHOICE_DVARSTRINGLIST_VIS( 31, "@REIMAGINED_GAMEMODE_CAPS", zm_gamemode, { "@REIMAGINED_GAMEMODE_SURVIVAL_CAPS"; "survival" }, ;, 1)
+		//FRAME_CHOICE_DVARSTRINGLIST_VIS( 32, "@REIMAGINED_GAMEMODE_CAPS", zm_gamemode, { "@REIMAGINED_GAMEMODE_SURVIVAL_CAPS"; "survival" }, ;, 1)
 
 		// SURVIVAL
 
-		FRAME_CHOICE_DVARYESNO_VIS( 32, "@REIMAGINED_CHAR_DIALOG", character_dialog, ;, (dvarString(zm_gamemode) == "survival") )
-
-		//FRAME_CHOICE_DVARYESNO_VIS( 33, "@REIMAGINED_ADDITIONAL_PRIMARY_WEAPON_CAPS", mule_kick_enabled, ;, (dvarString(zm_gamemode) == "survival") )
+		FRAME_CHOICE_DVARYESNO_VIS( 33, "@REIMAGINED_CHAR_DIALOG", character_dialog, ;, (dvarString(zm_gamemode) == "survival") )
 
 		#undef	CHOICE_TEXT_COLOR_HL
 		#define	CHOICE_TEXT_COLOR_HL			0 0 0 1
 
-		FRAME_CHOICE_BUTTON_VIS( 33, "@REIMAGINED_MAP_SPECIFIC", setdvar ui_options_game_popup "map_options"; open mature_content_pc_disable_warning, (dvarString(zm_gamemode) == "survival") )
+		FRAME_CHOICE_BUTTON_VIS( 34, "@REIMAGINED_MAP_SPECIFIC", setdvar ui_options_game_popup "map_options"; open mature_content_pc_disable_warning, (dvarString(zm_gamemode) == "survival") )
 
-		FRAME_CHOICE_BUTTON_VIS( 34, "@REIMAGINED_INITIAL_MAGICBOX_CAPS", setdvar ui_options_game_popup "initial_box_locations"; open mature_content_pc_disable_warning, (dvarString(zm_gamemode) == "survival") )
+		FRAME_CHOICE_BUTTON_VIS( 35, "@REIMAGINED_INITIAL_MAGICBOX_CAPS", setdvar ui_options_game_popup "initial_box_locations"; open mature_content_pc_disable_warning, (dvarString(zm_gamemode) == "survival") )
 
 		// VERSUS
 
 		// TODO - uncomment this when map rotation works correctly in coop
-		//FRAME_CHOICE_DVARSTRINGLIST_VIS( 32, "@REIMAGINED_MAP_ROTATION", map_rotation, { "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_SINGLE_MAP"; "single" }, ;, (dvarString(zm_gamemode) != "survival") )
+		//FRAME_CHOICE_DVARSTRINGLIST_VIS( 33, "@REIMAGINED_MAP_ROTATION", map_rotation, { "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_SINGLE_MAP"; "single" }, ;, (dvarString(zm_gamemode) != "survival") )
 
 		#undef	CHOICE_TEXT_COLOR_HL
 		#define	CHOICE_TEXT_COLOR_HL			1 1 1 1
-		FRAME_CHOICE_DVARSTRINGLIST_VIS( 32, "@REIMAGINED_TEAMS", vs_teams, { "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_FFA"; "ffa"; "@REIMAGINED_CUSTOM"; "custom"; }, ;, (dvarString(zm_gamemode) != "survival") )
+		FRAME_CHOICE_DVARSTRINGLIST_VIS( 33, "@REIMAGINED_TEAMS", vs_teams, { "@MPUI_RANDOM_CAPS"; "random"; "@REIMAGINED_FFA"; "ffa"; "@REIMAGINED_CUSTOM"; "custom"; }, ;, (dvarString(zm_gamemode) != "survival") )
 		#undef	CHOICE_TEXT_COLOR_HL
 		#define	CHOICE_TEXT_COLOR_HL			0 0 0 1
 
-		FRAME_CHOICE_BUTTON_VIS( 33, "@REIMAGINED_SET_TEAMS", setdvar ui_options_game_popup "set_teams"; open mature_content_pc_disable_warning, (dvarString(zm_gamemode) != "survival" && dvarString(vs_teams) == "custom") )
+		FRAME_CHOICE_BUTTON_VIS( 34, "@REIMAGINED_SET_TEAMS", setdvar ui_options_game_popup "set_teams"; open mature_content_pc_disable_warning, (dvarString(zm_gamemode) != "survival" && dvarString(vs_teams) == "custom") )
 
 		// MP
 		//FRAME_CHOICE_DVARYESNO_VIS( 22, "@MENU_DRAW_HUD_CAPS", hud_enable, ;, ( dvarBool( ui_multiplayer ) ) )
