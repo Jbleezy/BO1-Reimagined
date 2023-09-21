@@ -772,11 +772,6 @@ round_restart(same_round)
 		}
 	}
 
-	if(level.gamemode == "snr")
-	{
-		display_round_won();
-	}
-
 	wait 1;
 
 	fade_out(1, false);
@@ -829,6 +824,11 @@ round_restart(same_round)
 	}
 
 	wait_network_frame(); // needed for stored weapons to work correctly and round_restarting flag was being cleared too soon
+
+	if(level.gamemode == "snr")
+	{
+		level thread display_round_won();
+	}
 
 	players = get_players();
 	for(i=0;i<players.size;i++)
@@ -1538,14 +1538,15 @@ display_round_won(team)
 {
 	flag_wait("all_players_spawned");
 
-	if(!IsDefined(level.vs_recent_winning_team))
-	{
-		return;
-	}
-
 	players = get_players();
 	for(i=0;i<players.size;i++)
 	{
+		if(!IsDefined(level.vs_recent_winning_team) && !IsDefined(level.vs_recent_winning_player))
+		{
+			players[i] thread grief_msg(&"REIMAGINED_ANOTHER_CHANCE");
+			continue;
+		}
+
 		if(level.vsteams == "ffa")
 		{
 			players[i] thread grief_msg(&"REIMAGINED_PLAYER_WON", level.vs_recent_winning_player.playername);
@@ -1563,7 +1564,8 @@ display_round_won(team)
 		}
 	}
 
-	wait 2;
+	level.vs_recent_winning_team = undefined;
+	level.vs_recent_winning_player = undefined;
 }
 
 setup_grief_top_logos()
