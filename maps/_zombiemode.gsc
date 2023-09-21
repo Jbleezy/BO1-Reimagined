@@ -7706,6 +7706,16 @@ player_intermission()
 	self setClientDvar("hud_zone_name_on_game", 0);
 	self setClientDvar("hud_character_names_on_game", 0);
 
+	if (IsDefined(self.bleedoutProgressBar))
+	{
+		self.bleedoutProgressBar destroyElem();
+	}
+
+	if (IsDefined(self.beingRevivedProgressBar))
+	{
+		self.beingRevivedProgressBar destroyElem();
+	}
+
 	points = getstructarray( "intermission", "targetname" );
 
 	if( !IsDefined( points ) || points.size == 0 )
