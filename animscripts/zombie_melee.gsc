@@ -1,10 +1,4 @@
-#include maps\_utility;
-#include animscripts\zombie_utility;
-#include animscripts\zombie_SetPoseMovement;
-#include animscripts\Combat_Utility;
-#include animscripts\Debug;
-#include common_scripts\utility;
-#using_animtree ("generic_human");
+
 
 // ===========================================================
 //     AI vs Player melee
