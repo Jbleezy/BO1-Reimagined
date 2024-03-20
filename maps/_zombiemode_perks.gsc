@@ -3062,10 +3062,22 @@ refill_after_time(primary)
 		missing_clip = reload_amount;
 	}
 
+	dw_primary = weaponDualWieldWeaponName(primary);
+	alt_primary = weaponAltWeaponName(primary);
+
+	// setWeaponAmmoClip changes dual wield weapon clip ammo of current weapon when called on any dual wield weapon
+	curr_dw_primary = weaponDualWieldWeaponName(self getCurrentWeapon());
+	curr_dw_ammo_clip = 0;
+
+	// save current dual wield weapon clip ammo
+	if(dw_primary != "none" && curr_dw_primary != "none")
+	{
+		curr_dw_ammo_clip = self getWeaponAmmoClip(curr_dw_primary);
+	}
+
 	self setWeaponAmmoClip(primary, ammo_clip + missing_clip);
 	self setWeaponAmmoStock(primary, ammo_stock - missing_clip);
 
-	dw_primary = weaponDualWieldWeaponName(primary);
 	if(dw_primary != "none")
 	{
 		ammo_clip = self getWeaponAmmoClip(dw_primary);
@@ -3081,7 +3093,6 @@ refill_after_time(primary)
 		self setWeaponAmmoStock(dw_primary, ammo_stock - missing_clip);
 	}
 
-	alt_primary = weaponAltWeaponName(primary);
 	if(alt_primary != "none")
 	{
 		ammo_clip = self getWeaponAmmoClip(alt_primary);
@@ -3095,6 +3106,12 @@ refill_after_time(primary)
 
 		self setWeaponAmmoClip(alt_primary, ammo_clip + missing_clip);
 		self setWeaponAmmoStock(alt_primary, ammo_stock - missing_clip);
+	}
+
+	// restore current dual wield weapon clip ammo
+	if(dw_primary != "none" && curr_dw_primary != "none")
+	{
+		self setWeaponAmmoClip(curr_dw_primary, curr_dw_ammo_clip);
 	}
 
 	if(isDefined(reload_amount) && self getWeaponAmmoStock(primary) > 0 && self getWeaponAmmoClip(primary) < weaponClipSize(primary))
