@@ -795,6 +795,8 @@ monkey_pack_update_perk()
 		{
 			monkey_print( "pack destroyed " + self.machine.targetname );
 
+			flag_clear( "monkey_free_perk" );
+
 			self monkey_pack_take_perk();
 
 			// need to wait for the perk to actually be taken from the player
@@ -1719,8 +1721,6 @@ monkey_zombie_attack_perk()
 	{
 		return;
 	}
-
-	flag_clear( "monkey_free_perk" );
 
 	self.following_player = false;
 

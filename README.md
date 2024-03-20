@@ -899,6 +899,7 @@
 
 ### Monkeys (Ascension)
 * Initial monkey round always happens 1 or 2 rounds after buying a perk
+* Perk Bottle powerup drops as long as no perks are fully taken
 * Health is a fixed amount each monkey round (previously was based on what round you were on)
 * 1st monkey round health: 150
 * 2nd monkey round health: 400
