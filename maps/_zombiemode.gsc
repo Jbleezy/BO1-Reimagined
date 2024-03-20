@@ -5988,11 +5988,11 @@ actor_damage_override( inflictor, attacker, damage, flags, meansofdeath, weapon,
 			// boss zombie types do not get damage scaling
 			if(self.animname != "thief_zombie" && self.animname != "director_zombie" && self.animname != "sonic_zombie" && self.animname != "napalm_zombie" && self.animname != "astro_zombie")
 			{
-				// stop damage scaling past round 100
+				// stop damage scaling past round 60
 				scalar = level.round_number;
-				if(scalar > 100)
+				if(scalar > 60)
 				{
-					scalar = 100;
+					scalar = 60;
 				}
 
 				if(is_lethal_grenade(weapon))

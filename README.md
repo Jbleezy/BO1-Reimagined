@@ -175,7 +175,7 @@
 * Removed shellshock effect from all explosive weapon damage
 * Explosion radius is the same for all explosive weapons
 * Damage scaling over rounds is done at a more consistent rate
-* Damage scaling caps at round 100
+* Damage scaling caps at round 60
 * No longer deal half damage to players if they were diving away from the explosion
 
 ### Light Machine Guns
